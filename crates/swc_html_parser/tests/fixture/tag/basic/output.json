@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 406,
+    "end": 452,
     "ctxt": 0
   },
   "children": [
@@ -16,6 +16,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -31,6 +32,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -45,7 +47,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -59,6 +62,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -74,6 +78,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -89,6 +94,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -104,6 +110,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -118,7 +125,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -132,6 +140,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -147,6 +156,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -162,6 +172,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -177,6 +188,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -191,7 +203,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -205,6 +218,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": []
         }
@@ -219,7 +233,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -233,6 +248,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": true,
           "attributes": []
         }
@@ -247,7 +263,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -261,6 +278,7 @@
       "token": {
         "StartTag": {
           "tag_name": "h:ællæ",
+          "raw_tag_name": "h:ællæ",
           "self_closing": false,
           "attributes": []
         }
@@ -276,6 +294,7 @@
       "token": {
         "EndTag": {
           "tag_name": "h:ællæ",
+          "raw_tag_name": "h:ællæ",
           "self_closing": false,
           "attributes": []
         }
@@ -290,7 +309,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -304,11 +324,14 @@
       "token": {
         "StartTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": [
             {
               "name": "⚡",
-              "value": null
+              "raw_name": "⚡",
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -324,6 +347,7 @@
       "token": {
         "EndTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }
@@ -338,7 +362,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -352,6 +377,7 @@
       "token": {
         "StartTag": {
           "tag_name": "some-tag-1",
+          "raw_tag_name": "some-tag-1",
           "self_closing": false,
           "attributes": []
         }
@@ -367,6 +393,7 @@
       "token": {
         "EndTag": {
           "tag_name": "some-tag-1",
+          "raw_tag_name": "some-tag-1",
           "self_closing": false,
           "attributes": []
         }
@@ -382,6 +409,7 @@
       "token": {
         "StartTag": {
           "tag_name": "some-tag-2",
+          "raw_tag_name": "some-tag-2",
           "self_closing": false,
           "attributes": []
         }
@@ -397,6 +425,7 @@
       "token": {
         "EndTag": {
           "tag_name": "some-tag-2",
+          "raw_tag_name": "some-tag-2",
           "self_closing": false,
           "attributes": []
         }
@@ -411,7 +440,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -425,11 +455,14 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "href",
-              "value": "test.html"
+              "raw_name": "href",
+              "value": "test.html",
+              "raw_value": "\"test.html\""
             }
           ]
         }
@@ -445,6 +478,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -459,7 +493,8 @@
       },
       "token": {
         "Character": {
-          "value": "h"
+          "value": "h",
+          "raw": "h"
         }
       }
     },
@@ -472,7 +507,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -485,7 +521,8 @@
       },
       "token": {
         "Character": {
-          "value": "y"
+          "value": "y",
+          "raw": "y"
         }
       }
     },
@@ -499,6 +536,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -514,6 +552,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -528,7 +567,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -542,6 +582,7 @@
       "token": {
         "StartTag": {
           "tag_name": "custom-tag",
+          "raw_tag_name": "CUSTOM-TAG",
           "self_closing": false,
           "attributes": []
         }
@@ -557,6 +598,7 @@
       "token": {
         "EndTag": {
           "tag_name": "custom-tag",
+          "raw_tag_name": "CUSTOM-TAG",
           "self_closing": false,
           "attributes": []
         }
@@ -572,6 +614,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -586,7 +629,8 @@
       },
       "token": {
         "Character": {
-          "value": "H"
+          "value": "H",
+          "raw": "H"
         }
       }
     },
@@ -599,7 +643,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -612,7 +657,8 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l"
         }
       }
     },
@@ -625,7 +671,8 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l"
         }
       }
     },
@@ -638,7 +685,8 @@
       },
       "token": {
         "Character": {
-          "value": "o"
+          "value": "o",
+          "raw": "o"
         }
       }
     },
@@ -651,7 +699,8 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " "
         }
       }
     },
@@ -664,7 +713,8 @@
       },
       "token": {
         "Character": {
-          "value": ":"
+          "value": ":",
+          "raw": ":"
         }
       }
     },
@@ -677,7 +727,8 @@
       },
       "token": {
         "Character": {
-          "value": ")"
+          "value": ")",
+          "raw": ")"
         }
       }
     },
@@ -691,6 +742,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -705,7 +757,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -719,6 +772,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -733,7 +787,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -746,7 +801,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -759,7 +815,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -772,7 +829,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -785,7 +843,8 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s"
         }
       }
     },
@@ -798,7 +857,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -811,7 +871,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -824,7 +885,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -838,6 +900,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -852,7 +915,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -865,7 +929,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -879,6 +944,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -894,11 +960,14 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
               "name": "test",
-              "value": "a"
+              "raw_name": "test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -913,7 +982,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -927,11 +997,14 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
               "name": "data-test",
-              "value": "a"
+              "raw_name": "data-test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -947,11 +1020,14 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
               "name": "data-test",
-              "value": "a"
+              "raw_name": "data-test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -966,7 +1042,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -980,11 +1057,14 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": true,
           "attributes": [
             {
               "name": "data-test",
-              "value": "a"
+              "raw_name": "data-test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -999,7 +1079,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -1013,11 +1094,14 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
               "name": "data-test",
-              "value": "a"
+              "raw_name": "data-test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -1032,7 +1116,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -1046,11 +1131,14 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
               "name": "data-test",
-              "value": "a"
+              "raw_name": "data-test",
+              "value": "a",
+              "raw_value": "\"a\""
             }
           ]
         }
@@ -1065,7 +1153,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -1079,6 +1168,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -1093,7 +1183,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -1106,7 +1197,8 @@
       },
       "token": {
         "Character": {
-          "value": "T"
+          "value": "T",
+          "raw": "T"
         }
       }
     },
@@ -1119,7 +1211,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -1132,7 +1225,8 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s"
         }
       }
     },
@@ -1145,7 +1239,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -1158,7 +1253,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -1172,7 +1268,233 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 406,
+        "end": 407,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 407,
+        "end": 408,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 408,
+        "end": 413,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 413,
+        "end": 414,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 414,
+        "end": 415,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e",
+          "raw": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 415,
+        "end": 416,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s",
+          "raw": "s"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 416,
+        "end": 417,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 417,
+        "end": 435,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": true,
+          "attributes": [
+            {
+              "name": "foo",
+              "raw_name": "foo",
+              "value": "bar",
+              "raw_value": "\"bar\""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 435,
+        "end": 436,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 436,
+        "end": 441,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 441,
+        "end": 442,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 442,
+        "end": 443,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e",
+          "raw": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 443,
+        "end": 444,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s",
+          "raw": "s"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 444,
+        "end": 445,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 445,
+        "end": 452,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": true,
           "attributes": []
         }
       }

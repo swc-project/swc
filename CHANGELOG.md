@@ -1,6 +1,47 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/lints)** Check parameters in the duplicate binding rule (#4288) ([e4a565c](https://github.com/swc-project/swc/commit/e4a565c2d4c90dc23267b44e8f4aee2e0cc79c23))
+
+
+- **(es/minifier)** Fix inlining of uninitialized variables (#4292) ([b990b19](https://github.com/swc-project/swc/commit/b990b19ed130ce1dc57f76b883bf638ace64c4f4))
+
+## [1.2.165] - 2022-04-09
+
+### Bug Fixes
+
+
+
+- **(css/prefixer)** FIx a bug related to `writing-mode` (#4278) ([7f38e06](https://github.com/swc-project/swc/commit/7f38e06e0209216200182555c7c7ddb11499e45d))
+
+
+- **(es/minifier)** Fix handling of `eval` (#4273) ([c961371](https://github.com/swc-project/swc/commit/c961371c312f85553ab17eb1b67f0721861bcbf5))
+
+
+- **(es/module)** Support top-level await in dynamic imports (#4277) ([720244f](https://github.com/swc-project/swc/commit/720244fff9f3fcf5cb0ed4bcfc6e2a5795ad3be1))
+
+
+- **(es/optimization)** Don't create invalid sequence expressions (#4285) ([4868c73](https://github.com/swc-project/swc/commit/4868c73d5bc5eb3ffbbc2fd31c485e3e22795550))
+
+### Features
+
+
+
+- **(html)** Add raw fields (#4281) ([ee108af](https://github.com/swc-project/swc/commit/ee108af3d0bf81cfa101d8b52ee4d072705b04f4))
+
+
+- **(plugin)** Implement `Copy` and `Clone` for the comment proxy (#4280) ([3c4e520](https://github.com/swc-project/swc/commit/3c4e5204ecb51dd67c73ae5556c886b303891a23))
+
+
+- **(plugin)** Make more types serializable (#4289) ([281db2c](https://github.com/swc-project/swc/commit/281db2cc4f9af29577095038b37af5855a1e5aa5))
+
+
+- **(plugin/runner)** Allow fs access from wasi plugin (#4279) ([fc3a2d0](https://github.com/swc-project/swc/commit/fc3a2d0cf9a4767076dda3fac929b24a50144730))
+
 ### Miscellaneous Tasks
 
 
@@ -12,6 +53,9 @@
 
 
 - **(es/minifier)** Merge code for multi-replacer (#4269) ([434dcf4](https://github.com/swc-project/swc/commit/434dcf4af786a7d31827f7b078dea40efc35b64f))
+
+
+- **(plugin/api)** Expand the proxy crate (#4290) ([cf7ca50](https://github.com/swc-project/swc/commit/cf7ca5076a7f0b33f3587fb34f2eddcb2d316e5d))
 
 ## [1.2.164] - 2022-04-07
 

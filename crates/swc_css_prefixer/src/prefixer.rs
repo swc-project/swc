@@ -430,7 +430,7 @@ struct Prefixer {
     in_stylesheet: bool,
     in_media_query_list: bool,
     in_keyframe_block: bool,
-    in_simple_block: bool,
+    simple_block: Option<SimpleBlock>,
     added_rules: Vec<Rule>,
     added_declarations: Vec<Declaration>,
 }
@@ -467,6 +467,43 @@ impl Prefixer {
             value: vec![ComponentValue::Ident(val)],
             important: n.important.clone(),
         });
+    }
+
+    fn get_declaration_by_name(&mut self, name: &str) -> Option<Declaration> {
+        match &self.simple_block {
+            Some(SimpleBlock { value, .. }) => {
+                let mut found = None;
+
+                for n in value.iter().rev() {
+                    match n {
+                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
+                            declaration @ Declaration {
+                                name: DeclarationName::Ident(Ident { value, .. }),
+                                ..
+                            },
+                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
+                            found = Some(declaration.clone());
+
+                            break;
+                        }
+                        ComponentValue::StyleBlock(StyleBlock::Declaration(
+                            declaration @ Declaration {
+                                name: DeclarationName::Ident(Ident { value, .. }),
+                                ..
+                            },
+                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
+                            found = Some(declaration.clone());
+
+                            break;
+                        }
+                        _ => {}
+                    }
+                }
+
+                found
+            }
+            _ => None,
+        }
     }
 }
 
@@ -694,7 +731,7 @@ impl VisitMut for Prefixer {
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        if !self.in_simple_block {
+        if self.simple_block.is_none() {
             return;
         }
 
@@ -1911,31 +1948,71 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::O, "-o-transition-timing-function");
             }
 
-            // TODO fix me, we should look at `direction` property https://github.com/postcss/autoprefixer/blob/main/lib/hacks/writing-mode.js
             "writing-mode" if n.value.len() == 1 => {
+                let direction = match self.get_declaration_by_name("direction") {
+                    Some(Declaration { value, .. }) => match value.get(0) {
+                        Some(ComponentValue::Ident(Ident { value, .. }))
+                            if value.as_ref().eq_ignore_ascii_case("rtl") =>
+                        {
+                            Some("rtl")
+                        }
+                        _ => Some("ltr"),
+                    },
+                    _ => Some("ltr"),
+                };
+
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
-                        "none" => {
+                        "vertical-lr" => {
                             same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            same_content!(Prefix::Ms, "-ms-writing-mode");
+
+                            match direction {
+                                Some("ltr") => {
+                                    simple!("-ms-writing-mode", "tb-lr");
+                                }
+                                Some("rtl") => {
+                                    simple!("-ms-writing-mode", "bt-lr");
+                                }
+                                _ => {}
+                            }
                         }
 
-                        "vertical-lr" | "sideways-lr" => {
+                        "vertical-rl" => {
                             same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            simple!("-ms-writing-mode", "tb");
-                        }
 
-                        "vertical-rl" | "sideways-rl" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            simple!("-ms-writing-mode", "tb-rl");
+                            match direction {
+                                Some("ltr") => {
+                                    simple!("-ms-writing-mode", "tb-rl");
+                                }
+                                Some("rtl") => {
+                                    simple!("-ms-writing-mode", "bt-rl");
+                                }
+                                _ => {}
+                            }
                         }
 
                         "horizontal-tb" => {
                             same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            simple!("-ms-writing-mode", "lr");
+
+                            match direction {
+                                Some("ltr") => {
+                                    simple!("-ms-writing-mode", "lr-tb");
+                                }
+                                Some("rtl") => {
+                                    simple!("-ms-writing-mode", "rl-tb");
+                                }
+                                _ => {}
+                            }
                         }
 
-                        _ => {}
+                        "sideways-rl" | "sideways-lr" => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                        }
+
+                        _ => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            same_content!(Prefix::Ms, "-ms-writing-mode");
+                        }
                     }
                 }
             }
@@ -2306,9 +2383,9 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let old_in_simple_block = self.in_simple_block;
+        let old_simple_block = self.simple_block.clone();
 
-        self.in_simple_block = true;
+        self.simple_block = Some(simple_block.clone());
 
         let mut new = vec![];
 
@@ -2326,6 +2403,6 @@ impl VisitMut for Prefixer {
 
         simple_block.value = new;
 
-        self.in_simple_block = old_in_simple_block;
+        self.simple_block = old_simple_block;
     }
 }

@@ -15,9 +15,15 @@
       },
       "token": {
         "Doctype": {
+          "raw_keyword": "DOCTYPE",
           "name": "html",
+          "raw_name": "html",
           "force_quirks": false,
+          "raw_public_keyword": null,
+          "public_quote": null,
           "public_id": null,
+          "raw_system_keyword": null,
+          "system_quote": null,
           "system_id": null
         }
       }
@@ -31,7 +37,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -45,6 +52,7 @@
       "token": {
         "StartTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }
@@ -59,7 +67,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -73,6 +82,7 @@
       "token": {
         "StartTag": {
           "tag_name": "body",
+          "raw_tag_name": "body",
           "self_closing": false,
           "attributes": []
         }
@@ -87,7 +97,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -100,7 +111,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -114,11 +126,14 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "href",
-              "value": "https://www.w3schools.com"
+              "raw_name": "href",
+              "value": "https://www.w3schools.com",
+              "raw_value": "https://www.w3schools.com"
             }
           ]
         }
@@ -133,7 +148,8 @@
       },
       "token": {
         "Character": {
-          "value": "T"
+          "value": "T",
+          "raw": "T"
         }
       }
     },
@@ -146,7 +162,8 @@
       },
       "token": {
         "Character": {
-          "value": "h"
+          "value": "h",
+          "raw": "h"
         }
       }
     },
@@ -159,7 +176,8 @@
       },
       "token": {
         "Character": {
-          "value": "i"
+          "value": "i",
+          "raw": "i"
         }
       }
     },
@@ -172,7 +190,8 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s"
         }
       }
     },
@@ -185,7 +204,8 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " "
         }
       }
     },
@@ -198,7 +218,8 @@
       },
       "token": {
         "Character": {
-          "value": "i"
+          "value": "i",
+          "raw": "i"
         }
       }
     },
@@ -211,7 +232,8 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s"
         }
       }
     },
@@ -224,7 +246,8 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " "
         }
       }
     },
@@ -237,7 +260,8 @@
       },
       "token": {
         "Character": {
-          "value": "a"
+          "value": "a",
+          "raw": "a"
         }
       }
     },
@@ -250,7 +274,8 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " "
         }
       }
     },
@@ -263,7 +288,8 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l"
         }
       }
     },
@@ -276,7 +302,8 @@
       },
       "token": {
         "Character": {
-          "value": "i"
+          "value": "i",
+          "raw": "i"
         }
       }
     },
@@ -289,7 +316,8 @@
       },
       "token": {
         "Character": {
-          "value": "n"
+          "value": "n",
+          "raw": "n"
         }
       }
     },
@@ -302,7 +330,8 @@
       },
       "token": {
         "Character": {
-          "value": "k"
+          "value": "k",
+          "raw": "k"
         }
       }
     },
@@ -316,6 +345,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -330,7 +360,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -343,7 +374,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -357,6 +389,7 @@
       "token": {
         "EndTag": {
           "tag_name": "body",
+          "raw_tag_name": "body",
           "self_closing": false,
           "attributes": []
         }
@@ -371,7 +404,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -385,6 +419,7 @@
       "token": {
         "EndTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }
@@ -399,7 +434,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     }

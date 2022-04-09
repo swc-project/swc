@@ -2857,7 +2857,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_node_base",
  "swc_node_comments",
- "swc_plugin_comments",
+ "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_visit",
  "testing",
@@ -2959,7 +2959,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.20"
+version = "0.17.21"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3196,7 +3196,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3237,7 +3237,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.100.3"
+version = "0.100.5"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3479,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3600,7 +3600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3719,7 +3719,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3729,7 +3729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3740,7 +3740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3766,7 +3766,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.2.2"
+version = "0.3.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3782,7 +3782,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3847,7 +3847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.45.1"
+version = "0.45.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3855,17 +3855,8 @@ dependencies = [
  "swc_ecma_quote",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin_comments",
  "swc_plugin_macro",
-]
-
-[[package]]
-name = "swc_plugin_comments"
-version = "0.1.1"
-dependencies = [
- "better_scoped_tls",
- "rkyv",
- "swc_common",
+ "swc_plugin_proxy",
 ]
 
 [[package]]
@@ -3878,8 +3869,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_plugin_proxy"
+version = "0.1.2"
+dependencies = [
+ "better_scoped_tls",
+ "rkyv",
+ "swc_common",
+]
+
+[[package]]
 name = "swc_plugin_runner"
-version = "0.50.1"
+version = "0.50.5"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -3892,7 +3892,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_plugin_comments",
+ "swc_plugin_proxy",
  "testing",
  "tracing",
  "wasmer",
@@ -4450,7 +4450,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.164"
+version = "1.2.165"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

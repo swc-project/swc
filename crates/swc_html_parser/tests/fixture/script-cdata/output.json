@@ -16,11 +16,14 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": [
             {
               "name": "type",
-              "value": "text/javascript"
+              "raw_name": "type",
+              "value": "text/javascript",
+              "raw_value": "\"text/javascript\""
             }
           ]
         }
@@ -35,7 +38,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -48,7 +52,8 @@
       },
       "token": {
         "Character": {
-          "value": "/"
+          "value": "/",
+          "raw": "/"
         }
       }
     },
@@ -61,7 +66,8 @@
       },
       "token": {
         "Character": {
-          "value": "/"
+          "value": "/",
+          "raw": "/"
         }
       }
     },
@@ -87,7 +93,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -101,6 +108,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -115,7 +123,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     }
