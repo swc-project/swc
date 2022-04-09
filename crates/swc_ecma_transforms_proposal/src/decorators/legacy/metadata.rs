@@ -152,6 +152,7 @@ impl Fold for Metadata<'_> {
                 "design:paramtypes",
                 ArrayLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     elems: constructor
                         .as_ref()
                         .unwrap()
@@ -194,6 +195,7 @@ impl Fold for Metadata<'_> {
                 "design:paramtypes",
                 ArrayLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     elems: m
                         .function
                         .params

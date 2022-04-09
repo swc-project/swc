@@ -342,6 +342,7 @@ impl Decorators {
                 Some(
                     ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
                                 key: PropName::Ident(quote_ident!("kind")),
@@ -371,6 +372,7 @@ impl Decorators {
                                     key: PropName::Ident(quote_ident!("decorators")),
                                     value: Box::new(Expr::Array(ArrayLit {
                                         span: DUMMY_SP,
+                                        trailing_comma: None,
                                         elems: method
                                             .function
                                             .decorators
@@ -454,6 +456,7 @@ impl Decorators {
                         Some(
                             ObjectLit {
                                 span: prop_span,
+                                trailing_comma: None,
                                 props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(quote_ident!("kind")),
@@ -480,6 +483,7 @@ impl Decorators {
                                                 key: PropName::Ident(quote_ident!("decorators")),
                                                 value: Box::new(Expr::Array(ArrayLit {
                                                     span: DUMMY_SP,
+                                                    trailing_comma: None,
                                                     elems: prop
                                                         .decorators
                                                         .into_iter()
@@ -581,6 +585,7 @@ impl Decorators {
                                 span: DUMMY_SP,
                                 arg: Some(Box::new(Expr::Object(ObjectLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     props: vec![
                                         PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
@@ -593,6 +598,7 @@ impl Decorators {
                                                 key: PropName::Ident(quote_ident!("d")),
                                                 value: Box::new(Expr::Array(ArrayLit {
                                                     span: DUMMY_SP,
+                                                    trailing_comma: None,
                                                     elems: descriptors,
                                                 })),
                                             },
@@ -624,6 +630,7 @@ fn make_decorate_call(
         args: iter::once(
             ArrayLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 elems: decorators
                     .into_iter()
                     .map(|dec| Some(dec.expr.as_arg()))

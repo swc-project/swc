@@ -146,7 +146,7 @@ impl SimplifyExpr {
             },
 
             // [1, 2, 3].length
-            Expr::Array(ArrayLit { elems, span }) => {
+            Expr::Array(ArrayLit { elems, span, .. }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
                     elem.as_ref()
@@ -245,7 +245,11 @@ impl SimplifyExpr {
             }
 
             // { foo: true }['foo']
-            Expr::Object(ObjectLit { props, span }) => match op {
+            Expr::Object(ObjectLit {
+                props,
+                trailing_comma,
+                span,
+            }) => match op {
                 KnownOp::IndexStr(key) if is_literal(props) && key != *"yield" => {
                     // do nothing if spread exists
                     let has_spread = props
@@ -291,6 +295,7 @@ impl SimplifyExpr {
                             },
                             once(Box::new(Expr::Object(ObjectLit {
                                 props: props.take(),
+                                trailing_comma: *trailing_comma,
                                 span: *span,
                             }))),
                         );
@@ -1377,7 +1382,11 @@ impl VisitMut for SimplifyExpr {
                 Expr::Lit(_) => {}
 
                 // Flatten array
-                Expr::Array(ArrayLit { span, elems }) => {
+                Expr::Array(ArrayLit {
+                    span,
+                    trailing_comma,
+                    elems,
+                }) => {
                     let is_simple = elems
                         .iter()
                         .all(|elem| matches!(elem, None | Some(ExprOrSpread { spread: None, .. })));
@@ -1385,7 +1394,14 @@ impl VisitMut for SimplifyExpr {
                     if is_simple {
                         exprs.extend(elems.into_iter().flatten().map(|e| e.expr));
                     } else {
-                        exprs.push(Box::new(ArrayLit { span, elems }.into()));
+                        exprs.push(Box::new(
+                            ArrayLit {
+                                span,
+                                trailing_comma,
+                                elems,
+                            }
+                            .into(),
+                        ));
                     }
                 }
 

@@ -1432,6 +1432,7 @@ where
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             props: vec![],
                         })),
                     })),
@@ -1449,6 +1450,7 @@ where
                     op: op!("="),
                     right: Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: vec![],
                     })),
                 })),

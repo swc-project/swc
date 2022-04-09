@@ -97,6 +97,7 @@ impl CaseHandler<'_> {
         //        let mut last_loc_value = 0;
         Some(ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             elems: take(&mut self.try_entries)
                 .into_iter()
                 .map(|entry: TryEntry| {
@@ -138,6 +139,7 @@ impl CaseHandler<'_> {
                     Some(
                         ArrayLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             elems,
                         }
                         .as_arg(),

@@ -610,13 +610,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             Expr::Object(ObjectLit {
-                span: object_span,
+                span,
+                trailing_comma,
                 props,
             }) => {
                 // {}
                 let len = props.len();
                 Ok(Pat::Object(ObjectPat {
-                    span: object_span,
+                    span,
                     props: props
                         .into_iter()
                         .enumerate()
@@ -653,11 +654,9 @@ impl<'a, I: Tokens> Parser<I> {
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
                                     if idx != len - 1 {
                                         self.emit_err(span, SyntaxError::NonLastRestParam)
-                                    } else if let Some(trailing_comma) =
-                                        self.state.trailing_commas.get(&object_span.lo)
-                                    {
+                                    } else if let Some(trailing_comma) = trailing_comma {
                                         self.emit_err(
-                                            *trailing_comma,
+                                            trailing_comma,
                                             SyntaxError::CommaAfterRestElement,
                                         );
                                     };
@@ -694,7 +693,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
             Expr::Ident(ident) => Ok(ident.into()),
             Expr::Array(ArrayLit {
-                elems: mut exprs, ..
+                trailing_comma,
+                elems: mut exprs,
+                ..
             }) => {
                 if exprs.is_empty() {
                     return Ok(Pat::Array(ArrayPat {
@@ -747,8 +748,8 @@ impl<'a, I: Tokens> Parser<I> {
                             if let Expr::Assign(_) = *expr {
                                 self.emit_err(outer_expr_span, SyntaxError::TS1048);
                             };
-                            if let Some(trailing_comma) = self.state.trailing_commas.get(&span.lo) {
-                                self.emit_err(*trailing_comma, SyntaxError::CommaAfterRestElement);
+                            if let Some(trailing_comma) = trailing_comma {
+                                self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
                             }
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
@@ -1127,6 +1128,7 @@ mod tests {
                     key: ident("obj"),
                     value: Some(Box::new(Expr::Object(ObjectLit {
                         span,
+                        trailing_comma: Some(span),
                         props: vec![
                             prop(
                                 PropName::Ident(ident("$")),
@@ -1168,6 +1170,7 @@ mod tests {
                                 "under",
                                 Expr::Array(ArrayLit {
                                     span,
+                                    trailing_comma: None,
                                     elems: vec![Some(ExprOrSpread {
                                         spread: Some(span),
                                         expr: Box::new(Expr::Ident(ident("tail")))

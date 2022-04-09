@@ -2039,7 +2039,10 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         Expr::Paren(e) => extract_side_effects_to(to, e.expr),
 
         Expr::Object(ObjectLit {
-            span, mut props, ..
+            span,
+            trailing_comma,
+            mut props,
+            ..
         }) => {
             //
             let mut has_spread = false;
@@ -2075,7 +2078,11 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
             });
 
             if has_spread {
-                to.push(Box::new(Expr::Object(ObjectLit { span, props })))
+                to.push(Box::new(Expr::Object(ObjectLit {
+                    span,
+                    trailing_comma,
+                    props,
+                })))
             } else {
                 props.into_iter().for_each(|prop| match prop {
                     PropOrSpread::Prop(node) => match *node {

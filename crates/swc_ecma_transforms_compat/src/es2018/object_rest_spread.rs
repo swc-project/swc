@@ -385,6 +385,7 @@ impl VisitMut for ObjectRest {
                                 args: vec![
                                     ObjectLit {
                                         span: DUMMY_SP,
+                                        trailing_comma: None,
                                         props: vec![],
                                     }
                                     .as_arg(),
@@ -923,6 +924,7 @@ fn object_without_properties(
             args: vec![
                 ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props: vec![],
                 }
                 .as_arg(),
@@ -964,6 +966,7 @@ fn object_without_properties(
             if is_literal(&excluded_props) {
                 ArrayLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     elems: excluded_props,
                 }
                 .as_arg()
@@ -972,6 +975,7 @@ fn object_without_properties(
                     span: DUMMY_SP,
                     callee: ArrayLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         elems: excluded_props,
                     }
                     .make_member(Ident::new("map".into(), DUMMY_SP))
@@ -1075,7 +1079,7 @@ impl VisitMut for ObjectSpread {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Object(ObjectLit { span, props }) = expr {
+        if let Expr::Object(ObjectLit { span, props, .. }) = expr {
             let has_spread = props.iter().any(|p| matches!(p, PropOrSpread::Spread(..)));
             if !has_spread {
                 return;
@@ -1088,6 +1092,7 @@ impl VisitMut for ObjectSpread {
                 let mut buf = vec![];
                 let mut obj = ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props: vec![],
                 };
                 for prop in props.take() {

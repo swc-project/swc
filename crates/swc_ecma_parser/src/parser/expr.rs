@@ -436,6 +436,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_array_lit);
 
         let start = cur_pos!(self);
+        let mut trailing_comma = None;
 
         assert_and_bump!(self, '[');
         let mut elems = vec![];
@@ -454,9 +455,7 @@ impl<'a, I: Tokens> Parser<I> {
             if !is!(self, ']') {
                 expect!(self, ',');
                 if is!(self, ']') {
-                    self.state
-                        .trailing_commas
-                        .insert(start, self.input.prev_span());
+                    trailing_comma = Some(self.input.prev_span());
                 }
             }
         }
@@ -464,7 +463,11 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let span = span!(self, start);
-        Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
+        Ok(Box::new(Expr::Array(ArrayLit {
+            span,
+            trailing_comma,
+            elems,
+        })))
     }
 
     #[allow(dead_code)]

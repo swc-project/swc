@@ -479,6 +479,7 @@ impl Fold for Umd {
         let mut import_stmts = vec![];
         let mut define_deps_arg = ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             elems: vec![],
         };
 
@@ -511,6 +512,7 @@ impl Fold for Umd {
                         name: exported_names.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             props: exports
                                 .into_iter()
                                 .filter_map(|export| {
@@ -706,6 +708,7 @@ impl Fold for Umd {
                                             name: quote_ident!("mod").into(),
                                             init: Some(Box::new(Expr::Object(ObjectLit {
                                                 span: DUMMY_SP,
+                                                trailing_comma: None,
                                                 props: vec![PropOrSpread::Prop(Box::new(
                                                     Prop::KeyValue(KeyValueProp {
                                                         key: PropName::Ident(quote_ident!(
@@ -713,6 +716,7 @@ impl Fold for Umd {
                                                         )),
                                                         value: Box::new(Expr::Object(ObjectLit {
                                                             span: DUMMY_SP,
+                                                            trailing_comma: None,
                                                             props: vec![],
                                                         })),
                                                     }),

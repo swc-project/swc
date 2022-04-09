@@ -281,6 +281,7 @@ impl VisitMut for TemplateLiteral {
                                             Some(
                                                 ArrayLit {
                                                     span: DUMMY_SP,
+                                                    trailing_comma: None,
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
@@ -297,6 +298,7 @@ impl VisitMut for TemplateLiteral {
                                         iter::once(
                                             ArrayLit {
                                                 span: DUMMY_SP,
+                                                trailing_comma: None,
                                                 elems: quasis
                                                     .take()
                                                     .into_iter()

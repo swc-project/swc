@@ -316,7 +316,11 @@ where
                             }
                         }
 
-                        *e = Expr::Array(ArrayLit { span, elems: keys })
+                        *e = Expr::Array(ArrayLit {
+                            span,
+                            trailing_comma: None,
+                            elems: keys,
+                        })
                     }
                 }
 

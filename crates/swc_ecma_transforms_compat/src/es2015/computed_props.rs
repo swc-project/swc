@@ -68,7 +68,7 @@ impl VisitMut for ComputedProps {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Object(ObjectLit { props, span }) = expr {
+        if let Expr::Object(ObjectLit { props, span, .. }) = expr {
             if !is_complex(props) {
                 return;
             }
@@ -96,6 +96,7 @@ impl VisitMut for ComputedProps {
                 if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
                     Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: obj_props,
                     }))
                 } else {
@@ -105,6 +106,7 @@ impl VisitMut for ComputedProps {
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             props: obj_props,
                         })),
                     }))
@@ -209,6 +211,7 @@ impl VisitMut for ComputedProps {
                                     op: op!("||"),
                                     right: Box::new(Expr::Object(ObjectLit {
                                         span,
+                                        trailing_comma: None,
                                         props: vec![],
                                     })),
                                 })),
@@ -289,6 +292,7 @@ impl VisitMut for ComputedProps {
                     name: mutator_map.clone().into(),
                     init: Some(Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: vec![],
                     }))),
                     definite: false,

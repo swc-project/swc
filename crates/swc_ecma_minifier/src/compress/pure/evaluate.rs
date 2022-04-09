@@ -170,6 +170,7 @@ impl Pure<'_> {
                             if start >= arr.elems.len() {
                                 *e = Expr::Array(ArrayLit {
                                     span: *span,
+                                    trailing_comma: None,
                                     elems: Default::default(),
                                 });
                                 return;
@@ -177,7 +178,11 @@ impl Pure<'_> {
 
                             let elems = arr.elems.drain(start..).collect();
 
-                            *e = Expr::Array(ArrayLit { span: *span, elems });
+                            *e = Expr::Array(ArrayLit {
+                                span: *span,
+                                trailing_comma: None,
+                                elems,
+                            });
                         }
                     }
                     _ => {
@@ -199,6 +204,7 @@ impl Pure<'_> {
                                 if start >= arr.elems.len() {
                                     *e = Expr::Array(ArrayLit {
                                         span: *span,
+                                        trailing_comma: None,
                                         elems: Default::default(),
                                     });
                                     return;
@@ -206,7 +212,11 @@ impl Pure<'_> {
 
                                 let elems = arr.elems.drain(start..end).collect();
 
-                                *e = Expr::Array(ArrayLit { span: *span, elems });
+                                *e = Expr::Array(ArrayLit {
+                                    span: *span,
+                                    trailing_comma: None,
+                                    elems,
+                                });
                             }
                         }
                     }

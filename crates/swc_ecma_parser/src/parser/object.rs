@@ -133,10 +133,11 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         props: Vec<Self::Prop>,
         trailing_comma: Option<Span>,
     ) -> PResult<Box<Expr>> {
-        if let Some(trailing_comma) = trailing_comma {
-            self.state.trailing_commas.insert(span.lo, trailing_comma);
-        }
-        Ok(Box::new(Expr::Object(ObjectLit { span, props })))
+        Ok(Box::new(Expr::Object(ObjectLit {
+            span,
+            trailing_comma,
+            props,
+        })))
     }
 
     /// spec: 'PropertyDefinition'

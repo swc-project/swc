@@ -522,6 +522,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .collect();
             Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 elems,
             }))
         }
@@ -545,6 +546,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
 
             Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 props,
             }))
         }

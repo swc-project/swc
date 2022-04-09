@@ -158,6 +158,7 @@ fn object_spread() {
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
                 span,
+                trailing_comma: None,
                 props: vec![
                     PropOrSpread::Prop(Box::new(Ident::new("a".into(), span).into())),
                     PropOrSpread::Spread(SpreadElement {
@@ -306,6 +307,7 @@ fn array_lit() {
         expr("[a,,,,, ...d,, e]"),
         Box::new(Expr::Array(ArrayLit {
             span,
+            trailing_comma: None,
             elems: vec![
                 Some(ExprOrSpread {
                     spread: None,

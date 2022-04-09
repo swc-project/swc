@@ -828,6 +828,7 @@ where
             }
             Expr::Array(ArrayLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 elems: props
                     .into_iter()
                     .map(|(_, data)| {
@@ -853,6 +854,7 @@ where
 
                         ObjectLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             props,
                         }
                         .as_arg()

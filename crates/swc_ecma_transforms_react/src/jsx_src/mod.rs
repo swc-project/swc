@@ -47,6 +47,7 @@ impl VisitMut for JsxSrc {
                 expr: JSXExpr::Expr(Box::new(
                     ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: vec![
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("fileName")),

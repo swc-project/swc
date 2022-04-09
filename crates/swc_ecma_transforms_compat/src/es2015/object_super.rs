@@ -76,7 +76,7 @@ impl VisitMut for ObjectSuper {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
-        if let Expr::Object(ObjectLit { span: _, props }) = expr {
+        if let Expr::Object(ObjectLit { props, .. }) = expr {
             let mut replacer = SuperReplacer {
                 obj: None,
                 vars: Vec::new(),

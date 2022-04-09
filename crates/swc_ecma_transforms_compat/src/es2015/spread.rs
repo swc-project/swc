@@ -51,7 +51,11 @@ impl VisitMut for Spread {
         e.visit_mut_children_with(self);
 
         match e {
-            Expr::Array(ArrayLit { span, elems }) => {
+            Expr::Array(ArrayLit {
+                span,
+                trailing_comma,
+                elems,
+            }) => {
                 if !elems.iter().any(|e| {
                     matches!(
                         e,
@@ -64,7 +68,7 @@ impl VisitMut for Spread {
                     return;
                 }
 
-                *e = self.concat_args(*span, elems.take().into_iter(), true);
+                *e = self.concat_args(*span, *trailing_comma, elems.take().into_iter(), true);
             }
 
             // super(...spread) should be removed by es2015::classes pass
@@ -142,10 +146,11 @@ impl VisitMut for Spread {
                 }) {
                     Expr::Array(ArrayLit {
                         span: *span,
+                        trailing_comma: None,
                         elems: expand_literal_args(args.take().into_iter().map(Some)),
                     })
                 } else {
-                    self.concat_args(*span, args.take().into_iter().map(Some), false)
+                    self.concat_args(*span, None, args.take().into_iter().map(Some), false)
                 };
 
                 let apply = MemberExpr {
@@ -174,7 +179,7 @@ impl VisitMut for Spread {
                     return;
                 }
 
-                let args = self.concat_args(*span, args.take().into_iter().map(Some), true);
+                let args = self.concat_args(*span, None, args.take().into_iter().map(Some), true);
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
@@ -220,6 +225,7 @@ impl Spread {
     fn concat_args(
         &self,
         span: Span,
+        trailing_comma: Option<Span>,
         args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
         need_array: bool,
     ) -> Expr {
@@ -238,11 +244,22 @@ impl Spread {
                 match first_arr {
                     Some(_) => {
                         if !elems.is_empty() {
-                            buf.push(ArrayLit { span, elems }.as_arg());
+                            buf.push(
+                                ArrayLit {
+                                    span,
+                                    trailing_comma,
+                                    elems,
+                                }
+                                .as_arg(),
+                            );
                         }
                     }
                     None => {
-                        first_arr = Some(Expr::Array(ArrayLit { span, elems }));
+                        first_arr = Some(Expr::Array(ArrayLit {
+                            span,
+                            trailing_comma,
+                            elems,
+                        }));
                     }
                 }
             };
@@ -324,6 +341,7 @@ impl Spread {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {
                                                 span: DUMMY_SP,
+                                                trailing_comma,
                                                 elems: vec![],
                                             }
                                             .make_member(quote_ident!("concat"))
@@ -381,6 +399,7 @@ impl Spread {
                     // assert!(args.is_empty());
                     Expr::Array(ArrayLit {
                         span,
+                        trailing_comma,
                         elems: vec![],
                     })
                 })

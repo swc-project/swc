@@ -171,6 +171,7 @@ impl AssignFolder {
                                             name: *p.arg,
                                             init: Some(Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
+                                                trailing_comma: None,
                                                 elems: arr_elems
                                                     .take()
                                                     .expect("two rest element?")
@@ -625,6 +626,7 @@ impl VisitMut for AssignFolder {
                                             op: op!("="),
                                             right: Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
+                                                trailing_comma: None,
                                                 elems: arr_elems
                                                     .take()
                                                     .expect("two rest element?")

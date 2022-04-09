@@ -86,6 +86,7 @@ impl Swcify for ArrayExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ArrayLit {
             span: ctx.span(&self.base),
+            trailing_comma: None,
             elems: self.elements.swcify(ctx),
         }
     }
@@ -428,6 +429,7 @@ impl Swcify for ObjectExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ObjectLit {
             span: ctx.span(&self.base),
+            trailing_comma: None,
             props: self.properties.swcify(ctx),
         }
     }

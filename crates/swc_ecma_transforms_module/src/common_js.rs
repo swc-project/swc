@@ -319,6 +319,7 @@ impl Fold for CommonJs {
                                         name: exported_names_ident.clone().into(),
                                         init: Some(Box::new(Expr::Object(ObjectLit {
                                             span: DUMMY_SP,
+                                            trailing_comma: None,
                                             props: exports
                                                 .clone()
                                                 .into_iter()

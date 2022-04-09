@@ -429,6 +429,7 @@ impl Legacy {
                         // [_dec7, _dec8],
                         ArrayLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             elems: dec_exprs,
                         }
                         .as_arg(),
@@ -523,6 +524,7 @@ impl Legacy {
 
                 let mut property_descriptor = Expr::Object(ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props: vec![
                         // configurable: true,
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -629,6 +631,7 @@ impl Legacy {
                                 name.clone().as_arg(),
                                 ArrayLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     elems: dec_exprs,
                                 }
                                 .as_arg(),
@@ -641,6 +644,7 @@ impl Legacy {
                                 name.clone().as_arg(),
                                 ArrayLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     elems: dec_exprs,
                                 }
                                 .as_arg(),

@@ -321,6 +321,7 @@ impl MemberInitRecord {
 fn get_value_desc(value: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
+        trailing_comma: None,
         props: vec![
             // writeable: true
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -339,6 +340,7 @@ fn get_value_desc(value: Box<Expr>) -> ObjectLit {
 fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
+        trailing_comma: None,
         props: vec![
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("get")),
@@ -359,6 +361,7 @@ fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit 
 fn get_method_desc(value: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
+        trailing_comma: None,
         props: vec![
             // value: value,
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {

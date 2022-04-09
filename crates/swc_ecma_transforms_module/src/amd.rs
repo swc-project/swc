@@ -481,6 +481,7 @@ impl Fold for Amd {
         let mut import_stmts = vec![];
         let mut define_deps_arg = ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             elems: vec![],
         };
         let mut scope_ref_mut = self.scope.borrow_mut();
@@ -507,6 +508,7 @@ impl Fold for Amd {
                         name: exported_names.clone().into(),
                         init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
+                            trailing_comma: None,
                             props: exports
                                 .into_iter()
                                 .filter_map(|export| {
@@ -771,6 +773,7 @@ pub(super) fn handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr
                                 args: vec![
                                     ArrayLit {
                                         span: DUMMY_SP,
+                                        trailing_comma: None,
                                         elems: args.into_iter().map(Some).collect(),
                                     }
                                     .as_arg(),

@@ -229,6 +229,8 @@ pub struct ThisExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrayLit {
     pub span: Span,
+    #[serde(default)]
+    pub trailing_comma: Option<Span>,
 
     #[serde(default, rename = "elements")]
     pub elems: Vec<Option<ExprOrSpread>>,
@@ -238,6 +240,7 @@ impl Take for ArrayLit {
     fn dummy() -> Self {
         ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: Default::default(),
             elems: Default::default(),
         }
     }
@@ -249,6 +252,8 @@ impl Take for ArrayLit {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ObjectLit {
     pub span: Span,
+    #[serde(default)]
+    pub trailing_comma: Option<Span>,
 
     #[serde(default, rename = "properties")]
     pub props: Vec<PropOrSpread>,
@@ -258,6 +263,7 @@ impl Take for ObjectLit {
     fn dummy() -> Self {
         ObjectLit {
             span: DUMMY_SP,
+            trailing_comma: Default::default(),
             props: Default::default(),
         }
     }

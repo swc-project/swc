@@ -255,6 +255,7 @@ impl SystemJs {
                     callee: self.export_ident.clone().as_callee(),
                     args: vec![ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props,
                     }
                     .as_arg()],
@@ -283,6 +284,7 @@ impl SystemJs {
                     name: export_obj.clone().into(),
                     init: Some(Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
+                        trailing_comma: None,
                         props: vec![],
                     }))),
                     definite: false,
@@ -965,11 +967,13 @@ impl Fold for SystemJs {
 
         let mut setters = ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             elems: vec![],
         };
 
         let mut dep_module_names = ArrayLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             elems: vec![],
         };
 
@@ -1022,6 +1026,7 @@ impl Fold for SystemJs {
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 props: vec![
                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                         key: quote_ident!("setters").into(),

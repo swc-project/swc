@@ -176,6 +176,7 @@ impl<'a> HookRegister<'a> {
                                 span: DUMMY_SP,
                                 arg: Some(Box::new(Expr::Array(ArrayLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     elems,
                                 }))),
                             })],

@@ -107,6 +107,7 @@ where
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 props: take(&mut export_visitor.return_props),
             }))),
         });

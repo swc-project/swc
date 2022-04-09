@@ -446,6 +446,7 @@ impl Swcify for ExportAllDeclaration {
                 })
                 .map(|props| ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props,
                 }),
         }
@@ -535,6 +536,7 @@ impl Swcify for ExportNamedDeclaration {
                 })
                 .map(|props| ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props,
                 }),
         }
@@ -629,6 +631,7 @@ impl Swcify for ImportDeclaration {
                 })
                 .map(|props| ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props,
                 }),
         }

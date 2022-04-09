@@ -1405,6 +1405,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 name: Pat::Ident(self.inline_ident.clone().into()),
                                 init: Some(Box::new(Expr::Object(ObjectLit {
                                     span: n.span,
+                                    trailing_comma: None,
                                     props: key_value_props
                                         .iter()
                                         .cloned()

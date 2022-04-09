@@ -1375,7 +1375,12 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             _ => Some(Expr::Unary(UnaryExpr { span, op, arg })),
         },
 
-        Expr::Array(ArrayLit { span, elems, .. }) => {
+        Expr::Array(ArrayLit {
+            span,
+            trailing_comma,
+            elems,
+            ..
+        }) => {
             let mut has_spread = false;
             let elems = elems.move_flat_map(|v| match v {
                 Some(ExprOrSpread {
@@ -1396,7 +1401,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             if elems.is_empty() {
                 None
             } else if has_spread {
-                Some(Expr::Array(ArrayLit { span, elems }))
+                Some(Expr::Array(ArrayLit {
+                    span,
+                    trailing_comma,
+                    elems,
+                }))
             } else {
                 ignore_result(preserve_effects(
                     span,
@@ -1406,7 +1415,12 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             }
         }
 
-        Expr::Object(ObjectLit { span, props, .. }) => {
+        Expr::Object(ObjectLit {
+            span,
+            trailing_comma,
+            props,
+            ..
+        }) => {
             let props = props.move_flat_map(|v| match v {
                 PropOrSpread::Spread(..) => Some(v),
                 PropOrSpread::Prop(ref p) => {
@@ -1424,7 +1438,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 ignore_result(preserve_effects(
                     span,
                     *undefined(DUMMY_SP),
-                    once(Box::new(Expr::Object(ObjectLit { span, props }))),
+                    once(Box::new(Expr::Object(ObjectLit {
+                        span,
+                        trailing_comma,
+                        props,
+                    }))),
                 ))
             }
         }
@@ -1436,6 +1454,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             ..
         }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
             span,
+            trailing_comma: None,
             elems: args
                 .map(|args| args.into_iter().map(Some).collect())
                 .unwrap_or_else(Default::default),
@@ -1448,6 +1467,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             ..
         }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
             span,
+            trailing_comma: None,
             elems: args.into_iter().map(Some).collect(),
         })),
 

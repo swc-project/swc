@@ -374,6 +374,7 @@ where
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props: vec![],
                 };
 
@@ -401,6 +402,7 @@ where
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: Box::new(Expr::Array(ArrayLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     elems: children,
                                 })),
                             }))));
@@ -486,6 +488,7 @@ where
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
+                    trailing_comma: None,
                     props: vec![],
                 };
 
@@ -646,6 +649,7 @@ where
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: Box::new(Expr::Array(ArrayLit {
                                     span: DUMMY_SP,
+                                    trailing_comma: None,
                                     elems: children.take(),
                                 })),
                             }))));
@@ -788,6 +792,7 @@ where
 
         let obj = ObjectLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             props,
         };
 
@@ -817,6 +822,7 @@ where
                         args.push(
                             ObjectLit {
                                 span: DUMMY_SP,
+                                trailing_comma: None,
                                 props: mem::take(&mut cur_obj_props),
                             }
                             .as_arg(),
@@ -853,6 +859,7 @@ where
         } else {
             Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
+                trailing_comma: None,
                 props: attrs
                     .into_iter()
                     .map(|a| match a {

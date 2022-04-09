@@ -672,10 +672,12 @@ define!({
     }
     pub struct ArrayLit {
         pub span: Span,
+        pub trailing_comma: Option<Span>,
         pub elems: Vec<Option<ExprOrSpread>>,
     }
     pub struct ObjectLit {
         pub span: Span,
+        pub trailing_comma: Option<Span>,
         pub props: Vec<PropOrSpread>,
     }
     pub enum PropOrSpread {

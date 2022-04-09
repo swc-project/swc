@@ -898,6 +898,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
         Lit::Str(quote_str!("__esModule")).as_arg(),
         ObjectLit {
             span: DUMMY_SP,
+            trailing_comma: None,
             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("value")),
                 value: true.into(),
@@ -981,6 +982,7 @@ pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
 
     ObjectLit {
         span: DUMMY_SP,
+        trailing_comma: None,
         props: vec![
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("enumerable")),
