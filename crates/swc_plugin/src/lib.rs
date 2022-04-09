@@ -8,7 +8,7 @@ pub use swc_common::{
 
 pub mod comments {
     pub use swc_common::comments::{Comment, CommentKind, Comments};
-    pub use swc_plugin_comments::PluginCommentsProxy;
+    pub use swc_plugin_proxy::PluginCommentsProxy;
 }
 
 pub mod source_map {
@@ -43,10 +43,10 @@ pub mod errors {
 pub mod environment {
     pub use crate::handler::*;
 }
-use swc_plugin_comments::PluginCommentsProxy;
 // We don't set target cfg as it'll block macro expansions
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
 pub use swc_plugin_macro::plugin_transform;
+use swc_plugin_proxy::PluginCommentsProxy;
 #[cfg(target_arch = "wasm32")]
 mod allocation;
 #[cfg(target_arch = "wasm32")]

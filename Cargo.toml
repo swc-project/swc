@@ -15,7 +15,7 @@ members = [
   "crates/swc_plugin_macro",
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
-  "crates/swc_plugin_comments",
+  "crates/swc_plugin_proxy",
   "crates/swc_timer",
   "crates/swc_webpack_ast",
   "crates/wasm",
