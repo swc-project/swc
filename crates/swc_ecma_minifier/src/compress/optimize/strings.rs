@@ -121,33 +121,6 @@ where
                 }));
             }
 
-            Expr::Ident(i) => {
-                if !self.options.evaluate || !self.options.reduce_vars {
-                    return;
-                }
-                if self
-                    .data
-                    .vars
-                    .get(&i.to_id())
-                    .map(|v| v.assign_count == 0 && !v.declared_as_fn_param)
-                    .unwrap_or(false)
-                {
-                    self.changed = true;
-                    tracing::debug!(
-                        "strings: Converting a reference ({}{:?}) into `undefined` (in string \
-                         context)",
-                        i.sym,
-                        i.span.ctxt
-                    );
-
-                    *n = Expr::Lit(Lit::Str(Str {
-                        span: i.span,
-                        raw: None,
-                        value: js_word!("undefined"),
-                    }));
-                }
-            }
-
             _ => {}
         }
     }
