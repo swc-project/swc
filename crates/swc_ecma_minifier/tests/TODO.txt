@@ -633,7 +633,6 @@ pure_getters/set_mutable_2/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-pure_globals/globals_whose_access_is_pure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js

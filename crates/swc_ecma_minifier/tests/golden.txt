@@ -1316,6 +1316,9 @@ template_string/simple_string/input.js
 template_string/tagged_call_with_invalid_escape/input.js
 template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
+template_string/tagged_template_function_inline_2/input.js
+template_string/tagged_template_function_inline_3/input.js
+template_string/tagged_template_function_inline_4/input.js
 template_string/tagged_template_parens/input.js
 template_string/tagged_template_valid_strict_legacy_octal/input.js
 template_string/tagged_template_with_comment/input.js
