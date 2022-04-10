@@ -6,7 +6,7 @@ use swc_common::{
     plugin::Serialized,
     BytePos,
 };
-use swc_plugin_comments::{CommentsVecPtr, COMMENTS};
+use swc_plugin_proxy::{CommentsVecPtr, COMMENTS};
 use wasmer::{LazyInit, Memory, NativeFunc};
 
 use crate::memory_interop::{copy_bytes_into_host, write_into_memory_view};

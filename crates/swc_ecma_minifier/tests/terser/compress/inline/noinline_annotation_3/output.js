@@ -1,11 +1,6 @@
-(function () {
-    function foo(val) {
-        return val;
-    }
+(function() {
     function bar() {
-        var pass = 1;
-        pass = foo(pass);
-        window.data = pass;
+        window.data = 1;
     }
     window.bar = bar;
     bar();

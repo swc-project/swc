@@ -129,13 +129,19 @@ where
                     .data
                     .vars
                     .get(&i.to_id())
-                    .map(|v| v.assign_count == 0 && !v.declared_as_fn_param)
+                    .map(|v| {
+                        v.declared
+                            && !v.var_initialized
+                            && !v.cond_init
+                            && v.assign_count == 0
+                            && !v.declared_as_fn_param
+                    })
                     .unwrap_or(false)
                 {
                     self.changed = true;
                     tracing::debug!(
-                        "strings: Converting a reference ({}{:?}) into `undefined` (in string \
-                         context)",
+                        "strings: Converting an unresolved reference ({}{:?}) into `undefined` \
+                         (in string context)",
                         i.sym,
                         i.span.ctxt
                     );
