@@ -3,7 +3,6 @@ var NUMBER, M, NUMBER1 = [
     1,
     2
 ], A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 };
 !function(M1) {

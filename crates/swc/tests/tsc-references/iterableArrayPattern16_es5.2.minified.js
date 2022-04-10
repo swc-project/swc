@@ -5,10 +5,8 @@ import * as swcHelpers from "@swc/helpers";
     __tmp[0], __tmp[1];
 }).apply(void 0, swcHelpers.toConsumableArray(new FooIteratorIterator));
 var Bar = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Bar);
 }, Foo = function(Bar1) {
-    "use strict";
     swcHelpers.inherits(Foo, Bar1);
     var _super = swcHelpers.createSuper(Foo);
     function Foo() {
@@ -16,7 +14,6 @@ var Bar = function() {
     }
     return Foo;
 }(Bar), _iterator = Symbol.iterator, FooIterator = function() {
-    "use strict";
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }
@@ -30,7 +27,6 @@ var Bar = function() {
         return this;
     }, FooIterator;
 }(), _iterator1 = Symbol.iterator, FooIteratorIterator = function() {
-    "use strict";
     function FooIteratorIterator() {
         swcHelpers.classCallCheck(this, FooIteratorIterator);
     }

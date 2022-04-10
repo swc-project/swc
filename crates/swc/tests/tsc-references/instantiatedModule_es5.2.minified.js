@@ -3,7 +3,6 @@ import * as swcHelpers from "@swc/helpers";
 var M, m, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, function(M21) {
     var Point = function() {
-        "use strict";
         function Point() {
             swcHelpers.classCallCheck(this, Point);
         }

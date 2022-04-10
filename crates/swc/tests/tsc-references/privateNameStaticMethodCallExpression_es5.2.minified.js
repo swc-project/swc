@@ -30,7 +30,6 @@ function _templateObject2() {
     }, data;
 }
 var AA = function() {
-    "use strict";
     function AA() {
         swcHelpers.classCallCheck(this, AA);
     }

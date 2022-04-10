@@ -10,7 +10,6 @@ import "./baz";
 import "./bar";
 import "./bar2";
 export var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 };
 export function func() {}

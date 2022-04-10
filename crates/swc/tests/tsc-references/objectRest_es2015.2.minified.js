@@ -13,7 +13,7 @@ swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]);
-var { ['b']: renamed  } = o;
+var { b: renamed  } = o;
 swcHelpers.objectWithoutProperties(o, [
     'b'
 ]);

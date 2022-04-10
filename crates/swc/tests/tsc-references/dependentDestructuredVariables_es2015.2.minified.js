@@ -11,7 +11,6 @@ const reducer = (op, args)=>{
             break;
         case "concat":
             console.log(args.firstArr.concat(args.secondArr));
-            break;
     }
 };
 reducer("add", {

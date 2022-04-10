@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 var _used = new WeakMap(), _unused = new WeakMap();
 export var A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateFieldInit(this, _used, {
         writable: !0,
         value: "used"
@@ -12,13 +11,11 @@ export var A = function() {
 };
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export var A2 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A2), swcHelpers.classPrivateMethodInit(this, _used1), swcHelpers.classPrivateMethodInit(this, _unused1), console.log(swcHelpers.classPrivateMethodGet(this, _used1, used).call(this));
 };
 function used() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export var A3 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A3), swcHelpers.classPrivateFieldInit(this, _used2, {
         get: get_used,
         set: set_used

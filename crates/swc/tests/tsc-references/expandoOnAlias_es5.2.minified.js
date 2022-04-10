@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var Vue = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Vue);
 };
 export var config = {

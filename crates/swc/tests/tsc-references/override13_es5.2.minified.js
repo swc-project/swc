@@ -1,11 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo), this.property = 1;
 };
 Foo.staticProperty = 2;
 var SubFoo = function(Foo1) {
-    "use strict";
     swcHelpers.inherits(SubFoo, Foo1);
     var _super = swcHelpers.createSuper(SubFoo);
     function SubFoo() {
@@ -14,7 +12,6 @@ var SubFoo = function(Foo1) {
     }
     return SubFoo;
 }(Foo), StaticSubFoo = function(Foo2) {
-    "use strict";
     swcHelpers.inherits(StaticSubFoo, Foo2);
     var _super = swcHelpers.createSuper(StaticSubFoo);
     function StaticSubFoo() {
@@ -24,7 +21,6 @@ var SubFoo = function(Foo1) {
 }(Foo);
 StaticSubFoo.property = 42, StaticSubFoo.staticProperty = 42;
 var Intermediate = function(Foo3) {
-    "use strict";
     swcHelpers.inherits(Intermediate, Foo3);
     var _super = swcHelpers.createSuper(Intermediate);
     function Intermediate() {
@@ -32,7 +28,6 @@ var Intermediate = function(Foo3) {
     }
     return Intermediate;
 }(Foo), Derived = function(Intermediate) {
-    "use strict";
     swcHelpers.inherits(Derived, Intermediate);
     var _super = swcHelpers.createSuper(Derived);
     function Derived() {
@@ -41,7 +36,6 @@ var Intermediate = function(Foo3) {
     }
     return Derived;
 }(Intermediate), StaticDerived = function(Intermediate) {
-    "use strict";
     swcHelpers.inherits(StaticDerived, Intermediate);
     var _super = swcHelpers.createSuper(StaticDerived);
     function StaticDerived() {

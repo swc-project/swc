@@ -10,7 +10,6 @@ Wagon.circle = function(wagons) {
     return this.numberOxen / this.weight();
 };
 var Sql = function(Wagon1) {
-    "use strict";
     swcHelpers.inherits(Sql, Wagon1);
     var _super = swcHelpers.createSuper(Sql);
     function Sql() {
@@ -24,7 +23,6 @@ var Sql = function(Wagon1) {
 }(Wagon), db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = function(Dragon1) {
-    "use strict";
     swcHelpers.inherits(Drakkhen, Dragon1);
     var _super = swcHelpers.createSuper(Drakkhen);
     function Drakkhen() {
@@ -36,7 +34,6 @@ function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
 var Firedrake = function(Dragon2) {
-    "use strict";
     swcHelpers.inherits(Firedrake, Dragon2);
     var _super = swcHelpers.createSuper(Firedrake);
     function Firedrake() {
@@ -44,7 +41,6 @@ var Firedrake = function(Dragon2) {
     }
     return Firedrake;
 }(Dragon), Conestoga = function(Wagon2) {
-    "use strict";
     swcHelpers.inherits(Conestoga, Wagon2);
     var _super = swcHelpers.createSuper(Conestoga);
     function Conestoga(drunkOO) {
@@ -60,7 +56,6 @@ function Soup(flavour) {
 }
 c.drunkOO, c.numberOxen;
 var Chowder = function(Soup1) {
-    "use strict";
     swcHelpers.inherits(Chowder, Soup1);
     var _super = swcHelpers.createSuper(Chowder);
     function Chowder() {

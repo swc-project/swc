@@ -1,13 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
 var Rectangle = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Rectangle), console.log("I'm a rectangle!");
 };
 module.exports = {
     Rectangle: Rectangle
 };
 var Rectangle = require("./rectangle").Rectangle, Render = function() {
-    "use strict";
     function Render() {
         swcHelpers.classCallCheck(this, Render), this.objects = [];
     }

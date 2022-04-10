@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var num, strOrNum, var1, ClassWithAccessors = function() {
-    "use strict";
     function ClassWithAccessors() {
         swcHelpers.classCallCheck(this, ClassWithAccessors);
     }

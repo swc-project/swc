@@ -6,7 +6,6 @@ var ANY, ANY1, M, ANY2 = [
     x: 1,
     y: null
 }, A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 };
 !function(M1) {

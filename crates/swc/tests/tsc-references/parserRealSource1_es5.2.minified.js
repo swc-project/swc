@@ -13,7 +13,6 @@ import * as swcHelpers from "@swc/helpers";
         };
     }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
     var NullLogger = function() {
-        "use strict";
         function NullLogger() {
             swcHelpers.classCallCheck(this, NullLogger);
         }
@@ -32,7 +31,6 @@ import * as swcHelpers from "@swc/helpers";
     }();
     TypeScript1.NullLogger = NullLogger;
     var LoggerAdapter = function() {
-        "use strict";
         function LoggerAdapter(logger) {
             swcHelpers.classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
@@ -53,7 +51,6 @@ import * as swcHelpers from "@swc/helpers";
     }();
     TypeScript1.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = function() {
-        "use strict";
         function BufferedLogger() {
             swcHelpers.classCallCheck(this, BufferedLogger), this.logContents = [];
         }

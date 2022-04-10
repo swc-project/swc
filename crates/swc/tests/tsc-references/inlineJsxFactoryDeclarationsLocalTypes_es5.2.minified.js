@@ -5,7 +5,6 @@ export var MySFC = function(props) {
     return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };
 export var MyClass = function() {
-    "use strict";
     function MyClass(props) {
         swcHelpers.classCallCheck(this, MyClass), this.props = props;
     }
@@ -25,7 +24,6 @@ export var tree = predom(MySFC, {
 }));
 export default predom("h", null);
 var DOMClass = function() {
-    "use strict";
     function DOMClass(props) {
         swcHelpers.classCallCheck(this, DOMClass), this.props = props;
     }

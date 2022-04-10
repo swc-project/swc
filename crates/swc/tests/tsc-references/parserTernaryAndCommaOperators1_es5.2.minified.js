@@ -1,1 +1,1 @@
-b.src, c && d;
+b.src;

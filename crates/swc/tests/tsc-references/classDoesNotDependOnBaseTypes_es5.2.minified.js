@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var x, StringTreeCollectionBase = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, StringTreeCollectionBase);
 }, StringTreeCollection = function(StringTreeCollectionBase1) {
-    "use strict";
     swcHelpers.inherits(StringTreeCollection, StringTreeCollectionBase1);
     var _super = swcHelpers.createSuper(StringTreeCollection);
     function StringTreeCollection() {

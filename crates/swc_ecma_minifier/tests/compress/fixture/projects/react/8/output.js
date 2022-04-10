@@ -25,12 +25,12 @@ function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
         } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = cloneAndReplaceKey(mappedChild, escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey('' + mappedChild.key) + '/' : '') + childKey)), array.push(mappedChild));
         return 1;
     }
-    var subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + SUBSEPARATOR;
+    var child, nextName, step, subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + SUBSEPARATOR;
     if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
     else {
         var iteratorFn = getIteratorFn(children);
         if ('function' == typeof iteratorFn) {
-            var child, nextName, step, iterableChildren = children;
+            var iterableChildren = children;
             iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
             for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
         } else if ('object' === type) {

@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import A from "./mod1";
 var Alias = function() {
-    "use strict";
     function Alias() {
         swcHelpers.classCallCheck(this, Alias);
     }

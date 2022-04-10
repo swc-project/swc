@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _hasInstance = Symbol.hasInstance, _hasInstance1 = Symbol.hasInstance, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _foo = new WeakMap(), A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateFieldInit(this, _foo, {
         writable: !0,
         value: 1
@@ -9,7 +8,6 @@ var _foo = new WeakMap(), A = function() {
     writable: !0,
     value: !0
 }, B = function() {
-    "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
     }

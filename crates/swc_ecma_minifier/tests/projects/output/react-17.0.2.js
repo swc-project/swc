@@ -213,38 +213,38 @@
         }), Object.freeze && (Object.freeze(element.props), Object.freeze(element)), element;
     };
     function createElement(type, config1, children) {
-        var propName, props = {}, key = null, ref = null, self = null, source = null;
+        var props, displayName, warnAboutAccessingKey, props1, displayName1, warnAboutAccessingRef, propName, props2 = {}, key = null, ref = null, self = null, source = null;
         if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, function(config) {
             if ('string' == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
                 didWarnAboutStringRefs[componentName] || (error1('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
             }
-        }(config1)), hasValidKey(config1) && (key = '' + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty$1.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config1[propName]);
+        }(config1)), hasValidKey(config1) && (key = '' + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty$1.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props2[propName] = config1[propName]);
         var childrenLength = arguments.length - 2;
-        if (1 === childrenLength) props.children = children;
+        if (1 === childrenLength) props2.children = children;
         else if (childrenLength > 1) {
             for(var childArray = Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 2];
-            Object.freeze && Object.freeze(childArray), props.children = childArray;
+            Object.freeze && Object.freeze(childArray), props2.children = childArray;
         }
         if (type && type.defaultProps) {
             var defaultProps = type.defaultProps;
-            for(propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
+            for(propName in defaultProps)void 0 === props2[propName] && (props2[propName] = defaultProps[propName]);
         }
         if (key || ref) {
-            var props1, displayName, warnAboutAccessingKey, props2, displayName1, warnAboutAccessingRef, displayName2 = 'function' == typeof type ? type.displayName || type.name || 'Unknown' : type;
-            key && (props1 = props, displayName = displayName2, (warnAboutAccessingKey = function() {
+            var displayName2 = 'function' == typeof type ? type.displayName || type.name || 'Unknown' : type;
+            key && (props = props2, displayName = displayName2, (warnAboutAccessingKey = function() {
                 specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error1("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-            }).isReactWarning = !0, Object.defineProperty(props1, 'key', {
+            }).isReactWarning = !0, Object.defineProperty(props, 'key', {
                 get: warnAboutAccessingKey,
                 configurable: !0
-            })), ref && (props2 = props, displayName1 = displayName2, (warnAboutAccessingRef = function() {
+            })), ref && (props1 = props2, displayName1 = displayName2, (warnAboutAccessingRef = function() {
                 specialPropRefWarningShown || (specialPropRefWarningShown = !0, error1("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1));
-            }).isReactWarning = !0, Object.defineProperty(props2, 'ref', {
+            }).isReactWarning = !0, Object.defineProperty(props1, 'ref', {
                 get: warnAboutAccessingRef,
                 configurable: !0
             }));
         }
-        return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+        return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props2);
     }
     function cloneElement(element, config, children) {
         if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
@@ -266,16 +266,13 @@
         return text.replace(userProvidedKeyEscapeRegex, '$&/');
     }
     function getElementKey(element, index) {
-        if ('object' == typeof element && null !== element && null != element.key) {
-            var key, escaperLookup;
-            return key = '' + element.key, escaperLookup = {
-                '=': '=0',
-                ':': '=2'
-            }, '$' + key.replace(/[=:]/g, function(match) {
-                return escaperLookup[match];
-            });
-        }
-        return index.toString(36);
+        var key, escaperLookup;
+        return 'object' == typeof element && null !== element && null != element.key ? (key = '' + element.key, escaperLookup = {
+            '=': '=0',
+            ':': '=2'
+        }, '$' + key.replace(/[=:]/g, function(match) {
+            return escaperLookup[match];
+        })) : index.toString(36);
     }
     function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
         var type = typeof children;
@@ -295,7 +292,7 @@
                 }
         }
         if (invokeCallback) {
-            var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = '' === nameSoFar ? '.' + getElementKey(_child, 0) : nameSoFar;
+            var _child = children, mappedChild = callback(_child), childKey = '' === nameSoFar ? '.' + getElementKey(_child, 0) : nameSoFar;
             if (Array.isArray(mappedChild)) {
                 var escapedChildKey = '';
                 null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + '/'), mapIntoArray(mappedChild, array, escapedChildKey, '', function(c) {
@@ -304,12 +301,12 @@
             } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey('' + mappedChild.key) + '/' : '') + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
             return 1;
         }
-        var subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + ':';
+        var oldElement, newKey, child, nextName, step, subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + ':';
         if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
         else {
             var iteratorFn = getIteratorFn(children);
             if ('function' == typeof iteratorFn) {
-                var child, nextName, step, iterableChildren = children;
+                var iterableChildren = children;
                 iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
                 for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
             } else if ('object' === type) {
@@ -482,10 +479,7 @@
     }
     function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
         if (null == type) return '';
-        if ('function' == typeof type) {
-            var prototype;
-            return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-        }
+        if ('function' == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
         if ('string' == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
             case exports.Suspense:
@@ -501,7 +495,7 @@
             case REACT_BLOCK_TYPE:
                 return describeFunctionComponentFrame(type._render);
             case REACT_LAZY_TYPE:
-                var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var prototype, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}
@@ -551,14 +545,14 @@
     }
     function validateChildKeys(node, parentType) {
         if ('object' == typeof node) {
-            if (Array.isArray(node)) for(var i = 0; i < node.length; i++){
+            if (Array.isArray(node)) for(var step, i = 0; i < node.length; i++){
                 var child = node[i];
                 isValidElement(child) && validateExplicitKey(child, parentType);
             }
             else if (isValidElement(node)) node._store && (node._store.validated = !0);
             else if (node) {
                 var iteratorFn = getIteratorFn(node);
-                if ('function' == typeof iteratorFn && iteratorFn !== node.entries) for(var step, iterator = iteratorFn.call(node); !(step = iterator.next()).done;)isValidElement(step.value) && validateExplicitKey(step.value, parentType);
+                if ('function' == typeof iteratorFn && iteratorFn !== node.entries) for(var iterator = iteratorFn.call(node); !(step = iterator.next()).done;)isValidElement(step.value) && validateExplicitKey(step.value, parentType);
             }
         }
     }
@@ -578,7 +572,7 @@
                         var error$1 = void 0;
                         try {
                             if ('function' != typeof typeSpecs[typeSpecName]) {
-                                var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                                var err = Error((componentName || 'React class') + ': ' + location + " type `undefined` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                                 throw err.name = 'Invariant Violation', err;
                             }
                             error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED');
@@ -593,9 +587,9 @@
         }
     }
     function createElementWithValidation(type, props, children) {
-        var validType = isValidElementType(type);
+        var typeString, elementProps, validType = isValidElementType(type);
         if (!validType) {
-            var typeString, elementProps, info = '';
+            var info = '';
             (void 0 === type || 'object' == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
             var sourceInfo = null != (elementProps = props) ? function(source) {
                 if (void 0 !== source) {
@@ -735,10 +729,12 @@
         }
     }
     function handleTimeout(currentTime) {
-        if (isHostTimeoutScheduled = !1, advanceTimers(currentTime), !isHostCallbackScheduled) if (null !== peek(taskQueue)) isHostCallbackScheduled = !0, requestHostCallback(flushWork);
-        else {
-            var firstTimer = peek(timerQueue);
-            null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
+        if (isHostTimeoutScheduled = !1, advanceTimers(currentTime), !isHostCallbackScheduled) {
+            if (null !== peek(taskQueue)) isHostCallbackScheduled = !0, requestHostCallback(flushWork);
+            else {
+                var firstTimer = peek(timerQueue);
+                null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
+            }
         }
     }
     function flushWork(hasTimeRemaining, initialTime) {
@@ -803,7 +799,6 @@
                     break;
                 default:
                     priorityLevel = currentPriorityLevel;
-                    break;
             }
             var priorityLevel, previousPriorityLevel = currentPriorityLevel;
             currentPriorityLevel = priorityLevel;
@@ -835,7 +830,6 @@
                 case 3:
                 default:
                     timeout = 5000;
-                    break;
             }
             var expirationTime = startTime + timeout, newTask = {
                 id: taskIdCounter++,

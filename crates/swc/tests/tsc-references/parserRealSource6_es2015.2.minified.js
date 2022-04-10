@@ -77,7 +77,6 @@ var TypeScript;
                     context.skipNextFuncDeclForClass ? context.skipNextFuncDeclForClass = !1 : (context.scopeGetter = function() {
                         return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
                     }, context.scopeStartAST = ast);
-                    break;
             }
             walker.options.goChildren = !0;
         } else walker.options.goChildren = !1;

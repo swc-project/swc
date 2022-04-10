@@ -2,7 +2,6 @@ var enumdule;
 import * as swcHelpers from "@swc/helpers";
 !function(enumdule1) {
     var Point = function(x, y) {
-        "use strict";
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     };
     enumdule1.Point = Point;

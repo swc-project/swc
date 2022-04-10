@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var clodule = function() {
-    "use strict";
     function clodule() {
         swcHelpers.classCallCheck(this, clodule);
     }

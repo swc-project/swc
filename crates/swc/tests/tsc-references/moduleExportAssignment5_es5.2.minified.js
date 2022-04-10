@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Axios = function() {
-    "use strict";
     function Axios() {
         swcHelpers.classCallCheck(this, Axios);
     }

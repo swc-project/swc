@@ -6,7 +6,6 @@ export var y = {
 };
 export var r2;
 export var C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 };
 export var c;
@@ -20,7 +19,6 @@ export var M;
 !function(M1) {
     M1.foo = "";
     var C1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, C1);
     };
     M1.C = C1;
@@ -41,7 +39,6 @@ export function foo() {}
 !function(foo1) {
     foo1.y = 1;
     var C2 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, C2);
     };
     foo1.C = C2;

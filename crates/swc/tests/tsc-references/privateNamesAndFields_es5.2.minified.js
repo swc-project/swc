@@ -1,12 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var _foo = new WeakMap(), A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateFieldInit(this, _foo, {
         writable: !0,
         value: void 0
     }), swcHelpers.classPrivateFieldSet(this, _foo, 3);
 }, _foo1 = new WeakMap(), B = function(A1) {
-    "use strict";
     swcHelpers.inherits(B, A1);
     var _super = swcHelpers.createSuper(B);
     function B() {

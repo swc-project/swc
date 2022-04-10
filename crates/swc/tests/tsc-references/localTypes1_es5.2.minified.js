@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A), (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
         var E, E1, C = function() {

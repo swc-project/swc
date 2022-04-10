@@ -2,7 +2,6 @@ var TypeScript;
 import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var PrintContext = function() {
-        "use strict";
         function PrintContext(outfile, parser) {
             swcHelpers.classCallCheck(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
         }

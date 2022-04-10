@@ -2,7 +2,6 @@ var OnlyDerived, WithBase;
 import * as swcHelpers from "@swc/helpers";
 !function(OnlyDerived) {
     var Base1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Base1);
     }, Derived = function(Base) {
         "use strict";
@@ -30,7 +29,6 @@ import * as swcHelpers from "@swc/helpers";
     new Derived(), new Derived2();
 }(OnlyDerived || (OnlyDerived = {})), function(WithBase) {
     var Base2 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Base2);
     }, Derived = function(Base) {
         "use strict";

@@ -218,10 +218,4 @@ function _templateObject21() {
 function fn2() {}
 _templateObject(), _templateObject1();
 var d1 = fn2(_templateObject2(), 0, void 0), d2 = fn2(_templateObject3(), 0, void 0);
-function fn4() {}
-function fn5() {}
-d1.foo(), d2(), fn2(_templateObject4(), 0, ""), fn2(_templateObject5(), "", 0), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), fn4(_templateObject13(), "", 3), fn4(_templateObject14(), 3, ""), fn4(_templateObject15(), 3, void 0), fn4(_templateObject16(), "", null), fn4(_templateObject17(), null, null), fn4(_templateObject18(), !0, null), fn4(_templateObject19(), null, !0), fn5(_templateObject20(), function(n) {
-    return n.toFixed();
-}), fn5(_templateObject21(), function(n) {
-    return n.substr(0);
-});
+d1.foo(), d2(), _templateObject4(), _templateObject5(), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), _templateObject21();

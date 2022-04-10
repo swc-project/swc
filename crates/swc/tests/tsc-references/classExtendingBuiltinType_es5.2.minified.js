@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var C1 = function(Object) {
-    "use strict";
     swcHelpers.inherits(C1, Object);
     var _super = swcHelpers.createSuper(C1);
     function C1() {
@@ -8,7 +7,6 @@ var C1 = function(Object) {
     }
     return C1;
 }(swcHelpers.wrapNativeSuper(Object)), C2 = function(Function) {
-    "use strict";
     swcHelpers.inherits(C2, Function);
     var _super = swcHelpers.createSuper(C2);
     function C2() {
@@ -16,7 +14,6 @@ var C1 = function(Object) {
     }
     return C2;
 }(swcHelpers.wrapNativeSuper(Function)), C3 = function(String) {
-    "use strict";
     swcHelpers.inherits(C3, String);
     var _super = swcHelpers.createSuper(C3);
     function C3() {
@@ -24,7 +21,6 @@ var C1 = function(Object) {
     }
     return C3;
 }(swcHelpers.wrapNativeSuper(String)), C4 = function(Boolean) {
-    "use strict";
     swcHelpers.inherits(C4, Boolean);
     var _super = swcHelpers.createSuper(C4);
     function C4() {
@@ -32,7 +28,6 @@ var C1 = function(Object) {
     }
     return C4;
 }(swcHelpers.wrapNativeSuper(Boolean)), C5 = function(Number) {
-    "use strict";
     swcHelpers.inherits(C5, Number);
     var _super = swcHelpers.createSuper(C5);
     function C5() {
@@ -40,7 +35,6 @@ var C1 = function(Object) {
     }
     return C5;
 }(swcHelpers.wrapNativeSuper(Number)), C6 = function(Date) {
-    "use strict";
     swcHelpers.inherits(C6, Date);
     var _super = swcHelpers.createSuper(C6);
     function C6() {
@@ -48,7 +42,6 @@ var C1 = function(Object) {
     }
     return C6;
 }(swcHelpers.wrapNativeSuper(Date)), C7 = function(RegExp) {
-    "use strict";
     swcHelpers.inherits(C7, RegExp);
     var _super = swcHelpers.createSuper(C7);
     function C7() {
@@ -56,7 +49,6 @@ var C1 = function(Object) {
     }
     return C7;
 }(swcHelpers.wrapNativeSuper(RegExp)), C8 = function(Error) {
-    "use strict";
     swcHelpers.inherits(C8, Error);
     var _super = swcHelpers.createSuper(C8);
     function C8() {
@@ -64,7 +56,6 @@ var C1 = function(Object) {
     }
     return C8;
 }(swcHelpers.wrapNativeSuper(Error)), C9 = function(Array) {
-    "use strict";
     swcHelpers.inherits(C9, Array);
     var _super = swcHelpers.createSuper(C9);
     function C9() {
@@ -72,7 +63,6 @@ var C1 = function(Object) {
     }
     return C9;
 }(swcHelpers.wrapNativeSuper(Array)), C10 = function(Array) {
-    "use strict";
     swcHelpers.inherits(C10, Array);
     var _super = swcHelpers.createSuper(C10);
     function C10() {

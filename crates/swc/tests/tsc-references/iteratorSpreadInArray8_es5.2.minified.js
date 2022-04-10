@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var SymbolIterator = function() {
-    "use strict";
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }

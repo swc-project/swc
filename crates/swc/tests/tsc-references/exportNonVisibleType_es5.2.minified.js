@@ -4,12 +4,10 @@ module.exports = {
     b: 42
 };
 var C1 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C1);
 };
 module.exports = C1;
 var C1 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C1);
 };
 module.exports = C1;

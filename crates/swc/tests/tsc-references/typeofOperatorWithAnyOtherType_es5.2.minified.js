@@ -8,7 +8,6 @@ var ANY, ANY1, obj, M, ANY2 = [
 };
 function foo() {}
 var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }

@@ -8,7 +8,6 @@ function _templateObject() {
     }, data;
 }
 var CtorTag = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, CtorTag);
 };
 CtorTag(_templateObject());

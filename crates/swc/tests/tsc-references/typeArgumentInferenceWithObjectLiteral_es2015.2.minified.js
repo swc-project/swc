@@ -1,14 +1,5 @@
-var s, E1, E2;
-function foo(x) {}
-foo({
-    read: ()=>s
-    ,
-    write: (value)=>s = value
-}), foo({
-    write: (value)=>s = value
-    ,
-    read: ()=>s
-}), function(E1) {
+var E1, E2;
+!function(E1) {
     E1[E1.X = 0] = "X";
 }(E1 || (E1 = {})), function(E2) {
     E2[E2.X = 0] = "X";

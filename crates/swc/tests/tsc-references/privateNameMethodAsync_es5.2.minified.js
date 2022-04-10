@@ -49,7 +49,6 @@ function _qux1() {
     }))).apply(this, arguments);
 }
 new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function() {
-    "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class), swcHelpers.classPrivateMethodInit(this, _bar), swcHelpers.classPrivateMethodInit(this, _baz), swcHelpers.classPrivateMethodInit(this, _qux);
     }

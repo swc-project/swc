@@ -1,5 +1,4 @@
 !function(self) {
-    'use strict';
     var ampersandTest, propValue, nativeURLSearchParams = function() {
         try {
             if (self.URLSearchParams && 'bar' === new self.URLSearchParams('foo=bar').get('foo')) return self.URLSearchParams;
@@ -110,13 +109,14 @@
     }
     function parseToDict(search) {
         var dict = {};
-        if ("object" == typeof search) if (isArray(search)) for(var i = 0; i < search.length; i++){
-            var item = search[i];
-            if (isArray(item) && 2 === item.length) appendTo(dict, item[0], item[1]);
-            else throw new TypeError("Failed to construct 'URLSearchParams': Sequence initializer must only contain pair elements");
-        }
-        else for(var key in search)search.hasOwnProperty(key) && appendTo(dict, key, search[key]);
-        else {
+        if ("object" == typeof search) {
+            if (isArray(search)) for(var i = 0; i < search.length; i++){
+                var item = search[i];
+                if (isArray(item) && 2 === item.length) appendTo(dict, item[0], item[1]);
+                else throw new TypeError("Failed to construct 'URLSearchParams': Sequence initializer must only contain pair elements");
+            }
+            else for(var key in search)search.hasOwnProperty(key) && appendTo(dict, key, search[key]);
+        } else {
             0 === search.indexOf("?") && (search = search.slice(1));
             for(var pairs = search.split("&"), j = 0; j < pairs.length; j++){
                 var value = pairs[j], index = value.indexOf('=');

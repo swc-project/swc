@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var X = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, X), swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);
 };
 function m() {

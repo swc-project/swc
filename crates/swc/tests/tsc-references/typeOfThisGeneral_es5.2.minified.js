@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var MyTestClass = function() {
-    "use strict";
     function MyTestClass() {
         swcHelpers.classCallCheck(this, MyTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
@@ -33,7 +32,6 @@ var MyTestClass = function() {
         }
     ]), MyTestClass;
 }(), MyGenericTestClass = function() {
-    "use strict";
     function MyGenericTestClass() {
         swcHelpers.classCallCheck(this, MyGenericTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }

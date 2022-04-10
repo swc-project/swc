@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var D0 = function(Base) {
-    "use strict";
     swcHelpers.inherits(D0, Base);
     var _super = swcHelpers.createSuper(D0);
     function D0() {
@@ -8,7 +7,6 @@ var D0 = function(Base) {
     }
     return D0;
 }(Base), D1 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(D1, _superClass);
     var _super = swcHelpers.createSuper(D1);
     function D1() {
@@ -17,7 +15,6 @@ var D0 = function(Base) {
     }
     return D1;
 }(getBase()), D2 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(D2, _superClass);
     var _super = swcHelpers.createSuper(D2);
     function D2() {
@@ -26,7 +23,6 @@ var D0 = function(Base) {
     }
     return D2;
 }(getBase()), D3 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(D3, _superClass);
     var _super = swcHelpers.createSuper(D3);
     function D3() {
@@ -35,7 +31,6 @@ var D0 = function(Base) {
     }
     return D3;
 }(getBase()), D4 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(D4, _superClass);
     var _super = swcHelpers.createSuper(D4);
     function D4() {
@@ -43,7 +38,6 @@ var D0 = function(Base) {
     }
     return D4;
 }(getBase()), D5 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(D5, _superClass);
     var _super = swcHelpers.createSuper(D5);
     function D5() {

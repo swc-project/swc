@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _toStringTag = Symbol.toStringTag, C1 = function(C21) {
-    "use strict";
     swcHelpers.inherits(C1, C21);
     var _super = swcHelpers.createSuper(C1);
     function C1() {
@@ -12,6 +11,5 @@ var _toStringTag = Symbol.toStringTag, C1 = function(C21) {
         };
     }, C1;
 }(C2), C2 = function C2() {
-    "use strict";
     swcHelpers.classCallCheck(this, C2);
 };

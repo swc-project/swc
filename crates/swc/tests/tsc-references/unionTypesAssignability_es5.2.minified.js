@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var unionNumberString, unionDE, num, str, c, d, e, anyVar, C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 }, D = function(C1) {
-    "use strict";
     swcHelpers.inherits(D, C1);
     var _super = swcHelpers.createSuper(D);
     function D() {
@@ -11,7 +9,6 @@ var unionNumberString, unionDE, num, str, c, d, e, anyVar, C = function() {
     }
     return D.prototype.foo1 = function() {}, D;
 }(C), E = function(C2) {
-    "use strict";
     swcHelpers.inherits(E, C2);
     var _super = swcHelpers.createSuper(E);
     function E() {

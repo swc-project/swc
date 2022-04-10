@@ -1,14 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
 var M, C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 }, D = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, D);
 };
 throw !function(M1) {
     var A = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A);
     };
     M1.A = A, M1.F2 = function(x) {

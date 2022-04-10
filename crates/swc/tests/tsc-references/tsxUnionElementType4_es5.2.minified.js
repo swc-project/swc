@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var React = require("react"), RC1 = function(_Component) {
-    "use strict";
     swcHelpers.inherits(RC1, _Component);
     var _super = swcHelpers.createSuper(RC1);
     function RC1() {
@@ -10,7 +9,6 @@ var React = require("react"), RC1 = function(_Component) {
         return null;
     }, RC1;
 }(React.Component), RC2 = function(_Component) {
-    "use strict";
     swcHelpers.inherits(RC2, _Component);
     var _super = swcHelpers.createSuper(RC2);
     function RC2() {
@@ -21,7 +19,6 @@ var React = require("react"), RC1 = function(_Component) {
         return null;
     }, _proto.method = function() {}, RC2;
 }(React.Component), RC3 = function(_Component) {
-    "use strict";
     swcHelpers.inherits(RC3, _Component);
     var _super = swcHelpers.createSuper(RC3);
     function RC3() {
@@ -31,7 +28,6 @@ var React = require("react"), RC1 = function(_Component) {
         return null;
     }, RC3;
 }(React.Component), RC4 = function(_Component) {
-    "use strict";
     swcHelpers.inherits(RC4, _Component);
     var _super = swcHelpers.createSuper(RC4);
     function RC4() {

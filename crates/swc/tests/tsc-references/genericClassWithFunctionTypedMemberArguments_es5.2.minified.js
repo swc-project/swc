@@ -2,7 +2,6 @@ var ImmediatelyFix, WithCandidates;
 import * as swcHelpers from "@swc/helpers";
 !function(ImmediatelyFix) {
     var C = function() {
-        "use strict";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
@@ -18,7 +17,6 @@ import * as swcHelpers from "@swc/helpers";
         return "";
     });
     var C2 = function() {
-        "use strict";
         function C2() {
             swcHelpers.classCallCheck(this, C2);
         }
@@ -33,7 +31,6 @@ import * as swcHelpers from "@swc/helpers";
     });
 }(ImmediatelyFix || (ImmediatelyFix = {})), function(WithCandidates) {
     var c, c2, C = function() {
-        "use strict";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
@@ -49,7 +46,6 @@ import * as swcHelpers from "@swc/helpers";
         return 1;
     });
     var C2 = function() {
-        "use strict";
         function C2() {
             swcHelpers.classCallCheck(this, C2);
         }
@@ -63,7 +59,6 @@ import * as swcHelpers from "@swc/helpers";
         return "";
     }, "");
     var C3 = function() {
-        "use strict";
         function C3() {
             swcHelpers.classCallCheck(this, C3);
         }

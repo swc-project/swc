@@ -2,7 +2,6 @@ var M;
 import * as swcHelpers from "@swc/helpers";
 !function(M1) {
     var _$Symbol, _iterator = _$Symbol.iterator, C = function() {
-        "use strict";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }

@@ -2,12 +2,10 @@ import * as swcHelpers from "@swc/helpers";
 var x = 10, y = 20;
 module.exports = x, module.exports = y;
 var x = 10, y = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, y);
 };
 module.exports = x, module.exports = y, (x || (x = {})).x = 10;
 var y = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, y);
 };
 function y() {

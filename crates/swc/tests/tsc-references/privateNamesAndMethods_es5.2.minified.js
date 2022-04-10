@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap(), A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateMethodInit(this, _foo), swcHelpers.classPrivateMethodInit(this, _bar), swcHelpers.classPrivateMethodInit(this, _baz), swcHelpers.classPrivateFieldInit(this, _quux, {
         get: get_quux,
         set: set_quux
@@ -48,7 +47,6 @@ function set_quux(val) {
     swcHelpers.classPrivateFieldSet(this, __quux, val);
 }
 var _foo1 = new WeakSet(), B = function(A1) {
-    "use strict";
     swcHelpers.inherits(B, A1);
     var _super = swcHelpers.createSuper(B);
     function B() {

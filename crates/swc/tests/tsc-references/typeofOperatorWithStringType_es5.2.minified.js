@@ -7,7 +7,6 @@ function foo() {
     return "abc";
 }
 var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }

@@ -54,7 +54,6 @@ var _marked = regeneratorRuntime.mark(function(directories) {
     ]);
 });
 export var C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile)), import(getSpecifier());

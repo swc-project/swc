@@ -2,7 +2,6 @@ import * as swcHelpers from "@swc/helpers";
 import * as React from "react";
 import * as React from "react";
 export var App = function(_Component) {
-    "use strict";
     swcHelpers.inherits(App, _Component);
     var _super = swcHelpers.createSuper(App);
     function App() {
@@ -13,7 +12,6 @@ export var App = function(_Component) {
     }, App;
 }(React.Component);
 export var Button = function(_Component) {
-    "use strict";
     swcHelpers.inherits(Button, _Component);
     var _super = swcHelpers.createSuper(Button);
     function Button() {

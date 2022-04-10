@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Animal = function() {
-    "use strict";
     function Animal() {
         swcHelpers.classCallCheck(this, Animal), this._sound = "rustling noise in the bushes";
     }
@@ -20,7 +19,6 @@ var Animal = function() {
 }();
 (new Animal).makeSound();
 var Lion = function(Animal) {
-    "use strict";
     swcHelpers.inherits(Lion, Animal);
     var _super = swcHelpers.createSuper(Lion);
     function Lion() {

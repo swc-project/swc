@@ -2,7 +2,6 @@ import * as swcHelpers from "@swc/helpers";
 export var inModule = 1;
 inmodule.toFixed();
 var Classe = function() {
-    "use strict";
     function Classe() {
         swcHelpers.classCallCheck(this, Classe), this.non = "oui";
     }
@@ -10,7 +9,6 @@ var Classe = function() {
         return this.none;
     }, Classe;
 }(), Derivee = function(Classe) {
-    "use strict";
     swcHelpers.inherits(Derivee, Classe);
     var _super = swcHelpers.createSuper(Derivee);
     function Derivee() {
@@ -24,7 +22,7 @@ var Classe = function() {
 };
 object.spaaaace, object.spaace = 12, object.fresh = 12, other.puuuce, new Date().getGMTDate(), setIntegral(function() {
     return console.log("ok");
-}, 500), AudioBuffin, Jon, Jon;
+}, 500);
 var other = {
     puuce: 4
 };

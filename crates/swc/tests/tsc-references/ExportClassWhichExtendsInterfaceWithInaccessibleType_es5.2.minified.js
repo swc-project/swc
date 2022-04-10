@@ -2,7 +2,6 @@ var A;
 import * as swcHelpers from "@swc/helpers";
 !function(A1) {
     var Point2d = function() {
-        "use strict";
         function Point2d(x, y) {
             swcHelpers.classCallCheck(this, Point2d), this.x = x, this.y = y;
         }

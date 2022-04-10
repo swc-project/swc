@@ -1,10 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 }, Bar = function(Foo1) {
-    "use strict";
     swcHelpers.inherits(Bar, Foo1);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {
@@ -12,7 +10,6 @@ var Foo = function() {
     }
     return Bar;
 }(Foo), Baz = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Baz);
 }, g3 = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {

@@ -1,10 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var AbstractBase = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, AbstractBase);
 }, MixedBase = function(baseClass1) {
     var MixinClass = function(baseClass) {
-        "use strict";
         swcHelpers.inherits(MixinClass, baseClass);
         var _super = swcHelpers.createSuper(MixinClass);
         function MixinClass() {
@@ -14,7 +12,6 @@ var AbstractBase = function() {
     }(baseClass1);
     return MixinClass;
 }(AbstractBase), DerivedFromAbstract = function(MixedBase1) {
-    "use strict";
     swcHelpers.inherits(DerivedFromAbstract, MixedBase1);
     var _super = swcHelpers.createSuper(DerivedFromAbstract);
     function DerivedFromAbstract() {

@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var symbol = Symbol.for("myThing"), _symbol = symbol, Foo = function() {
-    "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
@@ -8,7 +7,6 @@ var symbol = Symbol.for("myThing"), _symbol = symbol, Foo = function() {
         return 0;
     }, Foo;
 }(), _symbol1 = symbol, Bar = function(Foo) {
-    "use strict";
     swcHelpers.inherits(Bar, Foo);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {

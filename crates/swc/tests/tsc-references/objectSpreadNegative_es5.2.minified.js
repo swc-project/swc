@@ -3,10 +3,8 @@ var _obj, o = {
     a: 1,
     b: "no"
 }, PrivateOptionalX = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, PrivateOptionalX);
 }, PublicX = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, PublicX);
 }, o2 = swcHelpers.objectSpread({}, publicX, privateOptionalX);
 o2.x, swcHelpers.objectSpread({}, optionalString, optionalNumber), swcHelpers.objectSpread({}, {
@@ -51,7 +49,6 @@ spreadStr.length, spreadStr.charAt(1), swcHelpers.objectSpread({}, function() {}
     set b (bad){}
 }).b = 12;
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C), this.p = 1;
     }

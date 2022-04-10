@@ -40,7 +40,6 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     "abc"
 ]);
 var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
-    "use strict";
     function C(x, y) {
         for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
         swcHelpers.classCallCheck(this, C), this.foo(x, y), this.foo.apply(this, [
@@ -52,7 +51,6 @@ var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
         for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
     }, C;
 }(), D = function(C) {
-    "use strict";
     swcHelpers.inherits(D, C);
     var _super = swcHelpers.createSuper(D);
     function D() {

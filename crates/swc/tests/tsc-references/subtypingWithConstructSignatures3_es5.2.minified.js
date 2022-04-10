@@ -2,7 +2,6 @@ var Errors, WithGenericSignaturesInBaseType;
 import * as swcHelpers from "@swc/helpers";
 !function(Errors) {
     var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r7arg3, r8arg, r9arg, Base1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Base1);
     }, Derived = function(Base) {
         "use strict";

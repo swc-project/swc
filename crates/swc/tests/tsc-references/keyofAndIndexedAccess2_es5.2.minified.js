@@ -10,7 +10,6 @@ export function getEntity(id, state) {
     if (ids.includes(id)) return entities[id];
 }
 export var c = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, c), this.a = "b", this.a = "b";
 };
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;

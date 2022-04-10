@@ -20,7 +20,6 @@ function _templateObject1() {
     }, data;
 }
 var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }

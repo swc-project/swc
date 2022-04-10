@@ -2,7 +2,6 @@ var ClassTypeParam, GenericSignaturesInvalid, GenericSignaturesValid;
 import * as swcHelpers from "@swc/helpers";
 !function(ClassTypeParam) {
     var Base = function() {
-        "use strict";
         var _this = this;
         swcHelpers.classCallCheck(this, Base), this.init = function() {
             _this.a = function() {
@@ -46,7 +45,6 @@ import * as swcHelpers from "@swc/helpers";
     };
 }(ClassTypeParam || (ClassTypeParam = {})), function(GenericSignaturesInvalid) {
     var Base2 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Base2);
     }, Target = function() {
         "use strict";
@@ -54,7 +52,6 @@ import * as swcHelpers from "@swc/helpers";
     };
 }(GenericSignaturesInvalid || (GenericSignaturesInvalid = {})), function(GenericSignaturesValid) {
     var Base2 = function() {
-        "use strict";
         var _this = this;
         swcHelpers.classCallCheck(this, Base2), this.init = function() {
             _this.a = function() {

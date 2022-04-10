@@ -16,7 +16,6 @@ export var A;
         x: 0,
         y: 0
     }, Utils = A2.Utils || (A2.Utils = {}), Plane = function(tl, br) {
-        "use strict";
         swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 }(A || (A = {}));

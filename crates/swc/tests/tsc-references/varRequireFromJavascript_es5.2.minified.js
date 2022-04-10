@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var ex, crunch, Crunch = function() {
-    "use strict";
     function Crunch(n) {
         swcHelpers.classCallCheck(this, Crunch), this.n = n;
     }

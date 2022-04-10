@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye"), C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

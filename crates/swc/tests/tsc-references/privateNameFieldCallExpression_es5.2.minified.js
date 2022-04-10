@@ -20,7 +20,6 @@ function _templateObject1() {
     }, data;
 }
 var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateFieldInit(this, _fieldFunc, {
             writable: !0,

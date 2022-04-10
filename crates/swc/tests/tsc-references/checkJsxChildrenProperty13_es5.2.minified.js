@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var React = require("react"), Button = function(_Component) {
-    "use strict";
     swcHelpers.inherits(Button, _Component);
     var _super = swcHelpers.createSuper(Button);
     function Button() {
@@ -12,7 +11,6 @@ var React = require("react"), Button = function(_Component) {
         }), React.createElement("div", null, "Hello World"));
     }, Button;
 }(React.Component), InnerButton = function(_Component) {
-    "use strict";
     swcHelpers.inherits(InnerButton, _Component);
     var _super = swcHelpers.createSuper(InnerButton);
     function InnerButton() {

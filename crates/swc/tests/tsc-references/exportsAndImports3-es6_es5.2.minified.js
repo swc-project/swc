@@ -3,7 +3,6 @@ import { I1 as I, N1 as N, T1 as T } from "./t1";
 export var v = 1;
 export function f() {}
 export var C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 };
 export var E;

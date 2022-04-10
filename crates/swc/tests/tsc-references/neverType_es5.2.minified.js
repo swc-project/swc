@@ -3,7 +3,6 @@ function error(message) {
     throw new Error(message);
 }
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var MixinClass, AbstractBase = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, AbstractBase);
 }, DerivedFromAbstract2 = function(_superClass) {
-    "use strict";
     swcHelpers.inherits(DerivedFromAbstract2, _superClass);
     var _super = swcHelpers.createSuper(DerivedFromAbstract2);
     function DerivedFromAbstract2() {

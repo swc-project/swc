@@ -4,7 +4,6 @@
     ],
     {
         2943: function(c, b, a) {
-            "use strict";
             var d = function(a) {
                 var b = a.data;
                 return (0, e.jsx)("div", {

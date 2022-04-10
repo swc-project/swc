@@ -7,4 +7,4 @@ class C {
 }(E || (E = {})), function(M1) {
     var a;
     M1.a = a;
-}(M || (M = {})), E.a + new C(), E.a + C.foo(), E.a;
+}(M || (M = {})), E.a, new C(), E.a, C.foo(), E.a;

@@ -1,19 +1,15 @@
 import * as swcHelpers from "@swc/helpers";
 var Test6, Test7, Test = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Test), this.data = {};
 }, Test1 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Test1), this.data = {
         foo: ""
     }, this.this = "", this.data;
 }, Test5 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Test5), this.no = 1, this.f = function() {};
 };
 (Test6 || (Test6 = {})).f = function() {}, (Test7 || (Test7 = {})).f = function() {};
 var Test9 = function() {
-    "use strict";
     function Test9() {
         swcHelpers.classCallCheck(this, Test9), this.no = 0, this.this = 0;
     }
@@ -31,19 +27,16 @@ var Test9 = function() {
         1 === this.no && this.no, 1 === this.this && this.this;
     }, Test9;
 }(), Test9D1 = function() {
-    "use strict";
     function Test9D1() {
         swcHelpers.classCallCheck(this, Test9D1);
     }
     return Test9D1.prototype.f1 = function() {}, Test9D1;
 }(), Test9D2 = function() {
-    "use strict";
     function Test9D2() {
         swcHelpers.classCallCheck(this, Test9D2);
     }
     return Test9D2.prototype.f2 = function() {}, Test9D2;
 }(), Test10 = function() {
-    "use strict";
     function Test10() {
         swcHelpers.classCallCheck(this, Test10);
     }
@@ -51,7 +44,6 @@ var Test9 = function() {
         this.a && this.a.b;
     }, Test10;
 }(), Test11 = function() {
-    "use strict";
     function Test11() {
         swcHelpers.classCallCheck(this, Test11);
     }
@@ -59,7 +51,6 @@ var Test9 = function() {
         this.this && this.this.x && this.this.x;
     }, Test11;
 }(), Tests12 = function() {
-    "use strict";
     function Tests12() {
         swcHelpers.classCallCheck(this, Tests12);
     }

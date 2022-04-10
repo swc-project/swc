@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var С1 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, С1), this.p1 = void 0, this.p2 = void 0, this.p3 = null, this.p4 = null;
 }, С2 = function() {
-    "use strict";
     function С2() {
         swcHelpers.classCallCheck(this, С2);
     }
@@ -30,7 +28,6 @@ var С1 = function() {
         }
     ]), С2;
 }(), С3 = function() {
-    "use strict";
     function С3() {
         swcHelpers.classCallCheck(this, С3);
     }
@@ -69,7 +66,6 @@ var С1 = function() {
         }
     ]), С3;
 }(), С4 = function() {
-    "use strict";
     function С4() {
         swcHelpers.classCallCheck(this, С4);
     }

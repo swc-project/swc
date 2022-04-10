@@ -1,11 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var Generics, A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 };
 !function(Generics) {
     var A1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A1);
     }, B = function(A2) {
         "use strict";
@@ -16,7 +14,6 @@ var Generics, A = function() {
         }
         return B;
     }(A1), B2 = function(A3) {
-        "use strict";
         swcHelpers.inherits(B2, A3);
         var _super = swcHelpers.createSuper(B2);
         function B2() {

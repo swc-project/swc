@@ -6,7 +6,6 @@ import * as swcHelpers from "@swc/helpers";
     F[F.B = 0] = "B";
 }(F || (F = {})), E.A, F.B, function(Others) {
     var C = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, C);
     };
 }(Others || (Others = {}));

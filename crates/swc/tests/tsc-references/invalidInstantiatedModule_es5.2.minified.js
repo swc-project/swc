@@ -2,7 +2,6 @@ var M, M2;
 import * as swcHelpers from "@swc/helpers";
 !function(M1) {
     var Point = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Point);
     };
     M1.Point = Point;

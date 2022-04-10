@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _ref, _method = new WeakSet(), C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C), swcHelpers.classPrivateMethodInit(this, _method);
 };
 function method() {

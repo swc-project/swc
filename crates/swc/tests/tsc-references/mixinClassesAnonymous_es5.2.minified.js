@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _class, Base = function(x, y) {
-    "use strict";
     swcHelpers.classCallCheck(this, Base), this.x = x, this.y = y;
 }, Derived = function(Base1) {
-    "use strict";
     swcHelpers.inherits(Derived, Base1);
     var _super = swcHelpers.createSuper(Derived);
     function Derived(x, y, z) {
@@ -14,7 +12,6 @@ var _class, Base = function(x, y) {
 }(Base);
 function Tagged(superClass1) {
     var C = function(superClass) {
-        "use strict";
         swcHelpers.inherits(C, superClass);
         var _super = swcHelpers.createSuper(C);
         function C() {
@@ -29,19 +26,17 @@ function Tagged(superClass1) {
 }
 Tagged(Derived);
 var Thing2 = Tagged(((_class = function(superClass) {
-    "use strict";
     swcHelpers.inherits(_class, superClass);
     var _super = swcHelpers.createSuper(_class);
     function _class() {
         return swcHelpers.classCallCheck(this, _class), _super.apply(this, arguments);
     }
     return _class.prototype.print = function() {
-        this.x + this.y;
+        this.x, this.y;
     }, _class;
 }(Derived)).message = "hello", _class));
 Thing2.message;
 var Thing3 = function(Thing21) {
-    "use strict";
     swcHelpers.inherits(Thing3, Thing21);
     var _super = swcHelpers.createSuper(Thing3);
     function Thing3(tag) {

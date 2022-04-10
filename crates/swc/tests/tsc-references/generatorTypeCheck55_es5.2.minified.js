@@ -6,7 +6,6 @@ var _marked = regeneratorRuntime.mark(function() {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
                 _ctx.t0 = function(_superClass) {
-                    "use strict";
                     swcHelpers.inherits(C, _superClass);
                     var _super = swcHelpers.createSuper(C);
                     function C() {

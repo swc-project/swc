@@ -1,8 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var tmp = (a, ""), C = function() {
-    "use strict";
+var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return C.prototype[tmp] = function() {}, C;
+    return C.prototype[""] = function() {}, C;
 }();

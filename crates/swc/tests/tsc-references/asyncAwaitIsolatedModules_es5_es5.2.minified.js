@@ -90,7 +90,6 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     }, _callee);
 }));
 var M, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

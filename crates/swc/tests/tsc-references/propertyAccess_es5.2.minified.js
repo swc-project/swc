@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var Compass, bothIndex, stringOrNumber, someObject, A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 }, B = function(A1) {
-    "use strict";
     swcHelpers.inherits(B, A1);
     var _super = swcHelpers.createSuper(B);
     function B() {

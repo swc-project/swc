@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Explicit = function() {
-    "use strict";
     function Explicit() {
         swcHelpers.classCallCheck(this, Explicit), this.n = 17;
     }
@@ -16,7 +15,6 @@ var Explicit = function() {
         }
     ]), Explicit;
 }(), Contextual = function() {
-    "use strict";
     function Contextual() {
         swcHelpers.classCallCheck(this, Contextual), this.n = 21;
     }

@@ -8,7 +8,6 @@ ns.x = {
     m: function(n) {}
 }, ns.x;
 var Thing = function() {
-    "use strict";
     function Thing() {
         swcHelpers.classCallCheck(this, Thing), this.s = {
             status: "done",

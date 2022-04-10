@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var C2 = function(Mixed1) {
-    "use strict";
     swcHelpers.inherits(C2, Mixed1);
     var _super = swcHelpers.createSuper(C2);
     function C2() {
@@ -9,7 +8,6 @@ var C2 = function(Mixed1) {
     }
     return C2;
 }(Mixed1), C3 = function(Mixed3) {
-    "use strict";
     swcHelpers.inherits(C3, Mixed3);
     var _super = swcHelpers.createSuper(C3);
     function C3() {

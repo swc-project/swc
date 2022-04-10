@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var c, RoyalGuard = function() {
-    "use strict";
     function RoyalGuard() {
         swcHelpers.classCallCheck(this, RoyalGuard);
     }
@@ -11,7 +10,6 @@ var c, RoyalGuard = function() {
         return swcHelpers._instanceof(this, FollowerGuard);
     }, RoyalGuard;
 }(), LeadGuard = function(RoyalGuard) {
-    "use strict";
     swcHelpers.inherits(LeadGuard, RoyalGuard);
     var _super = swcHelpers.createSuper(LeadGuard);
     function LeadGuard() {
@@ -19,7 +17,6 @@ var c, RoyalGuard = function() {
     }
     return LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
-    "use strict";
     swcHelpers.inherits(FollowerGuard, RoyalGuard);
     var _super = swcHelpers.createSuper(FollowerGuard);
     function FollowerGuard() {

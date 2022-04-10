@@ -2,7 +2,6 @@ var TypeScript;
 import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1, AstWalkOptions = function() {
-        "use strict";
         function AstWalkOptions() {
             swcHelpers.classCallCheck(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
@@ -13,7 +12,6 @@ import * as swcHelpers from "@swc/helpers";
     }();
     TypeScript1.AstWalkOptions = AstWalkOptions;
     var AstWalker = function() {
-        "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
             swcHelpers.classCallCheck(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
         }

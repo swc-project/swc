@@ -6,12 +6,10 @@ export default function foo() {
 };
 export var x = foo;
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo), this.a = null;
 };
 export var X = Foo;
 var Bar = function(Fab1) {
-    "use strict";
     swcHelpers.inherits(Bar, Fab1);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {

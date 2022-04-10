@@ -26,10 +26,8 @@ var _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked);
 }), Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 }, Bar = function(Foo1) {
-    "use strict";
     swcHelpers.inherits(Bar, Foo1);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {
@@ -37,6 +35,5 @@ var _marked = regeneratorRuntime.mark(function() {
     }
     return Bar;
 }(Foo), Baz = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Baz);
 };

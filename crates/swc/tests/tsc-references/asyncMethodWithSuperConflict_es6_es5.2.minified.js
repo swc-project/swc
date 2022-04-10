@@ -1,14 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
     var _proto = A.prototype;
     return _proto.x = function() {}, _proto.y = function() {}, A;
 }(), B = function(A) {
-    "use strict";
     swcHelpers.inherits(B, A);
     var _super1 = swcHelpers.createSuper(B);
     function B() {

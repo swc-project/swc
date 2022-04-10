@@ -18,7 +18,6 @@ suddenly(function(_param) {
     return rest.y + nested.ka;
 });
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

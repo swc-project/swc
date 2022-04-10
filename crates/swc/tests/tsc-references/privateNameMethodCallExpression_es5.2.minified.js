@@ -30,7 +30,6 @@ function _templateObject2() {
     }, data;
 }
 var _method = new WeakSet(), _method2 = new WeakSet(), AA = function() {
-    "use strict";
     function AA() {
         swcHelpers.classCallCheck(this, AA), swcHelpers.classPrivateMethodInit(this, _method), swcHelpers.classPrivateMethodInit(this, _method2), this.x = 1;
     }

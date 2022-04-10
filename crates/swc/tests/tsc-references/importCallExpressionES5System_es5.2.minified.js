@@ -7,7 +7,6 @@ import("./0"), import("./0").then(function(zero) {
 });
 export var p1, p2 = import("./0");
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
@@ -16,7 +15,6 @@ var C = function() {
     }, C;
 }();
 export var D = function() {
-    "use strict";
     function D() {
         swcHelpers.classCallCheck(this, D);
     }

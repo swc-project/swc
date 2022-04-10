@@ -4,7 +4,6 @@ import * as swcHelpers from "@swc/helpers";
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";
 }(enumdule || (enumdule = {})), function(enumdule) {
     var Point = function(x, y) {
-        "use strict";
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     };
     enumdule.Point = Point;

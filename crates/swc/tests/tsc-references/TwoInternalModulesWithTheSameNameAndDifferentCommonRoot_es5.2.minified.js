@@ -14,7 +14,6 @@ import * as swcHelpers from "@swc/helpers";
         x: 0,
         y: 0
     }, Utils = A.Utils || (A.Utils = {}), Plane = function(tl, br) {
-        "use strict";
         swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 }(otherRoot || (otherRoot = {}));

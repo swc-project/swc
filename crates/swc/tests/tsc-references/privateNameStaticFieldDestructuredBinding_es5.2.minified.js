@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var A = function() {
-    "use strict";
     function A() {
         var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
         swcHelpers.classCallCheck(this, A), this.otherClass = A, ref = this.testObject(), swcHelpers.classStaticPrivateFieldDestructureSet(A, _field).value = ref.x, ref.y, ref1 = swcHelpers.slicedToArray(this.testArray(), 2), swcHelpers.classStaticPrivateFieldDestructureSet(A, _field).value = ref1[0], ref1[1], ref2 = {

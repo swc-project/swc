@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var A, Point = function() {
-    "use strict";
     function Point(x, y) {
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     }
@@ -15,7 +14,6 @@ var A, Point = function() {
     return null;
 }, function(A1) {
     var Point = function() {
-        "use strict";
         function Point(x, y) {
             swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
         }

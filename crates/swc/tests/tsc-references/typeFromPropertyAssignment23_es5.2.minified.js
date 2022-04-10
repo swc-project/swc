@@ -1,12 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var _this = this, B = function() {
-    "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B), this.n = 1;
     }
     return B.prototype.foo = function() {}, B;
 }(), C = function(B) {
-    "use strict";
     swcHelpers.inherits(C, B);
     var _super = swcHelpers.createSuper(C);
     function C() {
@@ -16,7 +14,6 @@ var _this = this, B = function() {
 }(B);
 C.prototype.foo = function() {};
 var D = function(B) {
-    "use strict";
     swcHelpers.inherits(D, B);
     var _super = swcHelpers.createSuper(D);
     function D() {
@@ -28,12 +25,10 @@ D.prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
 var Module = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Module);
 };
 Module.prototype.identifier = void 0, Module.prototype.size = null;
 var NormalModule = function(Module1) {
-    "use strict";
     swcHelpers.inherits(NormalModule, Module1);
     var _super = swcHelpers.createSuper(NormalModule);
     function NormalModule() {

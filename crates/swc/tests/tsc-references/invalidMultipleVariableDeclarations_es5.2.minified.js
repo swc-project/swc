@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var M, C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 }, C2 = function(C1) {
-    "use strict";
     swcHelpers.inherits(C2, C1);
     var _super = swcHelpers.createSuper(C2);
     function C2() {
@@ -11,12 +9,10 @@ var M, C = function() {
     }
     return C2;
 }(C), D = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, D);
 };
 !function(M1) {
     var A = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A);
     };
     M1.A = A, M1.F2 = function(x) {

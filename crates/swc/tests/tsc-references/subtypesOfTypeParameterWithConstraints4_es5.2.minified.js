@@ -1,12 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 }, B1 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, B1);
 }, D1 = function(B11) {
-    "use strict";
     swcHelpers.inherits(D1, B11);
     var _super = swcHelpers.createSuper(D1);
     function D1() {
@@ -14,7 +11,6 @@ var Foo = function() {
     }
     return D1;
 }(B1), D2 = function(B12) {
-    "use strict";
     swcHelpers.inherits(D2, B12);
     var _super = swcHelpers.createSuper(D2);
     function D2() {
@@ -22,7 +18,6 @@ var Foo = function() {
     }
     return D2;
 }(B1), D3 = function(B13) {
-    "use strict";
     swcHelpers.inherits(D3, B13);
     var _super = swcHelpers.createSuper(D3);
     function D3() {
@@ -30,7 +25,6 @@ var Foo = function() {
     }
     return D3;
 }(B1), D4 = function(B14) {
-    "use strict";
     swcHelpers.inherits(D4, B14);
     var _super = swcHelpers.createSuper(D4);
     function D4() {
@@ -38,7 +32,6 @@ var Foo = function() {
     }
     return D4;
 }(B1), D5 = function(B15) {
-    "use strict";
     swcHelpers.inherits(D5, B15);
     var _super = swcHelpers.createSuper(D5);
     function D5() {
@@ -46,7 +39,6 @@ var Foo = function() {
     }
     return D5;
 }(B1), D6 = function(B16) {
-    "use strict";
     swcHelpers.inherits(D6, B16);
     var _super = swcHelpers.createSuper(D6);
     function D6() {
@@ -54,7 +46,6 @@ var Foo = function() {
     }
     return D6;
 }(B1), D7 = function(B17) {
-    "use strict";
     swcHelpers.inherits(D7, B17);
     var _super = swcHelpers.createSuper(D7);
     function D7() {
@@ -62,7 +53,6 @@ var Foo = function() {
     }
     return D7;
 }(B1), D8 = function(B18) {
-    "use strict";
     swcHelpers.inherits(D8, B18);
     var _super = swcHelpers.createSuper(D8);
     function D8() {
@@ -70,7 +60,6 @@ var Foo = function() {
     }
     return D8;
 }(B1), D9 = function(B19) {
-    "use strict";
     swcHelpers.inherits(D9, B19);
     var _super = swcHelpers.createSuper(D9);
     function D9() {

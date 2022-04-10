@@ -4,7 +4,6 @@ var SomeClass = function() {
 };
 new SomeClass();
 var SomeClass = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, SomeClass);
 };
 SomeClass.prop = 0;

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
 var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(f) {
-    "use strict";
     c.inherits(b, f);
     var g = c.createSuper(b);
     function b() {

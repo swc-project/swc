@@ -1,17 +1,13 @@
 import * as swcHelpers from "@swc/helpers";
 var Generic, C = function(x) {
-    "use strict";
     swcHelpers.classCallCheck(this, C), this.x = x;
 }, D = function(x) {
-    "use strict";
     swcHelpers.classCallCheck(this, D), this.x = x;
 }, E = function(x) {
-    "use strict";
     swcHelpers.classCallCheck(this, E), this.x = x;
 };
 new C(1), new D(1), new E(1), function(Generic) {
     var C1 = function(x) {
-        "use strict";
         swcHelpers.classCallCheck(this, C1), this.x = x;
     }, D1 = function(x) {
         "use strict";

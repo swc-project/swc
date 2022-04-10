@@ -1,6 +1,5 @@
 !function(define, undefined) {
     define(function() {
-        'use strict';
         var impl = {};
         impl.mobileDetectRules = {
             phones: {

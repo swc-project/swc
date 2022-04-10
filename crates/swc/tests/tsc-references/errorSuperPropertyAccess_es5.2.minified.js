@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var NoBase = function() {
-    "use strict";
     function NoBase() {
         swcHelpers.classCallCheck(this, NoBase), this.m = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), this.n = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, ""), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
     }
@@ -20,7 +19,6 @@ var NoBase = function() {
         }
     ]), NoBase;
 }(), SomeBase = function() {
-    "use strict";
     function SomeBase() {
         swcHelpers.classCallCheck(this, SomeBase), this.privateMember = 0, this.publicMember = 0;
     }
@@ -29,7 +27,6 @@ var NoBase = function() {
 }();
 SomeBase.privateStaticMember = 0, SomeBase.publicStaticMember = 0;
 var SomeDerived1 = function(SomeBase) {
-    "use strict";
     swcHelpers.inherits(SomeDerived1, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived1);
     function SomeDerived1() {
@@ -52,7 +49,6 @@ var SomeDerived1 = function(SomeBase) {
         }
     ]), SomeDerived1;
 }(SomeBase), SomeDerived2 = function(SomeBase) {
-    "use strict";
     swcHelpers.inherits(SomeDerived2, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived2);
     function SomeDerived2() {
@@ -74,7 +70,6 @@ var SomeDerived1 = function(SomeBase) {
         }
     ]), SomeDerived2;
 }(SomeBase), SomeDerived3 = function(SomeBase) {
-    "use strict";
     swcHelpers.inherits(SomeDerived3, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived3);
     function SomeDerived3() {

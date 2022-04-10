@@ -1,10 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
-    "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     swcHelpers.classCallCheck(this, Foo);
 }, _iterator = Symbol.iterator, SymbolIterator = function() {
-    "use strict";
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
@@ -18,7 +16,6 @@ var Foo = function() {
         return this;
     }, SymbolIterator;
 }(), _iterator1 = Symbol.iterator, _StringIterator = function() {
-    "use strict";
     function _StringIterator() {
         swcHelpers.classCallCheck(this, _StringIterator);
     }

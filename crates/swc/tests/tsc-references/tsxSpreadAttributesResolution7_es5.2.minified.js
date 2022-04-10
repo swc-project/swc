@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var React = require("react"), TextComponent = function(_Component) {
-    "use strict";
     swcHelpers.inherits(TextComponent, _Component);
     var _super = swcHelpers.createSuper(TextComponent);
     function TextComponent() {

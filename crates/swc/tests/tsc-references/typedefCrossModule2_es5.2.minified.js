@@ -1,10 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 };
 exports.Bar = function _class() {
-    "use strict";
     swcHelpers.classCallCheck(this, _class);
 }, module.exports = {
     Baz: function _class() {

@@ -8,12 +8,10 @@ function _defineProperties(target, props) {
     }
 }
 var ClassA = function ClassA1() {
-    "use strict";
     _classCallCheck(this, ClassA1);
 };
 module.exports = function() {
     var obj, key, value, ClassB1 = function() {
-        "use strict";
         var Constructor, protoProps, staticProps;
         function ClassB() {
             _classCallCheck(this, ClassB);

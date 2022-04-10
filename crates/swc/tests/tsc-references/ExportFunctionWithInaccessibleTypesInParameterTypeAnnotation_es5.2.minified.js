@@ -2,7 +2,6 @@ var A;
 import * as swcHelpers from "@swc/helpers";
 !function(A1) {
     var Point = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Point);
     }, Line = function(start, end) {
         "use strict";

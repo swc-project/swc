@@ -2,7 +2,6 @@ import * as swcHelpers from "@swc/helpers";
 var variable = {};
 variable.a = 0;
 var C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C), this.initializedMember = {}, this.member = {}, this.member.a = 0;
 }, obj = {
     property: {}

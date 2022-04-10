@@ -3,7 +3,6 @@ function bar(a) {
     return a + a;
 }
 var SomeClass = function() {
-    "use strict";
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }

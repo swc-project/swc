@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
@@ -14,7 +13,6 @@ export var A = function() {
     ]), A;
 }();
 export var B = function() {
-    "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
@@ -26,7 +24,6 @@ export var B = function() {
     ]), B;
 }();
 export var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
@@ -41,7 +38,6 @@ export var C = function() {
     ]), C;
 }();
 export var D = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, D);
 };
 Object.defineProperty(D.prototype, "x", {
@@ -50,14 +46,12 @@ Object.defineProperty(D.prototype, "x", {
     }
 });
 export var E = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
     set: function(_arg) {}
 });
 export var F = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, F);
 };
 Object.defineProperty(F.prototype, "x", {

@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 }, B = function(A1) {
-    "use strict";
     swcHelpers.inherits(B, A1);
     var _super = swcHelpers.createSuper(B);
     function B() {
@@ -11,7 +9,6 @@ var A = function() {
     }
     return B;
 }(A), C = function(A2) {
-    "use strict";
     swcHelpers.inherits(C, A2);
     var _super = swcHelpers.createSuper(C);
     function C() {
@@ -19,10 +16,8 @@ var A = function() {
     }
     return C;
 }(A), AA = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, AA);
 }, BB = function(AA1) {
-    "use strict";
     swcHelpers.inherits(BB, AA1);
     var _super = swcHelpers.createSuper(BB);
     function BB() {
@@ -30,7 +25,6 @@ var A = function() {
     }
     return BB;
 }(AA), CC = function(AA2) {
-    "use strict";
     swcHelpers.inherits(CC, AA2);
     var _super = swcHelpers.createSuper(CC);
     function CC() {
@@ -38,7 +32,6 @@ var A = function() {
     }
     return CC;
 }(AA), DD = function(BB) {
-    "use strict";
     swcHelpers.inherits(DD, BB);
     var _super = swcHelpers.createSuper(DD);
     function DD() {
@@ -46,7 +39,6 @@ var A = function() {
     }
     return DD;
 }(BB), EE = function(BB) {
-    "use strict";
     swcHelpers.inherits(EE, BB);
     var _super = swcHelpers.createSuper(EE);
     function EE() {
@@ -54,7 +46,6 @@ var A = function() {
     }
     return EE;
 }(BB), FF = function(CC) {
-    "use strict";
     swcHelpers.inherits(FF, CC);
     var _super = swcHelpers.createSuper(FF);
     function FF() {
@@ -62,7 +53,6 @@ var A = function() {
     }
     return FF;
 }(CC), GG = function(CC) {
-    "use strict";
     swcHelpers.inherits(GG, CC);
     var _super = swcHelpers.createSuper(GG);
     function GG() {

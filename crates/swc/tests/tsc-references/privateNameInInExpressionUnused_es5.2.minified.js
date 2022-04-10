@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _brand_check_brand = new WeakSet(), _unused = new WeakMap(), _brand = new WeakMap(), Foo = function() {
-    "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo), swcHelpers.classPrivateFieldInit(this, _unused, {
             writable: !0,

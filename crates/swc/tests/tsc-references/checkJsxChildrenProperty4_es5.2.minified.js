@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var FetchUser = function(_Component) {
-    "use strict";
     swcHelpers.inherits(FetchUser, _Component);
     var _super = swcHelpers.createSuper(FetchUser);
     function FetchUser() {

@@ -4,7 +4,6 @@ export function b() {}
 b.cat = "cat";
 export function c() {}
 c.Cls = function _class() {
-    "use strict";
     swcHelpers.classCallCheck(this, _class);
 };
 export function d() {

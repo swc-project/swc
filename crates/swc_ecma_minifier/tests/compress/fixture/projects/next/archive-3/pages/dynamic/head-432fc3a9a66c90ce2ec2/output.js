@@ -4,7 +4,6 @@
     ],
     {
         6086: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-            "use strict";
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
                     var info = gen[key](arg), value = info.value;
@@ -232,7 +231,7 @@
                         }
                         return subscription.promise();
                     }
-                    if (!initialized && "function" == typeof opts.webpack) {
+                    if ("function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
                             var _step, _iterator = function(o1, allowArrayLike) {

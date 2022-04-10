@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var SomeClass = function() {
-    "use strict";
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }
@@ -8,7 +7,6 @@ var SomeClass = function() {
         this.state.data, "stringVariant" === this.state.type && this.state.data;
     }, SomeClass;
 }(), SomeClass2 = function() {
-    "use strict";
     function SomeClass2() {
         swcHelpers.classCallCheck(this, SomeClass2);
     }

@@ -1,11 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var Generics, A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 };
 !function(Generics) {
     var A1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A1);
     }, B = function(A2) {
         "use strict";

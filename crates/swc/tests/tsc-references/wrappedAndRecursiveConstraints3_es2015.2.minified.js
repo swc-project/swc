@@ -10,7 +10,5 @@ new class {
     length: 2
 }).foo({
     length: 3,
-    charAt (x) {
-        '';
-    }
+    charAt (x) {}
 })('');

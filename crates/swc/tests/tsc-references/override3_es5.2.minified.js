@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var DB = function(B) {
-    "use strict";
     swcHelpers.inherits(DB, B);
     var _super = swcHelpers.createSuper(DB);
     function DB() {
@@ -9,7 +8,6 @@ var DB = function(B) {
     var _proto = DB.prototype;
     return _proto.foo = function() {}, _proto.bar = function() {}, DB;
 }(B), DD = function(D) {
-    "use strict";
     swcHelpers.inherits(DD, D);
     var _super = swcHelpers.createSuper(DD);
     function DD() {
@@ -18,7 +16,6 @@ var DB = function(B) {
     var _proto = DD.prototype;
     return _proto.foo = function() {}, _proto.bar = function() {}, DD;
 }(D), EB = function(D) {
-    "use strict";
     swcHelpers.inherits(EB, D);
     var _super = swcHelpers.createSuper(EB);
     function EB() {

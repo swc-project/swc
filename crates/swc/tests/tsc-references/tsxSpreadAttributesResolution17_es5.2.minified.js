@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var Empty = function(_Component) {
-    "use strict";
     swcHelpers.inherits(Empty, _Component);
     var _super = swcHelpers.createSuper(Empty);
     function Empty() {

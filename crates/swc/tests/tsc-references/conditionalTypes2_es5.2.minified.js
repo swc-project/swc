@@ -1,12 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var Opt = function() {
-    "use strict";
     function Opt() {
         swcHelpers.classCallCheck(this, Opt);
     }
     return Opt.prototype.toVector = function() {}, Opt;
 }(), Vector = function() {
-    "use strict";
     function Vector() {
         swcHelpers.classCallCheck(this, Vector);
     }

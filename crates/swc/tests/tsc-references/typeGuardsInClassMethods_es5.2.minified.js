@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var num, var1, C1 = function() {
-    "use strict";
     function C1(param) {
         var var2;
         swcHelpers.classCallCheck(this, C1), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;

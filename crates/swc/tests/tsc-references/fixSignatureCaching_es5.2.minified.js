@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 !function(define, undefined) {
     define(function() {
-        "use strict";
         var equalIC = function(a, b) {
             return null != a && null != b && a.toLowerCase() === b.toLowerCase();
         }, containsIC = function(array, value) {

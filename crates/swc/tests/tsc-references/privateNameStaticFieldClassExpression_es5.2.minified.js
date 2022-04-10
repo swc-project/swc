@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _class, _Foo, B = function() {
-    "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
@@ -10,13 +9,11 @@ var _class, _Foo, B = function() {
 }(), _foo = {
     writable: !0,
     value: ((_class = function _class1() {
-        "use strict";
         swcHelpers.classCallCheck(this, _class1), this.field = 10, console.log("hello"), new (swcHelpers.classStaticPrivateFieldSpecGet(B, B, _foo2))();
     }).test = 123, _class)
 }, _foo2 = {
     writable: !0,
     value: ((_Foo = function Foo() {
-        "use strict";
         swcHelpers.classCallCheck(this, Foo);
     }).otherClass = 123, _Foo)
 };

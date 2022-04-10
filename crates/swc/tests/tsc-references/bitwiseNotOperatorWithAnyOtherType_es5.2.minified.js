@@ -3,7 +3,6 @@ var M, ANY2 = [
     "",
     ""
 ], A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }

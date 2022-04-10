@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var K = require("./mod1").K, K = function() {
-    "use strict";
     function K() {
         swcHelpers.classCallCheck(this, K);
     }

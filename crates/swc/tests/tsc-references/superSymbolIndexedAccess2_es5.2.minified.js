@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _isConcatSpreadable = Symbol.isConcatSpreadable, Foo = function() {
-    "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
@@ -8,7 +7,6 @@ var _isConcatSpreadable = Symbol.isConcatSpreadable, Foo = function() {
         return 0;
     }, Foo;
 }(), _isConcatSpreadable1 = Symbol.isConcatSpreadable, Bar = function(Foo) {
-    "use strict";
     swcHelpers.inherits(Bar, Foo);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {

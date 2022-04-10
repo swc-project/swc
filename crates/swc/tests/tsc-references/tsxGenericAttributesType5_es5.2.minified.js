@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var React = require("react"), B1 = function(_Component) {
-    "use strict";
     swcHelpers.inherits(B1, _Component);
     var _super = swcHelpers.createSuper(B1);
     function B1() {
@@ -10,7 +9,6 @@ var React = require("react"), B1 = function(_Component) {
         return React.createElement("div", null, "hi");
     }, B1;
 }(React.Component), B = function(_Component) {
-    "use strict";
     swcHelpers.inherits(B, _Component);
     var _super = swcHelpers.createSuper(B);
     function B() {

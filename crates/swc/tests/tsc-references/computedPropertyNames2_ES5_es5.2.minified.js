@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var methodName = "method", accessorName = "accessor", _methodName = methodName, _methodName1 = methodName, _accessorName = accessorName, _accessorName1 = accessorName, _accessorName2 = accessorName, _accessorName3 = accessorName, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 var _sym = "my-fake-sym";
 export var MyClass = function() {
-    "use strict";
     function MyClass() {
         swcHelpers.classCallCheck(this, MyClass), this[_sym] = "ok";
     }

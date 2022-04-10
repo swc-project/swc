@@ -42,7 +42,6 @@ import * as swcHelpers from "@swc/helpers";
                     context.skipNextFuncDeclForClass ? context.skipNextFuncDeclForClass = !1 : (context.scopeGetter = function() {
                         return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
                     }, context.scopeStartAST = ast);
-                    break;
             }
             walker.options.goChildren = !0;
         } else walker.options.goChildren = !1;
@@ -56,12 +55,10 @@ import * as swcHelpers from "@swc/helpers";
     };
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function(flow, pos, matchFlag) {
-        "use strict";
         swcHelpers.classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
     TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = function() {
-        "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
             swcHelpers.classCallCheck(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }

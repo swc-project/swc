@@ -8,7 +8,6 @@ var _marked = regeneratorRuntime.mark(function() {
                 return _ctx1.next = 3, 0;
             case 3:
                 tmp = _ctx1.sent, x = function() {
-                    "use strict";
                     function C() {
                         swcHelpers.classCallCheck(this, C);
                     }

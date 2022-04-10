@@ -2,7 +2,6 @@ var B, Geometry;
 import * as swcHelpers from "@swc/helpers";
 !function(B1) {
     var Line = function(start, end) {
-        "use strict";
         swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;

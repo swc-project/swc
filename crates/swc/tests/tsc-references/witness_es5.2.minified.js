@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, InitClass = function() {
-    "use strict";
     function InitClass() {
         swcHelpers.classCallCheck(this, InitClass), this.x = this.x;
     }
@@ -24,7 +23,6 @@ function fnArg1(x, y) {
 }
 fnCall();
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
@@ -46,12 +44,10 @@ var propAcc1 = {
 };
 (M2 || (M2 = {})).x = M2.x;
 var C2 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C2), this.n = this.n;
 };
 new C2().n;
 var C3 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C3);
 };
 C3.q = C3.q, C3.q;

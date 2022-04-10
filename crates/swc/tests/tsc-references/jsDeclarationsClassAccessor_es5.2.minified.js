@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 export var Base = function() {
-    "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
@@ -14,7 +13,6 @@ export var Base = function() {
     }, Base;
 }();
 export var Argument = function(Base) {
-    "use strict";
     swcHelpers.inherits(Argument, Base);
     var _super = swcHelpers.createSuper(Argument);
     function Argument() {

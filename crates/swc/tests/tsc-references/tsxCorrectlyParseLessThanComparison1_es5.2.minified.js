@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var ShortDetails = function(_Component) {
-    "use strict";
     swcHelpers.inherits(ShortDetails, _Component);
     var _super = swcHelpers.createSuper(ShortDetails);
     function ShortDetails() {

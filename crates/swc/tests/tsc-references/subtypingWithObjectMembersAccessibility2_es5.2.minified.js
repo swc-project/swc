@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var ExplicitPublic, ImplicitPublic, Base = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Base);
 }, Derived = function(Base1) {
-    "use strict";
     swcHelpers.inherits(Derived, Base1);
     var _super = swcHelpers.createSuper(Derived);
     function Derived() {
@@ -13,7 +11,6 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
 }(Base);
 !function(ExplicitPublic) {
     var A1 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A1);
     }, B = function(A) {
         "use strict";
@@ -48,7 +45,6 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
     }(A31);
 }(ExplicitPublic || (ExplicitPublic = {})), function(ImplicitPublic) {
     var A4 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, A4);
     }, B = function(A) {
         "use strict";

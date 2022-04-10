@@ -3,7 +3,6 @@ import { Foo as A } from "./a";
 import { Foo as B } from "./b";
 var _x = new WeakMap();
 export var Foo = function() {
-    "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo), swcHelpers.classPrivateFieldInit(this, _x, {
             writable: !0,
@@ -16,7 +15,6 @@ export var Foo = function() {
 }();
 var _x1 = new WeakMap();
 export var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo), swcHelpers.classPrivateFieldInit(this, _x1, {
         writable: !0,
         value: void 0

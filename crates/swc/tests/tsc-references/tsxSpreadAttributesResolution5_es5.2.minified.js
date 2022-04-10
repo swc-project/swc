@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var React = require("react"), Poisoned = function(_Component) {
-    "use strict";
     swcHelpers.inherits(Poisoned, _Component);
     var _super = swcHelpers.createSuper(Poisoned);
     function Poisoned() {
@@ -15,7 +14,6 @@ swcHelpers.extends({}, {
     y: 2
 });
 var EmptyProp = function(_Component) {
-    "use strict";
     swcHelpers.inherits(EmptyProp, _Component);
     var _super = swcHelpers.createSuper(EmptyProp);
     function EmptyProp() {

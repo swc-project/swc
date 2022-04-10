@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 export var Task = function(Promise) {
-    "use strict";
     swcHelpers.inherits(Task, Promise);
     var _super = swcHelpers.createSuper(Task);
     function Task() {
@@ -10,7 +9,6 @@ export var Task = function(Promise) {
     return Task;
 }(swcHelpers.wrapNativeSuper(Promise));
 var Test = function() {
-    "use strict";
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }

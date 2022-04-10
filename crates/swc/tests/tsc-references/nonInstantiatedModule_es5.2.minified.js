@@ -10,7 +10,6 @@ M.a, m.a, function(M21) {
     };
 }(M2 || (M2 = {})), function(M31) {
     var Utils = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Utils);
     };
     M31.Utils = Utils;

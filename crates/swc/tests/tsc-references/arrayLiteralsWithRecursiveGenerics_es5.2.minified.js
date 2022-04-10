@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var List = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, List);
 }, DerivedList = function(List1) {
-    "use strict";
     swcHelpers.inherits(DerivedList, List1);
     var _super = swcHelpers.createSuper(DerivedList);
     function DerivedList() {
@@ -11,6 +9,5 @@ var List = function() {
     }
     return DerivedList;
 }(List), MyList = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, MyList);
 };

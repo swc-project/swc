@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var B = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, B);
 }, _x = new WeakMap(), A = function(B1) {
-    "use strict";
     swcHelpers.inherits(A, B1);
     var _super = swcHelpers.createSuper(A);
     function A() {

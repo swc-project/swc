@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var explicitCFunction, explicitPropertyFunction, _this = this, B = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, B);
 }, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
@@ -18,7 +16,6 @@ var explicitCFunction, explicitPropertyFunction, _this = this, B = function() {
         return m + 1;
     }, C;
 }(), D = function(C) {
-    "use strict";
     swcHelpers.inherits(D, C);
     var _super = swcHelpers.createSuper(D);
     function D() {
@@ -111,7 +108,6 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
     return n;
 };
 var Base1 = function() {
-    "use strict";
     function Base1() {
         swcHelpers.classCallCheck(this, Base1);
     }
@@ -124,7 +120,6 @@ var Base1 = function() {
         return this.y;
     }, Base1;
 }(), Derived1 = function(Base1) {
-    "use strict";
     swcHelpers.inherits(Derived1, Base1);
     var _super = swcHelpers.createSuper(Derived1);
     function Derived1() {
@@ -132,7 +127,6 @@ var Base1 = function() {
     }
     return Derived1;
 }(Base1), Base2 = function() {
-    "use strict";
     function Base2() {
         swcHelpers.classCallCheck(this, Base2);
     }
@@ -143,7 +137,6 @@ var Base1 = function() {
         return this.x;
     }, Base2;
 }(), Derived2 = function(Base2) {
-    "use strict";
     swcHelpers.inherits(Derived2, Base2);
     var _super = swcHelpers.createSuper(Derived2);
     function Derived2() {

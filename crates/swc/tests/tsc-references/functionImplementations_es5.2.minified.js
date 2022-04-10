@@ -13,10 +13,8 @@ function rec4() {
 }
 rec1(), rec2(), rec3(), rec4();
 var Base = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Base);
 }, Derived = function(Base1) {
-    "use strict";
     swcHelpers.inherits(Derived, Base1);
     var _super = swcHelpers.createSuper(Derived);
     function Derived() {
@@ -26,7 +24,6 @@ var Base = function() {
 }(Base);
 new Base(), new Base();
 var Derived2 = function(Base2) {
-    "use strict";
     swcHelpers.inherits(Derived2, Base2);
     var _super = swcHelpers.createSuper(Derived2);
     function Derived2() {
@@ -34,6 +31,5 @@ var Derived2 = function(Base2) {
     }
     return Derived2;
 }(Base), AnotherClass = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, AnotherClass);
 };

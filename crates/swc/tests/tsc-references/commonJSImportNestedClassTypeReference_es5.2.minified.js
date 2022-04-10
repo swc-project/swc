@@ -2,7 +2,6 @@ import * as swcHelpers from "@swc/helpers";
 require("./mod1").K;
 var NS = {};
 NS.K = function() {
-    "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }

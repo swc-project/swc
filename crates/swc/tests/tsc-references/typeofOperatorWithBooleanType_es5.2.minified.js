@@ -3,7 +3,6 @@ function foo() {
     return !0;
 }
 var BOOLEAN, M, A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }

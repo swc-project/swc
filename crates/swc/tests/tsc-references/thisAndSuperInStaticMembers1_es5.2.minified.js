@@ -8,7 +8,6 @@ function _templateObject() {
     }, data;
 }
 var _ref, _super_a, ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B) {
-    "use strict";
     swcHelpers.inherits(C, B);
     var _super = swcHelpers.createSuper(C);
     function C() {

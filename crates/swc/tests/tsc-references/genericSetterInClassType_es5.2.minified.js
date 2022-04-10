@@ -2,7 +2,6 @@ var Generic;
 import * as swcHelpers from "@swc/helpers";
 !function(Generic) {
     var C = function() {
-        "use strict";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
@@ -18,7 +17,6 @@ import * as swcHelpers from "@swc/helpers";
     }(), c = new C();
     c.y = c.y;
     var _value = new WeakMap(), Box = function() {
-        "use strict";
         function Box() {
             swcHelpers.classCallCheck(this, Box), swcHelpers.classPrivateFieldInit(this, _value, {
                 writable: !0,

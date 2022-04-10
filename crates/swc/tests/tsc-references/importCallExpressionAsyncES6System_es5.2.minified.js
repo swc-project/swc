@@ -20,7 +20,6 @@ function _fn() {
     }))).apply(this, arguments);
 }
 export var cl1 = function() {
-    "use strict";
     function cl1() {
         swcHelpers.classCallCheck(this, cl1);
     }
@@ -58,7 +57,6 @@ export var obj = {
     }))
 };
 export var cl2 = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, cl2), this.p = {
         m: swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             var req;

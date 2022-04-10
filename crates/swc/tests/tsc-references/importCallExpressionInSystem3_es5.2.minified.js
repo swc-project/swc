@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 export var B = function() {
-    "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
@@ -16,7 +15,6 @@ function _foo() {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
                     return _ctx.t0 = function(_B) {
-                        "use strict";
                         swcHelpers.inherits(C, _B);
                         var _super = swcHelpers.createSuper(C);
                         function C() {

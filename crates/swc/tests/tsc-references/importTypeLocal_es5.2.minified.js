@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 module.exports = Point;
 var Bar = function(input) {
-    "use strict";
     swcHelpers.classCallCheck(this, Bar);
 };
 export var x = {
@@ -13,7 +12,6 @@ export var y = {
     b: 0
 };
 export var Bar2 = function(input) {
-    "use strict";
     swcHelpers.classCallCheck(this, Bar2);
 };
 export var shim = {

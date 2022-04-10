@@ -39,7 +39,6 @@ function _setPrototypeOf(o2, p1) {
     })(o2, p1);
 }
 var ItemsList = function(Component1) {
-    "use strict";
     var Constructor1, protoProps, staticProps;
     function ItemsList1() {
         var _this, self1, call, obj;

@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var FancyError = function(Error) {
-    "use strict";
     swcHelpers.inherits(FancyError, Error);
     var _super = swcHelpers.createSuper(FancyError);
     function FancyError(status) {

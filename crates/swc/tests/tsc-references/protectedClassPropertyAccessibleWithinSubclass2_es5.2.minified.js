@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var b, d1, d2, d3, d4, Base = function() {
-    "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
@@ -9,7 +8,6 @@ var b, d1, d2, d3, d4, Base = function() {
         (void 0).x, d11.x, d21.x, d31.x, d41.x;
     }, Base;
 }(), Derived1 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived1, Base);
     var _super = swcHelpers.createSuper(Derived1);
     function Derived1() {
@@ -20,7 +18,6 @@ var b, d1, d2, d3, d4, Base = function() {
         (void 0).x, d12.x, d22.x, d32.x, d42.x;
     }, Derived1;
 }(Base), Derived2 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived2, Base);
     var _super = swcHelpers.createSuper(Derived2);
     function Derived2() {
@@ -31,7 +28,6 @@ var b, d1, d2, d3, d4, Base = function() {
         (void 0).x, d13.x, d23.x, d33.x, d43.x;
     }, Derived2;
 }(Base), Derived3 = function(Derived1) {
-    "use strict";
     swcHelpers.inherits(Derived3, Derived1);
     var _super = swcHelpers.createSuper(Derived3);
     function Derived3() {
@@ -42,7 +38,6 @@ var b, d1, d2, d3, d4, Base = function() {
         (void 0).x, d14.x, d24.x, d34.x, d44.x;
     }, Derived3;
 }(Derived1), Derived4 = function(Derived2) {
-    "use strict";
     swcHelpers.inherits(Derived4, Derived2);
     var _super = swcHelpers.createSuper(Derived4);
     function Derived4() {

@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var Encoder = function() {
-    "use strict";
     function Encoder() {
         swcHelpers.classCallCheck(this, Encoder);
     }

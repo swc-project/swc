@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var M, M2, Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 }, Bar = function(Foo1) {
-    "use strict";
     swcHelpers.inherits(Bar, Foo1);
     var _super = swcHelpers.createSuper(Bar);
     function Bar() {
@@ -11,7 +9,6 @@ var M, M2, Foo = function() {
     }
     return Bar;
 }(Foo), Bar2 = function(Foo2) {
-    "use strict";
     swcHelpers.inherits(Bar2, Foo2);
     var _super = swcHelpers.createSuper(Bar2);
     function Bar2() {
@@ -19,7 +16,6 @@ var M, M2, Foo = function() {
     }
     return Bar2;
 }(Foo), Bar3 = function(Foo3) {
-    "use strict";
     swcHelpers.inherits(Bar3, Foo3);
     var _super = swcHelpers.createSuper(Bar3);
     function Bar3() {
@@ -29,7 +25,6 @@ var M, M2, Foo = function() {
 }(Foo);
 !function(M) {
     var Foo4 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Foo4);
     }, Baz = function(Foo5) {
         "use strict";
@@ -66,7 +61,6 @@ var M, M2, Foo = function() {
     }(Foo4);
 }(M || (M = {})), function(M2) {
     var b, Foo9 = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, Foo9);
     }, Baz = function(Foo10) {
         "use strict";
@@ -87,7 +81,6 @@ var M, M2, Foo = function() {
     }(Foo9);
     b.z, b.x, b.y;
     var Bar2 = function(Foo12) {
-        "use strict";
         swcHelpers.inherits(Bar2, Foo12);
         var _super = swcHelpers.createSuper(Bar2);
         function Bar2() {

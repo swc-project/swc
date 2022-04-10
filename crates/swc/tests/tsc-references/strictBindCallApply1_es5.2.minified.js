@@ -13,7 +13,6 @@ foo.bind(void 0), foo.bind(void 0, 10), foo.bind(void 0, 10, "hello"), foo.bind(
     30
 ]);
 var C = function() {
-    "use strict";
     function C(a, b) {
         swcHelpers.classCallCheck(this, C);
     }

@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var BaseClass = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, BaseClass);
 }, Broken = function(BaseClass1) {
-    "use strict";
     swcHelpers.inherits(Broken, BaseClass1);
     var _super = swcHelpers.createSuper(Broken);
     function Broken() {
@@ -13,7 +11,6 @@ var BaseClass = function() {
 }(BaseClass);
 new Broken().bar;
 var IncorrectlyExtends = function(BaseClass2) {
-    "use strict";
     swcHelpers.inherits(IncorrectlyExtends, BaseClass2);
     var _super = swcHelpers.createSuper(IncorrectlyExtends);
     function IncorrectlyExtends() {

@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Test = function() {
-    "use strict";
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }
@@ -44,7 +43,6 @@ registerComponent("test-component", {
     }
 });
 var MyThrowable = function() {
-    "use strict";
     function MyThrowable() {
         swcHelpers.classCallCheck(this, MyThrowable);
     }
@@ -52,7 +50,6 @@ var MyThrowable = function() {
         throw new Error();
     }, MyThrowable;
 }(), SuperThrowable = function(MyThrowable) {
-    "use strict";
     swcHelpers.inherits(SuperThrowable, MyThrowable);
     var _super = swcHelpers.createSuper(SuperThrowable);
     function SuperThrowable() {

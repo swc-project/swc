@@ -1,10 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var a, b, a, b, b, c, d, K, _default = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, _default);
 };
 export var A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 };
 export var C;
@@ -16,7 +14,6 @@ console.log(a, b);
 var c = 1, d = 1;
 console.log(c, d), console.log(c, d);
 var H = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, H);
 };
 module.exports = H;

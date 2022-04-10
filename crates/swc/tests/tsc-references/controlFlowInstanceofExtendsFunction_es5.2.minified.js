@@ -3,7 +3,6 @@ Function.prototype.now = function() {
     return "now";
 };
 var X = function() {
-    "use strict";
     function X() {
         swcHelpers.classCallCheck(this, X);
     }
@@ -11,7 +10,6 @@ var X = function() {
         return {};
     }, X;
 }(), Y = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Y);
 };
 console.log(X.now()), console.log(Y.now());

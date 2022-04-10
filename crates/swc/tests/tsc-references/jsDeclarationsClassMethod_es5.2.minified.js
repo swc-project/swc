@@ -10,7 +10,6 @@ C1.prototype.method = function(x, y) {
     return x + y;
 };
 var C2 = function() {
-    "use strict";
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }

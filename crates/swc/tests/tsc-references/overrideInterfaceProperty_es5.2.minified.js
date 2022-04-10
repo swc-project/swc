@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Sizz = function(Mup) {
-    "use strict";
     swcHelpers.inherits(Sizz, Mup);
     var _super = swcHelpers.createSuper(Sizz);
     function Sizz() {
@@ -15,7 +14,6 @@ var Sizz = function(Mup) {
         }
     ]), Sizz;
 }(Mup), Kasizz = function(Mup) {
-    "use strict";
     swcHelpers.inherits(Kasizz, Mup);
     var _super = swcHelpers.createSuper(Kasizz);
     function Kasizz() {

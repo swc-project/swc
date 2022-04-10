@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var c = new (function(_superClass) {
-    "use strict";
     swcHelpers.inherits(_class, _superClass);
     var _super = swcHelpers.createSuper(_class);
     function _class() {

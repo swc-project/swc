@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 First.Item = function I() {
-    "use strict";
     swcHelpers.classCallCheck(this, I);
 }, Common.Object = function(_Item) {
     "use strict";

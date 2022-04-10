@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var A = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, A);
 }, B = function(A1) {
-    "use strict";
     swcHelpers.inherits(B, A1);
     var _super = swcHelpers.createSuper(B);
     function B() {
@@ -11,7 +9,6 @@ var A = function() {
     }
     return B;
 }(A), C = function(A2) {
-    "use strict";
     swcHelpers.inherits(C, A2);
     var _super = swcHelpers.createSuper(C);
     function C() {
@@ -19,7 +16,6 @@ var A = function() {
     }
     return C;
 }(A), D = function(A3) {
-    "use strict";
     swcHelpers.inherits(D, A3);
     var _super = swcHelpers.createSuper(D);
     function D() {
@@ -27,7 +23,6 @@ var A = function() {
     }
     return D;
 }(A), E = function(A4) {
-    "use strict";
     swcHelpers.inherits(E, A4);
     var _super = swcHelpers.createSuper(E);
     function E() {
@@ -37,7 +32,6 @@ var A = function() {
         return this.t;
     }, E;
 }(A), F = function(A5) {
-    "use strict";
     swcHelpers.inherits(F, A5);
     var _super = swcHelpers.createSuper(F);
     function F() {
@@ -45,7 +39,6 @@ var A = function() {
     }
     return F.prototype.bar = function(t) {}, F;
 }(A), G = function(A6) {
-    "use strict";
     swcHelpers.inherits(G, A6);
     var _super = swcHelpers.createSuper(G);
     function G() {

@@ -3,7 +3,6 @@ import * as swcHelpers from "@swc/helpers";
     E[E.A = 0] = "A";
 }(E || (E = {})), E.A;
 var x, E, M, C = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, C);
 };
 (M || (M = {})).foo = 1, M = x;

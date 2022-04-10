@@ -19,7 +19,6 @@ setState(foo, {
     c: !0
 });
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

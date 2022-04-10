@@ -4,7 +4,6 @@ for(var array = [], i = 0; i < 10; ++i){
         return 42;
     }, set_accessor = function(val) {};
     array.push((_myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap(), function C() {
-        "use strict";
         swcHelpers.classCallCheck(this, C), swcHelpers.classPrivateMethodInit(this, _method), swcHelpers.classPrivateFieldInit(this, _accessor, {
             get: get_accessor,
             set: set_accessor

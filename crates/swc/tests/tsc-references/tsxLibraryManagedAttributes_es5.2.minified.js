@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var Component = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(Component, ReactComponent);
     var _super = swcHelpers.createSuper(Component);
     function Component() {
@@ -16,7 +15,6 @@ Component.propTypes = {
     foo: 42
 };
 var JustPropTypes = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(JustPropTypes, ReactComponent);
     var _super = swcHelpers.createSuper(JustPropTypes);
     function JustPropTypes() {
@@ -29,7 +27,6 @@ JustPropTypes.propTypes = {
     bar: PropTypes.node.isRequired
 };
 var JustDefaultProps = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(JustDefaultProps, ReactComponent);
     var _super = swcHelpers.createSuper(JustDefaultProps);
     function JustDefaultProps() {
@@ -41,7 +38,6 @@ JustDefaultProps.defaultProps = {
     foo: 42
 };
 var BothWithSpecifiedGeneric = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(BothWithSpecifiedGeneric, ReactComponent);
     var _super = swcHelpers.createSuper(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
@@ -57,7 +53,6 @@ BothWithSpecifiedGeneric.propTypes = {
     foo: "yo"
 };
 var JustPropTypesWithSpecifiedGeneric = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
     var _super = swcHelpers.createSuper(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
@@ -70,7 +65,6 @@ JustPropTypesWithSpecifiedGeneric.propTypes = {
     bar: PropTypes.node.isRequired
 };
 var JustDefaultPropsWithSpecifiedGeneric = function(ReactComponent) {
-    "use strict";
     swcHelpers.inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
     var _super = swcHelpers.createSuper(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {

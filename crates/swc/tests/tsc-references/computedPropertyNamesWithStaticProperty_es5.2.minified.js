@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp1 = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp2 = (swcHelpers.classNameTDZError("C"), C).staticProp, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

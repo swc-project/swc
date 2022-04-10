@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var C = function() {
-    "use strict";
     function C(t, z, x) {
         arguments.length > 3 && void 0 !== arguments[3] && arguments[3], swcHelpers.classCallCheck(this, C);
     }
@@ -17,10 +16,8 @@ var C = function() {
         for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)rest[_key - 1] = arguments[_key];
     }, C;
 }(), D = function() {
-    "use strict";
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0], swcHelpers.classCallCheck(this, D);
 }, E = function() {
-    "use strict";
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)rest[_key - 1] = arguments[_key];
     swcHelpers.classCallCheck(this, E);

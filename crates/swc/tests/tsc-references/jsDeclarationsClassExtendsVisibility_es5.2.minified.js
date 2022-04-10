@@ -1,11 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var Bar = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Bar);
 };
 module.exports = Bar;
 var Bar = require("./bar"), Foo = function(Bar1) {
-    "use strict";
     swcHelpers.inherits(Foo, Bar1);
     var _super = swcHelpers.createSuper(Foo);
     function Foo() {

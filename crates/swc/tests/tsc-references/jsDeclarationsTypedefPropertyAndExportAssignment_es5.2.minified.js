@@ -14,7 +14,6 @@ module.exports = {
     taskNameToGroup: taskNameToGroup
 };
 var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup, MainThreadTasks = function(x, y) {
-    "use strict";
     swcHelpers.classCallCheck(this, MainThreadTasks);
 };
 module.exports = MainThreadTasks;

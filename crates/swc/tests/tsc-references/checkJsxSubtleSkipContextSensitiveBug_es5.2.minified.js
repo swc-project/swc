@@ -2,7 +2,6 @@ import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 import * as React from "react";
 var AsyncLoader = function(_Component) {
-    "use strict";
     swcHelpers.inherits(AsyncLoader, _Component);
     var _super = swcHelpers.createSuper(AsyncLoader);
     function AsyncLoader() {

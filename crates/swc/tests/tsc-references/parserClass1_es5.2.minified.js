@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 export var NullLogger = function() {
-    "use strict";
     function NullLogger() {
         swcHelpers.classCallCheck(this, NullLogger);
     }

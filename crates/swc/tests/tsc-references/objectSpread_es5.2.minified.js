@@ -38,7 +38,6 @@ swcHelpers.objectSpread({}, op, {
     c: 7
 }).a = 12, swcHelpers.objectSpread({}, function() {}), swcHelpers.objectSpread({}, anything);
 var C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C), this.p = 1;
     }

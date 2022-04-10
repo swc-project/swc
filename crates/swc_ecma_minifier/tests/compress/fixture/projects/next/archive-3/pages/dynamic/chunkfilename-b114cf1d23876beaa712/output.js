@@ -4,7 +4,6 @@
     ],
     {
         8551: function(__unused_webpack_module, exports, __webpack_require__) {
-            "use strict";
             var _defineProperty = __webpack_require__(566);
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
@@ -200,7 +199,7 @@
                         }
                         return subscription.promise();
                     }
-                    if (!initialized && "function" == typeof opts.webpack) {
+                    if ("function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
                             var _step, _iterator = function(o1, allowArrayLike) {

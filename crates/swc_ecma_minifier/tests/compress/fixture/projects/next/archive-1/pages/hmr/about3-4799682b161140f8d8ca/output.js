@@ -4,7 +4,6 @@
     ],
     {
         7407: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-            "use strict";
             __webpack_require__.r(__webpack_exports__);
             var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512);
             __webpack_exports__.default = function() {

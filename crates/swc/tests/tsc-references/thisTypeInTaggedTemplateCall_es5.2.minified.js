@@ -16,7 +16,6 @@ function _templateObject1() {
     }, data;
 }
 var Foo = function() {
-    "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }

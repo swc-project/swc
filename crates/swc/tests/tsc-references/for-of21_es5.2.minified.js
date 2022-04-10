@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
-    "use strict";
     swcHelpers.classCallCheck(this, Foo);
 }, _iterator = Symbol.iterator, FooIterator = function() {
-    "use strict";
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }

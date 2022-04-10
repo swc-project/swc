@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var x, Base = function() {
-    "use strict";
     function Base(a) {
         swcHelpers.classCallCheck(this, Base);
     }
@@ -22,7 +21,6 @@ var x, Base = function() {
         }
     ]), Base;
 }(), Derived1 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived1, Base);
     var _super = swcHelpers.createSuper(Derived1);
     function Derived1(a) {
@@ -30,7 +28,6 @@ var x, Base = function() {
     }
     return Derived1;
 }(Base), Derived2 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived2, Base);
     var _super = swcHelpers.createSuper(Derived2);
     function Derived2(a) {
@@ -38,7 +35,6 @@ var x, Base = function() {
     }
     return Derived2.prototype.b = function(a) {}, Derived2;
 }(Base), Derived3 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived3, Base);
     var _super = swcHelpers.createSuper(Derived3);
     function Derived3(a) {
@@ -53,7 +49,6 @@ var x, Base = function() {
         }
     ]), Derived3;
 }(Base), Derived4 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived4, Base);
     var _super = swcHelpers.createSuper(Derived4);
     function Derived4(a) {
@@ -66,7 +61,6 @@ var x, Base = function() {
         }
     ]), Derived4;
 }(Base), Derived5 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived5, Base);
     var _super = swcHelpers.createSuper(Derived5);
     function Derived5(a) {
@@ -74,7 +68,6 @@ var x, Base = function() {
     }
     return Derived5;
 }(Base), Derived6 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived6, Base);
     var _super = swcHelpers.createSuper(Derived6);
     function Derived6(a) {
@@ -82,7 +75,6 @@ var x, Base = function() {
     }
     return Derived6;
 }(Base), Derived7 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived7, Base);
     var _super = swcHelpers.createSuper(Derived7);
     function Derived7(a) {
@@ -90,7 +82,6 @@ var x, Base = function() {
     }
     return Derived7.s = function(a) {}, Derived7;
 }(Base), Derived8 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived8, Base);
     var _super = swcHelpers.createSuper(Derived8);
     function Derived8(a) {
@@ -105,7 +96,6 @@ var x, Base = function() {
         }
     ]), Derived8;
 }(Base), Derived9 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived9, Base);
     var _super = swcHelpers.createSuper(Derived9);
     function Derived9(a) {
@@ -118,7 +108,6 @@ var x, Base = function() {
         }
     ]), Derived9;
 }(Base), Derived10 = function(Base) {
-    "use strict";
     swcHelpers.inherits(Derived10, Base);
     var _super = swcHelpers.createSuper(Derived10);
     function Derived10(a) {

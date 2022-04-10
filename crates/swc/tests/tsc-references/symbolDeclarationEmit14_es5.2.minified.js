@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
 var _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = function() {
-    "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }

@@ -15,8 +15,7 @@ C2(), new C2(), C3(), new C3();
 var C4 = function() {
     if (!swcHelpers._instanceof(this, C4)) return new C4();
 };
-C4(), new C4(), new function() {}(), new function _class() {
-    "use strict";
+C4(), new C4(), new function _class() {
     swcHelpers.classCallCheck(this, _class);
 }(), new function() {
     this.functions = [
@@ -30,4 +29,4 @@ C4(), new C4(), new function() {}(), new function _class() {
             return x - 1;
         }
     ];
-}(), new function(num) {}();
+}();

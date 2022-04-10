@@ -52,7 +52,6 @@ _ref.x, swcHelpers.objectWithoutProperties(_ref, [
     "x"
 ]), _tmp.x;
 var Removable = function() {
-    "use strict";
     function Removable() {
         swcHelpers.classCallCheck(this, Removable);
     }

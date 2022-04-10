@@ -3,7 +3,6 @@ function foo(param) {
     var _x = swcHelpers.slicedToArray(param.x, 2), _y = (_x[0], _x[1], param.y);
     _y.c, _y.d, _y.e;
 }
-function baz(x) {}
 foo({
     x: [
         "string",
@@ -24,25 +23,15 @@ foo({
         d: "world",
         e: 3
     }
-});
-var array = [
+}), [
     "string",
     1,
     !0
-];
-baz([
+].concat(swcHelpers.toConsumableArray([
     "string",
     1,
     !0
-]), baz([
-    "string",
-    1,
-    !0
-]), baz(array), baz([
-    "string",
-    1,
-    !0
-].concat(swcHelpers.toConsumableArray(array))), foo({
+])), foo({
     x: [
         "string",
         1

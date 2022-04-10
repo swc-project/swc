@@ -27,7 +27,6 @@ for(var x in function(x2, y) {
     return x2 + y;
 });
 var aString, anAny, c, d, e, i, M, Color, A = function() {
-    "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
@@ -43,7 +42,6 @@ var aString, anAny, c, d, e, i, M, Color, A = function() {
         return null;
     }, A;
 }(), B = function(A) {
-    "use strict";
     swcHelpers.inherits(B, A);
     var _super = swcHelpers.createSuper(B);
     function B() {
@@ -61,7 +59,6 @@ var aString, anAny, c, d, e, i, M, Color, A = function() {
 for(var x in i[42]);
 for(var x in !function(M1) {
     var X = function() {
-        "use strict";
         swcHelpers.classCallCheck(this, X);
     };
     M1.X = X;
