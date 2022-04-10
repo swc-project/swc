@@ -13,12 +13,14 @@ use swc_common::{collections::AHashMap, FileName};
 extern crate swc_ecma_loader;
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
 
-fn inside_directory(dir: &str, callback: fn()) {
-    lazy_static! {
-        static ref UPDATE_DIR_MUTEX: Arc<Mutex<()>> = Arc::new(Mutex::new(()));
-    }
+lazy_static! {
+    static ref UPDATE_DIR_MUTEX: Arc<Mutex<()>> = Arc::new(Mutex::new(()));
+}
 
-    let _change_dir_mutex = UPDATE_DIR_MUTEX.lock().unwrap();
+fn inside_directory(dir: &str, callback: fn()) {
+    let arc = Arc::clone(&UPDATE_DIR_MUTEX);
+    let _lock = arc.lock().expect("could not lock");
+
     let initial_current_dir = current_dir().unwrap();
     let new_current_dir = format!("{}{}", initial_current_dir.display(), dir);
 
