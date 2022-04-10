@@ -95,19 +95,19 @@ pub struct TerserCompressorOptions {
     pub comparisons: Option<bool>,
 
     #[serde(default)]
-    pub computed_props: bool,
+    pub computed_props: Option<bool>,
 
     #[serde(default)]
-    pub conditionals: bool,
+    pub conditionals: Option<bool>,
 
     #[serde(default)]
-    pub dead_code: bool,
+    pub dead_code: Option<bool>,
 
     #[serde(default = "true_by_default")]
     pub defaults: bool,
 
     #[serde(default)]
-    pub directives: bool,
+    pub directives: Option<bool>,
 
     #[serde(default)]
     pub drop_console: bool,
@@ -179,10 +179,10 @@ pub struct TerserCompressorOptions {
     pub pure_funcs: Vec<String>,
 
     #[serde(default)]
-    pub reduce_funcs: bool,
+    pub reduce_funcs: Option<bool>,
 
     #[serde(default)]
-    pub reduce_vars: bool,
+    pub reduce_vars: Option<bool>,
 
     #[serde(default)]
     pub sequences: Option<TerserSequenceOptions>,
@@ -191,7 +191,7 @@ pub struct TerserCompressorOptions {
     pub side_effects: Option<bool>,
 
     #[serde(default)]
-    pub switches: bool,
+    pub switches: Option<bool>,
 
     #[serde(default)]
     pub top_retain: Option<TerserTopRetainOption>,
