@@ -14,5 +14,6 @@ define([
     var prop = g1();
     return g2()[prop] = hb;
 }), def(function(hb) {
+    var win;
     return g2()[g1()] = hb;
 });

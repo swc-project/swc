@@ -10,6 +10,15 @@
 
 - **(es/minifier)** Fix inlining of uninitialized variables (#4292) ([b990b19](https://github.com/swc-project/swc/commit/b990b19ed130ce1dc57f76b883bf638ace64c4f4))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#4299) ([adea17d](https://github.com/swc-project/swc/commit/adea17dbe3b17e397d79a7dae1f469bf38f0185f))
+
+
+- **(es/minifier)** Update terser test references (#4297) ([df0d572](https://github.com/swc-project/swc/commit/df0d572b4ff250be037ca9a04b6bcd95329f9f3b))
+
 ## [1.2.165] - 2022-04-09
 
 ### Bug Fixes

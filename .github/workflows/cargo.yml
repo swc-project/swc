@@ -376,10 +376,10 @@ jobs:
           jest -v && mocha --version
           cargo test --color always -p ${{ matrix.settings.crate }}
 
-      - name: Run cargo test (swc_ecma_parser)
-        if: matrix.settings.crate == 'swc_ecma_parser'
+      - name: Run cargo test (all features)
+        if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader'
         run: |
-          cargo test --color always -p swc_ecma_parser --features verify
+          cargo test --color always -p ${{ matrix.settings.crate }} --all-features
 
       - name: Run cargo test (swc_ecma_transforms)
         if: matrix.settings.crate == 'swc_ecma_transforms'

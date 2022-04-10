@@ -3,3 +3,4 @@ var foo = {};
 // @lic
 /**! foo */
 /*! foo */
+/* @copyright …info… */
