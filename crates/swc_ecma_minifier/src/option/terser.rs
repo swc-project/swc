@@ -311,10 +311,10 @@ impl TerserCompressorOptions {
             bools_as_ints: self.booleans_as_integers,
             collapse_vars: self.collapse_vars.unwrap_or(self.defaults),
             comparisons: self.comparisons.unwrap_or(self.defaults),
-            computed_props: self.computed_props,
-            conditionals: self.conditionals,
-            dead_code: self.dead_code,
-            directives: self.directives,
+            computed_props: self.computed_props.unwrap_or(self.defaults),
+            conditionals: self.conditionals.unwrap_or(self.defaults),
+            dead_code: self.dead_code.unwrap_or(self.defaults),
+            directives: self.directives.unwrap_or(self.defaults),
             drop_console: self.drop_console,
             drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
             ecma: self.ecma.into(),
@@ -402,8 +402,8 @@ impl TerserCompressorOptions {
                     PureGetterOption::Str(v.split(',').map(From::from).collect())
                 }
             },
-            reduce_fns: self.reduce_funcs,
-            reduce_vars: self.reduce_vars,
+            reduce_fns: self.reduce_funcs.unwrap_or(self.defaults),
+            reduce_vars: self.reduce_vars.unwrap_or(self.defaults),
             sequences: self
                 .sequences
                 .map(|v| match v {
@@ -418,7 +418,7 @@ impl TerserCompressorOptions {
                 })
                 .unwrap_or(if self.defaults { 3 } else { 0 }),
             side_effects: self.side_effects.unwrap_or(self.defaults),
-            switches: self.switches,
+            switches: self.switches.unwrap_or(self.defaults),
             top_retain: self.top_retain.map(From::from).unwrap_or_default(),
             top_level: self.toplevel.map(From::from),
             typeofs: self.typeofs.unwrap_or(self.defaults),
