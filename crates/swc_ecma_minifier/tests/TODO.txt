@@ -633,7 +633,6 @@ pure_getters/set_mutable_2/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-pure_globals/globals_whose_access_is_pure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
@@ -738,6 +737,9 @@ template_string/evaluate_nested_templates/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
 template_string/special_chars_in_string/input.js
+template_string/tagged_template_function_inline_2/input.js
+template_string/tagged_template_function_inline_3/input.js
+template_string/tagged_template_function_inline_4/input.js
 template_string/tagged_template_function_inline_5/input.js
 template_string/template_concattenating_string/input.js
 template_string/template_string_with_predefined_constants/input.js
