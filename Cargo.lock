@@ -3223,6 +3223,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "dashmap",
+ "lazy_static",
  "lru",
  "normpath",
  "once_cell",
