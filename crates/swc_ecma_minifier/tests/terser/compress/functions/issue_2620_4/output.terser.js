@@ -1,7 +1,5 @@
 var c = "FAIL";
 !(function () {
-    switch (NaN) {
-        case void (c = "PASS"):
-    }
+    if (NaN === void (c = "PASS"));
 })();
 console.log(c);

@@ -1,6 +1,6 @@
 var unused_var;
 var test = "test";
-/** @const */ var CONST_FOO_ANN = false;
+var CONST_FOO_ANN = false;
 var unused_var_2;
 if (CONST_FOO_ANN) {
     console.log("unreachable");
