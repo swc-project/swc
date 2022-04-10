@@ -6,11 +6,7 @@ function f() {
         case !function x() {}:
             break;
         case b--:
-            switch (0) {
-                default:
-                case a--:
-            }
-            break;
+            a--;
         case a++:
     }
 }

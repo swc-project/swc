@@ -1,4 +1,3 @@
-/*#__NOINLINE__*/
 (() => {
     external();
 })();
