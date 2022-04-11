@@ -254,7 +254,6 @@ conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
 conditionals/equality_conditionals_true/input.js
-conditionals/hoist_decl/input.js
 conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
 conditionals/ifs_3_should_warn/input.js
@@ -598,7 +597,6 @@ harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
-harmony/issue_2794_3/input.js
 harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_2794_6/input.js
@@ -1028,6 +1026,7 @@ pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
 pure_getters/strict/input.js
+pure_globals/globals_whose_access_is_pure/input.js
 pure_globals/window_access_is_impure/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
