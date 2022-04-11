@@ -487,7 +487,7 @@ where
     ///
     /// I don't know why it depends on `sequences`.
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
-        if !self.ctx.enable_extract_vars {
+        if !self.ctx.enable_extract_vars && self.ctx.in_fn_like {
             return;
         }
 
