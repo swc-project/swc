@@ -505,9 +505,11 @@
         },
         hasClass: jqLiteHasClass,
         css: function(element, name, value) {
-            var val;
-            if (name = camelCase(name), !isDefined(value)) return msie <= 8 && '' === (val = element.currentStyle && element.currentStyle[name]) && (val = 'auto'), val = val || element.style[name], msie <= 8 && (val = '' === val ? undefined : val), val;
-            element.style[name] = value;
+            if (name = camelCase(name), isDefined(value)) element.style[name] = value;
+            else {
+                var val;
+                return msie <= 8 && '' === (val = element.currentStyle && element.currentStyle[name]) && (val = 'auto'), val = val || element.style[name], msie <= 8 && (val = '' === val ? undefined : val), val;
+            }
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
@@ -834,7 +836,7 @@
             function($window, $location, $rootScope) {
                 var document = $window.document;
                 function scroll() {
-                    var elm, list, result, hash = $location.hash();
+                    var list, result, elm, hash = $location.hash();
                     hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (list = document.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || 'a' !== lowercase(element.nodeName) || (result = element);
                     }), result)) ? elm.scrollIntoView() : 'top' === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
@@ -1603,12 +1605,15 @@
                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                     } else cache.put(url, promise);
                     return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        var status1;
-                        cache && (200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
-                            status,
-                            response,
-                            parseHeaders(headersString)
-                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                        if (cache) {
+                            var status1;
+                            200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
+                                status,
+                                response,
+                                parseHeaders(headersString)
+                            ]) : cache.remove(url);
+                        }
+                        resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
                     }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
                     function resolvePromise(response, status, headers) {
                         var status2;
@@ -1901,7 +1906,7 @@
             '$sniffer',
             '$rootElement',
             function($rootScope, $browser, $sniffer, $rootElement) {
-                var $location, LocationMode, appBase, url, baseHref = $browser.baseHref(), initialUrl = $browser.url();
+                var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
                 html5Mode ? (appBase = (url = initialUrl).substring(0, url.indexOf('/', url.indexOf('//') + 2)) + (baseHref || '/'), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, '#' + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on('click', function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); 'a' !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;
@@ -2273,12 +2278,11 @@
             return 0 !== this.tokens.length && this.throwError('is an unexpected token', this.tokens[0]), value.literal = !!value.literal, value.constant = !!value.constant, value;
         },
         primary: function() {
-            var primary, next, context;
             if (this.expect('(')) primary = this.filterChain(), this.consume(')');
             else if (this.expect('[')) primary = this.arrayDeclaration();
             else if (this.expect('{')) primary = this.object();
             else {
-                var token = this.expect();
+                var primary, next, context, token = this.expect();
                 (primary = token.fn) || this.throwError('not a primary expression', token), token.json && (primary.constant = !0, primary.literal = !0);
             }
             for(; next = this.expect('(', '[', '.');)'(' === next.text ? (primary = this.functionCall(primary, context), context = null) : '[' === next.text ? (context = primary, primary = this.objectIndex(primary)) : '.' === next.text ? (context = primary, primary = this.fieldAccess(primary)) : this.throwError('IMPOSSIBLE');
@@ -3256,7 +3260,7 @@
     var DECIMAL_SEP = '.';
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return '';
-        var i, isNegative = number < 0, numStr = (number = Math.abs(number)) + '', formatedText = '', parts = [], hasExponent = !1;
+        var isNegative = number < 0, numStr = (number = Math.abs(number)) + '', formatedText = '', parts = [], hasExponent = !1;
         if (-1 !== numStr.indexOf('e')) {
             var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
             match && '-' == match[2] && match[3] > fractionSize + 1 ? numStr = '0' : (formatedText = numStr, hasExponent = !0);
@@ -3267,7 +3271,7 @@
             isUndefined(fractionSize) && (fractionSize = Math.min(Math.max(pattern.minFrac, fractionLen), pattern.maxFrac));
             var pow = Math.pow(10, fractionSize), fraction = ('' + (number = Math.round(number * pow) / pow)).split(DECIMAL_SEP), whole = fraction[0];
             fraction = fraction[1] || '';
-            var pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
+            var i, pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
             if (whole.length >= lgroup + group) for(i = 0, pos = whole.length - lgroup; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             for(i = pos; i < whole.length; i++)(whole.length - i) % lgroup == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             for(; fraction.length < fractionSize;)fraction += '0';
@@ -3600,7 +3604,7 @@
         }), element.on('compositionend', function() {
             composing = !1;
         });
-        var timeout, listener = function() {
+        var listener = function() {
             if (!composing) {
                 var value = element.val();
                 toBoolean(attr.ngTrim || 'T') && (value = trim1(value)), ctrl.$viewValue !== value && scope.$apply(function() {
@@ -3610,7 +3614,7 @@
         };
         if ($sniffer.hasEvent('input')) element.on('input', listener);
         else {
-            var deferListener = function() {
+            var timeout, deferListener = function() {
                 timeout || (timeout = $browser.defer(function() {
                     listener(), timeout = null;
                 }));
@@ -4171,7 +4175,7 @@
                 ],
                 link: function(scope5, element8, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var emptyOption, scope3, selectElement2, ctrl1, lastView, scope4, selectElement1, ngModelCtrl, selectCtrl, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement('option')), optGroupTemplate = jqLite(document1.createElement('optgroup')), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ('' === children[i].value) {
+                        for(var scope3, selectElement2, ctrl1, lastView, scope4, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement('option')), optGroupTemplate = jqLite(document1.createElement('optgroup')), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ('' === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }

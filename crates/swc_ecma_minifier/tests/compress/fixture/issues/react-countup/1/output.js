@@ -394,9 +394,9 @@
                 };
                 var ref = function(width, layout, sizes) {
                     if (sizes && ('fill' === layout || 'responsive' === layout)) {
-                        for(var match, _Math, viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
+                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
-                            var smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
+                            var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
                                 widths: allSizes.filter(function(s) {
                                     return s >= configDeviceSizes[0] * smallestRatio;

@@ -1,8 +1,7 @@
 export const obj = {
     position: function() {
-        var offsetParent, offset;
         if (this[0]) {
-            var parentOffset = {
+            var offsetParent, offset, parentOffset = {
                 top: 0,
                 left: 0
             }, elem = this[0];

@@ -434,16 +434,14 @@
     }();
     var rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, rmultiDash = /([A-Z])/g;
     function internalData(elem, name, data, pvt) {
-        var thisCache, ret;
         if (jQuery.acceptData(elem)) {
-            var internalKey = jQuery.expando, getByName = "string" == typeof name, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
+            var thisCache, ret, internalKey = jQuery.expando, getByName = "string" == typeof name, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
             if (id && cache[id] && (pvt || cache[id].data) || !getByName || data !== undefined) return id || (isNode ? elem[internalKey] = id = core_deletedIds.pop() || jQuery.guid++ : id = internalKey), cache[id] || (cache[id] = {}, isNode || (cache[id].toJSON = jQuery.noop)), ("object" == typeof name || "function" == typeof name) && (pvt ? cache[id] = jQuery.extend(cache[id], name) : cache[id].data = jQuery.extend(cache[id].data, name)), thisCache = cache[id], pvt || (thisCache.data || (thisCache.data = {}), thisCache = thisCache.data), data !== undefined && (thisCache[jQuery.camelCase(name)] = data), getByName ? null == (ret = thisCache[name]) && (ret = thisCache[jQuery.camelCase(name)]) : ret = thisCache, ret;
         }
     }
     function internalRemoveData(elem, name, pvt) {
-        var i, l, thisCache;
         if (jQuery.acceptData(elem)) {
-            var isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;
+            var i, l, thisCache, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;
             if (cache[id]) {
                 if (name && (thisCache = pvt ? cache[id] : cache[id].data)) {
                     for(i = 0, l = (name = jQuery.isArray(name) ? name.concat(jQuery.map(name, jQuery.camelCase)) : (name in thisCache) ? [
@@ -633,8 +631,7 @@
             return jQuery.isFunction(value) ? this.each(function(i) {
                 jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
             }) : this.each(function() {
-                var className;
-                if ("string" === type) for(var i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)state = isBool ? state : !self.hasClass(className), self[state ? "addClass" : "removeClass"](className);
+                if ("string" === type) for(var className, i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)state = isBool ? state : !self.hasClass(className), self[state ? "addClass" : "removeClass"](className);
                 else (type === core_strundefined || "boolean" === type) && (this.className && jQuery._data(this, "__className__", this.className), this.className = this.className || !1 === value ? "" : jQuery._data(this, "__className__") || "");
             });
         },
@@ -1893,9 +1890,8 @@
         for(var elem, i = 0; null != (elem = elems[i]); i++)jQuery._data(elem, "globalEval", !refElements || jQuery._data(refElements[i], "globalEval"));
     }
     function cloneCopyEvent(src, dest) {
-        var type, i, l;
         if (1 === dest.nodeType && jQuery.hasData(src)) {
-            var oldData = jQuery._data(src), curData = jQuery._data(dest, oldData), events = oldData.events;
+            var type, i, l, oldData = jQuery._data(src), curData = jQuery._data(dest, oldData), events = oldData.events;
             if (events) for(type in delete curData.handle, curData.events = {}, events)for(i = 0, l = events[type].length; i < l; i++)jQuery.event.add(dest, type, events[type][i]);
             curData.data && (curData.data = jQuery.extend({}, curData.data));
         }
@@ -2197,12 +2193,10 @@
             "float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
         },
         style: function(elem, name, value, extra) {
-            var ret, type, hooks;
             if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {
-                var origName = jQuery.camelCase(name), style = elem.style;
+                var ret, type, hooks, origName = jQuery.camelCase(name), style = elem.style;
                 if (name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName)), hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName], value === undefined) return hooks && "get" in hooks && undefined !== (ret = hooks.get(elem, !1, extra)) ? ret : style[name];
-                if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name)), type = "number"), null == value || "number" === type && isNaN(value)) return;
-                if ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name.indexOf("background") || (style[name] = "inherit"), !hooks || !("set" in hooks) || undefined !== (value = hooks.set(elem, value, extra))) try {
+                if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name)), type = "number"), !(null == value || "number" === type && isNaN(value)) && ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name.indexOf("background") || (style[name] = "inherit"), !hooks || !("set" in hooks) || undefined !== (value = hooks.set(elem, value, extra)))) try {
                     style[name] = value;
                 } catch (e) {}
             }
@@ -2609,9 +2603,8 @@
     }), jQuery.ajaxPrefilter("script", function(s) {
         undefined === s.cache && (s.cache = !1), s.crossDomain && (s.type = "GET", s.global = !1);
     }), jQuery.ajaxTransport("script", function(s) {
-        var script;
         if (s.crossDomain) {
-            var head = document1.head || jQuery("head")[0] || document1.documentElement;
+            var script, head = document1.head || jQuery("head")[0] || document1.documentElement;
             return {
                 send: function(_, callback) {
                     (script = document1.createElement("script")).async = !0, s.scriptCharset && (script.charset = s.scriptCharset), script.src = s.url, script.onload = script.onreadystatechange = function(_, isAbort) {
@@ -2657,40 +2650,42 @@
             } catch (e) {}
         }();
     } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, xhrSupported = jQuery.support.ajax = !!xhrSupported, xhrSupported && jQuery.ajaxTransport(function(s) {
-        var callback;
-        if (!s.crossDomain || jQuery.support.cors) return {
-            send: function(headers, complete) {
-                var handle, i, xhr = s.xhr();
-                if (s.username ? xhr.open(s.type, s.url, s.async, s.username, s.password) : xhr.open(s.type, s.url, s.async), s.xhrFields) for(i in s.xhrFields)xhr[i] = s.xhrFields[i];
-                s.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(s.mimeType), s.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest");
-                try {
-                    for(i in headers)xhr.setRequestHeader(i, headers[i]);
-                } catch (err) {}
-                xhr.send(s.hasContent && s.data || null), callback = function(_, isAbort) {
-                    var status, responseHeaders, statusText, responses;
+        if (!s.crossDomain || jQuery.support.cors) {
+            var callback;
+            return {
+                send: function(headers, complete) {
+                    var handle, i, xhr = s.xhr();
+                    if (s.username ? xhr.open(s.type, s.url, s.async, s.username, s.password) : xhr.open(s.type, s.url, s.async), s.xhrFields) for(i in s.xhrFields)xhr[i] = s.xhrFields[i];
+                    s.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(s.mimeType), s.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest");
                     try {
-                        if (callback && (isAbort || 4 === xhr.readyState)) {
-                            if (callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) 4 !== xhr.readyState && xhr.abort();
-                            else {
-                                responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
-                                try {
-                                    statusText = xhr.statusText;
-                                } catch (e) {
-                                    statusText = "";
+                        for(i in headers)xhr.setRequestHeader(i, headers[i]);
+                    } catch (err) {}
+                    xhr.send(s.hasContent && s.data || null), callback = function(_, isAbort) {
+                        var status, responseHeaders, statusText, responses;
+                        try {
+                            if (callback && (isAbort || 4 === xhr.readyState)) {
+                                if (callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) 4 !== xhr.readyState && xhr.abort();
+                                else {
+                                    responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
+                                    try {
+                                        statusText = xhr.statusText;
+                                    } catch (e) {
+                                        statusText = "";
+                                    }
+                                    status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                                 }
-                                status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                             }
+                        } catch (firefoxAccessException) {
+                            isAbort || complete(-1, firefoxAccessException);
                         }
-                    } catch (firefoxAccessException) {
-                        isAbort || complete(-1, firefoxAccessException);
-                    }
-                    responses && complete(status, statusText, responses, responseHeaders);
-                }, s.async ? 4 === xhr.readyState ? setTimeout(callback) : (handle = ++xhrId, xhrOnUnloadAbort && (xhrCallbacks || (xhrCallbacks = {}, jQuery(window1).unload(xhrOnUnloadAbort)), xhrCallbacks[handle] = callback), xhr.onreadystatechange = callback) : callback();
-            },
-            abort: function() {
-                callback && callback(undefined, !0);
-            }
-        };
+                        responses && complete(status, statusText, responses, responseHeaders);
+                    }, s.async ? 4 === xhr.readyState ? setTimeout(callback) : (handle = ++xhrId, xhrOnUnloadAbort && (xhrCallbacks || (xhrCallbacks = {}, jQuery(window1).unload(xhrOnUnloadAbort)), xhrCallbacks[handle] = callback), xhr.onreadystatechange = callback) : callback();
+                },
+                abort: function() {
+                    callback && callback(undefined, !0);
+                }
+            };
+        }
     });
     var fxNow, timerId, rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = new RegExp("^(?:([+-])=|)(" + core_pnum + ")([a-z%]*)$", "i"), rrun = /queueHooks$/, animationPrefilters = [
         function(elem, props, opts) {
@@ -2964,9 +2959,8 @@
         }
     }, jQuery.fn.extend({
         position: function() {
-            var offsetParent, offset;
             if (this[0]) {
-                var parentOffset = {
+                var offsetParent, offset, parentOffset = {
                     top: 0,
                     left: 0
                 }, elem = this[0];

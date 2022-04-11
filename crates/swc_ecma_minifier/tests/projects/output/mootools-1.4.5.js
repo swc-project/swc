@@ -1111,13 +1111,13 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return '';
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
             combinator = combinator || ' ';
-            var currentSeparator = parsed.expressions[separatorIndex];
+            var test, regexp, currentSeparator = parsed.expressions[separatorIndex];
             reversed && currentSeparator[combinatorIndex] && (currentSeparator[combinatorIndex].reverseCombinator = reverseCombinator(combinator)), currentSeparator[++combinatorIndex] = {
                 combinator: combinator,
                 tag: '*'
             };
         }
-        var test, regexp, currentParsed = parsed.expressions[separatorIndex][combinatorIndex];
+        var currentParsed = parsed.expressions[separatorIndex][combinatorIndex];
         if (tagName) currentParsed.tag = tagName.replace(reUnescape, '');
         else if (id) currentParsed.id = id.replace(reUnescape, '');
         else if (className) className = className.replace(reUnescape, ''), currentParsed.classList || (currentParsed.classList = []), currentParsed.classes || (currentParsed.classes = []), currentParsed.classList.push(className), currentParsed.classes.push({
@@ -1187,7 +1187,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     }, local.isXML = function(document) {
         return !!document.xmlVersion || !!document.xml || '[object XMLDocument]' == toString.call(document) || 9 == document.nodeType && 'HTML' != document.documentElement.nodeName;
     }, local.setDocument = function(document) {
-        var feature, starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, nodeType = document.nodeType;
+        var nodeType = document.nodeType;
         if (9 == nodeType) ;
         else if (nodeType) document = document.ownerDocument;
         else {
@@ -1196,13 +1196,13 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }
         if (this.document !== document) {
             this.document = document;
-            var root = document.documentElement, rootUid = this.getUIDXML(root), features = featuresCache[rootUid];
+            var feature, root = document.documentElement, rootUid = this.getUIDXML(root), features = featuresCache[rootUid];
             if (features) {
                 for(feature in features)this[feature] = features[feature];
                 return;
             }
             (features = featuresCache[rootUid] = {}).root = root, features.isXMLDocument = this.isXML(document), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
-            var id = 'slick_uniqueid', testNode = document.createElement('div'), testRoot = document.body || document.getElementsByTagName('body')[0] || root;
+            var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = 'slick_uniqueid', testNode = document.createElement('div'), testRoot = document.body || document.getElementsByTagName('body')[0] || root;
             testRoot.appendChild(testNode);
             try {
                 testNode.innerHTML = '<a id="' + id + '"></a>', features.isHTMLDocument = !!document.getElementById(id);
@@ -1297,7 +1297,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         if ('string' == typeof expression) {
             var simpleSelector = expression.match(reSimpleSelector);
             simpleSelectors: if (simpleSelector) {
-                var symbol = simpleSelector[1], name = simpleSelector[2];
+                var node, nodes, symbol = simpleSelector[1], name = simpleSelector[2];
                 if (symbol) {
                     if ('#' == symbol) {
                         if (!this.isHTMLDocument || !contextIsDocument) break simpleSelectors;
@@ -1351,7 +1351,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         else if (this.contains(context.documentElement || context, expression)) return found ? found.push(expression) : found = expression, found;
         else return found;
         this.posNTH = {}, this.posNTHLast = {}, this.posNTHType = {}, this.posNTHTypeLast = {}, this.push = !hasOthers && (first || 1 == parsed.length && 1 == parsed.expressions[0].length) ? this.pushArray : this.pushUID, null == found && (found = []);
-        var node, nodes, j, m, n, combinator, tag, id, classList, classes, attributes, pseudos, currentItems, currentExpression, currentBit, lastBit, expressions = parsed.expressions;
+        var j, m, n, combinator, tag, id, classList, classes, attributes, pseudos, currentItems, currentExpression, currentBit, lastBit, expressions = parsed.expressions;
         search: for(i = 0; currentExpression = expressions[i]; i++)for(j = 0; currentBit = currentExpression[j]; j++){
             if (!this[combinator = 'combinator:' + currentBit.combinator]) continue search;
             if (tag = this.isXMLDocument ? currentBit.tag : currentBit.tag.toUpperCase(), id = currentBit.id, classList = currentBit.classList, classes = currentBit.classes, attributes = currentBit.attributes, pseudos = currentBit.pseudos, lastBit = j === currentExpression.length - 1, this.bitUniques = {}, lastBit ? (this.uniques = uniques, this.found = found) : (this.uniques = {}, this.found = []), 0 === j) {
@@ -1443,9 +1443,8 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         var attribute = this.getAttribute(node, name);
         return argument ? argument == attribute : !!attribute;
     }, local.matchSelector = function(node, tag, id, classes, attributes, pseudos) {
-        var i, part, cls;
         if (tag) {
-            var nodeName = this.isXMLDocument ? node.nodeName : node.nodeName.toUpperCase();
+            var i, part, cls, nodeName = this.isXMLDocument ? node.nodeName : node.nodeName.toUpperCase();
             if ('*' == tag) {
                 if (nodeName < '@') return !1;
             } else if (nodeName != tag) return !1;
@@ -1726,8 +1725,7 @@ var IFrame = new Type('IFrame', function() {
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener('load', onLoad), iframe;
 }), Elements = this.Elements = function(nodes) {
-    var node;
-    if (nodes && nodes.length) for(var uniques = {}, i = 0; node = nodes[i++];){
+    if (nodes && nodes.length) for(var node, uniques = {}, i = 0; node = nodes[i++];){
         var uid = Slick.uidOf(node);
         uniques[uid] || (uniques[uid] = !0, this.push(node));
     }
@@ -1846,7 +1844,7 @@ Elements.prototype = {
             return document.id(Slick.find(this, expression));
         }
     });
-    var contains = {
+    var set, translations, contains = {
         contains: function(element) {
             return Slick.contains(this, element);
         }
@@ -2238,7 +2236,7 @@ Elements.prototype = {
         return document.createElement('table').innerHTML = '<tr><td></td></tr>', !0;
     }), tr = document.createElement('tr'), html1 = '<td></td>';
     tr.innerHTML = html1;
-    var set, translations, supportsTRInnerHTML = tr.innerHTML == html1;
+    var supportsTRInnerHTML = tr.innerHTML == html1;
     tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
         table: [
             1,

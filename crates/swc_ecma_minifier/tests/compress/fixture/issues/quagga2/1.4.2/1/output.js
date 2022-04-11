@@ -6479,9 +6479,8 @@
                             _canvas.dom.frequency = document.querySelector('canvas.frequency'), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement('canvas'), _canvas.dom.frequency.className = 'frequency', $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext('2d'), _canvas.dom.pattern = document.querySelector('canvas.patternBuffer'), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement('canvas'), _canvas.dom.pattern.className = 'patternBuffer', $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext('2d'), _canvas.dom.overlay = document.querySelector('canvas.drawingBuffer'), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext('2d'));
                         }
                     }(), initReaders(), function() {
-                        var i;
                         if ('undefined' != typeof document) {
-                            var vis = [
+                            var i, vis = [
                                 {
                                     node: _canvas.dom.frequency,
                                     prop: config.debug.showFrequency
@@ -6973,7 +6972,7 @@
                             });
                         },
                         trigger: function(eventName, args) {
-                            var j, _config2, _config3, width, height, handlers = _eventHandlers[eventName];
+                            var _config2, _config3, width, height, j, handlers = _eventHandlers[eventName];
                             if ('canrecord' === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
                         },
                         setTopRight: function(topRight) {
@@ -7114,7 +7113,7 @@
                 }, _that.getData = function() {
                     return _data;
                 }, _that.grab = function() {
-                    var ctxData, canvas, targetSize, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    var canvas, targetSize, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
                         if (canvas = _canvas, targetSize = _canvasSize, canvas.width !== targetSize.x && (console.log('WARNING: canvas-size needs to be adjusted'), canvas.width = targetSize.x), canvas.height !== targetSize.y && (console.log('WARNING: canvas-size needs to be adjusted'), canvas.height = targetSize.y), 'ImageStream' === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
@@ -7155,9 +7154,8 @@
             }
             var workerPool = [];
             function workerInterface(factory) {
-                var imageWrapper;
                 if (factory) {
-                    var Quagga = factory().default;
+                    var imageWrapper, Quagga = factory().default;
                     if (!Quagga) {
                         self.postMessage({
                             event: 'error',
@@ -7248,9 +7246,8 @@
                             (null === (_this$context$config2 = _this.context.config) || void 0 === _this$context$config2 ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData(), _this.ready(callback);
                         }));
                     }), defineProperty_default()(this, "update", function() {
-                        var _this$context$inputIm2, _this$context$inputIm, frameGrabber, availableWorker;
                         if (_this.context.onUIThread) {
-                            var workersUpdated = (frameGrabber = _this.context.framegrabber, workerPool.length ? !!(availableWorker = workerPool.filter(function(workerThread) {
+                            var frameGrabber, availableWorker, _this$context$inputIm2, _this$context$inputIm, workersUpdated = (frameGrabber = _this.context.framegrabber, workerPool.length ? !!(availableWorker = workerPool.filter(function(workerThread) {
                                 return !workerThread.busy;
                             })[0]) && (frameGrabber.attachData(availableWorker.imageData), frameGrabber.grab() && (availableWorker.busy = !0, availableWorker.worker.postMessage({
                                 cmd: 'process',
@@ -7266,9 +7263,8 @@
                     {
                         key: "initBuffers",
                         value: function(imageWrapper) {
-                            var inputStream, imageWrapper3, locator, inputImageWrapper, boxSize;
                             if (this.context.config) {
-                                var _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper3 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper3 || new image_wrapper.a({
+                                var inputStream, imageWrapper3, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper3 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper3 || new image_wrapper.a({
                                     x: inputStream.getWidth(),
                                     y: inputStream.getHeight(),
                                     type: 'XYSize'
@@ -7446,12 +7442,12 @@
                     {
                         key: "locateAndDecode",
                         value: function() {
-                            var _this$context$inputIm3, _this$context$inputIm4, boxes = this.getBoundingBoxes();
+                            var boxes = this.getBoundingBoxes();
                             if (boxes) {
-                                var decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
+                                var _this$context$inputIm3, decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
                                 decodeResult.boxes = boxes, this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
                             } else {
-                                var imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
+                                var _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
                                 imageResult ? this.publishResult(imageResult, null === (_this$context$inputIm4 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm4 ? void 0 : _this$context$inputIm4.data) : this.publishResult();
                             }
                         }

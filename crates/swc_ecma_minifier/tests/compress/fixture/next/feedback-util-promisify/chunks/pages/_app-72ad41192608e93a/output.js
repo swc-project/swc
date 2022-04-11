@@ -151,16 +151,12 @@
                         }
                         function from(e, r, t) {
                             if ("string" == typeof e) return fromString(e, r);
-                            if (ArrayBuffer.isView(e)) return fromArrayLike(e);
                             if (null == e) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
-                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer)) return fromArrayBuffer(e, r, t);
                             if ("undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
-                            if ("number" == typeof e) throw new TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();
                             if (null != f && f !== e) return Buffer.from(f, r, t);
                             var n = fromObject(e);
                             if (n) return n;
-                            if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
                             throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
                         }
                         function assertSize(e) {
@@ -226,9 +222,7 @@
                         }
                         function slowToString(e, r, t) {
                             var f = !1;
-                            if ((void 0 === r || r < 0) && (r = 0), r > this.length) return "";
-                            if ((void 0 === t || t > this.length) && (t = this.length), t <= 0) return "";
-                            if ((t >>>= 0) <= (r >>>= 0)) return "";
+                            if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0 || (t >>>= 0) <= (r >>>= 0))) return "";
                             for(e || (e = "utf8");;)switch(e){
                                 case "hex":
                                     return hexSlice(this, r, t);
@@ -385,8 +379,7 @@
                             if (t + f > e.length) throw new RangeError("Index out of range");
                         }
                         function checkIEEE754(e, r, t, f, n, i) {
-                            if (t + f > e.length) throw new RangeError("Index out of range");
-                            if (t < 0) throw new RangeError("Index out of range");
+                            if (t + f > e.length || t < 0) throw new RangeError("Index out of range");
                         }
                         function writeFloat(e, r, t, f, i) {
                             return r = +r, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n2.write(e, r, t, f, 23, 4), t + 4;
@@ -656,11 +649,8 @@
                             return writeDouble(this, e, r, !1, t);
                         }, Buffer.prototype.copy = function(e, r, t, f) {
                             if (!Buffer.isBuffer(e)) throw new TypeError("argument should be a Buffer");
-                            if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t) return 0;
-                            if (0 === e.length || 0 === this.length) return 0;
-                            if (r < 0) throw new RangeError("targetStart out of bounds");
+                            if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
                             if (t < 0 || t >= this.length) throw new RangeError("Index out of range");
-                            if (f < 0) throw new RangeError("sourceEnd out of bounds");
                             f > this.length && (f = this.length), e.length - r < f - t && (f = e.length - r + t);
                             var n = f - t;
                             if (this === e && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(r, t, f);
@@ -692,11 +682,7 @@
                             for(var t, f = e.length, n = null, i = [], o = 0; o < f; ++o){
                                 if ((t = e.charCodeAt(o)) > 55295 && t < 57344) {
                                     if (!n) {
-                                        if (t > 56319) {
-                                            (r -= 3) > -1 && i.push(239, 191, 189);
-                                            continue;
-                                        }
-                                        if (o + 1 === f) {
+                                        if (t > 56319 || o + 1 === f) {
                                             (r -= 3) > -1 && i.push(239, 191, 189);
                                             continue;
                                         }
@@ -901,7 +887,6 @@
                     901: function(r10) {
                         r10.exports = function(r, e, o) {
                             if (r.filter) return r.filter(e, o);
-                            if (null == r) throw new TypeError;
                             if ("function" != typeof e) throw new TypeError;
                             for(var n = [], i = 0; i < r.length; i++)if (t.call(r, i)) {
                                 var a = r[i];
@@ -1704,22 +1689,12 @@
                         "use strict";
                         r24.exports = function() {
                             if ("function" != typeof Symbol || "function" != typeof Object.getOwnPropertySymbols) return !1;
-                            if ("symbol" == typeof Symbol.iterator) return !0;
                             var r = {}, t = Symbol("test"), e = Object(t);
-                            if ("string" == typeof t) return !1;
-                            if ("[object Symbol]" !== Object.prototype.toString.call(t)) return !1;
-                            if ("[object Symbol]" !== Object.prototype.toString.call(e)) return !1;
+                            if ("string" == typeof t || "[object Symbol]" !== Object.prototype.toString.call(t) || "[object Symbol]" !== Object.prototype.toString.call(e)) return !1;
                             for(t in r[t] = 42, r)return !1;
-                            if ("function" == typeof Object.keys && 0 !== Object.keys(r).length) return !1;
-                            if ("function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(r).length) return !1;
+                            if ("function" == typeof Object.keys && 0 !== Object.keys(r).length || "function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(r).length) return !1;
                             var n = Object.getOwnPropertySymbols(r);
-                            if (1 !== n.length || n[0] !== t) return !1;
-                            if (!Object.prototype.propertyIsEnumerable.call(r, t)) return !1;
-                            if ("function" == typeof Object.getOwnPropertyDescriptor) {
-                                var i = Object.getOwnPropertyDescriptor(r, t);
-                                if (42 !== i.value || !0 !== i.enumerable) return !1;
-                            }
-                            return !0;
+                            return !!(1 === n.length && n[0] === t && Object.prototype.propertyIsEnumerable.call(r, t));
                         };
                     },
                     793: function(r, t, e) {
@@ -2105,13 +2080,15 @@
                             return r < 10 ? "0" + r.toString(10) : r.toString(10);
                         }
                         t17.debuglog = function(r) {
-                            if (!i4[r = r.toUpperCase()]) if (a2.test(r)) {
-                                var e = process.pid;
-                                i4[r] = function() {
-                                    var o = t17.format.apply(t17, arguments);
-                                    console.error("%s %d: %s", r, e, o);
-                                };
-                            } else i4[r] = function() {};
+                            if (!i4[r = r.toUpperCase()]) {
+                                if (a2.test(r)) {
+                                    var e = process.pid;
+                                    i4[r] = function() {
+                                        var o = t17.format.apply(t17, arguments);
+                                        console.error("%s %d: %s", r, e, o);
+                                    };
+                                } else i4[r] = function() {};
+                            }
                             return i4[r];
                         }, t17.inspect = inspect, inspect.colors = {
                             bold: [

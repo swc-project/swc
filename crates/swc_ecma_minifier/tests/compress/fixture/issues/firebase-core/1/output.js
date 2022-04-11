@@ -338,9 +338,9 @@
                 this.src = a, this.g = {}, this.h = 0;
             }
             function bb(a, b) {
-                var f, c = b.type;
+                var c = b.type;
                 if (c in a.g) {
-                    var d = a.g[c], e = ma(d, b);
+                    var f, d = a.g[c], e = ma(d, b);
                     (f = 0 <= e) && Array.prototype.splice.call(d, e, 1), f && (Za(b), 0 == a.g[c].length && (delete a.g[c], a.h--));
                 }
             }
@@ -458,9 +458,8 @@
             t(C, v), C.prototype[B] = !0, C.prototype.removeEventListener = function(a, b, c, d) {
                 nb(this, a, b, c, d);
             }, C.prototype.M = function() {
-                var c;
                 if (C.Z.M.call(this), this.i) {
-                    var a = this.i;
+                    var c, a = this.i;
                     for(c in a.g){
                         for(var d = a.g[c], e = 0; e < d.length; e++)Za(d[e]);
                         delete a.g[c], a.h--;
@@ -902,7 +901,7 @@
                 try {
                     if (a5 == this.g) a: {
                         const r = O(this.g);
-                        var n, b3 = this.g.Da();
+                        var b3 = this.g.Da();
                         const G = this.g.ba();
                         if (!(3 > r) && (3 != r || Ja || this.g && (this.h.h || this.g.ga() || oc(this.g)))) {
                             this.I || 4 != r || 7 == b3 || (8 == b3 || 0 >= G ? I(3) : I(2)), pc(this);
@@ -933,7 +932,7 @@
                                 if (this.$ && !this.J) {
                                     b: {
                                         if (this.g) {
-                                            var u = this.g;
+                                            var n, u = this.g;
                                             if ((n = u.g ? u.g.getResponseHeader("X-HTTP-Initial-Response") : null) && !sa(n)) {
                                                 var m = n;
                                                 break b;
@@ -1451,7 +1450,7 @@
                 null != a.v && (l.clearTimeout(a.v), a.v = null);
             }
             function uc(a, b) {
-                var a8, b7, c = null;
+                var c = null;
                 if (a.g == b) {
                     zc(a), wc(a), a.g = null;
                     var d = 2;
@@ -1463,7 +1462,7 @@
                     if (b.i) {
                         if (1 == d) {
                             c = b.s ? b.s.length : 0, b = Date.now() - b.F;
-                            var e = a.C;
+                            var a8, b7, e = a.C;
                             D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
                         } else Gc(a);
                     } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a8 = a, b7 = b, !(Cc(a8.i) >= a8.i.j - (a8.m ? 1 : 0)) && (a8.m ? (a8.l = b7.D.concat(a8.l), !0) : 1 != a8.G && 2 != a8.G && !(a8.C >= (a8.Xa ? 0 : a8.Ya)) && (a8.m = K(q(a8.Ha, a8, b7), Od(a8, a8.C)), a8.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
@@ -2071,9 +2070,9 @@
                 };
                 var ref = function(width, layout, sizes) {
                     if (sizes && ('fill' === layout || 'responsive' === layout)) {
-                        for(var match, _Math, viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
+                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
-                            var smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
+                            var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
                                 widths: allSizes.filter(function(s) {
                                     return s >= configDeviceSizes[0] * smallestRatio;

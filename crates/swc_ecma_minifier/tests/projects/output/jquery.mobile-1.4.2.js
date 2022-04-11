@@ -69,7 +69,7 @@
         var removeData, orig2, uuid = 0, runiqueId = /^ui-id-\d+$/;
         function focusable(element, isTabIndexNotNaN) {
             var map, mapName, img, nodeName = element.nodeName.toLowerCase();
-            return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName ? element.href || isTabIndexNotNaN : isTabIndexNotNaN) && visible(element);
+            return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName && element.href || isTabIndexNotNaN) && visible(element);
         }
         function visible(element) {
             return $.expr.filters.visible(element) && !$(element).parents().addBack().filter(function() {
@@ -336,7 +336,7 @@
                 }, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
             };
         }), constructor.prototype = $2.widget.extend(basePrototype, {
-            widgetEventPrefix: existingConstructor ? basePrototype.widgetEventPrefix || name : name
+            widgetEventPrefix: existingConstructor && basePrototype.widgetEventPrefix || name
         }, proxiedPrototype, {
             constructor: constructor,
             namespace: namespace,
@@ -392,13 +392,15 @@
         option: function(key, value) {
             var parts, curOption, i, options = key;
             if (0 === arguments.length) return $2.widget.extend({}, this.options);
-            if ("string" == typeof key) if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
-                for(i = 0, curOption = options[key] = $2.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
-                if (key = parts.pop(), value === undefined1) return undefined1 === curOption[key] ? null : curOption[key];
-                curOption[key] = value;
-            } else {
-                if (value === undefined1) return undefined1 === this.options[key] ? null : this.options[key];
-                options[key] = value;
+            if ("string" == typeof key) {
+                if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
+                    for(i = 0, curOption = options[key] = $2.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
+                    if (key = parts.pop(), value === undefined1) return undefined1 === curOption[key] ? null : curOption[key];
+                    curOption[key] = value;
+                } else {
+                    if (value === undefined1) return undefined1 === this.options[key] ? null : this.options[key];
+                    options[key] = value;
+                }
             }
             return this._setOptions(options), this;
         },
@@ -1585,7 +1587,7 @@
                 ]);
                 return;
             }
-            if (this._triggerPageBeforeChange(toPage, triggerData, settings) && !((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
+            if (!((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
                 if (isPageTransitioning = !0, toPage[0] !== $15.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $15.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, url = settings.dataUrl && $15.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), pageUrl = url, $15.mobile.path.getFilePath(url), active = $15.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $15.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
                     isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $15.mobile.navigate.history.direct({
                         url: url
@@ -1678,10 +1680,7 @@
                     if ($lastVClicked = $(target), $.data(target, "mobile-button")) {
                         if (!getAjaxFormData($(target).closest("form"), !0)) return;
                         target.parentNode && (target = target.parentNode);
-                    } else {
-                        if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash)) return;
-                        if (!$(target).jqmHijackable().length) return;
-                    }
+                    } else if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash) || !$(target).jqmHijackable().length) return;
                     ~target.className.indexOf("ui-link-inherit") ? target.parentNode && (btnEls = $.data(target.parentNode, "buttonElements")) : btnEls = $.data(target, "buttonElements"), btnEls ? target = btnEls.outer : needClosest = !0, $btn = $(target), needClosest && ($btn = $btn.closest(".ui-btn")), $btn.length > 0 && !$btn.hasClass("ui-state-disabled") && ($.mobile.removeActiveLinkClass(!0), $.mobile.activeClickedLink = $btn, $.mobile.activeClickedLink.addClass($.mobile.activeBtnClass));
                 }
             }), $.mobile.document.bind("click", function(event) {
@@ -1697,10 +1696,12 @@
                             httpCleanup();
                             return;
                         }
-                        if (-1 !== href.search("#")) if (href = href.replace(/[^#]*#/, "")) href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
-                        else {
-                            event.preventDefault();
-                            return;
+                        if (-1 !== href.search("#")) {
+                            if (href = href.replace(/[^#]*#/, "")) href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
+                            else {
+                                event.preventDefault();
+                                return;
+                            }
                         }
                         if ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $.mobile.path.isExternal(href) && !$.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) {
                             httpCleanup();
@@ -2075,8 +2076,10 @@
                 c: 4,
                 d: 5
             }, grid = o.grid;
-            if (!grid) if ($kids.length <= 5) for(letter in gridCols)gridCols[letter] === $kids.length && (grid = letter);
-            else grid = "a", $this.addClass("ui-grid-duo");
+            if (!grid) {
+                if ($kids.length <= 5) for(letter in gridCols)gridCols[letter] === $kids.length && (grid = letter);
+                else grid = "a", $this.addClass("ui-grid-duo");
+            }
             iterator = gridCols[grid], $this.addClass("ui-grid-" + grid), $kids.filter(":nth-child(" + iterator + "n+1)").addClass("ui-block-a"), iterator > 1 && $kids.filter(":nth-child(" + iterator + "n+2)").addClass("ui-block-b"), iterator > 2 && $kids.filter(":nth-child(" + iterator + "n+3)").addClass("ui-block-c"), iterator > 3 && $kids.filter(":nth-child(" + iterator + "n+4)").addClass("ui-block-d"), iterator > 4 && $kids.filter(":nth-child(" + iterator + "n+5)").addClass("ui-block-e");
         });
     }, function($, undefined) {
@@ -3253,14 +3256,16 @@
             },
             _desiredCoords: function(openOptions) {
                 var offset, dst = null, windowCoordinates = getWindowCoordinates(this.window), x = openOptions.x, y = openOptions.y, pTo = openOptions.positionTo;
-                if (pTo && "origin" !== pTo) if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
-                else {
-                    try {
-                        dst = $(pTo);
-                    } catch (err) {
-                        dst = null;
+                if (pTo && "origin" !== pTo) {
+                    if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
+                    else {
+                        try {
+                            dst = $(pTo);
+                        } catch (err) {
+                            dst = null;
+                        }
+                        dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
                     }
-                    dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
                 }
                 return dst && (x = (offset = dst.offset()).left + dst.outerWidth() / 2, y = offset.top + dst.outerHeight() / 2), ("number" !== $.type(x) || isNaN(x)) && (x = windowCoordinates.cx / 2 + windowCoordinates.x), ("number" !== $.type(y) || isNaN(y)) && (y = windowCoordinates.cy / 2 + windowCoordinates.y), {
                     x: x,

@@ -22,8 +22,11 @@
                 return _proto.hydrate = function(nodes) {
                     nodes.forEach(this._insertTag);
                 }, _proto.insert = function(rule) {
-                    this.ctr % (this.isSpeedy ? 65000 : 1) == 0 && this._insertTag((options = this, (tag2 = document.createElement('style')).setAttribute('data-emotion', options.key), void 0 !== options.nonce && tag2.setAttribute('nonce', options.nonce), tag2.appendChild(document.createTextNode('')), tag2.setAttribute('data-s', ''), tag2));
-                    var options, tag2, tag1 = this.tags[this.tags.length - 1];
+                    if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
+                        var options, tag;
+                        this._insertTag((options = this, (tag = document.createElement('style')).setAttribute('data-emotion', options.key), void 0 !== options.nonce && tag.setAttribute('nonce', options.nonce), tag.appendChild(document.createTextNode('')), tag.setAttribute('data-s', ''), tag));
+                    }
+                    var tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
                         var sheet = function(tag) {
                             if (tag.sheet) return tag.sheet;
