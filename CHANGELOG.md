@@ -17,6 +17,9 @@
 
 
 
+- **(*)** Typo + fomatting (#4304) ([37a8c90](https://github.com/swc-project/swc/commit/37a8c90750d778edcd69ffdd85fe990a27efc75d))
+
+
 - **(ci)** Fix CI (#4299) ([adea17d](https://github.com/swc-project/swc/commit/adea17dbe3b17e397d79a7dae1f469bf38f0185f))
 
 
