@@ -1,4 +1,4 @@
-ab.kind, x;
+ab.kind;
 var x2 = {
     a: "foo",
     b: !0

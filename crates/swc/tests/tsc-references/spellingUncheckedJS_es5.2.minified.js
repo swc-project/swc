@@ -24,7 +24,7 @@ var Classe = function() {
 };
 object.spaaaace, object.spaace = 12, object.fresh = 12, other.puuuce, new Date().getGMTDate(), setIntegral(function() {
     return console.log("ok");
-}, 500), AudioBuffin, Jon, Jon;
+}, 500);
 var other = {
     puuce: 4
 };

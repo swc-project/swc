@@ -44,4 +44,4 @@ noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), no
 ), someGenerics7((n)=>n
 , (n)=>n
 , (n)=>n
-), someGenerics7(null, null, null), window, window;
+), someGenerics7(null, null, null);

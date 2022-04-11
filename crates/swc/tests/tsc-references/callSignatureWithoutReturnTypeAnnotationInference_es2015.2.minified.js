@@ -5,11 +5,7 @@ function foo3() {
 function m1() {
     return 1;
 }
-foo3(), function(x) {
-    try {} catch (e) {
-        return [];
-    } finally{}
-}(1), function(M1) {
+foo3(), function(M1) {
     M1.x = 1, M1.C = class {
     };
 }(M || (M = {})), (m1 || (m1 = {})).y = 2;

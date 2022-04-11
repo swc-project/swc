@@ -190,45 +190,13 @@ export default function n(e) {
             searching: !0
         })), B();
     });
-    !function(b, c) {
-        if (c && (b.transporter && !b._cacheHydrated || b._useCache && "function" == typeof b.addAlgoliaAgent)) {
-            if (b.transporter && !b._cacheHydrated) {
-                b._cacheHydrated = !0;
-                var d = b.search;
-                b.search = function(g) {
-                    for(var e = arguments.length, f = new Array(e > 1 ? e - 1 : 0), c = 1; c < e; c++)f[c - 1] = arguments[c];
-                    var h = g.map(function(b) {
-                        var c, d;
-                        return a.objectSpread({}, b, {
-                            params: (c = b.params, d = function(c) {
-                                for(var b = arguments.length, d = new Array(b > 1 ? b - 1 : 0), a = 1; a < b; a++)d[a - 1] = arguments[a];
-                                var e = 0;
-                                return c.replace(/%s/g, function() {
-                                    return encodeURIComponent(d[e++]);
-                                });
-                            }, Object.keys(c).map(function(a) {
-                                var b;
-                                return d("%s=%s", a, (b = c[a], "[object Object]" === Object.prototype.toString.call(b) || "[object Array]" === Object.prototype.toString.call(b)) ? JSON.stringify(c[a]) : c[a]);
-                            }).join("&"))
-                        });
-                    });
-                    return b.transporter.responsesCache.get({
-                        method: "search",
-                        args: [
-                            h
-                        ].concat(a.toConsumableArray(f))
-                    }, function() {
-                        return d.apply(void 0, [
-                            g
-                        ].concat(a.toConsumableArray(f)));
-                    });
-                };
-            }
-            if (Array.isArray(c.results)) {
-                C(b, c.results);
+    !function(a, b) {
+        if (b && (a.transporter && !a._cacheHydrated || a._useCache && "function" == typeof a.addAlgoliaAgent)) {
+            if (Array.isArray(b.results)) {
+                C(a, b.results);
                 return;
             }
-            D(b, c);
+            D(a, b);
         }
     }(g, n);
     var y = (v = {

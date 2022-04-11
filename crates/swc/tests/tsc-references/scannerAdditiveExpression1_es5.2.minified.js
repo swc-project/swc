@@ -1,1 +1,1 @@
-m.index + m[0].length;
+m.index, m[0].length;

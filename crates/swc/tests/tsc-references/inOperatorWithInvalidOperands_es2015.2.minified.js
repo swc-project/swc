@@ -1,4 +1,4 @@
-var E, x;
+var E;
 !function(E) {
     E[E.a = 0] = "a";
-}(E || (E = {})), E.a in x;
+}(E || (E = {})), E.a;

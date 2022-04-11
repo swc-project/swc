@@ -1,3 +1,3 @@
-for (let v1 of (v, [
+for (let v of [
     0
-]));
+]);

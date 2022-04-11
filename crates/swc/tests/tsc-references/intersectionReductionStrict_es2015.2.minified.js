@@ -1,4 +1,4 @@
-ab.kind, x;
+ab.kind;
 const x1 = {
     a: 'foo',
     b: 42
