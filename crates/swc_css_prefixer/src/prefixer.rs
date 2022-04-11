@@ -836,9 +836,9 @@ impl VisitMut for Prefixer {
         // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
         // declaration and versa vice
         // TODO improve perf by getting all declaration and values once (i.e. lazy)
+        // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
-                // TODO improve perf by getting all declaration and values once (i.e. lazy)
                 let need_prefix = match self.get_declaration_by_name($name) {
                     Some(_) => false,
                     _ => true,
@@ -1105,18 +1105,11 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some(spec_2009_value) = &spec_2009_value {
-                    let value = vec![spec_2009_value.clone()];
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-flex".into(),
-                        raw: "-webkit-box-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-flex",
+                        vec![spec_2009_value.clone()]
+                    );
                 } else {
                     add_declaration!(Prefix::Webkit, "-webkit-box-flex");
                 }
@@ -1124,18 +1117,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-flex");
 
                 if let Some(spec_2009_value) = &spec_2009_value {
-                    let value = vec![spec_2009_value.clone()];
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-flex".into(),
-                        raw: "-moz-box-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-flex", vec![spec_2009_value.clone()]);
                 } else {
                     add_declaration!(Prefix::Webkit, "-moz-box-flex");
                 }
@@ -1161,17 +1143,7 @@ impl VisitMut for Prefixer {
                         }));
                     }
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-ms-flex".into(),
-                        raw: "-ms-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Ms, "-ms-flex", value);
                 } else {
                     add_declaration!(Prefix::Ms, "-ms-flex");
                 }
@@ -1220,71 +1192,27 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-orient",
+                        vec![str_to_ident!(orient)]
+                    );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
                 add_declaration!(Prefix::Webkit, "-webkit-flex-direction");
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-orient", vec![str_to_ident!(orient)]);
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-moz-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
                 add_declaration!(Prefix::Ms, "-ms-flex-direction");
@@ -1341,71 +1269,27 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-orient",
+                        vec![str_to_ident!(orient)]
+                    );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
                 add_declaration!(Prefix::Webkit, "-webkit-flex-flow");
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-orient".into(),
-                        raw: "-moz-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-direction".into(),
-                        raw: "-moz-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-orient", vec![str_to_ident!(orient)]);
+                    add_declaration!(
+                        Prefix::Moz,
+                        "-moz-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
                 add_declaration!(Prefix::Ms, "-ms-flex-flow");
@@ -1428,17 +1312,11 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
                     replace_ident(&mut old_spec_webkit_new_value, "space-between", "justify");
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-pack".into(),
-                        raw: "-webkit-box-pack".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: old_spec_webkit_new_value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-pack",
+                        old_spec_webkit_new_value
+                    );
                 }
 
                 add_declaration!(Prefix::Webkit, "-webkit-justify-content");
@@ -1450,17 +1328,7 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
                     replace_ident(&mut old_spec_moz_new_value, "space-between", "justify");
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-pack".into(),
-                        raw: "-moz-box-pack".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: old_spec_moz_new_value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-pack", old_spec_moz_new_value);
                 }
 
                 let mut old_spec_ms_new_value = ms_new_value.clone();
@@ -1470,17 +1338,7 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut old_spec_ms_new_value, "space-between", "justify");
                 replace_ident(&mut old_spec_ms_new_value, "space-around", "distribute");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-pack".into(),
-                    raw: "-ms-flex-pack".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
+                add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_new_value);
             }
 
             "order" => {
@@ -1521,23 +1379,16 @@ impl VisitMut for Prefixer {
             }
 
             "align-items" => {
-                let mut old_spec_ms_new_value = webkit_new_value.clone();
+                let mut old_spec_webkit_new_value = webkit_new_value.clone();
 
-                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+                replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-webkit-box-align".into(),
-                    raw: "-webkit-box-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
-
+                add_declaration!(
+                    Prefix::Webkit,
+                    "-webkit-box-align",
+                    old_spec_webkit_new_value
+                );
                 add_declaration!(Prefix::Webkit, "-webkit-align-items");
 
                 let mut old_spec_moz_new_value = moz_new_value.clone();
@@ -1545,34 +1396,14 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
                 replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-moz-box-align".into(),
-                    raw: "-moz-box-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_moz_new_value,
-                    important: n.important.clone(),
-                });
+                add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_new_value);
 
                 let mut old_spec_ms_new_value = ms_new_value.clone();
 
                 replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
                 replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-align".into(),
-                    raw: "-ms-flex-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
+                add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_new_value);
             }
 
             "align-self" => {
@@ -1583,17 +1414,7 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
                 replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-item-align".into(),
-                    raw: "-ms-flex-item-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: spec_2012_ms_new_value,
-                    important: n.important.clone(),
-                });
+                add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_new_value);
             }
 
             "align-content" => {
@@ -1606,17 +1427,7 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut spec_2012_ms_new_value, "space-between", "justify");
                 replace_ident(&mut spec_2012_ms_new_value, "space-around", "distribute");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-line-pack".into(),
-                    raw: "-ms-flex-line-pack".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: spec_2012_ms_new_value,
-                    important: n.important.clone(),
-                });
+                add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_new_value);
             }
 
             "image-rendering" => {
@@ -2138,18 +1949,7 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut value, "none", "-ms-none");
                 replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-touch-action".into(),
-                    raw: "-ms-touch-action".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value,
-                    important: n.important.clone(),
-                });
-
+                add_declaration!(Prefix::Ms, "-ms-touch-action", value);
                 add_declaration!(Prefix::Ms, "-ms-touch-action");
             }
 

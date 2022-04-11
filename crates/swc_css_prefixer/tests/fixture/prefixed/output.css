@@ -104,3 +104,19 @@
   -moz-column-break-before: column;
   break-before: column;
 }
+.class-15 {
+  align-content: flex-start;
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+}
+.class-16 {
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+}
+.class-17 {
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+  -ms-flex-line-pack: end;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+}
