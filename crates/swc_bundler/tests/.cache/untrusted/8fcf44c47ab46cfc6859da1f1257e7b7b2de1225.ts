@@ -239,7 +239,7 @@ export function dew() {
     /**
     * Convert regexp to namespace
     *
-    * @param {RegExp} regexp
+    * @param {RegExp} regxep
     * @return {String} namespace
     * @api private
     */

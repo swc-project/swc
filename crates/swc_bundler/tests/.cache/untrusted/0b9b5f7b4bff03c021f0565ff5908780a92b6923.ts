@@ -22,7 +22,7 @@ import { isTemplateString } from "./utils.ts";
 export class QueryClient {
   /**
    * This function is meant to be replaced when being extended
-   *
+   * 
    * It's sole purpose is to be a common interface implementations can use
    * regardless of their internal structure
    */
@@ -35,19 +35,19 @@ export class QueryClient {
   /**
    * This method allows executed queries to be retrieved as array entries.
    * It supports a generic interface in order to type the entries retrieved by the query
-   *
+   * 
    * ```ts
    * const {rows} = await my_client.queryArray(
    *  "SELECT ID, NAME FROM CLIENTS"
    * ); // Array<unknown[]>
-   *
+   * 
    * const {rows} = await my_client.queryArray<[number, string]>(
    *  "SELECT ID, NAME FROM CLIENTS"
    * ); // Array<[number, string]>
    * ```
-   *
-   * It also allows you to execute prepared statements with template strings
-   *
+   * 
+   * It also allows you to execute prepared stamements with template strings
+   * 
    * ```ts
    * const id = 12;
    * // Array<[number, string]>
@@ -88,37 +88,37 @@ export class QueryClient {
   /**
    * This method allows executed queries to be retrieved as object entries.
    * It supports a generic interface in order to type the entries retrieved by the query
-   *
+   * 
    * ```ts
    * const {rows} = await my_client.queryObject(
    *  "SELECT ID, NAME FROM CLIENTS"
    * ); // Record<string, unknown>
-   *
+   * 
    * const {rows} = await my_client.queryObject<{id: number, name: string}>(
    *  "SELECT ID, NAME FROM CLIENTS"
    * ); // Array<{id: number, name: string}>
    * ```
-   *
+   * 
    * You can also map the expected results to object fields using the configuration interface.
    * This will be assigned in the order they were provided
-   *
+   * 
    * ```ts
    * const {rows} = await my_client.queryObject(
    *  "SELECT ID, NAME FROM CLIENTS"
    * );
-   *
+   * 
    * console.log(rows); // [{id: 78, name: "Frank"}, {id: 15, name: "Sarah"}]
-   *
+   * 
    * const {rows} = await my_client.queryObject({
    *  text: "SELECT ID, NAME FROM CLIENTS",
    *  fields: ["personal_id", "complete_name"],
    * });
-   *
+   * 
    * console.log(rows); // [{personal_id: 78, complete_name: "Frank"}, {personal_id: 15, complete_name: "Sarah"}]
    * ```
-   *
-   * It also allows you to execute prepared statements with template strings
-   *
+   * 
+   * It also allows you to execute prepared stamements with template strings
+   * 
    * ```ts
    * const id = 12;
    * // Array<{id: number, name: string}>
