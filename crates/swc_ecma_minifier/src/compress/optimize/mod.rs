@@ -2165,25 +2165,7 @@ where
         }
 
         if let Some(body) = &mut n.body {
-            {
-                let old_prepend = self.prepend_stmts.take();
-                let old_append = self.append_stmts.take();
-
-                for s in body.stmts.iter_mut() {
-                    self.extract_vars_in_subscopes(s);
-                }
-
-                if !self.prepend_stmts.is_empty() {
-                    prepend_stmts(&mut body.stmts, self.prepend_stmts.drain(..));
-                }
-
-                if self.append_stmts.is_empty() {
-                    body.stmts.append(&mut self.append_stmts);
-                }
-
-                self.prepend_stmts = old_prepend;
-                self.append_stmts = old_append;
-            }
+            self.promote_subscope_vars(&mut body.stmts);
 
             self.merge_if_returns(&mut body.stmts, false, true);
             self.drop_else_token(&mut body.stmts);
@@ -2277,6 +2259,8 @@ where
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        self.promote_subscope_vars(stmts);
+
         let ctx = Ctx {
             top_level: true,
             skip_standalone: true,

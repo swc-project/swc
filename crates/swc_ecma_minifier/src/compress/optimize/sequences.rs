@@ -5,8 +5,8 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
-    UsageFinder,
+    contains_arguments, contains_this_expr, ident::IdentLike, prepend_stmts, undefined, ExprExt,
+    Id, StmtLike, UsageFinder,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
@@ -483,10 +483,33 @@ where
         e.exprs = new_exprs;
     }
 
+    pub(super) fn promote_subscope_vars<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: ModuleItemExt,
+    {
+        let old_prepend = self.prepend_stmts.take();
+        let old_append = self.append_stmts.take();
+
+        for s in stmts.iter_mut().flat_map(|s| s.as_stmt_mut()) {
+            self.extract_vars_in_subscopes(s);
+        }
+
+        if !self.prepend_stmts.is_empty() {
+            prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from_stmt));
+        }
+
+        if self.append_stmts.is_empty() {
+            stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+        }
+
+        self.prepend_stmts = old_prepend;
+        self.append_stmts = old_append;
+    }
+
     /// Hoist variables in subscope.
     ///
     /// I don't know why it depends on `sequences`.
-    pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
+    fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
         if !self.options.sequences() {
             return;
         }
