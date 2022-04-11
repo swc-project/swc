@@ -384,7 +384,6 @@ impl ForOf {
 }
 
 /// ```js
-///
 ///   try {
 ///     if (!_iteratorNormalCompletion && _iterator.return != null) {
 ///       _iterator.return();
