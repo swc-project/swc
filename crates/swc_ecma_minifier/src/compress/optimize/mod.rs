@@ -2303,6 +2303,9 @@ where
 
         match n {
             Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Invalid(..) => {
+                    *n = None;
+                }
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
                 }
