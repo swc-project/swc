@@ -10,6 +10,7 @@ use crate::{
     object::ObjectKey,
     pat::AssignmentPattern,
     stmt::Statement,
+    PrivateName,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -248,7 +249,8 @@ pub struct TSQualifiedName {
     #[serde(flatten)]
     pub base: BaseNode,
     pub left: Box<TSEntityName>,
-    pub right: Identifier,
+    #[serde(flatten)]
+    pub right: TSMemberName,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -465,6 +467,15 @@ pub enum TSEntityName {
     Id(Identifier),
     #[tag("TSQualifiedName")]
     Qualified(TSQualifiedName),
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
+pub enum TSMemberName {
+    #[tag("Identifier")]
+    Id(Identifier),
+    #[tag("PrivateName")]
+    PrivateName(PrivateName),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
