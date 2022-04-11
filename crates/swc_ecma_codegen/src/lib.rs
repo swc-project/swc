@@ -944,6 +944,7 @@ where
             punct!(":");
             formatting_space!();
             emit!(ty);
+            formatting_space!();
         }
 
         punct!("=>");
