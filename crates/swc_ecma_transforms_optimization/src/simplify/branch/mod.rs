@@ -1292,8 +1292,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Bool(..))
         | Expr::Lit(Lit::Null(..))
-        | Expr::Lit(Lit::Regex(..))
-        | Expr::Ident(..) => None,
+        | Expr::Lit(Lit::Regex(..)) => None,
 
         Expr::Lit(Lit::Str(ref v)) if v.value.is_empty() => None,
 
