@@ -161,8 +161,6 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
-    enable_extract_vars: bool,
-
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1729,7 +1727,6 @@ where
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
-            enable_extract_vars: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2152,7 +2149,7 @@ where
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
-                enable_extract_vars: true,
+
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
@@ -2168,6 +2165,10 @@ where
         }
 
         if let Some(body) = &mut n.body {
+            for s in body.stmts.iter_mut() {
+                self.extract_vars_in_subscopes(s);
+            }
+
             self.merge_if_returns(&mut body.stmts, false, true);
             self.drop_else_token(&mut body.stmts);
         }
@@ -2503,8 +2504,6 @@ where
         self.optimize_loops_with_break(s);
 
         self.try_removing_block(s, false);
-
-        self.extract_vars_in_subscopes(s);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
