@@ -82,7 +82,7 @@ where
     );
 }
 
-/// Utility fn to unwrap necessary values for the commments, as well as host
+/// Utility fn to unwrap necessary values for the comments, as well as host
 /// environment's state.
 fn unwrap_comments_storage_with_env<F, R>(env: &CommentHostEnvironment, f: F, default: R) -> R
 where
@@ -113,11 +113,11 @@ fn allocate_return_values_into_guest(
 
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(memory, serialized_bytes, |_| {
-            // In most cases our host-plugin tranmpoline works in a way that
+            // In most cases our host-plugin trampoline works in a way that
             // plugin pre-allocates
             // memory before calling host imported fn. But in case of
             // comments return value is Vec<Comments> which
-            // guest cannot predetermine size to allocate, intead
+            // guest cannot predetermine size to allocate, instead
             // let host allocate by calling guest's alloc via attached
             // hostenvironment.
             alloc_guest_memory

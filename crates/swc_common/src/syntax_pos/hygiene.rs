@@ -77,7 +77,7 @@ pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 // proxies instead which'll call actual host fn.
 extern "C" {
     // Instead of trying to copy-serialize `Mark`, this fn directly consume
-    // inner raw value as well as fn and let each context constrcuts struct
+    // inner raw value as well as fn and let each context constructs struct
     // on their side.
     fn __mark_fresh_proxy(mark: u32) -> u32;
     fn __mark_parent_proxy(self_mark: u32) -> u32;

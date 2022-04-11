@@ -31,7 +31,7 @@
 * 2. `get_leading()` internally calls `__get_leading_comments_proxy`, which is
 * imported fn `get_leading_comments_proxy` exists in the host.
 * 3. Host access necessary values in its memory space (COMMENTS)
-* 4. Host copies value to be returned into plguin's memory space. Memory
+* 4. Host copies value to be returned into plugin's memory space. Memory
 * allocation for the value should be manually performed.
 * 5. Host completes imported fn, `PluginCommentsProxy::get_leading()` now can
 * read, deserialize memory host wrote.
@@ -76,7 +76,7 @@ pub(crate) fn build_import_object(
 ) -> ImportObject {
     let wasmer_store = module.store();
 
-    // transfrom_result
+    // transform_result
     let set_transform_result_fn_decl = Function::new_native_with_env(
         wasmer_store,
         TransformResultHostEnvironment::new(transform_result),

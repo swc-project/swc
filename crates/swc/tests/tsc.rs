@@ -26,7 +26,7 @@ use testing::{NormalizedOutput, Tester};
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
         "privateNameImplicitDeclaration.ts",
-        "privateNameStaticAccessorssDerivedClasses.ts",
+        "privateNameStaticAccessorsDerivedClasses.ts",
         "privateNameErrorsOnNotUseDefineForClassFieldsInEsNext.ts",
         "enumConstantMembers.ts",
     )

@@ -107,7 +107,7 @@ if (Deno.build.os !== "windows") {
     { perms: { run: true, write: true } },
     async function chownSyncSucceed(): Promise<void> {
       // TODO: when a file's owner is actually being changed,
-      // chown only succeeds if run under priviledged user (root)
+      // chown only succeeds if run under privileged user (root)
       // The test script has no such privilege, so need to find a better way to test this case
       const { uid, gid } = await getUidAndGid();
 
@@ -118,7 +118,7 @@ if (Deno.build.os !== "windows") {
       Deno.writeFileSync(filePath, fileData);
 
       // the test script creates this file with the same uid and gid,
-      // here chown is a noop so it succeeds under non-priviledged user
+      // here chown is a noop so it succeeds under non-privileged user
       Deno.chownSync(filePath, uid, gid);
 
       Deno.removeSync(dirPath, { recursive: true });
@@ -138,7 +138,7 @@ if (Deno.build.os !== "windows") {
       Deno.writeFileSync(fileUrl, fileData);
 
       // the test script creates this file with the same uid and gid,
-      // here chown is a noop so it succeeds under non-priviledged user
+      // here chown is a noop so it succeeds under non-privileged user
       Deno.chownSync(fileUrl, uid, gid);
 
       Deno.removeSync(dirPath, { recursive: true });
@@ -158,7 +158,7 @@ if (Deno.build.os !== "windows") {
       await Deno.writeFile(filePath, fileData);
 
       // the test script creates this file with the same uid and gid,
-      // here chown is a noop so it succeeds under non-priviledged user
+      // here chown is a noop so it succeeds under non-privileged user
       await Deno.chown(filePath, uid, gid);
 
       Deno.removeSync(dirPath, { recursive: true });
@@ -178,7 +178,7 @@ if (Deno.build.os !== "windows") {
       await Deno.writeFile(fileUrl, fileData);
 
       // the test script creates this file with the same uid and gid,
-      // here chown is a noop so it succeeds under non-priviledged user
+      // here chown is a noop so it succeeds under non-privileged user
       await Deno.chown(fileUrl, uid, gid);
 
       Deno.removeSync(dirPath, { recursive: true });

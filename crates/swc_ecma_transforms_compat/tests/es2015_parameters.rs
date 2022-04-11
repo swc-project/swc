@@ -774,7 +774,7 @@ test!(
 );
 
 test!(
-    // optimiation is not implemented
+    // optimization is not implemented
     ignore,
     syntax(),
     |_| tr(Default::default()),
@@ -1873,8 +1873,8 @@ test!(
     "
 class A {
   a = 1 + ((...a) => a)
-  b = (...b) => b + this 
-  static c = (c = 123) => c + this 
+  b = (...b) => b + this
+  static c = (c = 123) => c + this
 }
   ",
     "

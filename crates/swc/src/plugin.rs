@@ -21,7 +21,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
-/// Struct represents arbitary `context` or `state` to be passed to plugin's
+/// Struct represents arbitrary `context` or `state` to be passed to plugin's
 /// entrypoint.
 /// While internally this is strongly typed, it is not exposed as public
 /// interface to plugin's entrypoint but instead will be passed as JSON string.

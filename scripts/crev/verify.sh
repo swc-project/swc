@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script used to verify the depdencies of the project.
+# Script used to verify the dependencies of the project.
 #
 
 set -eu
@@ -16,7 +16,7 @@ if [ ! -z "${1-}" ] ; then
 
 else
     if [ ! -z "$TEXT" ]; then
-        echo "Found a depenedncy requires verification"
+        echo "Found a dependency requires verification"
         # exit 1
     else
         echo "All dependencies are verified"

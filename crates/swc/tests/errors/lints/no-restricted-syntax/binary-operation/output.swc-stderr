@@ -1,11 +1,11 @@
 
-  x no 'in' expession
+  x no 'in' expression
    ,----
  1 | 'a' in { a: 10 };
    : ^^^^^^^^^^^^^^^^
    `----
 
-  x no 'in' expession
+  x no 'in' expression
    ,----
  6 | if ('a' in { a: 10 }) {}
    :     ^^^^^^^^^^^^^^^^

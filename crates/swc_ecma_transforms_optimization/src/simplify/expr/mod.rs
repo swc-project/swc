@@ -50,7 +50,7 @@ pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'stat
 struct SimplifyExpr {
     config: Config,
     changed: bool,
-    /// Uninitializd variables.
+    /// Uninitialized variables.
     vars: Vec<VarDeclarator>,
     is_arg_of_update: bool,
     is_modifying: bool,

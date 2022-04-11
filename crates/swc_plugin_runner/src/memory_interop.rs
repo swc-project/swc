@@ -44,7 +44,7 @@ where
 
     // Get a subarray for current memoryview starting from ptr address we just
     // allocated above, perform copying into specified ptr. Wasm's memory layout
-    // is linear and we have atomic gaurantee by not having any thread access,
+    // is linear and we have atomic guarantee by not having any thread access,
     // so can safely get subarray from allocated ptr address.
     //
     // If we want safer operation instead, refer previous implementation

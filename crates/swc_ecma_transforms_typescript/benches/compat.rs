@@ -108,7 +108,7 @@ fn single_tr_group(c: &mut Criterion) {
         es2019_optional_catch_binding,
     );
     c.bench_function("es2017_async_to_generator", es2017_async_to_generator);
-    c.bench_function("es2016_exponentation", es2016_exponentation);
+    c.bench_function("es2016_exponentiation", es2016_exponentiation);
     c.bench_function("es2015_arrow", es2015_arrow);
     c.bench_function("es2015_block_scoped_fn", es2015_block_scoped_fn);
     c.bench_function("es2015_block_scoping", es2015_block_scoping);
@@ -190,8 +190,8 @@ fn es2016(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2016);
 }
 
-fn es2016_exponentation(b: &mut Bencher) {
-    run(b, swc_ecma_transforms_compat::es2016::exponentation);
+fn es2016_exponentiation(b: &mut Bencher) {
+    run(b, swc_ecma_transforms_compat::es2016::exponentiation);
 }
 
 fn es2015(b: &mut Bencher) {

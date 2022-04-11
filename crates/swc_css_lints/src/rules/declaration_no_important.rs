@@ -20,7 +20,7 @@ const MESSAGE: &str = "Unexpected '!important'.";
 struct DeclarationNoImportant {
     ctx: LintRuleContext<()>,
 
-    // rule interal
+    // rule internal
     keyframe_rules: Vec<Span>,
 }
 

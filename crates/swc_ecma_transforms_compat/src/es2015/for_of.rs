@@ -141,7 +141,7 @@ impl ForOf {
                     assert_eq!(
                         var.decls.len(),
                         1,
-                        "Variable declarator of for of loop cannot contain multiple entires"
+                        "Variable declarator of for of loop cannot contain multiple entries"
                     );
                     prepend(
                         &mut body.stmts,
@@ -384,7 +384,7 @@ impl ForOf {
 }
 
 /// ```js
-/// 
+///
 ///   try {
 ///     if (!_iteratorNormalCompletion && _iterator.return != null) {
 ///       _iterator.return();
