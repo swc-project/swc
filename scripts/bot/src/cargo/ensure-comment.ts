@@ -1,4 +1,4 @@
-import { getCurrentPrNumber, octokit } from "../util/octokit";
+import { getCurrentPrNumber } from "../util/octokit";
 import { parsePrComments } from "./comment-parser";
 
 

@@ -13,14 +13,14 @@ unitTest({ perms: { read: true } }, function watchFsInvalidPath() {
   if (Deno.build.os === "windows") {
     assertThrows(
       () => {
-        Deno.watchFs("non-existant.file");
+        Deno.watchFs("non-existent.file");
       },
       Error,
       "Input watch path is neither a file nor a directory"
     );
   } else {
     assertThrows(() => {
-      Deno.watchFs("non-existant.file");
+      Deno.watchFs("non-existent.file");
     }, Deno.errors.NotFound);
   }
 });
@@ -42,7 +42,7 @@ unitTest(
     const testDir = await Deno.makeTempDir();
     const iter = Deno.watchFs(testDir);
 
-    // Asynchornously capture two fs events.
+    // Asynchronously capture two fs events.
     const eventsPromise = getTwoEvents(iter);
 
     // Make some random file system activity.

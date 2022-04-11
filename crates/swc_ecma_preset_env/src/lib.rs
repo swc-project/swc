@@ -177,7 +177,7 @@ where
     );
 
     // ES2016
-    let pass = add!(pass, ExponentiationOperator, es2016::exponentation());
+    let pass = add!(pass, ExponentiationOperator, es2016::exponentiation());
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());

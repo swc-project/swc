@@ -426,7 +426,7 @@ macro_rules! expose {
         $T:ty,
         $($t:tt)*
     ) => {
-        /// Note: This is reccomended way to parse a file.
+        /// Note: This is recommended way to parse a file.
         ///
         /// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
         /// instantiation of generics occur in `swc_ecma_parser` crate.

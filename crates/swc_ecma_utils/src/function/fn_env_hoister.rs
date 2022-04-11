@@ -12,7 +12,7 @@ struct SuperField {
     ident: IndexMap<JsWord, Ident>,
 }
 
-/// Don't use it aginst function, it will stop if come across any function
+/// Don't use it against function, it will stop if come across any function
 /// use it against function body
 
 #[derive(Default)]

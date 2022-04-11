@@ -307,7 +307,7 @@ impl Babelify for TsIndexSignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSIndexSignature {
             base: ctx.base(self.span),
-            paramters: self
+            parameters: self
                 .params
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())

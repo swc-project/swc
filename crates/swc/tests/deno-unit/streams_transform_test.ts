@@ -48,7 +48,7 @@ unitTest(function transformStreamConstructedNoTransform() {
   new TransformStream({});
 });
 
-unitTest(function transformStreamIntstancesHaveProperProperties() {
+unitTest(function transformStreamInstancesHaveProperProperties() {
   const ts = new TransformStream({ transform(): void {} });
   const proto = Object.getPrototypeOf(ts);
 
@@ -425,7 +425,7 @@ unitTest(async function transformStreamCallTransformSync() {
   await writePromise;
 });
 
-unitTest(function transformStreamCloseWriteCloesesReadWithNoChunks() {
+unitTest(function transformStreamCloseWriteClosesReadWithNoChunks() {
   const ts = new TransformStream({}, undefined, { highWaterMark: 0 });
 
   const writer = ts.writable.getWriter();
@@ -514,7 +514,7 @@ unitTest(function transformStreamReadableTypeThrows() {
   );
 });
 
-unitTest(function transformStreamWirtableTypeThrows() {
+unitTest(function transformStreamWritableTypeThrows() {
   assertThrows(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     () => new TransformStream({ writableType: "bytes" as any }),

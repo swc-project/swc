@@ -5,7 +5,7 @@
                 "error",
                 {
                     "ForOfExpression": {
-                        "message": "no 'for-of' expession"
+                        "message": "no 'for-of' expression"
                     }
                 }
             ]

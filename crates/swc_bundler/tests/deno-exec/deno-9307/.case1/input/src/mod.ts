@@ -20,7 +20,7 @@ export const main = async (
   { loadFile, writeTextFile }: PlatformSpecificApi,
 ) => {
   const writeOutputFile = (path: string, data: string) => {
-    log(color.blue(`Writting file:\t${path}`));
+    log(color.blue(`Writing file:\t${path}`));
     return writeTextFile(path, data);
   };
 

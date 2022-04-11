@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script used to verify the depdencies of the project.
+# Script used to verify the dependencies of the project.
 #
 
 set -eu

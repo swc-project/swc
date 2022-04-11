@@ -92,7 +92,7 @@ impl NoLoopFunc {
             .any(|scope| self.scoped_unsafe_vars.get(scope).unwrap().contains(id))
     }
 
-    fn extact_vars(&mut self, pat: &Pat) {
+    fn extract_vars(&mut self, pat: &Pat) {
         match pat {
             Pat::Ident(ident) => {
                 self.scoped_unsafe_vars
@@ -103,7 +103,7 @@ impl NoLoopFunc {
             Pat::Array(ArrayPat { elems, .. }) => {
                 elems.iter().for_each(|elem| {
                     if let Some(elem) = elem {
-                        self.extact_vars(elem);
+                        self.extract_vars(elem);
                     }
                 });
             }
@@ -116,18 +116,18 @@ impl NoLoopFunc {
                             .insert(key.to_id());
                     }
                     ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
-                        self.extact_vars(value.as_ref());
+                        self.extract_vars(value.as_ref());
                     }
                     ObjectPatProp::Rest(RestPat { arg, .. }) => {
-                        self.extact_vars(arg.as_ref());
+                        self.extract_vars(arg.as_ref());
                     }
                 });
             }
             Pat::Rest(RestPat { arg, .. }) => {
-                self.extact_vars(arg.as_ref());
+                self.extract_vars(arg.as_ref());
             }
             Pat::Assign(AssignPat { left, .. }) => {
-                self.extact_vars(left.as_ref());
+                self.extract_vars(left.as_ref());
             }
             Pat::Invalid(_) => {}
             Pat::Expr(_) => {}
@@ -262,7 +262,7 @@ impl Visit for NoLoopFunc {
             _ => {}
         };
 
-        self.extact_vars(&var_declarator.name);
+        self.extract_vars(&var_declarator.name);
     }
 
     fn visit_function(&mut self, function: &Function) {
