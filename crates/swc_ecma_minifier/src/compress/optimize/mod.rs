@@ -2165,8 +2165,24 @@ where
         }
 
         if let Some(body) = &mut n.body {
-            for s in body.stmts.iter_mut() {
-                self.extract_vars_in_subscopes(s);
+            {
+                let old_prepend = self.prepend_stmts.take();
+                let old_append = self.append_stmts.take();
+
+                for s in body.stmts.iter_mut() {
+                    self.extract_vars_in_subscopes(s);
+                }
+
+                if !self.prepend_stmts.is_empty() {
+                    prepend_stmts(&mut body.stmts, self.prepend_stmts.drain(..));
+                }
+
+                if self.append_stmts.is_empty() {
+                    body.stmts.append(&mut self.append_stmts);
+                }
+
+                self.prepend_stmts = old_prepend;
+                self.append_stmts = old_append;
             }
 
             self.merge_if_returns(&mut body.stmts, false, true);

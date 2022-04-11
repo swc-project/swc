@@ -548,49 +548,78 @@ where
     ///
     /// This method actually `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
-        let mut found_other = false;
-        if let Stmt::Block(bs) = s {
-            // Extract variables without
-            for stmt in &mut bs.stmts {
-                match stmt {
-                    Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    )) => {
-                        for decl in &mut v.decls {
-                            if decl.init.is_some() {
-                                continue;
-                            }
-                            self.changed = true;
-                            tracing::debug!("sequences: Hoisting `var` without init");
-                            let s = Stmt::Decl(Decl::Var(VarDecl {
-                                span: v.span,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![decl.take()],
-                            }));
-                            if found_other {
-                                self.append_stmts.push(s);
-                            } else {
-                                self.prepend_stmts.push(s);
-                            }
-                        }
+        match s {
+            Stmt::Decl(Decl::Var(
+                v @ VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                },
+            )) => {
+                for decl in &mut v.decls {
+                    if decl.init.is_some() {
+                        continue;
+                    }
+                    self.changed = true;
+                    tracing::debug!("sequences: Hoisting `var` without init");
+                    let s = Stmt::Decl(Decl::Var(VarDecl {
+                        span: v.span,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![decl.take()],
+                    }));
 
-                        v.decls.retain(|v| !v.name.is_invalid());
-                    }
-                    _ => {
-                        found_other = true;
-                    }
+                    self.prepend_stmts.push(s);
                 }
+
+                v.decls.retain(|v| !v.name.is_invalid());
             }
 
-            bs.stmts.retain(|s| match s {
-                Stmt::Empty(..) => false,
-                Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
-                _ => true,
-            });
+            Stmt::Block(bs) => {
+                let mut found_other = false;
+
+                // Extract variables without
+                for stmt in &mut bs.stmts {
+                    match stmt {
+                        Stmt::Decl(Decl::Var(
+                            v @ VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            },
+                        )) => {
+                            for decl in &mut v.decls {
+                                if decl.init.is_some() {
+                                    continue;
+                                }
+                                self.changed = true;
+                                tracing::debug!("sequences: Hoisting `var` without init");
+                                let s = Stmt::Decl(Decl::Var(VarDecl {
+                                    span: v.span,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![decl.take()],
+                                }));
+                                if found_other {
+                                    self.append_stmts.push(s);
+                                } else {
+                                    self.prepend_stmts.push(s);
+                                }
+                            }
+
+                            v.decls.retain(|v| !v.name.is_invalid());
+                        }
+                        _ => {
+                            found_other = true;
+                        }
+                    }
+                }
+
+                bs.stmts.retain(|s| match s {
+                    Stmt::Empty(..) => false,
+                    Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
+                    _ => true,
+                });
+            }
+            _ => {}
         }
     }
 
