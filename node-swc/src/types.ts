@@ -1575,6 +1575,7 @@ export interface NamedImportSpecifier extends Node, HasSpan {
   type: "ImportSpecifier";
   local: Identifier;
   imported: Identifier | null;
+  isTypeOnly?: boolean;
 }
 
 export type ExportSpecifier =
@@ -1605,6 +1606,7 @@ export interface NamedExportSpecifier extends Node, HasSpan {
    * `Some(bar)` in `export { foo as bar }`
    */
   exported: Identifier | null;
+  isTypeOnly?: boolean;
 }
 
 interface HasInterpreter {
