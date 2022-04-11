@@ -1122,7 +1122,13 @@ impl Remover {
                         // Remove empty statements.
                         Stmt::Empty(..) => continue,
 
-                        Stmt::Expr(ExprStmt { ref expr, .. }) if expr.is_lit() && is_block_stmt => {
+                        Stmt::Expr(ExprStmt { ref expr, .. })
+                            if match &**expr {
+                                Expr::Lit(Lit::Str(..)) => false,
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            } && is_block_stmt =>
+                        {
                             continue
                         }
 
