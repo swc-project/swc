@@ -90,11 +90,11 @@ impl Repeated for Pure<'_> {
 impl Pure<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: ModuleItemExt + Take,
-        Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
-            + VisitMutWith<self::vars::VarPrepender>
-            + VisitMutWith<self::vars::VarMover>
-            + VisitWith<AssertValid>,
+        T: ModuleItemExt
+            + Take
+            + VisitWith<self::vars::VarWithOutInitCounter>
+            + VisitMutWith<self::vars::VarMover>,
+        Vec<T>: VisitMutWith<self::vars::VarPrepender> + VisitWith<AssertValid>,
     {
         self.remove_dead_branch(stmts);
 
@@ -408,12 +408,23 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
+        f.decorators.visit_mut_with(self);
         {
             let ctx = Ctx {
                 _in_try_block: false,
                 ..self.ctx
             };
-            f.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            let mut v = self.with_ctx(ctx);
+            f.params.visit_mut_children_with(&mut *v);
+        }
+        {
+            let ctx = Ctx {
+                _in_try_block: false,
+                is_stmts_fn_body: true,
+                ..self.ctx
+            };
+            let mut v = self.with_ctx(ctx);
+            f.body.visit_mut_children_with(&mut *v);
         }
 
         if let Some(body) = &mut f.body {
@@ -606,6 +617,7 @@ impl VisitMut for Pure<'_> {
                 is_callee: false,
                 in_delete: false,
                 in_first_expr: true,
+                is_stmts_fn_body: false,
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));

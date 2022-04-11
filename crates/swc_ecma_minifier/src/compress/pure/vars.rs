@@ -151,20 +151,23 @@ impl Pure<'_> {
     /// prepended to `stmts`.
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
-        Vec<T>:
-            VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover> + VisitMutWith<VarPrepender>,
+        T: StmtLike + VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover>,
+        Vec<T>: VisitMutWith<VarPrepender>,
     {
         if !self.options.collapse_vars {
             return;
         }
+
+        // Skip first one in the body.
+        let is_stmts_fn_body = self.ctx.is_stmts_fn_body;
+        let skip = if is_stmts_fn_body { 1 } else { 0 };
 
         {
             let mut found_vars_without_init = false;
             let mut found_other = false;
             let mut need_work = false;
 
-            for stmt in &*stmts {
+            for stmt in stmts.iter().skip(skip) {
                 match stmt.as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
                         v @ VarDecl {
@@ -202,7 +205,10 @@ impl Pure<'_> {
 
             // Check for nested variable declartions.
             let mut v = VarWithOutInitCounter::default();
-            stmts.visit_with(&mut v);
+            stmts
+                .iter()
+                .skip(skip)
+                .for_each(|stmt| stmt.visit_with(&mut v));
             if !need_work && !v.need_work {
                 return;
             }
@@ -216,7 +222,10 @@ impl Pure<'_> {
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
-            stmts.visit_mut_with(&mut v);
+            stmts
+                .iter_mut()
+                .skip(skip)
+                .for_each(|stmt| stmt.visit_mut_with(&mut v));
 
             v.vars
         };
