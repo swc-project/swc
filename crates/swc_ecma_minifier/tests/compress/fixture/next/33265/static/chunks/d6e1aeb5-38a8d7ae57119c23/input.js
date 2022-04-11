@@ -3786,7 +3786,7 @@ var Set = (global_window__WEBPACK_IMPORTED_MODULE_0___default().Set) ? (global_w
 var Component$1 = /*#__PURE__*/function () {
   /**
    * A callback that is called when a component is ready. Does not have any
-   * paramters and any callback value will be ignored.
+   * parameters and any callback value will be ignored.
    *
    * @callback Component~ReadyCallback
    * @this Component

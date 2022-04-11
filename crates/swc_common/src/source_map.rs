@@ -108,7 +108,7 @@ pub(super) struct SourceMapFiles {
 
 /// The interner for spans.
 ///
-/// As most spans are simply stored, we store them as interend form.
+/// As most spans are simply stored, we store them as interned form.
 ///
 ///  - Each ast node only stores pointer to actual data ([BytePos]).
 ///  - The pointers ([BytePos]) can be converted to file name, line and column

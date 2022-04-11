@@ -86,8 +86,8 @@ function intToHex( int: number )
  * Converts a hex string containing a color such as '#00DEAD' to
  * an integer, such as 0x00DEAD;
  *
- * @param  {Number} num
- * @return {String}
+ * @param  {String} hex
+ * @return {Number}
  */
 function hexToInt( hex: string )
 {

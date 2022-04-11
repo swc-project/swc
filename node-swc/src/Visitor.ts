@@ -1091,12 +1091,12 @@ export class Visitor {
   }
 
   visitAssignmentExpression(n: AssignmentExpression): Expression {
-    n.left = this.visitPatternOrExpressison(n.left);
+    n.left = this.visitPatternOrExpression(n.left);
     n.right = this.visitExpression(n.right);
     return n;
   }
 
-  visitPatternOrExpressison(n: Pattern | Expression): Pattern | Expression {
+  visitPatternOrExpression(n: Pattern | Expression): Pattern | Expression {
     switch (n.type) {
       case "ObjectPattern":
       case "ArrayPattern":

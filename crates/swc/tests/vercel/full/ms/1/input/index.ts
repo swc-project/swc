@@ -71,7 +71,7 @@ function ms(value: StringValue | number, options?: Options): number | string {
     } catch (error) {
         const message = isError(error)
             ? `${error.message}. value=${JSON.stringify(value)}`
-            : 'An unknown error has occured.';
+            : 'An unknown error has occurred.';
         throw new Error(message);
     }
 }

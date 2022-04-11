@@ -1,11 +1,11 @@
 
-  x Unxpected alpha channel in '#ffff'.
+  x Unexpected alpha channel in '#ffff'.
    ,-[$DIR/tests/rules/fail/color-hex-alpha/never/input.css:1:1]
  1 | a { color: #ffff; }
    :            ^^^^^
    `----
 
-  x Unxpected alpha channel in '#ffffffff'.
+  x Unexpected alpha channel in '#ffffffff'.
    ,-[$DIR/tests/rules/fail/color-hex-alpha/never/input.css:2:1]
  2 | a { color: #ffffffff; }
    :            ^^^^^^^^^

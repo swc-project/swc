@@ -5,7 +5,7 @@
                 "error",
                 {
                     "ForInExpression": {
-                        "message": "no 'for-in' expession"
+                        "message": "no 'for-in' expression"
                     }
                 }
             ]
