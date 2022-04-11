@@ -161,6 +161,8 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
+    enable_extract_vars: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1727,6 +1729,7 @@ where
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
+            enable_extract_vars: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2149,6 +2152,7 @@ where
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
+                enable_extract_vars: true,
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
