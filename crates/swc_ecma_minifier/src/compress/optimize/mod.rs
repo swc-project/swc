@@ -2165,8 +2165,6 @@ where
         }
 
         if let Some(body) = &mut n.body {
-            self.promote_subscope_vars(&mut body.stmts);
-
             self.merge_if_returns(&mut body.stmts, false, true);
             self.drop_else_token(&mut body.stmts);
         }
@@ -2259,8 +2257,6 @@ where
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        self.promote_subscope_vars(stmts);
-
         let ctx = Ctx {
             top_level: true,
             skip_standalone: true,

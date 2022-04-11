@@ -21,7 +21,6 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
-    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -484,16 +483,16 @@ where
         e.exprs = new_exprs;
     }
 
-    pub(super) fn promote_subscope_vars<T>(&mut self, stmts: &mut Vec<T>)
+    #[allow(unused)]
+    pub(super) fn optimize_with_extras<T, F>(&mut self, stmts: &mut Vec<T>, mut op: F)
     where
+        F: FnMut(&mut Vec<T>),
         T: ModuleItemExt,
     {
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
 
-        for s in stmts.iter_mut().flat_map(|s| s.as_stmt_mut()) {
-            self.extract_vars_in_subscopes(s);
-        }
+        op(stmts);
 
         if !self.prepend_stmts.is_empty() {
             prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from_stmt));
@@ -505,161 +504,6 @@ where
 
         self.prepend_stmts = old_prepend;
         self.append_stmts = old_append;
-    }
-
-    /// Hoist variables in subscope.
-    ///
-    /// I don't know why it depends on `sequences`.
-    fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
-        if !self.options.sequences() {
-            return;
-        }
-
-        if DISABLE_BUGGY_PASSES {
-            return;
-        }
-
-        let _tracing = span!(
-            Level::ERROR,
-            "extract_vars_in_subscopes",
-            stmt = tracing::field::display(&dump(s, true))
-        )
-        .entered();
-
-        match s {
-            Stmt::If(s) => {
-                self.extract_vars_in_subscopes(&mut s.cons);
-                if let Some(alt) = &mut s.alt {
-                    self.extract_vars_in_subscopes(alt);
-                }
-            }
-
-            Stmt::Block(bs) => {
-                for stmt in bs.stmts.iter_mut() {
-                    self.extract_vars_in_subscopes(stmt);
-                }
-            }
-
-            Stmt::Labeled(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            Stmt::While(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            Stmt::DoWhile(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            Stmt::For(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            Stmt::ForOf(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            Stmt::ForIn(s) => {
-                self.extract_vars_in_subscopes(&mut s.body);
-            }
-
-            _ => {}
-        }
-
-        match s {
-            Stmt::If(stmt) if self.options.conditionals => {
-                self.extract_vars(&mut stmt.cons);
-                if let Some(alt) = &mut stmt.alt {
-                    self.extract_vars(alt);
-                }
-            }
-
-            _ => {}
-        }
-    }
-
-    /// Move `var` in subscope to current scope.
-    ///
-    /// This method actually `hoist`s [VarDecl]s declared with `var`.
-    fn extract_vars(&mut self, s: &mut Stmt) {
-        match s {
-            Stmt::Decl(Decl::Var(
-                v @ VarDecl {
-                    kind: VarDeclKind::Var,
-                    ..
-                },
-            )) => {
-                for decl in &mut v.decls {
-                    if decl.init.is_some() {
-                        continue;
-                    }
-                    self.changed = true;
-                    tracing::debug!("sequences: Hoisting `var` without init");
-                    let s = Stmt::Decl(Decl::Var(VarDecl {
-                        span: v.span,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vec![decl.take()],
-                    }));
-
-                    self.prepend_stmts.push(s);
-                }
-
-                v.decls.retain(|v| !v.name.is_invalid());
-
-                if v.decls.is_empty() {
-                    s.take();
-                }
-            }
-
-            Stmt::Block(bs) => {
-                let mut found_other = false;
-
-                // Extract variables without
-                for stmt in &mut bs.stmts {
-                    match stmt {
-                        Stmt::Decl(Decl::Var(
-                            v @ VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) => {
-                            for decl in &mut v.decls {
-                                if decl.init.is_some() {
-                                    continue;
-                                }
-                                self.changed = true;
-                                tracing::debug!("sequences: Hoisting `var` without init");
-                                let s = Stmt::Decl(Decl::Var(VarDecl {
-                                    span: v.span,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: vec![decl.take()],
-                                }));
-                                if found_other {
-                                    self.append_stmts.push(s);
-                                } else {
-                                    self.prepend_stmts.push(s);
-                                }
-                            }
-
-                            v.decls.retain(|v| !v.name.is_invalid());
-                        }
-                        _ => {
-                            found_other = true;
-                        }
-                    }
-                }
-
-                bs.stmts.retain(|s| match s {
-                    Stmt::Empty(..) => false,
-                    Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
-                    _ => true,
-                });
-            }
-            _ => {}
-        }
     }
 
     ///
