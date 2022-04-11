@@ -26,10 +26,12 @@
     }
     function forEach(obj, iterator, context) {
         var key;
-        if (obj) if (isFunction(obj)) for(key in obj)'prototype' != key && 'length' != key && 'name' != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-        else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
-        else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
-        else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        if (obj) {
+            if (isFunction(obj)) for(key in obj)'prototype' != key && 'length' != key && 'name' != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+            else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
+            else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
+            else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        }
         return obj;
     }
     function sortedKeys(obj) {
@@ -151,22 +153,24 @@
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0;
         var length, key, keySet, t1 = typeof o1;
-        if (t1 == typeof o2 && 'object' == t1) if (isArray(o1)) {
-            if (!isArray(o2)) return !1;
-            if ((length = o1.length) == o2.length) {
-                for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
+        if (t1 == typeof o2 && 'object' == t1) {
+            if (isArray(o1)) {
+                if (!isArray(o2)) return !1;
+                if ((length = o1.length) == o2.length) {
+                    for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
+                    return !0;
+                }
+            } else {
+                if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
+                if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
+                if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
+                for(key in keySet = {}, o1)if (!('$' === key.charAt(0) || isFunction(o1[key]))) {
+                    if (!equals(o1[key], o2[key])) return !1;
+                    keySet[key] = !0;
+                }
+                for(key in o2)if (!keySet.hasOwnProperty(key) && '$' !== key.charAt(0) && undefined !== o2[key] && !isFunction(o2[key])) return !1;
                 return !0;
             }
-        } else {
-            if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
-            if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
-            if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
-            for(key in keySet = {}, o1)if (!('$' === key.charAt(0) || isFunction(o1[key]))) {
-                if (!equals(o1[key], o2[key])) return !1;
-                keySet[key] = !0;
-            }
-            for(key in o2)if (!keySet.hasOwnProperty(key) && '$' !== key.charAt(0) && undefined !== o2[key] && !isFunction(o2[key])) return !1;
-            return !0;
         }
         return !1;
     }
@@ -501,11 +505,9 @@
         },
         hasClass: jqLiteHasClass,
         css: function(element, name, value) {
-            if (name = camelCase(name), isDefined(value)) element.style[name] = value;
-            else {
-                var val;
-                return msie <= 8 && '' === (val = element.currentStyle && element.currentStyle[name]) && (val = 'auto'), val = val || element.style[name], msie <= 8 && (val = '' === val ? undefined : val), val;
-            }
+            var val;
+            if (name = camelCase(name), !isDefined(value)) return msie <= 8 && '' === (val = element.currentStyle && element.currentStyle[name]) && (val = 'auto'), val = val || element.style[name], msie <= 8 && (val = '' === val ? undefined : val), val;
+            element.style[name] = value;
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
@@ -832,7 +834,7 @@
             function($window, $location, $rootScope) {
                 var document = $window.document;
                 function scroll() {
-                    var list, result, elm, hash = $location.hash();
+                    var elm, list, result, hash = $location.hash();
                     hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (list = document.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || 'a' !== lowercase(element.nodeName) || (result = element);
                     }), result)) ? elm.scrollIntoView() : 'top' === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
@@ -1601,15 +1603,12 @@
                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                     } else cache.put(url, promise);
                     return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        if (cache) {
-                            var status1;
-                            200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
-                                status,
-                                response,
-                                parseHeaders(headersString)
-                            ]) : cache.remove(url);
-                        }
-                        resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                        var status1;
+                        cache && (200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
+                            status,
+                            response,
+                            parseHeaders(headersString)
+                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
                     }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
                     function resolvePromise(response, status, headers) {
                         var status2;
@@ -1902,7 +1901,7 @@
             '$sniffer',
             '$rootElement',
             function($rootScope, $browser, $sniffer, $rootElement) {
-                var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
+                var $location, LocationMode, appBase, url, baseHref = $browser.baseHref(), initialUrl = $browser.url();
                 html5Mode ? (appBase = (url = initialUrl).substring(0, url.indexOf('/', url.indexOf('//') + 2)) + (baseHref || '/'), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, '#' + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on('click', function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); 'a' !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;
@@ -2274,11 +2273,12 @@
             return 0 !== this.tokens.length && this.throwError('is an unexpected token', this.tokens[0]), value.literal = !!value.literal, value.constant = !!value.constant, value;
         },
         primary: function() {
+            var primary, next, context;
             if (this.expect('(')) primary = this.filterChain(), this.consume(')');
             else if (this.expect('[')) primary = this.arrayDeclaration();
             else if (this.expect('{')) primary = this.object();
             else {
-                var primary, next, context, token = this.expect();
+                var token = this.expect();
                 (primary = token.fn) || this.throwError('not a primary expression', token), token.json && (primary.constant = !0, primary.literal = !0);
             }
             for(; next = this.expect('(', '[', '.');)'(' === next.text ? (primary = this.functionCall(primary, context), context = null) : '[' === next.text ? (context = primary, primary = this.objectIndex(primary)) : '.' === next.text ? (context = primary, primary = this.fieldAccess(primary)) : this.throwError('IMPOSSIBLE');
@@ -2757,14 +2757,15 @@
                     $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
-                                oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
-                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
-                            } else {
-                                for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
-                                if (oldLength > newLength) for(key in changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
-                            }
-                            else oldValue !== newValue && (oldValue = newValue, changeDetected++);
+                            if (isObject(newValue = objGetter(self))) {
+                                if (isArrayLike(newValue)) {
+                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
+                                    for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                                } else {
+                                    for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
+                                    if (oldLength > newLength) for(key in changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
+                                }
+                            } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
                         }, function() {
                             listener(newValue, oldValue, self);
@@ -2784,12 +2785,14 @@
                             }
                             traverseScopesLoop: do {
                                 if (watchers = current.$$watchers) for(length = watchers.length; length--;)try {
-                                    if (watch = watchers[length]) if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : 'number' == typeof value && 'number' == typeof last && isNaN(value) && isNaN(last))) {
-                                        if (watch === lastDirtyWatch) {
-                                            dirty = !1;
-                                            break traverseScopesLoop;
-                                        }
-                                    } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = isFunction(watch.exp) ? 'fn: ' + (watch.exp.name || watch.exp.toString()) : watch.exp, logMsg += '; newVal: ' + toJson(value) + '; oldVal: ' + toJson(last), watchLog[logIdx].push(logMsg));
+                                    if (watch = watchers[length]) {
+                                        if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : 'number' == typeof value && 'number' == typeof last && isNaN(value) && isNaN(last))) {
+                                            if (watch === lastDirtyWatch) {
+                                                dirty = !1;
+                                                break traverseScopesLoop;
+                                            }
+                                        } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = isFunction(watch.exp) ? 'fn: ' + (watch.exp.name || watch.exp.toString()) : watch.exp, logMsg += '; newVal: ' + toJson(value) + '; oldVal: ' + toJson(last), watchLog[logIdx].push(logMsg));
+                                    }
                                 } catch (e) {
                                     clearPhase(), $exceptionHandler(e);
                                 }
@@ -3253,7 +3256,7 @@
     var DECIMAL_SEP = '.';
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return '';
-        var isNegative = number < 0, numStr = (number = Math.abs(number)) + '', formatedText = '', parts = [], hasExponent = !1;
+        var i, isNegative = number < 0, numStr = (number = Math.abs(number)) + '', formatedText = '', parts = [], hasExponent = !1;
         if (-1 !== numStr.indexOf('e')) {
             var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
             match && '-' == match[2] && match[3] > fractionSize + 1 ? numStr = '0' : (formatedText = numStr, hasExponent = !0);
@@ -3264,7 +3267,7 @@
             isUndefined(fractionSize) && (fractionSize = Math.min(Math.max(pattern.minFrac, fractionLen), pattern.maxFrac));
             var pow = Math.pow(10, fractionSize), fraction = ('' + (number = Math.round(number * pow) / pow)).split(DECIMAL_SEP), whole = fraction[0];
             fraction = fraction[1] || '';
-            var i, pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
+            var pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
             if (whole.length >= lgroup + group) for(i = 0, pos = whole.length - lgroup; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             for(i = pos; i < whole.length; i++)(whole.length - i) % lgroup == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
             for(; fraction.length < fractionSize;)fraction += '0';
@@ -3358,8 +3361,7 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
-            if (!isArray(array)) return array;
-            if (!sortPredicate) return array;
+            if (!isArray(array) || !sortPredicate) return array;
             sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
@@ -3598,7 +3600,7 @@
         }), element.on('compositionend', function() {
             composing = !1;
         });
-        var listener = function() {
+        var timeout, listener = function() {
             if (!composing) {
                 var value = element.val();
                 toBoolean(attr.ngTrim || 'T') && (value = trim1(value)), ctrl.$viewValue !== value && scope.$apply(function() {
@@ -3608,7 +3610,7 @@
         };
         if ($sniffer.hasEvent('input')) element.on('input', listener);
         else {
-            var timeout, deferListener = function() {
+            var deferListener = function() {
                 timeout || (timeout = $browser.defer(function() {
                     listener(), timeout = null;
                 }));
@@ -4169,7 +4171,7 @@
                 ],
                 link: function(scope5, element8, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var scope3, selectElement2, ctrl1, lastView, scope4, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement('option')), optGroupTemplate = jqLite(document1.createElement('optgroup')), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ('' === children[i].value) {
+                        for(var emptyOption, scope3, selectElement2, ctrl1, lastView, scope4, selectElement1, ngModelCtrl, selectCtrl, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement('option')), optGroupTemplate = jqLite(document1.createElement('optgroup')), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ('' === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }
@@ -4197,10 +4199,12 @@
                                 }, optionGroupNames = [
                                     ''
                                 ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {}, selectedSet = !1;
-                                if (multiple) if (trackFn && isArray(modelValue)) {
-                                    selectedSet = new HashMap([]);
-                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
-                                } else selectedSet = new HashMap(modelValue);
+                                if (multiple) {
+                                    if (trackFn && isArray(modelValue)) {
+                                        selectedSet = new HashMap([]);
+                                        for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
+                                    } else selectedSet = new HashMap(modelValue);
+                                }
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {
                                         if ('$' === (key = keys[index]).charAt(0)) continue;

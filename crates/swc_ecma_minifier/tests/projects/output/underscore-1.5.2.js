@@ -172,8 +172,7 @@
     }, _.initial = function(array, n, guard) {
         return slice.call(array, 0, array.length - (null == n || guard ? 1 : n));
     }, _.last = function(array, n, guard) {
-        if (null != array) if (null == n || guard) return array[array.length - 1];
-        else return slice.call(array, Math.max(array.length - n, 0));
+        if (null != array) return null == n || guard ? array[array.length - 1] : slice.call(array, Math.max(array.length - n, 0));
     }, _.rest = _.tail = _.drop = function(array, n, guard) {
         return slice.call(array, null == n || guard ? 1 : n);
     }, _.compact = function(array) {

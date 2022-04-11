@@ -22,11 +22,8 @@
                 return _proto.hydrate = function(nodes) {
                     nodes.forEach(this._insertTag);
                 }, _proto.insert = function(rule) {
-                    if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
-                        var options, tag;
-                        this._insertTag((options = this, (tag = document.createElement('style')).setAttribute('data-emotion', options.key), void 0 !== options.nonce && tag.setAttribute('nonce', options.nonce), tag.appendChild(document.createTextNode('')), tag.setAttribute('data-s', ''), tag));
-                    }
-                    var tag1 = this.tags[this.tags.length - 1];
+                    this.ctr % (this.isSpeedy ? 65000 : 1) == 0 && this._insertTag((options = this, (tag2 = document.createElement('style')).setAttribute('data-emotion', options.key), void 0 !== options.nonce && tag2.setAttribute('nonce', options.nonce), tag2.appendChild(document.createTextNode('')), tag2.setAttribute('data-s', ''), tag2));
+                    var options, tag2, tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
                         var sheet = function(tag) {
                             if (tag.sheet) return tag.sheet;
@@ -340,17 +337,19 @@
                             case 59:
                                 characters += ';';
                             default:
-                                if (Utility_append(reference = ruleset(characters, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character) if (0 === offset) parse(characters, root, reference, reference, props, rulesets, length, points, children);
-                                else switch(atrule){
-                                    case 100:
-                                    case 109:
-                                    case 115:
-                                        parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
-                                        break;
-                                    default:
-                                        parse(characters, reference, reference, reference, [
-                                            ''
-                                        ], children, length, points, children);
+                                if (Utility_append(reference = ruleset(characters, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character) {
+                                    if (0 === offset) parse(characters, root, reference, reference, props, rulesets, length, points, children);
+                                    else switch(atrule){
+                                        case 100:
+                                        case 109:
+                                        case 115:
+                                            parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
+                                            break;
+                                        default:
+                                            parse(characters, reference, reference, reference, [
+                                                ''
+                                            ], children, length, points, children);
+                                    }
                                 }
                         }
                         index = offset = property = 0, variable = ampersand = 1, type = characters = '', length = pseudo;
