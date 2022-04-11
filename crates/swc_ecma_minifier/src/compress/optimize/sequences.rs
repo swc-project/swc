@@ -503,6 +503,11 @@ where
                 }
             }
 
+            Stmt::Block(bs) => {
+                for stmt in bs.stmts.iter_mut() {
+                    self.extract_vars_in_subscopes(stmt);
+                }
+            }
             _ => {}
         }
     }
