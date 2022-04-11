@@ -572,6 +572,10 @@ where
                 }
 
                 v.decls.retain(|v| !v.name.is_invalid());
+
+                if v.decls.is_empty() {
+                    s.take();
+                }
             }
 
             Stmt::Block(bs) => {
