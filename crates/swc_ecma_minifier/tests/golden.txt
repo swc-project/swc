@@ -597,6 +597,7 @@ harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
+harmony/issue_2794_3/input.js
 harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_2794_6/input.js
