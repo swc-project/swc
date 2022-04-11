@@ -940,6 +940,12 @@ where
             punct!(")");
         }
 
+        if let Some(ty) = &node.return_type {
+            punct!(":");
+            formatting_space!();
+            emit!(ty);
+        }
+
         punct!("=>");
         emit!(node.body);
 
