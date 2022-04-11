@@ -99,3 +99,8 @@
   display: -ms-flexbox;
   display: flex;
 }
+.class-14 {
+  -webkit-column-break-before: avoid;
+  -moz-column-break-before: column;
+  break-before: column;
+}
