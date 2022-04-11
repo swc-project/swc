@@ -67,3 +67,8 @@
     -webkit-animation: rotation-reverse 100ms;
     animation: rotation-reverse;
 }
+
+.class-13 {
+    display: block;
+    display: flex;
+}
