@@ -483,6 +483,11 @@ impl VisitMut for Remover {
 
                 // `1;` -> `;`
                 Stmt::Expr(ExprStmt { span, expr, .. }) => {
+                    // Directives
+                    if let Expr::Lit(Lit::Str(..)) = &*expr {
+                        return Stmt::Expr(ExprStmt { span, expr });
+                    }
+
                     let expr = *expr;
                     match ignore_result(expr) {
                         Some(e) => Stmt::Expr(ExprStmt {
