@@ -284,6 +284,16 @@ impl VisitMut for Remover {
         }
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            if e.is_invalid() {
+                *n = None;
+            }
+        }
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
