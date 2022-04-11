@@ -50,7 +50,8 @@
               "end": 23,
               "ctxt": 0
             },
-            "value": 43.0
+            "value": 43.0,
+            "raw": "43"
           },
           "typeAnnotation": null,
           "isStatic": false,

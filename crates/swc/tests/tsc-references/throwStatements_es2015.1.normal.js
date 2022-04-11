@@ -55,7 +55,7 @@ throw aFunctionInModule;
 var x;
 throw x;
 // literals
-throw 0;
+throw 0.0;
 throw false;
 throw null;
 throw undefined;

@@ -49,8 +49,14 @@ where
 
         match &n.token {
             Token::Doctype {
+                raw_keyword,
                 name,
+                raw_name,
+                public_quote,
+                raw_public_keyword,
                 public_id,
+                raw_system_keyword,
+                system_quote,
                 system_id,
                 ..
             } => {
@@ -58,27 +64,111 @@ where
 
                 doctype.push('<');
                 doctype.push('!');
-                doctype.push_str("DOCTYPE");
 
-                if let Some(name) = &name {
+                if let Some(raw_keyword) = &raw_keyword {
+                    doctype.push_str(raw_keyword);
+                } else {
+                    doctype.push_str("DOCTYPE");
+                }
+
+                if let Some(raw_name) = &raw_name {
+                    doctype.push(' ');
+                    doctype.push_str(raw_name);
+                } else if let Some(name) = &name {
                     doctype.push(' ');
                     doctype.push_str(name);
                 }
 
                 if let Some(public_id) = &public_id {
                     doctype.push(' ');
-                    doctype.push_str("PUBLIC");
-                    doctype.push(' ');
-                    doctype.push('"');
-                    doctype.push_str(public_id);
-                    doctype.push('"');
-                }
 
-                if let Some(system_id) = &system_id {
+                    match raw_public_keyword {
+                        Some(raw_public_keyword) => {
+                            doctype.push_str(raw_public_keyword);
+                            doctype.push(' ');
+                        }
+                        _ => {
+                            doctype.push_str("PUBLIC");
+                            doctype.push(' ');
+                        }
+                    }
+
+                    match public_quote {
+                        Some(public_quote) => {
+                            doctype.push(*public_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
+
+                    doctype.push_str(public_id);
+
+                    match public_quote {
+                        Some(public_quote) => {
+                            doctype.push(*public_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
+
+                    if let Some(system_id) = &system_id {
+                        doctype.push(' ');
+
+                        match system_quote {
+                            Some(system_quote) => {
+                                doctype.push(*system_quote);
+                            }
+                            _ => {
+                                doctype.push('"');
+                            }
+                        }
+
+                        doctype.push_str(system_id);
+
+                        match system_quote {
+                            Some(system_quote) => {
+                                doctype.push(*system_quote);
+                            }
+                            _ => {
+                                doctype.push('"');
+                            }
+                        }
+                    }
+                } else if let Some(system_id) = &system_id {
                     doctype.push(' ');
-                    doctype.push('"');
+
+                    match raw_system_keyword {
+                        Some(raw_system_keyword) => {
+                            doctype.push_str(raw_system_keyword);
+                            doctype.push(' ');
+                        }
+                        _ => {
+                            doctype.push_str("SYSTEM");
+                            doctype.push(' ');
+                        }
+                    }
+
+                    match system_quote {
+                        Some(system_quote) => {
+                            doctype.push(*system_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
+
                     doctype.push_str(system_id);
-                    doctype.push('"');
+
+                    match system_quote {
+                        Some(system_quote) => {
+                            doctype.push(*system_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
                 }
 
                 doctype.push('>');
@@ -87,28 +177,47 @@ where
             }
             Token::StartTag {
                 tag_name,
+                raw_tag_name,
                 attributes,
                 self_closing,
             } => {
                 let mut start_tag = String::new();
 
                 start_tag.push('<');
-                start_tag.push_str(tag_name);
+
+                match raw_tag_name {
+                    Some(raw_tag_name) => {
+                        start_tag.push_str(raw_tag_name);
+                    }
+                    _ => {
+                        start_tag.push_str(tag_name);
+                    }
+                }
 
                 for attribute in attributes {
                     start_tag.push(' ');
-                    start_tag.push_str(&attribute.name);
-                    start_tag.push('=');
 
-                    let quote = if attribute.value.contains('"') {
-                        '\''
-                    } else {
-                        '"'
-                    };
+                    match &attribute.raw_name {
+                        Some(raw_name) => {
+                            start_tag.push_str(raw_name);
+                        }
+                        _ => {
+                            start_tag.push_str(&attribute.name);
+                        }
+                    }
+                    if let Some(raw_value) = &attribute.raw_value {
+                        start_tag.push('=');
 
-                    start_tag.push(quote);
-                    start_tag.push_str(&attribute.value);
-                    start_tag.push(quote);
+                        start_tag.push_str(raw_value);
+                    } else if let Some(value) = &attribute.value {
+                        start_tag.push('=');
+
+                        let quote = if value.contains('"') { '\'' } else { '"' };
+
+                        start_tag.push(quote);
+                        start_tag.push_str(value);
+                        start_tag.push(quote);
+                    }
                 }
 
                 if *self_closing {
@@ -117,28 +226,57 @@ where
 
                 start_tag.push('>');
 
-                write_raw!(self, span, &start_tag);
+                write_str!(self, span, &start_tag);
             }
             Token::EndTag {
                 tag_name,
+                raw_tag_name,
                 attributes,
                 ..
             } => {
                 let mut start_tag = String::new();
 
                 start_tag.push_str("</");
-                start_tag.push_str(tag_name);
+
+                match raw_tag_name {
+                    Some(raw_tag_name) => {
+                        start_tag.push_str(raw_tag_name);
+                    }
+                    _ => {
+                        start_tag.push_str(tag_name);
+                    }
+                }
 
                 for attribute in attributes {
                     start_tag.push(' ');
-                    start_tag.push_str(&attribute.name);
-                    start_tag.push('=');
-                    start_tag.push_str(&attribute.value);
+
+                    match &attribute.raw_name {
+                        Some(raw_name) => {
+                            start_tag.push_str(raw_name);
+                        }
+                        _ => {
+                            start_tag.push_str(&attribute.name);
+                        }
+                    }
+
+                    if let Some(raw_value) = &attribute.raw_value {
+                        start_tag.push('=');
+
+                        start_tag.push_str(raw_value);
+                    } else if let Some(value) = &attribute.value {
+                        start_tag.push('=');
+
+                        let quote = if value.contains('"') { '\'' } else { '"' };
+
+                        start_tag.push(quote);
+                        start_tag.push_str(value);
+                        start_tag.push(quote);
+                    }
                 }
 
                 start_tag.push('>');
 
-                write_raw!(self, span, &start_tag);
+                write_str!(self, span, &start_tag);
             }
             Token::Comment { data } => {
                 let mut comment = String::new();
@@ -149,8 +287,16 @@ where
 
                 write_str!(self, span, &comment);
             }
-            Token::Character { value } => {
-                write_str!(self, span, &value.to_string());
+            Token::Character { value, .. } => {
+                let new_value = match value {
+                    '&' => String::from("&amp;"),
+                    '<' => String::from("&lt;"),
+                    '>' => String::from("&gt;"),
+                    '\u{00A0}' => String::from("&nbsp;"),
+                    _ => value.to_string(),
+                };
+
+                write_str!(self, span, &new_value);
             }
             Token::Eof => {}
         }

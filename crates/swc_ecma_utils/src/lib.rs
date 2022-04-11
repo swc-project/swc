@@ -1733,7 +1733,12 @@ pub fn undefined(span: Span) -> Box<Expr> {
     Expr::Unary(UnaryExpr {
         span,
         op: op!("void"),
-        arg: Expr::Lit(Lit::Num(Number { value: 0.0, span })).into(),
+        arg: Expr::Lit(Lit::Num(Number {
+            span,
+            value: 0.0,
+            raw: None,
+        }))
+        .into(),
     })
     .into()
 }
@@ -2368,6 +2373,48 @@ where
     };
     n.visit_with(&mut v);
     v.bindings
+}
+
+pub struct TopLevelAwait {
+    found: bool,
+}
+
+impl Visit for TopLevelAwait {
+    noop_visit_type!();
+
+    fn visit_stmts(&mut self, _: &[Stmt]) {}
+
+    fn visit_param(&mut self, _: &Param) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class_member(&mut self, prop: &ClassMember) {
+        match prop {
+            ClassMember::ClassProp(ClassProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | ClassMember::Method(ClassMethod {
+                key: PropName::Computed(computed),
+                ..
+            }) => computed.visit_children_with(self),
+            _ => (),
+        };
+    }
+
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
+        self.found = true;
+    }
+}
+
+pub fn contains_top_level_await<V: VisitWith<TopLevelAwait>>(t: &V) -> bool {
+    let mut finder = TopLevelAwait { found: false };
+
+    t.visit_with(&mut finder);
+
+    finder.found
 }
 
 #[cfg(test)]

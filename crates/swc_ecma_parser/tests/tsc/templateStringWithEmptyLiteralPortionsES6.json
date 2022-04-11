@@ -103,7 +103,8 @@
                   "end": 42,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -178,7 +179,8 @@
                   "end": 62,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -253,7 +255,8 @@
                   "end": 81,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -328,7 +331,8 @@
                   "end": 102,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -403,7 +407,8 @@
                   "end": 122,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -412,7 +417,8 @@
                   "end": 128,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -498,7 +504,8 @@
                   "end": 148,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -507,7 +514,8 @@
                   "end": 154,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -593,7 +601,8 @@
                   "end": 173,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -602,7 +611,8 @@
                   "end": 180,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -688,7 +698,8 @@
                   "end": 200,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -697,7 +708,8 @@
                   "end": 207,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -783,7 +795,8 @@
                   "end": 226,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -792,7 +805,8 @@
                   "end": 232,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -878,7 +892,8 @@
                   "end": 253,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -887,7 +902,8 @@
                   "end": 259,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -973,7 +989,8 @@
                   "end": 279,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -982,7 +999,8 @@
                   "end": 286,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [
@@ -1068,7 +1086,8 @@
                   "end": 307,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "NumericLiteral",
@@ -1077,7 +1096,8 @@
                   "end": 314,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "quasis": [

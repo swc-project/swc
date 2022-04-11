@@ -142,6 +142,17 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
     }
 }
 
+impl From<BigIntValue> for BigInt {
+    #[inline]
+    fn from(value: BigIntValue) -> Self {
+        BigInt {
+            span: DUMMY_SP,
+            value,
+            raw: None,
+        }
+    }
+}
+
 /// A string literal.
 #[ast_node("StringLiteral")]
 #[derive(Eq, Hash)]
@@ -192,6 +203,21 @@ impl EqIgnoreSpan for Str {
     }
 }
 
+impl From<JsWord> for Str {
+    #[inline]
+    fn from(value: JsWord) -> Self {
+        Str {
+            span: DUMMY_SP,
+            value,
+            raw: None,
+        }
+    }
+}
+
+bridge_from!(Str, JsWord, &'_ str);
+bridge_from!(Str, JsWord, String);
+bridge_from!(Str, JsWord, Cow<'_, str>);
+
 /// A boolean literal.
 ///
 ///
@@ -214,6 +240,16 @@ impl Take for Bool {
         Bool {
             span: DUMMY_SP,
             value: false,
+        }
+    }
+}
+
+impl From<bool> for Bool {
+    #[inline]
+    fn from(value: bool) -> Self {
+        Bool {
+            span: DUMMY_SP,
+            value,
         }
     }
 }
@@ -279,18 +315,26 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// `From<usize>`.
 
 #[ast_node("NumericLiteral")]
-#[derive(Copy, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
     ///
     /// If you store `NaN` in this field, a hash map will behave strangely.
-    #[use_eq]
     pub value: f64,
+
+    /// Use `None` value only for transformations to avoid recalculate
+    /// characters in number literal
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    pub raw: Option<JsWord>,
 }
 
 impl Eq for Number {}
+
+impl EqIgnoreSpan for Number {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
 
 #[allow(clippy::derive_hash_xor_eq)]
 #[allow(clippy::transmute_float_to_int)]
@@ -312,6 +356,7 @@ impl Hash for Number {
 
         self.span.hash(state);
         integer_decode(self.value).hash(state);
+        self.raw.hash(state);
     }
 }
 
@@ -329,28 +374,15 @@ impl Display for Number {
     }
 }
 
-impl From<JsWord> for Str {
-    #[inline]
-    fn from(value: JsWord) -> Self {
-        Str {
-            span: DUMMY_SP,
-            value,
-            raw: None,
-        }
-    }
-}
+#[cfg(feature = "arbitrary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+impl<'a> arbitrary::Arbitrary<'a> for Number {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let value = u.arbitrary::<f64>()?;
+        let raw = Some(u.arbitrary::<String>()?.into());
 
-bridge_from!(Str, JsWord, &'_ str);
-bridge_from!(Str, JsWord, String);
-bridge_from!(Str, JsWord, Cow<'_, str>);
-
-impl From<bool> for Bool {
-    #[inline]
-    fn from(value: bool) -> Self {
-        Bool {
-            span: DUMMY_SP,
-            value,
-        }
+        Ok(Self { span, value, raw })
     }
 }
 
@@ -360,6 +392,7 @@ impl From<f64> for Number {
         Number {
             span: DUMMY_SP,
             value,
+            raw: None,
         }
     }
 }
@@ -370,16 +403,6 @@ impl From<usize> for Number {
         Number {
             span: DUMMY_SP,
             value: value as _,
-        }
-    }
-}
-
-impl From<BigIntValue> for BigInt {
-    #[inline]
-    fn from(value: BigIntValue) -> Self {
-        BigInt {
-            span: DUMMY_SP,
-            value,
             raw: None,
         }
     }

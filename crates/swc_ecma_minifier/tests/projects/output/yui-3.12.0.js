@@ -24,7 +24,7 @@ var YUI = function() {
     }, handleLoad = function() {
         YUI.Env.windowLoaded = !0, YUI.Env.DOMReady = !0, hasWin && remove(window, 'load', handleLoad);
     }, getLoader = function(Y, o) {
-        var G_ENV, loader = Y.Env._loader, lCore = [
+        var loader = Y.Env._loader, lCore = [
             'loader-base'
         ], mods = YUI.Env.mods;
         return loader ? (loader.ignoreRegistered = !1, loader.onEnd = null, loader.data = null, loader.required = [], loader.loadType = null) : (loader = new Y.Loader(Y.config), Y.Env._loader = loader), mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)), YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore)), loader;
@@ -1139,10 +1139,11 @@ var YUI = function() {
         name: "json-parse-shim",
         test: function(Y) {
             var _JSON = Y.config.global.JSON, Native = '[object JSON]' === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
+            function workingNative(k, v) {
+                return "ok" === k || v;
+            }
             if (nativeSupport) try {
-                nativeSupport = Native.parse('{"ok":false}', function(k, v) {
-                    return "ok" === k || v;
-                }).ok;
+                nativeSupport = Native.parse('{"ok":false}', workingNative).ok;
             } catch (e) {
                 nativeSupport = !1;
             }
@@ -3556,10 +3557,11 @@ var YUI = function() {
                 name: "json-parse-shim",
                 test: function(Y) {
                     var _JSON = Y.config.global.JSON, Native = '[object JSON]' === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
+                    function workingNative(k, v) {
+                        return "ok" === k || v;
+                    }
                     if (nativeSupport) try {
-                        nativeSupport = Native.parse('{"ok":false}', function(k, v) {
-                            return "ok" === k || v;
-                        }).ok;
+                        nativeSupport = Native.parse('{"ok":false}', workingNative).ok;
                     } catch (e) {
                         nativeSupport = !1;
                     }

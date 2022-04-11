@@ -47,7 +47,7 @@ where
 
         // We will inline if possible.
         if let Pat::Ident(i) = &var.name {
-            if i.id.sym == *"arguments" {
+            if i.id.sym == js_word!("arguments") {
                 return;
             }
             if self.options.top_retain.contains(&i.id.sym) {
@@ -185,7 +185,7 @@ where
                             var.span = var.span.apply_mark(self.marks.non_top_level);
                         }
 
-                        self.lits.insert(i.to_id(), init.take());
+                        self.vars.lits.insert(i.to_id(), init.take());
 
                         var.name.take();
                     } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -197,7 +197,7 @@ where
 
                         self.mode.store(i.to_id(), &*init);
 
-                        self.lits.insert(i.to_id(), init.clone());
+                        self.vars.lits.insert(i.to_id(), init.clone());
                     }
                     return;
                 }
@@ -294,7 +294,7 @@ where
                         i.id
                     );
                     self.changed = true;
-                    self.vars_for_inlining.insert(i.to_id(), init.take());
+                    self.vars.vars_for_inlining.insert(i.to_id(), init.take());
                 }
             }
         }
@@ -302,17 +302,41 @@ where
 
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
+        fn is_expr_simple_enough(e: &Expr) -> bool {
+            match e {
+                Expr::Lit(..) => true,
+                Expr::Ident(..) => true,
+
+                // It's long
+                Expr::Bin(BinExpr {
+                    op: op!("instanceof"),
+                    ..
+                }) => false,
+
+                Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
+
+                Expr::Update(e) => is_expr_simple_enough(&e.arg),
+
+                Expr::Assign(e) => e.left.as_ident().is_some() && is_expr_simple_enough(&e.right),
+                Expr::Seq(e) => e.exprs.iter().map(|v| &**v).all(is_expr_simple_enough),
+
+                _ => false,
+            }
+        }
+
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if let Expr::Lit(..) = &**expr {
+                    if is_expr_simple_enough(expr) {
                         return true;
                     }
                 }
 
                 Stmt::Return(ReturnStmt { arg, .. }) => {
-                    if let Some(Expr::Lit(Lit::Num(..))) = arg.as_deref() {
-                        return true;
+                    if let Some(e) = arg.as_deref() {
+                        if is_expr_simple_enough(e) {
+                            return true;
+                        }
                     }
                 }
 
@@ -449,11 +473,17 @@ where
                                     f.ident.span.ctxt
                                 );
 
-                                self.vars_for_inlining.insert(
+                                if f.function.params.iter().any(|param| {
+                                    matches!(param.pat, Pat::Rest(..) | Pat::Assign(..))
+                                }) {
+                                    return;
+                                }
+
+                                self.vars.simple_functions.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                            ident: Some(f.ident.clone()),
+                                            ident: None,
                                             function: f.function.clone(),
                                         })),
                                         _ => {
@@ -529,7 +559,7 @@ where
                     }
                 };
 
-                self.vars_for_inlining.insert(i.to_id(), e);
+                self.vars.vars_for_inlining.insert(i.to_id(), e);
             } else {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Usage: {:?}", usage);
@@ -543,8 +573,16 @@ where
         if let Expr::Ident(i) = e {
             //
             if let Some(value) = self
+                .vars
                 .lits
                 .get(&i.to_id())
+                .or_else(|| {
+                    if self.ctx.is_callee {
+                        self.vars.simple_functions.get(&i.to_id())
+                    } else {
+                        None
+                    }
+                })
                 .and_then(|v| {
                     // Prevent infinite recursion.
                     let ids = idents_used_by(&**v);
@@ -578,7 +616,7 @@ where
             }
 
             // Check without cloning
-            if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+            if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
                 if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
                     return;
                 }
@@ -590,7 +628,7 @@ where
                 }
             }
 
-            if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+            if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
                 self.changed = true;
                 tracing::debug!(
                     "inline: Replacing '{}{:?}' with an expression",
@@ -598,7 +636,7 @@ where
                     i.span.ctxt
                 );
 
-                *e = *value.clone();
+                *e = *value;
 
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [Change] {}", dump(&*e, false))

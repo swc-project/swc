@@ -249,6 +249,7 @@ impl AssignFolder {
                                 args: vec![Number {
                                     value: i as f64,
                                     span: dot3_token,
+                                    raw: None,
                                 }
                                 .as_arg()],
                                 type_args: Default::default(),

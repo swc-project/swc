@@ -55,6 +55,7 @@ where
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: *span,
                                 value: metadata.len as _,
+                                raw: None,
                             }));
                             self.changed = true;
                         }
@@ -125,10 +126,12 @@ where
                     left: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 1.0,
+                        raw: None,
                     }))),
                     right: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
+                        raw: None,
                     }))),
                 });
             }
@@ -348,6 +351,7 @@ where
                 *e = Expr::Lit(Lit::Num(Number {
                     span: e.span(),
                     value,
+                    raw: None,
                 }));
                 return;
             }
@@ -367,6 +371,7 @@ where
                         *e = Expr::Lit(Lit::Num(Number {
                             span: bin.span,
                             value,
+                            raw: None,
                         }));
                     }
                 }

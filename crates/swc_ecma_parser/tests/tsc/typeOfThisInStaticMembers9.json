@@ -50,7 +50,8 @@
               "end": 64,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -156,7 +157,8 @@
                   "end": 140,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "async": false,
@@ -258,7 +260,8 @@
                         "end": 208,
                         "ctxt": 0
                       },
-                      "value": 2.0
+                      "value": 2.0,
+                      "raw": "2"
                     }
                   }
                 }
@@ -365,7 +368,8 @@
                       "end": 266,
                       "ctxt": 0
                     },
-                    "value": 3.0
+                    "value": 3.0,
+                    "raw": "3"
                   }
                 },
                 "typeAnnotation": null,
@@ -520,7 +524,8 @@
                                   "end": 377,
                                   "ctxt": 0
                                 },
-                                "value": 4.0
+                                "value": 4.0,
+                                "raw": "4"
                               }
                             }
                           }
@@ -609,7 +614,8 @@
                                 "end": 433,
                                 "ctxt": 0
                               },
-                              "value": 5.0
+                              "value": 5.0,
+                              "raw": "5"
                             }
                           },
                           "typeAnnotation": null,
@@ -704,7 +710,8 @@
                                         "end": 491,
                                         "ctxt": 0
                                       },
-                                      "value": 6.0
+                                      "value": 6.0,
+                                      "raw": "6"
                                     }
                                   }
                                 }

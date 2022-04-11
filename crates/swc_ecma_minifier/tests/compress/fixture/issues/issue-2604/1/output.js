@@ -1,18 +1,16 @@
 push({
     "": function() {
-        !function() {
-            function za() {
-                try {
-                    return eval(a);
-                } catch (b) {}
-            }
-            function Rb(a) {
-                return p() ? JSON : za();
-            }
-            h.get = function(a) {
-                return null == a ? null : Rb(a);
-            };
-        }();
+        function za() {
+            try {
+                return eval(a);
+            } catch (b) {}
+        }
+        function Rb(a) {
+            return p() ? JSON : za();
+        }
+        h.get = function(a) {
+            return null == a ? null : Rb(a);
+        };
     },
     "App.jsx": function() {
         var ShaderChunk = {

@@ -18,7 +18,10 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::{unused::PropertyAccessOpts, util::MultiReplacer};
+use self::{
+    unused::PropertyAccessOpts,
+    util::{MultiReplacer, MultiReplacerMode},
+};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -71,8 +74,7 @@ where
         options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
-        lits: Default::default(),
-        vars_for_inlining: Default::default(),
+        vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -101,6 +103,7 @@ struct Ctx {
 
     in_asm: bool,
 
+    /// `true` only for [Callee::Expr].
     is_callee: bool,
     in_call_arg: bool,
 
@@ -190,16 +193,12 @@ struct Optimizer<'a, M> {
     /// Statements appended to the current statement.
     append_stmts: SynthesizedStmts,
 
-    /// Cheap to clone.
-    ///
-    /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
+    vars: Vars,
 
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
-
-    vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
-    simple_props: AHashMap<(Id, JsWord), Box<Expr>>,
+    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    /// Used for `hoist_props`.
+    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
     typeofs: AHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
@@ -219,6 +218,48 @@ struct Optimizer<'a, M> {
     debug_infinite_loop: bool,
 
     functions: FxHashMap<Id, FnMetadata>,
+}
+
+#[derive(Default)]
+struct Vars {
+    /// Cheap to clone.
+    ///
+    /// Used for inlining.
+    lits: AHashMap<Id, Box<Expr>>,
+
+    /// Used for copying functions.
+    ///
+    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
+    simple_functions: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+}
+
+impl Vars {
+    fn has_pending_inline_for(&self, id: &Id) -> bool {
+        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    }
+
+    /// Returns true if something is changed.
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    where
+        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+    {
+        let mut changed = false;
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            MultiReplacerMode::OnlyCallee,
+            &mut changed,
+        ));
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            MultiReplacerMode::Normal,
+            &mut changed,
+        ));
+
+        changed
+    }
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -674,6 +715,7 @@ where
                     arg: Box::new(Expr::Lit(Lit::Num(Number {
                         span: v.span,
                         value: if v.value { 0.0 } else { 1.0 },
+                        raw: None,
                     }))),
                 });
             }
@@ -1727,6 +1769,7 @@ where
                     let zero = Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
+                        raw: None,
                     })));
                     self.changed = true;
                     tracing::debug!("injecting zero to preserve `this` in call");
@@ -1844,6 +1887,7 @@ where
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
+            is_callee: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1925,8 +1969,8 @@ where
         if !self.options.negate_iife {
             // I(kdy1) don't know why this check if required, but there are two test cases
             // with `options.expressions` as only difference.
-            if !self.options.expr {
-                need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            if !self.options.expr && self.negate_iife_in_cond(&mut n.expr) {
+                need_ignore_return_value = true
             }
         }
 
@@ -2219,10 +2263,9 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-        });
+        if self.vars.inline_with_multi_replacer(stmts) {
+            self.changed = true;
+        }
 
         drop_invalid_stmts(stmts);
     }
@@ -2295,8 +2338,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if self.lits.contains_key(&i.to_id()) || self.vars_for_inlining.contains_key(&i.to_id())
-            {
+            if self.vars.has_pending_inline_for(&i.to_id()) {
                 let mut e = Box::new(Expr::Ident(i.clone()));
                 e.visit_mut_with(self);
 
@@ -2799,107 +2841,111 @@ where
             true
         });
 
-        for v in vars.iter_mut() {
-            if v.init
-                .as_deref()
-                .map(|e| !e.is_ident() && !e.may_have_side_effects())
-                .unwrap_or(true)
-            {
-                self.drop_unused_var_declarator(v, &mut None);
-            }
-        }
+        let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
-        let mut can_prepend = true;
-        let mut side_effects = vec![];
-
-        for v in vars.iter_mut() {
-            let mut storage = None;
-            self.drop_unused_var_declarator(v, &mut storage);
-            side_effects.extend(storage);
-
-            // Dropped. Side effects of the initializer is stored in `side_effects`.
-            if v.name.is_invalid() {
-                continue;
+        if !uses_eval {
+            for v in vars.iter_mut() {
+                if v.init
+                    .as_deref()
+                    .map(|e| !e.is_ident() && !e.may_have_side_effects())
+                    .unwrap_or(true)
+                {
+                    self.drop_unused_var_declarator(v, &mut None);
+                }
             }
 
-            // If initializer is none, we can check next item without thinking about side
-            // effects.
-            if v.init.is_none() {
-                continue;
+            let mut can_prepend = true;
+            let mut side_effects = vec![];
+
+            for v in vars.iter_mut() {
+                let mut storage = None;
+                self.drop_unused_var_declarator(v, &mut storage);
+                side_effects.extend(storage);
+
+                // Dropped. Side effects of the initializer is stored in `side_effects`.
+                if v.name.is_invalid() {
+                    continue;
+                }
+
+                // If initializer is none, we can check next item without thinking about side
+                // effects.
+                if v.init.is_none() {
+                    continue;
+                }
+
+                // We can drop the next variable, as we don't have to worry about the side
+                // effect.
+                if side_effects.is_empty() {
+                    can_prepend = false;
+                    continue;
+                }
+
+                // We now have to handle side effects.
+
+                if can_prepend {
+                    can_prepend = false;
+
+                    self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: if side_effects.len() == 1 {
+                            side_effects.remove(0)
+                        } else {
+                            Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: side_effects.take(),
+                            }))
+                        },
+                    }));
+                } else {
+                    // We prepend side effects to the initializer.
+
+                    let seq = v.init.as_mut().unwrap().force_seq();
+                    seq.exprs = side_effects
+                        .drain(..)
+                        .into_iter()
+                        .chain(seq.exprs.take())
+                        .filter(|e| !e.is_invalid())
+                        .collect();
+                }
             }
 
-            // We can drop the next variable, as we don't have to worry about the side
-            // effect.
-            if side_effects.is_empty() {
-                can_prepend = false;
-                continue;
-            }
-
-            // We now have to handle side effects.
-
-            if can_prepend {
-                can_prepend = false;
-
-                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+            // We append side effects.
+            if !side_effects.is_empty() {
+                self.append_stmts.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: if side_effects.len() == 1 {
                         side_effects.remove(0)
                     } else {
                         Box::new(Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
-                            exprs: side_effects.take(),
+                            exprs: side_effects,
                         }))
                     },
                 }));
-            } else {
-                // We prepend side effects to the initializer.
-
-                let seq = v.init.as_mut().unwrap().force_seq();
-                seq.exprs = side_effects
-                    .drain(..)
-                    .into_iter()
-                    .chain(seq.exprs.take())
-                    .filter(|e| !e.is_invalid())
-                    .collect();
-            }
-        }
-
-        // We append side effects.
-        if !side_effects.is_empty() {
-            self.append_stmts.push(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: if side_effects.len() == 1 {
-                    side_effects.remove(0)
-                } else {
-                    Box::new(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: side_effects,
-                    }))
-                },
-            }));
-        }
-
-        vars.retain_mut(|var| {
-            if var.name.is_invalid() {
-                self.changed = true;
-                return false;
             }
 
-            if let Some(Expr::Invalid(..)) = var.init.as_deref() {
-                if let Pat::Ident(i) = &var.name {
-                    if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
-                        if usage.declared_as_catch_param {
-                            var.init = None;
-                            return true;
-                        }
-                    }
+            vars.retain_mut(|var| {
+                if var.name.is_invalid() {
+                    self.changed = true;
+                    return false;
                 }
 
-                return false;
-            }
+                if let Some(Expr::Invalid(..)) = var.init.as_deref() {
+                    if let Pat::Ident(i) = &var.name {
+                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                            if usage.declared_as_catch_param {
+                                var.init = None;
+                                return true;
+                            }
+                        }
+                    }
 
-            true
-        });
+                    return false;
+                }
+
+                true
+            });
+        }
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {

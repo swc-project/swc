@@ -1,0 +1,24 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description = "Proxy structs to the hosts original structs for the plugin"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_plugin_proxy"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.2"
+
+[lib]
+bench = false
+
+[features]
+# swc/core, which runs plugin
+plugin-rt = []
+# actual wasm plugin binary
+plugin-mode = []
+
+[dependencies]
+better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
+rkyv = "0.7.36"
+swc_common = { version = "0.17.20", path = "../swc_common", features = [
+  "plugin-base",
+] }

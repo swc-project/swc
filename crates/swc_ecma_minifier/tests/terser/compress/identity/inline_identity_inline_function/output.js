@@ -1,1 +1,2 @@
-console.log(2, 3);
+var x;
+console.log((x = 1, 2), 3);

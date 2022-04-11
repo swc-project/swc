@@ -13,17 +13,17 @@ export var c = function() {
     "use strict";
     swcHelpers.classCallCheck(this, c), this.a = "b", this.a = "b";
 };
-var actions = [
-    "resizeTo",
-    "resizeBy"
-], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
+var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var _step, _loop = function(_iterator, _step) {
         var action = _step.value;
         window[action] = function(x, y) {
             window[action](x, y);
         };
-    }, _iterator = actions[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_loop(_iterator, _step);
+    }, _iterator = [
+        "resizeTo",
+        "resizeBy"
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_loop(_iterator, _step);
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

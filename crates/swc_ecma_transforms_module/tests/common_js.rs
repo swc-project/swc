@@ -4411,8 +4411,8 @@ test!(
     ",
     r#""use strict";
     var _bar = require("bar");
-    Promise.resolve().then(function() {
-        return _interopRequireWildcard(require(_bar.foo));
+    Promise.resolve(`${_bar.foo}`).then(function(s) {
+        return _interopRequireWildcard(require(s));
     });
     "#
 );
@@ -4429,8 +4429,8 @@ test!(
   ",
     r#""use strict";
   var _bar = _interopRequireDefault(require("bar"));
-  Promise.resolve().then(function() {
-      return _interopRequireWildcard(require(_bar.default));
+  Promise.resolve(`${_bar.default}`).then(function(s) {
+      return _interopRequireWildcard(require(s));
   });
   "#
 );
@@ -4447,8 +4447,8 @@ test!(
   ",
     r#""use strict";
   var _bar = require("bar");
-  Promise.resolve().then(function() {
-    return _interopRequireWildcard(require(`world/${(0, _bar).foo(baz)}.js`));
+  Promise.resolve(`world/${(0, _bar).foo(baz)}.js`).then(function(s) {
+    return _interopRequireWildcard(require(s));
   });
   "#
 );
@@ -5391,6 +5391,21 @@ test!(
     static { this.a = 123 }
   }
   "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_4253,
+    "let pipeline = await import(await resolve(file))",
+    "
+\"use strict\";
+let pipeline = await Promise.resolve(`${await resolve(file)}`).then(function(s) {
+  return _interopRequireWildcard(require(s));
+});
+"
 );
 
 #[testing::fixture("tests/fixture/commonjs/**/input.js")]

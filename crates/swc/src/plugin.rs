@@ -84,8 +84,8 @@ impl RustPlugins {
         let should_enable_comments_proxy = self.comments.is_some();
 
         // Set comments once per whole plugin transform execution.
-        swc_plugin_comments::COMMENTS.set(
-            &swc_plugin_comments::HostCommentsStorage {
+        swc_plugin_proxy::COMMENTS.set(
+            &swc_plugin_proxy::HostCommentsStorage {
                 inner: self.comments.clone(),
             },
             || {
@@ -163,8 +163,8 @@ impl RustPlugins {
 
         let should_enable_comments_proxy = self.comments.is_some();
 
-        swc_plugin_comments::COMMENTS.set(
-            &swc_plugin_comments::HostCommentsStorage {
+        swc_plugin_proxy::COMMENTS.set(
+            &swc_plugin_proxy::HostCommentsStorage {
                 inner: self.comments.clone(),
             },
             || {

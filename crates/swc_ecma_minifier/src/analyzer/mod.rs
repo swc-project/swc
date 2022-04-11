@@ -4,7 +4,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id, IsEmpty};
+use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -235,9 +235,10 @@ where
         {
             let child_scope = child.data.scope(child_ctxt);
 
-            child_scope.merge(child.scope, false);
+            child_scope.merge(child.scope.clone(), false);
         }
 
+        self.scope.merge(child.scope, true);
         self.data.merge(kind, child.data);
 
         ret
@@ -964,8 +965,9 @@ where
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
                 let used_idents = idents_used_by(init);
+                let excluded: AHashSet<Id> = collect_decls(init);
 
-                for id in used_idents {
+                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
                     self.data
                         .var_or_default(id.clone())
                         .add_infects(var.to_id());

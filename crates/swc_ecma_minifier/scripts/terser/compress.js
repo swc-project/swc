@@ -2,7 +2,7 @@ import * as AST from "../lib/ast.js";
 import { Compressor } from "../lib/compress/index.js";
 import { OutputStream } from "../lib/output.js";
 import { parse } from "../lib/parse.js";
-import { mangle_properties, reserve_quoted_keys } from "../lib/propmangle.js";
+import { mangle_properties, reserve_quoted_keys, mangle_private_properties } from "../lib/propmangle.js";
 import { base54 } from "../lib/scope.js";
 import { defaults, string_template } from "../lib/utils/index.js";
 import { minify } from "../main.js";
@@ -56,12 +56,12 @@ function log_test(name) {
 }
 
 function find_test_files(dir) {
-    var files = fs.readdirSync(dir).filter(function (name) {
+    var files = fs.readdirSync(dir).filter(function(name) {
         return /\.js$/i.test(name);
     });
     if (process.argv.length > 2) {
         var x = process.argv.slice(2);
-        files = files.filter(function (f) {
+        files = files.filter(function(f) {
             return x.includes(f);
         });
     }
@@ -95,10 +95,10 @@ async function run_compress_tests() {
         log_start_file(file);
         async function test_case(test) {
             log_test(test.name);
-            const dir = path.join(__dirname, `../../../ecmascript/minifier/tests/terser/compress/${file.replace('.js', '')}/${test.name}`);
+            const dir = path.join(__dirname, `../output/${file.replace('.js', '')}/${test.name}`);
             console.log(dir)
             mkdirSync(dir, { recursive: true })
-            var output_options = test.beautify || {};
+            var output_options = test.beautify || test.format || {};
             var expect;
             if (test.expect) {
                 expect = make_code(as_toplevel(test.expect, test.mangle), output_options);
@@ -125,7 +125,7 @@ async function run_compress_tests() {
                             return false;
                         }
                         if (test.expect_error instanceof AST.AST_SimpleStatement
-                            && test.expect_error.body instanceof AST.AST_Object) {
+                        && test.expect_error.body instanceof AST.AST_Object) {
                             var expect_error = eval("(" + test.expect_error.body.print_to_string() + ")");
                             var ex_normalized = JSON.parse(JSON.stringify(ex));
                             ex_normalized.name = ex.name;
@@ -180,22 +180,24 @@ async function run_compress_tests() {
                 });
                 return false;
             }
-            var ast = input.to_mozilla_ast();
-            var mozilla_options = {
-                ecma: output_options.ecma,
-                ascii_only: output_options.ascii_only,
-                comments: false,
-            };
-            var ast_as_string = AST.AST_Node.from_mozilla_ast(ast).print_to_string(mozilla_options);
-            var input_string = input.print_to_string(mozilla_options);
-            if (input_string !== ast_as_string) {
-                log("!!! Mozilla AST I/O corrupted input\n---INPUT---\n{input}\n---OUTPUT---\n{output}\n\n", {
-                    input: input_string,
-                    output: ast_as_string,
-                });
-                return false;
+            if (!test.no_mozilla_ast) {
+                var ast = input.to_mozilla_ast();
+                var mozilla_options = {
+                    ecma: output_options.ecma,
+                    ascii_only: output_options.ascii_only,
+                    comments: false,
+                };
+                var ast_as_string = AST.AST_Node.from_mozilla_ast(ast).print_to_string(mozilla_options);
+                var input_string = input.print_to_string(mozilla_options);
+                if (input_string !== ast_as_string) {
+                    log("!!! Mozilla AST I/O corrupted input\n---INPUT---\n{input}\n---OUTPUT---\n{output}\n\n", {
+                        input: input_string,
+                        output: ast_as_string,
+                    });
+                    return false;
+                }
             }
-            var options = defaults(test.options, {});
+            var options = defaults(test.options, { });
             if (test.mangle) {
                 fs.writeFileSync(path.join(dir, 'mangle.json'), JSON.stringify(test.mangle));
             }
@@ -218,9 +220,8 @@ async function run_compress_tests() {
             var output = cmp.compress(input);
             output.figure_out_scope(test.mangle);
             if (test.mangle) {
-                base54.reset();
                 output.compute_char_frequency(test.mangle);
-                (function (cache) {
+                (function(cache) {
                     if (!cache) return;
                     if (!("props" in cache)) {
                         cache.props = new Map();
@@ -235,6 +236,7 @@ async function run_compress_tests() {
                     }
                 })(test.mangle.cache);
                 output.mangle_names(test.mangle);
+                mangle_private_properties(output, test.mangle);
                 if (test.mangle.properties) {
                     output = mangle_properties(output, test.mangle.properties);
                 }
@@ -333,7 +335,7 @@ function parse_test(file) {
         throw e;
     }
     var tests = {};
-    var tw = new AST.TreeWalker(function (node, descend) {
+    var tw = new AST.TreeWalker(function(node, descend) {
         if (
             node instanceof AST.AST_LabeledStatement
             && tw.parent() instanceof AST.AST_Toplevel
@@ -345,10 +347,15 @@ function parse_test(file) {
             tests[name] = get_one_test(name, node.body);
             return true;
         }
+        if (node instanceof AST.AST_Directive) return true;
         if (!(node instanceof AST.AST_Toplevel)) croak(node);
     });
     ast.walk(tw);
-    return tests;
+
+    const only_tests = Object.entries(tests).filter(([_name, test]) => test.only);
+    return only_tests.length > 0
+        ? Object.fromEntries(only_tests)
+        : tests;
 
     function croak(node) {
         throw new Error(tmpl("Can't understand test file {file} [{line},{col}]\n{code}", {
@@ -372,15 +379,15 @@ function parse_test(file) {
     function read_string(stat) {
         if (stat.TYPE == "SimpleStatement") {
             var body = stat.body;
-            switch (body.TYPE) {
-                case "String":
-                    return body.value;
-                case "Array":
-                    return body.elements.map(function (element) {
-                        if (element.TYPE !== "String")
-                            throw new Error("Should be array of strings");
-                        return element.value;
-                    }).join("\n");
+            switch(body.TYPE) {
+              case "String":
+                return body.value;
+              case "Array":
+                return body.elements.map(function(element) {
+                    if (element.TYPE !== "String")
+                        throw new Error("Should be array of strings");
+                    return element.value;
+                }).join("\n");
             }
         }
         throw new Error("Should be string or array of strings");
@@ -391,8 +398,9 @@ function parse_test(file) {
             name: name,
             options: {},
             reminify: true,
+            only: false
         };
-        var tw = new AST.TreeWalker(function (node, descend) {
+        var tw = new AST.TreeWalker(function(node, descend) {
             if (node instanceof AST.AST_Assign) {
                 if (!(node.left instanceof AST.AST_SymbolRef)) {
                     croak(node);
@@ -436,7 +444,7 @@ function parse_test(file) {
                             line: label.start.line,
                             col: label.start.col
                         }));
-                        test[label.name] = ctor.apply(null, body.args.map(function (node) {
+                        test[label.name] = ctor.apply(null, body.args.map(function(node) {
                             assert.ok(node instanceof AST.AST_Constant, tmpl("Unsupported expect_stdout format [{line},{col}]", {
                                 line: label.start.line,
                                 col: label.start.col

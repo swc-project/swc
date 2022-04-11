@@ -34,7 +34,6 @@ where
         }
 
         if negate_cost(&stmt.test, true, false) < 0 {
-            self.changed = true;
             tracing::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
                 in_bool_ctx: true,

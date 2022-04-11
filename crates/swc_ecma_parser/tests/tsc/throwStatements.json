@@ -556,7 +556,8 @@
                 "end": 232,
                 "ctxt": 0
               },
-              "value": 42.0
+              "value": 42.0,
+              "raw": "42"
             }
           }
         ]
@@ -869,7 +870,8 @@
               "end": 385,
               "ctxt": 0
             },
-            "value": 9.9
+            "value": 9.9,
+            "raw": "9.9"
           },
           "definite": false
         }
@@ -1008,7 +1010,8 @@
                     "end": 474,
                     "ctxt": 0
                   },
-                  "value": 12.0
+                  "value": 12.0,
+                  "raw": "12"
                 }
               }
             ],
@@ -1524,7 +1527,8 @@
                     "end": 790,
                     "ctxt": 0
                   },
-                  "value": 12.0
+                  "value": 12.0,
+                  "raw": "12"
                 }
               }
             ]
@@ -1708,7 +1712,8 @@
                 "end": 897,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             },
             "async": false,
             "generator": false,
@@ -1771,7 +1776,8 @@
                 "end": 929,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           }
         ],
@@ -2096,7 +2102,8 @@
           "end": 1182,
           "ctxt": 0
         },
-        "value": 0.0
+        "value": 0.0,
+        "raw": "0.0"
       }
     },
     {
@@ -2279,7 +2286,8 @@
             "end": 1305,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         },
         "async": false,
         "generator": false,
@@ -2352,7 +2360,8 @@
                 "end": 1320,
                 "ctxt": 0
               },
-              "value": 12.0
+              "value": 12.0,
+              "raw": "12"
             }
           },
           {
@@ -2374,7 +2383,8 @@
                 "end": 1327,
                 "ctxt": 0
               },
-              "value": 13.0
+              "value": 13.0,
+              "raw": "13"
             }
           }
         ]

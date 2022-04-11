@@ -2114,7 +2114,8 @@
                       "end": 878,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }
@@ -2265,7 +2266,8 @@
                       "end": 939,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }
@@ -2863,7 +2865,8 @@
                       "end": 1214,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "alternate": {
                     "type": "Identifier",
@@ -2941,7 +2944,8 @@
                       "end": 1251,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 },
                 "definite": false
@@ -4244,7 +4248,8 @@
                             "end": 1795,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         }
                       }
                     ]
@@ -4345,7 +4350,8 @@
                             "end": 1841,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         }
                       }
                     ]

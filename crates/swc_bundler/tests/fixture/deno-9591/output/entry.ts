@@ -3325,19 +3325,19 @@ function encode(data) {
     const l = uint8.length;
     for(i26 = 2; i26 < l; i26 += 3){
         result += base64abc[uint8[i26 - 2] >> 2];
-        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
-        result += base64abc[(uint8[i26 - 1] & 15) << 2 | uint8[i26] >> 6];
-        result += base64abc[uint8[i26] & 63];
+        result += base64abc[(uint8[i26 - 2] & 0x03) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 0x0f) << 2 | uint8[i26] >> 6];
+        result += base64abc[uint8[i26] & 0x3f];
     }
     if (i26 === l + 1) {
         result += base64abc[uint8[i26 - 2] >> 2];
-        result += base64abc[(uint8[i26 - 2] & 3) << 4];
+        result += base64abc[(uint8[i26 - 2] & 0x03) << 4];
         result += "==";
     }
     if (i26 === l) {
         result += base64abc[uint8[i26 - 2] >> 2];
-        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
-        result += base64abc[(uint8[i26 - 1] & 15) << 2];
+        result += base64abc[(uint8[i26 - 2] & 0x03) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 0x0f) << 2];
         result += "=";
     }
     return result;
@@ -3421,7 +3421,7 @@ function passStringToWasm0(arg, malloc, realloc) {
     let offset = 0;
     for(; offset < len; offset++){
         const code17 = arg.charCodeAt(offset);
-        if (code17 > 127) break;
+        if (code17 > 0x7F) break;
         mem[ptr + offset] = code17;
     }
     if (offset !== len) {
@@ -3557,7 +3557,7 @@ function encode1(src19) {
     for(let i28 = 0; i28 < dst.length; i28++){
         const v = src19[i28];
         dst[i28 * 2] = hextable[v >> 4];
-        dst[i28 * 2 + 1] = hextable[v & 15];
+        dst[i28 * 2 + 1] = hextable[v & 0x0f];
     }
     return dst;
 }

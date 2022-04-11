@@ -797,7 +797,8 @@
             "end": 325,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         },
         "consequent": {
           "type": "Identifier",
@@ -972,7 +973,8 @@
             "end": 385,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         },
         "consequent": {
           "type": "MemberExpression",
@@ -1128,7 +1130,8 @@
               "end": 423,
               "ctxt": 0
             },
-            "value": 23.0
+            "value": 23.0,
+            "raw": "23"
           }
         }
       },
@@ -2841,7 +2844,8 @@
               "end": 1198,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           }
         }
       },

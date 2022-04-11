@@ -28,7 +28,8 @@
             "end": 1,
             "ctxt": 0
           },
-          "value": 1.0
+          "value": 1.0,
+          "raw": "1"
         },
         "right": {
           "type": "TsTypeAssertion",
@@ -44,7 +45,8 @@
               "end": 14,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",

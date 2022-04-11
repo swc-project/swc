@@ -76,7 +76,7 @@
                     var i = Number(t);
                     return this.ensureNumber(i) ? i : (this.error = "[CountUp] invalid start or end value: " + t, null);
                 }, t1.prototype.resetDuration = function() {
-                    this.startTime = null, this.duration = 1000 * Number(this.options.duration), this.remaining = this.duration;
+                    this.startTime = null, this.duration = 1e3 * Number(this.options.duration), this.remaining = this.duration;
                 }, t1;
             }();
         },

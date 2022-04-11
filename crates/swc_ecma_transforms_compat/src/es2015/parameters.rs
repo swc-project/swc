@@ -250,6 +250,7 @@ impl Params {
                                 right: Box::new(Expr::Lit(Lit::Num(Number {
                                     span,
                                     value: i as f64,
+                                    raw: None,
                                 }))),
                             }
                             .into();
@@ -267,6 +268,7 @@ impl Params {
                                         right: Box::new(Expr::Lit(Lit::Num(Number {
                                             span,
                                             value: i as _,
+                                            raw: None,
                                         }))),
                                     }
                                     .into(),
@@ -312,6 +314,7 @@ impl Params {
                                     init: Some(Box::new(Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,
+                                        raw: None,
                                     })))),
                                     definite: false,
                                 },

@@ -41,7 +41,8 @@
               "end": 28,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "definite": false
         }
@@ -82,7 +83,8 @@
               "end": 41,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "definite": false
         }
@@ -708,7 +710,8 @@
                 "end": 228,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "UnaryExpression",

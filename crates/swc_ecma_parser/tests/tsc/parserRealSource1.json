@@ -355,7 +355,8 @@
                               "end": 509,
                               "ctxt": 0
                             },
-                            "value": 0.0
+                            "value": 0.0,
+                            "raw": "0"
                           },
                           "definite": false
                         }
@@ -4817,7 +4818,8 @@
                                         "end": 3468,
                                         "ctxt": 0
                                       },
-                                      "value": 9.0
+                                      "value": 9.0,
+                                      "raw": "0x09"
                                     },
                                     "consequent": [
                                       {
@@ -4883,7 +4885,8 @@
                                         "end": 3566,
                                         "ctxt": 0
                                       },
-                                      "value": 10.0
+                                      "value": 10.0,
+                                      "raw": "0x0a"
                                     },
                                     "consequent": [
                                       {
@@ -4949,7 +4952,8 @@
                                         "end": 3670,
                                         "ctxt": 0
                                       },
-                                      "value": 11.0
+                                      "value": 11.0,
+                                      "raw": "0x0b"
                                     },
                                     "consequent": [
                                       {
@@ -5015,7 +5019,8 @@
                                         "end": 3777,
                                         "ctxt": 0
                                       },
-                                      "value": 12.0
+                                      "value": 12.0,
+                                      "raw": "0x0c"
                                     },
                                     "consequent": [
                                       {
@@ -5081,7 +5086,8 @@
                                         "end": 3881,
                                         "ctxt": 0
                                       },
-                                      "value": 13.0
+                                      "value": 13.0,
+                                      "raw": "0x0d"
                                     },
                                     "consequent": [
                                       {
@@ -5147,7 +5153,8 @@
                                         "end": 3991,
                                         "ctxt": 0
                                       },
-                                      "value": 34.0
+                                      "value": 34.0,
+                                      "raw": "0x22"
                                     },
                                     "consequent": [
                                       {
@@ -5213,7 +5220,8 @@
                                         "end": 4100,
                                         "ctxt": 0
                                       },
-                                      "value": 39.0
+                                      "value": 39.0,
+                                      "raw": "0x27"
                                     },
                                     "consequent": [
                                       {
@@ -5279,7 +5287,8 @@
                                         "end": 4208,
                                         "ctxt": 0
                                       },
-                                      "value": 92.0
+                                      "value": 92.0,
+                                      "raw": "0x5c"
                                     },
                                     "consequent": [
                                       {
@@ -5600,7 +5609,8 @@
                                     "end": 4490,
                                     "ctxt": 0
                                   },
-                                  "value": 1.0
+                                  "value": 1.0,
+                                  "raw": "1"
                                 }
                               },
                               "definite": false
@@ -5649,7 +5659,8 @@
                                     "end": 4518,
                                     "ctxt": 0
                                   },
-                                  "value": 0.0
+                                  "value": 0.0,
+                                  "raw": "0"
                                 },
                                 "definite": false
                               }
@@ -6089,7 +6100,8 @@
                                     "end": 4743,
                                     "ctxt": 0
                                   },
-                                  "value": 0.0
+                                  "value": 0.0,
+                                  "raw": "0"
                                 },
                                 "definite": false
                               }

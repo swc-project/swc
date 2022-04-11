@@ -4,6 +4,9 @@ function someGenerics4(strs, n, f) {}
 function someGenerics5(strs, n, f) {}
 function someGenerics6(strs, a, b, c) {}
 function someGenerics7(strs, a, b, c) {}
+function someGenerics8(strs, n) {
+    return n;
+}
 function someGenerics9(strs, a, b, c) {
     return null;
 }
@@ -34,9 +37,7 @@ function someGenerics9(strs, a, b, c) {
 }`, someGenerics7`${(n)=>n
 }${(n)=>n
 }${(n)=>n
-}`, (function(strs, n) {
-    return n;
-})`${someGenerics7}``${null}${null}${null}`, someGenerics9`${''}${0}${[]}`, someGenerics9`${void 0}${{
+}`, someGenerics8`${someGenerics7}``${null}${null}${null}`, someGenerics9`${''}${0}${[]}`, someGenerics9`${void 0}${{
     x: 6,
     z: new Date()
 }}${{

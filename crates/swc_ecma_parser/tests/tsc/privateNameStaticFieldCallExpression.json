@@ -117,7 +117,8 @@
                         "end": 79,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   }
                 }
@@ -274,7 +275,8 @@
               "end": 141,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -636,7 +638,8 @@
                                 "end": 309,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             }
                           },
                           {
@@ -648,7 +651,8 @@
                                 "end": 312,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         ]
@@ -717,7 +721,8 @@
                             "end": 339,
                             "ctxt": 0
                           },
-                          "value": 0.0
+                          "value": 0.0,
+                          "raw": "0"
                         }
                       },
                       {
@@ -746,7 +751,8 @@
                             "end": 350,
                             "ctxt": 0
                           },
-                          "value": 3.0
+                          "value": 3.0,
+                          "raw": "3"
                         }
                       }
                     ],
@@ -834,7 +840,8 @@
                                 "end": 390,
                                 "ctxt": 0
                               },
-                              "value": 0.0
+                              "value": 0.0,
+                              "raw": "0"
                             }
                           },
                           {
@@ -863,7 +870,8 @@
                                 "end": 401,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           }
                         ],
@@ -960,7 +968,8 @@
                                 "end": 445,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             },
                             {
                               "type": "NumericLiteral",
@@ -969,7 +978,8 @@
                                 "end": 455,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           ],
                           "quasis": [
@@ -1105,7 +1115,8 @@
                             "end": 506,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         },
                         {
                           "type": "NumericLiteral",
@@ -1114,7 +1125,8 @@
                             "end": 513,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         }
                       ],
                       "quasis": [

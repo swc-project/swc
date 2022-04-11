@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -45,14 +45,15 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let start = self.cur_pos();
-
-        let starts_with_zero = self.cur().unwrap() == '0';
         let mut raw_val = String::new();
+        let mut raw_str = String::new();
 
         let val = if starts_with_dot {
             // first char is '.'
             0f64
         } else {
+            let starts_with_zero = self.cur().unwrap() == '0';
+
             // Use read_number_no_dot to support long numbers.
             let (val, s, mut raw, not_octal) = self
                 .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
@@ -64,14 +65,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Either::Right((s.into_value(), raw)));
             }
 
-            if self.input.cur() == Some('n') {
-                raw.push('n');
-                self.input.bump();
-
-                return Ok(Either::Right((s.into_value(), raw)));
-            }
-
             write!(raw_val, "{}", &s.value).unwrap();
+
+            raw_str.push_str(&raw);
 
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
@@ -85,7 +81,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, raw)));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -112,7 +110,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
 
-                            return self.make_legacy_octal(start, val).map(Either::Left);
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, raw)));
                         }
                     }
                 }
@@ -130,6 +130,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // `.1.a`, `.1e-4.a` are valid,
         if self.cur() == Some('.') {
             raw_val.push('.');
+            raw_str.push('.');
 
             self.bump();
 
@@ -141,6 +142,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int::<10>(0, &mut raw)?;
+
+            raw_str.push_str(raw.0.as_ref().unwrap());
 
             val = {
                 if let Some(..) = dec_val {
@@ -161,55 +164,67 @@ impl<'a, I: Input> Lexer<'a, I> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        if self.eat(b'e') || self.eat(b'E') {
-            let next = match self.cur() {
-                Some(next) => next,
-                None => {
-                    let pos = self.cur_pos();
-                    self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
-                }
-            };
+        match self.cur() {
+            Some(e @ 'e') | Some(e @ 'E') => {
+                self.bump();
 
-            raw_val.push('e');
+                let next = match self.cur() {
+                    Some(next) => next,
+                    None => {
+                        let pos = self.cur_pos();
+                        self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
+                    }
+                };
 
-            let positive = if next == '+' || next == '-' {
-                self.bump(); // remove '+', '-'
-                next == '+'
-            } else {
-                true
-            };
+                raw_val.push('e');
+                raw_str.push(e);
 
-            let exp = self.read_number_no_dot::<10>()?;
+                let positive = if next == '+' || next == '-' {
+                    self.bump(); // remove '+', '-'
 
-            val = if exp == f64::INFINITY {
-                if positive && val != 0.0 {
-                    f64::INFINITY
+                    raw_str.push(next);
+
+                    next == '+'
                 } else {
-                    0.0
+                    true
+                };
+
+                let mut raw = Raw(Some(String::new()));
+                let exp = self.read_number_no_dot::<10>(&mut raw)?;
+
+                raw_str.push_str(&raw.0.take().unwrap());
+
+                val = if exp == f64::INFINITY {
+                    if positive && val != 0.0 {
+                        f64::INFINITY
+                    } else {
+                        0.0
+                    }
+                } else {
+                    let flag = if positive { '+' } else { '-' };
+
+                    raw_val.push(flag);
+
+                    write!(raw_val, "{}", exp).unwrap();
+
+                    raw_val
+                        .replace('_', "")
+                        .parse()
+                        .expect("failed to parse float literal")
                 }
-            } else {
-                let flag = if positive { '+' } else { '-' };
-
-                raw_val.push(flag);
-                write!(raw_val, "{}", exp).unwrap();
-
-                // TODO:
-                raw_val
-                    .replace('_', "")
-                    .parse()
-                    .expect("failed to parse float literal")
             }
+            _ => {}
         }
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left(val))
+        Ok(Either::Left((val, raw_str)))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -219,6 +234,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.with_buf(|l, buf| {
             l.bump();
+
             buf.push('0');
 
             let c = match l.input.cur() {
@@ -236,8 +252,9 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             let (val, s, raw, _) = l.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
 
+            buf.push_str(&raw);
+
             if l.eat(b'n') {
-                buf.push_str(&raw);
                 buf.push('n');
 
                 return Ok(Either::Right((s.into_value(), (&**buf).into())));
@@ -245,13 +262,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left(val))
+            Ok(Either::Left((val, (&**buf).into())))
         })
     }
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
+    fn read_number_no_dot<const RADIX: u8>(&mut self, raw: &mut Raw) -> LexResult<f64> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -267,7 +284,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
-            &mut Raw(None),
+            raw,
             true,
         );
 
@@ -497,6 +514,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.syntax.typescript() && self.target >= EsVersion::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
+
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
         Ok(val)
@@ -530,7 +548,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> f64 {
+    fn num(s: &'static str) -> (f64, String) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
@@ -548,13 +566,13 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        assert_eq!(num(LONG), INFINITY);
+        assert_eq!(num(LONG), (INFINITY, LONG.into()));
     }
 
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!(1e30, num("1e30"));
+        assert_eq!((1e30, "1e30".into()), num("1e30"));
     }
 
     #[test]
@@ -595,36 +613,57 @@ mod tests {
              00000000000000000000000000000000000000000000000000000000000000000\
              000000000000000000000000000000000000000000000000000000";
 
-        assert_eq!(num(LARGE_POSITIVE_EXP), INFINITY);
-        assert_eq!(num(LARGE_NEGATIVE_EXP), 0.0);
-        assert_eq!(num(ZERO_WITH_LARGE_POSITIVE_EXP), 0.0);
-        assert_eq!(num(ZERO_WITH_LARGE_NEGATIVE_EXP), 0.0);
-        assert_eq!(num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP), 0.0);
+        assert_eq!(
+            num(LARGE_POSITIVE_EXP),
+            (INFINITY, LARGE_POSITIVE_EXP.into())
+        );
+        assert_eq!(num(LARGE_NEGATIVE_EXP), (0.0, LARGE_NEGATIVE_EXP.into()));
+        assert_eq!(
+            num(ZERO_WITH_LARGE_POSITIVE_EXP),
+            (0.0, ZERO_WITH_LARGE_POSITIVE_EXP.into())
+        );
+        assert_eq!(
+            num(ZERO_WITH_LARGE_NEGATIVE_EXP),
+            (0.0, ZERO_WITH_LARGE_NEGATIVE_EXP.into())
+        );
+        assert_eq!(
+            num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP),
+            (0.0, LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP.into())
+        );
     }
 
     #[test]
     fn num_big_many_zero() {
         assert_eq!(
-            1_000_000_000_000_000_000_000_000_000_000f64,
+            (
+                1_000_000_000_000_000_000_000_000_000_000f64,
+                "1000000000000000000000000000000".into()
+            ),
             num("1000000000000000000000000000000")
         );
-        assert_eq!(3.402_823_466_385_288_6e38, num("34028234663852886e22"),);
+        assert_eq!(
+            (3.402_823_466_385_288_6e38, "34028234663852886e22".into()),
+            num("34028234663852886e22"),
+        );
     }
 
     #[test]
     fn big_number_with_fract() {
-        assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
+        assert_eq!(
+            (77777777777777777.1f64, "77777777777777777.1".into()),
+            num("77777777777777777.1")
+        )
     }
 
     #[test]
     fn issue_480() {
-        assert_eq!(9.09, num("9.09"))
+        assert_eq!((9.09, "9.09".into()), num("9.09"))
     }
 
     #[test]
     fn num_legacy_octal() {
-        assert_eq!(0o12 as f64, num("0012"));
-        assert_eq!(10f64, num("012"));
+        assert_eq!((0o12 as f64, "0012".into()), num("0012"));
+        assert_eq!((10f64, "012".into()), num("012"));
     }
 
     #[test]
@@ -642,7 +681,7 @@ mod tests {
     #[test]
     fn read_radix_number() {
         assert_eq!(
-            0o73 as f64,
+            (0o73 as f64, "0o73".into()),
             lex("0o73", |l| l
                 .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
                 .unwrap()
@@ -703,7 +742,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            9.671_406_556_917_009e24
+            (9.671_406_556_917_009e24, LONG.into())
         );
         assert_eq!(
             lex(VERY_LARGE_BINARY_NUMBER, |l| l
@@ -711,7 +750,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            1.0972248137587377e304
+            (1.0972248137587377e304, VERY_LARGE_BINARY_NUMBER.into())
         );
     }
 
@@ -719,7 +758,7 @@ mod tests {
     fn large_float_number() {
         const LONG: &str = "9.671406556917009e+24";
 
-        assert_eq!(num(LONG), 9.671_406_556_917_009e24);
+        assert_eq!(num(LONG), (9.671_406_556_917_009e24, LONG.into()));
     }
 
     /// Valid even on strict mode.
@@ -758,11 +797,26 @@ mod tests {
                     Ok(vec) => vec,
                     Err(err) => panic::resume_unwind(err),
                 };
+
                 assert_eq!(vec.len(), 1);
+
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                let value = match token {
+                    Token::Num { value, .. } => value,
+                    _ => {
+                        panic!("expected num token in test")
+                    }
+                };
+
+                assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
-                assert_ne!(vec![Num(expected)], vec)
+                assert_ne!(
+                    vec![Num {
+                        value: expected,
+                        raw: expected.to_string().into()
+                    }],
+                    vec
+                )
             }
         }
     }

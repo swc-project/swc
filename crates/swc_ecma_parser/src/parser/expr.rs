@@ -316,7 +316,7 @@ impl<'a, I: Tokens> Parser<I> {
                 tok!("null")
                 | tok!("true")
                 | tok!("false")
-                | Token::Num(..)
+                | Token::Num { .. }
                 | Token::BigInt { .. }
                 | Token::Str { .. } => {
                     return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
@@ -453,6 +453,11 @@ impl<'a, I: Tokens> Parser<I> {
             );
             if !is!(self, ']') {
                 expect!(self, ',');
+                if is!(self, ']') {
+                    self.state
+                        .trailing_commas
+                        .insert(start, self.input.prev_span());
+                }
             }
         }
 
@@ -667,7 +672,7 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
 
-        let paren_items = self
+        let (paren_items, trailing_comma) = self
             .with_ctx(ctx)
             .include_in_expr(true)
             .parse_args_or_pats()?;
@@ -691,7 +696,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expect!(p, "=>");
 
                 let params: Vec<Pat> = p
-                    .parse_paren_items_as_params(items_ref.clone())?
+                    .parse_paren_items_as_params(items_ref.clone(), trailing_comma)?
                     .into_iter()
                     .collect();
 
@@ -746,7 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, "=>");
 
             let params: Vec<Pat> = self
-                .parse_paren_items_as_params(paren_items)?
+                .parse_paren_items_as_params(paren_items, trailing_comma)?
                 .into_iter()
                 .collect();
 
@@ -1482,13 +1487,14 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_expr()
     }
 
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
+    // Returns (args_or_pats, trailing_comma)
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
         expect!(self, '(');
 
         let mut items = vec![];
-        let mut rest_span = None;
+        let mut trailing_comma = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
@@ -1615,13 +1621,6 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
                 if let Some(span) = arg.spread {
-                    if let Some(rest_span) = rest_span {
-                        if self.syntax().early_errors() {
-                            // Rest pattern must be last one.
-                            syntax_error!(self, rest_span, SyntaxError::NonLastRestParam);
-                        }
-                    }
-                    rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
                         span: span!(self, pat_start),
                         dot3_token: span,
@@ -1709,7 +1708,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } {
                 let params: Vec<Pat> = self
-                    .parse_paren_items_as_params(items.clone())?
+                    .parse_paren_items_as_params(items.clone(), None)?
                     .into_iter()
                     .collect();
 
@@ -1736,11 +1735,14 @@ impl<'a, I: Tokens> Parser<I> {
 
             if !is!(self, ')') {
                 expect!(self, ',');
+                if is!(self, ')') {
+                    trailing_comma = Some(self.input.prev_span());
+                }
             }
         }
 
         expect!(self, ')');
-        Ok(items)
+        Ok((items, trailing_comma))
     }
 }
 
@@ -1827,10 +1829,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::Num(..) => match bump!(self) {
-                Token::Num(value) => Lit::Num(Number {
+            Token::Num { .. } => match bump!(self) {
+                Token::Num { value, raw } => Lit::Num(Number {
                     span: span!(self, start),
                     value,
+                    raw: Some(raw),
                 }),
                 _ => unreachable!(),
             },

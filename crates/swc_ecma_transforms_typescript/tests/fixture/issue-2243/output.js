@@ -4,22 +4,22 @@ export function Colors(member) {
 (function(Colors1) {
     var ValueMap = Colors1.ValueMap = {
         Red: {
-            value: 0,
+            value: 0.0,
             label: 'Red'
         },
         Blue: {
-            value: 1,
+            value: 1.0,
             label: 'Blue'
         },
         Green: {
-            value: 2,
+            value: 2.0,
             label: 'Green'
         }
     };
     var Values = Colors1.Values = [
-        0,
-        1,
-        2
+        0.0,
+        1.0,
+        2.0
     ];
     function ValueFor(member) {
         return ValueMap[member]?.value;

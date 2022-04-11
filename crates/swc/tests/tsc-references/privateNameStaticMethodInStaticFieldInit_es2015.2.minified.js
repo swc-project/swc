@@ -1,6 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 class C {
 }
-C.s = swcHelpers.classStaticPrivateMethodGet(C, C, function() {
+function method() {
     return 42;
-}).call(C), console.log(C.s);
+}
+C.s = swcHelpers.classStaticPrivateMethodGet(C, C, method).call(C), console.log(C.s);

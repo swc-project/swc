@@ -174,7 +174,8 @@
                     "end": 142,
                     "ctxt": 0
                   },
-                  "value": 12.0
+                  "value": 12.0,
+                  "raw": "12"
                 }
               },
               {
@@ -435,7 +436,8 @@
                     "end": 279,
                     "ctxt": 0
                   },
-                  "value": 14.0
+                  "value": 14.0,
+                  "raw": "14"
                 }
               },
               {
@@ -670,7 +672,8 @@
                     "end": 397,
                     "ctxt": 0
                   },
-                  "value": 15.0
+                  "value": 15.0,
+                  "raw": "15"
                 }
               },
               {
@@ -915,7 +918,8 @@
                     "end": 527,
                     "ctxt": 0
                   },
-                  "value": 16.0
+                  "value": 16.0,
+                  "raw": "16"
                 }
               },
               {
@@ -1123,7 +1127,8 @@
               "end": 634,
               "ctxt": 0
             },
-            "value": 17.0
+            "value": 17.0,
+            "raw": "17"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -1514,7 +1519,8 @@
               "end": 763,
               "ctxt": 0
             },
-            "value": 21.0
+            "value": 21.0,
+            "raw": "21"
           },
           "typeAnnotation": null,
           "isStatic": false,

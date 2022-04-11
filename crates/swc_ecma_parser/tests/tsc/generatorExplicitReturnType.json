@@ -137,7 +137,8 @@
                       "end": 225,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "delegate": false
                 },
@@ -159,7 +160,8 @@
                 "end": 249,
                 "ctxt": 0
               },
-              "value": 10.0
+              "value": 10.0,
+              "raw": "10"
             }
           }
         ]
@@ -301,7 +303,8 @@
                       "end": 337,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "delegate": false
                 },

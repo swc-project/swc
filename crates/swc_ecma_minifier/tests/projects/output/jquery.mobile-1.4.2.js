@@ -4495,11 +4495,7 @@
                 return event.altKey && event.keyCode === $.ui.keyCode.PAGE_UP ? (this._activate(this._focusNextTab(this.options.active - 1, !1)), !0) : event.altKey && event.keyCode === $.ui.keyCode.PAGE_DOWN ? (this._activate(this._focusNextTab(this.options.active + 1, !0)), !0) : void 0;
             },
             _findNextTab: function(index, goingForward) {
-                var lastTabIndex = this.tabs.length - 1;
-                function constrain() {
-                    return index > lastTabIndex && (index = 0), index < 0 && (index = lastTabIndex), index;
-                }
-                for(; -1 !== $.inArray(constrain(), this.options.disabled);)index = goingForward ? index + 1 : index - 1;
+                for(var lastTabIndex = this.tabs.length - 1; -1 !== $.inArray((index > lastTabIndex && (index = 0), index < 0 && (index = lastTabIndex), index), this.options.disabled);)index = goingForward ? index + 1 : index - 1;
                 return index;
             },
             _focusNextTab: function(index, goingForward) {

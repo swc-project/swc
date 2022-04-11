@@ -1,4 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
+function bar(a) {
+    return a + a;
+}
 var SomeClass = function() {
     "use strict";
     function SomeClass() {
@@ -9,9 +12,7 @@ var SomeClass = function() {
     }, SomeClass;
 }();
 module.exports = {
-    bar: function(a) {
-        return a + a;
-    },
+    bar: bar,
     SomeClass: SomeClass
 };
 var ref = require("./lib"), SomeClass = ref.SomeClass, Another = ref.SomeClass;

@@ -292,7 +292,6 @@ dead_code/issue_2666/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
-dead_code/issue_2860_2/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
@@ -536,6 +535,8 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
+functions/issue_2630_1/input.js
+functions/issue_2630_4/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -622,9 +623,13 @@ hoist_props/direct_access_2/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
 hoist_props/hoist_function_with_call/input.js
+hoist_props/issue_2377_1/input.js
+hoist_props/issue_2377_2/input.js
+hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
 hoist_props/issue_2473_2/input.js
+hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
 hoist_props/issue_3071_1/input.js
@@ -651,6 +656,7 @@ identity/inline_identity/input.js
 identity/inline_identity_async/input.js
 identity/inline_identity_dont_lose_this_when_arg/input.js
 identity/inline_identity_duplicate_arg_var/input.js
+identity/inline_identity_function/input.js
 identity/inline_identity_higher_order/input.js
 identity/inline_identity_inline_function/input.js
 identity/inline_identity_inner_ref/input.js
@@ -770,9 +776,11 @@ issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
+issue_281/drop_fargs/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1595_3/input.js
+issue_281/keep_fargs/input.js
 issue_281/modified/input.js
 issue_281/negate_iife_3/input.js
 issue_281/negate_iife_3_off/input.js
@@ -1041,6 +1049,7 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_single_use_loop/input.js
@@ -1181,6 +1190,7 @@ reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
+reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js

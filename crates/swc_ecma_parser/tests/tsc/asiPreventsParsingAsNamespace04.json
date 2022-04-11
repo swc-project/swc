@@ -41,7 +41,8 @@
               "end": 16,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "definite": false
         }

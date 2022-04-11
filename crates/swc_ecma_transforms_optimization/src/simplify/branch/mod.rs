@@ -82,6 +82,12 @@ impl VisitMut for Remover {
         e.visit_mut_children_with(self);
 
         match e {
+            Expr::Seq(s) => {
+                if s.exprs.is_empty() {
+                    *e = Expr::dummy();
+                }
+            }
+
             Expr::Assign(AssignExpr {
                 op: op!("="),
                 left: PatOrExpr::Pat(l),
@@ -154,6 +160,19 @@ impl VisitMut for Remover {
                 *e = *cond.cons.take();
             }
 
+            Expr::Bin(be) => match (be.left.is_invalid(), be.right.is_invalid()) {
+                (true, true) => {
+                    *e = Expr::dummy();
+                }
+                (true, false) => {
+                    *e = *be.right.take();
+                }
+                (false, true) => {
+                    *e = *be.left.take();
+                }
+                _ => {}
+            },
+
             _ => {}
         }
     }
@@ -189,7 +208,7 @@ impl VisitMut for Remover {
         if cfg!(feature = "debug") {
             debug!("Removing dead branches");
         }
-        self.fold_stmt_like(n)
+        self.fold_stmt_like(n);
     }
 
     fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
@@ -1482,6 +1501,10 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let last = ignore_result(*exprs.pop().unwrap()).map(Box::new);
 
             exprs.extend(last);
+
+            if exprs.is_empty() {
+                return None;
+            }
 
             Some(Expr::Seq(SeqExpr { span, exprs }))
         }

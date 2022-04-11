@@ -122,6 +122,7 @@ dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2749/input.js
+dead_code/issue_2860_2/input.js
 dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
@@ -268,10 +269,8 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
-functions/issue_2630_1/input.js
 functions/issue_2630_2/input.js
 functions/issue_2630_3/input.js
-functions/issue_2630_4/input.js
 functions/issue_2630_5/input.js
 functions/issue_2657/input.js
 functions/issue_2663_2/input.js
@@ -335,10 +334,6 @@ hoist_props/contains_this_2/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/hoist_class/input.js
 hoist_props/hoist_class_with_new/input.js
-hoist_props/issue_2377_1/input.js
-hoist_props/issue_2377_2/input.js
-hoist_props/issue_2377_3/input.js
-hoist_props/issue_2473_3/input.js
 hoist_props/issue_2473_4/input.js
 hoist_props/issue_2508_1/input.js
 hoist_props/issue_2508_2/input.js
@@ -357,7 +352,6 @@ hoist_props/toplevel_let/input.js
 hoist_props/toplevel_var/input.js
 hoist_props/undefined_key/input.js
 identity/inline_identity_extra_params/input.js
-identity/inline_identity_function/input.js
 ie8/do_screw_try_catch/input.js
 ie8/do_screw_try_catch_undefined/input.js
 ie8/dont_screw_try_catch/input.js
@@ -458,11 +452,9 @@ issue_269/regexp/input.js
 issue_269/strings_concat/input.js
 issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
-issue_281/drop_fargs/input.js
 issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1288_side_effects/input.js
 issue_281/issue_1758/input.js
-issue_281/keep_fargs/input.js
 issue_281/pure_annotation_1/input.js
 issue_281/pure_annotation_2/input.js
 issue_281/ref_scope/input.js
@@ -645,7 +637,6 @@ pure_globals/globals_whose_access_is_pure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
-reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
@@ -719,7 +710,6 @@ reduce_vars/unsafe_evaluate/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
-reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js

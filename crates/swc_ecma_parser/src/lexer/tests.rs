@@ -79,12 +79,18 @@ impl WithSpan for Token {
 }
 impl WithSpan for usize {
     fn into_token(self) -> Token {
-        Num(self as f64)
+        Num {
+            value: self as f64,
+            raw: self.to_string().into(),
+        }
     }
 }
 impl WithSpan for f64 {
     fn into_token(self) -> Token {
-        Num(self)
+        Num {
+            value: self,
+            raw: self.to_string().into(),
+        }
     }
 }
 impl<'a> WithSpan for &'a str {
@@ -155,7 +161,18 @@ fn test262_lexer_error_0001() {
     assert_eq!(
         lex(Syntax::default(), "123..a(1)"),
         vec![
-            123f64.span(0..4).lb(),
+            TokenAndSpan {
+                token: Num {
+                    value: 123.0,
+                    raw: "123.".into(),
+                },
+                had_line_break: true,
+                span: Span {
+                    lo: BytePos(0),
+                    hi: BytePos(4),
+                    ctxt: Default::default(),
+                }
+            },
             Dot.span(4..5),
             "a".span(5..6),
             LParen.span(6..7),

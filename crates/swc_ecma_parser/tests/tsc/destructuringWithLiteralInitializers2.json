@@ -260,7 +260,8 @@
                       "end": 95,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -369,7 +370,8 @@
                       "end": 125,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 },
                 {
@@ -466,7 +468,8 @@
                     "end": 158,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "typeAnnotation": null
               },
@@ -569,7 +572,8 @@
                       "end": 186,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -683,7 +687,8 @@
                       "end": 219,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -719,7 +724,8 @@
                       "end": 228,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -810,7 +816,8 @@
                       "end": 253,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -846,7 +853,8 @@
                       "end": 262,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 },
                 {
@@ -943,7 +951,8 @@
                     "end": 295,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "typeAnnotation": null
               },
@@ -1065,7 +1074,8 @@
                       "end": 331,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -1198,7 +1208,8 @@
                       "end": 372,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -1253,7 +1264,8 @@
                       "end": 389,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -1344,7 +1356,8 @@
                       "end": 414,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -1399,7 +1412,8 @@
                       "end": 431,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 },
                 {
@@ -1632,7 +1646,8 @@
                     "end": 541,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "typeAnnotation": null
               },
@@ -1754,7 +1769,8 @@
                       "end": 577,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -1887,7 +1903,8 @@
                       "end": 618,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -2034,7 +2051,8 @@
                       "end": 661,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -2187,7 +2205,8 @@
                     "end": 709,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "typeAnnotation": null
               },
@@ -2309,7 +2328,8 @@
                       "end": 745,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -2442,7 +2462,8 @@
                       "end": 786,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },
@@ -2589,7 +2610,8 @@
                       "end": 829,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "typeAnnotation": null
                 },

@@ -48,7 +48,8 @@
                 "end": 169,
                 "ctxt": 0
               },
-              "value": 5.0
+              "value": 5.0,
+              "raw": "5"
             }
           }
         ]
@@ -108,7 +109,8 @@
                   "end": 278,
                   "ctxt": 0
                 },
-                "value": 5.0
+                "value": 5.0,
+                "raw": "5"
               },
               "right": {
                 "type": "BooleanLiteral",

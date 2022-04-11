@@ -397,7 +397,8 @@
                 "end": 262,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "computed": false,
             "optional": false,
@@ -498,7 +499,8 @@
                 "end": 305,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             },
             "computed": false,
             "optional": true,

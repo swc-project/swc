@@ -1,1 +1,1 @@
-export { default as Alias };
+export{default as Alias};

@@ -35,7 +35,8 @@
               "end": 10,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -54,7 +55,8 @@
             "end": 14,
             "ctxt": 0
           },
-          "value": 1.0
+          "value": 1.0,
+          "raw": "1"
         }
       }
     }

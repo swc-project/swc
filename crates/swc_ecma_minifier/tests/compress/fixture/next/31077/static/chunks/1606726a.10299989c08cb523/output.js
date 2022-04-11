@@ -132,7 +132,7 @@
             }
             var preventScrollSupported = null;
             function findOffsetInNode(node, coords) {
-                for(var closest, coordsClosest, dxClosest = 200000000, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
+                for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
                     var rects = void 0;
                     if (1 == child.nodeType) rects = child.getClientRects();
                     else {
@@ -2056,7 +2056,7 @@
                 return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty1;
             }, DecorationSet.prototype.find = function(start, end, predicate) {
                 var result = [];
-                return this.findInner(null == start ? 0 : start, null == end ? 1000000000 : end, result, 0, predicate), result;
+                return this.findInner(null == start ? 0 : start, null == end ? 1e9 : end, result, 0, predicate), result;
             }, DecorationSet.prototype.findInner = function(start, end, result, offset, predicate) {
                 for(var i = 0; i < this.local.length; i++){
                     var span = this.local[i];

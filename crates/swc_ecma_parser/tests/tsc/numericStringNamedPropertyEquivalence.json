@@ -130,7 +130,8 @@
               "end": 235,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1.0"
           },
           "value": null,
           "typeAnnotation": {
@@ -292,7 +293,8 @@
                 "end": 321,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "computed": false,
             "optional": false,
@@ -417,7 +419,8 @@
                         "end": 367,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "value": 1.0,
+                      "raw": "1.0"
                     },
                     "computed": false,
                     "optional": false,
@@ -519,7 +522,8 @@
                     "end": 408,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "value": {
                   "type": "StringLiteral",
