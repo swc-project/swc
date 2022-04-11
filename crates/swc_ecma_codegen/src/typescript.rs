@@ -138,12 +138,12 @@ where
     }
 
     #[emitter]
-    fn emit_ts_entity_member(&mut self, n: &TsEntityMember) -> Result {
+    fn emit_ts_member_name(&mut self, n: &TsMemberName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
-            TsEntityMember::Ident(n) => emit!(n),
-            TsEntityMember::PrivateName(n) => emit!(n),
+            TsMemberName::Ident(n) => emit!(n),
+            TsMemberName::PrivateName(n) => emit!(n),
         }
     }
 

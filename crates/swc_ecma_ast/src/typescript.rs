@@ -101,7 +101,7 @@ pub struct TsQualifiedName {
     #[span(lo)]
     pub left: TsEntityName,
     #[span(hi)]
-    pub right: TsEntityMember,
+    pub right: TsMemberName,
 }
 
 #[ast_node]
@@ -120,7 +120,7 @@ pub enum TsEntityName {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum TsEntityMember {
+pub enum TsMemberName {
     #[tag("Identifier")]
     Ident(Ident),
 
