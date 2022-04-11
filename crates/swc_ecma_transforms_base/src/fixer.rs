@@ -577,7 +577,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old = self.ctx;
-        // only ExprStmt would have unparened expr,
+        // only ExprStmt would have unparented expr,
         // which would be handled in its own visit function
         self.ctx = Context::FreeExpr;
         s.visit_mut_children_with(self);

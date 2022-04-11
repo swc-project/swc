@@ -113,7 +113,7 @@ it('should handle input sourcemap correctly', async () => {
 
 })
 
-describe('soruceMaps: true in .swcrc', () => {
+describe('sourceMaps: true in .swcrc', () => {
 
     it(`should be respected`, async () => {
         const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'));

@@ -23,7 +23,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// JSON.parse('{"a":1, "b"}')
 /// ```
 ///
-/// # COnditions
+/// # Conditions
 /// If any of the conditions below is matched, pure object literal is converter
 /// to `JSON.parse`
 ///

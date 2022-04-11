@@ -15,7 +15,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
-    // Temporalily ignored
+    // Temporally ignored
     "431ecef8c85d4d24.js",
     "8386fbff927a9e0e.js",
     "5654d4106d7025c2.js",

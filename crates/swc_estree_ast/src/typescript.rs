@@ -324,7 +324,7 @@ pub struct TSIndexSignature {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub paramters: Vec<Identifier>,
+    pub parameters: Vec<Identifier>,
     #[serde(default)]
     pub type_annotation: Option<Box<TSTypeAnnotation>>,
     #[serde(default)]

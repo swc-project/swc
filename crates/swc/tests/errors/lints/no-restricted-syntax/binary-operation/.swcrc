@@ -6,7 +6,7 @@
                 {
                     "BinaryExpression": [
                         {
-                            "message": "no 'in' expession",
+                            "message": "no 'in' expression",
                             "operator": "in"
                         }
                     ]

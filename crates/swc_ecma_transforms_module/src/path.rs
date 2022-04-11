@@ -58,7 +58,7 @@ pub trait ImportResolver {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error>;
 }
 
-/// [ImportResolver] implementation which just uses orignal source.
+/// [ImportResolver] implementation which just uses original source.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct NoopImportResolver;
 
