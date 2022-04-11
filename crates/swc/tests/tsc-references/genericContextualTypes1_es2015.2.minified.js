@@ -1,4 +1,4 @@
-wrap(list), wrap((x)=>[
+list, wrap(list), wrap((x)=>[
         x
     ]
 ), compose((a)=>list(a)

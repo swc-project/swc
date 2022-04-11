@@ -1,1 +1,2 @@
+MyComp;
 export { };

@@ -78,4 +78,4 @@ noParams(), noParams(), noParams(), noGenericParams(""), noGenericParams(""), no
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(null, null, null);
+}), someGenerics7(null, null, null), window, window;
