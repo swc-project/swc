@@ -492,10 +492,10 @@ where
         }
 
         match s {
-            Stmt::If(stmt) if self.options.conditionals => {
-                self.extract_vars(&mut stmt.cons);
-                if let Some(alt) = &mut stmt.alt {
-                    self.extract_vars(alt);
+            Stmt::If(s) => {
+                self.extract_vars_in_subscopes(&mut s.cons);
+                if let Some(alt) = &mut s.alt {
+                    self.extract_vars_in_subscopes(alt);
                 }
             }
 
@@ -507,6 +507,37 @@ where
 
             Stmt::Labeled(s) => {
                 self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            Stmt::While(s) => {
+                self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            Stmt::DoWhile(s) => {
+                self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            Stmt::For(s) => {
+                self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            Stmt::ForOf(s) => {
+                self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            Stmt::ForIn(s) => {
+                self.extract_vars_in_subscopes(&mut s.body);
+            }
+
+            _ => {}
+        }
+
+        match s {
+            Stmt::If(stmt) if self.options.conditionals => {
+                self.extract_vars(&mut stmt.cons);
+                if let Some(alt) = &mut stmt.alt {
+                    self.extract_vars(alt);
+                }
             }
 
             _ => {}
