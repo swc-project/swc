@@ -162,13 +162,25 @@ impl Pure<'_> {
         }
 
         // Skip first one in the body.
-        let is_stmts_fn_body = self.ctx.is_stmts_fn_body;
-        let skip = if is_stmts_fn_body {
+        let skip = if self.options.conditionals {
             match stmts[0].as_stmt() {
                 Some(Stmt::Decl(Decl::Var(VarDecl {
                     kind: VarDeclKind::Var,
+                    decls,
                     ..
-                }))) => 1,
+                }))) => (|| {
+                    let mut found = false;
+                    for d in decls.iter() {
+                        if d.init.is_some() {
+                            found = true;
+                        } else if found {
+                            // We should handle the first var, too
+                            return 0;
+                        }
+                    }
+
+                    1
+                })(),
                 _ => 0,
             }
         } else {

@@ -26,8 +26,6 @@ pub(super) struct Ctx {
     /// [swc_ecma_ast::IfStmt], and more like that.
     pub in_first_expr: bool,
 
-    pub is_stmts_fn_body: bool,
-
     pub top_level: bool,
 }
 

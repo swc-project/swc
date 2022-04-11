@@ -420,7 +420,6 @@ impl VisitMut for Pure<'_> {
         {
             let ctx = Ctx {
                 _in_try_block: false,
-                is_stmts_fn_body: true,
                 ..self.ctx
             };
             let mut v = self.with_ctx(ctx);
@@ -617,7 +616,6 @@ impl VisitMut for Pure<'_> {
                 is_callee: false,
                 in_delete: false,
                 in_first_expr: true,
-                is_stmts_fn_body: false,
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
