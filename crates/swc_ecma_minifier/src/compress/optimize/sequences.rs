@@ -21,6 +21,7 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -513,6 +514,17 @@ where
         if !self.options.sequences() {
             return;
         }
+
+        if DISABLE_BUGGY_PASSES {
+            return;
+        }
+
+        let _tracing = span!(
+            Level::ERROR,
+            "extract_vars_in_subscopes",
+            stmt = tracing::field::display(&dump(s, true))
+        )
+        .entered();
 
         match s {
             Stmt::If(s) => {
