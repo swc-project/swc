@@ -844,7 +844,7 @@ impl VisitMut for Prefixer {
 
         // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
         // declaration and versa vice
-        macro_rules! same_content {
+        macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
                 // TODO improve perf by getting all declaration and values once (i.e. lazy)
                 let need_prefix = match self.get_declaration_by_name($name) {
@@ -891,9 +891,9 @@ impl VisitMut for Prefixer {
 
         match property_name {
             "appearance" => {
-                same_content!(Prefix::Webkit, "-webkit-appearance");
-                same_content!(Prefix::Moz, "-moz-appearance");
-                same_content!(Prefix::Ms, "-ms-appearance");
+                add_declaration!(Prefix::Webkit, "-webkit-appearance");
+                add_declaration!(Prefix::Moz, "-moz-appearance");
+                add_declaration!(Prefix::Ms, "-ms-appearance");
             }
 
             "animation" => {
@@ -905,28 +905,28 @@ impl VisitMut for Prefixer {
                 });
 
                 if need_prefix {
-                    same_content!(Prefix::Webkit, "-webkit-animation");
-                    same_content!(Prefix::Moz, "-moz-animation");
-                    same_content!(Prefix::O, "-o-animation");
+                    add_declaration!(Prefix::Webkit, "-webkit-animation");
+                    add_declaration!(Prefix::Moz, "-moz-animation");
+                    add_declaration!(Prefix::O, "-o-animation");
                 }
             }
 
             "animation-name" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-name");
-                same_content!(Prefix::Moz, "-moz-animation-name");
-                same_content!(Prefix::O, "-o-animation-name");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-name");
+                add_declaration!(Prefix::Moz, "-moz-animation-name");
+                add_declaration!(Prefix::O, "-o-animation-name");
             }
 
             "animation-duration" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-duration");
-                same_content!(Prefix::Moz, "-moz-animation-duration");
-                same_content!(Prefix::O, "-o-animation-duration");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-duration");
+                add_declaration!(Prefix::Moz, "-moz-animation-duration");
+                add_declaration!(Prefix::O, "-o-animation-duration");
             }
 
             "animation-delay" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-delay");
-                same_content!(Prefix::Moz, "-moz-animation-delay");
-                same_content!(Prefix::O, "-o-animation-delay");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-delay");
+                add_declaration!(Prefix::Moz, "-moz-animation-delay");
+                add_declaration!(Prefix::O, "-o-animation-delay");
             }
 
             "animation-direction" => {
@@ -935,107 +935,107 @@ impl VisitMut for Prefixer {
                         "alternate-reverse" | "reverse" => {}
 
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-animation-direction");
-                            same_content!(Prefix::Moz, "-moz-animation-direction");
-                            same_content!(Prefix::O, "-o-animation-direction");
+                            add_declaration!(Prefix::Webkit, "-webkit-animation-direction");
+                            add_declaration!(Prefix::Moz, "-moz-animation-direction");
+                            add_declaration!(Prefix::O, "-o-animation-direction");
                         }
                     }
                 }
             }
 
             "animation-fill-mode" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-fill-mode");
-                same_content!(Prefix::Moz, "-moz-animation-fill-mode");
-                same_content!(Prefix::O, "-o-animation-fill-mode");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-fill-mode");
+                add_declaration!(Prefix::Moz, "-moz-animation-fill-mode");
+                add_declaration!(Prefix::O, "-o-animation-fill-mode");
             }
 
             "animation-iteration-count" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-iteration-count");
-                same_content!(Prefix::Moz, "-moz-animation-iteration-count");
-                same_content!(Prefix::O, "-o-animation-iteration-count");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-iteration-count");
+                add_declaration!(Prefix::Moz, "-moz-animation-iteration-count");
+                add_declaration!(Prefix::O, "-o-animation-iteration-count");
             }
 
             "animation-play-state" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-play-state");
-                same_content!(Prefix::Moz, "-moz-animation-play-state");
-                same_content!(Prefix::O, "-o-animation-play-state");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-play-state");
+                add_declaration!(Prefix::Moz, "-moz-animation-play-state");
+                add_declaration!(Prefix::O, "-o-animation-play-state");
             }
 
             "animation-timing-function" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-timing-function");
-                same_content!(Prefix::Moz, "-moz-animation-timing-function");
-                same_content!(Prefix::O, "-o-animation-timing-function");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-timing-function");
+                add_declaration!(Prefix::Moz, "-moz-animation-timing-function");
+                add_declaration!(Prefix::O, "-o-animation-timing-function");
             }
 
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
-                        same_content!(Prefix::Webkit, "-webkit-background-clip");
+                        add_declaration!(Prefix::Webkit, "-webkit-background-clip");
                     }
                 }
             }
 
             "box-decoration-break" => {
-                same_content!(Prefix::Webkit, "-webkit-box-decoration-break");
+                add_declaration!(Prefix::Webkit, "-webkit-box-decoration-break");
             }
 
             "box-sizing" => {
-                same_content!(Prefix::Webkit, "-webkit-box-sizing");
-                same_content!(Prefix::Moz, "-moz-box-sizing");
+                add_declaration!(Prefix::Webkit, "-webkit-box-sizing");
+                add_declaration!(Prefix::Moz, "-moz-box-sizing");
             }
 
             "color-adjust" => {
-                same_content!(Prefix::Webkit, "-webkit-print-color-adjust");
+                add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust");
             }
 
             "columns" => {
-                same_content!(Prefix::Webkit, "-webkit-columns");
-                same_content!(Prefix::Moz, "-moz-columns");
+                add_declaration!(Prefix::Webkit, "-webkit-columns");
+                add_declaration!(Prefix::Moz, "-moz-columns");
             }
 
             "column-width" => {
-                same_content!(Prefix::Webkit, "-webkit-column-width");
-                same_content!(Prefix::Moz, "-moz-column-width");
+                add_declaration!(Prefix::Webkit, "-webkit-column-width");
+                add_declaration!(Prefix::Moz, "-moz-column-width");
             }
 
             "column-gap" => {
-                same_content!(Prefix::Webkit, "-webkit-column-gap");
-                same_content!(Prefix::Moz, "-moz-column-gap");
+                add_declaration!(Prefix::Webkit, "-webkit-column-gap");
+                add_declaration!(Prefix::Moz, "-moz-column-gap");
             }
 
             "column-rule" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule");
-                same_content!(Prefix::Moz, "-moz-column-rule");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule");
+                add_declaration!(Prefix::Moz, "-moz-column-rule");
             }
 
             "column-rule-color" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-color");
-                same_content!(Prefix::Moz, "-moz-column-rule-color");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-color");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-color");
             }
 
             "column-rule-width" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-width");
-                same_content!(Prefix::Moz, "-moz-column-rule-width");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-width");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-width");
             }
 
             "column-count" => {
-                same_content!(Prefix::Webkit, "-webkit-column-count");
-                same_content!(Prefix::Moz, "-moz-column-count");
+                add_declaration!(Prefix::Webkit, "-webkit-column-count");
+                add_declaration!(Prefix::Moz, "-moz-column-count");
             }
 
             "column-rule-style" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-style");
-                same_content!(Prefix::Moz, "-moz-column-rule-style");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-style");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-style");
             }
 
             "column-span" => {
-                same_content!(Prefix::Webkit, "-webkit-column-span");
-                same_content!(Prefix::Moz, "-moz-column-span");
+                add_declaration!(Prefix::Webkit, "-webkit-column-span");
+                add_declaration!(Prefix::Moz, "-moz-column-span");
             }
 
             "column-fill" => {
-                same_content!(Prefix::Webkit, "-webkit-column-fill");
-                same_content!(Prefix::Moz, "-moz-column-fill");
+                add_declaration!(Prefix::Webkit, "-webkit-column-fill");
+                add_declaration!(Prefix::Moz, "-moz-column-fill");
             }
 
             "cursor" => {
@@ -1110,10 +1110,10 @@ impl VisitMut for Prefixer {
                         important: n.important.clone(),
                     });
                 } else {
-                    same_content!(Prefix::Webkit, "-webkit-box-flex");
+                    add_declaration!(Prefix::Webkit, "-webkit-box-flex");
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex");
+                add_declaration!(Prefix::Webkit, "-webkit-flex");
 
                 if let Some(spec_2009_value) = &spec_2009_value {
                     let value = vec![spec_2009_value.clone()];
@@ -1129,7 +1129,7 @@ impl VisitMut for Prefixer {
                         important: n.important.clone(),
                     });
                 } else {
-                    same_content!(Prefix::Webkit, "-moz-box-flex");
+                    add_declaration!(Prefix::Webkit, "-moz-box-flex");
                 }
 
                 if n.value.len() == 3 {
@@ -1165,25 +1165,25 @@ impl VisitMut for Prefixer {
                         important: n.important.clone(),
                     });
                 } else {
-                    same_content!(Prefix::Ms, "-ms-flex");
+                    add_declaration!(Prefix::Ms, "-ms-flex");
                 }
             }
 
             "flex-grow" => {
-                same_content!(Prefix::Webkit, "-webkit-box-flex");
-                same_content!(Prefix::Webkit, "-webkit-flex-grow");
-                same_content!(Prefix::Moz, "-moz-box-flex");
-                same_content!(Prefix::Ms, "-ms-flex-positive");
+                add_declaration!(Prefix::Webkit, "-webkit-box-flex");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-grow");
+                add_declaration!(Prefix::Moz, "-moz-box-flex");
+                add_declaration!(Prefix::Ms, "-ms-flex-positive");
             }
 
             "flex-shrink" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-shrink");
-                same_content!(Prefix::Ms, "-ms-flex-negative");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-shrink");
+                add_declaration!(Prefix::Ms, "-ms-flex-negative");
             }
 
             "flex-basis" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-basis");
-                same_content!(Prefix::Ms, "-ms-flex-preferred-size");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-basis");
+                add_declaration!(Prefix::Ms, "-ms-flex-preferred-size");
             }
 
             "flex-direction" => {
@@ -1244,7 +1244,7 @@ impl VisitMut for Prefixer {
                     });
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex-direction");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-direction");
 
                 if let Some((orient, direction)) = old_values {
                     let name = DeclarationName::Ident(Ident {
@@ -1279,12 +1279,12 @@ impl VisitMut for Prefixer {
                     });
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-direction");
+                add_declaration!(Prefix::Ms, "-ms-flex-direction");
             }
 
             "flex-wrap" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-wrap");
-                same_content!(Prefix::Ms, "-ms-flex-wrap");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-wrap");
+                add_declaration!(Prefix::Ms, "-ms-flex-wrap");
             }
 
             "flex-flow" => {
@@ -1365,7 +1365,7 @@ impl VisitMut for Prefixer {
                     });
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex-flow");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-flow");
 
                 if let Some((orient, direction)) = old_values {
                     let name = DeclarationName::Ident(Ident {
@@ -1400,7 +1400,7 @@ impl VisitMut for Prefixer {
                     });
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-flow");
+                add_declaration!(Prefix::Ms, "-ms-flex-flow");
             }
 
             "justify-content" => {
@@ -1433,7 +1433,7 @@ impl VisitMut for Prefixer {
                     });
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-justify-content");
+                add_declaration!(Prefix::Webkit, "-webkit-justify-content");
 
                 if need_old_spec {
                     let mut old_spec_moz_new_value = moz_new_value.clone();
@@ -1486,22 +1486,22 @@ impl VisitMut for Prefixer {
                         simple!("-webkit-box-ordinal-group", old_spec_num.to_string());
                     }
                     _ => {
-                        same_content!(Prefix::Webkit, "-webkit-box-ordinal-group");
+                        add_declaration!(Prefix::Webkit, "-webkit-box-ordinal-group");
                     }
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-order");
+                add_declaration!(Prefix::Webkit, "-webkit-order");
 
                 match old_spec_num {
                     Some(old_spec_num) if n.value.len() == 1 => {
                         simple!("-moz-box-ordinal-group", old_spec_num.to_string());
                     }
                     _ => {
-                        same_content!(Prefix::Webkit, "-moz-box-ordinal-group");
+                        add_declaration!(Prefix::Webkit, "-moz-box-ordinal-group");
                     }
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-order");
+                add_declaration!(Prefix::Ms, "-ms-flex-order");
             }
 
             "align-items" => {
@@ -1522,7 +1522,7 @@ impl VisitMut for Prefixer {
                     important: n.important.clone(),
                 });
 
-                same_content!(Prefix::Webkit, "-webkit-align-items");
+                add_declaration!(Prefix::Webkit, "-webkit-align-items");
 
                 let mut old_spec_moz_new_value = moz_new_value.clone();
 
@@ -1560,7 +1560,7 @@ impl VisitMut for Prefixer {
             }
 
             "align-self" => {
-                same_content!(Prefix::Webkit, "-webkit-align-self");
+                add_declaration!(Prefix::Webkit, "-webkit-align-self");
 
                 let mut spec_2012_ms_new_value = ms_new_value.clone();
 
@@ -1581,7 +1581,7 @@ impl VisitMut for Prefixer {
             }
 
             "align-content" => {
-                same_content!(Prefix::Webkit, "-webkit-align-content");
+                add_declaration!(Prefix::Webkit, "-webkit-align-content");
 
                 let mut spec_2012_ms_new_value = ms_new_value.clone();
 
@@ -1635,132 +1635,132 @@ impl VisitMut for Prefixer {
                 ComponentValue::Function(Function { name, .. })
                     if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
-                    same_content!(Prefix::Webkit, "-webkit-filter");
+                    add_declaration!(Prefix::Webkit, "-webkit-filter");
                 }
             },
 
             "backdrop-filter" => {
-                same_content!(Prefix::Webkit, "-webkit-backdrop-filter");
+                add_declaration!(Prefix::Webkit, "-webkit-backdrop-filter");
             }
 
             "mask-clip" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-clip");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-clip");
             }
 
             // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
             "mask-composite" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-composite");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-composite");
             }
 
             "mask-image" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-image");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-image");
             }
 
             "mask-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-origin");
             }
 
             "mask-repeat" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-repeat");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-repeat");
             }
 
             "mask-border-repeat" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-border-repeat");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-border-repeat");
             }
 
             "mask-border-source" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-border-source");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-border-source");
             }
 
             "mask" => {
-                same_content!(Prefix::Webkit, "-webkit-mask");
+                add_declaration!(Prefix::Webkit, "-webkit-mask");
             }
 
             "mask-position" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-position");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-position");
             }
 
             "mask-size" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-size");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-size");
             }
 
             "mask-border" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image");
             }
 
             "mask-border-outset" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-outset");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-outset");
             }
 
             "mask-border-width" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-width");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-width");
             }
 
             "mask-border-slice" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-slice");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-slice");
             }
 
             "border-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-border-start");
-                same_content!(Prefix::Moz, "-moz-border-start");
+                add_declaration!(Prefix::Webkit, "-webkit-border-start");
+                add_declaration!(Prefix::Moz, "-moz-border-start");
             }
 
             "border-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-border-end");
-                same_content!(Prefix::Moz, "-moz-border-end");
+                add_declaration!(Prefix::Webkit, "-webkit-border-end");
+                add_declaration!(Prefix::Moz, "-moz-border-end");
             }
 
             "margin-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-start");
-                same_content!(Prefix::Moz, "-moz-margin-start");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-start");
+                add_declaration!(Prefix::Moz, "-moz-margin-start");
             }
 
             "margin-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-end");
-                same_content!(Prefix::Moz, "-moz-margin-end");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-end");
+                add_declaration!(Prefix::Moz, "-moz-margin-end");
             }
 
             "padding-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-start");
-                same_content!(Prefix::Moz, "-moz-padding-start");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-start");
+                add_declaration!(Prefix::Moz, "-moz-padding-start");
             }
 
             "padding-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-end");
-                same_content!(Prefix::Moz, "-moz-padding-end");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-end");
+                add_declaration!(Prefix::Moz, "-moz-padding-end");
             }
 
             "border-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-border-before");
+                add_declaration!(Prefix::Webkit, "-webkit-border-before");
             }
 
             "border-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-border-after");
+                add_declaration!(Prefix::Webkit, "-webkit-border-after");
             }
 
             "margin-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-before");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-before");
             }
 
             "margin-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-after");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-after");
             }
 
             "padding-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-before");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-before");
             }
 
             "padding-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-after");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-after");
             }
 
             "backface-visibility" => {
-                same_content!(Prefix::Webkit, "-webkit-backface-visibility");
-                same_content!(Prefix::Moz, "-moz-backface-visibility");
+                add_declaration!(Prefix::Webkit, "-webkit-backface-visibility");
+                add_declaration!(Prefix::Moz, "-moz-backface-visibility");
             }
 
             "clip-path" => {
-                same_content!(Prefix::Webkit, "-webkit-clip-path");
+                add_declaration!(Prefix::Webkit, "-webkit-clip-path");
             }
 
             "position" if n.value.len() == 1 => {
@@ -1768,8 +1768,8 @@ impl VisitMut for Prefixer {
             }
 
             "user-select" => {
-                same_content!(Prefix::Webkit, "-webkit-user-select");
-                same_content!(Prefix::Moz, "-moz-user-select");
+                add_declaration!(Prefix::Webkit, "-webkit-user-select");
+                add_declaration!(Prefix::Moz, "-moz-user-select");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
@@ -1778,7 +1778,7 @@ impl VisitMut for Prefixer {
                         }
                         "all" => {}
                         _ => {
-                            same_content!(Prefix::Ms, "-ms-user-select");
+                            add_declaration!(Prefix::Ms, "-ms-user-select");
                         }
                     }
                 }
@@ -1806,42 +1806,42 @@ impl VisitMut for Prefixer {
                     _ => false,
                 });
 
-                same_content!(Prefix::Webkit, "-webkit-transform");
-                same_content!(Prefix::Moz, "-moz-transform");
+                add_declaration!(Prefix::Webkit, "-webkit-transform");
+                add_declaration!(Prefix::Moz, "-moz-transform");
 
                 if !has_3d_function {
                     if !self.in_keyframe_block {
-                        same_content!(Prefix::Ms, "-ms-transform");
+                        add_declaration!(Prefix::Ms, "-ms-transform");
                     }
 
-                    same_content!(Prefix::O, "-o-transform");
+                    add_declaration!(Prefix::O, "-o-transform");
                 }
             }
 
             "transform-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-transform-origin");
-                same_content!(Prefix::Moz, "-moz-transform-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-transform-origin");
+                add_declaration!(Prefix::Moz, "-moz-transform-origin");
 
                 if !self.in_keyframe_block {
-                    same_content!(Prefix::Ms, "-ms-transform-origin");
+                    add_declaration!(Prefix::Ms, "-ms-transform-origin");
                 }
 
-                same_content!(Prefix::O, "-o-transform-origin");
+                add_declaration!(Prefix::O, "-o-transform-origin");
             }
 
             "transform-style" => {
-                same_content!(Prefix::Webkit, "-webkit-transform-style");
-                same_content!(Prefix::Moz, "-moz-transform-style");
+                add_declaration!(Prefix::Webkit, "-webkit-transform-style");
+                add_declaration!(Prefix::Moz, "-moz-transform-style");
             }
 
             "perspective" => {
-                same_content!(Prefix::Webkit, "-webkit-perspective");
-                same_content!(Prefix::Moz, "-moz-perspective");
+                add_declaration!(Prefix::Webkit, "-webkit-perspective");
+                add_declaration!(Prefix::Moz, "-moz-perspective");
             }
 
             "perspective-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-perspective-origin");
-                same_content!(Prefix::Moz, "-moz-perspective-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-perspective-origin");
+                add_declaration!(Prefix::Moz, "-moz-perspective-origin");
             }
 
             "text-decoration" => {
@@ -1861,33 +1861,33 @@ impl VisitMut for Prefixer {
                                     | "unset"
                             ) => {}
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-text-decoration");
-                            same_content!(Prefix::Moz, "-moz-text-decoration");
+                            add_declaration!(Prefix::Webkit, "-webkit-text-decoration");
+                            add_declaration!(Prefix::Moz, "-moz-text-decoration");
                         }
                     }
                 } else {
-                    same_content!(Prefix::Webkit, "-webkit-text-decoration");
-                    same_content!(Prefix::Moz, "-moz-text-decoration");
+                    add_declaration!(Prefix::Webkit, "-webkit-text-decoration");
+                    add_declaration!(Prefix::Moz, "-moz-text-decoration");
                 }
             }
 
             "text-decoration-style" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-style");
-                same_content!(Prefix::Moz, "-moz-text-decoration-style");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-style");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-style");
             }
 
             "text-decoration-color" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-color");
-                same_content!(Prefix::Moz, "-moz-text-decoration-color");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-color");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-color");
             }
 
             "text-decoration-line" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-line");
-                same_content!(Prefix::Moz, "-moz-text-decoration-line");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-line");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-line");
             }
 
             "text-decoration-skip" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-skip");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-skip");
             }
 
             "text-decoration-skip-ink" => {
@@ -1897,7 +1897,7 @@ impl VisitMut for Prefixer {
                             simple!("-webkit-text-decoration-skip", "ink")
                         }
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-text-decoration-skip-ink");
+                            add_declaration!(Prefix::Webkit, "-webkit-text-decoration-skip-ink");
                         }
                     }
                 }
@@ -1906,9 +1906,9 @@ impl VisitMut for Prefixer {
             "text-size-adjust" if n.value.len() == 1 => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "none" {
-                        same_content!(Prefix::Webkit, "-webkit-text-size-adjust");
-                        same_content!(Prefix::Moz, "-moz-text-size-adjust");
-                        same_content!(Prefix::Ms, "-ms-text-size-adjust");
+                        add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust");
+                        add_declaration!(Prefix::Moz, "-moz-text-size-adjust");
+                        add_declaration!(Prefix::Ms, "-ms-text-size-adjust");
                     }
                 }
             }
@@ -1919,15 +1919,15 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
                 replace_ident(&mut webkit_new_value, "filter", "-webkit-filter");
 
-                same_content!(Prefix::Webkit, "-webkit-transition");
+                add_declaration!(Prefix::Webkit, "-webkit-transition");
 
                 replace_ident(&mut moz_new_value, "transform", "-moz-transform");
 
-                same_content!(Prefix::Moz, "-moz-transition");
+                add_declaration!(Prefix::Moz, "-moz-transition");
 
                 replace_ident(&mut o_new_value, "transform", "-o-transform");
 
-                same_content!(Prefix::O, "-o-transition");
+                add_declaration!(Prefix::O, "-o-transition");
             }
 
             "transition-property" => {
@@ -1935,27 +1935,27 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut moz_new_value, "transform", "-moz-transform");
                 replace_ident(&mut o_new_value, "transform", "-o-transform");
 
-                same_content!(Prefix::Webkit, "-webkit-transition-property");
-                same_content!(Prefix::Moz, "-moz-transition-timing-function");
-                same_content!(Prefix::O, "-o-transition-timing-function");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-property");
+                add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
+                add_declaration!(Prefix::O, "-o-transition-timing-function");
             }
 
             "transition-duration" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-duration");
-                same_content!(Prefix::Moz, "-moz-transition-duration");
-                same_content!(Prefix::O, "-o-transition-duration");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-duration");
+                add_declaration!(Prefix::Moz, "-moz-transition-duration");
+                add_declaration!(Prefix::O, "-o-transition-duration");
             }
 
             "transition-delay" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-delay");
-                same_content!(Prefix::Moz, "-moz-transition-delay");
-                same_content!(Prefix::O, "-o-transition-delay");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-delay");
+                add_declaration!(Prefix::Moz, "-moz-transition-delay");
+                add_declaration!(Prefix::O, "-o-transition-delay");
             }
 
             "transition-timing-function" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-timing-function");
-                same_content!(Prefix::Moz, "-moz-transition-timing-function");
-                same_content!(Prefix::O, "-o-transition-timing-function");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-timing-function");
+                add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
+                add_declaration!(Prefix::O, "-o-transition-timing-function");
             }
 
             "writing-mode" if n.value.len() == 1 => {
@@ -1974,7 +1974,7 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "vertical-lr" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
@@ -1988,7 +1988,7 @@ impl VisitMut for Prefixer {
                         }
 
                         "vertical-rl" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
@@ -2002,7 +2002,7 @@ impl VisitMut for Prefixer {
                         }
 
                         "horizontal-tb" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
@@ -2016,12 +2016,12 @@ impl VisitMut for Prefixer {
                         }
 
                         "sideways-rl" | "sideways-lr" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
                         }
 
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            same_content!(Prefix::Ms, "-ms-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Ms, "-ms-writing-mode");
                         }
                     }
                 }
@@ -2098,11 +2098,11 @@ impl VisitMut for Prefixer {
                     important: n.important.clone(),
                 });
 
-                same_content!(Prefix::Ms, "-ms-touch-action");
+                add_declaration!(Prefix::Ms, "-ms-touch-action");
             }
 
             "text-orientation" => {
-                same_content!(Prefix::Webkit, "-webkit-text-orientation");
+                add_declaration!(Prefix::Webkit, "-webkit-text-orientation");
             }
 
             "unicode-bidi" => {
@@ -2124,139 +2124,139 @@ impl VisitMut for Prefixer {
             }
 
             "text-spacing" => {
-                same_content!(Prefix::Ms, "-ms-text-spacing");
+                add_declaration!(Prefix::Ms, "-ms-text-spacing");
             }
 
             "text-emphasis" => {
-                same_content!(Prefix::Webkit, "-webkit-text-spacing");
+                add_declaration!(Prefix::Webkit, "-webkit-text-spacing");
             }
 
             "text-emphasis-position" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-position");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-position");
             }
 
             "text-emphasis-style" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-style");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-style");
             }
 
             "text-emphasis-color" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-color");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-color");
             }
 
             "flow-into" => {
-                same_content!(Prefix::Webkit, "-webkit-flow-into");
-                same_content!(Prefix::Ms, "-ms-flow-into");
+                add_declaration!(Prefix::Webkit, "-webkit-flow-into");
+                add_declaration!(Prefix::Ms, "-ms-flow-into");
             }
 
             "flow-from" => {
-                same_content!(Prefix::Webkit, "-webkit-flow-from");
-                same_content!(Prefix::Ms, "-ms-flow-from");
+                add_declaration!(Prefix::Webkit, "-webkit-flow-from");
+                add_declaration!(Prefix::Ms, "-ms-flow-from");
             }
 
             "region-fragment" => {
-                same_content!(Prefix::Webkit, "-webkit-region-fragment");
-                same_content!(Prefix::Ms, "-ms-region-fragment");
+                add_declaration!(Prefix::Webkit, "-webkit-region-fragment");
+                add_declaration!(Prefix::Ms, "-ms-region-fragment");
             }
 
             "scroll-snap-type" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-type");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-type");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-type");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-type");
             }
 
             "scroll-snap-coordinate" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-coordinate");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-coordinate");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-coordinate");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-coordinate");
             }
 
             "scroll-snap-destination" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-destination");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-destination");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-destination");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-destination");
             }
 
             "scroll-snap-points-x" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-x");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-points-x");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-x");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-x");
             }
 
             "scroll-snap-points-y" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-y");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-points-y");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-y");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-y");
             }
 
             "text-align-last" => {
-                same_content!(Prefix::Moz, "-moz-text-align-last");
+                add_declaration!(Prefix::Moz, "-moz-text-align-last");
             }
 
             "text-overflow" => {
-                same_content!(Prefix::O, "-o-text-overflow");
+                add_declaration!(Prefix::O, "-o-text-overflow");
             }
 
             "shape-margin" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-margin");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-margin");
             }
 
             "shape-outside" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-outside");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-outside");
             }
 
             "shape-image-threshold" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-image-threshold");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-image-threshold");
             }
 
             "object-fit" => {
-                same_content!(Prefix::O, "-o-object-fit");
+                add_declaration!(Prefix::O, "-o-object-fit");
             }
 
             "object-position" => {
-                same_content!(Prefix::O, "-o-object-position");
+                add_declaration!(Prefix::O, "-o-object-position");
             }
 
             "tab-size" => {
-                same_content!(Prefix::Moz, "-moz-tab-size");
-                same_content!(Prefix::O, "-o-tab-size");
+                add_declaration!(Prefix::Moz, "-moz-tab-size");
+                add_declaration!(Prefix::O, "-o-tab-size");
             }
 
             "hyphens" => {
-                same_content!(Prefix::Webkit, "-webkit-hyphens");
-                same_content!(Prefix::Moz, "-moz-hyphens");
-                same_content!(Prefix::Ms, "-ms-hyphens");
+                add_declaration!(Prefix::Webkit, "-webkit-hyphens");
+                add_declaration!(Prefix::Moz, "-moz-hyphens");
+                add_declaration!(Prefix::Ms, "-ms-hyphens");
             }
 
             "border-image" => {
-                same_content!(Prefix::Webkit, "-webkit-border-image");
-                same_content!(Prefix::Moz, "-moz-border-image");
-                same_content!(Prefix::O, "-o-border-image");
+                add_declaration!(Prefix::Webkit, "-webkit-border-image");
+                add_declaration!(Prefix::Moz, "-moz-border-image");
+                add_declaration!(Prefix::O, "-o-border-image");
             }
 
             "font-kerning" => {
-                same_content!(Prefix::Webkit, "-webkit-font-kerning");
+                add_declaration!(Prefix::Webkit, "-webkit-font-kerning");
             }
 
             "font-feature-settings" => {
-                same_content!(Prefix::Webkit, "-webkit-font-feature-settings");
-                same_content!(Prefix::Moz, "-moz-font-feature-settings");
+                add_declaration!(Prefix::Webkit, "-webkit-font-feature-settings");
+                add_declaration!(Prefix::Moz, "-moz-font-feature-settings");
             }
 
             "font-variant-ligatures" => {
-                same_content!(Prefix::Webkit, "-webkit-font-variant-ligatures");
-                same_content!(Prefix::Moz, "-moz-font-variant-ligatures");
+                add_declaration!(Prefix::Webkit, "-webkit-font-variant-ligatures");
+                add_declaration!(Prefix::Moz, "-moz-font-variant-ligatures");
             }
 
             "font-language-override" => {
-                same_content!(Prefix::Webkit, "-webkit-font-language-override");
-                same_content!(Prefix::Moz, "-moz-font-language-override");
+                add_declaration!(Prefix::Webkit, "-webkit-font-language-override");
+                add_declaration!(Prefix::Moz, "-moz-font-language-override");
             }
 
             "background-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-background-origin");
-                same_content!(Prefix::Moz, "-moz-background-origin");
-                same_content!(Prefix::O, "-o-background-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-background-origin");
+                add_declaration!(Prefix::Moz, "-moz-background-origin");
+                add_declaration!(Prefix::O, "-o-background-origin");
             }
 
             "background-size" => {
-                same_content!(Prefix::Webkit, "-webkit-background-size");
-                same_content!(Prefix::Moz, "-moz-background-size");
-                same_content!(Prefix::O, "-o-background-size");
+                add_declaration!(Prefix::Webkit, "-webkit-background-size");
+                add_declaration!(Prefix::Moz, "-moz-background-size");
+                add_declaration!(Prefix::O, "-o-background-size");
             }
 
             "overscroll-behavior" => {
@@ -2269,28 +2269,28 @@ impl VisitMut for Prefixer {
                             simple!("-ms-scroll-chaining", "none");
                         }
                         _ => {
-                            same_content!(Prefix::Ms, "-ms-scroll-chaining");
+                            add_declaration!(Prefix::Ms, "-ms-scroll-chaining");
                         }
                     }
                 } else {
-                    same_content!(Prefix::Ms, "-ms-scroll-chaining");
+                    add_declaration!(Prefix::Ms, "-ms-scroll-chaining");
                 }
             }
 
             "box-shadow" => {
-                same_content!(Prefix::Webkit, "-webkit-box-shadow");
-                same_content!(Prefix::Moz, "-moz-box-shadow");
+                add_declaration!(Prefix::Webkit, "-webkit-box-shadow");
+                add_declaration!(Prefix::Moz, "-moz-box-shadow");
             }
 
             "forced-color-adjust" => {
-                same_content!(Prefix::Ms, "-ms-high-contrast-adjust");
+                add_declaration!(Prefix::Ms, "-ms-high-contrast-adjust");
             }
 
             "break-inside" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-inside");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-inside");
                         }
                         _ => {}
                     }
@@ -2301,7 +2301,7 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-before");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-before");
                         }
                         "column" => {
                             simple!("-webkit-column-break-before", "always");
@@ -2315,7 +2315,7 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-after");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-after");
                         }
                         "column" => {
                             simple!("-webkit-column-break-after", "always");
@@ -2326,28 +2326,28 @@ impl VisitMut for Prefixer {
             }
 
             "border-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius");
+                add_declaration!(Prefix::Webkit, "-webkit-border-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius");
             }
 
             "border-top-left-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-top-left-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-topleft");
+                add_declaration!(Prefix::Webkit, "-webkit-border-top-left-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-topleft");
             }
 
             "border-top-right-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-top-right-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-topright");
+                add_declaration!(Prefix::Webkit, "-webkit-border-top-right-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-topright");
             }
 
             "border-bottom-right-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-bottom-right-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-bottomright");
+                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-right-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomright");
             }
 
             "border-bottom-left-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-bottom-left-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-bottomleft");
+                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-left-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft");
             }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
