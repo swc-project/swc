@@ -1,0 +1,83 @@
+.class {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-1 {
+  -webkit-appearance: unknown;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-3 {
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+.class-4 {
+  -moz-appearance: unknown;
+  -ms-appearance: unknown;
+  appearance: unknown;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: unknown;
+}
+.class-5 {
+  -webkit-appearance: searchfield;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+.class-6 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -webkit-appearance: searchfield;
+}
+.class-7 {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+  -moz-appearance: -webkit-button;
+  -ms-appearance: -webkit-button;
+  appearance: -webkit-button;
+}
+.class-8 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+}
+.class-9 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+  -webkit-appearance: -webkit-unknown;
+}
+.class-10 {
+  -webkit-appearance: -webkit-button;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}

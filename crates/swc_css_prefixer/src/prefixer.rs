@@ -842,26 +842,36 @@ impl VisitMut for Prefixer {
 
         let ms_new_value = n.value.clone();
 
+        // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
+        // declaration and versa vice
         macro_rules! same_content {
             ($prefix:expr,$name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                let new_value = match $prefix {
-                    Prefix::Webkit => webkit_new_value.clone(),
-                    Prefix::Moz => moz_new_value.clone(),
-                    Prefix::O => o_new_value.clone(),
-                    Prefix::Ms => ms_new_value.clone(),
+                // TODO improve perf by getting all declaration and values once (i.e. lazy)
+                let need_prefix = match self.get_declaration_by_name($name) {
+                    Some(_) => false,
+                    _ => true,
                 };
 
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: new_value,
-                    important: n.important.clone(),
-                });
+                if need_prefix {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: $name.into(),
+                        raw: $name.into(),
+                    });
+                    let new_value = match $prefix {
+                        Prefix::Webkit => webkit_new_value.clone(),
+                        Prefix::Moz => moz_new_value.clone(),
+                        Prefix::O => o_new_value.clone(),
+                        Prefix::Ms => ms_new_value.clone(),
+                    };
+
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
             }};
         }
 

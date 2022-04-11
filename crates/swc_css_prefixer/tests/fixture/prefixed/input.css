@@ -1,0 +1,59 @@
+.class {
+    -webkit-appearance: auto;
+    appearance: auto;
+}
+
+.class-1 {
+    -webkit-appearance: unknown;
+    appearance: auto;
+}
+
+.class-2 {
+    appearance: none;
+    appearance: auto;
+}
+
+.class-3 {
+    appearance: none;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.class-4 {
+    appearance: unknown;
+    appearance: auto;
+    -webkit-appearance: unknown;
+}
+
+.class-5 {
+    -webkit-appearance: searchfield;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.class-6 {
+    appearance: auto;
+    -webkit-appearance: auto;
+    -webkit-appearance: searchfield;
+}
+
+.class-7 {
+    appearance: auto;
+    appearance: -webkit-button;
+}
+
+.class-8 {
+    appearance: auto;
+    -webkit-appearance: -webkit-button;
+}
+
+.class-9 {
+    appearance: auto;
+    -webkit-appearance: -webkit-button;
+    -webkit-appearance: -webkit-unknown;
+}
+
+.class-10 {
+    -webkit-appearance: -webkit-button;
+    appearance: none;
+}
