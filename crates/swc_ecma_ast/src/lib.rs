@@ -58,7 +58,7 @@ pub use self::{
     typescript::{
         Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
         TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType,
-        TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
+        TsEntityMember, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
         TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
         TsGetterSignature, TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType,
         TsInferType, TsInstantiation, TsInterfaceBody, TsInterfaceDecl, TsIntersectionType,

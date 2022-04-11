@@ -574,7 +574,10 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
             Expr::Member(MemberExpr {
                 span: DUMMY_SP,
                 obj: obj.into(),
-                prop: MemberProp::Ident(q.right.clone()),
+                prop: match q.right.clone() {
+                    TsEntityMember::Ident(i) => MemberProp::Ident(i),
+                    TsEntityMember::PrivateName(p) => MemberProp::PrivateName(p),
+                },
             })
         }
         TsEntityName::Ident(i) => Expr::Ident(i.clone()),
