@@ -151,13 +151,11 @@ impl Pure<'_> {
     /// prepended to `stmts`.
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover>,
-        Vec<T>: VisitMutWith<VarPrepender>,
+        T: StmtLike,
+        Vec<T>:
+            VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover> + VisitMutWith<VarPrepender>,
     {
         if !self.options.collapse_vars {
-            return;
-        }
-        if stmts.is_empty() {
             return;
         }
 
@@ -166,7 +164,7 @@ impl Pure<'_> {
             let mut found_other = false;
             let mut need_work = false;
 
-            for stmt in stmts.iter() {
+            for stmt in &*stmts {
                 match stmt.as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
                         v @ VarDecl {
@@ -204,7 +202,7 @@ impl Pure<'_> {
 
             // Check for nested variable declartions.
             let mut v = VarWithOutInitCounter::default();
-            stmts.iter().for_each(|stmt| stmt.visit_with(&mut v));
+            stmts.visit_with(&mut v);
             if !need_work && !v.need_work {
                 return;
             }
@@ -218,9 +216,7 @@ impl Pure<'_> {
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
-            stmts
-                .iter_mut()
-                .for_each(|stmt| stmt.visit_mut_with(&mut v));
+            stmts.visit_mut_with(&mut v);
 
             v.vars
         };
