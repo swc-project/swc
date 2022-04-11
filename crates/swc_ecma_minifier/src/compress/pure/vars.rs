@@ -157,10 +157,23 @@ impl Pure<'_> {
         if !self.options.collapse_vars {
             return;
         }
+        if stmts.is_empty() {
+            return;
+        }
 
         // Skip first one in the body.
         let is_stmts_fn_body = self.ctx.is_stmts_fn_body;
-        let skip = if is_stmts_fn_body { 1 } else { 0 };
+        let skip = if is_stmts_fn_body {
+            match stmts[0].as_stmt() {
+                Some(Stmt::Decl(Decl::Var(VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }))) => 1,
+                _ => 0,
+            }
+        } else {
+            0
+        };
 
         {
             let mut found_vars_without_init = false;
