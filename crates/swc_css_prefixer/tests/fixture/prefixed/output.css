@@ -81,3 +81,13 @@
   -ms-appearance: none;
   appearance: none;
 }
+.class-11 {
+  -webkit-animation: rotation-reverse;
+  animation: rotation-reverse reverse;
+}
+.class-12 {
+  -webkit-animation: rotation-reverse 100ms;
+  -moz-animation: rotation-reverse;
+  -o-animation: rotation-reverse;
+  animation: rotation-reverse;
+}
