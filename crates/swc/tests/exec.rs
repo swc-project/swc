@@ -200,7 +200,7 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
             Ok(())
         },
     )
-    .with_context(|| format!("failed to compile with opts: {:?}", opts))
+    .with_context(|| format!("failed to compile with opts: {:#?}", opts))
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
