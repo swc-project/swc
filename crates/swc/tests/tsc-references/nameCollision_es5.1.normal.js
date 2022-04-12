@@ -13,24 +13,24 @@ var B;
 (function(B) {
     // re-opened module with colliding name
     // this should add an underscore.
-    var B1 = function B1() {
+    var _$B = function _$B() {
         "use strict";
-        swcHelpers.classCallCheck(this, B1);
+        swcHelpers.classCallCheck(this, _$B);
     };
 })(B || (B = {}));
 var X;
-(function(X1) {
-    var _$X = 13;
-    var Y1;
+(function(X2) {
+    var X1 = 13;
+    var _$Y;
     (function(Y2) {
-        var _$Y = 13;
+        var Y1 = 13;
         var Z;
         (function(Z) {
-            var _$X = 12;
-            var _$Y = 12;
+            var X = 12;
+            var Y = 12;
             var Z1 = 12;
         })(Z = Y2.Z || (Y2.Z = {}));
-    })(Y1 = X1.Y || (X1.Y = {}));
+    })(_$Y = X2.Y || (X2.Y = {}));
 })(X || (X = {}));
 var Y;
 (function(Y3) {

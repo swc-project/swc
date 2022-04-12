@@ -2,8 +2,8 @@ import * as swcHelpers from "@swc/helpers";
 //@target: ES5
 var M;
 (function(M1) {
-    var _$Symbol;
-    var _iterator = _$Symbol.iterator;
+    var Symbol;
+    var _iterator = Symbol.iterator;
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -14,6 +14,6 @@ var M;
         return C;
     }();
     M1.C = C;
-    (new C)[_$Symbol.iterator];
+    (new C)[Symbol.iterator];
 })(M || (M = {}));
 (new M.C)[Symbol.iterator];

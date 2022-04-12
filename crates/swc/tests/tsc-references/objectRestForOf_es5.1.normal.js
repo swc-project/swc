@@ -4,8 +4,8 @@ var array;
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var _ref = _step.value;
-        var x = _ref.x, restOf = swcHelpers.objectWithoutProperties(_ref, [
+        var _$_ref = _step.value;
+        var x = _$_ref.x, restOf = swcHelpers.objectWithoutProperties(_$_ref, [
             "x"
         ]);
         [
@@ -32,10 +32,10 @@ var rrestOff;
 var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
 try {
     for(var _iterator1 = array[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
-        var _ref1 = _step1.value;
+        var _ref = _step1.value;
         var __ref;
         var ref;
-        __ref = _ref1, rrestOff = swcHelpers.objectWithoutProperties(__ref, [
+        __ref = _ref, rrestOff = swcHelpers.objectWithoutProperties(__ref, [
             "x"
         ]), ref = __ref, xx = ref.x, ref, __ref;
         [

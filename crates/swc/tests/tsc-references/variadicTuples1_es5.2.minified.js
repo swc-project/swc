@@ -3,10 +3,10 @@ function concat(t2, u2) {
     return swcHelpers.toConsumableArray(t2).concat(swcHelpers.toConsumableArray(u2));
 }
 function curry(f) {
-    for(var _len1 = arguments.length, _$a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)_$a[_key1 - 1] = arguments[_key1];
+    for(var _len1 = arguments.length, a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)a[_key1 - 1] = arguments[_key1];
     return function() {
         for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++)b[_key] = arguments[_key];
-        return f.apply(void 0, swcHelpers.toConsumableArray(_$a).concat(swcHelpers.toConsumableArray(b)));
+        return f.apply(void 0, swcHelpers.toConsumableArray(a).concat(swcHelpers.toConsumableArray(b)));
     };
 }
 t = [

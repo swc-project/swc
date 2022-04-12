@@ -9,7 +9,7 @@ function b() {
     var _b = _param.b, b = _b === void 0 ? a() : _b, x = swcHelpers.objectWithoutProperties(_param, [
         "b"
     ]);
-    var _$a;
+    var a1;
 }
 var x = "";
 function c() {

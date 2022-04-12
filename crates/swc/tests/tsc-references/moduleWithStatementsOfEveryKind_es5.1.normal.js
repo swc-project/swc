@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
 var A;
-(function(A2) {
+(function(A1) {
     var F = function F(s) {
         return 2;
     };
-    var A1 = function A1() {
+    var _$A = function _$A() {
         "use strict";
-        swcHelpers.classCallCheck(this, A1);
+        swcHelpers.classCallCheck(this, _$A);
     };
     var AA = function AA() {
         "use strict";
@@ -22,21 +22,21 @@ var A;
         }
         return B;
     }(AA);
-    var BB = /*#__PURE__*/ function(A3) {
+    var BB = /*#__PURE__*/ function(A2) {
         "use strict";
-        swcHelpers.inherits(BB, A3);
+        swcHelpers.inherits(BB, A2);
         var _super = swcHelpers.createSuper(BB);
         function BB() {
             swcHelpers.classCallCheck(this, BB);
             return _super.apply(this, arguments);
         }
         return BB;
-    }(A1);
+    }(_$A);
     var Module;
     (function(Module) {
-        var A4 = function A4() {
+        var _$A = function _$A() {
             "use strict";
-            swcHelpers.classCallCheck(this, A4);
+            swcHelpers.classCallCheck(this, _$A);
         };
     })(Module || (Module = {}));
     var Color;
@@ -60,11 +60,11 @@ var Y;
     var F = function F(s) {
         return 2;
     };
-    var A5 = function A5() {
+    var _$A = function _$A() {
         "use strict";
-        swcHelpers.classCallCheck(this, A5);
+        swcHelpers.classCallCheck(this, _$A);
     };
-    Y1.A = A5;
+    Y1.A = _$A;
     var AA = function AA() {
         "use strict";
         swcHelpers.classCallCheck(this, AA);
@@ -81,22 +81,22 @@ var Y;
         return B;
     }(AA);
     Y1.B = B;
-    var BB = /*#__PURE__*/ function(A6) {
+    var BB = /*#__PURE__*/ function(A3) {
         "use strict";
-        swcHelpers.inherits(BB, A6);
+        swcHelpers.inherits(BB, A3);
         var _super = swcHelpers.createSuper(BB);
         function BB() {
             swcHelpers.classCallCheck(this, BB);
             return _super.apply(this, arguments);
         }
         return BB;
-    }(A5);
+    }(_$A);
     Y1.BB = BB;
     var Module;
     (function(Module) {
-        var A7 = function A7() {
+        var _$A = function _$A() {
             "use strict";
-            swcHelpers.classCallCheck(this, A7);
+            swcHelpers.classCallCheck(this, _$A);
         };
     })(Module = Y1.Module || (Y1.Module = {}));
     var Color;

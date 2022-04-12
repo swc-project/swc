@@ -15,8 +15,8 @@ function f() {
         "use strict";
         swcHelpers.classCallCheck(this, C);
     };
-    var E;
-    (function(E) {})(E || (E = {}));
+    var _$E;
+    (function(_$E) {})(_$E || (_$E = {}));
     var v1;
     var v2;
     var v3;

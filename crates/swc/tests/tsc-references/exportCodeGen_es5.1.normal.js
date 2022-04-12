@@ -40,11 +40,11 @@ var E;
         Color[Color["Red"] = 0] = "Red";
     })(Color = E1.Color || (E1.Color = {}));
     E1.fn = fn;
-    var C1 = function C1() {
+    var _$C = function _$C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C1);
+        swcHelpers.classCallCheck(this, _$C);
     };
-    E1.C = C1;
+    E1.C = _$C;
     var M1;
     (function(M) {
         var x = M.x = 42;
@@ -59,9 +59,9 @@ var F;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color || (Color = {}));
-    var C2 = function C2() {
+    var _$C = function _$C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C2);
+        swcHelpers.classCallCheck(this, _$C);
     };
     var M;
     (function(M) {

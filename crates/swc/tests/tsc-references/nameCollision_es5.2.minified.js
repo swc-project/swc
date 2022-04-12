@@ -1,9 +1,9 @@
 var B, X, Y, D;
 import * as swcHelpers from "@swc/helpers";
 !function(B) {
-    var B1 = function() {
+    var _$B = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, B1);
+        swcHelpers.classCallCheck(this, _$B);
     };
 }(B || (B = {})), function(X1) {
     X1.Y || (X1.Y = {});
