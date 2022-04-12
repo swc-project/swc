@@ -14,6 +14,7 @@ use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::assert_eq;
+use tracing::{span, Level};
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
 where
@@ -179,6 +180,8 @@ fn test_file_with_opts(
     expected_stdout: &str,
     idx: usize,
 ) -> Result<(), Error> {
+    let _guard = span!(Level::ERROR, "test_file", idx = idx).entered();
+
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
