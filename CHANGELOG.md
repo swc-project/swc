@@ -22,6 +22,9 @@
 
 - **(es)** Support `typeof` with private fields (#4302) ([d0de5a6](https://github.com/swc-project/swc/commit/d0de5a63a01ef45101cdd10f90546ec7950ce7ac))
 
+
+- **(es/minifier)** Enable `conditionals` by default (#4301) ([7e8f613](https://github.com/swc-project/swc/commit/7e8f6132729ca3ddf7884f1b246964921cde1c35))
+
 ### Miscellaneous Tasks
 
 
