@@ -3,92 +3,174 @@ use swc_css_ast::*;
 use swc_css_utils::NAMED_COLORS;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-macro_rules! make_6digits_hex {
+fn get_short_hex(v: u32) -> u32 {
+    ((v & 0x0ff00000) >> 12) | ((v & 0x00000ff0) >> 4)
+}
+
+fn get_long_hex(v: u32) -> u32 {
+    ((v & 0xf000) << 16)
+        | ((v & 0xff00) << 12)
+        | ((v & 0x0ff0) << 8)
+        | ((v & 0x00ff) << 4)
+        | (v & 0x000f)
+}
+
+fn get_named_color_by_hex(v: u32) -> Option<&'static str> {
+    // These names are shorter than their hex codes
+    let s = match v {
+        0x000080 => "navy",
+        0x008000 => "green",
+        0x008080 => "teal",
+        0x4b0082 => "indigo",
+        0x800000 => "maroon",
+        0x800080 => "purple",
+        0x808000 => "olive",
+        0x808080 => "gray",
+        0xa0522d => "sienna",
+        0xa52a2a => "brown",
+        0xc0c0c0 => "silver",
+        0xcd853f => "peru",
+        0xd2b48c => "tan",
+        0xda70d6 => "orchid",
+        0xdda0dd => "plum",
+        0xee82ee => "violet",
+        0xf0e68c => "khaki",
+        0xf0ffff => "azure",
+        0xf5deb3 => "wheat",
+        0xf5f5dc => "beige",
+        0xfa8072 => "salmon",
+        0xfaf0e6 => "linen",
+        0xff0000 => "red",
+        0xff6347 => "tomato",
+        0xff7f50 => "coral",
+        0xffa500 => "orange",
+        0xffc0cb => "pink",
+        0xffd700 => "gold",
+        0xffe4c4 => "bisque",
+        0xfffafa => "snow",
+        0xfffff0 => "ivory",
+        _ => return None,
+    };
+
+    Some(s)
+}
+
+macro_rules! make_color_from_rgb {
     ($span:expr,$r:expr,$g:expr,$b:expr) => {{
         let hex: u32 = (($r as u32) << 16) | (($g as u32) << 8) | ($b as u32);
-        let value = format!("{:04x}", hex);
 
-        Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
-            span: $span,
-            value: value.clone().into(),
-            raw: value.into(),
-        }))
+        if let Some(name) = get_named_color_by_hex(hex) {
+            Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
+                span: $span,
+                value: name.into(),
+                raw: name.into(),
+            }))
+        } else {
+            let compact = get_short_hex(hex);
+            let value = if hex == get_long_hex(compact) {
+                format!("{:03x}", compact)
+            } else {
+                format!("{:06x}", hex)
+            };
+
+            Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
+                span: $span,
+                value: value.clone().into(),
+                raw: value.into(),
+            }))
+        }
     }};
 }
 
-macro_rules! make_8digits_hex {
-    ($span:expr,$r:expr,$g:expr,$b:expr,$a:expr) => {{
-        let hex: u32 = (($r as u32) << 24) | (($g as u32) << 16) | (($b as u32) << 8) | ($a as u32);
-        let value = format!("{:04x}", hex);
-
-        Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
-            span: $span,
-            value: value.clone().into(),
-            raw: value.into(),
-        }))
-    }};
-}
-
-macro_rules! make_legacy_rgba {
+macro_rules! make_color_from_rgba {
     ($span:expr,$r:expr,$g:expr,$b:expr,$a:expr,$t:expr) => {{
-        let alpha = match $t {
-            true => ComponentValue::AlphaValue(AlphaValue::Number(Number {
-                span: DUMMY_SP,
-                value: $a,
-                raw: $a.to_string().into(),
-            })),
-            _ => {
-                let value = $a * 100.0;
+        // TODO improve when we will have browserslist
+        let is_alpha_hex_supported = false;
 
-                ComponentValue::AlphaValue(AlphaValue::Percentage(Percentage {
-                    span: DUMMY_SP,
-                    value: Number {
-                        span: DUMMY_SP,
-                        value,
-                        raw: value.to_string().into(),
-                    },
+        if is_alpha_hex_supported {
+            let hex: u32 =
+                (($r as u32) << 24) | (($g as u32) << 16) | (($b as u32) << 8) | ($a as u32);
+
+            if let Some(name) = get_named_color_by_hex(hex) {
+                Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
+                    span: $span,
+                    value: name.into(),
+                    raw: name.into(),
+                }))
+            } else {
+                let compact = get_short_hex(hex);
+                let value = if hex == get_long_hex(compact) {
+                    format!("{:04x}", compact)
+                } else {
+                    format!("{:08x}", hex)
+                };
+
+                Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
+                    span: $span,
+                    value: value.clone().into(),
+                    raw: value.into(),
                 }))
             }
-        };
+        } else {
+            let alpha = match $t {
+                true => ComponentValue::AlphaValue(AlphaValue::Number(Number {
+                    span: DUMMY_SP,
+                    value: $a,
+                    raw: $a.to_string().into(),
+                })),
+                _ => {
+                    let value = $a * 100.0;
 
-        Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
-            span: $span,
-            name: Ident {
-                span: DUMMY_SP,
-                value: "rgba".into(),
-                raw: "rgba".into(),
-            },
-            value: vec![
-                ComponentValue::Number(Number {
+                    ComponentValue::AlphaValue(AlphaValue::Percentage(Percentage {
+                        span: DUMMY_SP,
+                        value: Number {
+                            span: DUMMY_SP,
+                            value,
+                            raw: value.to_string().into(),
+                        },
+                    }))
+                }
+            };
+
+            Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
+                span: $span,
+                name: Ident {
                     span: DUMMY_SP,
-                    value: $r,
-                    raw: $r.to_string().into(),
-                }),
-                ComponentValue::Delimiter(Delimiter {
-                    span: DUMMY_SP,
-                    value: DelimiterValue::Comma,
-                }),
-                ComponentValue::Number(Number {
-                    span: DUMMY_SP,
-                    value: $g,
-                    raw: $g.to_string().into(),
-                }),
-                ComponentValue::Delimiter(Delimiter {
-                    span: DUMMY_SP,
-                    value: DelimiterValue::Comma,
-                }),
-                ComponentValue::Number(Number {
-                    span: DUMMY_SP,
-                    value: $b,
-                    raw: $b.to_string().into(),
-                }),
-                ComponentValue::Delimiter(Delimiter {
-                    span: DUMMY_SP,
-                    value: DelimiterValue::Comma,
-                }),
-                alpha,
-            ],
-        }))
+                    value: "rgba".into(),
+                    raw: "rgba".into(),
+                },
+                value: vec![
+                    ComponentValue::Number(Number {
+                        span: DUMMY_SP,
+                        value: $r,
+                        raw: $r.to_string().into(),
+                    }),
+                    ComponentValue::Delimiter(Delimiter {
+                        span: DUMMY_SP,
+                        value: DelimiterValue::Comma,
+                    }),
+                    ComponentValue::Number(Number {
+                        span: DUMMY_SP,
+                        value: $g,
+                        raw: $g.to_string().into(),
+                    }),
+                    ComponentValue::Delimiter(Delimiter {
+                        span: DUMMY_SP,
+                        value: DelimiterValue::Comma,
+                    }),
+                    ComponentValue::Number(Number {
+                        span: DUMMY_SP,
+                        value: $b,
+                        raw: $b.to_string().into(),
+                    }),
+                    ComponentValue::Delimiter(Delimiter {
+                        span: DUMMY_SP,
+                        value: DelimiterValue::Comma,
+                    }),
+                    alpha,
+                ],
+            }))
+        }
     }};
 }
 
@@ -99,13 +181,6 @@ pub fn compress_color() -> impl VisitMut {
 struct CompressColor {}
 
 impl CompressColor {
-    fn get_hex_by_named_color(&self, name: &str) -> Option<&'static str> {
-        match NAMED_COLORS.get(name) {
-            Some(value) if name.len() > value.hex.len() => Some(&value.hex),
-            _ => None,
-        }
-    }
-
     fn get_named_color_by_hex(&self, hex: &str) -> Option<&'static str> {
         let name = match hex {
             "000080" => "navy",
@@ -157,29 +232,20 @@ impl VisitMut for CompressColor {
                 ..
             })) => match &*value.to_lowercase() {
                 "transparent" => {
-                    // TODO browserslist support
-                    let is_long_hex_supported = false;
-
-                    if is_long_hex_supported {
-                        *color = make_8digits_hex!(*span, 0, 0, 0, 0);
-                    } else {
-                        *color = make_legacy_rgba!(*span, 0.0, 0.0, 0.0, 0.0, true);
-                    }
+                    *color = make_color_from_rgba!(*span, 0.0, 0.0, 0.0, 0.0, true);
                 }
                 name => {
-                    if let Some(value) = self.get_hex_by_named_color(name) {
-                        *color = Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
-                            span: *span,
-                            value: value.into(),
-                            raw: value.into(),
-                        }));
+                    if let Some(value) = NAMED_COLORS.get(name) {
+                        *color =
+                            make_color_from_rgb!(*span, value.rgb[0], value.rgb[1], value.rgb[2])
                     }
                 }
             },
+            // TODO migrate on make_color_from_rgb
             Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                 span, value, ..
             })) => {
-                if let Some(value) = self.get_named_color_by_hex(value) {
+                if let Some(value) = self.get_named_color_by_hex(&*value.to_lowercase()) {
                     *color = Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(
                         Ident {
                             span: *span,
@@ -253,17 +319,10 @@ impl VisitMut for CompressColor {
 
                 match (r, g, b, a) {
                     (Some(r), Some(g), Some(b), None) => {
-                        *color = make_6digits_hex!(*span, r, g, b);
+                        *color = make_color_from_rgb!(*span, r, g, b);
                     }
                     (Some(r), Some(g), Some(b), Some(a)) => {
-                        // TODO improve me after browserslist
-                        let is_long_hex_supported = false;
-
-                        if is_long_hex_supported {
-                            *color = make_8digits_hex!(*span, r, g, b, a.0);
-                        } else {
-                            *color = make_legacy_rgba!(*span, r, g, b, a.0, a.1);
-                        }
+                        *color = make_color_from_rgba!(*span, r, g, b, a.0, a.1);
                     }
                     _ => {}
                 }
