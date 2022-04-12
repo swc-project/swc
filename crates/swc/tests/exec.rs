@@ -123,6 +123,8 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.ts")]
 fn run_fixture_test(entry: PathBuf) {
+    let _guard = testing::init();
+
     let matrix = create_matrix(&entry);
     let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
     let expected_stdout = stdout_of(&input_code).expect("failed to get stdout");
