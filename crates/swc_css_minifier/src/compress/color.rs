@@ -1,5 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
+use swc_css_utils::NAMED_COLORS;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 macro_rules! make_6digits_hex {
@@ -98,14 +99,11 @@ pub fn compress_color() -> impl VisitMut {
 struct CompressColor {}
 
 impl CompressColor {
-    fn get_hex_by_named_color(&self, hex: &str) -> Option<&'static str> {
-        // TODO fix me
-        let name = match hex {
-            "palegoldenrod" => "eee8aa",
-            _ => return None,
-        };
-
-        Some(name)
+    fn get_hex_by_named_color(&self, name: &str) -> Option<&'static str> {
+        match NAMED_COLORS.get(name) {
+            Some(value) if name.len() > value.hex.len() => Some(&value.hex),
+            _ => None,
+        }
     }
 
     fn get_named_color_by_hex(&self, hex: &str) -> Option<&'static str> {
@@ -160,7 +158,7 @@ impl VisitMut for CompressColor {
             })) => match &*value.to_lowercase() {
                 "transparent" => {
                     // TODO browserslist support
-                    let is_long_hex_supported = true;
+                    let is_long_hex_supported = false;
 
                     if is_long_hex_supported {
                         *color = make_8digits_hex!(*span, 0, 0, 0, 0);

@@ -105,3 +105,11 @@
 .class-26 {
     color: rgba(181, 181, 181, .004);
 }
+
+.color-27 {
+    color: rgb(from PALEGOLDENROD 255 255 255);
+}
+
+.color-28 {
+    color: rgb(from teal 255 255 255);
+}
