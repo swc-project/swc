@@ -260,7 +260,9 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         if let Some(kind) = self.var_decl_kind {
-            self.scope.vars.insert(n.key.to_id(), kind);
+            if let VarDeclKind::Let | VarDeclKind::Const = kind {
+                self.scope.vars.insert(n.key.to_id(), kind);
+            }
         } else if !self.is_param {
             self.add_usage(n.key.to_id())
         }
@@ -406,7 +408,9 @@ impl VisitMut for BlockScopedVars {
 
         if let Pat::Ident(i) = n {
             if let Some(kind) = self.var_decl_kind {
-                self.scope.vars.insert(i.to_id(), kind);
+                if let VarDeclKind::Let | VarDeclKind::Const = kind {
+                    self.scope.vars.insert(i.to_id(), kind);
+                }
             } else if !self.is_param {
                 self.add_usage(i.to_id())
             }
@@ -432,5 +436,27 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         self.var_decl_kind = old_var_decl_kind;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::{fs::read_to_string, path::PathBuf};
+
+    use swc_common::chain;
+    use swc_ecma_transforms_base::resolver::resolver;
+    use swc_ecma_transforms_testing::compare_stdout;
+    use swc_ecma_visit::as_folder;
+
+    use super::block_scoped_vars;
+
+    #[testing::fixture("tests/block-scoping/**/exec.js")]
+    fn exec(input: PathBuf) {
+        let input = read_to_string(&input).unwrap();
+        compare_stdout(
+            Default::default(),
+            |_| chain!(resolver(), as_folder(block_scoped_vars())),
+            &input,
+        );
     }
 }
