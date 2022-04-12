@@ -26,21 +26,21 @@ a.empty.push("hi");
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
 function f() {
-    var _$a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n, _$l = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
+    var a1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n, l1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
     // a should be null in strict mode
-    _$a = undefined;
-    _$a = null;
-    _$a = 1;
-    _$a = true;
-    _$a = {};
-    _$a = "ok";
+    a1 = undefined;
+    a1 = null;
+    a1 = 1;
+    a1 = true;
+    a1 = {};
+    a1 = "ok";
     // b should be number | undefined, not any
     b = 1;
     b = undefined;
     b = "error";
     // l should be any[]
-    _$l.push(1);
-    _$l.push("ok");
+    l1.push(1);
+    l1.push("ok");
 }
 // should get any on variable initialisers
 var u = undefined;

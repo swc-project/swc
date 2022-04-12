@@ -2,8 +2,8 @@ import * as swcHelpers from "@swc/helpers";
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var array, _step, _iterator = array[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
-        var _$_ref = _step.value;
-        _$_ref.x, swcHelpers.objectWithoutProperties(_$_ref, [
+        var _ref = _step.value;
+        _ref.x, swcHelpers.objectWithoutProperties(_ref, [
             "x"
         ]);
     }

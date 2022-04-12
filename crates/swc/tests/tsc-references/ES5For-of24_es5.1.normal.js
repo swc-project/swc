@@ -7,7 +7,7 @@ var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError 
 try {
     for(var _iterator = a[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var v = _step.value;
-        var _$a = 0;
+        var a1 = 0;
     }
 } catch (err) {
     _didIteratorError = true;

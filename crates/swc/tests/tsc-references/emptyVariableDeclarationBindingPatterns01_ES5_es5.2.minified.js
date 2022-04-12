@@ -10,9 +10,9 @@ import * as swcHelpers from "@swc/helpers";
     swcHelpers.slicedToArray(a, 0);
     var _p1 = a.p1, _p1 = null !== _p1 ? _p1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     swcHelpers.slicedToArray(a.p2, 0);
-    var _$_p1 = a.p1, _$_p1 = null !== _$_p1 ? _$_p1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+    var _p11 = a.p1, _p11 = null !== _p11 ? _p11 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     swcHelpers.slicedToArray(a.p2, 0);
-    var _$_p11 = a.p1, _$_p11 = null !== _$_p11 ? _$_p11 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+    var _p12 = a.p1, _p12 = null !== _p12 ? _p12 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     swcHelpers.slicedToArray(a.p2, 0);
     var ref = {}, ref = null !== ref ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined")), ref1 = {}, ref1 = null !== ref1 ? ref1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
 }(), function() {
@@ -30,7 +30,7 @@ import * as swcHelpers from "@swc/helpers";
     }
     var _iteratorNormalCompletion1 = !0, _didIteratorError1 = !1, _iteratorError1 = void 0;
     try {
-        for(var _step1, _iterator1 = ns[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)var _$_value = _step1.value, _$_value = null !== _$_value ? _$_value : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+        for(var _step1, _iterator1 = ns[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)var _value1 = _step1.value, _value1 = null !== _value1 ? _value1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     } catch (err) {
         _didIteratorError1 = !0, _iteratorError1 = err;
     } finally{
@@ -42,7 +42,7 @@ import * as swcHelpers from "@swc/helpers";
     }
     var _iteratorNormalCompletion2 = !0, _didIteratorError2 = !1, _iteratorError2 = void 0;
     try {
-        for(var _step2, _iterator2 = ns[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0)var _$_value1 = _step2.value, _$_value1 = null !== _$_value1 ? _$_value1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+        for(var _step2, _iterator2 = ns[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0)var _value2 = _step2.value, _value2 = null !== _value2 ? _value2 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     } catch (err) {
         _didIteratorError2 = !0, _iteratorError2 = err;
     } finally{

@@ -29,8 +29,8 @@ var m2;
 (function(m21) {
     var var2;
     var var3;
-    var _$m3;
-    (function(m31) {
+    var m31;
+    (function(m32) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // local variables from outer module declaration
@@ -50,13 +50,13 @@ var m2;
         } else {
             strOrNum = var5; // string | number
         }
-        m31.var5 = var5;
-    })(_$m3 || (_$m3 = {}));
+        m32.var5 = var5;
+    })(m31 || (m31 = {}));
     m21.var3 = var3;
 })(m2 || (m2 = {}));
 // Dotted module
 var m3;
-(function(m32) {
+(function(m33) {
     var m41;
     (function(m4) {
         // global vars in function declaration
@@ -75,5 +75,5 @@ var m3;
             strOrNum = var3; // string | number
         }
         m4.var3 = var3;
-    })(m41 = m32.m4 || (m32.m4 = {}));
+    })(m41 = m33.m4 || (m33.m4 = {}));
 })(m3 || (m3 = {}));

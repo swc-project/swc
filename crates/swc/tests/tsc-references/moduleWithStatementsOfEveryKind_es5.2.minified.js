@@ -1,9 +1,9 @@
 var A, Y;
 import * as swcHelpers from "@swc/helpers";
-!function(A1) {
-    var Module, Color, _$A, Color1, _$A1 = function() {
+!function(A3) {
+    var Module, Color, A1, Color1, A2 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, _$A1);
+        swcHelpers.classCallCheck(this, A2);
     }, AA1 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, AA1);
@@ -15,25 +15,25 @@ import * as swcHelpers from "@swc/helpers";
             return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(AA1), BB = function(A2) {
+    }(AA1), BB = function(A4) {
         "use strict";
-        swcHelpers.inherits(BB, A2);
+        swcHelpers.inherits(BB, A4);
         var _super = swcHelpers.createSuper(BB);
         function BB() {
             return swcHelpers.classCallCheck(this, BB), _super.apply(this, arguments);
         }
         return BB;
-    }(_$A1);
-    Module || (Module = {}), _$A = function() {
+    }(A2);
+    Module || (Module = {}), A1 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, _$A);
+        swcHelpers.classCallCheck(this, A1);
     }, (Color1 = Color || (Color = {}))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {})), function(Y1) {
-    var _$A = function() {
+    var A6 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, _$A);
+        swcHelpers.classCallCheck(this, A6);
     };
-    Y1.A = _$A;
+    Y1.A = A6;
     var AA2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, AA2);
@@ -49,18 +49,18 @@ import * as swcHelpers from "@swc/helpers";
         return B;
     }(AA2);
     Y1.B = B;
-    var _$A2, Color, BB = function(A3) {
+    var A5, Color, BB = function(A7) {
         "use strict";
-        swcHelpers.inherits(BB, A3);
+        swcHelpers.inherits(BB, A7);
         var _super = swcHelpers.createSuper(BB);
         function BB() {
             return swcHelpers.classCallCheck(this, BB), _super.apply(this, arguments);
         }
         return BB;
-    }(_$A);
-    Y1.BB = BB, Y1.Module || (Y1.Module = {}), _$A2 = function() {
+    }(A6);
+    Y1.BB = BB, Y1.Module || (Y1.Module = {}), A5 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, _$A2);
+        swcHelpers.classCallCheck(this, A5);
     }, (Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = function(s) {

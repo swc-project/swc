@@ -451,10 +451,10 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), _Reflect = function Reflect3() {
+_superprop_get_w().call(_this), _$_Reflect = function Reflect3() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect3);
-}, __ = {
+}, _$__ = {
     writable: !0,
     value: function() {
         var C = function(B) {
@@ -468,13 +468,13 @@ _superprop_get_w().call(_this), _Reflect = function Reflect3() {
         }(B);
         C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     }()
-}, _Reflect = function Reflect4() {
+}, _$_Reflect = function Reflect4() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect4);
-}, __ = {
+}, _$__ = {
     writable: !0,
     value: function() {
-        var _Reflect, __, C = function(B) {
+        var _$_Reflect, _$__, C = function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
             var _super = swcHelpers.createSuper(C);
