@@ -72,7 +72,6 @@
   direction: rtl;
 }
 @-o-viewport{
-  -ms-writing-mode: rl-tb;
   writing-mode: horizontal-tb;
   direction: rtl;
 }
@@ -85,21 +84,18 @@
 @-webkit-keyframes test {
   100% {
     -webkit-writing-mode: horizontal-tb;
-    -ms-writing-mode: rl-tb;
     writing-mode: horizontal-tb;
     direction: rtl;
   }
 }
 @-moz-keyframes test {
   100% {
-    -ms-writing-mode: rl-tb;
     writing-mode: horizontal-tb;
     direction: rtl;
   }
 }
 @-o-keyframes test {
   100% {
-    -ms-writing-mode: rl-tb;
     writing-mode: horizontal-tb;
     direction: rtl;
   }

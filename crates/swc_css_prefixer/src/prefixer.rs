@@ -995,24 +995,38 @@ impl VisitMut for Prefixer {
             }};
 
             ($prefix:expr,$name:expr,$value:expr) => {{
-                let need_prefix = match self.get_declaration_by_name($name) {
-                    Some(_) => false,
-                    _ => true,
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
+                    if $prefix != *rule_prefix {
+                        false
+                    } else {
+                        true
+                    }
+                } else {
+                    true
                 };
 
                 if need_prefix {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: $name.into(),
-                        raw: $name.into(),
-                    });
+                    let need_prefix = match self.get_declaration_by_name($name) {
+                        Some(_) => false,
+                        _ => true,
+                    };
 
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: $value,
-                        important: n.important.clone(),
-                    });
+                    if need_prefix {
+                        let name = DeclarationName::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: $name.into(),
+                            raw: $name.into(),
+                        });
+
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name,
+                            value: $value,
+                            important: n.important.clone(),
+                        });
+                    }
                 }
             }};
         }
