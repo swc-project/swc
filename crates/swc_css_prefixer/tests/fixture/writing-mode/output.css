@@ -67,13 +67,11 @@
   writing-mode: sideways-lr;
 }
 @-ms-viewport{
-  -webkit-writing-mode: horizontal-tb;
   -ms-writing-mode: rl-tb;
   writing-mode: horizontal-tb;
   direction: rtl;
 }
 @-o-viewport{
-  -webkit-writing-mode: horizontal-tb;
   -ms-writing-mode: rl-tb;
   writing-mode: horizontal-tb;
   direction: rtl;
@@ -94,7 +92,6 @@
 }
 @-moz-keyframes test {
   100% {
-    -webkit-writing-mode: horizontal-tb;
     -ms-writing-mode: rl-tb;
     writing-mode: horizontal-tb;
     direction: rtl;
@@ -102,7 +99,6 @@
 }
 @-o-keyframes test {
   100% {
-    -webkit-writing-mode: horizontal-tb;
     -ms-writing-mode: rl-tb;
     writing-mode: horizontal-tb;
     direction: rtl;

@@ -37,23 +37,17 @@ em {
 @-webkit-keyframes anim {
   from {
     -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }
 }
 @-moz-keyframes anim {
   from {
-    -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }
 }
 @-o-keyframes anim {
   from {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }

@@ -4,8 +4,6 @@
     top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -webkit-transform: rotate(10deg);
-    -moz-transform: rotate(10deg);
-    -o-transform: rotate(10deg);
     transform: rotate(10deg);
   }
   50% {
@@ -21,8 +19,6 @@
     top: -moz-calc(10%);
     top: calc(10%);
     -webkit-transform: rotate(0);
-    -moz-transform: rotate(0);
-    -o-transform: rotate(0);
     transform: rotate(0);
   }
 }
@@ -31,9 +27,7 @@
     top: -webkit-calc(10% + 10px);
     top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
-    -webkit-transform: rotate(10deg);
     -moz-transform: rotate(10deg);
-    -o-transform: rotate(10deg);
     transform: rotate(10deg);
   }
   50% {
@@ -48,9 +42,7 @@
     top: -webkit-calc(10%);
     top: -moz-calc(10%);
     top: calc(10%);
-    -webkit-transform: rotate(0);
     -moz-transform: rotate(0);
-    -o-transform: rotate(0);
     transform: rotate(0);
   }
 }
@@ -59,8 +51,6 @@
     top: -webkit-calc(10% + 10px);
     top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
-    -webkit-transform: rotate(10deg);
-    -moz-transform: rotate(10deg);
     -o-transform: rotate(10deg);
     transform: rotate(10deg);
   }
@@ -76,8 +66,6 @@
     top: -webkit-calc(10%);
     top: -moz-calc(10%);
     top: calc(10%);
-    -webkit-transform: rotate(0);
-    -moz-transform: rotate(0);
     -o-transform: rotate(0);
     transform: rotate(0);
   }
