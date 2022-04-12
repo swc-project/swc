@@ -13,10 +13,10 @@ var bar = Bar.A;
 // @filename: ns.ts
 var ns;
 (function(ns1) {
-    var Foo;
-    (function(Foo) {
-        Foo[Foo["X"] = 0] = "X";
-    })(Foo = ns1.Foo || (ns1.Foo = {}));
+    var _$Foo;
+    (function(_$Foo) {
+        _$Foo[_$Foo["X"] = 0] = "X";
+    })(_$Foo = ns1.Foo || (ns1.Foo = {}));
     ns.Foo.X;
 })(ns || (ns = {}));
 (function(Foo) {

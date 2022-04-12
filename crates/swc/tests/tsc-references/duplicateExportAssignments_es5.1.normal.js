@@ -12,8 +12,8 @@ var y = function y() {
 };
 module.exports = x;
 module.exports = y;
-(function(x1) {
-    var _$x = x1.x = 10;
+(function(x2) {
+    var x1 = x2.x = 10;
 })(x || (x = {}));
 var y = function y() {
     "use strict";
