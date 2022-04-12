@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 !function(x) {
     return x;
-}(function() {}, 1), function(x) {}(1, function() {});
+}(function() {}, 1);
 var C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
@@ -9,10 +9,4 @@ var C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C2);
 };
-new Function(), function(x) {}(function(x) {
-    return x;
-}), function(x) {}(function(x) {
-    return x;
-}), function(x) {}(function(x, y) {
-    return x;
-});
+new Function();

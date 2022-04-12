@@ -2149,6 +2149,7 @@ where
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
+
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
@@ -2303,6 +2304,9 @@ where
 
         match n {
             Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Invalid(..) => {
+                    *n = None;
+                }
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
                 }
@@ -2496,8 +2500,6 @@ where
         self.optimize_loops_with_break(s);
 
         self.try_removing_block(s, false);
-
-        self.extract_vars_in_subscopes(s);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();

@@ -1,1 +1,1 @@
-`abc${new String("Hi")}def`;
+new String("Hi");

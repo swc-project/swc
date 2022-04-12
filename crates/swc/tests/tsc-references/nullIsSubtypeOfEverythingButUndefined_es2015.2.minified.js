@@ -1,6 +1,6 @@
 var E;
 function f() {}
-new Date(), function(E) {
+!function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), E.A, (f || (f = {})).bar = 1;
 class c {

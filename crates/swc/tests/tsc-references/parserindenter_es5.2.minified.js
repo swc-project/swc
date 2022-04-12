@@ -17,8 +17,7 @@ import * as swcHelpers from "@swc/helpers";
             return result;
         }, _proto.GetIndentationEditsWorker = function(token, nextToken, node, sameLineIndent) {
             var result = new List_TextEditInfo(), indentationInfo = null;
-            if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber()) return result;
-            if (!sameLineIndent && this.IsMultiLineString(token)) return result;
+            if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber() || !sameLineIndent && this.IsMultiLineString(token)) return result;
             if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, node))) {
                 for(; !node.CanIndent() && null != node.Parent && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset;)node = node.Parent;
                 indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, node);
@@ -170,17 +169,19 @@ import * as swcHelpers from "@swc/helpers";
             return indentationDeltaSize;
         }, _proto.FillInheritedIndentation = function(tree) {
             var offset = -1, indentNode = null;
-            if (null != tree.StartNodeSelf) if (this.smartIndent || null === tree.StartNodePreviousSibling || 0 != tree.StartNodeSelf.AuthorNode.Label || 0 != tree.StartNodePreviousSibling.Label) {
-                if (this.smartIndent) for(parent = tree.StartNodeSelf; null != parent && parent.AuthorNode.Details.StartOffset == this.firstToken.Span.startPosition();)parent = parent.Parent;
-                else {
-                    var startNodeLineNumber = this.snapshot.GetLineNumberFromPosition(tree.StartNodeSelf.AuthorNode.Details.StartOffset);
-                    for(parent = tree.StartNodeSelf.Parent; null != parent && startNodeLineNumber == this.snapshot.GetLineNumberFromPosition(parent.AuthorNode.Details.StartOffset);)parent = parent.Parent;
+            if (null != tree.StartNodeSelf) {
+                if (this.smartIndent || null === tree.StartNodePreviousSibling || 0 != tree.StartNodeSelf.AuthorNode.Label || 0 != tree.StartNodePreviousSibling.Label) {
+                    if (this.smartIndent) for(parent = tree.StartNodeSelf; null != parent && parent.AuthorNode.Details.StartOffset == this.firstToken.Span.startPosition();)parent = parent.Parent;
+                    else {
+                        var startNodeLineNumber = this.snapshot.GetLineNumberFromPosition(tree.StartNodeSelf.AuthorNode.Details.StartOffset);
+                        for(parent = tree.StartNodeSelf.Parent; null != parent && startNodeLineNumber == this.snapshot.GetLineNumberFromPosition(parent.AuthorNode.Details.StartOffset);)parent = parent.Parent;
+                    }
+                    for(; null != parent && !parent.CanIndent();)parent = parent.Parent;
+                    null != parent && parent.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkProg && (offset = parent.AuthorNode.Details.StartOffset, indentNode = parent);
+                } else {
+                    indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
+                    for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && ((indentNode = node).IndentationDelta = 0);
                 }
-                for(; null != parent && !parent.CanIndent();)parent = parent.Parent;
-                null != parent && parent.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkProg && (offset = parent.AuthorNode.Details.StartOffset, indentNode = parent);
-            } else {
-                indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
-                for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && ((indentNode = node).IndentationDelta = 0);
             }
             if (null != indentNode) {
                 var indentOverride = this.GetLineIndentationForOffset(offset);
@@ -194,9 +195,8 @@ import * as swcHelpers from "@swc/helpers";
                 }while (null != indentNode);
             }
         }, _proto.GetLineIndentationForOffset = function(offset) {
-            var indentationEdit;
             if (null != (indentationEdit = this.indentationBag.FindIndent(offset))) return indentationEdit.Indentation();
-            for(var lineText = this.snapshot.GetLineFromPosition(offset).getText(), index = 0; index < lineText.length && (" " == lineText.charAt(index) || "	" == lineText.charAt(index));)++index;
+            for(var indentationEdit, lineText = this.snapshot.GetLineFromPosition(offset).getText(), index = 0; index < lineText.length && (" " == lineText.charAt(index) || "	" == lineText.charAt(index));)++index;
             return lineText.substr(0, index);
         }, _proto.RegisterIndentation = function(indent, sameLineIndent) {
             var indentationInfo = null;

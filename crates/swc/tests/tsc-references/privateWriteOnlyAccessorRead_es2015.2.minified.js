@@ -20,7 +20,7 @@ new class {
             foo
         }), _tmp1 = {
             foo
-        }, swcHelpers.classPrivateFieldGet(this, _value).foo = swcHelpers.extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), swcHelpers.classPrivateFieldGet(this, _value), [swcHelpers.classPrivateFieldDestructureSet(this, _valueOne).value, ...swcHelpers.classPrivateFieldDestructureSet(this, _valueRest).value] = [
+        }, swcHelpers.classPrivateFieldGet(this, _value).foo = swcHelpers.extends({}, _tmp1.foo), swcHelpers.classPrivateFieldGet(this, _value), [swcHelpers.classPrivateFieldDestructureSet(this, _valueOne).value, ...swcHelpers.classPrivateFieldDestructureSet(this, _valueRest).value] = [
             1,
             2,
             3

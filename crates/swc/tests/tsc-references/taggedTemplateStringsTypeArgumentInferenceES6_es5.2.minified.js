@@ -252,9 +252,7 @@ function someGenerics6(strs, a, b, c) {}
 function someGenerics7(strs, a, b, c) {}
 !function(strs, n) {}(_templateObject(), function(n) {
     return n;
-}), function(strs, n) {}(_templateObject1(), function(n, x) {
-    return n;
-}), someGenerics3(_templateObject2(), function() {
+}), _templateObject1(), someGenerics3(_templateObject2(), function() {
     return "";
 }), someGenerics3(_templateObject3(), function() {}), someGenerics3(_templateObject4(), function() {
     return 3;
@@ -302,4 +300,4 @@ function someGenerics7(strs, a, b, c) {}
     return n;
 }, function(n) {
     return n;
-}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), _templateObject19(), _templateObject20(), new Date(), _templateObject21(), _templateObject22(), _templateObject23();
+}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), _templateObject19(), _templateObject20(), _templateObject21(), _templateObject22(), _templateObject23();

@@ -9,6 +9,6 @@ var anyCtor, anyCtor1, nestedCtor, C0 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, T);
 };
-new C0, new T, new anyCtor, new anyCtor1(void 0), new function() {}();
+new C0, new T, new anyCtor, new anyCtor1(void 0);
 var nested = new new new nestedCtor()()();
 new nested(), new nested();

@@ -26,10 +26,12 @@
     }
     function forEach(obj, iterator, context) {
         var key;
-        if (obj) if (isFunction(obj)) for(key in obj)'prototype' != key && 'length' != key && 'name' != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-        else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
-        else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
-        else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        if (obj) {
+            if (isFunction(obj)) for(key in obj)'prototype' != key && 'length' != key && 'name' != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+            else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
+            else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
+            else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        }
         return obj;
     }
     function sortedKeys(obj) {
@@ -151,22 +153,24 @@
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0;
         var length, key, keySet, t1 = typeof o1;
-        if (t1 == typeof o2 && 'object' == t1) if (isArray(o1)) {
-            if (!isArray(o2)) return !1;
-            if ((length = o1.length) == o2.length) {
-                for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
+        if (t1 == typeof o2 && 'object' == t1) {
+            if (isArray(o1)) {
+                if (!isArray(o2)) return !1;
+                if ((length = o1.length) == o2.length) {
+                    for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
+                    return !0;
+                }
+            } else {
+                if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
+                if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
+                if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
+                for(key in keySet = {}, o1)if (!('$' === key.charAt(0) || isFunction(o1[key]))) {
+                    if (!equals(o1[key], o2[key])) return !1;
+                    keySet[key] = !0;
+                }
+                for(key in o2)if (!keySet.hasOwnProperty(key) && '$' !== key.charAt(0) && undefined !== o2[key] && !isFunction(o2[key])) return !1;
                 return !0;
             }
-        } else {
-            if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
-            if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
-            if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
-            for(key in keySet = {}, o1)if (!('$' === key.charAt(0) || isFunction(o1[key]))) {
-                if (!equals(o1[key], o2[key])) return !1;
-                keySet[key] = !0;
-            }
-            for(key in o2)if (!keySet.hasOwnProperty(key) && '$' !== key.charAt(0) && undefined !== o2[key] && !isFunction(o2[key])) return !1;
-            return !0;
         }
         return !1;
     }
@@ -2757,14 +2761,15 @@
                     $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
-                                oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
-                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
-                            } else {
-                                for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
-                                if (oldLength > newLength) for(key in changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
-                            }
-                            else oldValue !== newValue && (oldValue = newValue, changeDetected++);
+                            if (isObject(newValue = objGetter(self))) {
+                                if (isArrayLike(newValue)) {
+                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
+                                    for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                                } else {
+                                    for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
+                                    if (oldLength > newLength) for(key in changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
+                                }
+                            } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
                         }, function() {
                             listener(newValue, oldValue, self);
@@ -2784,12 +2789,14 @@
                             }
                             traverseScopesLoop: do {
                                 if (watchers = current.$$watchers) for(length = watchers.length; length--;)try {
-                                    if (watch = watchers[length]) if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : 'number' == typeof value && 'number' == typeof last && isNaN(value) && isNaN(last))) {
-                                        if (watch === lastDirtyWatch) {
-                                            dirty = !1;
-                                            break traverseScopesLoop;
-                                        }
-                                    } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = isFunction(watch.exp) ? 'fn: ' + (watch.exp.name || watch.exp.toString()) : watch.exp, logMsg += '; newVal: ' + toJson(value) + '; oldVal: ' + toJson(last), watchLog[logIdx].push(logMsg));
+                                    if (watch = watchers[length]) {
+                                        if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : 'number' == typeof value && 'number' == typeof last && isNaN(value) && isNaN(last))) {
+                                            if (watch === lastDirtyWatch) {
+                                                dirty = !1;
+                                                break traverseScopesLoop;
+                                            }
+                                        } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = isFunction(watch.exp) ? 'fn: ' + (watch.exp.name || watch.exp.toString()) : watch.exp, logMsg += '; newVal: ' + toJson(value) + '; oldVal: ' + toJson(last), watchLog[logIdx].push(logMsg));
+                                    }
                                 } catch (e) {
                                     clearPhase(), $exceptionHandler(e);
                                 }
@@ -3358,8 +3365,7 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
-            if (!isArray(array)) return array;
-            if (!sortPredicate) return array;
+            if (!isArray(array) || !sortPredicate) return array;
             sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
@@ -4197,10 +4203,12 @@
                                 }, optionGroupNames = [
                                     ''
                                 ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {}, selectedSet = !1;
-                                if (multiple) if (trackFn && isArray(modelValue)) {
-                                    selectedSet = new HashMap([]);
-                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
-                                } else selectedSet = new HashMap(modelValue);
+                                if (multiple) {
+                                    if (trackFn && isArray(modelValue)) {
+                                        selectedSet = new HashMap([]);
+                                        for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
+                                    } else selectedSet = new HashMap(modelValue);
+                                }
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {
                                         if ('$' === (key = keys[index]).charAt(0)) continue;
