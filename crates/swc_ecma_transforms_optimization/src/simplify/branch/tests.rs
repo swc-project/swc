@@ -76,9 +76,9 @@ fn test_fold_block() {
     test("{if(false)foo(); {bar()}}", "bar()");
     test("{if(false)if(false)if(false)foo(); {bar()}}", "bar()");
 
-    test("{'hi'}", "");
-    test("{x==3}", "");
-    test("{`hello ${foo}`}", "");
+    test("{'hi'}", "'hi'");
+    test("{x==3}", "x");
+    test("{`hello ${foo}`}", "foo");
     test("{ (function(){x++}) }", "");
     test_same("function f(){return;}");
     test("function f(){return 3;}", "function f(){return 3}");
@@ -335,7 +335,7 @@ fn test_minimize_loop_with_constant_condition_do_while() {
     test("do { foo(); } while (true)", "for(;;)foo();");
     test("do { foo(); } while (0)", "foo();");
     test("do { foo(); } while (0.0)", "foo();");
-    test("do { foo(); } while (NaN)", "foo();");
+    test("do { foo(); } while (NaN)", "foo(); NaN");
     test("do { foo(); } while (null)", "foo();");
     test("do { foo(); } while (undefined)", "foo();");
     test("do { foo(); } while ('')", "foo();");
@@ -419,14 +419,14 @@ fn test_remove_useless_ops2() {
 
 #[test]
 fn test_optimize_switch_1() {
-    test("switch(a){}", "");
+    test("switch(a){}", "a");
     test("switch(foo()){}", "foo()");
-    test("switch(a){default:}", "");
-    test("switch(a){default:break;}", "");
-    test("switch(a){default:var b;break;}", "var b");
-    test("switch(a){case 1: default:}", "");
-    test("switch(a){default: case 1:}", "");
-    test("switch(a){default: break; case 1:break;}", "");
+    test("switch(a){default:}", "a");
+    test("switch(a){default:break;}", "a");
+    test("switch(a){default:var b;break;}", "a;var b");
+    test("switch(a){case 1: default:}", "a");
+    test("switch(a){default: case 1:}", "a");
+    test("switch(a){default: break; case 1:break;}", "a");
     //test(
     //    "switch(a){default: var b; break; case 1: var c; break;}",
     //    "var c; var b;",
@@ -1283,8 +1283,8 @@ fn test_new_containing_spread_1() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
     test("new Date(...c)", "[...c]");
-    test("new Date(4, ...c, a)", "[...c]");
-    test("new Date(...a, b, ...c)", "[...a, ...c]");
+    test("new Date(4, ...c, a)", "[...c, a]");
+    test("new Date(...a, b, ...c)", "[...a, b, ...c]");
     test("new Date(...b, ...c)", "[...b, ...c]");
 }
 
@@ -1316,7 +1316,7 @@ fn test_tagged_template_lit_substituting_template() {
 
 #[test]
 fn test_fold_assign() {
-    test("x=x", "");
+    test("x=x", "x");
     test_same("x=xy");
     test_same("x=x + 1");
     test_same("x.a=x.a");
