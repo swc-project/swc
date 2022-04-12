@@ -232,7 +232,7 @@
                         }
                         return subscription.promise();
                     }
-                    if ("function" == typeof opts.webpack) {
+                    if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
                             var _step, _iterator = function(o1, allowArrayLike) {
