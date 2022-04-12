@@ -1,5 +1,8 @@
 #![deny(clippy::all)]
 
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -132,3 +135,17 @@ pub fn replace_pseudo_class_selector_on_pseudo_element_selector<N>(
 {
     node.visit_mut_with(&mut PseudoElementOnPseudoClassReplacer { from, to });
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct NamedColor {
+    pub hex: String,
+    pub rgb: Vec<u8>,
+}
+
+pub static NAMED_COLORS: Lazy<AHashMap<String, NamedColor>> = Lazy::new(|| {
+    let named_colors: AHashMap<String, NamedColor> =
+        serde_json::from_str(include_str!("./named-colors.json"))
+            .expect("failed to parse named-colors.json for html entities");
+
+    named_colors
+});

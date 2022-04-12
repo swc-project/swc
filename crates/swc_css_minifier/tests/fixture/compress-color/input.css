@@ -1,0 +1,175 @@
+.color {
+    color: rgb(from transparent 255 255 255);
+}
+
+.color-1 {
+    color: rgb(from red 255 255 255);
+}
+
+.color-2 {
+    color: rgb(from #ff0000 255 255 255);
+}
+
+.color-3 {
+    color: rgb(from #f00 255 255 255);
+}
+
+.color-4 {
+    color: rgb(from palegoldenrod 255 255 255);
+}
+
+.color-5 {
+    color: rgb(from #ff0 255 255 255);
+}
+
+.color-6 {
+    color: rgb(from #fffafa 255 255 255);
+}
+
+.color-7 {
+    color: rgb(123, 123, 123, 0);
+}
+
+.color-8 {
+    color: rgb(123, 123, 123, 1);
+}
+
+.color-9 {
+    color: rgb(123, 123, 123, 100%);
+}
+
+.color-10 {
+    color: rgb(123 123 123 / 1);
+}
+
+.color-11 {
+    color: rgb(123 123 123 / 100%);
+}
+
+.color-12 {
+    color: rgb(20%, 40%, 30%, 23%);
+}
+
+.color-13 {
+    color: rgb(123, 123, 123);
+}
+
+.color-14 {
+    color: rgb(100, 150, 200);
+}
+
+.class-15 {
+    color: rgba(123, 123, 123, 100%);
+}
+
+.class-16 {
+    color: rgba(123, 123, 123, 99%);
+}
+
+.class-17 {
+    color: rgba(123, 123, 123, 1);
+}
+
+.class-18 {
+    color: rgba(70%, 32%, 12%, 13%);
+}
+
+.class-19 {
+    color: rgba(70.5%, 32%, 12%, 13%);
+}
+
+.class-20 {
+    color: rgba(71%, 32%, 12%, 13%);
+}
+
+.class-21 {
+    color: rgba(71.5%, 32%, 12%, 13%);
+}
+
+.class-22 {
+    color: rgba(72%, 32%, 12%, 13%);
+}
+
+.class-23 {
+    color: rgba(181.4, 181, 181, 13%);
+}
+
+.class-24 {
+    color: rgba(181.5, 181, 181, 13%);
+}
+
+.class-25 {
+    color: rgba(181, 181, 181, 0.1%);
+}
+
+.class-26 {
+    color: rgba(181, 181, 181, .004);
+}
+
+.color-27 {
+    color: rgb(from PALEGOLDENROD 255 255 255);
+}
+
+.color-28 {
+    color: rgb(from teal 255 255 255);
+}
+
+.color-29 {
+    color: rgb(from #ff0000 255 255 255);
+}
+
+.color-30 {
+    color: rgb(from #FF0000 255 255 255);
+}
+
+.color-31 {
+    color: rgb(from red 255 255 255);
+}
+
+.color-32 {
+    color: rgb(from #f00 255 255 255);
+}
+
+.color-33 {
+    color: rgb(from yellow 255 255 255);
+}
+
+.color-34 {
+    color: rgb(from snow 255 255 255);
+}
+
+.color-35 {
+    color: rgb(from #D2B48C 255 255 255);
+}
+
+.color-36 {
+    color: rgb(from #ff0000 255 255 255);
+}
+
+.color-37 {
+    color: rgb(from white 255 255 255);
+}
+
+.color-38 {
+    color: rgb(from #ffffff 255 255 255);
+}
+
+.color-39 {
+    color: rgb(from #fff 255 255 255);
+}
+
+.color-40 {
+    color: #ffffff;
+}
+
+.color-41 {
+    color: #fff;
+}
+
+.color-42 {
+    color: #ffffffff;
+}
+
+.color-43 {
+    color: #ffff;
+}

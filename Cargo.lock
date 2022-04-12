@@ -3069,6 +3069,7 @@ dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
+ "swc_css_utils",
  "swc_css_visit",
  "testing",
 ]
@@ -3106,6 +3107,9 @@ dependencies = [
 name = "swc_css_utils"
 version = "0.89.0"
 dependencies = [
+ "once_cell",
+ "serde",
+ "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
