@@ -129,7 +129,7 @@ fn run_fixture_test(entry: PathBuf) {
 
     eprintln!("Expected:\n{}\n-----", expected_stdout);
 
-    matrix
+    let _ = matrix
         .into_iter()
         .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
         .collect::<Vec<_>>();
@@ -183,7 +183,11 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
                 .process_js_file(fm, handler, opts)
                 .context("failed to process file")?;
 
-            println!("Code:\n{}", res.code);
+            println!(
+                "---- {} ----\n{}",
+                ansi_term::Color::Green.bold().paint("Code"),
+                res.code
+            );
 
             let actual_stdout = stdout_of(&res.code)?;
 
