@@ -507,8 +507,90 @@ pub enum Prefix {
 
 impl VisitMut for Prefixer {
     // TODO handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
-    // TODO handle `@keyframes`
+    // TODO don't generate wrong prefixes in prefixed selectors and at-rules
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        if !self.in_stylesheet {
+            return;
+        }
+
+        // TODO avoid duplicate
+        match &n.name {
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("viewport") =>
+            {
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-viewport".into(),
+                    raw: "-ms-viewport".into(),
+                });
+
+                self.added_rules.push(Rule::AtRule(AtRule {
+                    span: DUMMY_SP,
+                    name: new_name,
+                    prelude: n.prelude.clone(),
+                    block: n.block.clone(),
+                }));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-o-viewport".into(),
+                    raw: "-o-viewport".into(),
+                });
+
+                self.added_rules.push(Rule::AtRule(AtRule {
+                    span: DUMMY_SP,
+                    name: new_name,
+                    prelude: n.prelude.clone(),
+                    block: n.block.clone(),
+                }));
+            }
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("keyframes") =>
+            {
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-webkit-keyframes".into(),
+                    raw: "-webkit-keyframes".into(),
+                });
+
+                self.added_rules.push(Rule::AtRule(AtRule {
+                    span: DUMMY_SP,
+                    name: new_name,
+                    prelude: n.prelude.clone(),
+                    block: n.block.clone(),
+                }));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-moz-keyframes".into(),
+                    raw: "-moz-keyframes".into(),
+                });
+
+                self.added_rules.push(Rule::AtRule(AtRule {
+                    span: DUMMY_SP,
+                    name: new_name,
+                    prelude: n.prelude.clone(),
+                    block: n.block.clone(),
+                }));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-o-keyframes".into(),
+                    raw: "-o-keyframes".into(),
+                });
+
+                self.added_rules.push(Rule::AtRule(AtRule {
+                    span: DUMMY_SP,
+                    name: new_name,
+                    prelude: n.prelude.clone(),
+                    block: n.block.clone(),
+                }));
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         let old_in_media_query_list = self.in_media_query_list;
@@ -574,7 +656,6 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
-    // TODO don't generate wrong prefixes in prefixed selectors
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
