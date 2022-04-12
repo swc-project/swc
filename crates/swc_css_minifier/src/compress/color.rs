@@ -241,7 +241,6 @@ impl VisitMut for CompressColor {
                     }
                 }
             },
-            // TODO migrate on make_color_from_rgb
             Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                 span, value, ..
             })) => {
