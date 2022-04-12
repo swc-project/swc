@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.166.0"
+version = "0.167.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2875,7 +2875,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.135.0"
+version = "0.136.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2933,7 +2933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3237,7 +3237,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.102.0"
+version = "0.103.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3627,7 +3627,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.145.0"
+version = "0.146.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3671,7 +3671,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3943,7 +3943,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.84.0"
+version = "0.85.0"
 dependencies = [
  "anyhow",
  "rayon",
