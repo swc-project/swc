@@ -3321,8 +3321,8 @@
             return 12 > date.getHours() ? formats.AMPMS[0] : formats.AMPMS[1];
         },
         Z: function(date) {
-            var zone = -1 * date.getTimezoneOffset(), paddedZone = zone >= 0 ? "+" : "";
-            return paddedZone += padNumber(Math[zone > 0 ? 'floor' : 'ceil'](zone / 60), 2) + padNumber(Math.abs(zone % 60), 2);
+            var zone = -1 * date.getTimezoneOffset();
+            return (zone >= 0 ? "+" : "") + (padNumber(Math[zone > 0 ? 'floor' : 'ceil'](zone / 60), 2) + padNumber(Math.abs(zone % 60), 2));
         }
     }, DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/, NUMBER_STRING = /^\-?\d+$/;
     function dateFilter($locale) {

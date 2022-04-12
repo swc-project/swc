@@ -128,7 +128,7 @@ pub struct CompressOptions {
     #[serde(alias = "conditionals")]
     pub conditionals: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "dead_code")]
     pub dead_code: bool,
 

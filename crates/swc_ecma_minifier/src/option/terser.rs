@@ -314,8 +314,7 @@ impl TerserCompressorOptions {
             // TODO: Use self.defaults
             computed_props: self.computed_props.unwrap_or(false),
             conditionals: self.conditionals.unwrap_or(self.defaults),
-            // TODO: Use self.defaults
-            dead_code: self.dead_code.unwrap_or(false),
+            dead_code: self.dead_code.unwrap_or(self.defaults),
             // TODO: Use self.defaults
             directives: self.directives.unwrap_or(false),
             drop_console: self.drop_console,
