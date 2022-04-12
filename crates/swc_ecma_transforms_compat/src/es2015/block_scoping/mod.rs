@@ -116,7 +116,7 @@ impl BlockScoping {
             .unwrap_or(false)
     }
 
-    fn handle_vars(&mut self, body: &mut Box<Stmt>) {
+    fn handle_capture_of_vars(&mut self, body: &mut Box<Stmt>) {
         let body_stmt = &mut **body;
 
         {
@@ -425,7 +425,7 @@ impl VisitMut for BlockScoping {
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
@@ -449,7 +449,7 @@ impl VisitMut for BlockScoping {
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
@@ -474,7 +474,7 @@ impl VisitMut for BlockScoping {
             }
         };
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
