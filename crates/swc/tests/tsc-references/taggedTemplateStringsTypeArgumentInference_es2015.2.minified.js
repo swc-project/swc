@@ -10,9 +10,7 @@ function someGenerics8(strs, n) {
 function someGenerics9(strs, a, b, c) {
     return null;
 }
-(function(n) {})``, (function(n) {})``, (function(n, m) {})`${3}`, (function(n, m) {})`${3}`, (function(strs, n) {})`${(n)=>n
-}`, (function(strs, n) {})`${(n, x)=>n
-}`, someGenerics3`${()=>''
+someGenerics3`${()=>''
 }`, someGenerics3`${()=>void 0
 }`, someGenerics3`${()=>3
 }`, someGenerics4`${4}${()=>null

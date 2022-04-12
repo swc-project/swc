@@ -1,8 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### fix
+
+
+
+- **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([5a032c6](https://github.com/swc-project/swc/commit/5a032c679744857c4fdc22bd7ac2b256aef174e3))
+
 ### Bug Fixes
 
+
+
+- **(css/prefixer)** Don't prefix if it's already prefixed (#4307) ([690ce26](https://github.com/swc-project/swc/commit/690ce2628c988a3d1823cbcf4f786203e548cb84))
 
 
 - **(es/lints)** Check parameters in the duplicate binding rule (#4288) ([e4a565c](https://github.com/swc-project/swc/commit/e4a565c2d4c90dc23267b44e8f4aee2e0cc79c23))
@@ -10,8 +19,26 @@
 
 - **(es/minifier)** Fix inlining of uninitialized variables (#4292) ([b990b19](https://github.com/swc-project/swc/commit/b990b19ed130ce1dc57f76b883bf638ace64c4f4))
 
+
+- **(node-swc/types)** Add `isTypeOnly` to types (#4303) ([1a48732](https://github.com/swc-project/swc/commit/1a48732e78b9c650f93320f4d6f7be57a9f4a6c4))
+
+### Features
+
+
+
+- **(es)** Support `typeof` with private fields (#4302) ([d0de5a6](https://github.com/swc-project/swc/commit/d0de5a63a01ef45101cdd10f90546ec7950ce7ac))
+
+
+- **(es/minifier)** Enable `conditionals` by default (#4301) ([7e8f613](https://github.com/swc-project/swc/commit/7e8f6132729ca3ddf7884f1b246964921cde1c35))
+
+
+- **(es/minifier)** Enable `dead_code` by default (#4309) ([74a5087](https://github.com/swc-project/swc/commit/74a5087989173f833517cb6f6bf51afcf9642286))
+
 ### Miscellaneous Tasks
 
+
+
+- **(*)** Typo + fomatting (#4304) ([37a8c90](https://github.com/swc-project/swc/commit/37a8c90750d778edcd69ffdd85fe990a27efc75d))
 
 
 - **(ci)** Fix CI (#4299) ([adea17d](https://github.com/swc-project/swc/commit/adea17dbe3b17e397d79a7dae1f469bf38f0185f))

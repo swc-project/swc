@@ -11,4 +11,4 @@ function A(x) {
 }
 c.x = void 0, c.y = void 0;
 var k = A(1), j = new A(2);
-k.x === j.x;
+k.x, j.x;

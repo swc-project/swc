@@ -1,3 +1,3 @@
 function foo1() {
-    // commnet into
+    // comment into
 }

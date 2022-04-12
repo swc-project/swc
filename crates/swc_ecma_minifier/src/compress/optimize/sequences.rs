@@ -5,8 +5,8 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
-    UsageFinder,
+    contains_arguments, contains_this_expr, ident::IdentLike, prepend_stmts, undefined, ExprExt,
+    Id, StmtLike, UsageFinder,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
@@ -483,74 +483,27 @@ where
         e.exprs = new_exprs;
     }
 
-    /// Hoist variables in subscope.
-    ///
-    /// I don't know why it depends on `sequences`.
-    pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
-        if !self.options.sequences() {
-            return;
+    #[allow(unused)]
+    pub(super) fn optimize_with_extras<T, F>(&mut self, stmts: &mut Vec<T>, mut op: F)
+    where
+        F: FnMut(&mut Vec<T>),
+        T: ModuleItemExt,
+    {
+        let old_prepend = self.prepend_stmts.take();
+        let old_append = self.append_stmts.take();
+
+        op(stmts);
+
+        if !self.prepend_stmts.is_empty() {
+            prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from_stmt));
         }
 
-        match s {
-            Stmt::If(stmt) if self.options.conditionals => {
-                self.extract_vars(&mut stmt.cons);
-                if let Some(alt) = &mut stmt.alt {
-                    self.extract_vars(alt);
-                }
-            }
-
-            _ => {}
+        if self.append_stmts.is_empty() {
+            stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
         }
-    }
 
-    /// Move `var` in subscope to current scope.
-    ///
-    /// This method actually `hoist`s [VarDecl]s declared with `var`.
-    fn extract_vars(&mut self, s: &mut Stmt) {
-        let mut found_other = false;
-        if let Stmt::Block(bs) = s {
-            // Extract variables without
-            for stmt in &mut bs.stmts {
-                match stmt {
-                    Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    )) => {
-                        for decl in &mut v.decls {
-                            if decl.init.is_some() {
-                                continue;
-                            }
-                            self.changed = true;
-                            tracing::debug!("sequences: Hoisting `var` without init");
-                            let s = Stmt::Decl(Decl::Var(VarDecl {
-                                span: v.span,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![decl.take()],
-                            }));
-                            if found_other {
-                                self.append_stmts.push(s);
-                            } else {
-                                self.prepend_stmts.push(s);
-                            }
-                        }
-
-                        v.decls.retain(|v| !v.name.is_invalid());
-                    }
-                    _ => {
-                        found_other = true;
-                    }
-                }
-            }
-
-            bs.stmts.retain(|s| match s {
-                Stmt::Empty(..) => false,
-                Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
-                _ => true,
-            });
-        }
+        self.prepend_stmts = old_prepend;
+        self.append_stmts = old_append;
     }
 
     ///

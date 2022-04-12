@@ -1,5 +1,4 @@
 import * as swcHelpers from "@swc/helpers";
-new Date();
 var E, C1 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C1);

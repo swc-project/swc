@@ -1494,10 +1494,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                     return;
                 }
             }
-            getByTag: {
-                if (!((children = node.getElementsByTagName(tag)) && children.length)) break getByTag;
-                for(this.brokenStarGEBTN || (tag = null), i = 0; item = children[i++];)this.push(item, tag, id, classes, attributes, pseudos);
-            }
+            if ((children = node.getElementsByTagName(tag)) && children.length) for(this.brokenStarGEBTN || (tag = null), i = 0; item = children[i++];)this.push(item, tag, id, classes, attributes, pseudos);
         },
         '>': function(node, tag, id, classes, attributes, pseudos) {
             if (node = node.firstChild) do 1 == node.nodeType && this.push(node, tag, id, classes, attributes, pseudos);

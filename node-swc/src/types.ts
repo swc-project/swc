@@ -211,7 +211,7 @@ export interface TerserMangleOptions {
   ie8?: boolean,
 
   safari10?: boolean,
-  
+
   reserved?: string[],
 }
 
@@ -272,7 +272,7 @@ export interface Options extends Config {
    *
    * "root" - Passes the "root" value through as unchanged.
    * "upward" - Walks upward from the "root" directory, looking for a directory
-   * containinga swc.config.js file, and throws an error if a swc.config.js
+   * containing a swc.config.js file, and throws an error if a swc.config.js
    * is not found.
    * "upward-optional" - Walk upward from the "root" directory, looking for
    * a directory containing a swc.config.js file, and falls back to "root"
@@ -333,7 +333,7 @@ export interface Options extends Config {
    *  a package that matches one of the "swcrcRoots" packages.
    *
    *
-   * Defaults to true as long as the filename option has been specificed
+   * Defaults to true as long as the filename option has been specified
    */
   swcrc?: boolean;
 
@@ -403,11 +403,11 @@ export type Swcrc = Config | Config[];
  */
 export interface Config {
   /**
-   * Note: The type is string because it follow rust's regex syntax.
+   * Note: The type is string because it follows rust's regex syntax.
    */
   test?: string | string[];
   /**
-   * Note: The type is string because it follow rust's regex syntax.
+   * Note: The type is string because it follows rust's regex syntax.
    */
   exclude?: string | string[];
   env?: EnvConfig;
@@ -464,7 +464,7 @@ export interface EnvConfig {
   shippedProposals?: boolean;
 
   /**
-   * Enable all trnasforms
+   * Enable all transforms
    */
   forceAllTransforms?: boolean;
 }
@@ -483,7 +483,7 @@ export interface JscConfig {
   externalHelpers?: boolean;
 
   /**
-   * Defaults to `es3` (which enableds **all** pass).
+   * Defaults to `es3` (which enabled **all** pass).
    */
   target?: JscTarget;
 
@@ -496,7 +496,7 @@ export interface JscConfig {
     optimizeHygiene?: boolean,
     keepImportAssertions?: boolean,
     /**
-     * Specify the location where SWC stores its intermidiate cache files.
+     * Specify the location where SWC stores its intermediate cache files.
      * Currently only transform plugin uses this. If not specified, SWC will
      * create `.swc` directories.
      */
@@ -1012,7 +1012,7 @@ export interface VariableDeclarator extends Node, HasSpan {
 
   id: Pattern;
 
-  /// Initialization expresion.
+  /// Initialization expression.
   init?: Expression;
 
   /// Typescript only
@@ -1525,7 +1525,7 @@ export interface ExportNamedDeclaration extends Node, HasSpan {
   specifiers: ExportSpecifier[];
 
   source?: StringLiteral;
-  
+
   typeOnly: boolean;
 }
 
@@ -1575,6 +1575,7 @@ export interface NamedImportSpecifier extends Node, HasSpan {
   type: "ImportSpecifier";
   local: Identifier;
   imported: Identifier | null;
+  isTypeOnly?: boolean;
 }
 
 export type ExportSpecifier =
@@ -1605,6 +1606,7 @@ export interface NamedExportSpecifier extends Node, HasSpan {
    * `Some(bar)` in `export { foo as bar }`
    */
   exported: Identifier | null;
+  isTypeOnly?: boolean;
 }
 
 interface HasInterpreter {

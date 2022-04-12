@@ -334,8 +334,8 @@ where
             if cfg!(feature = "debug") && visitor.changed() {
                 n.invoke();
 
-                let start = n.dump();
-                tracing::debug!("===== After pure =====\n{}", start);
+                let src = n.dump();
+                tracing::debug!("===== After pure =====\n{}\n{}", start, src);
             }
         }
 

@@ -1,6 +1,6 @@
 const swc = require('../../../');
 
-it('should work without parser.sytax', () => {
+it('should work without parser.syntax', () => {
     const out = swc.transformSync(`const someValue = "test" ?? "default value";`, {
             jsc: {
                 parser: {

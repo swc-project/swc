@@ -754,6 +754,7 @@ pub(super) fn is_global_var(s: &str) -> bool {
             | "Number"
             | "NaN"
             | "Symbol"
+            | "Promise"
     )
 }
 

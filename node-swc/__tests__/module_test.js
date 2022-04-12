@@ -28,7 +28,7 @@ it("should emit _interopRequireWildcard", () => {
     );
 });
 
-it("should work with amd and expternal helpers", () => {
+it("should work with amd and external helpers", () => {
     const out = swc.transformSync(
         `class Foo {}
     class Bar extends Foo {}`,

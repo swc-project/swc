@@ -3,4 +3,4 @@ export default class Decl {
 };
 Entity();
 var z = new Entity();
-z.p1 + z.p2;
+z.p1, z.p2;

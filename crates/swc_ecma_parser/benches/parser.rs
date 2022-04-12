@@ -47,7 +47,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("jqeury", |b| {
+    c.bench_function("jquery", |b| {
         bench_module(
             b,
             Default::default(),

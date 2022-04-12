@@ -644,7 +644,7 @@ test!(
     "
     function oe() {
         var e, t;
-        return e = t;
+        return t !== i && (e, t), e = t;
     }
     "
 );

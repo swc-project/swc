@@ -34,8 +34,10 @@
                     return newInterval(function(date) {
                         if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
                     }, function(date, step) {
-                        if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
-                        else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                        if (date >= date) {
+                            if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                            else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                        }
                     });
                 }, count && (interval.count = function(start, end) {
                     return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));

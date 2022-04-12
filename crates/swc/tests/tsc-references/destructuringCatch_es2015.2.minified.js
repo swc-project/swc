@@ -20,4 +20,3 @@ try {
         }
     ];
 } catch ([{ x: [y] , z  }]) {}
-try {} catch ([a2]) {}

@@ -169,12 +169,14 @@ impl Pure<'_> {
         let _lb = bin.left.as_pure_bool();
         let rb = bin.right.as_pure_bool();
 
-        if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
-            // `!!b || true` => true
-            if let Value::Known(true) = rb {
-                self.changed = true;
-                tracing::debug!("conditionals: `!!foo || true` => `true`");
-                *e = make_bool(bin.span, true);
+        if bin.op == op!("||") {
+            if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
+                // `!!b || true` => true
+                if let Value::Known(true) = rb {
+                    self.changed = true;
+                    tracing::debug!("conditionals: `!!foo || true` => `true`");
+                    *e = make_bool(bin.span, true);
+                }
             }
         }
     }

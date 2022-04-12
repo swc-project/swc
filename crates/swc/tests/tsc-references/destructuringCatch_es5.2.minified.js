@@ -29,6 +29,3 @@ try {
     var ref = swcHelpers.slicedToArray(param2, 1)[0];
     swcHelpers.slicedToArray(ref.x, 1)[0], ref.z;
 }
-try {} catch (param3) {
-    swcHelpers.slicedToArray(param3, 1)[0];
-}

@@ -148,7 +148,7 @@ impl Serialize for ObjectMethod {
 
 #[derive(Serialize)]
 struct AcornObjectMethodValue<'a> {
-    /// `FuncionExpression`
+    /// `FunctionExpression`
     #[serde(rename = "type")]
     type_: &'static str,
     #[serde(flatten)]

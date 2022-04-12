@@ -1,7 +1,7 @@
 const CD: ClassDecorator = () => { }
 const PD: PropertyDecorator = () => { }
 
-// Commenting out the decorators creates valid ouput.
+// Commenting out the decorators creates valid output.
 @CD
 export class ServiceError extends Error {
     @PD

@@ -4,7 +4,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use rayon::prelude::*;
 use serde::de::DeserializeOwned;
 use swc::{
     config::{Config, IsModule, JscConfig, Options, SourceMapsConfig},
@@ -26,7 +25,7 @@ use testing::{NormalizedOutput, Tester};
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
         "privateNameImplicitDeclaration.ts",
-        "privateNameStaticAccessorssDerivedClasses.ts",
+        "privateNameStaticAccessorsDerivedClasses.ts",
         "privateNameErrorsOnNotUseDefineForClassFieldsInEsNext.ts",
         "enumConstantMembers.ts",
     )
@@ -41,7 +40,7 @@ fn fixture(input: PathBuf) {
     }
 
     let panics = matrix()
-        .into_par_iter()
+        .into_iter()
         .filter_map(|(name, opts)| {
             //
 

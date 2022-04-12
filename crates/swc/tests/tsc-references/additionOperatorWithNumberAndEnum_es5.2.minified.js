@@ -3,4 +3,4 @@ var E, F;
     E[E.a = 0] = "a", E[E.b = 1] = "b";
 }(E || (E = {})), function(F) {
     F[F.c = 0] = "c", F[F.d = 1] = "d";
-}(F || (F = {})), E.a, E.a + E.b, E.a + E.b, E.a + F.c;
+}(F || (F = {})), E.a, E.a, E.b, E.a, E.b, E.a, F.c;

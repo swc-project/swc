@@ -110,7 +110,7 @@ let Sub = function(Foo) {
     _inherits(Sub, Foo);
 
     var _super = _createSuper(Sub);
-    
+
     function Sub() {
         _classCallCheck(this, Sub);
         var _this;
@@ -788,7 +788,7 @@ var Foo = function(Bar) {
     _inherits(Foo, Bar);
 
     var _super = _createSuper(Foo);
-    
+
     function Foo() {
         _classCallCheck(this, Foo);
         var _this;
@@ -826,28 +826,28 @@ class Test extends Foo {
     var Test = /*#__PURE__*/function (Foo) {
       "use strict";
       _inherits(Test, Foo);
-    
+
       var _super = _createSuper(Test);
-    
+
       function Test() {
         _classCallCheck(this, Test);
-        
+
         var _this = _super.call(this);
 
         _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this).whatever();
-    
+
         _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this).call(_this);
 
         return _this;
       }
-    
+
       _createClass(Test, null, [{
         key: "test",
         value: function test() {
           return _get(_getPrototypeOf(Test), "wow", this).call(this);
         }
       }]);
-    
+
       return Test;
     }(Foo);
 "#
@@ -1690,7 +1690,7 @@ expect(new Outer().hello()).toBe('hello');
 "#
 );
 
-// spec_super_reference_in_prop_exression
+// spec_super_reference_in_prop_expression
 test!(
     syntax(),
     |t| spec_tr(t),
@@ -1706,19 +1706,19 @@ class Foo extends Bar {
     var Foo = /*#__PURE__*/function (Bar) {
       "use strict";
       _inherits(Foo, Bar);
-    
+
       var _super = _createSuper(Foo);
-    
+
       function Foo() {
         _classCallCheck(this, Foo);
 
       var _this;
 
-      _get((_assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _this).call(_this);        
+      _get((_assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _this).call(_this);
 
         return _possibleConstructorReturn(_this);
       }
-    
+
       return Foo;
     }(Bar);
 "#
@@ -1857,8 +1857,8 @@ class Test extends Foo {
       _inherits(Test, Foo);
 
       var _super = _createSuper(Test);
-    
-      function Test() {    
+
+      function Test() {
         _classCallCheck(this, Test);
         var _this = _super.call(this);
 
@@ -2509,7 +2509,7 @@ expect(obj.test).toBe(3);
 "#
 );
 
-// spec_derived_constructor_no_super_return_falsey
+// spec_derived_constructor_no_super_return_falsy
 test!(
     syntax(),
     |t| spec_tr(t),
@@ -4831,7 +4831,7 @@ expect(t2).toBeInstanceOf(Array);
 "#
 );
 
-// spec_super_reference_in_prop_exression_exec
+// spec_super_reference_in_prop_expression_exec
 test_exec!(
     // babel also fails on this
     ignore,
@@ -5123,7 +5123,7 @@ let Foo = /*#__PURE__*/function (Bar) {
 
 // extend_builtins_shadowed
 test!(
-    // Cost is too high while being uesless
+    // Cost is too high while being useless
     ignore,
     syntax(),
     |t| tr(t),
@@ -7212,9 +7212,9 @@ test!(
     r#"
 class Test extends Foo {
   "foo"() {}
-  
+
   get foo() {}
-  
+
   set foo(a) {}
 }
 "#,

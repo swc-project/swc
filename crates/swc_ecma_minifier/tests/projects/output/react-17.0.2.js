@@ -735,10 +735,12 @@
         }
     }
     function handleTimeout(currentTime) {
-        if (isHostTimeoutScheduled = !1, advanceTimers(currentTime), !isHostCallbackScheduled) if (null !== peek(taskQueue)) isHostCallbackScheduled = !0, requestHostCallback(flushWork);
-        else {
-            var firstTimer = peek(timerQueue);
-            null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
+        if (isHostTimeoutScheduled = !1, advanceTimers(currentTime), !isHostCallbackScheduled) {
+            if (null !== peek(taskQueue)) isHostCallbackScheduled = !0, requestHostCallback(flushWork);
+            else {
+                var firstTimer = peek(timerQueue);
+                null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
+            }
         }
     }
     function flushWork(hasTimeRemaining, initialTime) {
