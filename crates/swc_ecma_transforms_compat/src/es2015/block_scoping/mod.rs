@@ -405,11 +405,12 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
         let var_decl_kind = match &node.left {
             VarDeclOrPat::VarDecl(v) => Some(v.kind),
             _ => None,
         };
+
+        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
 
         let mut vars = find_vars(&node.left);
         let args = vars.clone();
@@ -435,11 +436,12 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
         let var_decl_kind = match &node.left {
             VarDeclOrPat::VarDecl(v) => Some(v.kind),
             _ => None,
         };
+
+        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
 
         let mut vars = find_vars(&node.left);
         let args = vars.clone();
@@ -465,11 +467,12 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        node.init.visit_mut_with(self);
         let var_decl_kind = match &node.init {
             Some(VarDeclOrExpr::VarDecl(v)) => Some(v.kind),
             _ => None,
         };
+
+        node.init.visit_mut_with(self);
 
         let mut vars = find_vars(&node.init);
         let args = vars.clone();
