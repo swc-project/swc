@@ -127,7 +127,11 @@ fn run_fixture_test(entry: PathBuf) {
     let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
     let expected_stdout = stdout_of(&input_code).expect("failed to get stdout");
 
-    eprintln!("Expected:\n{}\n-----", expected_stdout);
+    eprintln!(
+        "----- {} -----\n{}\n-----",
+        ansi_term::Color::Green.bold().paint("Expected stdout"),
+        expected_stdout
+    );
 
     let _ = matrix
         .into_iter()
