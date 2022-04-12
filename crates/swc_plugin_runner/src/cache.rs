@@ -83,7 +83,7 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
     None
 }
 
-/// Create a new cache instance if not intialized. This can be called multiple
+/// Create a new cache instance if not initialized. This can be called multiple
 /// time, but any subsequent call will be ignored.
 ///
 /// This fn have a side effect to create path to cache if given path is not
@@ -121,7 +121,7 @@ impl PluginModuleCache {
         }
     }
 
-    /// Load a compiled plugin Module from speficied path.
+    /// Load a compiled plugin Module from specified path.
     /// Since plugin will be initialized per-file transform, this function tries
     /// to avoid reading filesystem per each initialization via naive
     /// in-memory map which stores raw bytecodes from file. Unlike compiled

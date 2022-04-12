@@ -51,7 +51,7 @@ export default function(c, e) {
         if ("number" == typeof c && isFinite(c)) return (null == e ? void 0 : e.long) ? b(c) : a(c);
         throw new Error("Value is not a string or number.");
     } catch (f) {
-        var g = d(f) ? "".concat(f.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occured.";
+        var g = d(f) ? "".concat(f.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occurred.";
         throw new Error(g);
     }
 };

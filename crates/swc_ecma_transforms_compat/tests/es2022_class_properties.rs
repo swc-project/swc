@@ -7,7 +7,7 @@ use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
-    es2016::exponentation,
+    es2016::exponentiation,
     es2017::async_to_generator,
     es2022::class_properties,
     es3::reserved_words,
@@ -3557,7 +3557,7 @@ for (let i = 0; i <= 10; ++i) {
       return this.#bar;
     }
   }
-  
+
   classes.push(A)
 }
 
@@ -4514,7 +4514,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        exponentation(),
+        exponentiation(),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
     ),

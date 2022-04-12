@@ -26,16 +26,16 @@ use swc_trace_macro::swc_trace;
 /// x = Math.pow(x, 3);
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn exponentation() -> impl Fold + VisitMut {
-    as_folder(Exponentation::default())
+pub fn exponentiation() -> impl Fold + VisitMut {
+    as_folder(Exponentiation::default())
 }
 
 #[derive(Default)]
-struct Exponentation {
+struct Exponentiation {
     vars: Vec<VarDeclarator>,
 }
 
-impl Parallel for Exponentation {
+impl Parallel for Exponentiation {
     fn create(&self) -> Self {
         Self::default()
     }
@@ -46,7 +46,7 @@ impl Parallel for Exponentation {
 }
 
 #[swc_trace]
-impl ParExplode for Exponentation {
+impl ParExplode for Exponentiation {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.vars.is_empty() {
             stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -72,7 +72,7 @@ impl ParExplode for Exponentation {
 
 #[swc_trace]
 #[parallel(explode)]
-impl VisitMut for Exponentation {
+impl VisitMut for Exponentiation {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -148,7 +148,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         babel_binary,
         "2 ** 2",
         "Math.pow(2, 2)"
@@ -157,7 +157,7 @@ mod tests {
     test_exec!(
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         babel_comprehensive,
         r#"expect(2 ** 3).toBe(8);
 expect(3 * 2 ** 3).toBe(24);
@@ -186,7 +186,7 @@ expect(2 ** 3 ** 2).toBe(512);"#
         // FIXME
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         babel_memoize_object,
         r#"var counters = 0;
 Object.defineProperty(global, "reader", {
@@ -202,7 +202,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         assign,
         r#"x **= 3"#,
         r#"x = Math.pow(x, 3)"#,
@@ -210,7 +210,7 @@ expect(counters).toBe(1);"#
     );
 
     //     test!(::swc_ecma_parser::Syntax::default(),
-    //         |_| exponentation(),
+    //         |_| exponentiation(),
     //         babel_4403,
     //         "var a, b;
     // a[`${b++}`] **= 1;",
@@ -222,7 +222,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         issue_740,
         "self.a = 10 ** 2",
         "self.a = Math.pow(10, 2)",
@@ -233,7 +233,7 @@ expect(counters).toBe(1);"#
     // bu JakeChampion
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         babel_binary_member_assignment_expression,
         "var x = {}; x.a = 2 ** 2",
         "var x = {}; x.a = Math.pow(2, 2)"
@@ -241,7 +241,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| exponentation(),
+        |_| exponentiation(),
         assign_to_object_property,
         r#"var self = {}; self.x **= 3"#,
         r#"var self = {}; var ref = self.x; self.x = Math.pow(ref, 3);"#,

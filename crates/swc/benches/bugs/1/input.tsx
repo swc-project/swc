@@ -9,7 +9,7 @@ export default function HiddenComponent() {
         <Comp1 title={`My title`} hideHeader fullViewport>
             <Comp2
                 image="/example.com/images/my.png"
-                title={`Title of an exmaple page`}
+                title={`Title of an example page`}
                 url={`${CONST}/directory`}
                 description="Hidden component, and maybe it's a good input for performance bug"
             />

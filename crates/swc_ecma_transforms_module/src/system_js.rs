@@ -392,12 +392,12 @@ impl SystemJs {
 
     fn hoist_var_decl(&mut self, var_decl: VarDecl) -> Option<Expr> {
         let mut exprs = vec![];
-        for var_declartor in var_decl.decls {
+        for var_declarator in var_decl.decls {
             let mut tos = vec![];
-            var_declartor.visit_with(&mut VarCollector { to: &mut tos });
+            var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
             for (sym, ctxt) in tos {
-                if var_declartor.init.is_none() {
+                if var_declarator.init.is_none() {
                     for (k, v) in self.export_map.iter_mut() {
                         if (sym.clone(), ctxt) == *k {
                             for value in v.iter() {
@@ -412,11 +412,11 @@ impl SystemJs {
                     .push(Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)));
             }
 
-            if let Some(init) = var_declartor.init {
+            if let Some(init) = var_declarator.init {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(var_declartor.name)),
+                    left: PatOrExpr::Pat(Box::new(var_declarator.name)),
                     right: init,
                 })));
             }
@@ -433,12 +433,12 @@ impl SystemJs {
     fn hoist_for_var_decl(&mut self, var_decl_or_pat: VarDeclOrPat) -> VarDeclOrPat {
         if let VarDeclOrPat::VarDecl(mut var_decl) = var_decl_or_pat {
             if var_decl.kind == VarDeclKind::Var {
-                let var_declartor = var_decl.decls.remove(0);
+                let var_declarator = var_decl.decls.remove(0);
                 let mut tos = vec![];
-                var_declartor.visit_with(&mut VarCollector { to: &mut tos });
+                var_declarator.visit_with(&mut VarCollector { to: &mut tos });
 
                 for to in tos {
-                    if var_declartor.init.is_none() {
+                    if var_declarator.init.is_none() {
                         for (k, v) in self.export_map.iter_mut() {
                             if to == *k {
                                 for value in v.iter() {
@@ -453,7 +453,7 @@ impl SystemJs {
                         .push(Ident::new(to.0, DUMMY_SP.with_ctxt(to.1)));
                 }
 
-                VarDeclOrPat::Pat(var_declartor.name)
+                VarDeclOrPat::Pat(var_declarator.name)
             } else {
                 VarDeclOrPat::VarDecl(var_decl)
             }
@@ -834,15 +834,15 @@ impl Fold for SystemJs {
                                     decls: vec![],
                                     ..var_decl
                                 };
-                                for var_declartor in var_decl.decls {
+                                for var_declarator in var_decl.decls {
                                     let mut tos = vec![];
-                                    var_declartor.visit_with(&mut VarCollector { to: &mut tos });
+                                    var_declarator.visit_with(&mut VarCollector { to: &mut tos });
                                     for to in tos {
                                         let ident =
                                             Ident::new(to.0.clone(), DUMMY_SP.with_ctxt(to.1));
                                         self.add_export_name(to, ident.sym.clone());
                                     }
-                                    decl.decls.push(var_declartor);
+                                    decl.decls.push(var_declarator);
                                 }
                                 execute_stmts.push(Stmt::Decl(Decl::Var(decl)));
                             }

@@ -26,9 +26,9 @@ impl TransformResultHostEnvironment {
     }
 }
 
-/// Set plugin's transformed result into host's enviroment.
+/// Set plugin's transformed result into host's environment.
 /// This is an `imported` fn - when we instantiate plugin module, we inject this
-/// fn into pluging's export space. Once transform completes, plugin will call
+/// fn into plugin's export space. Once transform completes, plugin will call
 /// this to set its result back to host.
 pub fn set_transform_result(
     env: &TransformResultHostEnvironment,

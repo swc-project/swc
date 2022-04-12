@@ -1,6 +1,6 @@
 use swc_ecma_ast::{
     ClassMember, Expr, Function, MemberExpr, MemberProp, MethodKind, ParamOrTsParamProp,
-    TsExprWithTypeArgs,
+    TsExprWithTypeArgs, TsMemberName,
 };
 use swc_estree_ast::{
     ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSEntityName,
@@ -198,7 +198,10 @@ impl Swcify for TSExpressionWithTypeArguments {
         fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
             Box::new(Expr::Member(MemberExpr {
                 obj: swcify_expr(*qualified_name.left, ctx),
-                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).id),
+                prop: match qualified_name.right.swcify(ctx) {
+                    TsMemberName::Ident(id) => MemberProp::Ident(id),
+                    TsMemberName::PrivateName(p) => MemberProp::PrivateName(p),
+                },
                 span: ctx.span(&qualified_name.base),
             }))
         }

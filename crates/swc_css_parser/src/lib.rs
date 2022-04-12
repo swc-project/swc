@@ -37,7 +37,7 @@ where
 
 /// Parse a given string as `T`.
 ///
-/// If there are syntax errors but if it was recoverable, it will be appendend
+/// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
 pub fn parse_str<'a, T>(
     src: &'a str,
@@ -59,7 +59,7 @@ where
 
 /// Parse a given file as `T`.
 ///
-/// If there are syntax errors but if it was recoverable, it will be appendend
+/// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
 pub fn parse_file<'a, T>(
     fm: &'a SourceFile,
@@ -79,7 +79,7 @@ where
 
 /// Parse a given file as `T`.
 ///
-/// If there are syntax errors but if it was recoverable, it will be appendend
+/// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
 pub fn parse_tokens<'a, T>(
     tokens: &'a Tokens,

@@ -3,7 +3,7 @@ use swc_common::{hygiene::MutableMarkContext, plugin::Serialized, Mark, SyntaxCo
 use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
-/// This it not direcly called by plugin, instead `impl Mark` will selectively
+/// This it not directly called by plugin, instead `impl Mark` will selectively
 /// call this depends on the running context.
 pub fn mark_fresh_proxy(parent: u32) -> u32 {
     Mark::fresh(Mark::from_u32(parent)).as_u32()
@@ -22,7 +22,7 @@ pub fn mark_set_builtin_proxy(self_mark: u32, is_builtin: u32) {
 }
 
 /// A proxy to Mark::is_descendant_of_() that can be used in plugin.
-/// Origianl call site have mutable param, which we'll pass over as return value
+/// Original call site have mutable param, which we'll pass over as return value
 /// via serialized MutableMarkContext.
 /// Inside of guest context, once this host function returns it'll assign params
 /// with return value accordingly.
