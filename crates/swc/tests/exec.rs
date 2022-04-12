@@ -135,7 +135,8 @@ fn run_fixture_test(entry: PathBuf) {
 
     let _ = matrix
         .into_iter()
-        .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
+        .enumerate()
+        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
         .collect::<Vec<_>>();
 
     // Test was successful.
@@ -170,7 +171,12 @@ fn unignore(path: &Path) {
     rename(&path, &new_path).expect("failed to rename");
 }
 
-fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> Result<(), Error> {
+fn test_file_with_opts(
+    entry: &Path,
+    opts: &Options,
+    expected_stdout: &str,
+    idx: usize,
+) -> Result<(), Error> {
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
@@ -188,8 +194,9 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
                 .context("failed to process file")?;
 
             println!(
-                "---- {} ----\n{}",
+                "---- {} (#{}) ----\n{}",
                 ansi_term::Color::Green.bold().paint("Code"),
+                idx,
                 res.code
             );
 
