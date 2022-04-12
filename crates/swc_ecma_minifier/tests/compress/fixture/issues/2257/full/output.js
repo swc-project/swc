@@ -6081,7 +6081,7 @@
                             divide(data, 1 << j), multiply(data, 1, 1), divide(data, 2), result = dataToString(data);
                         } else multiply(data, 0, z), multiply(data, 1 << -e, 0), result = dataToString(data) + repeat.call('0', fractDigits);
                     }
-                    return result = fractDigits > 0 ? sign + ((k = result.length) <= fractDigits ? '0.' + repeat.call('0', fractDigits - k) + result : result.slice(0, k - fractDigits) + '.' + result.slice(k - fractDigits)) : sign + result;
+                    return fractDigits > 0 ? sign + ((k = result.length) <= fractDigits ? '0.' + repeat.call('0', fractDigits - k) + result : result.slice(0, k - fractDigits) + '.' + result.slice(k - fractDigits)) : sign + result;
                 }
             });
         },
@@ -12436,23 +12436,20 @@
                         }
                     }
                     if (0 == (7 & b9)) {
-                        a: {
-                            if (h = "mouseover" === a12 || "pointerover" === a12, k = "mouseout" === a12 || "pointerout" === a12, h && 0 == (16 & b9) && (x = c5.relatedTarget || c5.fromElement) && (wc(x) || x[ff])) break a;
-                            if ((k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c5.relatedTarget || c5.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
-                                if (w = Bd, v = "onMouseLeave", u = "onMouseEnter", t = "mouse", ("pointerout" === a12 || "pointerover" === a12) && (w = Td, v = "onPointerLeave", u = "onPointerEnter", t = "pointer"), z = null == k ? h : ue(k), q = null == x ? h : ue(x), (h = new w(v, t + "leave", k, c5, e)).target = z, h.relatedTarget = q, v = null, wc(e) === d && ((w = new w(u, t + "enter", x, c5, e)).target = q, w.relatedTarget = z, v = w), z = v, k && x) b: {
-                                    for(w = k, u = x, t = 0, q = w; q; q = gf(q))t++;
-                                    for(q = 0, v = u; v; v = gf(v))q++;
-                                    for(; 0 < t - q;)w = gf(w), t--;
-                                    for(; 0 < q - t;)u = gf(u), q--;
-                                    for(; t--;){
-                                        if (w === u || null !== u && w === u.alternate) break b;
-                                        w = gf(w), u = gf(u);
-                                    }
-                                    w = null;
+                        if (h = "mouseover" === a12 || "pointerover" === a12, k = "mouseout" === a12 || "pointerout" === a12, !(h && 0 == (16 & b9) && (x = c5.relatedTarget || c5.fromElement) && (wc(x) || x[ff])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c5.relatedTarget || c5.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
+                            if (w = Bd, v = "onMouseLeave", u = "onMouseEnter", t = "mouse", ("pointerout" === a12 || "pointerover" === a12) && (w = Td, v = "onPointerLeave", u = "onPointerEnter", t = "pointer"), z = null == k ? h : ue(k), q = null == x ? h : ue(x), (h = new w(v, t + "leave", k, c5, e)).target = z, h.relatedTarget = q, v = null, wc(e) === d && ((w = new w(u, t + "enter", x, c5, e)).target = q, w.relatedTarget = z, v = w), z = v, k && x) b: {
+                                for(w = k, u = x, t = 0, q = w; q; q = gf(q))t++;
+                                for(q = 0, v = u; v; v = gf(v))q++;
+                                for(; 0 < t - q;)w = gf(w), t--;
+                                for(; 0 < q - t;)u = gf(u), q--;
+                                for(; t--;){
+                                    if (w === u || null !== u && w === u.alternate) break b;
+                                    w = gf(w), u = gf(u);
                                 }
-                                else w = null;
-                                null !== k && hf(g, h, k, w, !1), null !== x && null !== z && hf(g, z, x, w, !0);
+                                w = null;
                             }
+                            else w = null;
+                            null !== k && hf(g, h, k, w, !1), null !== x && null !== z && hf(g, z, x, w, !0);
                         }
                         a: {
                             if ("select" === (k = (h = d ? ue(d) : window).nodeName && h.nodeName.toLowerCase()) || "input" === k && "file" === h.type) var Q, J = ve;

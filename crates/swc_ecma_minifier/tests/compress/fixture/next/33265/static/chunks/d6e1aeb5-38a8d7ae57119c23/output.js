@@ -6521,10 +6521,10 @@
             }, getKnownPartCount = function(_ref) {
                 var preloadSegment = _ref.preloadSegment;
                 if (preloadSegment) {
-                    var parts = preloadSegment.parts, partCount = (preloadSegment.preloadHints || []).reduce(function(count, hint) {
+                    var parts = preloadSegment.parts;
+                    return (preloadSegment.preloadHints || []).reduce(function(count, hint) {
                         return count + ('PART' === hint.type ? 1 : 0);
-                    }, 0);
-                    return partCount += parts && parts.length ? parts.length : 0;
+                    }, 0) + (parts && parts.length ? parts.length : 0);
                 }
             }, liveEdgeDelay = function(master, media) {
                 if (media.endList) return 0;

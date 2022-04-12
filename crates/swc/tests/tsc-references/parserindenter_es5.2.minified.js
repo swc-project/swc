@@ -47,14 +47,14 @@ import * as swcHelpers from "@swc/helpers";
             var indentationInfo = null;
             switch(token.Token){
                 case AuthorTokenKind.atkLCurly:
-                    return indentationInfo = this.GetSpecialCaseIndentationForLCurly(node);
+                    return this.GetSpecialCaseIndentationForLCurly(node);
                 case AuthorTokenKind.atkElse:
                 case AuthorTokenKind.atkRBrack:
-                    return indentationInfo = node.GetNodeStartLineIndentation(this);
+                    return node.GetNodeStartLineIndentation(this);
                 case AuthorTokenKind.atkRCurly:
                     return node.AuthorNode.Details.Kind == AuthorParseNodeKind.apnkBlock && node.AuthorNode.EdgeLabel == AuthorParseNodeEdge.apneBody && (node = node.Parent), indentationInfo = node.GetNodeStartLineIndentation(this);
                 case AuthorTokenKind.atkWhile:
-                    if (node.AuthorNode.Details.Kind == AuthorParseNodeKind.apnkDoWhile) return indentationInfo = node.GetNodeStartLineIndentation(this);
+                    if (node.AuthorNode.Details.Kind == AuthorParseNodeKind.apnkDoWhile) return node.GetNodeStartLineIndentation(this);
                     return null;
                 case AuthorTokenKind.atkSColon:
                     return this.GetSpecialCaseIndentationForSemicolon(token, node);
