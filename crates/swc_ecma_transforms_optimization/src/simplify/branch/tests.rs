@@ -78,7 +78,7 @@ fn test_fold_block() {
 
     test("{'hi'}", "'hi'");
     test("{x==3}", "x");
-    test("{`hello ${foo}`}", "foo");
+    test("{`hello ${foo}`}", "");
     test("{ (function(){x++}) }", "");
     test_same("function f(){return;}");
     test("function f(){return 3;}", "function f(){return 3}");
@@ -86,11 +86,11 @@ fn test_fold_block() {
     test("{x=3;;;y=2;;;}", "x=3;y=2");
 
     // Cases to test for empty block.
-    test("while(x()){x}", "while(x());");
+    test("while(x()){x}", "while(x())x;");
     test("while(x()){x()}", "while(x())x()");
-    test("for(x=0;x<100;x++){x}", "for(x=0;x<100;x++);");
-    test("for(x in y){x}", "for(x in y);");
-    test("for (x of y) {x}", "for(x of y);");
+    test("for(x=0;x<100;x++){x}", "for(x=0;x<100;x++)x;");
+    test("for(x in y){x}", "for(x in y)x;");
+    test("for (x of y) {x}", "for(x of y)x;");
     test_same("for (let x = 1; x <10; x++ );");
     test_same("for (var x = 1; x <10; x++ );");
 }
@@ -101,7 +101,7 @@ fn test_fold_block_with_declaration() {
     test_same("function f() {let x}");
     test_same("{const x = 1}");
     test_same("{x = 2; y = 4; let z;}");
-    test("{'hi'; let x;}", "{let x}");
+    test("{'hi'; let x;}", "{'hi'; let x}");
     test("{x = 4; {let y}}", "x = 4; {let y}");
     test_same("{class C {}} {class C {}}");
     test("{label: var x}", "label: var x");
@@ -256,7 +256,7 @@ fn test_fold_useless_for() {
 fn test_fold_useless_do_1() {
     test("do { foo() } while(false);", "foo()");
     test("do { foo() } while(void 0);", "foo()");
-    test("do { foo() } while(undefined);", "foo()");
+    test("do { foo() } while(undefined);", "foo(); undefined");
     test("do { foo() } while(true);", "for(;;) foo();");
     test("do { var a = 0; } while(false);", "var a=0");
 }
@@ -337,7 +337,7 @@ fn test_minimize_loop_with_constant_condition_do_while() {
     test("do { foo(); } while (0.0)", "foo();");
     test("do { foo(); } while (NaN)", "foo(); NaN");
     test("do { foo(); } while (null)", "foo();");
-    test("do { foo(); } while (undefined)", "foo();");
+    test("do { foo(); } while (undefined)", "foo(); undefined");
     test("do { foo(); } while ('')", "foo();");
 }
 
