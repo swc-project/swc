@@ -639,7 +639,11 @@
                     return (0, byte_helpers.G3)(docType, CONSTANTS.matroska);
                 },
                 mp4: function(bytes) {
-                    return !(_isLikely['3gp'](bytes) || _isLikely.mov(bytes)) && (!!((0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
+                    return !(_isLikely['3gp'](bytes) || _isLikely.mov(bytes)) && (!!((0, byte_helpers.G3)(bytes, CONSTANTS.mp4, {
+                        offset: 4
+                    }) || (0, byte_helpers.G3)(bytes, CONSTANTS.fmp4, {
+                        offset: 4
+                    }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
                         offset: 4
                     }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moov, {
                         offset: 4
@@ -4019,6 +4023,15 @@
                 rt: "rt",
                 v: "span",
                 lang: "span"
+            }, DEFAULT_COLOR_CLASS = {
+                white: 'rgba(255,255,255,1)',
+                lime: 'rgba(0,255,0,1)',
+                cyan: 'rgba(0,255,255,1)',
+                red: 'rgba(255,0,0,1)',
+                yellow: 'rgba(255,255,0,1)',
+                magenta: 'rgba(255,0,255,1)',
+                blue: 'rgba(0,0,255,1)',
+                black: 'rgba(0,0,0,1)'
             }, TAG_ANNOTATION = {
                 v: "title",
                 lang: "lang"
@@ -4056,6 +4069,16 @@
                         }
                         var m4 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
                         if (!m4 || !(node = createElement(m4[1], m4[3])) || !shouldAdd(current1, node)) continue;
+                        if (m4[2]) {
+                            var classes = m4[2].split('.');
+                            classes.forEach(function(cl) {
+                                var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
+                                if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
+                                    var propName = bgColor ? 'background-color' : 'color', propValue = DEFAULT_COLOR_CLASS[colorName];
+                                    node.style[propName] = propValue;
+                                }
+                            }), node.className = classes.join(' ');
+                        }
                         tagStack.push(m4[1]), current1.appendChild(node), current1 = node;
                         continue;
                     }
@@ -5182,12 +5205,15 @@
             }
             function from(value, encodingOrOffset, length) {
                 if ('string' == typeof value) return fromString(value, encodingOrOffset);
+                if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if ('undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || 'undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if ('number' == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 var b = fromObject(value);
                 if (b) return b;
+                if ('undefined' != typeof Symbol && null != Symbol.toPrimitive && 'function' == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]('string'), encodingOrOffset, length);
                 throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
@@ -5681,7 +5707,9 @@
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
                 if (!Buffer.isBuffer(target)) throw new TypeError('argument should be a Buffer');
                 if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
+                if (targetStart < 0) throw new RangeError('targetStart out of bounds');
                 if (start < 0 || start >= this.length) throw new RangeError('Index out of range');
+                if (end < 0) throw new RangeError('sourceEnd out of bounds');
                 end > this.length && (end = this.length), target.length - targetStart < end - start && (end = target.length - targetStart + start);
                 var len = end - start;
                 if (this === target && 'function' == typeof Uint8Array.prototype.copyWithin) this.copyWithin(targetStart, start, end);
@@ -5811,6 +5839,7 @@
             function _construct(Parent1, args1, Class1) {
                 return (_construct = !function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {

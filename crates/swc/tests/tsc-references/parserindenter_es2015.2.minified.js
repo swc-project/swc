@@ -11,8 +11,19 @@ var Formatting;
             return result;
         }
         GetIndentationEditsWorker(token, nextToken, node, sameLineIndent) {
-            var result = new List_TextEditInfo();
-            return this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber != token.lineNumber() && (sameLineIndent || this.IsMultiLineString(token)), result;
+            var result = new List_TextEditInfo(), indentationInfo = null;
+            if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber() || !sameLineIndent && this.IsMultiLineString(token)) return result;
+            if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, node))) {
+                for(; !node.CanIndent() && null != node.Parent && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset;)node = node.Parent;
+                indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, node);
+            }
+            if (null != indentationInfo) {
+                var edit = this.GetIndentEdit(indentationInfo, token.Span.startPosition(), sameLineIndent);
+                null != edit && (this.RegisterIndentation(edit, sameLineIndent), result.add(edit), token.Token == AuthorTokenKind.atkComment) && this.GetCommentIndentationEdits(token).foreach((item)=>{
+                    result.add(item);
+                });
+            }
+            return result;
         }
         GetCommentIndentationEdits(token) {
             var result = new List_TextEditInfo();

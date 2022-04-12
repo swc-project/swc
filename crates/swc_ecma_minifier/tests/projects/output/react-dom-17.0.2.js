@@ -57,6 +57,7 @@
     }
     function shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag) {
         if (null == value || shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
+        if (isCustomComponentTag) return !1;
         if (null !== propertyInfo) switch(propertyInfo.type){
             case 3:
                 return !value;
@@ -4715,6 +4716,7 @@
     var warnForMissingKey = function(child, returnFiber) {};
     didWarnAboutMaps = !1, didWarnAboutGenerators = !1, didWarnAboutStringRefs = {}, ownerHasKeyUseWarning = {}, ownerHasFunctionTypeWarning = {}, warnForMissingKey = function(child, returnFiber) {
         if (null !== child && 'object' == typeof child && child._store && !child._store.validated && null == child.key) {
+            if ('object' != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
             child._store.validated = !0;
             var componentName = getComponentName(returnFiber.type) || 'Component';
             ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
@@ -8691,6 +8693,15 @@
             } else didWarnStateUpdateForUnmountedComponent = new Set([
                 componentName
             ]);
+            if (isFlushingPassiveEffects) ;
+            else {
+                var previousFiber = current1;
+                try {
+                    setCurrentFiber(fiber), error1("Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in %s.", 1 === tag ? 'the componentWillUnmount method' : 'a useEffect cleanup function');
+                } finally{
+                    previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
+                }
+            }
         }
     }
     beginWork$1 = function(current, unitOfWork, lanes) {

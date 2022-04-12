@@ -1587,7 +1587,7 @@
                 ]);
                 return;
             }
-            if (!((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
+            if (!(!this._triggerPageBeforeChange(toPage, triggerData, settings) || (beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
                 if (isPageTransitioning = !0, toPage[0] !== $15.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $15.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, url = settings.dataUrl && $15.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), pageUrl = url, $15.mobile.path.getFilePath(url), active = $15.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $15.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
                     isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $15.mobile.navigate.history.direct({
                         url: url

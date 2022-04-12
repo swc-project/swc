@@ -220,7 +220,7 @@
             class it {
                 constructor(t, e){
                     if (this.seconds = t, this.nanoseconds = e, e < 0 || e >= 1e9) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
-                    if (t >= 253402300800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
+                    if (t < -62135596800 || t >= 253402300800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
                 }
                 static now() {
                     return it.fromMillis(Date.now());
@@ -1037,7 +1037,7 @@
             }
             function le(t, e) {
                 if (null === t) return null === e;
-                if (t.before !== e.before || t.position.length !== e.position.length) return !1;
+                if (null === e || t.before !== e.before || t.position.length !== e.position.length) return !1;
                 for(let n = 0; n < t.position.length; n++)if (!Vt(t.position[n], e.position[n])) return !1;
                 return !0;
             }

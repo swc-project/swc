@@ -847,7 +847,7 @@
     function lineIsHidden(doc, line) {
         var sps = sawCollapsedSpans && line.markedSpans;
         if (sps) {
-            for(var sp = void 0, i = 0; i < sps.length; ++i)if ((sp = sps[i]).marker.collapsed && !sp.marker.widgetNode && 0 == sp.from && sp.marker.inclusiveLeft && lineIsHiddenInner(doc, line, sp)) return !0;
+            for(var sp = void 0, i = 0; i < sps.length; ++i)if ((sp = sps[i]).marker.collapsed && (null == sp.from || !sp.marker.widgetNode && 0 == sp.from && sp.marker.inclusiveLeft && lineIsHiddenInner(doc, line, sp))) return !0;
         }
     }
     function lineIsHiddenInner(doc, line, span) {
@@ -4115,20 +4115,24 @@
         }(cm7, name1, handle2);
         return "multi" == result1 && (cm7.state.keySeq = name1), "handled" == result1 && signalLater(cm7, "keyHandled", cm7, name1, e), ("handled" == result1 || "multi" == result1) && (e_preventDefault(e), restartBlink(cm7)), !!result1;
     }
+    function handleKeyBinding(cm, e) {
+        var name = keyName(e, !0);
+        return !!name && (e.shiftKey && !cm.state.keySeq ? dispatchKey(cm, "Shift-" + name, e, function(b) {
+            return doHandleBinding(cm, b, !0);
+        }) || dispatchKey(cm, name, e, function(b) {
+            if ("string" == typeof b ? /^go[A-Z]/.test(b) : b.motion) return doHandleBinding(cm, b);
+        }) : dispatchKey(cm, name, e, function(b) {
+            return doHandleBinding(cm, b);
+        }));
+    }
     var lastStoppedKey = null;
     function onKeyDown(e) {
         var cm = this;
         if ((!e.target || e.target == cm.display.input.getField()) && (cm.curOp.focus = activeElt(), !signalDOMEvent(cm, e))) {
             ie && ie_version < 11 && 27 == e.keyCode && (e.returnValue = !1);
-            var cm8, e2, name, code = e.keyCode;
+            var code = e.keyCode;
             cm.display.shift = 16 == code || e.shiftKey;
-            var handled = (cm8 = cm, !!(name = keyName(e2 = e, !0)) && (e2.shiftKey && !cm8.state.keySeq ? dispatchKey(cm8, "Shift-" + name, e2, function(b) {
-                return doHandleBinding(cm8, b, !0);
-            }) || dispatchKey(cm8, name, e2, function(b) {
-                if ("string" == typeof b ? /^go[A-Z]/.test(b) : b.motion) return doHandleBinding(cm8, b);
-            }) : dispatchKey(cm8, name, e2, function(b) {
-                return doHandleBinding(cm8, b);
-            })));
+            var handled = handleKeyBinding(cm, e);
             presto && (lastStoppedKey = handled ? code : null, !handled && 88 == code && !hasCopyEvent && (mac ? e.metaKey : e.ctrlKey) && cm.replaceSelection("", null, "cut")), gecko && !mac && !handled && 46 == code && e.shiftKey && !e.ctrlKey && document.execCommand && document.execCommand("cut"), 18 != code || /\bCodeMirror-crosshair\b/.test(cm.display.lineDiv.className) || showCrossHair(cm);
         }
     }
@@ -4149,10 +4153,12 @@
                 lastStoppedKey = null, e_preventDefault(e);
                 return;
             }
-            var ch = String.fromCharCode(null == charCode ? keyCode : charCode);
-            "\x08" != ch && (cm = this, dispatchKey(cm, "'" + ch + "'", e, function(b) {
-                return doHandleBinding(cm, b, !0);
-            }) || this.display.input.onKeyPress(e));
+            if (!(presto && (!e.which || e.which < 10) && handleKeyBinding(this, e))) {
+                var ch = String.fromCharCode(null == charCode ? keyCode : charCode);
+                "\x08" != ch && (cm = this, dispatchKey(cm, "'" + ch + "'", e, function(b) {
+                    return doHandleBinding(cm, b, !0);
+                }) || this.display.input.onKeyPress(e));
+            }
         }
     }
     var PastClick = function(time, pos, button) {
@@ -4188,8 +4194,8 @@
             return done;
         });
     }
-    function leftButtonDown(cm9, pos, repeat1, event1) {
-        ie ? setTimeout(bind(ensureFocus, cm9), 0) : cm9.curOp.focus = activeElt();
+    function leftButtonDown(cm8, pos, repeat1, event1) {
+        ie ? setTimeout(bind(ensureFocus, cm8), 0) : cm8.curOp.focus = activeElt();
         var contained, behavior = function(cm, repeat, event) {
             var option = cm.getOption("configureMouse"), value = option ? option(cm, repeat, event) : {};
             if (null == value.unit) {
@@ -4197,8 +4203,8 @@
                 value.unit = rect ? "rectangle" : "single" == repeat ? "char" : "double" == repeat ? "word" : "line";
             }
             return (null == value.extend || cm.doc.extend) && (value.extend = cm.doc.extend || event.shiftKey), null == value.addNew && (value.addNew = mac ? event.metaKey : event.ctrlKey), null == value.moveOnDrag && (value.moveOnDrag = !(mac ? event.altKey : event.ctrlKey)), value;
-        }(cm9, repeat1, event1), sel = cm9.doc.sel;
-        cm9.options.dragDrop && dragAndDrop && !cm9.isReadOnly() && "single" == repeat1 && (contained = sel.contains(pos)) > -1 && (0 > cmp((contained = sel.ranges[contained]).from(), pos) || pos.xRel > 0) && (cmp(contained.to(), pos) > 0 || pos.xRel < 0) ? leftButtonStartDrag(cm9, event1, pos, behavior) : leftButtonSelect(cm9, event1, pos, behavior);
+        }(cm8, repeat1, event1), sel = cm8.doc.sel;
+        cm8.options.dragDrop && dragAndDrop && !cm8.isReadOnly() && "single" == repeat1 && (contained = sel.contains(pos)) > -1 && (0 > cmp((contained = sel.ranges[contained]).from(), pos) || pos.xRel > 0) && (cmp(contained.to(), pos) > 0 || pos.xRel < 0) ? leftButtonStartDrag(cm8, event1, pos, behavior) : leftButtonSelect(cm8, event1, pos, behavior);
     }
     function leftButtonStartDrag(cm, event, pos, behavior) {
         var display = cm.display, moved = !1, dragEnd = operation(cm, function(e) {
@@ -4387,23 +4393,23 @@
         for(var i = 0; i < initHooks.length; ++i)initHooks[i](this);
         endOperation(this), webkit && options.lineWrapping && "optimizelegibility" == getComputedStyle(display.lineDiv).textRendering && (display.lineDiv.style.textRendering = "auto");
     }
-    function registerEventHandlers(cm10) {
-        var d = cm10.display;
-        on1(d.scroller, "mousedown", operation(cm10, onMouseDown)), ie && ie_version < 11 ? on1(d.scroller, "dblclick", operation(cm10, function(e) {
-            if (!signalDOMEvent(cm10, e)) {
-                var pos = posFromMouse(cm10, e);
-                if (!(!pos || clickInGutter(cm10, e) || eventInWidget(cm10.display, e))) {
+    function registerEventHandlers(cm9) {
+        var d = cm9.display;
+        on1(d.scroller, "mousedown", operation(cm9, onMouseDown)), ie && ie_version < 11 ? on1(d.scroller, "dblclick", operation(cm9, function(e) {
+            if (!signalDOMEvent(cm9, e)) {
+                var pos = posFromMouse(cm9, e);
+                if (!(!pos || clickInGutter(cm9, e) || eventInWidget(cm9.display, e))) {
                     e_preventDefault(e);
-                    var word = cm10.findWordAt(pos);
-                    extendSelection(cm10.doc, word.anchor, word.head);
+                    var word = cm9.findWordAt(pos);
+                    extendSelection(cm9.doc, word.anchor, word.head);
                 }
             }
         })) : on1(d.scroller, "dblclick", function(e) {
-            return signalDOMEvent(cm10, e) || e_preventDefault(e);
+            return signalDOMEvent(cm9, e) || e_preventDefault(e);
         }), on1(d.scroller, "contextmenu", function(e) {
-            return onContextMenu(cm10, e);
+            return onContextMenu(cm9, e);
         }), on1(d.input.getField(), "contextmenu", function(e) {
-            d.scroller.contains(e.target) || onContextMenu(cm10, e);
+            d.scroller.contains(e.target) || onContextMenu(cm9, e);
         });
         var touchFinished, prevTouch = {
             end: 0
@@ -4419,11 +4425,11 @@
             return dx * dx + dy * dy > 400;
         }
         on1(d.scroller, "touchstart", function(e3) {
-            if (!signalDOMEvent(cm10, e3) && !function(e) {
+            if (!signalDOMEvent(cm9, e3) && !function(e) {
                 if (1 != e.touches.length) return !1;
                 var touch = e.touches[0];
                 return touch.radiusX <= 1 && touch.radiusY <= 1;
-            }(e3) && !clickInGutter(cm10, e3)) {
+            }(e3) && !clickInGutter(cm9, e3)) {
                 d.input.ensurePolled(), clearTimeout(touchFinished);
                 var now = +new Date;
                 d.activeTouch = {
@@ -4437,30 +4443,30 @@
         }), on1(d.scroller, "touchend", function(e) {
             var touch = d.activeTouch;
             if (touch && !eventInWidget(d, e) && null != touch.left && !touch.moved && new Date - touch.start < 300) {
-                var range, pos = cm10.coordsChar(d.activeTouch, "page");
-                range = !touch.prev || farAway(touch, touch.prev) ? new Range(pos, pos) : !touch.prev.prev || farAway(touch, touch.prev.prev) ? cm10.findWordAt(pos) : new Range(Pos(pos.line, 0), clipPos(cm10.doc, Pos(pos.line + 1, 0))), cm10.setSelection(range.anchor, range.head), cm10.focus(), e_preventDefault(e);
+                var range, pos = cm9.coordsChar(d.activeTouch, "page");
+                range = !touch.prev || farAway(touch, touch.prev) ? new Range(pos, pos) : !touch.prev.prev || farAway(touch, touch.prev.prev) ? cm9.findWordAt(pos) : new Range(Pos(pos.line, 0), clipPos(cm9.doc, Pos(pos.line + 1, 0))), cm9.setSelection(range.anchor, range.head), cm9.focus(), e_preventDefault(e);
             }
             finishTouch();
         }), on1(d.scroller, "touchcancel", finishTouch), on1(d.scroller, "scroll", function() {
-            d.scroller.clientHeight && (updateScrollTop(cm10, d.scroller.scrollTop), setScrollLeft(cm10, d.scroller.scrollLeft, !0), signal(cm10, "scroll", cm10));
+            d.scroller.clientHeight && (updateScrollTop(cm9, d.scroller.scrollTop), setScrollLeft(cm9, d.scroller.scrollLeft, !0), signal(cm9, "scroll", cm9));
         }), on1(d.scroller, "mousewheel", function(e) {
-            return onScrollWheel(cm10, e);
+            return onScrollWheel(cm9, e);
         }), on1(d.scroller, "DOMMouseScroll", function(e) {
-            return onScrollWheel(cm10, e);
+            return onScrollWheel(cm9, e);
         }), on1(d.wrapper, "scroll", function() {
             return d.wrapper.scrollTop = d.wrapper.scrollLeft = 0;
         }), d.dragFunctions = {
             enter: function(e) {
-                signalDOMEvent(cm10, e) || e_stop(e);
+                signalDOMEvent(cm9, e) || e_stop(e);
             },
             over: function(e4) {
-                signalDOMEvent(cm10, e4) || (function(cm, e) {
+                signalDOMEvent(cm9, e4) || (function(cm, e) {
                     var pos = posFromMouse(cm, e);
                     if (pos) {
                         var frag = document.createDocumentFragment();
                         drawSelectionCursor(cm, pos, frag), cm.display.dragCursor || (cm.display.dragCursor = elt1("div", null, "CodeMirror-cursors CodeMirror-dragcursors"), cm.display.lineSpace.insertBefore(cm.display.dragCursor, cm.display.cursorDiv)), removeChildrenAndAdd(cm.display.dragCursor, frag);
                     }
-                }(cm10, e4), e_stop(e4));
+                }(cm9, e4), e_stop(e4));
             },
             start: function(e5) {
                 return function(cm, e) {
@@ -4472,20 +4478,20 @@
                         var img = elt1("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm.display.wrapper.appendChild(img), img._top = img.offsetTop), e.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
                     }
-                }(cm10, e5);
+                }(cm9, e5);
             },
-            drop: operation(cm10, onDrop),
+            drop: operation(cm9, onDrop),
             leave: function(e) {
-                signalDOMEvent(cm10, e) || clearDragCursor(cm10);
+                signalDOMEvent(cm9, e) || clearDragCursor(cm9);
             }
         };
         var inp = d.input.getField();
         on1(inp, "keyup", function(e) {
-            return onKeyUp.call(cm10, e);
-        }), on1(inp, "keydown", operation(cm10, onKeyDown)), on1(inp, "keypress", operation(cm10, onKeyPress)), on1(inp, "focus", function(e) {
-            return onFocus(cm10, e);
+            return onKeyUp.call(cm9, e);
+        }), on1(inp, "keydown", operation(cm9, onKeyDown)), on1(inp, "keypress", operation(cm9, onKeyPress)), on1(inp, "focus", function(e) {
+            return onFocus(cm9, e);
         }), on1(inp, "blur", function(e) {
-            return onBlur(cm10, e);
+            return onBlur(cm9, e);
         });
     }
     CodeMirror2.defaults = defaults, CodeMirror2.optionHandlers = optionHandlers1;
@@ -5546,7 +5552,7 @@
             options.autofocus = hasFocus == textarea || null != textarea.getAttribute("autofocus") && hasFocus == document.body;
         }
         function save() {
-            textarea.value = cm11.getValue();
+            textarea.value = cm10.getValue();
         }
         if (textarea.form && (on1(textarea.form, "submit", save), !options.leaveSubmitMethodAlone)) {
             var form = textarea.form;
@@ -5564,10 +5570,10 @@
                 cm.toTextArea = isNaN, save(), textarea.parentNode.removeChild(cm.getWrapperElement()), textarea.style.display = "", textarea.form && (off1(textarea.form, "submit", save), options.leaveSubmitMethodAlone || "function" != typeof textarea.form.submit || (textarea.form.submit = realSubmit));
             };
         }, textarea.style.display = "none";
-        var cm11 = CodeMirror2(function(node) {
+        var cm10 = CodeMirror2(function(node) {
             return textarea.parentNode.insertBefore(node, textarea.nextSibling);
         }, options);
-        return cm11;
+        return cm10;
     }, (CodeMirror1 = CodeMirror2).off = off1, CodeMirror1.on = on1, CodeMirror1.wheelEventPixels = function(e) {
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;

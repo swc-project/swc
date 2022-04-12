@@ -9268,6 +9268,7 @@
                         this.$lines.moveContainer(config);
                         var lastRow = Math.min(config.lastRow + config.gutterOffset, this.session.getLength() - 1), oldLastRow = this.oldLastRow;
                         if (this.oldLastRow = lastRow, !oldConfig || oldLastRow < config.firstRow || lastRow < oldConfig.firstRow) return this.update(config);
+                        if (oldConfig.firstRow < config.firstRow) for(var row = this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row > 0; row--)this.$lines.shift();
                         if (oldLastRow > lastRow) for(var row = this.session.getFoldedRowCount(lastRow + 1, oldLastRow); row > 0; row--)this.$lines.pop();
                         config.firstRow < oldConfig.firstRow && this.$lines.unshift(this.$renderLines(config, config.firstRow, oldConfig.firstRow - 1)), lastRow > oldLastRow && this.$lines.push(this.$renderLines(config, oldLastRow + 1, lastRow)), this.updateLineHighlight(), this._signal("afterRender"), this.$updateGutterWidth(config);
                     }, this.$renderLines = function(config, firstRow, lastRow) {
@@ -9488,6 +9489,7 @@
                         this.$lines.moveContainer(config);
                         var lastRow = config.lastRow, oldLastRow = oldConfig ? oldConfig.lastRow : -1;
                         if (!oldConfig || oldLastRow < config.firstRow || lastRow < oldConfig.firstRow || !oldConfig || oldConfig.lastRow < config.firstRow || config.lastRow < oldConfig.firstRow) return this.update(config);
+                        if (oldConfig.firstRow < config.firstRow) for(var row = this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row > 0; row--)this.$lines.shift();
                         if (oldConfig.lastRow > config.lastRow) for(var row = this.session.getFoldedRowCount(config.lastRow + 1, oldConfig.lastRow); row > 0; row--)this.$lines.pop();
                         config.firstRow < oldConfig.firstRow && this.$lines.unshift(this.$renderLinesFragment(config, config.firstRow, oldConfig.firstRow - 1)), config.lastRow > oldConfig.lastRow && this.$lines.push(this.$renderLinesFragment(config, oldConfig.lastRow + 1, config.lastRow));
                     }, this.$renderLinesFragment = function(config, firstRow, lastRow) {
@@ -10720,7 +10722,13 @@ margin: 0 10px;\
                             var firstRow = this.$changedLines.firstRow, lastRow = this.$changedLines.lastRow;
                             this.$changedLines = null;
                             var layerConfig = this.layerConfig;
-                            if (!(firstRow > layerConfig.lastRow + 1) && !(lastRow < layerConfig.firstRow)) return this.$textLayer.updateLines(layerConfig, firstRow, lastRow), !0;
+                            if (!(firstRow > layerConfig.lastRow + 1) && !(lastRow < layerConfig.firstRow)) {
+                                if (lastRow === 1 / 0) {
+                                    this.$showGutter && this.$gutterLayer.update(layerConfig), this.$textLayer.update(layerConfig);
+                                    return;
+                                }
+                                return this.$textLayer.updateLines(layerConfig, firstRow, lastRow), !0;
+                            }
                         }
                     }, this.$getLongestLine = function() {
                         var charCount = this.session.getScreenWidth();

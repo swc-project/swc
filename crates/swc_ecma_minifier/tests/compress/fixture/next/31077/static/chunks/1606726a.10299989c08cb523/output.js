@@ -1265,10 +1265,14 @@
             function selectVertically(view, dir, mods) {
                 var sel = view.state.selection;
                 if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1 || result1.mac && mods.indexOf("m") > -1) return !1;
-                var $from = sel.$from;
-                if (sel.$to, !$from.parent.inlineContent || view.endOfTextblock(dir < 0 ? "up" : "down")) {
+                var $from = sel.$from, $to = sel.$to;
+                if (!$from.parent.inlineContent || view.endOfTextblock(dir < 0 ? "up" : "down")) {
                     var next = moveSelectionBlock(view.state, dir);
                     if (next && next instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection) return apply(view, next);
+                }
+                if (!$from.parent.inlineContent) {
+                    var side = dir < 0 ? $from : $to, beyond = sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.AllSelection ? prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(side, dir) : prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(side, dir);
+                    return !!beyond && apply(view, beyond);
                 }
                 return !1;
             }
@@ -1595,6 +1599,31 @@
                 if (added.indexOf(mut.target) > -1) return null;
                 var desc = this.view.docView.nearestDesc(mut.target);
                 if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
+                if ("childList" == mut.type) {
+                    for(var i = 0; i < mut.addedNodes.length; i++)added.push(mut.addedNodes[i]);
+                    if (desc.contentDOM && desc.contentDOM != desc.dom && !desc.contentDOM.contains(mut.target)) return {
+                        from: desc.posBefore,
+                        to: desc.posAfter
+                    };
+                    var prev = mut.previousSibling, next = mut.nextSibling;
+                    if (result1.ie && result1.ie_version <= 11 && mut.addedNodes.length) for(var i$1 = 0; i$1 < mut.addedNodes.length; i$1++){
+                        var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
+                        (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
+                    }
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
+                    return {
+                        from: from,
+                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
+                    };
+                }
+                return "attributes" == mut.type ? {
+                    from: desc.posAtStart - desc.border,
+                    to: desc.posAtEnd + desc.border
+                } : {
+                    from: desc.posAtStart,
+                    to: desc.posAtEnd,
+                    typeOver: mut.target.nodeValue == mut.oldValue
+                };
             };
             var cssChecked = !1;
             function checkCSS(view) {

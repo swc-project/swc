@@ -1375,8 +1375,12 @@ var YUI = function() {
             var i, rm, after_map, s, info = this.moduleInfo, m = info[mod1], other = info[mod2];
             if (!m || !other) return !1;
             if (rm = m.expanded_map, after_map = m.after_map, after_map && mod2 in after_map) return !0;
+            if ((after_map = other.after_map) && mod1 in after_map) return !1;
             if (s = info[mod2] && info[mod2].supersedes) {
                 for(i = 0; i < s.length; i++)if (this._requires(mod1, s[i])) return !0;
+            }
+            if (s = info[mod1] && info[mod1].supersedes) {
+                for(i = 0; i < s.length; i++)if (this._requires(mod2, s[i])) return !1;
             }
             return !!rm && mod2 in rm || !!m.ext && 'css' === m.type && !other.ext && 'css' === other.type;
         },

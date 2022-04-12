@@ -1111,6 +1111,7 @@
             function construct(Parent1, args1, Class1) {
                 return (construct = !function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
                     } catch (e) {
@@ -6539,8 +6540,9 @@
         74292: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen, $ = __webpack_require__(35437), IS_PURE = __webpack_require__(80627), global = __webpack_require__(19514), getBuiltIn = __webpack_require__(44990), NativePromise = __webpack_require__(91591), redefine = __webpack_require__(78109), redefineAll = __webpack_require__(59855), setPrototypeOf = __webpack_require__(59057), setToStringTag = __webpack_require__(77875), setSpecies = __webpack_require__(53988), aCallable = __webpack_require__(74618), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), anInstance = __webpack_require__(51819), inspectSource = __webpack_require__(71975), iterate = __webpack_require__(7261), checkCorrectnessOfIteration = __webpack_require__(34124), speciesConstructor = __webpack_require__(94850), task = __webpack_require__(46660).set, microtask = __webpack_require__(50277), promiseResolve = __webpack_require__(56540), hostReportErrors = __webpack_require__(85033), newPromiseCapabilityModule = __webpack_require__(11098), perform = __webpack_require__(68275), InternalStateModule = __webpack_require__(44670), isForced = __webpack_require__(23736), wellKnownSymbol = __webpack_require__(81019), IS_BROWSER = __webpack_require__(23573), IS_NODE = __webpack_require__(96590), V8_VERSION = __webpack_require__(50661), SPECIES = wellKnownSymbol('species'), PROMISE = 'Promise', getInternalState = InternalStateModule.get, setInternalState = InternalStateModule.set, getInternalPromiseState = InternalStateModule.getterFor(PROMISE), NativePromisePrototype = NativePromise && NativePromise.prototype, PromiseConstructor = NativePromise, PromiseConstructorPrototype = NativePromisePrototype, TypeError = global.TypeError, document = global.document, process = global.process, newPromiseCapability = newPromiseCapabilityModule.f, newGenericPromiseCapability = newPromiseCapability, DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent), NATIVE_REJECTION_EVENT = isCallable(global.PromiseRejectionEvent), UNHANDLED_REJECTION = 'unhandledrejection', SUBCLASSING = !1, FORCED = isForced(PROMISE, function() {
-                var GLOBAL_CORE_JS_PROMISE = inspectSource(PromiseConstructor) !== String(PromiseConstructor);
+                var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor), GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
                 if (!GLOBAL_CORE_JS_PROMISE && 66 === V8_VERSION || IS_PURE && !PromiseConstructorPrototype.finally) return !0;
+                if (V8_VERSION >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return !1;
                 var promise = new PromiseConstructor(function(resolve) {
                     resolve(1);
                 }), FakePromise = function(exec) {

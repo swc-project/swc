@@ -151,12 +151,15 @@
                         }
                         function from(e, r, t) {
                             if ("string" == typeof e) return fromString(e, r);
+                            if (ArrayBuffer.isView(e)) return fromArrayLike(e);
                             if (null == e) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
-                            if ("undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
+                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
+                            if ("number" == typeof e) throw new TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();
                             if (null != f && f !== e) return Buffer.from(f, r, t);
                             var n = fromObject(e);
                             if (n) return n;
+                            if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
                             throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
                         }
                         function assertSize(e) {
@@ -650,7 +653,9 @@
                         }, Buffer.prototype.copy = function(e, r, t, f) {
                             if (!Buffer.isBuffer(e)) throw new TypeError("argument should be a Buffer");
                             if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
+                            if (r < 0) throw new RangeError("targetStart out of bounds");
                             if (t < 0 || t >= this.length) throw new RangeError("Index out of range");
+                            if (f < 0) throw new RangeError("sourceEnd out of bounds");
                             f > this.length && (f = this.length), e.length - r < f - t && (f = e.length - r + t);
                             var n = f - t;
                             if (this === e && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(r, t, f);
@@ -887,7 +892,7 @@
                     901: function(r10) {
                         r10.exports = function(r, e, o) {
                             if (r.filter) return r.filter(e, o);
-                            if ("function" != typeof e) throw new TypeError;
+                            if (null == r || "function" != typeof e) throw new TypeError;
                             for(var n = [], i = 0; i < r.length; i++)if (t.call(r, i)) {
                                 var a = r[i];
                                 e.call(o, a, i, r) && n.push(a);
@@ -1689,12 +1694,18 @@
                         "use strict";
                         r24.exports = function() {
                             if ("function" != typeof Symbol || "function" != typeof Object.getOwnPropertySymbols) return !1;
+                            if ("symbol" == typeof Symbol.iterator) return !0;
                             var r = {}, t = Symbol("test"), e = Object(t);
                             if ("string" == typeof t || "[object Symbol]" !== Object.prototype.toString.call(t) || "[object Symbol]" !== Object.prototype.toString.call(e)) return !1;
                             for(t in r[t] = 42, r)return !1;
                             if ("function" == typeof Object.keys && 0 !== Object.keys(r).length || "function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(r).length) return !1;
                             var n = Object.getOwnPropertySymbols(r);
-                            return !!(1 === n.length && n[0] === t && Object.prototype.propertyIsEnumerable.call(r, t));
+                            if (1 !== n.length || n[0] !== t || !Object.prototype.propertyIsEnumerable.call(r, t)) return !1;
+                            if ("function" == typeof Object.getOwnPropertyDescriptor) {
+                                var i = Object.getOwnPropertyDescriptor(r, t);
+                                if (42 !== i.value || !0 !== i.enumerable) return !1;
+                            }
+                            return !0;
                         };
                     },
                     793: function(r, t, e) {

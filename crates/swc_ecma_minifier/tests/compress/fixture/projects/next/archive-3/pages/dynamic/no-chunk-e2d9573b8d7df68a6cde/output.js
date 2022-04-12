@@ -439,6 +439,7 @@
                 (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Welcome, _React$Component);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Welcome, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
                     } catch (e) {

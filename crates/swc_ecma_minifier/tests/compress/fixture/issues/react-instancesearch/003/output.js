@@ -62,6 +62,34 @@ export default function createInstantSearchManager({ indexName , initialState ={
     });
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && 'function' == typeof client.addAlgoliaAgent)) {
+            if (client.transporter && !client._cacheHydrated) {
+                client._cacheHydrated = !0;
+                const baseMethod = client.search;
+                client.search = (requests, ...methodArgs)=>{
+                    const requestsWithSerializedParams = requests.map((request)=>({
+                            ...request,
+                            params: function(parameters) {
+                                const isObjectOrArray = (value)=>'[object Object]' === Object.prototype.toString.call(value) || '[object Array]' === Object.prototype.toString.call(value)
+                                , encode = (format, ...args)=>{
+                                    let i = 0;
+                                    return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
+                                    );
+                                };
+                                return Object.keys(parameters).map((key)=>encode('%s=%s', key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
+                                ).join('&');
+                            }(request.params)
+                        })
+                    );
+                    return client.transporter.responsesCache.get({
+                        method: 'search',
+                        args: [
+                            requestsWithSerializedParams,
+                            ...methodArgs
+                        ]
+                    }, ()=>baseMethod(requests, ...methodArgs)
+                    );
+                };
+            }
             if (Array.isArray(results.results)) {
                 hydrateSearchClientWithMultiIndexRequest(client, results.results);
                 return;

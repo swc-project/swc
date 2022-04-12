@@ -341,7 +341,7 @@
                 return appendContent(emptyEl(el), content);
             }
             function isSingleLeftClick(event) {
-                return void 0 === event.button && void 0 === event.buttons || 0 === event.button && void 0 === event.buttons || 'mouseup' === event.type && 0 === event.button && 0 === event.buttons || !0;
+                return void 0 === event.button && void 0 === event.buttons || 0 === event.button && void 0 === event.buttons || 'mouseup' === event.type && 0 === event.button && 0 === event.buttons || 0 === event.button && 1 === event.buttons;
             }
             var $ = createQuerier('querySelector'), $$ = createQuerier('querySelectorAll'), Dom = Object.freeze({
                 __proto__: null,
@@ -6168,7 +6168,7 @@
                     enabled ? (this.trigger('debugon'), this.previousLogLevel_ = this.log.level, this.log.level('debug'), this.debugEnabled_ = !0) : (this.trigger('debugoff'), this.log.level(this.previousLogLevel_), this.previousLogLevel_ = void 0, this.debugEnabled_ = !1);
                 }, _proto.playbackRates = function(newRates) {
                     if (void 0 === newRates) return this.cache_.playbackRates;
-                    newRates.every(function(rate) {
+                    Array.isArray(newRates) && newRates.every(function(rate) {
                         return 'number' == typeof rate;
                     }) && (this.cache_.playbackRates = newRates, this.trigger('playbackrateschange'));
                 }, Player;
@@ -6470,7 +6470,7 @@
                 return timeRangesList;
             }, isRangeDifferent = function(a, b) {
                 if (a === b) return !1;
-                if (a.length !== b.length) return !0;
+                if (!a && b || !b && a || a.length !== b.length) return !0;
                 for(var i = 0; i < a.length; i++)if (a.start(i) !== b.start(i) || a.end(i) !== b.end(i)) return !0;
                 return !1;
             }, lastBufferedEnd = function(a) {
@@ -6623,7 +6623,7 @@
                     return !!isEnabled(playlist) && (playlist.attributes.BANDWIDTH || 0) < currentBandwidth;
                 }).length;
             }, playlistMatch = function(a, b) {
-                return (!!a || !!b) && (!!a || !b) && (!a || !!b) && (!!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
+                return (!!a || !!b) && (!!a || !b) && (!a || !!b) && (a === b || !!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
             }, someAudioVariant = function(master, callback) {
                 var AUDIO = master && master.mediaGroups && master.mediaGroups.AUDIO || {}, found = !1;
                 for(var groupName in AUDIO){
@@ -7277,6 +7277,7 @@
                     return req.abort(), finished = !0, cb(err, req, type, _bytes);
                 }, progressListener = function(error, request) {
                     if (!finished) {
+                        if (error) return endRequestAndCallback(error, request, '', bytes);
                         var newPart = request.responseText.substring(bytes && bytes.byteLength || 0, request.responseText.length);
                         if (bytes = (0, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__.lx)(bytes, (0, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__.qX)(newPart, !0)), id3Offset = id3Offset || (0, _videojs_vhs_utils_es_id3_helpers__WEBPACK_IMPORTED_MODULE_11__.c)(bytes), bytes.length < 10 || id3Offset && bytes.length < id3Offset + 2) return callbackOnCompleted(request, function() {
                             return endRequestAndCallback(error, request, '', bytes);
@@ -7301,11 +7302,14 @@
                 return request1;
             }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a, b) {
                 if (!isPlaylistUnchanged(a, b) || a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length) || a.segments && !b.segments || !a.segments && b.segments) return !1;
+                if (!a.segments && !b.segments) return !0;
                 for(var i = 0; i < a.segments.length; i++){
                     var aSegment = a.segments[i], bSegment = b.segments[i];
                     if (aSegment.uri !== bSegment.uri) return !1;
-                    var aByterange = aSegment.byterange, bByterange = bSegment.byterange;
-                    if (aByterange && !bByterange || !aByterange && bByterange || aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
+                    if (aSegment.byterange || bSegment.byterange) {
+                        var aByterange = aSegment.byterange, bByterange = bSegment.byterange;
+                        if (aByterange && !bByterange || !aByterange && bByterange || aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
+                    }
                 }
                 return !0;
             }, parseMasterXml = function(_ref) {
@@ -8852,7 +8856,17 @@
                 };
                 CaptionStream$1.prototype = new stream1(), CaptionStream$1.prototype.push = function(event) {
                     var sei, userData, newCaptionPackets;
-                    'sei_rbsp' === event.nalUnitType && (sei = captionPacketParser.parseSei(event.escapedRBSP)).payload && sei.payloadType === captionPacketParser.USER_DATA_REGISTERED_ITU_T_T35 && (userData = captionPacketParser.parseUserData(sei)) && (newCaptionPackets = captionPacketParser.parseCaptionPackets(event.pts, userData), this.captionPackets_ = this.captionPackets_.concat(newCaptionPackets), this.latestDts_ !== event.dts && (this.numSameDts_ = 0), this.numSameDts_++, this.latestDts_ = event.dts);
+                    if ('sei_rbsp' === event.nalUnitType && (sei = captionPacketParser.parseSei(event.escapedRBSP)).payload && sei.payloadType === captionPacketParser.USER_DATA_REGISTERED_ITU_T_T35 && (userData = captionPacketParser.parseUserData(sei))) {
+                        if (event.dts < this.latestDts_) {
+                            this.ignoreNextEqualDts_ = !0;
+                            return;
+                        }
+                        if (event.dts === this.latestDts_ && this.ignoreNextEqualDts_) {
+                            this.numSameDts_--, this.numSameDts_ || (this.ignoreNextEqualDts_ = !1);
+                            return;
+                        }
+                        newCaptionPackets = captionPacketParser.parseCaptionPackets(event.pts, userData), this.captionPackets_ = this.captionPackets_.concat(newCaptionPackets), this.latestDts_ !== event.dts && (this.numSameDts_ = 0), this.numSameDts_++, this.latestDts_ = event.dts;
+                    }
                 }, CaptionStream$1.prototype.flushCCStreams = function(flushType) {
                     this.ccStreams_.forEach(function(cc) {
                         return 'flush' === flushType ? cc.flush() : cc.partialFlush();
@@ -10391,6 +10405,8 @@
                     }, this.parse = function(segment, videoTrackIds, timescales) {
                         var parsedData;
                         if (!this.isInitialized() || !videoTrackIds || !timescales) return null;
+                        if (this.isNewInit(videoTrackIds, timescales)) timescale = timescales[trackId = videoTrackIds[0]];
+                        else if (null === trackId || !timescale) return segmentCache.push(segment), null;
                         for(; segmentCache.length > 0;){
                             var cachedSegment = segmentCache.shift();
                             this.parse(cachedSegment, videoTrackIds, timescales);
@@ -12428,6 +12444,15 @@
                         return;
                     }
                     if (this.saveTransferStats_(simpleSegment.stats), this.pendingSegment_ && simpleSegment.requestId === this.pendingSegment_.requestId) {
+                        if (error) {
+                            if (this.pendingSegment_ = null, this.state = 'READY', error.code === REQUEST_ERRORS.ABORTED) return;
+                            if (this.pause(), error.code === REQUEST_ERRORS.TIMEOUT) {
+                                this.handleTimeout_();
+                                return;
+                            }
+                            this.mediaRequestsErrored += 1, this.error(error), this.trigger('error');
+                            return;
+                        }
                         var segmentInfo = this.pendingSegment_;
                         this.saveBandwidthRelatedStats_(segmentInfo.duration, simpleSegment.stats), segmentInfo.endOfAllRequests = simpleSegment.endOfAllRequests, result.gopInfo && (this.gopBuffer_ = updateGopBuffer(this.gopBuffer_, result.gopInfo, this.safeAppend_)), this.state = 'APPENDING', this.trigger('appending'), this.waitForAppendsToComplete_(segmentInfo);
                     }
@@ -12437,7 +12462,7 @@
                 }, _proto.updateMediaSecondsLoaded_ = function(segment) {
                     'number' == typeof segment.start && 'number' == typeof segment.end ? this.mediaSecondsLoaded += segment.end - segment.start : this.mediaSecondsLoaded += segment.duration;
                 }, _proto.shouldUpdateTransmuxerTimestampOffset_ = function(timestampOffset) {
-                    return null !== timestampOffset && !this.audioDisabled_ && timestampOffset !== this.sourceUpdater_.audioTimestampOffset();
+                    return null !== timestampOffset && ('main' === this.loaderType_ && timestampOffset !== this.sourceUpdater_.videoTimestampOffset() || !this.audioDisabled_ && timestampOffset !== this.sourceUpdater_.audioTimestampOffset());
                 }, _proto.trueSegmentStart_ = function(_ref9) {
                     var currentStart = _ref9.currentStart, playlist = _ref9.playlist, mediaIndex = _ref9.mediaIndex, firstVideoFrameTimeForData = _ref9.firstVideoFrameTimeForData, currentVideoTimestampOffset = _ref9.currentVideoTimestampOffset, useVideoTimingInfo = _ref9.useVideoTimingInfo, videoTimingInfo = _ref9.videoTimingInfo, audioTimingInfo = _ref9.audioTimingInfo;
                     if (void 0 !== currentStart) return currentStart;
@@ -12550,6 +12575,13 @@
             ], _updating = function(type, sourceUpdater) {
                 var sourceBuffer = sourceUpdater[type + "Buffer"];
                 return sourceBuffer && sourceBuffer.updating || sourceUpdater.queuePending[type];
+            }, nextQueueIndexOfType = function(type, queue) {
+                for(var i = 0; i < queue.length; i++){
+                    var queueEntry = queue[i];
+                    if ('mediaSource' === queueEntry.type) return null;
+                    if (queueEntry.type === type) return i;
+                }
+                return null;
             }, shiftQueue1 = function shiftQueue(type, sourceUpdater) {
                 if (0 !== sourceUpdater.queue.length) {
                     var queueIndex = 0, queueEntry = sourceUpdater.queue[queueIndex];
@@ -12557,9 +12589,15 @@
                         sourceUpdater.updating() || 'closed' === sourceUpdater.mediaSource.readyState || (sourceUpdater.queue.shift(), queueEntry.action(sourceUpdater), queueEntry.doneFn && queueEntry.doneFn(), shiftQueue('audio', sourceUpdater), shiftQueue('video', sourceUpdater));
                         return;
                     }
-                    if (!(!sourceUpdater.ready() || 'closed' === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater)) && (sourceUpdater.queue.splice(queueIndex, 1), sourceUpdater.queuePending[type] = queueEntry, queueEntry.action(type, sourceUpdater), !queueEntry.doneFn)) {
-                        sourceUpdater.queuePending[type] = null, shiftQueue(type, sourceUpdater);
-                        return;
+                    if (!('mediaSource' === type || !sourceUpdater.ready() || 'closed' === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
+                        if (queueEntry.type !== type) {
+                            if (null === (queueIndex = nextQueueIndexOfType(type, sourceUpdater.queue))) return;
+                            queueEntry = sourceUpdater.queue[queueIndex];
+                        }
+                        if (sourceUpdater.queue.splice(queueIndex, 1), sourceUpdater.queuePending[type] = queueEntry, queueEntry.action(type, sourceUpdater), !queueEntry.doneFn) {
+                            sourceUpdater.queuePending[type] = null, shiftQueue(type, sourceUpdater);
+                            return;
+                        }
                     }
                 }
             }, cleanupBuffer = function(type, sourceUpdater) {
@@ -14200,8 +14238,8 @@
                         });
                     });
                 }, _proto.setCurrentTime = function(currentTime) {
-                    if (findRange(this.tech_.buffered(), currentTime), !(this.masterPlaylistLoader_ && this.masterPlaylistLoader_.media()) || !this.masterPlaylistLoader_.media().segments) return 0;
-                    this.mainSegmentLoader_.resetEverything(), this.mainSegmentLoader_.abort(), this.mediaTypes_.AUDIO.activePlaylistLoader && (this.audioSegmentLoader_.resetEverything(), this.audioSegmentLoader_.abort()), this.mediaTypes_.SUBTITLES.activePlaylistLoader && (this.subtitleSegmentLoader_.resetEverything(), this.subtitleSegmentLoader_.abort()), this.load();
+                    var buffered = findRange(this.tech_.buffered(), currentTime);
+                    return this.masterPlaylistLoader_ && this.masterPlaylistLoader_.media() && this.masterPlaylistLoader_.media().segments ? buffered && buffered.length ? currentTime : void (this.mainSegmentLoader_.resetEverything(), this.mainSegmentLoader_.abort(), this.mediaTypes_.AUDIO.activePlaylistLoader && (this.audioSegmentLoader_.resetEverything(), this.audioSegmentLoader_.abort()), this.mediaTypes_.SUBTITLES.activePlaylistLoader && (this.subtitleSegmentLoader_.resetEverything(), this.subtitleSegmentLoader_.abort()), this.load()) : 0;
                 }, _proto.duration = function() {
                     if (!this.masterPlaylistLoader_) return 0;
                     var media = this.masterPlaylistLoader_.media();

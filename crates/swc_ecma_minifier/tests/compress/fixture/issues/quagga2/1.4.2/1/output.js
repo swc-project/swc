@@ -3090,6 +3090,7 @@
         function(module, exports) {
             module.exports = function() {
                 if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                if ("function" == typeof Proxy) return !0;
                 try {
                     return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                 } catch (e) {
@@ -3366,6 +3367,7 @@
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -4615,6 +4617,7 @@
                 inherits_default()(EANReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EANReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -4781,21 +4784,35 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), startInfo = this._findStart();
+                            var result = new Array(), decodedCodes = new Array(), resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
                                 end: startInfo.end
                             };
-                            return (decodedCodes.push(code), (code = this._decodePayload(code, result, decodedCodes)) && (code = this._findEnd(code.end, !1)) && (decodedCodes.push(code), this._checksum(result))) ? _objectSpread(_objectSpread({
+                            if (decodedCodes.push(code), !(code = this._decodePayload(code, result, decodedCodes)) || !(code = this._findEnd(code.end, !1)) || (decodedCodes.push(code), !this._checksum(result))) return null;
+                            if (this.supplements.length > 0) {
+                                var supplement = this._decodeExtensions(code.end);
+                                if (!supplement || !supplement.decodedCodes) return null;
+                                var lastCode = supplement.decodedCodes[supplement.decodedCodes.length - 1], endInfo = {
+                                    start: lastCode.start + ((lastCode.end - lastCode.start) / 2 | 0),
+                                    end: lastCode.end
+                                };
+                                if (!this._verifyTrailingWhitespace(endInfo)) return null;
+                                resultInfo = {
+                                    supplement: supplement,
+                                    code: result.join('') + supplement.code
+                                };
+                            }
+                            return _objectSpread(_objectSpread({
                                 code: result.join(''),
                                 start: startInfo.start,
                                 end: code.end,
                                 startInfo: startInfo,
                                 decodedCodes: decodedCodes
-                            }, {}), {}, {
+                            }, resultInfo), {}, {
                                 format: this.FORMAT
-                            }) : null;
+                            });
                         }
                     }
                 ]), EANReader;
@@ -4850,6 +4867,7 @@
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -4979,6 +4997,7 @@
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39VINReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5068,6 +5087,7 @@
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5255,6 +5275,7 @@
                 inherits_default()(UPCReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5289,6 +5310,7 @@
                 inherits_default()(EAN8Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN8Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5332,6 +5354,7 @@
                 inherits_default()(EAN2Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN2Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5392,6 +5415,7 @@
                 inherits_default()(EAN5Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5459,6 +5483,7 @@
                 inherits_default()(UPCEReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCEReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5598,6 +5623,7 @@
                 inherits_default()(I2of5Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = I2of5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -5942,6 +5968,7 @@
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = TwoOfFiveReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -6137,6 +6164,7 @@
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -6309,6 +6337,7 @@
                 inherits_default()(Code32Reader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code32Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
@@ -6580,6 +6609,7 @@
                 inherits_default()(Exception, _Error);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Exception, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                     } catch (e) {
