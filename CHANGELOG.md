@@ -25,6 +25,9 @@
 
 - **(es/minifier)** Enable `conditionals` by default (#4301) ([7e8f613](https://github.com/swc-project/swc/commit/7e8f6132729ca3ddf7884f1b246964921cde1c35))
 
+
+- **(es/minifier)** Enable `dead_code` by default (#4309) ([74a5087](https://github.com/swc-project/swc/commit/74a5087989173f833517cb6f6bf51afcf9642286))
+
 ### Miscellaneous Tasks
 
 
