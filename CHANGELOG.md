@@ -1,17 +1,14 @@
 # Changelog
 ## [unreleased]
 
-### fix
-
-
-
-- **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([5a032c6](https://github.com/swc-project/swc/commit/5a032c679744857c4fdc22bd7ac2b256aef174e3))
-
 ### Bug Fixes
 
 
 
 - **(css/prefixer)** Don't prefix if it's already prefixed (#4307) ([690ce26](https://github.com/swc-project/swc/commit/690ce2628c988a3d1823cbcf4f786203e548cb84))
+
+
+- **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([6c9882e](https://github.com/swc-project/swc/commit/6c9882ec68fee9b702f5e4749482eca74fbd87e8))
 
 
 - **(es/lints)** Check parameters in the duplicate binding rule (#4288) ([e4a565c](https://github.com/swc-project/swc/commit/e4a565c2d4c90dc23267b44e8f4aee2e0cc79c23))
@@ -24,6 +21,9 @@
 
 ### Features
 
+
+
+- **(css/minifier)** Compress colors (#4308) ([65b18ee](https://github.com/swc-project/swc/commit/65b18ee602506d455ce10c6ca2bd599d57d29d14))
 
 
 - **(es)** Support `typeof` with private fields (#4302) ([d0de5a6](https://github.com/swc-project/swc/commit/d0de5a63a01ef45101cdd10f90546ec7950ce7ac))
