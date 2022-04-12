@@ -1008,6 +1008,7 @@ impl VisitMut for Prefixer {
                 };
 
                 if need_prefix {
+                    // Check we don't have prefixed property
                     let need_prefix = match self.get_declaration_by_name($name) {
                         Some(_) => false,
                         _ => true,
