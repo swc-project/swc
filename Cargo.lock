@@ -2818,6 +2818,7 @@ name = "swc"
 version = "0.167.0"
 dependencies = [
  "ahash",
+ "ansi_term",
  "anyhow",
  "base64 0.13.0",
  "criterion",
