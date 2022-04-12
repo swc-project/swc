@@ -946,12 +946,12 @@ fn test_remove_number() {
 
 #[test]
 fn test_remove_var_get1() {
-    test("a", "");
+    test("a", "a");
 }
 
 #[test]
 fn test_remove_var_get2() {
-    test("var a = 1;a", "var a = 1");
+    test("var a = 1;a", "var a = 1; a");
 }
 
 #[test]
@@ -1263,9 +1263,9 @@ fn test_call_containing_spread() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
     test("Math.sin(...c)", "[...c]");
-    test("Math.sin(4, ...c, a)", "[...c]");
+    test("Math.sin(4, ...c, a)", "[...c, a]");
     test("Math.sin(foo(), ...c, bar())", "[foo(), ...c, bar()]");
-    test("Math.sin(...a, b, ...c)", "[...a, ...c]");
+    test("Math.sin(...a, b, ...c)", "[...a, b, ...c]");
     test("Math.sin(...b, ...c)", "[...b, ...c]");
 }
 
@@ -1369,9 +1369,9 @@ fn test_array_literal() {
 #[test]
 fn test_array_literal_containing_spread() {
     test("([...c])", "[...c]");
-    test("([4, ...c, a])", "[...c]");
+    test("([4, ...c, a])", "[...c, a]");
     test("([foo(), ...c, bar()])", "[foo(), ...c, bar()]");
-    test("([...a, b, ...c])", "[...a, ...c]");
+    test("([...a, b, ...c])", "[...a, b, ...c]");
     test("([...b, ...c])", "[...b, ...c]");
 }
 
