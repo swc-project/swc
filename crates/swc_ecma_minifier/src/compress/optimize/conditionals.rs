@@ -150,6 +150,8 @@ where
                                         }));
                                     } else {
                                         new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+
+                                        cur = Some(stmt);
                                     }
                                 }
                                 None => {
