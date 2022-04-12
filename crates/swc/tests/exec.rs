@@ -6,7 +6,6 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use rayon::prelude::*;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, Compiler, HandlerOpts,
@@ -131,9 +130,8 @@ fn run_fixture_test(entry: PathBuf) {
     eprintln!("Expected:\n{}\n-----", expected_stdout);
 
     matrix
-        .into_par_iter()
+        .into_iter()
         .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
-        .panic_fuse()
         .collect::<Vec<_>>();
 
     // Test was successful.
