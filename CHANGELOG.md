@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### fix
+
+
+
+- **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([5a032c6](https://github.com/swc-project/swc/commit/5a032c679744857c4fdc22bd7ac2b256aef174e3))
+
 ### Bug Fixes
 
 
