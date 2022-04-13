@@ -1,1 +1,1 @@
-new Date < A;
+A;

@@ -6,7 +6,6 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use rayon::prelude::*;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, Compiler, HandlerOpts,
@@ -15,6 +14,7 @@ use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::assert_eq;
+use tracing::{span, Level};
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
 where
@@ -124,16 +124,22 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.ts")]
 fn run_fixture_test(entry: PathBuf) {
+    let _guard = testing::init();
+
     let matrix = create_matrix(&entry);
     let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
     let expected_stdout = stdout_of(&input_code).expect("failed to get stdout");
 
-    eprintln!("Expected:\n{}\n-----", expected_stdout);
+    eprintln!(
+        "----- {} -----\n{}\n-----",
+        ansi_term::Color::Green.bold().paint("Expected stdout"),
+        expected_stdout
+    );
 
-    matrix
-        .into_par_iter()
-        .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
-        .panic_fuse()
+    let _ = matrix
+        .into_iter()
+        .enumerate()
+        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
         .collect::<Vec<_>>();
 
     // Test was successful.
@@ -168,7 +174,14 @@ fn unignore(path: &Path) {
     rename(&path, &new_path).expect("failed to rename");
 }
 
-fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> Result<(), Error> {
+fn test_file_with_opts(
+    entry: &Path,
+    opts: &Options,
+    expected_stdout: &str,
+    idx: usize,
+) -> Result<(), Error> {
+    let _guard = span!(Level::ERROR, "test_file", idx = idx).entered();
+
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
@@ -185,16 +198,29 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
                 .process_js_file(fm, handler, opts)
                 .context("failed to process file")?;
 
-            println!("Code:\n{}", res.code);
+            println!(
+                "---- {} (#{}) ----\n{}",
+                ansi_term::Color::Green.bold().paint("Code"),
+                idx,
+                res.code
+            );
 
             let actual_stdout = stdout_of(&res.code)?;
 
-            assert_eq!(expected_stdout, actual_stdout);
+            assert_eq!(
+                expected_stdout,
+                actual_stdout,
+                "\n---- {} -----\n{}\n---- {} -----\n{:#?}",
+                ansi_term::Color::Red.paint("Actual"),
+                actual_stdout,
+                ansi_term::Color::Blue.paint("Options"),
+                opts
+            );
 
             Ok(())
         },
     )
-    .with_context(|| format!("failed to compile with opts: {:?}", opts))
+    .with_context(|| format!("failed to compile with opts: {:#?}", opts))
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {

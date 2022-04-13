@@ -40,7 +40,7 @@ pub enum Declaration {
     ImportDecl(ImportDeclaration),
     #[tag("DeclareClass")]
     DeclClass(DeclareClass),
-    #[tag("DeclareFuncction")]
+    #[tag("DeclareFunction")]
     DeclFunc(DeclareFunction),
     #[tag("DeclareInterface")]
     DeclInterface(DeclareInterface),
@@ -68,7 +68,7 @@ pub enum Declaration {
     EnumDecl(EnumDeclaration),
     #[tag("TSDeclareFunction")]
     TSDeclFunc(TSDeclareFunction),
-    #[tag("TSIterfaceDeclaration")]
+    #[tag("TSInterfaceDeclaration")]
     TSInterfaceDecl(TSInterfaceDeclaration),
     #[tag("TSTypeAliasDeclaration")]
     TSTypeAliasDecl(TSTypeAliasDeclaration),

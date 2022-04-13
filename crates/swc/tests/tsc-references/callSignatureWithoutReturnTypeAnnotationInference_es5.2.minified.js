@@ -3,10 +3,6 @@ function foo3() {
     return foo3();
 }
 foo3(), function(x) {
-    try {} catch (e) {
-        return [];
-    } finally{}
-}(1), function(x) {
     void 0 === x || swcHelpers.typeOf(x);
 }(1);
 var M, e1, C = function() {

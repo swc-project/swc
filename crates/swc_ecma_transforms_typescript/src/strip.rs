@@ -2549,7 +2549,10 @@ fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
             MemberExpr {
                 span: DUMMY_SP,
                 obj: Box::new(ts_entity_name_to_expr(left)),
-                prop: MemberProp::Ident(right),
+                prop: match right {
+                    TsMemberName::Ident(i) => MemberProp::Ident(i),
+                    TsMemberName::PrivateName(p) => MemberProp::PrivateName(p),
+                },
             }
             .into()
         }

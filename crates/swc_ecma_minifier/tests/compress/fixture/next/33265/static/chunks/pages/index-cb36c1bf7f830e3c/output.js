@@ -643,7 +643,7 @@
                         offset: 4
                     }) || (0, byte_helpers.G3)(bytes, CONSTANTS.fmp4, {
                         offset: 4
-                    })) || !!((0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
+                    }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
                         offset: 4
                     }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moov, {
                         offset: 4
@@ -797,15 +797,17 @@
                     }
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
-                        if (decodeResponseBody) if (window.TextDecoder) {
-                            var contentTypeHeader, charset1 = (void 0 === (contentTypeHeader = response.headers && response.headers['content-type']) && (contentTypeHeader = ''), contentTypeHeader.toLowerCase().split(';').reduce(function(charset, contentType) {
-                                var _contentType$split = contentType.split('='), type = _contentType$split[0], value = _contentType$split[1];
-                                return 'charset' === type.trim() ? value.trim() : charset;
-                            }, 'utf-8'));
-                            try {
-                                cause = new TextDecoder(charset1).decode(responseBody);
-                            } catch (e) {}
-                        } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
+                        if (decodeResponseBody) {
+                            if (window.TextDecoder) {
+                                var contentTypeHeader, charset1 = (void 0 === (contentTypeHeader = response.headers && response.headers['content-type']) && (contentTypeHeader = ''), contentTypeHeader.toLowerCase().split(';').reduce(function(charset, contentType) {
+                                    var _contentType$split = contentType.split('='), type = _contentType$split[0], value = _contentType$split[1];
+                                    return 'charset' === type.trim() ? value.trim() : charset;
+                                }, 'utf-8'));
+                                try {
+                                    cause = new TextDecoder(charset1).decode(responseBody);
+                                } catch (e) {}
+                            } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
+                        }
                         callback({
                             cause: cause
                         });
@@ -1196,8 +1198,7 @@
             }
             function needNamespaceDefine(node, isHTML, visibleNamespaces) {
                 var prefix = node.prefix || '', uri = node.namespaceURI;
-                if (!uri) return !1;
-                if ("xml" === prefix && uri === NAMESPACE.XML || uri === NAMESPACE.XMLNS) return !1;
+                if (!uri || "xml" === prefix && uri === NAMESPACE.XML || uri === NAMESPACE.XMLNS) return !1;
                 for(var i = visibleNamespaces.length; i--;){
                     var ns = visibleNamespaces[i];
                     if (ns.prefix === prefix) return ns.namespace !== uri;
@@ -1985,9 +1986,10 @@
                             break;
                         case '\'':
                         case '"':
-                            if (3 === s || 1 === s) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                            else throw new Error('attribute value no end \'' + c + '\' match');
-                            else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ')!!'), start = p + 1, s = 5;
+                            if (3 === s || 1 === s) {
+                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                else throw new Error('attribute value no end \'' + c + '\' match');
+                            } else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ')!!'), start = p + 1, s = 5;
                             else throw new Error('attribute value must after "="');
                             break;
                         case '/':
@@ -2370,8 +2372,10 @@
                     return this.listeners[type] = this.listeners[type].slice(0), this.listeners[type].splice(index, 1), index > -1;
                 }, _proto.trigger = function(type) {
                     var callbacks = this.listeners[type];
-                    if (callbacks) if (2 === arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                    else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                    if (callbacks) {
+                        if (2 === arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                    }
                 }, _proto.dispose = function() {
                     this.listeners = {};
                 }, _proto.pipe = function(destination) {
@@ -3817,10 +3821,12 @@
                         query: relativeParts.query,
                         fragment: relativeParts.fragment
                     };
-                    if (!relativeParts.netLoc && (builtParts.netLoc = baseParts.netLoc, '/' !== relativeParts.path[0])) if (relativeParts.path) {
-                        var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf('/') + 1) + relativeParts.path;
-                        builtParts.path = URLToolkit.normalizePath(newPath);
-                    } else builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    if (!relativeParts.netLoc && (builtParts.netLoc = baseParts.netLoc, '/' !== relativeParts.path[0])) {
+                        if (relativeParts.path) {
+                            var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf('/') + 1) + relativeParts.path;
+                            builtParts.path = URLToolkit.normalizePath(newPath);
+                        } else builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    }
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -4062,9 +4068,7 @@
                             continue;
                         }
                         var m4 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m4) continue;
-                        if (!(node = createElement(m4[1], m4[3]))) continue;
-                        if (!shouldAdd(current1, node)) continue;
+                        if (!m4 || !(node = createElement(m4[1], m4[3])) || !shouldAdd(current1, node)) continue;
                         if (m4[2]) {
                             var classes = m4[2].split('.');
                             classes.forEach(function(cl) {
@@ -5203,8 +5207,7 @@
                 if ('string' == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ('undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || 'undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
                 if ('number' == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
@@ -5276,9 +5279,7 @@
             }
             function slowToString(encoding, start, end) {
                 var loweredCase = !1;
-                if ((void 0 === start || start < 0) && (start = 0), start > this.length) return '';
-                if ((void 0 === end || end > this.length) && (end = this.length), end <= 0) return '';
-                if ((end >>>= 0) <= (start >>>= 0)) return '';
+                if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || (end >>>= 0) <= (start >>>= 0))) return '';
                 for(encoding || (encoding = 'utf8');;)switch(encoding){
                     case 'hex':
                         return hexSlice(this, start, end);
@@ -5435,8 +5436,7 @@
                 if (offset + ext > buf.length) throw new RangeError('Index out of range');
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
-                if (offset + ext > buf.length) throw new RangeError('Index out of range');
-                if (offset < 0) throw new RangeError('Index out of range');
+                if (offset + ext > buf.length || offset < 0) throw new RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
                 return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
@@ -5706,8 +5706,7 @@
                 return writeDouble(this, value, offset, !1, noAssert);
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
                 if (!Buffer.isBuffer(target)) throw new TypeError('argument should be a Buffer');
-                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start) return 0;
-                if (0 === target.length || 0 === this.length) return 0;
+                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
                 if (targetStart < 0) throw new RangeError('targetStart out of bounds');
                 if (start < 0 || start >= this.length) throw new RangeError('Index out of range');
                 if (end < 0) throw new RangeError('sourceEnd out of bounds');
@@ -5742,11 +5741,7 @@
                 for(var codePoint, length = string.length, leadSurrogate = null, bytes = [], i = 0; i < length; ++i){
                     if ((codePoint = string.charCodeAt(i)) > 0xD7FF && codePoint < 0xE000) {
                         if (!leadSurrogate) {
-                            if (codePoint > 0xDBFF) {
-                                (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD);
-                                continue;
-                            }
-                            if (i + 1 === length) {
+                            if (codePoint > 0xDBFF || i + 1 === length) {
                                 (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD);
                                 continue;
                             }
@@ -5843,8 +5838,7 @@
             var setPrototypeOf = __webpack_require__(9611);
             function _construct(Parent1, args1, Class1) {
                 return (_construct = !function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;

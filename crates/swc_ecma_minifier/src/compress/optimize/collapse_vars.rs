@@ -62,7 +62,7 @@ where
                 _ => return,
             };
 
-            tracing::debug!(
+            report_change!(
                 "collpase_vars: Decided to inline {}{:?}",
                 left.id.sym,
                 left.id.span.ctxt

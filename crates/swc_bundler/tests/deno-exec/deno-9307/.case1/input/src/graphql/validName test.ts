@@ -12,7 +12,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: `"toValidGraphQLName" shoud convert invalid GraphQL name to valid`,
+  name: `"toValidGraphQLName" should convert invalid GraphQL name to valid`,
   fn() {
     Object.entries({
       "9foo": `foo`,

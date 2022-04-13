@@ -425,7 +425,7 @@
             2000,
             1
         ]).day(i), this._minWeekdaysParse[i] = this.weekdaysMin(mom, '').toLocaleLowerCase(), this._shortWeekdaysParse[i] = this.weekdaysShort(mom, '').toLocaleLowerCase(), this._weekdaysParse[i] = this.weekdays(mom, '').toLocaleLowerCase();
-        return strict ? 'dddd' === format ? -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : null : 'ddd' === format ? -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : null : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : 'dddd' === format ? -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : 'ddd' === format ? -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : null;
+        return strict ? 'dddd' === format ? -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : null : 'ddd' === format ? -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : null : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : 'dddd' === format ? -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) || -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : 'ddd' === format ? -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) || -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) ? ii : null : -1 !== (ii = indexOf.call(this._minWeekdaysParse, llc)) || -1 !== (ii = indexOf.call(this._weekdaysParse, llc)) ? ii : -1 !== (ii = indexOf.call(this._shortWeekdaysParse, llc)) ? ii : null;
     }
     function computeWeekdaysParse() {
         function cmpLenRev(a, b) {
@@ -574,13 +574,15 @@
         if (null === config) return delete locales[name], null;
         var locale, parentConfig = baseConfig;
         if (config.abbr = name, null != locales[name]) deprecateSimple('defineLocaleOverride', "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."), parentConfig = locales[name]._config;
-        else if (null != config.parentLocale) if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
-        else {
-            if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
-                name: name,
-                config: config
-            }), null;
-            parentConfig = locale._config;
+        else if (null != config.parentLocale) {
+            if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
+            else {
+                if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
+                    name: name,
+                    config: config
+                }), null;
+                parentConfig = locale._config;
+            }
         }
         return locales[name] = new Locale(mergeConfigs(parentConfig, config)), localeFamilies[name] && localeFamilies[name].forEach(function(x) {
             defineLocale(x.name, x.config);
@@ -743,10 +745,12 @@
                 config._isValid = !1;
                 return;
             }
-            if (match[4]) if (tzRegex.exec(match[4])) tzFormat = 'Z';
-            else {
-                config._isValid = !1;
-                return;
+            if (match[4]) {
+                if (tzRegex.exec(match[4])) tzFormat = 'Z';
+                else {
+                    config._isValid = !1;
+                    return;
+                }
             }
             config._f = dateFormat + (timeFormat || '') + (tzFormat || ''), configFromStringAndFormat(config);
         } else config._isValid = !1;
@@ -1184,60 +1188,61 @@
         return string;
     }
     proto.add = add, proto.calendar = function(time, formats) {
-        if (1 === arguments.length) if (arguments[0]) {
-            var input2, input1, arrayTest, dataTypeTest;
-            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (arrayTest = isArray(input1 = input2), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
-                return !isNumber(item) && isString(input1);
-            }).length), arrayTest && dataTypeTest) || function(input) {
-                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                    'years',
-                    'year',
-                    'y',
-                    'months',
-                    'month',
-                    'M',
-                    'days',
-                    'day',
-                    'd',
-                    'dates',
-                    'date',
-                    'D',
-                    'hours',
-                    'hour',
-                    'h',
-                    'minutes',
-                    'minute',
-                    'm',
-                    'seconds',
-                    'second',
-                    's',
-                    'milliseconds',
-                    'millisecond',
-                    'ms', 
-                ];
-                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                return objectTest && propertyTest;
-            }(input2) || null == input2) ? (time = arguments[0], formats = void 0) : function(input) {
-                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                    'sameDay',
-                    'nextDay',
-                    'lastDay',
-                    'nextWeek',
-                    'lastWeek',
-                    'sameElse', 
-                ];
-                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                return objectTest && propertyTest;
-            }(arguments[0]) && (formats = arguments[0], time = void 0);
-        } else time = void 0, formats = void 0;
+        if (1 === arguments.length) {
+            if (arguments[0]) {
+                var input2, input1, arrayTest, dataTypeTest;
+                (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (arrayTest = isArray(input1 = input2), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
+                    return !isNumber(item) && isString(input1);
+                }).length), arrayTest && dataTypeTest) || function(input) {
+                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                        'years',
+                        'year',
+                        'y',
+                        'months',
+                        'month',
+                        'M',
+                        'days',
+                        'day',
+                        'd',
+                        'dates',
+                        'date',
+                        'D',
+                        'hours',
+                        'hour',
+                        'h',
+                        'minutes',
+                        'minute',
+                        'm',
+                        'seconds',
+                        'second',
+                        's',
+                        'milliseconds',
+                        'millisecond',
+                        'ms', 
+                    ];
+                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                    return objectTest && propertyTest;
+                }(input2) || null == input2) ? (time = arguments[0], formats = void 0) : function(input) {
+                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                        'sameDay',
+                        'nextDay',
+                        'lastDay',
+                        'nextWeek',
+                        'lastWeek',
+                        'sameElse', 
+                    ];
+                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                    return objectTest && propertyTest;
+                }(arguments[0]) && (formats = arguments[0], time = void 0);
+            } else time = void 0, formats = void 0;
+        }
         var now = time || createLocal(), sod = cloneWithOffset(now, this).startOf('day'), format = hooks.calendarFormat(this, sod) || 'sameElse', output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);
         return this.format(output || this.localeData().calendar(format, this, createLocal(now)));
     }, proto.clone = function() {
         return new Moment(this);
     }, proto.diff = function(input, units, asFloat) {
         var that, zoneDelta, output;
-        if (!this.isValid()) return NaN;
-        if (!(that = cloneWithOffset(input, this)).isValid()) return NaN;
+        if (!this.isValid() || !(that = cloneWithOffset(input, this)).isValid()) return NaN;
         switch(zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4, units = normalizeUnits(units)){
             case 'year':
                 output = monthDiff(this, that) / 12;
@@ -1442,24 +1447,15 @@
         };
     }, proto.eraName = function() {
         var i, l, val, eras = this.localeData().eras();
-        for(i = 0, l = eras.length; i < l; ++i){
-            if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until) return eras[i].name;
-            if (eras[i].until <= val && val <= eras[i].since) return eras[i].name;
-        }
+        for(i = 0, l = eras.length; i < l; ++i)if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) return eras[i].name;
         return '';
     }, proto.eraNarrow = function() {
         var i, l, val, eras = this.localeData().eras();
-        for(i = 0, l = eras.length; i < l; ++i){
-            if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until) return eras[i].narrow;
-            if (eras[i].until <= val && val <= eras[i].since) return eras[i].narrow;
-        }
+        for(i = 0, l = eras.length; i < l; ++i)if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) return eras[i].narrow;
         return '';
     }, proto.eraAbbr = function() {
         var i, l, val, eras = this.localeData().eras();
-        for(i = 0, l = eras.length; i < l; ++i){
-            if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until) return eras[i].abbr;
-            if (eras[i].until <= val && val <= eras[i].since) return eras[i].abbr;
-        }
+        for(i = 0, l = eras.length; i < l; ++i)if (val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) return eras[i].abbr;
         return '';
     }, proto.eraYear = function() {
         var i, l, dir, val, eras = this.localeData().eras();
@@ -1494,8 +1490,8 @@
         return weeksInYear(this.isoWeekYear(), 1, 4);
     }, proto.date = getSetDayOfMonth, proto.day = proto.days = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
-        var input4, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-        return null == input ? day : (input = (input4 = input, locale = this.localeData(), 'string' != typeof input4 ? input4 : isNaN(input4) ? 'number' == typeof (input4 = locale.weekdaysParse(input4)) ? input4 : null : parseInt(input4, 10)), this.add(input - day, 'd'));
+        var input5, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+        return null == input ? day : (input = (input5 = input, locale = this.localeData(), 'string' != typeof input5 ? input5 : isNaN(input5) ? 'number' == typeof (input5 = locale.weekdaysParse(input5)) ? input5 : null : parseInt(input5, 10)), this.add(input - day, 'd'));
     }, proto.weekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
@@ -1503,7 +1499,7 @@
     }, proto.isoWeekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         if (null == input) return this.day() || 7;
-        var input5, locale, weekday = (input5 = input, locale = this.localeData(), 'string' == typeof input5 ? locale.weekdaysParse(input5) % 7 || 7 : isNaN(input5) ? null : input5);
+        var input6, locale, weekday = (input6 = input, locale = this.localeData(), 'string' == typeof input6 ? locale.weekdaysParse(input6) % 7 || 7 : isNaN(input6) ? null : input6);
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
         var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
@@ -1644,14 +1640,10 @@
     }, proto$1.monthsParse = function(monthName, format, strict) {
         var i, mom, regex;
         if (this._monthsParseExact) return handleStrictParse.call(this, monthName, format, strict);
-        for(this._monthsParse || (this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []), i = 0; i < 12; i++){
-            if (mom = createUTC([
-                2000,
-                i
-            ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i'), this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i')), strict || this._monthsParse[i] || (regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, ''), this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i')), strict && 'MMMM' === format && this._longMonthsParse[i].test(monthName)) return i;
-            if (strict && 'MMM' === format && this._shortMonthsParse[i].test(monthName)) return i;
-            if (!strict && this._monthsParse[i].test(monthName)) return i;
-        }
+        for(this._monthsParse || (this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []), i = 0; i < 12; i++)if (mom = createUTC([
+            2000,
+            i
+        ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i'), this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i')), strict || this._monthsParse[i] || (regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, ''), this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i')), strict && 'MMMM' === format && this._longMonthsParse[i].test(monthName) || strict && 'MMM' === format && this._shortMonthsParse[i].test(monthName)) return i;
     }, proto$1.monthsRegex = function(isStrict) {
         return this._monthsParseExact ? (hasOwnProp(this, '_monthsRegex') || computeMonthsParse.call(this), isStrict) ? this._monthsStrictRegex : this._monthsRegex : (hasOwnProp(this, '_monthsRegex') || (this._monthsRegex = defaultMonthsRegex), this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex);
     }, proto$1.monthsShortRegex = function(isStrict) {
@@ -1672,15 +1664,10 @@
     }, proto$1.weekdaysParse = function(weekdayName, format, strict) {
         var i, mom, regex;
         if (this._weekdaysParseExact) return handleStrictParse$1.call(this, weekdayName, format, strict);
-        for(this._weekdaysParse || (this._weekdaysParse = [], this._minWeekdaysParse = [], this._shortWeekdaysParse = [], this._fullWeekdaysParse = []), i = 0; i < 7; i++){
-            if (mom = createUTC([
-                2000,
-                1
-            ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\\.?') + '$', 'i'), this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\\.?') + '$', 'i'), this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\\.?') + '$', 'i')), this._weekdaysParse[i] || (regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, ''), this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i')), strict && 'dddd' === format && this._fullWeekdaysParse[i].test(weekdayName)) return i;
-            if (strict && 'ddd' === format && this._shortWeekdaysParse[i].test(weekdayName)) return i;
-            if (strict && 'dd' === format && this._minWeekdaysParse[i].test(weekdayName)) return i;
-            if (!strict && this._weekdaysParse[i].test(weekdayName)) return i;
-        }
+        for(this._weekdaysParse || (this._weekdaysParse = [], this._minWeekdaysParse = [], this._shortWeekdaysParse = [], this._fullWeekdaysParse = []), i = 0; i < 7; i++)if (mom = createUTC([
+            2000,
+            1
+        ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\\.?') + '$', 'i'), this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\\.?') + '$', 'i'), this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\\.?') + '$', 'i')), this._weekdaysParse[i] || (regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, ''), this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i')), strict && 'dddd' === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && 'ddd' === format && this._shortWeekdaysParse[i].test(weekdayName)) return i;
     }, proto$1.weekdaysRegex = function(isStrict) {
         return this._weekdaysParseExact ? (hasOwnProp(this, '_weekdaysRegex') || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysStrictRegex : this._weekdaysRegex : (hasOwnProp(this, '_weekdaysRegex') || (this._weekdaysRegex = defaultWeekdaysRegex), this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex);
     }, proto$1.weekdaysShortRegex = function(isStrict) {

@@ -8,7 +8,7 @@ pub use self::{
 };
 
 mod branch;
-pub mod const_propgation;
+pub mod const_propagation;
 pub mod dce;
 mod expr;
 pub mod inlining;

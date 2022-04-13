@@ -6,4 +6,4 @@ class C {
 var c = new C();
 c.x = 3;
 var c2 = new C();
-c.x === c2.x;
+c.x, c2.x;

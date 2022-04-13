@@ -9,14 +9,14 @@ use swc_ecma_ast::{
     TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
     TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType,
     TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit,
-    TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName,
-    TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr,
-    TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature,
-    TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement,
-    TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
-    TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType,
-    TsUnionType,
+    TsLitType, TsMappedType, TsMemberName, TsMethodSignature, TsModuleBlock, TsModuleDecl,
+    TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl,
+    TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
+    TsPropertySignature, TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType,
+    TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl,
+    TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef,
+    TsUnionOrIntersectionType, TsUnionType,
 };
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
@@ -26,8 +26,8 @@ use swc_estree_ast::{
     TSExpressionWithTypeArguments, TSExternalModuleReference, TSFunctionType,
     TSImportEqualsDeclModuleRef, TSImportEqualsDeclaration, TSImportType, TSIndexSignature,
     TSIndexedAccessType, TSInferType, TSInterfaceBody, TSInterfaceDeclaration, TSIntersectionType,
-    TSIntrinsicKeyword, TSLiteralType, TSLiteralTypeLiteral, TSMappedType, TSMethodSignature,
-    TSModuleBlock, TSModuleDeclBody, TSModuleDeclaration, TSNamedTupleMember,
+    TSIntrinsicKeyword, TSLiteralType, TSLiteralTypeLiteral, TSMappedType, TSMemberName,
+    TSMethodSignature, TSModuleBlock, TSModuleDeclBody, TSModuleDeclaration, TSNamedTupleMember,
     TSNamespaceExportDeclaration, TSNeverKeyword, TSNonNullExpression, TSNullKeyword,
     TSNumberKeyword, TSObjectKeyword, TSOptionalType, TSParamPropParam, TSParameterProperty,
     TSParenthesizedType, TSPropertySignature, TSQualifiedName, TSRestType, TSStringKeyword,
@@ -192,6 +192,17 @@ impl Babelify for TsEntityName {
     }
 }
 
+impl Babelify for TsMemberName {
+    type Output = TSMemberName;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Self::Ident(i) => Self::Output::Id(i.babelify(ctx)),
+            Self::PrivateName(p) => Self::Output::PrivateName(p.babelify(ctx)),
+        }
+    }
+}
+
 impl Babelify for TsTypeElement {
     type Output = TSTypeElement;
 
@@ -296,7 +307,7 @@ impl Babelify for TsIndexSignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSIndexSignature {
             base: ctx.base(self.span),
-            paramters: self
+            parameters: self
                 .params
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())
@@ -842,7 +853,8 @@ impl Babelify for TsExprWithTypeArgs {
                     base: ctx.base(e.span),
                     left: Box::new(babelify_expr(*e.obj, ctx)),
                     right: match e.prop {
-                        MemberProp::Ident(id) => id.babelify(ctx),
+                        MemberProp::Ident(id) => TSMemberName::Id(id.babelify(ctx)),
+                        MemberProp::PrivateName(p) => TSMemberName::PrivateName(p.babelify(ctx)),
                         _ => unreachable!(),
                     },
                 }),

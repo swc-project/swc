@@ -62,7 +62,7 @@ where
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        tracing::debug!(
+        report_change!(
             is_return_value_ignored = is_ret_val_ignored,
             negate_cost = cost,
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
@@ -84,9 +84,7 @@ where
         self.with_ctx(ctx).negate(&mut e.left, false);
         self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
-        if cfg!(feature = "debug") {
-            tracing::debug!("[Change] {} => {}", start, dump(&*e, false));
-        }
+        dump_change_detail!("{} => {}", start, dump(&*e, false));
 
         true
     }
@@ -104,7 +102,7 @@ where
         if stmt.alt == None {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
-                tracing::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
+                report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
                     expr: Box::new(Expr::Bin(BinExpr {
@@ -283,7 +281,7 @@ where
                 match (lt, rt) {
                     (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
                         if op == op!("===") {
-                            tracing::debug!(
+                            report_change!(
                                 "Reducing `!== null || !== undefined` check to `!= null`"
                             );
                             return Some(BinExpr {
@@ -293,7 +291,7 @@ where
                                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                             });
                         } else {
-                            tracing::debug!(
+                            report_change!(
                                 "Reducing `=== null || === undefined` check to `== null`"
                             );
                             return Some(BinExpr {

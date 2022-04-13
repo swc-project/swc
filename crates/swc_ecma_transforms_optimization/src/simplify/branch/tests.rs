@@ -76,8 +76,8 @@ fn test_fold_block() {
     test("{if(false)foo(); {bar()}}", "bar()");
     test("{if(false)if(false)if(false)foo(); {bar()}}", "bar()");
 
-    test("{'hi'}", "");
-    test("{x==3}", "");
+    test("{'hi'}", "'hi'");
+    test("{x==3}", "x");
     test("{`hello ${foo}`}", "");
     test("{ (function(){x++}) }", "");
     test_same("function f(){return;}");
@@ -86,11 +86,11 @@ fn test_fold_block() {
     test("{x=3;;;y=2;;;}", "x=3;y=2");
 
     // Cases to test for empty block.
-    test("while(x()){x}", "while(x());");
+    test("while(x()){x}", "while(x())x;");
     test("while(x()){x()}", "while(x())x()");
-    test("for(x=0;x<100;x++){x}", "for(x=0;x<100;x++);");
-    test("for(x in y){x}", "for(x in y);");
-    test("for (x of y) {x}", "for(x of y);");
+    test("for(x=0;x<100;x++){x}", "for(x=0;x<100;x++)x;");
+    test("for(x in y){x}", "for(x in y)x;");
+    test("for (x of y) {x}", "for(x of y)x;");
     test_same("for (let x = 1; x <10; x++ );");
     test_same("for (var x = 1; x <10; x++ );");
 }
@@ -101,7 +101,7 @@ fn test_fold_block_with_declaration() {
     test_same("function f() {let x}");
     test_same("{const x = 1}");
     test_same("{x = 2; y = 4; let z;}");
-    test("{'hi'; let x;}", "{let x}");
+    test("{'hi'; let x;}", "{'hi'; let x}");
     test("{x = 4; {let y}}", "x = 4; {let y}");
     test_same("{class C {}} {class C {}}");
     test("{label: var x}", "label: var x");
@@ -256,7 +256,7 @@ fn test_fold_useless_for() {
 fn test_fold_useless_do_1() {
     test("do { foo() } while(false);", "foo()");
     test("do { foo() } while(void 0);", "foo()");
-    test("do { foo() } while(undefined);", "foo()");
+    test("do { foo() } while(undefined);", "foo(); undefined");
     test("do { foo() } while(true);", "for(;;) foo();");
     test("do { var a = 0; } while(false);", "var a=0");
 }
@@ -335,9 +335,9 @@ fn test_minimize_loop_with_constant_condition_do_while() {
     test("do { foo(); } while (true)", "for(;;)foo();");
     test("do { foo(); } while (0)", "foo();");
     test("do { foo(); } while (0.0)", "foo();");
-    test("do { foo(); } while (NaN)", "foo();");
+    test("do { foo(); } while (NaN)", "foo(); NaN");
     test("do { foo(); } while (null)", "foo();");
-    test("do { foo(); } while (undefined)", "foo();");
+    test("do { foo(); } while (undefined)", "foo(); undefined");
     test("do { foo(); } while ('')", "foo();");
 }
 
@@ -419,14 +419,14 @@ fn test_remove_useless_ops2() {
 
 #[test]
 fn test_optimize_switch_1() {
-    test("switch(a){}", "");
+    test("switch(a){}", "a");
     test("switch(foo()){}", "foo()");
-    test("switch(a){default:}", "");
-    test("switch(a){default:break;}", "");
-    test("switch(a){default:var b;break;}", "var b");
-    test("switch(a){case 1: default:}", "");
-    test("switch(a){default: case 1:}", "");
-    test("switch(a){default: break; case 1:break;}", "");
+    test("switch(a){default:}", "a");
+    test("switch(a){default:break;}", "a");
+    test("switch(a){default:var b;break;}", "a;var b");
+    test("switch(a){case 1: default:}", "a");
+    test("switch(a){default: case 1:}", "a");
+    test("switch(a){default: break; case 1:break;}", "a");
     //test(
     //    "switch(a){default: var b; break; case 1: var c; break;}",
     //    "var c; var b;",
@@ -946,12 +946,12 @@ fn test_remove_number() {
 
 #[test]
 fn test_remove_var_get1() {
-    test("a", "");
+    test("a", "a");
 }
 
 #[test]
 fn test_remove_var_get2() {
-    test("var a = 1;a", "var a = 1");
+    test("var a = 1;a", "var a = 1; a");
 }
 
 #[test]
@@ -1263,9 +1263,9 @@ fn test_call_containing_spread() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
     test("Math.sin(...c)", "[...c]");
-    test("Math.sin(4, ...c, a)", "[...c]");
+    test("Math.sin(4, ...c, a)", "[...c, a]");
     test("Math.sin(foo(), ...c, bar())", "[foo(), ...c, bar()]");
-    test("Math.sin(...a, b, ...c)", "[...a, ...c]");
+    test("Math.sin(...a, b, ...c)", "[...a, b, ...c]");
     test("Math.sin(...b, ...c)", "[...b, ...c]");
 }
 
@@ -1283,8 +1283,8 @@ fn test_new_containing_spread_1() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
     test("new Date(...c)", "[...c]");
-    test("new Date(4, ...c, a)", "[...c]");
-    test("new Date(...a, b, ...c)", "[...a, ...c]");
+    test("new Date(4, ...c, a)", "[...c, a]");
+    test("new Date(...a, b, ...c)", "[...a, b, ...c]");
     test("new Date(...b, ...c)", "[...b, ...c]");
 }
 
@@ -1316,7 +1316,7 @@ fn test_tagged_template_lit_substituting_template() {
 
 #[test]
 fn test_fold_assign() {
-    test("x=x", "");
+    test("x=x", "x");
     test_same("x=xy");
     test_same("x=x + 1");
     test_same("x.a=x.a");
@@ -1369,9 +1369,9 @@ fn test_array_literal() {
 #[test]
 fn test_array_literal_containing_spread() {
     test("([...c])", "[...c]");
-    test("([4, ...c, a])", "[...c]");
+    test("([4, ...c, a])", "[...c, a]");
     test("([foo(), ...c, bar()])", "[foo(), ...c, bar()]");
-    test("([...a, b, ...c])", "[...a, ...c]");
+    test("([...a, b, ...c])", "[...a, b, ...c]");
     test("([...b, ...c])", "[...b, ...c]");
 }
 

@@ -25,7 +25,7 @@ impl Pure<'_> {
                 PatOrExpr::Pat(left) => {
                     if let Pat::Ident(left) = &**left {
                         if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
-                            tracing::debug!(
+                            report_change!(
                                 "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
                                 left.id
                             );
@@ -52,7 +52,7 @@ impl Pure<'_> {
             }
 
             self.changed = true;
-            tracing::debug!("sequences: Lifting sequence in a binary expression");
+            report_change!("sequences: Lifting sequence in a binary expression");
 
             let left_last = left.exprs.pop().unwrap();
 
@@ -97,7 +97,7 @@ impl Pure<'_> {
                 new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
 
                 self.changed = true;
-                tracing::debug!("sequences: Lifting sequences in a assignment with cond expr");
+                report_change!("sequences: Lifting sequences in a assignment with cond expr");
                 let new_cond = CondExpr {
                     span: cond.span,
                     test: test.exprs.pop().unwrap(),
@@ -188,7 +188,7 @@ impl Pure<'_> {
                     });
                     b.take();
                     self.changed = true;
-                    tracing::debug!(
+                    report_change!(
                         "sequences: Reducing `(a = foo, a.call())` to `((a = foo).call())`"
                     );
 

@@ -396,7 +396,7 @@ where
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
         module = module.fold_with(&mut inject_helpers());
 
-        let transfromed_src = tester.print(&module, &tester.comments.clone());
+        let transformed_src = tester.print(&module, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
@@ -407,7 +407,7 @@ where
 
         println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
 
-        let actual = stdout_of(&transfromed_src).unwrap();
+        let actual = stdout_of(&transformed_src).unwrap();
 
         assert_eq!(expected, actual);
 

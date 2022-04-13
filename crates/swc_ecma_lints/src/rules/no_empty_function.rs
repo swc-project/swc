@@ -29,7 +29,7 @@ enum FunctionModifiers {
 }
 
 impl FunctionModifiers {
-    fn get_human_redable(&self) -> &'static str {
+    fn get_human_readable(&self) -> &'static str {
         match self {
             FunctionModifiers::Generator => "generator",
             FunctionModifiers::Getter => "getter",
@@ -189,7 +189,7 @@ impl NoEmptyFunction {
         let message = if let Some(fn_modifier) = function_type {
             format!(
                 "Unexpected empty {} {} pattern",
-                fn_modifier.get_human_redable(),
+                fn_modifier.get_human_readable(),
                 target_type
             )
         } else {

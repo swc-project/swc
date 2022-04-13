@@ -292,27 +292,25 @@ where
         }
 
         if external_bindings.contains(used_id) {
-            if cfg!(feature = "debug") {
-                tracing::debug!(
-                    "bundle: Due to {}{:?} (top-level), it's not a bundle",
-                    used_id.0,
-                    used_id.1
-                );
-            }
+            trace_op!(
+                "bundle: Due to {}{:?} (top-level), it's not a bundle",
+                used_id.0,
+                used_id.1
+            );
 
             return false;
         }
 
         if used_id.1 == top_level_ctxt {
             // if cfg!(feature = "debug") {
-            //     tracing::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
+            //     debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
             // used_id.1); }
             continue;
         }
 
         if bindings.contains(used_id) {
             // if cfg!(feature = "debug") {
-            //     tracing::debug!(
+            //     debug!(
             //         "bundle: Ignoring {}{:?} (local to fn)",
             //         used_id.0,
             //         used_id.1
@@ -321,13 +319,12 @@ where
             continue;
         }
 
-        if cfg!(feature = "debug") {
-            tracing::debug!(
-                "bundle: Due to {}{:?}, it's not a bundle",
-                used_id.0,
-                used_id.1
-            );
-        }
+        trace_op!(
+            "bundle: Due to {}{:?}, it's not a bundle",
+            used_id.0,
+            used_id.1
+        );
+
         return false;
     }
 

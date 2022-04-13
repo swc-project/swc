@@ -57,8 +57,7 @@
                         if (1 != parent.nodeType || hasBlockDesc(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
                         off = domIndex(node) + (dir < 0 ? 0 : 1), node = parent;
                     } else {
-                        if (1 != node.nodeType) return !1;
-                        if ("false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
+                        if (1 != node.nodeType || "false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
                         off = dir < 0 ? nodeSize(node) : 0;
                     }
                 }
@@ -101,17 +100,19 @@
             function scrollRectIntoView(view, rect, startDOM) {
                 for(var scrollThreshold = view.someProp("scrollThreshold") || 0, scrollMargin = view.someProp("scrollMargin") || 5, doc = view.dom.ownerDocument, parent = startDOM || view.dom; parent; parent = parentNode(parent))if (1 == parent.nodeType) {
                     var atTop = parent == doc.body || 1 != parent.nodeType, bounding = atTop ? windowRect(doc) : clientRect(parent), moveX = 0, moveY = 0;
-                    if (rect.top < bounding.top + getSide(scrollThreshold, "top") ? moveY = -(bounding.top - rect.top + getSide(scrollMargin, "top")) : rect.bottom > bounding.bottom - getSide(scrollThreshold, "bottom") && (moveY = rect.bottom - bounding.bottom + getSide(scrollMargin, "bottom")), rect.left < bounding.left + getSide(scrollThreshold, "left") ? moveX = -(bounding.left - rect.left + getSide(scrollMargin, "left")) : rect.right > bounding.right - getSide(scrollThreshold, "right") && (moveX = rect.right - bounding.right + getSide(scrollMargin, "right")), moveX || moveY) if (atTop) doc.defaultView.scrollBy(moveX, moveY);
-                    else {
-                        var startX = parent.scrollLeft, startY = parent.scrollTop;
-                        moveY && (parent.scrollTop += moveY), moveX && (parent.scrollLeft += moveX);
-                        var dX = parent.scrollLeft - startX, dY = parent.scrollTop - startY;
-                        rect = {
-                            left: rect.left - dX,
-                            top: rect.top - dY,
-                            right: rect.right - dX,
-                            bottom: rect.bottom - dY
-                        };
+                    if (rect.top < bounding.top + getSide(scrollThreshold, "top") ? moveY = -(bounding.top - rect.top + getSide(scrollMargin, "top")) : rect.bottom > bounding.bottom - getSide(scrollThreshold, "bottom") && (moveY = rect.bottom - bounding.bottom + getSide(scrollMargin, "bottom")), rect.left < bounding.left + getSide(scrollThreshold, "left") ? moveX = -(bounding.left - rect.left + getSide(scrollMargin, "left")) : rect.right > bounding.right - getSide(scrollThreshold, "right") && (moveX = rect.right - bounding.right + getSide(scrollMargin, "right")), moveX || moveY) {
+                        if (atTop) doc.defaultView.scrollBy(moveX, moveY);
+                        else {
+                            var startX = parent.scrollLeft, startY = parent.scrollTop;
+                            moveY && (parent.scrollTop += moveY), moveX && (parent.scrollLeft += moveX);
+                            var dX = parent.scrollLeft - startX, dY = parent.scrollTop - startY;
+                            rect = {
+                                left: rect.left - dX,
+                                top: rect.top - dY,
+                                right: rect.right - dX,
+                                bottom: rect.bottom - dY
+                            };
+                        }
                     }
                     if (atTop) break;
                 }
@@ -651,10 +652,11 @@
                     var assign, descObj, custom = view.nodeViews[node.type.name], spec = custom && custom(node, view, function() {
                         return descObj ? descObj.parent ? descObj.parent.posBeforeChild(descObj) : void 0 : pos;
                     }, outerDeco, innerDeco), dom = spec && spec.dom, contentDOM = spec && spec.contentDOM;
-                    if (node.isText) if (dom) {
-                        if (3 != dom.nodeType) throw new RangeError("Text must be rendered as a DOM text node");
-                    } else dom = document.createTextNode(node.text);
-                    else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
+                    if (node.isText) {
+                        if (dom) {
+                            if (3 != dom.nodeType) throw new RangeError("Text must be rendered as a DOM text node");
+                        } else dom = document.createTextNode(node.text);
+                    } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc1(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc1(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
@@ -1262,8 +1264,7 @@
             }
             function selectVertically(view, dir, mods) {
                 var sel = view.state.selection;
-                if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1) return !1;
-                if (result1.mac && mods.indexOf("m") > -1) return !1;
+                if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1 || result1.mac && mods.indexOf("m") > -1) return !1;
                 var $from = sel.$from, $to = sel.$to;
                 if (!$from.parent.inlineContent || view.endOfTextblock(dir < 0 ? "up" : "down")) {
                     var next = moveSelectionBlock(view.state, dir);
@@ -1597,8 +1598,7 @@
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
                 if (added.indexOf(mut.target) > -1) return null;
                 var desc = this.view.docView.nearestDesc(mut.target);
-                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style"))) return null;
-                if (!desc || desc.ignoreMutation(mut)) return null;
+                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
                 if ("childList" == mut.type) {
                     for(var i = 0; i < mut.addedNodes.length; i++)added.push(mut.addedNodes[i]);
                     if (desc.contentDOM && desc.contentDOM != desc.dom && !desc.contentDOM.contains(mut.target)) return {
@@ -1705,28 +1705,30 @@
                 return endComposition(view);
             }
             editHandlers.keydown = function(view2, event) {
-                if (view2.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view2, event)) if (229 != event.keyCode && view2.domObserver.forceFlush(), view2.lastKeyCode = event.keyCode, view2.lastKeyCodeTime = Date.now(), !result1.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
-                    var view1, event1, event2, result, code, mods;
-                    view2.someProp("handleKeyDown", function(f) {
-                        return f(view2, event);
-                    }) || (view1 = view2, code = (event1 = event).keyCode, mods = (result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), result), 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
-                        if (result1.safari && !(view.state.selection.$head.parentOffset > 0)) {
-                            var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
-                            if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
-                                var child = focusNode.firstChild;
-                                switchEditable(view, child, !0), setTimeout(function() {
-                                    return switchEditable(view, child, !1);
-                                }, 20);
+                if (view2.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view2, event)) {
+                    if (229 != event.keyCode && view2.domObserver.forceFlush(), view2.lastKeyCode = event.keyCode, view2.lastKeyCodeTime = Date.now(), !result1.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
+                        var view1, event1, event2, result, code, mods;
+                        view2.someProp("handleKeyDown", function(f) {
+                            return f(view2, event);
+                        }) || (view1 = view2, code = (event1 = event).keyCode, mods = (result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), result), 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
+                            if (result1.safari && !(view.state.selection.$head.parentOffset > 0)) {
+                                var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
+                                if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
+                                    var child = focusNode.firstChild;
+                                    switchEditable(view, child, !0), setTimeout(function() {
+                                        return switchEditable(view, child, !1);
+                                    }, 20);
+                                }
                             }
-                        }
-                    }(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result1.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view2, "key");
-                } else {
-                    var now = Date.now();
-                    view2.lastIOSEnter = now, view2.lastIOSEnterFallbackTimeout = setTimeout(function() {
-                        view2.lastIOSEnter == now && (view2.someProp("handleKeyDown", function(f) {
-                            return f(view2, keyEvent(13, "Enter"));
-                        }), view2.lastIOSEnter = 0);
-                    }, 200);
+                        }(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result1.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view2, "key");
+                    } else {
+                        var now = Date.now();
+                        view2.lastIOSEnter = now, view2.lastIOSEnterFallbackTimeout = setTimeout(function() {
+                            view2.lastIOSEnter == now && (view2.someProp("handleKeyDown", function(f) {
+                                return f(view2, keyEvent(13, "Enter"));
+                            }), view2.lastIOSEnter = 0);
+                        }, 200);
+                    }
                 }
             }, editHandlers.keyup = function(view, e) {
                 16 == e.keyCode && (view.shiftKey = !1);
@@ -2264,10 +2266,12 @@
             }, DecorationGroup.prototype.locals = function(node) {
                 for(var result, sorted = !0, i = 0; i < this.members.length; i++){
                     var locals = this.members[i].localsInner(node);
-                    if (locals.length) if (result) {
-                        sorted && (result = result.slice(), sorted = !1);
-                        for(var j = 0; j < locals.length; j++)result.push(locals[j]);
-                    } else result = locals;
+                    if (locals.length) {
+                        if (result) {
+                            sorted && (result = result.slice(), sorted = !1);
+                            for(var j = 0; j < locals.length; j++)result.push(locals[j]);
+                        } else result = locals;
+                    }
                 }
                 return result ? removeOverlap(sorted ? result : result.sort(byPos)) : none;
             }, DecorationGroup.from = function(members) {
@@ -2366,24 +2370,26 @@
                                     endB: endB
                                 };
                             }(compare.content, parse.doc.content, parse.from, preferredPos, preferredSide);
-                            if (!change) if (typeOver && sel2 instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel2.empty && sel2.$head.sameParent(sel2.$anchor) && !view8.composing && !(parse.sel && parse.sel.anchor != parse.sel.head)) change = {
-                                start: sel2.from,
-                                endA: sel2.to,
-                                endB: sel2.to
-                            };
-                            else if ((result1.ios && view8.lastIOSEnter > Date.now() - 225 || result1.android) && addedNodes.some(function(n) {
-                                return "DIV" == n.nodeName || "P" == n.nodeName;
-                            }) && view8.someProp("handleKeyDown", function(f) {
-                                return f(view8, keyEvent(13, "Enter"));
-                            })) {
-                                view8.lastIOSEnter = 0;
-                                return;
-                            } else {
-                                if (parse.sel) {
-                                    var sel$1 = resolveSelection(view8, view8.state.doc, parse.sel);
-                                    sel$1 && !sel$1.eq(view8.state.selection) && view8.dispatch(view8.state.tr.setSelection(sel$1));
+                            if (!change) {
+                                if (typeOver && sel2 instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel2.empty && sel2.$head.sameParent(sel2.$anchor) && !view8.composing && !(parse.sel && parse.sel.anchor != parse.sel.head)) change = {
+                                    start: sel2.from,
+                                    endA: sel2.to,
+                                    endB: sel2.to
+                                };
+                                else if ((result1.ios && view8.lastIOSEnter > Date.now() - 225 || result1.android) && addedNodes.some(function(n) {
+                                    return "DIV" == n.nodeName || "P" == n.nodeName;
+                                }) && view8.someProp("handleKeyDown", function(f) {
+                                    return f(view8, keyEvent(13, "Enter"));
+                                })) {
+                                    view8.lastIOSEnter = 0;
+                                    return;
+                                } else {
+                                    if (parse.sel) {
+                                        var sel$1 = resolveSelection(view8, view8.state.doc, parse.sel);
+                                        sel$1 && !sel$1.eq(view8.state.selection) && view8.dispatch(view8.state.tr.setSelection(sel$1));
+                                    }
+                                    return;
                                 }
-                                return;
                             }
                             view8.domChangeCount++, view8.state.selection.from < view8.state.selection.to && change.start == change.endB && view8.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view8.state.selection.from && change.start <= view8.state.selection.from + 2 ? change.start = view8.state.selection.from : change.endA < view8.state.selection.to && change.endA >= view8.state.selection.to - 2 && (change.endB += view8.state.selection.to - change.endA, change.endA = view8.state.selection.to)), result1.ie && result1.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \u00a0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
                             var $from2 = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from2.sameParent($to) && $from2.parent.inlineContent;
@@ -2634,8 +2640,7 @@
                     var pos, elt1 = (view10.root.elementFromPoint ? view10.root : doc).elementFromPoint(coords3.left, coords3.top + 1);
                     if (!elt1 || !view10.dom.contains(1 != elt1.nodeType ? elt1.parentNode : elt1)) {
                         var box = view10.dom.getBoundingClientRect();
-                        if (!inRect(coords3, box)) return null;
-                        if (!(elt1 = elementFromPoint(view10.dom, coords3, box))) return null;
+                        if (!inRect(coords3, box) || !(elt1 = elementFromPoint(view10.dom, coords3, box))) return null;
                     }
                     if (result1.safari) for(var p = elt1; node1 && p; p = parentNode(p))p.draggable && (node1 = offset1 = null);
                     if (elt1 = (dom = elt1, coords1 = coords3, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node1) {

@@ -20,6 +20,6 @@ function get(target, property, receiver) {
   return get(target, property, receiver);
 }
 
-export default function _get(target, property, reciever) {
-  return get(target, property, reciever);
+export default function _get(target, property, receiver) {
+  return get(target, property, receiver);
 }

@@ -22,7 +22,7 @@ use swc_ecma_transforms_optimization::simplify::{
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
-use tracing::error;
+use tracing::{debug, error};
 
 pub(crate) use self::pure::pure_optimizer;
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
@@ -128,7 +128,7 @@ where
     where
         N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
-        tracing::debug!("visit_par(left_depth = {})", self.left_parallel_depth);
+        trace_op!("visit_par(left_depth = {})", self.left_parallel_depth);
 
         if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
             for node in nodes {
@@ -181,12 +181,10 @@ where
             + for<'aa> VisitMutWith<Compressor<'aa, M>>
             + VisitWith<AssertValid>,
     {
-        if cfg!(feature = "debug") {
-            tracing::debug!(
-                "Optimizing a compile unit within `{:?}`",
-                thread::current().name()
-            );
-        }
+        trace_op!(
+            "Optimizing a compile unit within `{:?}`",
+            thread::current().name()
+        );
 
         {
             let data = analyze(&*n, Some(self.marks));
@@ -236,7 +234,7 @@ where
 
         if self.options.passes != 0 && self.options.passes < self.pass {
             let done = dump(&*n, false);
-            tracing::debug!("===== Done =====\n{}", done);
+            debug!("===== Done =====\n{}", done);
             return;
         }
 
@@ -268,7 +266,7 @@ where
 
         let start = if cfg!(feature = "debug") {
             let start = n.dump();
-            tracing::debug!("===== Start =====\n{}", start);
+            debug!("===== Start =====\n{}", start);
             start
         } else {
             String::new()
@@ -288,9 +286,9 @@ where
             if visitor.changed() {
                 n.invoke();
 
-                tracing::debug!("compressor: Simplified expressions");
+                debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    tracing::debug!("===== Simplified =====\n{}", dump(&*n, false));
+                    debug!("===== Simplified =====\n{}", dump(&*n, false));
                 }
             }
 
@@ -334,8 +332,8 @@ where
             if cfg!(feature = "debug") && visitor.changed() {
                 n.invoke();
 
-                let start = n.dump();
-                tracing::debug!("===== After pure =====\n{}", start);
+                let src = n.dump();
+                debug!("===== After pure =====\n{}\n{}", start, src);
             }
         }
 
@@ -363,7 +361,7 @@ where
             self.changed |= visitor.changed();
 
             // let done = dump(&*n);
-            // tracing::debug!("===== Result =====\n{}", done);
+            // debug!("===== Result =====\n{}", done);
         }
 
         if self.options.conditionals || self.options.dead_code {
@@ -392,10 +390,9 @@ where
                 let simplified = dump(&*n, false);
 
                 if start != simplified {
-                    tracing::debug!(
+                    debug!(
                         "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
-                        start,
-                        simplified
+                        start, simplified
                     );
                 }
             }
