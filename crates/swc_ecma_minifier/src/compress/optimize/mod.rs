@@ -708,7 +708,7 @@ where
         if self.options.bools_as_ints || self.options.bools {
             if let Lit::Bool(v) = lit {
                 self.changed = true;
-                debug!("Compressing boolean literal");
+                report_change!("Compressing boolean literal");
                 *e = Expr::Unary(UnaryExpr {
                     span: v.span,
                     op: op!("!"),
@@ -2298,7 +2298,7 @@ where
 
         if let Some(Stmt::Empty(..)) = s.as_deref() {
             self.changed = true;
-            debug!("misc: Removing empty statement");
+            report_change!("misc: Removing empty statement");
             *s = None;
         }
     }
@@ -2563,7 +2563,7 @@ where
                     _ => false,
                 }
             {
-                debug!("Removing 'use strict'");
+                report_change!("Removing 'use strict'");
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
@@ -2575,9 +2575,7 @@ where
                 if can_be_removed {
                     self.changed = true;
                     report_change!("unused: Dropping an expression without side effect");
-                    if cfg!(feature = "debug") {
-                        trace!("unused: [Change] Dropping \n{}\n", dump(&*expr, false));
-                    }
+                    dump_change_detail!("unused: Dropping \n{}\n", dump(&*expr, false));
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -2776,7 +2774,7 @@ where
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
-                    debug!("Ignoring arg of `void`");
+                    report_change!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
@@ -2813,7 +2811,9 @@ where
                 if let Some(e) = &var.init {
                     if is_pure_undefined(e) {
                         self.changed = true;
-                        debug!("Dropping explicit initializer which evaluates to `undefined`");
+                        report_change!(
+                            "Dropping explicit initializer which evaluates to `undefined`"
+                        );
 
                         var.init = None;
                     }

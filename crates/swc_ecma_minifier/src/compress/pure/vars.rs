@@ -53,7 +53,7 @@ impl Pure<'_> {
             }
         }
 
-        debug!("join_vars: Joining variables");
+        report_change!("join_vars: Joining variables");
         self.changed = true;
 
         let mut cur: Option<VarDecl> = None;
@@ -209,7 +209,7 @@ impl Pure<'_> {
         }
 
         self.changed = true;
-        debug!("collapse_vars: Collapsing variables without an initializer");
+        report_change!("collapse_vars: Collapsing variables without an initializer");
 
         let vars = {
             let mut v = VarMover {

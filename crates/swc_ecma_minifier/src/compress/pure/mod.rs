@@ -551,7 +551,7 @@ impl VisitMut for Pure<'_> {
         e.exprs.retain(|e| {
             if e.is_invalid() {
                 self.changed = true;
-                debug!("Removing invalid expr in seq");
+                report_change!("Removing invalid expr in seq");
                 return false;
             }
 
@@ -623,7 +623,7 @@ impl VisitMut for Pure<'_> {
             if let Stmt::Debugger(..) = s {
                 self.changed = true;
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                debug!("drop_debugger: Dropped a debugger statement");
+                report_change!("drop_debugger: Dropped a debugger statement");
                 return;
             }
         }
