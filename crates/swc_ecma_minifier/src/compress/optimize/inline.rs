@@ -93,16 +93,12 @@ where
                         }) => {
                             if body.stmts.len() == 1 && matches!(&body.stmts[0], Stmt::Return(..)) {
                             } else {
-                                if cfg!(feature = "debug") {
-                                    trace!("inline: [x] It's not fn-local");
-                                }
+                                log_abort!("inline: [x] It's not fn-local");
                                 return;
                             }
                         }
                         _ => {
-                            if cfg!(feature = "debug") {
-                                trace!("inline: [x] It's not fn-local");
-                            }
+                            log_abort!("inline: [x] It's not fn-local");
                             return;
                         }
                     }
@@ -513,15 +509,17 @@ where
                 self.changed = true;
                 match &decl {
                     Decl::Class(c) => {
-                        debug!(
+                        report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
-                            c.ident.sym, c.ident.span.ctxt
+                            c.ident.sym,
+                            c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
-                        debug!(
+                        report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
-                            f.ident.sym, f.ident.span.ctxt
+                            f.ident.sym,
+                            f.ident.span.ctxt
                         );
                     }
                     _ => {}

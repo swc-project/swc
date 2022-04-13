@@ -2016,9 +2016,7 @@ where
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                if cfg!(feature = "debug") {
-                    debug!("visit_mut_expr_stmt: Dropped an expression statement");
-                }
+                report_change!("visit_mut_expr_stmt: Dropped an expression statement");
                 undefined(DUMMY_SP)
             });
         } else {
