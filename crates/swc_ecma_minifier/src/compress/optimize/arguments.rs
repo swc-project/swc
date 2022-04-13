@@ -48,7 +48,7 @@ where
                         }
 
                         self.changed = true;
-                        debug!("arguments: Optimizing computed access to arguments");
+                        report_change!("arguments: Optimizing computed access to arguments");
                         *prop = SuperProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,

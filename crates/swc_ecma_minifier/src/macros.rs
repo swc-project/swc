@@ -19,3 +19,14 @@ macro_rules! log_abort {
         }
     }};
 }
+
+macro_rules! dump_change_detail {
+    ($($tt:tt)+) => {{
+        if cfg!(feature = "debug") {
+            tracing::trace!(
+                kind = "detail",
+                $($tt)*
+            );
+        }
+    }};
+}

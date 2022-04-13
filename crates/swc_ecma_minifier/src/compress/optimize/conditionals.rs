@@ -508,7 +508,7 @@ where
                         });
                     }
 
-                    debug!(
+                    report_change!(
                         "Compressing if statement into a conditional expression of `new` as \
                          there's no side effect and the number of arguments is 1"
                     );

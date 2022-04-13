@@ -64,19 +64,15 @@ where
                 }
 
                 if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
-                    if cfg!(feature = "debug") {
-                        trace!(
-                            "inline: [x] Preserving non-const variable `{}` because it's top-level",
-                            dump(&var.name, false)
-                        );
-                    }
+                    log_abort!(
+                        "inline: [x] Preserving non-const variable `{}` because it's top-level",
+                        dump(&var.name, false)
+                    );
                     return;
                 }
 
                 if usage.cond_init || usage.used_above_decl {
-                    if cfg!(feature = "debug") {
-                        trace!("inline: [x] It's cond init or used before decl",);
-                    }
+                    log_abort!("inline: [x] It's cond init or used before decl",);
                     return;
                 }
 

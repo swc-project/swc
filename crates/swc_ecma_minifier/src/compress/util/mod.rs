@@ -158,7 +158,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             arg,
         });
 
-        dump_change_detail!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        dump_change_detail!("Negated `{}` as `{}`", start_str, dump(&*e, false));
 
         true
     }
