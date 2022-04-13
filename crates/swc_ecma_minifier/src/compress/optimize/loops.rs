@@ -120,7 +120,9 @@ where
                     } else if let Known(true) = val {
                         if purity.is_pure() {
                             self.changed = true;
-                            debug!("loops: Removing `test` part of a for stmt as it's always true");
+                            report_change!(
+                                "loops: Removing `test` part of a for stmt as it's always true"
+                            );
                             f.test = None;
                         }
                     }

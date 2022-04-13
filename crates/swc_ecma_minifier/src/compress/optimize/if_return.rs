@@ -207,7 +207,7 @@ where
         }
 
         if last_idx <= skip {
-            trace!("if_return: [x] Aborting because of skip");
+            log_abort!("if_return: [x] Aborting because of skip");
             return;
         }
 
@@ -218,7 +218,7 @@ where
             // There's no return statement so merging requires injecting unnecessary `void
             // 0`
             if return_count == 0 {
-                trace!("if_return: [x] Aborting because we failed to find return");
+                log_abort!("if_return: [x] Aborting because we failed to find return");
                 return;
             }
 
@@ -244,7 +244,9 @@ where
                     (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..)))
                         if if_return_count <= 1 =>
                     {
-                        trace!("if_return: [x] Aborting because last stmt is a not return stmt");
+                        log_abort!(
+                            "if_return: [x] Aborting because last stmt is a not return stmt"
+                        );
                         return;
                     }
 
@@ -256,7 +258,7 @@ where
                     ) => match &**cons {
                         Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
                         _ => {
-                            trace!(
+                            log_abort!(
                                 "if_return: [x] Aborting because stmt before last is an if stmt \
                                  and cons of it is not a return stmt"
                             );

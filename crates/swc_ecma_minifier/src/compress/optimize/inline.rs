@@ -175,9 +175,10 @@ where
                     {
                         self.changed = true;
 
-                        debug!(
+                        report_change!(
                             "inline: Decided to inline '{}{:?}' because it's simple",
-                            i.id.sym, i.id.span.ctxt
+                            i.id.sym,
+                            i.id.span.ctxt
                         );
 
                         if self.ctx.var_kind == Some(VarDeclKind::Const) {
@@ -405,31 +406,23 @@ where
         if (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
-            if cfg!(feature = "debug") {
-                trace!("inline: [x] Top level");
-            }
+            log_abort!("inline: [x] Top level");
             return;
         }
 
         if self.has_noinline(decl.span()) {
-            if cfg!(feature = "debug") {
-                trace!("inline: [x] Has noinline");
-            }
+            log_abort!("inline: [x] Has noinline");
             return;
         }
 
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
-            if cfg!(feature = "debug") {
-                trace!("inline: [x] top_retain");
-            }
+            log_abort!("inline: [x] top_retain");
             return;
         }
 
         if self.ctx.is_exported {
-            if cfg!(feature = "debug") {
-                trace!("inline: [x] exported");
-            }
+            log_abort!("inline: [x] exported");
             return;
         }
 
@@ -439,9 +432,7 @@ where
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if usage.declared_as_catch_param {
-                if cfg!(feature = "debug") {
-                    trace!("inline: [x] Declared as a catch parameter");
-                }
+                log_abort!("inline: [x] Declared as a catch parameter");
                 return;
             }
 
