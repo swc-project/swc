@@ -1,3 +1,3 @@
-/*@__PURE__*/ (function (n) {
+/*#__PURE__*/ (function (n) {
     console.log("hello", n);
 })(42);
