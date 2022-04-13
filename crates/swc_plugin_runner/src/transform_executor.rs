@@ -18,7 +18,7 @@ pub struct TransformExecutor {
     // memory space
     exported_plugin_alloc: wasmer::NativeFunc<u32, i32>,
     instance: Instance,
-    // Reference to the pointers succesfully allocated which'll be freed by Drop.
+    // Reference to the pointers successfully allocated which'll be freed by Drop.
     allocated_ptr_vec: Vec<(i32, i32)>,
     transform_result: Arc<Mutex<Vec<u8>>>,
 }

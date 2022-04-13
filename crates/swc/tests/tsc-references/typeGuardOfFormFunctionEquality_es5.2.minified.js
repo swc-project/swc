@@ -1,5 +1,1 @@
-switch(isString1(0, "")){
-    case isString2(""):
-    default:
-}
-isString1(0, "") === isString2("");
+isString1(0, ""), isString1(0, ""), isString2("");

@@ -918,36 +918,4 @@ var x85 = function() {
             d2
         ];
     }
-}, function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function() {
-    return [
-        d1,
-        d2
-    ];
-}), function(n) {}(function(n) {
-    return null;
-});
+};

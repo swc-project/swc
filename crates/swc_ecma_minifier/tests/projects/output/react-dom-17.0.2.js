@@ -56,8 +56,7 @@
         }
     }
     function shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag) {
-        if (null == value) return !0;
-        if (shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
+        if (null == value || shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
         if (isCustomComponentTag) return !1;
         if (null !== propertyInfo) switch(propertyInfo.type){
             case 3:
@@ -3644,7 +3643,7 @@
     }
     function getPossibleStandardName(propName) {
         var lowerCasedName = propName.toLowerCase();
-        return possibleStandardNames.hasOwnProperty(lowerCasedName) ? possibleStandardNames[lowerCasedName] || null : null;
+        return possibleStandardNames.hasOwnProperty(lowerCasedName) && possibleStandardNames[lowerCasedName] || null;
     }
     function warnForUnmatchedText(textNode, text) {
         warnForTextDifference(textNode.nodeValue, text);
@@ -3659,7 +3658,7 @@
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching <%s> in <%s>.', tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        '' !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
+        '' === text || didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase()));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ('string' == typeof markup ? markup : '' + markup).replace(NORMALIZE_NEWLINES_REGEX, '\n').replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, '');
@@ -6349,24 +6348,25 @@
     }
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
         var _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
-        if ('hidden' === nextProps.mode || 'unstable-defer-without-hiding' === nextProps.mode) if ((4 & workInProgress.mode) == 0) {
-            var nextState = {
-                baseLanes: NoLanes
-            };
-            workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
-        } else if ((1073741824 & renderLanes) !== NoLanes) {
-            var _nextState2 = {
-                baseLanes: NoLanes
-            };
-            workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
-        } else {
-            nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-            var nextBaseLanes, _nextState = {
-                baseLanes: nextBaseLanes
-            };
-            return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
-        }
-        else null !== prevState ? (_subtreeRenderLanes = prevState.baseLanes | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
+        if ('hidden' === nextProps.mode || 'unstable-defer-without-hiding' === nextProps.mode) {
+            if ((4 & workInProgress.mode) == 0) {
+                var nextState = {
+                    baseLanes: NoLanes
+                };
+                workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
+            } else if ((1073741824 & renderLanes) !== NoLanes) {
+                var _nextState2 = {
+                    baseLanes: NoLanes
+                };
+                workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
+            } else {
+                nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
+                var nextBaseLanes, _nextState = {
+                    baseLanes: nextBaseLanes
+                };
+                return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
+            }
+        } else null !== prevState ? (_subtreeRenderLanes = prevState.baseLanes | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
     }
     didWarnAboutBadClass = {}, didWarnAboutModulePatternComponent = {}, didWarnAboutContextTypeOnFunctionComponent = {}, didWarnAboutGetDerivedStateOnFunctionComponent = {}, didWarnAboutFunctionRefs = {}, didWarnAboutReassigningProps = !1, didWarnAboutRevealOrder = {}, didWarnAboutTailOptions = {};
@@ -6584,33 +6584,37 @@
     function updateSuspenseListComponent(current, workInProgress6, renderLanes4) {
         var tailMode, revealOrder2, nextProps = workInProgress6.pendingProps, revealOrder1 = nextProps.revealOrder, tailMode1 = nextProps.tail, newChildren = nextProps.children;
         !function(revealOrder) {
-            if (void 0 !== revealOrder && 'forwards' !== revealOrder && 'backwards' !== revealOrder && 'together' !== revealOrder && !didWarnAboutRevealOrder[revealOrder]) if (didWarnAboutRevealOrder[revealOrder] = !0, 'string' == typeof revealOrder) switch(revealOrder.toLowerCase()){
-                case 'together':
-                case 'forwards':
-                case 'backwards':
-                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
-                    break;
-                case 'forward':
-                case 'backward':
-                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
-                    break;
-                default:
-                    error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
-                    break;
+            if (void 0 !== revealOrder && 'forwards' !== revealOrder && 'backwards' !== revealOrder && 'together' !== revealOrder && !didWarnAboutRevealOrder[revealOrder]) {
+                if (didWarnAboutRevealOrder[revealOrder] = !0, 'string' == typeof revealOrder) switch(revealOrder.toLowerCase()){
+                    case 'together':
+                    case 'forwards':
+                    case 'backwards':
+                        error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
+                        break;
+                    case 'forward':
+                    case 'backward':
+                        error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
+                        break;
+                    default:
+                        error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
+                        break;
+                }
+                else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
             }
-            else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
         }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ('collapsed' !== tailMode && 'hidden' !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1('"%s" is not a supported value for tail on <SuspenseList />. Did you mean "collapsed" or "hidden"?', tailMode)) : 'forwards' !== revealOrder2 && 'backwards' !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1('<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?', tailMode))), function(children, revealOrder) {
-            if (('forwards' === revealOrder || 'backwards' === revealOrder) && null != children && !1 !== children) if (Array.isArray(children)) {
-                for(var i = 0; i < children.length; i++)if (!validateSuspenseListNestedChild(children[i], i)) return;
-            } else {
-                var iteratorFn = getIteratorFn(children);
-                if ('function' == typeof iteratorFn) {
-                    var childrenIterator = iteratorFn.call(children);
-                    if (childrenIterator) for(var step = childrenIterator.next(), _i = 0; !step.done; step = childrenIterator.next()){
-                        if (!validateSuspenseListNestedChild(step.value, _i)) return;
-                        _i++;
-                    }
-                } else error1('A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?', revealOrder);
+            if (('forwards' === revealOrder || 'backwards' === revealOrder) && null != children && !1 !== children) {
+                if (Array.isArray(children)) {
+                    for(var i = 0; i < children.length; i++)if (!validateSuspenseListNestedChild(children[i], i)) return;
+                } else {
+                    var iteratorFn = getIteratorFn(children);
+                    if ('function' == typeof iteratorFn) {
+                        var childrenIterator = iteratorFn.call(children);
+                        if (childrenIterator) for(var step = childrenIterator.next(), _i = 0; !step.done; step = childrenIterator.next()){
+                            if (!validateSuspenseListNestedChild(step.value, _i)) return;
+                            _i++;
+                        }
+                    } else error1('A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?', revealOrder);
+                }
             }
         }(newChildren, revealOrder1), reconcileChildren(current, workInProgress6, newChildren, renderLanes4);
         var suspenseContext = suspenseStackCursor.current;
@@ -6691,57 +6695,58 @@
             var last = returnFiber.lastEffect;
             return null !== last ? (last.nextEffect = current, returnFiber.lastEffect = current) : returnFiber.firstEffect = returnFiber.lastEffect = current, current.nextEffect = null, current.flags = Deletion, newWorkInProgress.flags |= Placement, newWorkInProgress;
         }(current13, workInProgress16, createFiberFromTypeAndProps(workInProgress16.type, workInProgress16.key, workInProgress16.pendingProps, workInProgress16._debugOwner || null, workInProgress16.mode, workInProgress16.lanes));
-        if (null !== current13) if (current13.memoizedProps !== workInProgress16.pendingProps || hasContextChanged() || workInProgress16.type !== current13.type) didReceiveUpdate = !0;
-        else if ((renderLanes12 & updateLanes1) !== NoLanes) didReceiveUpdate = (16384 & current13.flags) !== NoFlags;
-        else {
-            switch(didReceiveUpdate = !1, workInProgress16.tag){
-                case 3:
-                    pushHostRootContext(workInProgress16), resetHydrationState();
-                    break;
-                case 5:
-                    pushHostContext(workInProgress16);
-                    break;
-                case 1:
-                    isContextProvider(workInProgress16.type) && pushContextProvider(workInProgress16);
-                    break;
-                case 4:
-                    pushHostContainer(workInProgress16, workInProgress16.stateNode.containerInfo);
-                    break;
-                case 10:
-                    var newValue = workInProgress16.memoizedProps.value;
-                    pushProvider(workInProgress16, newValue);
-                    break;
-                case 12:
-                    (renderLanes12 & workInProgress16.childLanes) !== NoLanes && (workInProgress16.flags |= Update);
-                    var stateNode = workInProgress16.stateNode;
-                    stateNode.effectDuration = 0, stateNode.passiveEffectDuration = 0;
-                    break;
-                case 13:
-                    if (null !== workInProgress16.memoizedState) {
-                        if ((renderLanes12 & workInProgress16.child.childLanes) !== NoLanes) return updateSuspenseComponent(current13, workInProgress16, renderLanes12);
+        if (null !== current13) {
+            if (current13.memoizedProps !== workInProgress16.pendingProps || hasContextChanged() || workInProgress16.type !== current13.type) didReceiveUpdate = !0;
+            else if ((renderLanes12 & updateLanes1) !== NoLanes) didReceiveUpdate = (16384 & current13.flags) !== NoFlags;
+            else {
+                switch(didReceiveUpdate = !1, workInProgress16.tag){
+                    case 3:
+                        pushHostRootContext(workInProgress16), resetHydrationState();
+                        break;
+                    case 5:
+                        pushHostContext(workInProgress16);
+                        break;
+                    case 1:
+                        isContextProvider(workInProgress16.type) && pushContextProvider(workInProgress16);
+                        break;
+                    case 4:
+                        pushHostContainer(workInProgress16, workInProgress16.stateNode.containerInfo);
+                        break;
+                    case 10:
+                        var newValue = workInProgress16.memoizedProps.value;
+                        pushProvider(workInProgress16, newValue);
+                        break;
+                    case 12:
+                        (renderLanes12 & workInProgress16.childLanes) !== NoLanes && (workInProgress16.flags |= Update);
+                        var stateNode = workInProgress16.stateNode;
+                        stateNode.effectDuration = 0, stateNode.passiveEffectDuration = 0;
+                        break;
+                    case 13:
+                        if (null !== workInProgress16.memoizedState) {
+                            if ((renderLanes12 & workInProgress16.child.childLanes) !== NoLanes) return updateSuspenseComponent(current13, workInProgress16, renderLanes12);
+                            pushSuspenseContext(workInProgress16, 1 & suspenseStackCursor.current);
+                            var child = bailoutOnAlreadyFinishedWork(current13, workInProgress16, renderLanes12);
+                            if (null !== child) return child.sibling;
+                            return null;
+                        }
                         pushSuspenseContext(workInProgress16, 1 & suspenseStackCursor.current);
-                        var child = bailoutOnAlreadyFinishedWork(current13, workInProgress16, renderLanes12);
-                        if (null !== child) return child.sibling;
-                        return null;
-                    }
-                    pushSuspenseContext(workInProgress16, 1 & suspenseStackCursor.current);
-                    break;
-                case 19:
-                    var didSuspendBefore = (current13.flags & DidCapture) !== NoFlags, _hasChildWork = (renderLanes12 & workInProgress16.childLanes) !== NoLanes;
-                    if (didSuspendBefore) {
-                        if (_hasChildWork) return updateSuspenseListComponent(current13, workInProgress16, renderLanes12);
-                        workInProgress16.flags |= DidCapture;
-                    }
-                    var renderState = workInProgress16.memoizedState;
-                    if (null !== renderState && (renderState.rendering = null, renderState.tail = null, renderState.lastEffect = null), pushSuspenseContext(workInProgress16, suspenseStackCursor.current), !_hasChildWork) return null;
-                    break;
-                case 23:
-                case 24:
-                    return workInProgress16.lanes = NoLanes, updateOffscreenComponent(current13, workInProgress16, renderLanes12);
+                        break;
+                    case 19:
+                        var didSuspendBefore = (current13.flags & DidCapture) !== NoFlags, _hasChildWork = (renderLanes12 & workInProgress16.childLanes) !== NoLanes;
+                        if (didSuspendBefore) {
+                            if (_hasChildWork) return updateSuspenseListComponent(current13, workInProgress16, renderLanes12);
+                            workInProgress16.flags |= DidCapture;
+                        }
+                        var renderState = workInProgress16.memoizedState;
+                        if (null !== renderState && (renderState.rendering = null, renderState.tail = null, renderState.lastEffect = null), pushSuspenseContext(workInProgress16, suspenseStackCursor.current), !_hasChildWork) return null;
+                        break;
+                    case 23:
+                    case 24:
+                        return workInProgress16.lanes = NoLanes, updateOffscreenComponent(current13, workInProgress16, renderLanes12);
+                }
+                return bailoutOnAlreadyFinishedWork(current13, workInProgress16, renderLanes12);
             }
-            return bailoutOnAlreadyFinishedWork(current13, workInProgress16, renderLanes12);
-        }
-        else didReceiveUpdate = !1;
+        } else didReceiveUpdate = !1;
         switch(workInProgress16.lanes = NoLanes, workInProgress16.tag){
             case 2:
                 return function(_current, workInProgress, Component, renderLanes) {
@@ -7220,20 +7225,21 @@
                 var renderState = workInProgress.memoizedState;
                 if (null === renderState) return null;
                 var didSuspendAlready = (workInProgress.flags & DidCapture) !== NoFlags, renderedTail = renderState.rendering;
-                if (null === renderedTail) if (didSuspendAlready) cutOffTailIfNeeded(renderState, !1);
-                else {
-                    if (!(0 === workInProgressRootExitStatus && (null === current || (current.flags & DidCapture) === NoFlags))) for(var row = workInProgress.child; null !== row;){
-                        var suspended = findFirstSuspended(row);
-                        if (null !== suspended) {
-                            didSuspendAlready = !0, workInProgress.flags |= DidCapture, cutOffTailIfNeeded(renderState, !1);
-                            var newThennables = suspended.updateQueue;
-                            return null !== newThennables && (workInProgress.updateQueue = newThennables, workInProgress.flags |= Update), null === renderState.lastEffect && (workInProgress.firstEffect = null), workInProgress.lastEffect = renderState.lastEffect, resetChildFibers(workInProgress, renderLanes), pushSuspenseContext(workInProgress, 1 & suspenseStackCursor.current | 2), workInProgress.child;
+                if (null === renderedTail) {
+                    if (didSuspendAlready) cutOffTailIfNeeded(renderState, !1);
+                    else {
+                        if (!(0 === workInProgressRootExitStatus && (null === current || (current.flags & DidCapture) === NoFlags))) for(var row = workInProgress.child; null !== row;){
+                            var suspended = findFirstSuspended(row);
+                            if (null !== suspended) {
+                                didSuspendAlready = !0, workInProgress.flags |= DidCapture, cutOffTailIfNeeded(renderState, !1);
+                                var newThennables = suspended.updateQueue;
+                                return null !== newThennables && (workInProgress.updateQueue = newThennables, workInProgress.flags |= Update), null === renderState.lastEffect && (workInProgress.firstEffect = null), workInProgress.lastEffect = renderState.lastEffect, resetChildFibers(workInProgress, renderLanes), pushSuspenseContext(workInProgress, 1 & suspenseStackCursor.current | 2), workInProgress.child;
+                            }
+                            row = row.sibling;
                         }
-                        row = row.sibling;
+                        null !== renderState.tail && now() > workInProgressRootRenderTargetTime && (workInProgress.flags |= DidCapture, didSuspendAlready = !0, cutOffTailIfNeeded(renderState, !1), workInProgress.lanes = 33554432, markSpawnedWork(33554432));
                     }
-                    null !== renderState.tail && now() > workInProgressRootRenderTargetTime && (workInProgress.flags |= DidCapture, didSuspendAlready = !0, cutOffTailIfNeeded(renderState, !1), workInProgress.lanes = 33554432, markSpawnedWork(33554432));
-                }
-                else {
+                } else {
                     if (!didSuspendAlready) {
                         var _suspended = findFirstSuspended(renderedTail);
                         if (null !== _suspended) {
@@ -7401,20 +7407,25 @@
                 }
                 assertValidProps(tag, nextProps);
                 var styleUpdates1 = null;
-                for(propKey in lastProps)if (!nextProps.hasOwnProperty(propKey) && lastProps.hasOwnProperty(propKey) && null != lastProps[propKey]) if (propKey === STYLE) {
-                    var lastStyle = lastProps[propKey];
-                    for(styleName in lastStyle)lastStyle.hasOwnProperty(styleName) && (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = '');
-                } else propKey !== DANGEROUSLY_SET_INNER_HTML && propKey !== CHILDREN && propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && propKey !== AUTOFOCUS && (registrationNameDependencies1.hasOwnProperty(propKey) ? updatePayload || (updatePayload = []) : (updatePayload = updatePayload || []).push(propKey, null));
+                for(propKey in lastProps)if (!nextProps.hasOwnProperty(propKey) && lastProps.hasOwnProperty(propKey) && null != lastProps[propKey]) {
+                    if (propKey === STYLE) {
+                        var lastStyle = lastProps[propKey];
+                        for(styleName in lastStyle)lastStyle.hasOwnProperty(styleName) && (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = '');
+                    } else propKey !== DANGEROUSLY_SET_INNER_HTML && propKey !== CHILDREN && propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && propKey !== AUTOFOCUS && (registrationNameDependencies1.hasOwnProperty(propKey) ? updatePayload || (updatePayload = []) : (updatePayload = updatePayload || []).push(propKey, null));
+                }
                 for(propKey in nextProps){
                     var nextProp = nextProps[propKey], lastProp = null != lastProps ? lastProps[propKey] : void 0;
-                    if (nextProps.hasOwnProperty(propKey) && nextProp !== lastProp && (null != nextProp || null != lastProp)) if (propKey === STYLE) if (nextProp && Object.freeze(nextProp), lastProp) {
-                        for(styleName in lastProp)!lastProp.hasOwnProperty(styleName) || nextProp && nextProp.hasOwnProperty(styleName) || (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = '');
-                        for(styleName in nextProp)nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName] && (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = nextProp[styleName]);
-                    } else styleUpdates1 || (updatePayload || (updatePayload = []), updatePayload.push(propKey, styleUpdates1)), styleUpdates1 = nextProp;
-                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-                        var nextHtml = nextProp ? nextProp[HTML$1] : void 0, lastHtml = lastProp ? lastProp[HTML$1] : void 0;
-                        null != nextHtml && lastHtml !== nextHtml && (updatePayload = updatePayload || []).push(propKey, nextHtml);
-                    } else propKey === CHILDREN ? ('string' == typeof nextProp || 'number' == typeof nextProp) && (updatePayload = updatePayload || []).push(propKey, '' + nextProp) : propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && (registrationNameDependencies1.hasOwnProperty(propKey) ? (null != nextProp && ('function' != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), 'onScroll' === propKey && listenToNonDelegatedEvent('scroll', domElement)), updatePayload || lastProp === nextProp || (updatePayload = [])) : 'object' == typeof nextProp && null !== nextProp && nextProp.$$typeof === REACT_OPAQUE_ID_TYPE ? nextProp.toString() : (updatePayload = updatePayload || []).push(propKey, nextProp));
+                    if (nextProps.hasOwnProperty(propKey) && nextProp !== lastProp && (null != nextProp || null != lastProp)) {
+                        if (propKey === STYLE) {
+                            if (nextProp && Object.freeze(nextProp), lastProp) {
+                                for(styleName in lastProp)!lastProp.hasOwnProperty(styleName) || nextProp && nextProp.hasOwnProperty(styleName) || (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = '');
+                                for(styleName in nextProp)nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName] && (styleUpdates1 || (styleUpdates1 = {}), styleUpdates1[styleName] = nextProp[styleName]);
+                            } else styleUpdates1 || (updatePayload || (updatePayload = []), updatePayload.push(propKey, styleUpdates1)), styleUpdates1 = nextProp;
+                        } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                            var nextHtml = nextProp ? nextProp[HTML$1] : void 0, lastHtml = lastProp ? lastProp[HTML$1] : void 0;
+                            null != nextHtml && lastHtml !== nextHtml && (updatePayload = updatePayload || []).push(propKey, nextHtml);
+                        } else propKey === CHILDREN ? ('string' == typeof nextProp || 'number' == typeof nextProp) && (updatePayload = updatePayload || []).push(propKey, '' + nextProp) : propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && (registrationNameDependencies1.hasOwnProperty(propKey) ? (null != nextProp && ('function' != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), 'onScroll' === propKey && listenToNonDelegatedEvent('scroll', domElement)), updatePayload || lastProp === nextProp || (updatePayload = [])) : 'object' == typeof nextProp && null !== nextProp && nextProp.$$typeof === REACT_OPAQUE_ID_TYPE ? nextProp.toString() : (updatePayload = updatePayload || []).push(propKey, nextProp));
+                    }
                 }
                 return styleUpdates1 && (function(styleUpdates, nextStyles) {
                     if (nextStyles) {
@@ -7491,10 +7502,12 @@
                         updateQueue.add(wakeable), _workInProgress.updateQueue = updateQueue;
                     } else wakeables.add(wakeable);
                     if ((2 & _workInProgress.mode) == 0) {
-                        if (_workInProgress.flags |= DidCapture, sourceFiber.flags |= 16384, sourceFiber.flags &= -2981, 1 === sourceFiber.tag) if (null === sourceFiber.alternate) sourceFiber.tag = 17;
-                        else {
-                            var update = createUpdate(-1, SyncLane);
-                            update.tag = 2, enqueueUpdate(sourceFiber, update);
+                        if (_workInProgress.flags |= DidCapture, sourceFiber.flags |= 16384, sourceFiber.flags &= -2981, 1 === sourceFiber.tag) {
+                            if (null === sourceFiber.alternate) sourceFiber.tag = 17;
+                            else {
+                                var update = createUpdate(-1, SyncLane);
+                                update.tag = 2, enqueueUpdate(sourceFiber, update);
+                            }
                         }
                         sourceFiber.lanes = sourceFiber.lanes | SyncLane;
                         return;
@@ -7604,10 +7617,12 @@
                 return;
             case 1:
                 var instance = finishedWork1.stateNode;
-                if (finishedWork1.flags & Update) if (null === current) finishedWork1.type !== finishedWork1.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork1.memoizedProps && error1("Expected %s props to match memoized props before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance'), instance.state !== finishedWork1.memoizedState && error1("Expected %s state to match memoized state before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance')), instance.componentDidMount();
-                else {
-                    var prevProps = finishedWork1.elementType === finishedWork1.type ? current.memoizedProps : resolveDefaultProps(finishedWork1.type, current.memoizedProps), prevState = current.memoizedState;
-                    finishedWork1.type !== finishedWork1.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork1.memoizedProps && error1("Expected %s props to match memoized props before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance'), instance.state !== finishedWork1.memoizedState && error1("Expected %s state to match memoized state before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance')), instance.componentDidUpdate(prevProps, prevState, instance.__reactInternalSnapshotBeforeUpdate);
+                if (finishedWork1.flags & Update) {
+                    if (null === current) finishedWork1.type !== finishedWork1.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork1.memoizedProps && error1("Expected %s props to match memoized props before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance'), instance.state !== finishedWork1.memoizedState && error1("Expected %s state to match memoized state before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance')), instance.componentDidMount();
+                    else {
+                        var prevProps = finishedWork1.elementType === finishedWork1.type ? current.memoizedProps : resolveDefaultProps(finishedWork1.type, current.memoizedProps), prevState = current.memoizedState;
+                        finishedWork1.type !== finishedWork1.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork1.memoizedProps && error1("Expected %s props to match memoized props before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance'), instance.state !== finishedWork1.memoizedState && error1("Expected %s state to match memoized state before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance')), instance.componentDidUpdate(prevProps, prevState, instance.__reactInternalSnapshotBeforeUpdate);
+                    }
                 }
                 var updateQueue1 = finishedWork1.updateQueue;
                 null !== updateQueue1 && (finishedWork1.type !== finishedWork1.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork1.memoizedProps && error1("Expected %s props to match memoized props before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance'), instance.state !== finishedWork1.memoizedState && error1("Expected %s state to match memoized state before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork1.type) || 'instance')), commitUpdateQueue(finishedWork1, updateQueue1, instance));
@@ -7790,11 +7805,7 @@
                     if (null === node.return || isHostParent(node.return)) return null;
                     node = node.return;
                 }
-                for(node.sibling.return = node.return, node = node.sibling; 5 !== node.tag && 6 !== node.tag && 18 !== node.tag;){
-                    if (node.flags & Placement) continue siblings;
-                    if (null === node.child || 4 === node.tag) continue siblings;
-                    node.child.return = node, node = node.child;
-                }
+                for(node.sibling.return = node.return, node = node.sibling; 5 !== node.tag && 6 !== node.tag && 18 !== node.tag;)if (node.flags & Placement || null === node.child || 4 === node.tag) continue siblings;
                 if (!(node.flags & Placement)) return node.stateNode;
             }
         }(finishedWork);
@@ -9386,9 +9397,7 @@
     }), function(fn) {
         attemptHydrationAtPriority = fn;
     }(function(priority, fn) {
-        try {
-            return fn();
-        } finally{}
+        return fn();
     });
     var didWarnAboutUnstableCreatePortal = !1;
     function createPortal$1(children1, container) {

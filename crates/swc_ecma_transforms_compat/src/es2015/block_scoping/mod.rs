@@ -53,6 +53,7 @@ type ScopeStack = SmallVec<[ScopeKind; 8]>;
 enum ScopeKind {
     Loop,
     ForLetLoop {
+        kind: Option<VarDeclKind>,
         all: Vec<Id>,
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
@@ -116,7 +117,7 @@ impl BlockScoping {
             .unwrap_or(false)
     }
 
-    fn handle_vars(&mut self, body: &mut Box<Stmt>) {
+    fn handle_capture_of_vars(&mut self, body: &mut Box<Stmt>) {
         let body_stmt = &mut **body;
 
         {
@@ -404,6 +405,11 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        let var_decl_kind = match &node.left {
+            VarDeclOrPat::VarDecl(v) => Some(v.kind),
+            _ => None,
+        };
+
         self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
 
         let mut vars = find_vars(&node.left);
@@ -417,6 +423,7 @@ impl VisitMut for BlockScoping {
             ScopeKind::Loop
         } else {
             ScopeKind::ForLetLoop {
+                kind: var_decl_kind,
                 all: vars,
                 args,
                 used: vec![],
@@ -425,11 +432,17 @@ impl VisitMut for BlockScoping {
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        let var_decl_kind = match &node.left {
+            VarDeclOrPat::VarDecl(v) => Some(v.kind),
+            _ => None,
+        };
+
         self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
+
         let mut vars = find_vars(&node.left);
         let args = vars.clone();
 
@@ -441,6 +454,7 @@ impl VisitMut for BlockScoping {
             ScopeKind::Loop
         } else {
             ScopeKind::ForLetLoop {
+                kind: var_decl_kind,
                 all: vars,
                 args,
                 used: vec![],
@@ -449,10 +463,15 @@ impl VisitMut for BlockScoping {
         };
 
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        let var_decl_kind = match &node.init {
+            Some(VarDeclOrExpr::VarDecl(v)) => Some(v.kind),
+            _ => None,
+        };
+
         node.init.visit_mut_with(self);
 
         let mut vars = find_vars(&node.init);
@@ -467,6 +486,7 @@ impl VisitMut for BlockScoping {
             ScopeKind::Loop
         } else {
             ScopeKind::ForLetLoop {
+                kind: var_decl_kind,
                 all: vars,
                 args,
                 used: vec![],
@@ -474,7 +494,7 @@ impl VisitMut for BlockScoping {
             }
         };
         self.visit_mut_with_scope(kind, &mut node.body);
-        self.handle_vars(&mut node.body);
+        self.handle_capture_of_vars(&mut node.body);
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
@@ -524,7 +544,12 @@ impl VisitMut for BlockScoping {
         // variable hoisting overwrites inner declaration.
         for decl in var.decls.iter_mut() {
             if let Pat::Ident(name) = &mut decl.name {
-                if let Some(ScopeKind::ForLetLoop { args, .. }) = self.scope.last() {
+                if let Some(ScopeKind::ForLetLoop {
+                    kind: Some(VarDeclKind::Let | VarDeclKind::Const),
+                    args,
+                    ..
+                }) = self.scope.last()
+                {
                     let id = &(*name).id.to_id();
                     if args.contains(id) {
                         (*name).id = private_ident!((*name).id.take().sym);

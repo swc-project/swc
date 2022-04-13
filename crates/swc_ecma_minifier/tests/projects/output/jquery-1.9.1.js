@@ -239,24 +239,26 @@
             return new Date().getTime();
         }
     }), jQuery.ready.promise = function(obj) {
-        if (!readyList) if (readyList = jQuery.Deferred(), "complete" === document1.readyState) setTimeout(jQuery.ready);
-        else if (document1.addEventListener) document1.addEventListener("DOMContentLoaded", completed, !1), window1.addEventListener("load", completed, !1);
-        else {
-            document1.attachEvent("onreadystatechange", completed), window1.attachEvent("onload", completed);
-            var top = !1;
-            try {
-                top = null == window1.frameElement && document1.documentElement;
-            } catch (e) {}
-            top && top.doScroll && function doScrollCheck() {
-                if (!jQuery.isReady) {
-                    try {
-                        top.doScroll("left");
-                    } catch (e) {
-                        return setTimeout(doScrollCheck, 50);
+        if (!readyList) {
+            if (readyList = jQuery.Deferred(), "complete" === document1.readyState) setTimeout(jQuery.ready);
+            else if (document1.addEventListener) document1.addEventListener("DOMContentLoaded", completed, !1), window1.addEventListener("load", completed, !1);
+            else {
+                document1.attachEvent("onreadystatechange", completed), window1.attachEvent("onload", completed);
+                var top = !1;
+                try {
+                    top = null == window1.frameElement && document1.documentElement;
+                } catch (e) {}
+                top && top.doScroll && function doScrollCheck() {
+                    if (!jQuery.isReady) {
+                        try {
+                            top.doScroll("left");
+                        } catch (e) {
+                            return setTimeout(doScrollCheck, 50);
+                        }
+                        detach(), jQuery.ready();
                     }
-                    detach(), jQuery.ready();
-                }
-            }();
+                }();
+            }
         }
         return readyList.promise(obj);
     }, jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
@@ -558,7 +560,7 @@
             });
         },
         delay: function(time, type) {
-            return time = jQuery.fx ? jQuery.fx.speeds[time] || time : time, type = type || "fx", this.queue(type, function(next, hooks) {
+            return time = jQuery.fx && jQuery.fx.speeds[time] || time, type = type || "fx", this.queue(type, function(next, hooks) {
                 var timeout = setTimeout(next, time);
                 hooks.stop = function() {
                     clearTimeout(timeout);
@@ -674,10 +676,11 @@
             var hooks, notxml, ret, nType = elem.nodeType;
             if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
                 if (typeof elem.getAttribute === core_strundefined) return jQuery.prop(elem, name, value);
-                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) if (null === value) jQuery.removeAttr(elem, name);
-                else if (hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name))) return ret;
-                else return elem.setAttribute(name, value + ""), value;
-                else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name))) return ret;
+                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) {
+                    if (null === value) jQuery.removeAttr(elem, name);
+                    else if (hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name))) return ret;
+                    else return elem.setAttribute(name, value + ""), value;
+                } else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name))) return ret;
                 else return typeof elem.getAttribute !== core_strundefined && (ret = elem.getAttribute(name)), null == ret ? undefined : ret;
             }
         },
@@ -862,7 +865,7 @@
             var handle, ontype, cur, bubbleType, special, tmp, i, eventPath = [
                 elem || document1
             ], type = core_hasOwn.call(event, "type") ? event.type : event, namespaces = core_hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-            if (cur = tmp = elem = elem || document1, 3 !== elem.nodeType && 8 !== elem.nodeType && !rfocusMorph.test(type + jQuery.event.triggered) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
+            if (cur = tmp = elem = elem || document1, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered)) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
                 event
             ] : jQuery.makeArray(data, [
                 event
@@ -2057,23 +2060,27 @@
         clone: function(elem, dataAndEvents, deepDataAndEvents) {
             var destElements, node, clone, i, srcElements, inPage = jQuery.contains(elem.ownerDocument, elem);
             if (jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test("<" + elem.nodeName + ">") ? clone = elem.cloneNode(!0) : (fragmentDiv.innerHTML = elem.outerHTML, fragmentDiv.removeChild(clone = fragmentDiv.firstChild)), (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, destElements = getAll(clone), srcElements = getAll(elem); null != (node = srcElements[i]); ++i)destElements[i] && fixCloneNodeIssues(node, destElements[i]);
-            if (dataAndEvents) if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
-            else cloneCopyEvent(elem, clone);
+            if (dataAndEvents) {
+                if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
+                else cloneCopyEvent(elem, clone);
+            }
             return (destElements = getAll(clone, "script")).length > 0 && setGlobalEval(destElements, !inPage && getAll(elem, "script")), destElements = srcElements = node = null, clone;
         },
         buildFragment: function(elems, context, scripts, selection) {
-            for(var j, elem, contains, tmp, tag, tbody, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) if ("object" === jQuery.type(elem)) jQuery.merge(nodes, elem.nodeType ? [
-                elem
-            ] : elem);
-            else if (rhtml.test(elem)) {
-                for(tmp = tmp || safe.appendChild(context.createElement("div")), wrap = wrapMap[tag = (rtagName.exec(elem) || [
-                    "",
-                    ""
-                ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], j = wrap[0]; j--;)tmp = tmp.lastChild;
-                if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem) && nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0])), !jQuery.support.tbody) for(j = (elem = "table" !== tag || rtbody.test(elem) ? "<table>" !== wrap[1] || rtbody.test(elem) ? 0 : tmp : tmp.firstChild) && elem.childNodes.length; j--;)jQuery.nodeName(tbody = elem.childNodes[j], "tbody") && !tbody.childNodes.length && elem.removeChild(tbody);
-                for(jQuery.merge(nodes, tmp.childNodes), tmp.textContent = ""; tmp.firstChild;)tmp.removeChild(tmp.firstChild);
-                tmp = safe.lastChild;
-            } else nodes.push(context.createTextNode(elem));
+            for(var j, elem, contains, tmp, tag, tbody, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
+                if ("object" === jQuery.type(elem)) jQuery.merge(nodes, elem.nodeType ? [
+                    elem
+                ] : elem);
+                else if (rhtml.test(elem)) {
+                    for(tmp = tmp || safe.appendChild(context.createElement("div")), wrap = wrapMap[tag = (rtagName.exec(elem) || [
+                        "",
+                        ""
+                    ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], j = wrap[0]; j--;)tmp = tmp.lastChild;
+                    if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem) && nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0])), !jQuery.support.tbody) for(j = (elem = "table" !== tag || rtbody.test(elem) ? "<table>" !== wrap[1] || rtbody.test(elem) ? 0 : tmp : tmp.firstChild) && elem.childNodes.length; j--;)jQuery.nodeName(tbody = elem.childNodes[j], "tbody") && !tbody.childNodes.length && elem.removeChild(tbody);
+                    for(jQuery.merge(nodes, tmp.childNodes), tmp.textContent = ""; tmp.firstChild;)tmp.removeChild(tmp.firstChild);
+                    tmp = safe.lastChild;
+                } else nodes.push(context.createTextNode(elem));
+            }
             for(tmp && safe.removeChild(tmp), jQuery.support.appendChecked || jQuery.grep(getAll(nodes, "input"), fixDefaultChecked), i = 0; elem = nodes[i++];)if ((!selection || -1 === jQuery.inArray(elem, selection)) && (contains = jQuery.contains(elem.ownerDocument, elem), tmp = getAll(safe.appendChild(elem), "script"), contains && setGlobalEval(tmp), scripts)) for(j = 0; elem = tmp[j++];)rscriptType.test(elem.type || "") && scripts.push(elem);
             return tmp = null, safe;
         },
@@ -2466,11 +2473,13 @@
                 },
                 statusCode: function(map) {
                     var code;
-                    if (map) if (state < 2) for(code in map)statusCode[code] = [
-                        statusCode[code],
-                        map[code]
-                    ];
-                    else jqXHR1.always(map[jqXHR1.status]);
+                    if (map) {
+                        if (state < 2) for(code in map)statusCode[code] = [
+                            statusCode[code],
+                            map[code]
+                        ];
+                        else jqXHR1.always(map[jqXHR1.status]);
+                    }
                     return this;
                 },
                 abort: function(statusText) {
@@ -2537,14 +2546,16 @@
                                     break;
                                 }
                             }
-                            if (!0 !== conv) if (conv && s.throws) response = conv(response);
-                            else try {
-                                response = conv(response);
-                            } catch (e) {
-                                return {
-                                    state: "parsererror",
-                                    error: conv ? e : "No conversion from " + prev + " to " + current
-                                };
+                            if (!0 !== conv) {
+                                if (conv && s.throws) response = conv(response);
+                                else try {
+                                    response = conv(response);
+                                } catch (e) {
+                                    return {
+                                        state: "parsererror",
+                                        error: conv ? e : "No conversion from " + prev + " to " + current
+                                    };
+                                }
                             }
                         }
                         prev = current;
@@ -2656,15 +2667,17 @@
                     xhr.send(s.hasContent && s.data || null), callback = function(_, isAbort) {
                         var status, responseHeaders, statusText, responses;
                         try {
-                            if (callback && (isAbort || 4 === xhr.readyState)) if (callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) 4 !== xhr.readyState && xhr.abort();
-                            else {
-                                responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
-                                try {
-                                    statusText = xhr.statusText;
-                                } catch (e) {
-                                    statusText = "";
+                            if (callback && (isAbort || 4 === xhr.readyState)) {
+                                if (callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) 4 !== xhr.readyState && xhr.abort();
+                                else {
+                                    responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
+                                    try {
+                                        statusText = xhr.statusText;
+                                    } catch (e) {
+                                        statusText = "";
+                                    }
+                                    status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                                 }
-                                status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                             }
                         } catch (firefoxAccessException) {
                             isAbort || complete(-1, firefoxAccessException);

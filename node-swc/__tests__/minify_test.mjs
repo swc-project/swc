@@ -25,7 +25,7 @@ it("should accept object", async () => {
     );
 });
 
-it("should accpept { mangle = true }", async () => {
+it("should accept { mangle = true }", async () => {
     const { code } = await swc.minify(
         `
     import foo from '@src/app';
@@ -42,7 +42,7 @@ it("should accpept { mangle = true }", async () => {
     );
 });
 
-it("should accpept { mangle = object }", async () => {
+it("should accept { mangle = object }", async () => {
     const { code } = await swc.minify(
         `
     import foo from '@src/app';
@@ -87,7 +87,7 @@ it("should mangle locals", async () => {
     );
 });
 
-describe("soruce map", () => {
+describe("source map", () => {
     it("should have `names`", async () => {
         const { map } = await swc.minify(
             `
@@ -110,7 +110,7 @@ describe("soruce map", () => {
         expect(JSON.parse(map).names).not.toEqual([]);
     });
 
-    it("should have `sources` if file name is speicified", async () => {
+    it("should have `sources` if file name is specified", async () => {
         const { map } = await swc.minify(
             {
                 "foo.js": `(function(){

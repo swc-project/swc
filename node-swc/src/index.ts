@@ -339,7 +339,7 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
  *
  * Returns current binary's metadata to determine which binary is actually loaded.
  *
- * This is undocumented interface, does not gaurantee stability across `@swc/core`'s semver
+ * This is undocumented interface, does not guarantee stability across `@swc/core`'s semver
  * as internal representation may change anytime. Use it with caution.
  */
 export function getBinaryMetadata() {

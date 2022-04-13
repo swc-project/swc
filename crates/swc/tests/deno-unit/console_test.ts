@@ -124,7 +124,8 @@ unitTest(function consoleTestStringifyCircular(): void {
   };
 
   nestedObj.o = circularObj;
-  const nestedObjExpected = `{
+  const nestedObjExpected = `\
+{
   num: 1,
   bool: true,
   str: "a",
@@ -209,7 +210,8 @@ unitTest(function consoleTestStringifyCircular(): void {
   assertEquals(stringify(JSON), 'JSON { Symbol(Symbol.toStringTag): "JSON" }');
   assertEquals(
     stringify(console),
-    `{
+    `\
+{
   log: [Function],
   debug: [Function],
   info: [Function],
@@ -286,7 +288,8 @@ unitTest(function consoleTestStringifyLargeObject(): void {
   };
   assertEquals(
     stringify(obj),
-    `{
+    `\
+{
   a: 2,
   o: {
     a: "1",
@@ -311,7 +314,8 @@ unitTest(function consoleTestStringifyIterable() {
   const longArray = new Array(200).fill(0);
   assertEquals(
     stringify(longArray),
-    `[
+    `\
+[
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -326,7 +330,8 @@ unitTest(function consoleTestStringifyIterable() {
   const obj = { a: "a", longArray };
   assertEquals(
     stringify(obj),
-    `{
+    `\
+{
   a: "a",
   longArray: [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -353,7 +358,8 @@ unitTest(function consoleTestStringifyIterable() {
   }
   assertEquals(
     stringify(longMap),
-    `Map {
+    `\
+Map {
   "0" => 0,
   "1" => 1,
   "2" => 2,
@@ -466,7 +472,8 @@ unitTest(function consoleTestStringifyIterable() {
   }
   assertEquals(
     stringify(longSet),
-    `Set {
+    `\
+Set {
   0,
   1,
   2,
@@ -858,7 +865,8 @@ unitTest(function consoleGroup(): void {
 
     assertEquals(
       out.toString(),
-      `1
+      `\
+1
     2
     3
         4
@@ -887,7 +895,8 @@ unitTest(function consoleGroupWarn(): void {
     console.warn("7");
     assertEquals(
       both.toString(),
-      `1
+      `\
+1
     2
         3
     4
@@ -905,7 +914,8 @@ unitTest(function consoleTable(): void {
     console.table({ a: "test", b: 1 });
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬────────┐
+      `\
+┌───────┬────────┐
 │ (idx) │ Values │
 ├───────┼────────┤
 │   a   │ "test" │
@@ -918,7 +928,8 @@ unitTest(function consoleTable(): void {
     console.table({ a: { b: 10 }, b: { b: 20, c: 30 } }, ["c"]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬────┐
+      `\
+┌───────┬────┐
 │ (idx) │ c  │
 ├───────┼────┤
 │   a   │    │
@@ -931,7 +942,8 @@ unitTest(function consoleTable(): void {
     console.table([1, 2, [3, [4]], [5, 6], [[7], [8]]]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬───────┬───────┬────────┐
+      `\
+┌───────┬───────┬───────┬────────┐
 │ (idx) │   0   │   1   │ Values │
 ├───────┼───────┼───────┼────────┤
 │   0   │       │       │   1    │
@@ -947,7 +959,8 @@ unitTest(function consoleTable(): void {
     console.table(new Set([1, 2, 3, "test"]));
     assertEquals(
       stripColor(out.toString()),
-      `┌────────────┬────────┐
+      `\
+┌────────────┬────────┐
 │ (iter idx) │ Values │
 ├────────────┼────────┤
 │     0      │   1    │
@@ -967,7 +980,8 @@ unitTest(function consoleTable(): void {
     );
     assertEquals(
       stripColor(out.toString()),
-      `┌────────────┬─────┬────────┐
+      `\
+┌────────────┬─────┬────────┐
 │ (iter idx) │ Key │ Values │
 ├────────────┼─────┼────────┤
 │     0      │  1  │ "one"  │
@@ -986,7 +1000,8 @@ unitTest(function consoleTable(): void {
     });
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬───────────┬───────────────────┬────────┐
+      `\
+┌───────┬───────────┬───────────────────┬────────┐
 │ (idx) │     c     │         e         │ Values │
 ├───────┼───────────┼───────────────────┼────────┤
 │   a   │           │                   │  true  │
@@ -1008,7 +1023,8 @@ unitTest(function consoleTable(): void {
     ]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬────────┬──────────────────────┬────┬────────┐
+      `\
+┌───────┬────────┬──────────────────────┬────┬────────┐
 │ (idx) │   0    │          1           │ a  │ Values │
 ├───────┼────────┼──────────────────────┼────┼────────┤
 │   0   │        │                      │    │   1    │
@@ -1024,7 +1040,8 @@ unitTest(function consoleTable(): void {
     console.table([]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┐
+      `\
+┌───────┐
 │ (idx) │
 ├───────┤
 └───────┘
@@ -1035,7 +1052,8 @@ unitTest(function consoleTable(): void {
     console.table({});
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┐
+      `\
+┌───────┐
 │ (idx) │
 ├───────┤
 └───────┘
@@ -1046,7 +1064,8 @@ unitTest(function consoleTable(): void {
     console.table(new Set());
     assertEquals(
       stripColor(out.toString()),
-      `┌────────────┐
+      `\
+┌────────────┐
 │ (iter idx) │
 ├────────────┤
 └────────────┘
@@ -1057,7 +1076,8 @@ unitTest(function consoleTable(): void {
     console.table(new Map());
     assertEquals(
       stripColor(out.toString()),
-      `┌────────────┐
+      `\
+┌────────────┐
 │ (iter idx) │
 ├────────────┤
 └────────────┘
@@ -1072,7 +1092,8 @@ unitTest(function consoleTable(): void {
     console.table(["Hello", "你好", "Amapá"]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬─────────┐
+      `\
+┌───────┬─────────┐
 │ (idx) │ Values  │
 ├───────┼─────────┤
 │   0   │ "Hello" │
@@ -1089,7 +1110,8 @@ unitTest(function consoleTable(): void {
     ]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬───┬───┐
+      `\
+┌───────┬───┬───┐
 │ (idx) │ 0 │ 1 │
 ├───────┼───┼───┤
 │   0   │ 1 │ 2 │
@@ -1102,7 +1124,8 @@ unitTest(function consoleTable(): void {
     console.table({ 1: { a: 4, b: 5 }, 2: null, 3: { b: 6, c: 7 } }, ["b"]);
     assertEquals(
       stripColor(out.toString()),
-      `┌───────┬───┐
+      `\
+┌───────┬───┐
 │ (idx) │ b │
 ├───────┼───┤
 │   1   │ 5 │

@@ -254,7 +254,6 @@ conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
 conditionals/equality_conditionals_true/input.js
-conditionals/hoist_decl/input.js
 conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js
 conditionals/ifs_3_should_warn/input.js
@@ -779,6 +778,7 @@ issue_269/issue_269_in_scope/input.js
 issue_281/drop_fargs/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
+issue_281/issue_1288_side_effects/input.js
 issue_281/issue_1595_3/input.js
 issue_281/keep_fargs/input.js
 issue_281/modified/input.js
@@ -788,6 +788,9 @@ issue_281/negate_iife_4/input.js
 issue_281/negate_iife_5/input.js
 issue_281/negate_iife_5_off/input.js
 issue_281/negate_iife_issue_1073/input.js
+issue_281/pure_annotation_1/input.js
+issue_281/pure_annotation_2/input.js
+issue_281/ref_scope/input.js
 issue_281/safe_undefined/input.js
 issue_281/wrap_iife/input.js
 issue_281/wrap_iife_in_expression/input.js
@@ -881,6 +884,7 @@ loops/while_becomes_for/input.js
 max_line_len/just_enough/input.js
 max_line_len/too_short/input.js
 negate_iife/issue_1254_negate_iife_false/input.js
+negate_iife/issue_1288_side_effects/input.js
 negate_iife/negate_iife_1/input.js
 negate_iife/negate_iife_1_off/input.js
 negate_iife/negate_iife_2/input.js
@@ -1028,6 +1032,7 @@ pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
 pure_getters/strict/input.js
+pure_globals/globals_whose_access_is_pure/input.js
 pure_globals/window_access_is_impure/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
@@ -1273,7 +1278,6 @@ switch/constant_switch_9/input.js
 switch/drop_case/input.js
 switch/drop_default_1/input.js
 switch/drop_default_2/input.js
-switch/if_switch_typeof/input.js
 switch/issue_1663/input.js
 switch/issue_1674/input.js
 switch/issue_1679/input.js
@@ -1340,8 +1344,7 @@ template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
-transform/if_else_empty/input.js
-transform/label_if_break/input.js
+transform/while_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js
 try_catch/broken_safari_catch_scope_caveat/input.js
 try_catch/issue_452/input.js

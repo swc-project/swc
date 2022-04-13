@@ -1,1 +1,1 @@
-alpha.a + beta.b;
+alpha.a, beta.b;

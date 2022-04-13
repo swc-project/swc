@@ -1,5 +1,6 @@
-use fxhash::{AHashMap, AHashSet};
 use std::cell::RefCell;
+
+use fxhash::{AHashMap, AHashSet};
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -100,7 +101,7 @@ impl Visit for VarAnalyzer<'_> {
     }
 
     fn visit_ident(&mut self, i: &Ident) {
-        tracing::trace!("hygiene/vars: Found {}", i);
+        trace!("hygiene/vars: Found {}", i);
 
         self.cur.add(i);
     }

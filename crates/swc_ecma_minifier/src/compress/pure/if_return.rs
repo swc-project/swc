@@ -80,7 +80,7 @@ impl Pure<'_> {
         }
 
         self.changed = true;
-        tracing::debug!(
+        report_change!(
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
         );
 

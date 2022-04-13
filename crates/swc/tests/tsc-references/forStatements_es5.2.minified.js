@@ -17,7 +17,7 @@ for(!function(M1) {
 }(M || (M = {}));;);
 for(;;);
 for(;;);
-for(new Date(12);;);
+for(;;);
 for(new Object();;);
 for(;;);
 for(;;);

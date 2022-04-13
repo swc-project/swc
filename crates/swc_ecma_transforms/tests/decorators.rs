@@ -544,7 +544,7 @@ expect(log).toEqual(numsFrom0to9);
 
 "#
 );
-// transformation_initiailzer_after_super_bug_8808
+// transformation_initializer_after_super_bug_8808
 test!(
     syntax(false),
     |t| transformation(t),
@@ -1997,7 +1997,7 @@ expect(j).toBe(1);
 
 "#
 );
-// element_descriptors_original_own_field_without_initiailzer_exec
+// element_descriptors_original_own_field_without_initializer_exec
 test_exec!(
     syntax(false),
     |t| tr(t),

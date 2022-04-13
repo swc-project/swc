@@ -97,8 +97,7 @@ var ItemsList = function(_Component) {
     var Derived, Constructor1, protoProps, staticProps, _super = (Derived = ItemsList1, function() {
         var self, call, result, Super = _getPrototypeOf(Derived);
         if (function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-            if (Reflect.construct.sham) return !1;
+            if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
                 return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;

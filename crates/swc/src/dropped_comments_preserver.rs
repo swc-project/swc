@@ -10,7 +10,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// If during compilation an ast node associated with
 /// a comment is dropped, the comment will not appear in the final emitted
 /// output. This can create problems in the JavaScript ecosystem, particularly
-/// around instanbul coverage and other tooling that relies on comment
+/// around istanbul coverage and other tooling that relies on comment
 /// directives.
 ///
 /// This transformer shifts orphaned comments to the next closest known span

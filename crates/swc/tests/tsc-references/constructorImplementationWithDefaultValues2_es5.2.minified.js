@@ -9,5 +9,5 @@ var C = function() {
     swcHelpers.classCallCheck(this, D), this.y = y;
 }, E = function() {
     "use strict";
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : new Date(), swcHelpers.classCallCheck(this, E);
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], swcHelpers.classCallCheck(this, E);
 };

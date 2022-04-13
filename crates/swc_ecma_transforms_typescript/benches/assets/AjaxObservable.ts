@@ -204,7 +204,7 @@ export class AjaxSubscriber<T> extends Subscriber<Event> {
       progressSubscriber?.error?.(e);
       let error;
       try {
-        error = new AjaxTimeoutError(xhr, request); // TODO: Make betterer.
+        error = new AjaxTimeoutError(xhr, request); // TODO: Make better.
       } catch (err) {
         error = err;
       }
@@ -402,7 +402,7 @@ const AjaxTimeoutErrorImpl = (() => {
 })();
 
 /**
- * Thrown when an AJAX request timesout. Not to be confused with {@link TimeoutError}.
+ * Thrown when an AJAX request timeout. Not to be confused with {@link TimeoutError}.
  *
  * This is exported only because it is useful for checking to see if errors are an
  * `instanceof AjaxTimeoutError`. DO NOT use the constructor to create an instance of

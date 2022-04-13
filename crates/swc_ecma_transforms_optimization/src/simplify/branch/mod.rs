@@ -284,6 +284,16 @@ impl VisitMut for Remover {
         }
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            if e.is_invalid() {
+                *n = None;
+            }
+        }
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
@@ -483,6 +493,11 @@ impl VisitMut for Remover {
 
                 // `1;` -> `;`
                 Stmt::Expr(ExprStmt { span, expr, .. }) => {
+                    // Directives
+                    if let Expr::Lit(Lit::Str(..)) = &*expr {
+                        return Stmt::Expr(ExprStmt { span, expr });
+                    }
+
                     let expr = *expr;
                     match ignore_result(expr) {
                         Some(e) => Stmt::Expr(ExprStmt {
@@ -1117,7 +1132,13 @@ impl Remover {
                         // Remove empty statements.
                         Stmt::Empty(..) => continue,
 
-                        Stmt::Expr(ExprStmt { ref expr, .. }) if expr.is_lit() && is_block_stmt => {
+                        Stmt::Expr(ExprStmt { ref expr, .. })
+                            if match &**expr {
+                                Expr::Lit(Lit::Str(..)) => false,
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            } && is_block_stmt =>
+                        {
                             continue
                         }
 
@@ -1271,8 +1292,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Bool(..))
         | Expr::Lit(Lit::Null(..))
-        | Expr::Lit(Lit::Regex(..))
-        | Expr::Ident(..) => None,
+        | Expr::Lit(Lit::Regex(..)) => None,
 
         Expr::Lit(Lit::Str(ref v)) if v.value.is_empty() => None,
 

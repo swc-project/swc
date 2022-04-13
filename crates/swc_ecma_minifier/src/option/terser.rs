@@ -95,19 +95,19 @@ pub struct TerserCompressorOptions {
     pub comparisons: Option<bool>,
 
     #[serde(default)]
-    pub computed_props: bool,
+    pub computed_props: Option<bool>,
 
     #[serde(default)]
-    pub conditionals: bool,
+    pub conditionals: Option<bool>,
 
     #[serde(default)]
-    pub dead_code: bool,
+    pub dead_code: Option<bool>,
 
     #[serde(default = "true_by_default")]
     pub defaults: bool,
 
     #[serde(default)]
-    pub directives: bool,
+    pub directives: Option<bool>,
 
     #[serde(default)]
     pub drop_console: bool,
@@ -179,10 +179,10 @@ pub struct TerserCompressorOptions {
     pub pure_funcs: Vec<String>,
 
     #[serde(default)]
-    pub reduce_funcs: bool,
+    pub reduce_funcs: Option<bool>,
 
     #[serde(default)]
-    pub reduce_vars: bool,
+    pub reduce_vars: Option<bool>,
 
     #[serde(default)]
     pub sequences: Option<TerserSequenceOptions>,
@@ -191,7 +191,7 @@ pub struct TerserCompressorOptions {
     pub side_effects: Option<bool>,
 
     #[serde(default)]
-    pub switches: bool,
+    pub switches: Option<bool>,
 
     #[serde(default)]
     pub top_retain: Option<TerserTopRetainOption>,
@@ -311,10 +311,12 @@ impl TerserCompressorOptions {
             bools_as_ints: self.booleans_as_integers,
             collapse_vars: self.collapse_vars.unwrap_or(self.defaults),
             comparisons: self.comparisons.unwrap_or(self.defaults),
-            computed_props: self.computed_props,
-            conditionals: self.conditionals,
-            dead_code: self.dead_code,
-            directives: self.directives,
+            // TODO: Use self.defaults
+            computed_props: self.computed_props.unwrap_or(false),
+            conditionals: self.conditionals.unwrap_or(self.defaults),
+            dead_code: self.dead_code.unwrap_or(self.defaults),
+            // TODO: Use self.defaults
+            directives: self.directives.unwrap_or(false),
             drop_console: self.drop_console,
             drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
             ecma: self.ecma.into(),
@@ -402,8 +404,10 @@ impl TerserCompressorOptions {
                     PureGetterOption::Str(v.split(',').map(From::from).collect())
                 }
             },
-            reduce_fns: self.reduce_funcs,
-            reduce_vars: self.reduce_vars,
+            // TODO: Use self.defaults
+            reduce_fns: self.reduce_funcs.unwrap_or(false),
+            // TODO: Use self.defaults
+            reduce_vars: self.reduce_vars.unwrap_or(false),
             sequences: self
                 .sequences
                 .map(|v| match v {
@@ -418,7 +422,8 @@ impl TerserCompressorOptions {
                 })
                 .unwrap_or(if self.defaults { 3 } else { 0 }),
             side_effects: self.side_effects.unwrap_or(self.defaults),
-            switches: self.switches,
+            // TODO: Use self.defaults
+            switches: self.switches.unwrap_or(false),
             top_retain: self.top_retain.map(From::from).unwrap_or_default(),
             top_level: self.toplevel.map(From::from),
             typeofs: self.typeofs.unwrap_or(self.defaults),
@@ -494,9 +499,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             value,
         }))),
         Value::Number(v) => {
-            if cfg!(feature = "debug") {
-                tracing::debug!("Creating a numeric literal from value");
-            }
+            trace_op!("Creating a numeric literal from value");
 
             Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,

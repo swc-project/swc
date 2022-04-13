@@ -25,4 +25,4 @@ The name of a test is `base64_url(md5(name))`.
 
 Apache 2.0 / MIT, at your option.
 
-Lots of tests are copied from rome toools and esbuild. If you want to use tests, please consult license of those libraries.
+Lots of tests are copied from rome tools and esbuild. If you want to use tests, please consult license of those libraries.

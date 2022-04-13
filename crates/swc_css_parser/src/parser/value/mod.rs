@@ -156,8 +156,8 @@ where
         let mut values = vec![];
 
         match function_name {
-            "calc" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "sqrt" | "exp" | "abs"
-            | "sign" => {
+            "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
+            | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
