@@ -1186,7 +1186,7 @@ where
                                 value: 0.0,
                                 raw: None,
                             })));
-                            debug!("injecting zero to preserve `this` in call");
+                            report_change!("injecting zero to preserve `this` in call");
 
                             *b_callee = Box::new(Expr::Seq(SeqExpr {
                                 span: b_callee.span(),
@@ -1370,9 +1370,9 @@ where
                     b.visit_with(&mut v);
                     if v.expr_usage != 1 || v.pat_usage != 0 {
                         if cfg!(feature = "debug") {
-                            trace!(
-                                "[X] sequences: Aborting merging of an update expression because \
-                                 of usage counts ({}, ref = {}, pat = {})",
+                            log_abort!(
+                                "sequences: Aborting merging of an update expression because of \
+                                 usage counts ({}, ref = {}, pat = {})",
                                 a_id,
                                 v.expr_usage,
                                 v.pat_usage
@@ -1412,7 +1412,9 @@ where
                     });
                     if replaced {
                         self.changed = true;
-                        debug!("sequences: Merged update expression into another expression",);
+                        report_change!(
+                            "sequences: Merged update expression into another expression",
+                        );
 
                         a.take();
                         return Ok(true);
@@ -1442,7 +1444,7 @@ where
                         let left_id = match left.as_ident() {
                             Some(v) => v,
                             None => {
-                                trace!("[X] sequences: Aborting because lhs is not an id");
+                                log_abort!("sequences: Aborting because lhs is not an id");
                                 return Ok(false);
                             }
                         };
@@ -1537,7 +1539,7 @@ where
                 }
 
                 if used_by_b.contains(id) {
-                    trace!("[X] sequences: Aborting because of deps");
+                    log_abort!("[X] sequences: Aborting because of deps");
                     return Err(());
                 }
             }
@@ -1567,9 +1569,10 @@ where
         }
 
         self.changed = true;
-        debug!(
+        report_change!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
-            left_id.sym, left_id.span.ctxt
+            left_id.sym,
+            left_id.span.ctxt
         );
 
         let to = match a {
@@ -1579,9 +1582,7 @@ where
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
-        if cfg!(feature = "debug") {
-            debug!("sequences: [Changed] {}", dump(&*b, false));
-        }
+        dump_change_detail!("sequences: {}", dump(&*b, false));
 
         Ok(true)
     }

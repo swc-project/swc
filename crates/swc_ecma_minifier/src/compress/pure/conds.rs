@@ -22,7 +22,7 @@ impl Pure<'_> {
         if let Value::Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool();
             if let Value::Known(true) = lb {
-                debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
+                report_change!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
                 self.negate_twice(&mut cond.test, false);
@@ -39,7 +39,7 @@ impl Pure<'_> {
 
             // TODO: Verify this rule.
             if let Value::Known(false) = lb {
-                debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
+                report_change!("conditionals: `foo ? false : bar` => `!foo && bar`");
 
                 self.changed = true;
                 self.negate(&mut cond.test, false, false);
@@ -58,7 +58,7 @@ impl Pure<'_> {
         if let Value::Known(Type::Bool) = rt {
             let rb = cond.alt.as_pure_bool();
             if let Value::Known(false) = rb {
-                debug!("conditionals: `foo ? bar : false` => `!!foo && bar`");
+                report_change!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
@@ -74,7 +74,7 @@ impl Pure<'_> {
             }
 
             if let Value::Known(true) = rb {
-                debug!("conditionals: `foo ? bar : true` => `!foo || bar");
+                report_change!("conditionals: `foo ? bar : true` => `!foo || bar");
                 self.changed = true;
 
                 self.negate(&mut cond.test, false, false);
@@ -105,7 +105,7 @@ impl Pure<'_> {
             {
                 let cons_span = cons.span;
 
-                debug!("conditionals: `x ? y || z : z` => `x || y && z`");
+                report_change!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
                 *e = Expr::Bin(BinExpr {
@@ -129,19 +129,17 @@ impl Pure<'_> {
             return;
         }
 
-        debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+        report_change!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
         let start_str = dump(&*cond, false);
 
         self.negate(&mut cond.test, true, false);
         swap(&mut cond.cons, &mut cond.alt);
 
-        if cfg!(feature = "debug") {
-            trace!(
-                "[Change] Negated cond: `{}` => `{}`",
-                start_str,
-                dump(&*cond, false)
-            )
-        }
+        dump_change_detail!(
+            "[Change] Negated cond: `{}` => `{}`",
+            start_str,
+            dump(&*cond, false)
+        );
     }
 
     /// Removes useless operands of an logical expressions.
@@ -174,7 +172,7 @@ impl Pure<'_> {
                 // `!!b || true` => true
                 if let Value::Known(true) = rb {
                     self.changed = true;
-                    debug!("conditionals: `!!foo || true` => `true`");
+                    report_change!("conditionals: `!!foo || true` => `true`");
                     *e = make_bool(bin.span, true);
                 }
             }
