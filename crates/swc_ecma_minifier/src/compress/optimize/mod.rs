@@ -1772,7 +1772,7 @@ where
                         raw: None,
                     })));
                     self.changed = true;
-                    debug!("injecting zero to preserve `this` in call");
+                    report_change!("injecting zero to preserve `this` in call");
 
                     *callee = Box::new(Expr::Seq(SeqExpr {
                         span: callee.span(),
@@ -1925,7 +1925,7 @@ where
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
             if let Some(expr) = expr {
-                debug!("Optimizing: Literal comparison");
+                report_change!("Optimizing: Literal comparison");
                 self.changed = true;
                 *e = expr;
             }

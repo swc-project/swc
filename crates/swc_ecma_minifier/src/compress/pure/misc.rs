@@ -232,13 +232,13 @@ impl Pure<'_> {
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
                     if is_global_var(&i.sym) {
-                        debug!("Dropping a reference to a global variable");
+                        report_change!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
                 }
             } else {
-                debug!("Dropping an identifier as it's declared");
+                report_change!("Dropping an identifier as it's declared");
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 return;
             }
@@ -262,7 +262,7 @@ impl Pure<'_> {
                     );
 
                     if arg.is_invalid() {
-                        debug!("Dropping an unary expression");
+                        report_change!("Dropping an unary expression");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
@@ -277,7 +277,7 @@ impl Pure<'_> {
                     self.ignore_return_value(&mut be.right, opts);
 
                     if be.right.is_invalid() {
-                        debug!("Dropping the RHS of a binary expression ('&&' / '||')");
+                        report_change!("Dropping the RHS of a binary expression ('&&' / '||')");
                         *e = *be.left.take();
                         return;
                     }
@@ -300,7 +300,7 @@ impl Pure<'_> {
                 Expr::Ident(i) => {
                     if let Some(bindings) = self.bindings.as_deref() {
                         if bindings.contains(&i.to_id()) {
-                            debug!("Dropping an identifier as it's declared");
+                            report_change!("Dropping an identifier as it's declared");
 
                             self.changed = true;
                             *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -310,7 +310,7 @@ impl Pure<'_> {
                 }
 
                 Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
-                    debug!("Dropping literals");
+                    report_change!("Dropping literals");
 
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -376,7 +376,7 @@ impl Pure<'_> {
 
                     if matches!(*bin.left, Expr::Await(..) | Expr::Update(..)) {
                         self.changed = true;
-                        debug!("ignore_return_value: Compressing binary as seq");
+                        report_change!("ignore_return_value: Compressing binary as seq");
                         *e = Expr::Seq(SeqExpr {
                             span,
                             exprs: vec![bin.left.take(), bin.right.take()],
