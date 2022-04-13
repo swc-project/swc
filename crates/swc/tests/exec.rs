@@ -210,7 +210,7 @@ fn test_file_with_opts(
             assert_eq!(
                 expected_stdout,
                 actual_stdout,
-                "---- {} -----\n{}\n---- {} -----\n{:#?}",
+                "\n---- {} -----\n{}\n---- {} -----\n{:#?}",
                 ansi_term::Color::Red.paint("Actual"),
                 actual_stdout,
                 ansi_term::Color::Blue.paint("Options"),
