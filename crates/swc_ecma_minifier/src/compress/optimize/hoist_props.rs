@@ -111,7 +111,7 @@ where
 
                         match &p.key {
                             PropName::Str(s) => {
-                                debug!(
+                                trace_op!(
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
@@ -120,7 +120,7 @@ where
                                 self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
-                                debug!(
+                                trace_op!(
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
@@ -173,9 +173,10 @@ where
                     );
                 }
                 None => {
-                    debug!(
+                    trace_op!(
                         "hoist_props: Stored {}{:?} to inline property access",
-                        name.id.sym, name.id.span.ctxt
+                        name.id.sym,
+                        name.id.span.ctxt
                     );
                 }
             }

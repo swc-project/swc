@@ -30,3 +30,13 @@ macro_rules! dump_change_detail {
         }
     }};
 }
+
+macro_rules! trace_op {
+    ($($tt:tt)+) => {{
+        if cfg!(feature = "debug") {
+            tracing::trace!(
+                $($tt)*
+            );
+        }
+    }};
+}

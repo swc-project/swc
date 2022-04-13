@@ -126,9 +126,7 @@ impl Storage for ProgramData {
             .entry(i.to_id())
             .and_modify(|v| {
                 if has_init && v.declared {
-                    if cfg!(feature = "debug") {
-                        debug!("declare_decl(`{}`): Already declared", i);
-                    }
+                    trace_op!("declare_decl(`{}`): Already declared", i);
 
                     v.mutated = true;
                     v.reassigned_with_var_decl = true;
