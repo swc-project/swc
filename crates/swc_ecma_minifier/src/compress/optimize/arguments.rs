@@ -30,7 +30,7 @@ where
                         }
 
                         self.changed = true;
-                        debug!("arguments: Optimizing computed access to arguments");
+                        log_change!("arguments: Optimizing computed access to arguments");
                         *prop = MemberProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
