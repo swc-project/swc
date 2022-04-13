@@ -458,43 +458,6 @@ impl Prefixer {
             important: n.important.clone(),
         });
     }
-
-    fn get_declaration_by_name(&mut self, name: &str) -> Option<Declaration> {
-        match &self.simple_block {
-            Some(SimpleBlock { value, .. }) => {
-                let mut found = None;
-
-                for n in value.iter().rev() {
-                    match n {
-                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        ComponentValue::StyleBlock(StyleBlock::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        _ => {}
-                    }
-                }
-
-                found
-            }
-            _ => None,
-        }
-    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -506,6 +469,7 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle `StyleBlock` for nested at-rules and qualified_rule
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
         let mut new = vec![];
 
@@ -987,9 +951,46 @@ impl VisitMut for Prefixer {
 
         let ms_value = n.value.clone();
 
+        // TODO lazy
+        let mut declarations = vec![];
+
+        if let Some(SimpleBlock { value, .. }) = &self.simple_block {
+            for n in value.iter() {
+                match n {
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
+                        declaration,
+                    )) => declarations.push(declaration),
+                    ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
+                        declarations.push(declaration)
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        // TODO lazy
+        let property_names: Vec<&str> = declarations
+            .iter()
+            .filter(|declaration| match declaration {
+                Declaration {
+                    name: DeclarationName::DashedIdent(_),
+                    ..
+                } => false,
+                _ => true,
+            })
+            .map(|declaration| match declaration {
+                Declaration {
+                    name: DeclarationName::Ident(ident),
+                    ..
+                } => &*ident.value,
+                _ => {
+                    unreachable!();
+                }
+            })
+            .collect();
+
         // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
         // declaration and versa vice
-        // TODO improve perf by getting all declaration and values once (i.e. lazy)
         // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
@@ -1007,12 +1008,7 @@ impl VisitMut for Prefixer {
 
                 if need_prefix {
                     // Check we don't have prefixed property
-                    let need_prefix = match self.get_declaration_by_name($name) {
-                        Some(_) => false,
-                        _ => true,
-                    };
-
-                    if need_prefix {
+                    if !property_names.contains(&$name) {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
@@ -1050,12 +1046,7 @@ impl VisitMut for Prefixer {
 
                 if need_prefix {
                     // Check we don't have prefixed property
-                    let need_prefix = match self.get_declaration_by_name($name) {
-                        Some(_) => false,
-                        _ => true,
-                    };
-
-                    if need_prefix {
+                    if !property_names.contains(&$name) {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
@@ -1976,7 +1967,12 @@ impl VisitMut for Prefixer {
             }
 
             "writing-mode" if n.value.len() == 1 => {
-                let direction = match self.get_declaration_by_name("direction") {
+                let direction = match declarations.into_iter().rev().find(|declaration| {
+                    matches!(declaration, Declaration {
+                              name: DeclarationName::Ident(Ident { value, .. }),
+                                ..
+                            } if value.as_ref().eq_ignore_ascii_case("direction"))
+                }) {
                     Some(Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
