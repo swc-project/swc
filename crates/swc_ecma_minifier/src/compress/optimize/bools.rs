@@ -62,7 +62,7 @@ where
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        debug!(
+        report_change!(
             is_return_value_ignored = is_ret_val_ignored,
             negate_cost = cost,
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \

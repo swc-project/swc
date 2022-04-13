@@ -30,7 +30,7 @@ where
                         }
 
                         self.changed = true;
-                        log_change!("arguments: Optimizing computed access to arguments");
+                        report_change!("arguments: Optimizing computed access to arguments");
                         *prop = MemberProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
@@ -127,7 +127,7 @@ impl ArgReplacer<'_> {
         let new_args = idx + 1 - self.params.len();
 
         self.changed = true;
-        debug!("arguments: Injecting {} parameters", new_args);
+        report_change!("arguments: Injecting {} parameters", new_args);
         let mut start = self.params.len();
         self.params.extend(
             repeat_with(|| {
@@ -206,8 +206,8 @@ impl VisitMut for ArgReplacer<'_> {
                         //
                         if let Some(param) = self.params.get(idx) {
                             if let Pat::Ident(i) = &param.pat {
-                                debug!(
-                                    "arguments: Replacing access to arguments to normal reference",
+                                report_change!(
+                                    "arguments: Replacing access to arguments to normal reference"
                                 );
                                 self.changed = true;
                                 *n = Expr::Ident(i.id.clone());

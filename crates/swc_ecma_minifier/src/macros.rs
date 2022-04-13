@@ -1,5 +1,5 @@
 /// Used when something is modified.
-macro_rules! report {
+macro_rules! report_change {
     ($($tt:tt)+) => {{
         tracing::debug!(
             kind = "change",
