@@ -108,7 +108,7 @@ where
                 sym: js_word!("undefined"),
                 ..
             }) => {
-                debug!("evaluate: `undefined` -> `void 0`");
+                report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
             }
@@ -118,7 +118,7 @@ where
                 sym: js_word!("Infinity"),
                 ..
             }) => {
-                debug!("evaluate: `Infinity` -> `1 / 0`");
+                report_change!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
                     span: *span,
@@ -192,7 +192,7 @@ where
                     1 => {
                         if let Expr::Lit(Lit::Str(exp)) = &*args[0].expr {
                             self.changed = true;
-                            debug!(
+                            report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
                                 exp.value
                             );
@@ -209,9 +209,10 @@ where
                             (&*args[0].expr, &*args[1].expr)
                         {
                             self.changed = true;
-                            debug!(
+                            report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
-                                exp.value, flags.value
+                                exp.value,
+                                flags.value
                             );
 
                             *e = Expr::Lit(Lit::Regex(Regex {
@@ -243,9 +244,10 @@ where
 
                             if let Some(v) = char::from_u32(v) {
                                 self.changed = true;
-                                debug!(
+                                report_change!(
                                     "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
-                                    char_code, v
+                                    char_code,
+                                    v
                                 );
 
                                 let value = v.to_string();
@@ -344,7 +346,7 @@ where
         if let Expr::Call(..) = e {
             if let Some(value) = eval_as_number(e) {
                 self.changed = true;
-                debug!("evaluate: Evaluated an expression as `{}`", value);
+                report_change!("evaluate: Evaluated an expression as `{}`", value);
 
                 *e = Expr::Lit(Lit::Num(Number {
                     span: e.span(),
@@ -363,7 +365,7 @@ where
                 if let Known(l) = l {
                     if let Known(r) = r {
                         self.changed = true;
-                        debug!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
+                        report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         let value = l.powf(r);
                         *e = Expr::Lit(Lit::Num(Number {
@@ -403,7 +405,7 @@ where
                             }
 
                             self.changed = true;
-                            debug!("evaluate: `0 / 0` => `NaN`");
+                            report_change!("evaluate: `0 / 0` => `NaN`");
 
                             // Sign does not matter for NaN
                             *e = Expr::Ident(Ident::new(
@@ -413,7 +415,7 @@ where
                         }
                         (FpCategory::Normal, FpCategory::Zero) => {
                             self.changed = true;
-                            debug!("evaluate: `{} / 0` => `Infinity`", ln);
+                            report_change!("evaluate: `{} / 0` => `Infinity`", ln);
 
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
@@ -467,7 +469,7 @@ where
                 // As we used as_pure_bool, we can drop it.
                 if v && e.op == op!("&&") {
                     self.changed = true;
-                    debug!("Removing `b` from `a && b && c` because b is always truthy");
+                    report_change!("Removing `b` from `a && b && c` because b is always truthy");
 
                     left.right.take();
                     return;
@@ -475,7 +477,7 @@ where
 
                 if !v && e.op == op!("||") {
                     self.changed = true;
-                    debug!("Removing `b` from `a || b || c` because b is always falsy");
+                    report_change!("Removing `b` from `a || b || c` because b is always falsy");
 
                     left.right.take();
                 }
