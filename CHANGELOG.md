@@ -11,6 +11,9 @@
 - **(css/prefixer)** Don't prefix if it's already prefixed (#4307) ([690ce26](https://github.com/swc-project/swc/commit/690ce2628c988a3d1823cbcf4f786203e548cb84))
 
 
+- **(css/prefixer)** Handle at-rules and don't generate unnecessary prefixes (#4318) ([ac4f14a](https://github.com/swc-project/swc/commit/ac4f14ad7b70e67c41507cafd997f6b4e346e815))
+
+
 - **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([6c9882e](https://github.com/swc-project/swc/commit/6c9882ec68fee9b702f5e4749482eca74fbd87e8))
 
 
