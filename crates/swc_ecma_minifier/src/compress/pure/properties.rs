@@ -25,7 +25,9 @@ impl Pure<'_> {
         match &*c.expr {
             Expr::Lit(Lit::Str(s)) if is_valid_identifier(&s.value, true) => {
                 self.changed = true;
-                debug!("properties: Computed member => member expr with identifier as a prop");
+                report_change!(
+                    "properties: Computed member => member expr with identifier as a prop"
+                );
 
                 Some(Ident {
                     span: s.span.with_ctxt(SyntaxContext::empty()),
@@ -77,7 +79,7 @@ impl Pure<'_> {
 
             if is_valid_identifier(&s.value, false) {
                 self.changed = true;
-                debug!("misc: Optimizing string property name");
+                report_change!("misc: Optimizing string property name");
                 *name = PropName::Ident(Ident {
                     span: s.span,
                     sym: s.value.clone(),
@@ -163,7 +165,10 @@ impl Pure<'_> {
                     Prop::Shorthand(_) => {}
                     Prop::KeyValue(p) => {
                         if prop_name_eq(&p.key, &key.sym) {
-                            debug!("properties: Inlining a key-value property `{}`", key.sym);
+                            report_change!(
+                                "properties: Inlining a key-value property `{}`",
+                                key.sym
+                            );
                             self.changed = true;
                             *e = *p.value.clone();
                             return;

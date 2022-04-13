@@ -27,7 +27,7 @@ impl Pure<'_> {
         if let Some(e) = s.arg.as_deref() {
             if is_pure_undefined(e) {
                 self.changed = true;
-                debug!("Dropped `undefined` from `return undefined`");
+                report_change!("Dropped `undefined` from `return undefined`");
                 s.arg.take();
             }
         }
@@ -36,7 +36,7 @@ impl Pure<'_> {
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;
-            debug!("misc: Removing useless return");
+            report_change!("misc: Removing useless return");
             stmts.pop();
         }
     }
@@ -82,9 +82,7 @@ impl Pure<'_> {
             Stmt::Block(s) => self.drop_return_value(&mut s.stmts),
             Stmt::Return(ret) => {
                 self.changed = true;
-                if cfg!(feature = "debug") {
-                    trace!("Dropping `return` token");
-                }
+                report_change!("Dropping `return` token");
 
                 let span = ret.span;
                 match ret.arg.take() {
@@ -177,7 +175,7 @@ impl Pure<'_> {
             }
 
             Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                debug!("ignore_return_value: Dropping a pure call");
+                report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new = self.make_ignored_expr(args.take().into_iter().map(|arg| arg.expr));
@@ -191,7 +189,7 @@ impl Pure<'_> {
                 tpl: Tpl { exprs, .. },
                 ..
             }) if span.has_mark(self.marks.pure) => {
-                debug!("ignore_return_value: Dropping a pure call");
+                report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new = self.make_ignored_expr(exprs.take().into_iter());
@@ -201,7 +199,7 @@ impl Pure<'_> {
             }
 
             Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                debug!("ignore_return_value: Dropping a pure call");
+                report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new =

@@ -9,7 +9,7 @@ impl Pure<'_> {
             let value = if value.is_empty() { 0f64 } else { 1f64 };
 
             self.changed = true;
-            debug!("numbers: Converting a string literal to {:?}", value);
+            report_change!("numbers: Converting a string literal to {:?}", value);
             *e = Expr::Lit(Lit::Num(Number {
                 span: *span,
                 value,
@@ -37,7 +37,7 @@ impl Pure<'_> {
                     ..
                 }) => {
                     self.changed = true;
-                    debug!("numbers: Lifting `-`");
+                    report_change!("numbers: Lifting `-`");
 
                     *e = Expr::Unary(UnaryExpr {
                         span: arg.span,
@@ -54,7 +54,7 @@ impl Pure<'_> {
                 Expr::Lit(Lit::Num(Number { span, value, .. })) => {
                     if value.is_sign_negative() {
                         self.changed = true;
-                        debug!("numbers: Lifting `-` in a literal");
+                        report_change!("numbers: Lifting `-` in a literal");
 
                         *e = Expr::Unary(UnaryExpr {
                             span: arg.span,
