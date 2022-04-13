@@ -40,3 +40,49 @@ input::placeholder,
 #fs-toggle:fullscreen {
   color: red;
 }
+input::-webkit-input-placeholder {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+input:-moz-placeholder {
+  backdrop-filter: blur(2px);
+}
+input::-moz-placeholder {
+  backdrop-filter: blur(2px);
+}
+input:-ms-input-placeholder {
+  backdrop-filter: blur(2px);
+}
+input::-ms-input-placeholder {
+  backdrop-filter: blur(2px);
+}
+input::placeholder {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+input.appearance::-webkit-input-placeholder {
+  -webkit-appearance: none;
+  appearance: none;
+}
+input.appearance:-moz-placeholder {
+  -moz-appearance: none;
+  appearance: none;
+}
+input.appearance::-moz-placeholder {
+  -moz-appearance: none;
+  appearance: none;
+}
+input.appearance:-ms-input-placeholder {
+  -ms-appearance: none;
+  appearance: none;
+}
+input.appearance::-ms-input-placeholder {
+  -ms-appearance: none;
+  appearance: none;
+}
+input.appearance::placeholder {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
