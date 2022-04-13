@@ -3,6 +3,7 @@
 //! See: https://github.com/goto-bus-stop/node-resolve
 
 use std::{
+    env::current_dir,
     fs::File,
     io::BufReader,
     path::{Component, Path, PathBuf},
@@ -14,6 +15,7 @@ use dashmap::{DashMap, DashSet};
 use normpath::BasePath;
 use once_cell::sync::Lazy;
 use path_clean::PathClean;
+use pathdiff::diff_paths;
 use serde::Deserialize;
 use swc_common::{collections::AHashMap, FileName};
 use tracing::debug;
@@ -51,6 +53,19 @@ fn find_package_root(path: &Path) -> Option<PathBuf> {
         parent = p.parent();
     }
     None
+}
+
+pub fn to_absolute_path(path: impl AsRef<Path>) -> Result<PathBuf, Error> {
+    let path = path.as_ref();
+
+    let absolute_path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        current_dir()?.join(path)
+    }
+    .clean();
+
+    Ok(absolute_path)
 }
 
 pub(crate) fn is_core_module(s: &str) -> bool {
@@ -294,7 +309,8 @@ impl NodeModulesResolver {
         base_dir: &Path,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
-        let mut path = Some(base_dir);
+        let absolute_path = to_absolute_path(base_dir).unwrap();
+        let mut path = Some(Path::new(absolute_path.to_str().unwrap()));
         while let Some(dir) = path {
             let node_modules = dir.join("node_modules");
             if node_modules.is_dir() {
@@ -393,7 +409,11 @@ impl Resolve for NodeModulesResolver {
                         .and_then(|p| self.wrap(p))
                 } else {
                     self.resolve_node_modules(base_dir, target)
-                        .and_then(|p| self.wrap(p))
+                        .and_then(|path| {
+                            let current_directory = current_dir().unwrap();
+                            let relative_path = diff_paths(path.unwrap(), current_directory);
+                            self.wrap(relative_path)
+                        })
                 }
             }
         }

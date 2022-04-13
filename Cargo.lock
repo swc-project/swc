@@ -3229,6 +3229,7 @@ dependencies = [
  "once_cell",
  "parking_lot",
  "path-clean",
+ "pathdiff",
  "serde",
  "serde_json",
  "swc_cached",
