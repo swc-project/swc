@@ -1,8 +1,8 @@
 macro_rules! log_change {
-    ($(tt:tt)+) => {{
+    ($($tt:tt)+) => {{
         tracing::debug!(
-            kind="change",
-            $(tt)*
+            kind = "change",
+            $($tt)*
         );
     }};
 }
