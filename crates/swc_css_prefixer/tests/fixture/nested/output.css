@@ -1,0 +1,191 @@
+@-webkit-keyframes test {
+  0% {
+    color: red;
+  }
+}
+@-moz-keyframes test {
+  0% {
+    color: red;
+  }
+}
+@-o-keyframes test {
+  0% {
+    color: red;
+  }
+}
+@keyframes test {
+  0% {
+    color: red;
+  }
+}
+@supports (flex-wrap: wrap) {
+  @-webkit-keyframes test {
+    0% {
+      color: red;
+    }
+  }
+  @-moz-keyframes test {
+    0% {
+      color: red;
+    }
+  }
+  @-o-keyframes test {
+    0% {
+      color: red;
+    }
+  }
+  @keyframes test {
+    0% {
+      color: red;
+    }
+  }
+}
+@supports (flex-wrap: wrap) {
+  @supports (flex-wrap: wrap) {
+    @-webkit-keyframes test {
+      0% {
+        color: red;
+      }
+    }
+    @-moz-keyframes test {
+      0% {
+        color: red;
+      }
+    }
+    @-o-keyframes test {
+      0% {
+        color: red;
+      }
+    }
+    @keyframes test {
+      0% {
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        color: red;
+      }
+    }
+  }
+}
+.test {
+  &.class::-ms-input-placeholder {
+    &.class:-ms-input-placeholder {
+      &.class::-moz-placeholder {
+        &.class:-moz-placeholder {
+          &.class::-webkit-input-placeholder {
+            color: red;
+          }
+          color: red;
+        }
+        color: red;
+      }
+      color: red;
+    }
+    color: red;
+  }
+  &.class::placeholder {
+    color: red;
+  }
+}
+.test {
+  &.class::-ms-input-placeholder {
+    -ms-appearance: auto;
+    &.class:-ms-input-placeholder {
+      -ms-appearance: auto;
+      &.class::-moz-placeholder {
+        -moz-appearance: auto;
+        &.class:-moz-placeholder {
+          -moz-appearance: auto;
+          &.class::-webkit-input-placeholder {
+            -webkit-appearance: auto;
+            appearance: auto;
+          }
+          appearance: auto;
+        }
+        appearance: auto;
+      }
+      appearance: auto;
+    }
+    appearance: auto;
+  }
+  &.class::placeholder {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+}
+.test {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  &.class {
+    color: red;
+  }
+}
+.test {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  &.class {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+}
+.test {
+  @supports (foo: bar) {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+}
+.test {
+  @media (orientation: landscape) {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+}
+.test {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  &.class::-ms-input-placeholder {
+    -ms-appearance: auto;
+    &.class:-ms-input-placeholder {
+      -ms-appearance: auto;
+      &.class::-moz-placeholder {
+        -moz-appearance: auto;
+        &.class:-moz-placeholder {
+          -moz-appearance: auto;
+          &.class::-webkit-input-placeholder {
+            -webkit-appearance: auto;
+            appearance: auto;
+          }
+          appearance: auto;
+        }
+        appearance: auto;
+      }
+      appearance: auto;
+    }
+    appearance: auto;
+  }
+  &.class::placeholder {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+  @media (orientation: landscape) {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+  }
+}

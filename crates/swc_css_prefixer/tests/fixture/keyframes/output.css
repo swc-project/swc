@@ -90,10 +90,10 @@
     transform: rotate(0);
   }
 }
-@-webkit-keyframes inside {}
-@-moz-keyframes inside {}
-@-o-keyframes inside {}
 @media screen {
+  @-webkit-keyframes inside {}
+  @-moz-keyframes inside {}
+  @-o-keyframes inside {}
   @keyframes inside {}
 }
 @-webkit-keyframes spaces {
