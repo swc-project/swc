@@ -437,9 +437,10 @@ macro_rules! str_to_ident {
 #[derive(Default)]
 struct Prefixer {
     in_keyframe_block: bool,
-    added_rules: Vec<Rule>,
-    rule_prefix: Option<Prefix>,
     simple_block: Option<SimpleBlock>,
+    rule_prefix: Option<Prefix>,
+    added_at_rules: Vec<AtRule>,
+    added_qualified_rules: Vec<QualifiedRule>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -459,17 +460,28 @@ impl VisitMut for Prefixer {
         for mut n in take(&mut n.rules) {
             n.visit_mut_children_with(self);
 
-            let mut added_rules = take(&mut self.added_rules);
+            let mut added_at_rules = take(&mut self.added_at_rules)
+                .drain(..)
+                .map(Rule::AtRule)
+                .collect();
 
-            new.append(&mut added_rules);
+            new.append(&mut added_at_rules);
+
+            let mut added_qualified_rules = take(&mut self.added_qualified_rules)
+                .drain(..)
+                .map(Rule::QualifiedRule)
+                .collect();
+
+            new.append(&mut added_qualified_rules);
+
             new.push(n);
-
-            // Avoid duplicate prefixed at-rules
-            new.dedup_by(|a, b| match (a, b) {
-                (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
-                _ => false,
-            });
         }
+
+        // Avoid duplicate prefixed at-rules
+        new.dedup_by(|a, b| match (a, b) {
+            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
+            _ => false,
+        });
 
         n.rules = new;
     }
@@ -577,7 +589,7 @@ impl VisitMut for Prefixer {
 
             rule.1.visit_mut_children_with(self);
 
-            self.added_rules.push(Rule::AtRule(rule.1));
+            self.added_at_rules.push(rule.1);
             self.rule_prefix = old_rule_prefix;
         }
     }
@@ -628,16 +640,6 @@ impl VisitMut for Prefixer {
         }
 
         media_query_list.queries = new;
-    }
-
-    fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
-        let old_in_keyframe_block = self.in_keyframe_block;
-
-        self.in_keyframe_block = true;
-
-        n.visit_mut_children_with(self);
-
-        self.in_keyframe_block = old_in_keyframe_block;
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
@@ -798,9 +800,19 @@ impl VisitMut for Prefixer {
 
             rule.1.visit_mut_children_with(self);
 
-            self.added_rules.push(Rule::QualifiedRule(rule.1));
+            self.added_qualified_rules.push(rule.1);
             self.rule_prefix = old_rule_prefix;
         }
+    }
+
+    fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
+        let old_in_keyframe_block = self.in_keyframe_block;
+
+        self.in_keyframe_block = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_keyframe_block = old_in_keyframe_block;
     }
 
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
