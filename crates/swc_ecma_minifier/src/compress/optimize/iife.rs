@@ -676,7 +676,7 @@ where
         }
 
         self.changed = true;
-        debug!("inline: Inlining an iife");
+        report_change!("inline: Inlining an iife");
 
         let mut exprs = vec![];
 

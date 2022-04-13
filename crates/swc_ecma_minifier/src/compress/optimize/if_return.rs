@@ -314,14 +314,8 @@ where
             }
         }
 
-        debug!("if_return: Merging returns");
-        if cfg!(feature = "debug") {
-            let block = BlockStmt {
-                span: DUMMY_SP,
-                stmts: stmts.clone(),
-            };
-            trace!("if_return: {}", dump(&block, false))
-        }
+        report_change!("if_return: Merging returns");
+
         self.changed = true;
 
         let mut cur: Option<Box<Expr>> = None;

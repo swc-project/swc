@@ -87,9 +87,7 @@ where
             }
 
             if !unknown_used_props.is_empty() {
-                if cfg!(feature = "debug") {
-                    trace!("[x] unknown used props: {:?}", unknown_used_props);
-                }
+                log_abort!("[x] unknown used props: {:?}", unknown_used_props);
                 return;
             }
 

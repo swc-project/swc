@@ -546,7 +546,7 @@ where
         if let Some(last) = e.exprs.last() {
             if is_pure_undefined(last) {
                 self.changed = true;
-                debug!("sequences: Shifting void");
+                report_change!("sequences: Shifting void");
 
                 e.exprs.pop();
                 let last = e.exprs.last_mut().unwrap();
@@ -599,16 +599,12 @@ where
         T: ModuleItemExt,
     {
         if !self.options.sequences() && !self.options.collapse_vars {
-            if cfg!(feature = "debug") {
-                trace!("sequences: [x] Disabled");
-            }
+            log_abort!("sequences: [x] Disabled");
             return;
         }
 
         if self.ctx.in_top_level() && !self.options.top_level() {
-            if cfg!(feature = "debug") {
-                trace!("sequences: [x] Top level");
-            }
+            log_abort!("sequences: [x] Top level");
             return;
         }
 
