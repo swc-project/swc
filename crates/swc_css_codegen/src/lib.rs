@@ -23,6 +23,7 @@ pub mod writer;
 pub struct CodegenConfig {
     pub minify: bool,
 }
+
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where
