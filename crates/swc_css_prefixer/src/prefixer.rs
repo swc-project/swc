@@ -960,12 +960,14 @@ impl VisitMut for Prefixer {
         // TODO lazy
         let property_names: Vec<&str> = declarations
             .iter()
-            .filter(|declaration| match declaration {
-                Declaration {
-                    name: DeclarationName::DashedIdent(_),
-                    ..
-                } => false,
-                _ => true,
+            .filter(|declaration| {
+                !matches!(
+                    declaration,
+                    Declaration {
+                        name: DeclarationName::DashedIdent(_),
+                        ..
+                    }
+                )
             })
             .map(|declaration| match declaration {
                 Declaration {
