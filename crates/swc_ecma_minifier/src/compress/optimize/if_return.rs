@@ -34,7 +34,7 @@ where
         }) = &mut *s.cons
         {
             self.changed = true;
-            debug!("if_return: Merging nested if statements");
+            report_change!("if_return: Merging nested if statements");
 
             s.test = Box::new(Expr::Bin(BinExpr {
                 span: s.test.span(),
@@ -74,7 +74,7 @@ where
             }
 
             self.changed = true;
-            debug!("if_return: Merging `else if` into `else`");
+            report_change!("if_return: Merging `else if` into `else`");
 
             match &mut **alt_of_alt {
                 Stmt::Block(alt_of_alt) => {

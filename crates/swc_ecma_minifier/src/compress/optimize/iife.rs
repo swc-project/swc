@@ -446,7 +446,7 @@ where
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
-                        debug!("inline: Inlining a call to an arrow function");
+                        report_change!("inline: Inlining a call to an arrow function");
                         *e = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
                             exprs,

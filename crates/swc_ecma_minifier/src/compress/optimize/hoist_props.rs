@@ -41,9 +41,7 @@ where
                 })
                 .unwrap_or(false)
             {
-                if cfg!(feature = "debug") {
-                    trace!("[x] bad usage");
-                }
+                log_abort!("[x] bad usage");
                 return;
             }
 
@@ -201,7 +199,7 @@ where
                         f.function.span = DUMMY_SP;
                     }
 
-                    debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                    report_change!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                     self.changed = true;
                     *e = *value;
                     return;
@@ -211,7 +209,7 @@ where
             if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                 member.obj = value;
                 self.changed = true;
-                debug!("hoist_props: Inlined a property");
+                report_change!("hoist_props: Inlined a property");
             }
         }
     }

@@ -57,7 +57,7 @@ where
                     .map(|var| var.is_fn_local && !var.declared_as_fn_param)
                     .unwrap_or(false)
                 {
-                    debug!(
+                    report_change!(
                         "dead_code: Dropping an assignment to a variable declared in function \
                          because function is being terminated"
                     );
@@ -80,7 +80,7 @@ where
                         .map(|var| var.is_fn_local)
                         .unwrap_or(false)
                     {
-                        debug!(
+                        report_change!(
                             "dead_code: Converting an assignment into a binary expression in \
                              function termination"
                         );

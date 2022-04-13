@@ -72,7 +72,7 @@ where
         }
 
         self.changed = true;
-        debug!("fns: Reordering statements");
+        report_change!("fns: Reordering statements");
         let mut fns = vec![];
         let mut other = vec![];
 

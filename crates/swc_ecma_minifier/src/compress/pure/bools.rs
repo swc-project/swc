@@ -47,7 +47,7 @@ impl Pure<'_> {
                     {
                         return;
                     }
-                    debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
+                    report_change!("bools: Optimizing `!(a && b)` as `!a || !b`");
                     self.negate(arg, false, false);
                     *e = *arg.take();
                 }
@@ -69,7 +69,7 @@ impl Pure<'_> {
                         {
                             return;
                         }
-                        debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
+                        report_change!("bools: Optimizing `!!(a || b)` as `!a && !b`");
                         self.negate(arg_of_arg, false, false);
                         *e = *arg.take();
                     }
@@ -111,7 +111,7 @@ impl Pure<'_> {
         if should_optimize(&e.left, &e.right, self.options)
             || should_optimize(&e.right, &e.left, self.options)
         {
-            debug!("bools: Compressing comparison of `typeof` with literal");
+            report_change!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
             e.op = match e.op {
                 op!("===") => {
@@ -164,9 +164,9 @@ impl Pure<'_> {
 
                     if can_remove {
                         if *op == op!("&&") {
-                            debug!("booleans: Compressing `!foo && true` as `!foo`");
+                            report_change!("booleans: Compressing `!foo && true` as `!foo`");
                         } else {
-                            debug!("booleans: Compressing `!foo || false` as `!foo`");
+                            report_change!("booleans: Compressing `!foo || false` as `!foo`");
                         }
                         self.changed = true;
                         *e = *left.take();
@@ -237,7 +237,7 @@ impl Pure<'_> {
                 } else {
                     self.changed = true;
                     let span = delete.arg.span();
-                    debug!("booleans: Compressing `delete` as sequence expression");
+                    report_change!("booleans: Compressing `delete` as sequence expression");
                     *e = Expr::Seq(SeqExpr {
                         span,
                         exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
@@ -252,7 +252,7 @@ impl Pure<'_> {
         if convert_to_true {
             self.changed = true;
             let span = delete.arg.span();
-            debug!("booleans: Compressing `delete` => true");
+            report_change!("booleans: Compressing `delete` => true");
             *e = make_bool(span, true);
         }
     }
@@ -269,7 +269,7 @@ impl Pure<'_> {
                     if exprs.is_empty() {
                         return;
                     }
-                    debug!("bools: Optimizing negated sequences");
+                    report_change!("bools: Optimizing negated sequences");
 
                     {
                         let last = exprs.last_mut().unwrap();
@@ -323,7 +323,7 @@ impl Pure<'_> {
                 arg,
             }) => match &mut **arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
-                    debug!("Optimizing: number => number (in bool context)");
+                    report_change!("Optimizing: number => number (in bool context)");
 
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
@@ -336,7 +336,7 @@ impl Pure<'_> {
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }) => {
-                    debug!("bools: !!expr => expr (in bool ctx)");
+                    report_change!("bools: !!expr => expr (in bool ctx)");
                     self.changed = true;
                     *n = *arg.take();
                 }
@@ -348,7 +348,7 @@ impl Pure<'_> {
                 op: op!("typeof"),
                 arg,
             }) => {
-                debug!("Optimizing: typeof => true (in bool context)");
+                report_change!("Optimizing: typeof => true (in bool context)");
                 self.changed = true;
 
                 match &**arg {
@@ -376,7 +376,7 @@ impl Pure<'_> {
 
             Expr::Lit(Lit::Str(s)) => {
                 if !is_ignore {
-                    debug!("Converting string as boolean expressions");
+                    report_change!("Converting string as boolean expressions");
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
                         span: s.span,
@@ -391,7 +391,7 @@ impl Pure<'_> {
                     return;
                 }
                 if self.options.bools {
-                    debug!("booleans: Converting number as boolean expressions");
+                    report_change!("booleans: Converting number as boolean expressions");
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
                         span: num.span,
@@ -409,7 +409,9 @@ impl Pure<'_> {
             }) => {
                 // Optimize if (a ?? false); as if (a);
                 if let Value::Known(false) = right.as_pure_bool() {
-                    debug!("Dropping right operand of `??` as it's always false (in bool context)");
+                    report_change!(
+                        "Dropping right operand of `??` as it's always false (in bool context)"
+                    );
                     self.changed = true;
                     *n = *left.take();
                 }
@@ -424,7 +426,7 @@ impl Pure<'_> {
                 // `a || false` => `a` (as it will be casted to boolean anyway)
 
                 if let Value::Known(false) = right.as_pure_bool() {
-                    debug!("bools: `expr || false` => `expr` (in bool context)");
+                    report_change!("bools: `expr || false` => `expr` (in bool context)");
                     self.changed = true;
                     *n = *left.take();
                 }
@@ -434,7 +436,7 @@ impl Pure<'_> {
                 let v = n.as_pure_bool();
                 if let Value::Known(v) = v {
                     let span = n.span();
-                    debug!("Optimizing expr as {} (in bool context)", v);
+                    report_change!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
                 }
             }
