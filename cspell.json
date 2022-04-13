@@ -75,6 +75,7 @@
         "impls",
         "indexmap",
         "initializers",
+        "inlinable",
         "inlines",
         "instanceof",
         "interner",

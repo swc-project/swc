@@ -88,7 +88,7 @@ impl Pure<'_> {
 
                 if args.is_empty() && params.is_empty() {
                     self.changed = true;
-                    tracing::debug!("Flattening iife");
+                    report_change!("Flattening iife");
                     *s = Stmt::Block(body.take());
                 }
             }
@@ -157,7 +157,7 @@ impl Pure<'_> {
                 match call.args.len() {
                     0 => {
                         self.changed = true;
-                        tracing::debug!("evaluate: Dropping array.slice call");
+                        report_change!("evaluate: Dropping array.slice call");
                         *e = *obj.take();
                     }
                     1 => {
@@ -165,7 +165,7 @@ impl Pure<'_> {
                             let start = start.floor() as usize;
 
                             self.changed = true;
-                            tracing::debug!("evaluate: Reducing array.slice({}) call", start);
+                            report_change!("evaluate: Reducing array.slice({}) call", start);
 
                             if start >= arr.elems.len() {
                                 *e = Expr::Array(ArrayLit {
@@ -189,7 +189,7 @@ impl Pure<'_> {
                             if let Value::Known(end) = end {
                                 let end = end.floor() as usize;
                                 self.changed = true;
-                                tracing::debug!(
+                                report_change!(
                                     "evaluate: Reducing array.slice({}, {}) call",
                                     start,
                                     end
@@ -216,7 +216,7 @@ impl Pure<'_> {
 
             if self.options.unsafe_passes && &*method_name.sym == "toString" && arr.elems.len() == 1
             {
-                tracing::debug!("evaluate: Reducing array.toString() call");
+                report_change!("evaluate: Reducing array.toString() call");
                 self.changed = true;
                 *obj = arr.elems[0]
                     .take()
@@ -274,9 +274,7 @@ impl Pure<'_> {
                 }
 
                 self.changed = true;
-                tracing::debug!(
-                    "evaluate: Reduced `function.valueOf()` into a function expression"
-                );
+                report_change!("evaluate: Reduced `function.valueOf()` into a function expression");
 
                 *e = *obj.take();
                 return;
@@ -292,7 +290,7 @@ impl Pure<'_> {
                 }
 
                 self.changed = true;
-                tracing::debug!("evaluate: Reduced `function.toString()` into a string");
+                report_change!("evaluate: Reduced `function.toString()` into a string");
 
                 *e = Str {
                     span: call.span,
@@ -321,7 +319,7 @@ impl Pure<'_> {
                     }) = &**callee
                     {
                         self.changed = true;
-                        tracing::debug!(
+                        report_change!(
                             "evaluate: Reducing a call to `Number` into an unary operation"
                         );
 
@@ -372,7 +370,7 @@ impl Pure<'_> {
                 let value = num_to_fixed(num.value, precision + 1);
 
                 self.changed = true;
-                tracing::debug!(
+                report_change!(
                     "evaluate: Evaluating `{}.toFixed({})` as `{}`",
                     num,
                     precision,
@@ -399,7 +397,7 @@ impl Pure<'_> {
                 //
                 if is_pure_undefined_or_null(obj) {
                     self.changed = true;
-                    tracing::debug!(
+                    report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
                          always null or undefined"
                     );
@@ -411,7 +409,7 @@ impl Pure<'_> {
             OptChainBase::Call(OptCall { span, callee, .. }) => {
                 if is_pure_undefined_or_null(callee) {
                     self.changed = true;
-                    tracing::debug!(
+                    report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
                          because object is always null or undefined"
                     );
@@ -441,7 +439,7 @@ impl Pure<'_> {
                 // foo || 1 => foo, 1
                 if v {
                     self.changed = true;
-                    tracing::debug!("evaluate: `foo || true` => `foo, 1`");
+                    report_change!("evaluate: `foo || true` => `foo, 1`");
 
                     *e = Expr::Seq(SeqExpr {
                         span: bin_expr.span,
@@ -450,7 +448,7 @@ impl Pure<'_> {
                     e.visit_mut_with(self);
                 } else {
                     self.changed = true;
-                    tracing::debug!("evaluate: `foo || false` => `foo` (bool ctx)");
+                    report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
 
                     *e = *bin_expr.left.take();
                 }
@@ -460,7 +458,7 @@ impl Pure<'_> {
             // 1 || foo => foo
             if let Value::Known(true) = bin_expr.left.as_pure_bool() {
                 self.changed = true;
-                tracing::debug!("evaluate: `true || foo` => `foo`");
+                report_change!("evaluate: `true || foo` => `foo`");
 
                 *e = *bin_expr.right.take();
             }
@@ -470,12 +468,12 @@ impl Pure<'_> {
             if let Value::Known(v) = bin_expr.right.as_pure_bool() {
                 if v {
                     self.changed = true;
-                    tracing::debug!("evaluate: `foo && true` => `foo` (bool ctx)");
+                    report_change!("evaluate: `foo && true` => `foo` (bool ctx)");
 
                     *e = *bin_expr.left.take();
                 } else {
                     self.changed = true;
-                    tracing::debug!("evaluate: `foo && false` => `foo, false`");
+                    report_change!("evaluate: `foo && false` => `foo, false`");
 
                     *e = Expr::Seq(SeqExpr {
                         span: bin_expr.span,
@@ -488,7 +486,7 @@ impl Pure<'_> {
 
             if let Value::Known(true) = bin_expr.left.as_pure_bool() {
                 self.changed = true;
-                tracing::debug!("evaluate: `true && foo` => `foo`");
+                report_change!("evaluate: `true && foo` => `foo`");
 
                 *e = *bin_expr.right.take();
             }
@@ -540,7 +538,7 @@ impl Pure<'_> {
                 if let Pat::Ident(a_left) = &**a_left {
                     if let Expr::Ident(b_id) = b {
                         if b_id.to_id() == a_left.id.to_id() {
-                            tracing::debug!("evaluate: Trivial: `{}`", a_left.id);
+                            report_change!("evaluate: Trivial: `{}`", a_left.id);
                             *b = *a_right.clone();
                             self.changed = true;
                         }
@@ -631,7 +629,7 @@ impl Pure<'_> {
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            tracing::debug!(
+                            report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
                                 v
                             );
@@ -643,7 +641,7 @@ impl Pure<'_> {
                         }
                         None => {
                             self.changed = true;
-                            tracing::debug!(
+                            report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
@@ -659,7 +657,7 @@ impl Pure<'_> {
         };
 
         self.changed = true;
-        tracing::debug!("evaluate: Evaluated `{}` of a string literal", method);
+        report_change!("evaluate: Evaluated `{}` of a string literal", method);
         *e = Expr::Lit(Lit::Str(Str {
             value: new_val.into(),
             ..s

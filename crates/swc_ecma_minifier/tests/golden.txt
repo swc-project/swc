@@ -788,6 +788,9 @@ issue_281/negate_iife_4/input.js
 issue_281/negate_iife_5/input.js
 issue_281/negate_iife_5_off/input.js
 issue_281/negate_iife_issue_1073/input.js
+issue_281/pure_annotation_1/input.js
+issue_281/pure_annotation_2/input.js
+issue_281/ref_scope/input.js
 issue_281/safe_undefined/input.js
 issue_281/wrap_iife/input.js
 issue_281/wrap_iife_in_expression/input.js

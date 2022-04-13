@@ -577,7 +577,7 @@ where
 
         if let Expr::Ident(i) = e {
             if cfg!(feature = "debug") {
-                // tracing::debug!(
+                // debug!(
                 //     "Usage: `{}``; update = {:?}, assign_lhs = {:?} ",
                 //     i,
                 //     self.ctx.in_update_arg,
