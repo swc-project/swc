@@ -1121,7 +1121,7 @@ where
             // `delete` is handled above
             Expr::Unary(expr) => {
                 self.changed = true;
-                debug!("ignore_return_value: Reducing unary ({})", expr.op);
+                report_change!("ignore_return_value: Reducing unary ({})", expr.op);
                 return self.ignore_return_value(&mut expr.arg);
             }
 
@@ -1132,7 +1132,7 @@ where
                 op,
                 ..
             }) => {
-                debug!("ignore_return_value: Reducing binary ({})", *op);
+                report_change!("ignore_return_value: Reducing binary ({})", *op);
 
                 let left = self.ignore_return_value(&mut **left).map(Box::new);
                 let right = self.ignore_return_value(&mut **right).map(Box::new);
@@ -1172,12 +1172,12 @@ where
                     span: cond.span,
                     test: cond.test.take(),
                     cons: cons.unwrap_or_else(|| {
-                        debug!("ignore_return_value: Dropped `cons`");
+                        report_change!("ignore_return_value: Dropped `cons`");
                         self.changed = true;
                         undefined(cons_span)
                     }),
                     alt: alt.unwrap_or_else(|| {
-                        debug!("ignore_return_value: Dropped `alt`");
+                        report_change!("ignore_return_value: Dropped `alt`");
                         self.changed = true;
                         undefined(alt_span)
                     }),
@@ -1223,7 +1223,7 @@ where
 
                         // Make return type undefined.
                         if let Some(last) = exprs.last_mut() {
-                            debug!("ignore_return_value: Shifting void");
+                            report_change!("ignore_return_value: Shifting void");
                             self.changed = true;
                             *last = Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
@@ -1234,7 +1234,7 @@ where
                     }
 
                     if exprs.is_empty() {
-                        debug!("ignore_return_value: Dropping empty seq");
+                        report_change!("ignore_return_value: Dropping empty seq");
                         return None;
                     }
 
@@ -1335,7 +1335,7 @@ where
             })
             .unwrap_or(js_word!(""));
 
-        debug!("Converting call to RegExp into a regexp literal");
+        report_change!("Converting call to RegExp into a regexp literal");
         self.changed = true;
         *e = Expr::Lit(Lit::Regex(Regex {
             span,
@@ -1403,8 +1403,8 @@ where
         }) {
             self.changed = true;
 
+            report_change!("Merging variable declarations");
             if cfg!(feature = "debug") {
-                debug!("Merging variable declarations");
                 trace!(
                     "[Before]: {}",
                     dump(
