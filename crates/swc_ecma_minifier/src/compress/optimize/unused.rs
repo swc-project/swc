@@ -49,7 +49,7 @@ where
                     self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
                     if var.name.is_invalid() {
-                        debug!("unused: Removing an unused variable declarator");
+                        report_change!("unused: Removing an unused variable declarator");
                         let side_effects = self.ignore_return_value(init).map(Box::new);
                         if let Some(e) = side_effects {
                             *storage_for_side_effects = Some(e);
