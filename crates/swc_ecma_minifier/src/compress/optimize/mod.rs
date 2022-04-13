@@ -673,7 +673,7 @@ where
             }
         }
 
-        debug!("Compressing array.join()");
+        report_change!("Compressing array.join()");
 
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
@@ -909,7 +909,7 @@ where
                 _ => false,
             } && args.is_empty() =>
             {
-                debug!("ignore_return_value: Dropping a pure call");
+                report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
                 return None;
             }
@@ -1110,7 +1110,7 @@ where
 
                 *arg = Box::new(processed_arg);
 
-                trace!("ignore_return_value: Preserving negated iife");
+                log_abort!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
@@ -1400,18 +1400,16 @@ where
             self.changed = true;
 
             report_change!("Merging variable declarations");
-            if cfg!(feature = "debug") {
-                trace!(
-                    "[Before]: {}",
-                    dump(
-                        &BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: stmts.clone()
-                        },
-                        false
-                    )
+            dump_change_detail!(
+                "[Before]: {}",
+                dump(
+                    &BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: stmts.clone()
+                    },
+                    false
                 )
-            }
+            );
 
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());

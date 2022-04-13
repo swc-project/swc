@@ -280,7 +280,7 @@ where
                         return;
                     }
 
-                    debug!(
+                    report_change!(
                         "inline: Decided to inline var '{}' because it's used only once",
                         i.id
                     );
@@ -583,7 +583,7 @@ where
                 }
 
                 self.changed = true;
-                debug!("inline: Replacing a variable with cheap expression");
+                report_change!("inline: Replacing a variable with cheap expression");
 
                 *e = *value;
                 return;

@@ -233,7 +233,7 @@ where
         if !preserve_cases {
             if let Some(last_non_empty) = last_non_empty {
                 if last_non_empty + 1 != cases.len() {
-                    debug!("switches: Removing empty cases at the end");
+                    report_change!("switches: Removing empty cases at the end");
                     self.changed = true;
                     cases.drain(last_non_empty + 1..);
                 }
