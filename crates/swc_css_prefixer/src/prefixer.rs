@@ -1053,17 +1053,7 @@ impl VisitMut for Prefixer {
             ($prefix:expr,$name:expr) => {{
                 // Use only specific prefix in prefixed at-rules or rule, i.e.
                 // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
-                    if $prefix != *rule_prefix {
-                        false
-                    } else {
-                        true
-                    }
-                } else {
-                    true
-                };
-
-                if need_prefix {
+                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                     self.same_name($name.into(), &n);
                 }
             }};
