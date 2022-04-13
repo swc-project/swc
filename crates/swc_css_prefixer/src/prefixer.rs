@@ -459,15 +459,17 @@ impl VisitMut for Prefixer {
         for mut n in take(&mut n.rules) {
             n.visit_mut_children_with(self);
 
-            new.append(&mut self.added_rules);
-            new.push(n);
-        }
+            let mut added_rules = take(&mut self.added_rules);
 
-        // TODO only for added_rules
-        new.dedup_by(|a, b| match (a, b) {
-            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
-            _ => false,
-        });
+            new.append(&mut added_rules);
+            new.push(n);
+
+            // Avoid duplicate prefixed at-rules
+            new.dedup_by(|a, b| match (a, b) {
+                (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
+                _ => false,
+            });
+        }
 
         n.rules = new;
     }
