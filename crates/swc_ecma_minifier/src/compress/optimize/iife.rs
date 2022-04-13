@@ -73,7 +73,7 @@ where
 
         match callee {
             Expr::Fn(..) => {
-                debug!("negate_iife: Swapping cons and alt");
+                report_change!("negate_iife: Swapping cons and alt");
                 cond.test = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
@@ -521,18 +521,16 @@ where
                     .collect::<Vec<_>>();
 
                 if !self.can_inline_fn_like(&param_ids, body) {
-                    trace!("iife: [x] Body is not inlinable");
+                    log_abort!("iife: [x] Body is not inlinable");
                     return;
                 }
 
                 let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    debug!("inline: Inlining a function call");
+                    report_change!("inline: Inlining a function call");
 
-                    if cfg!(feature = "debug") {
-                        debug!("[Change]: {}", dump(&new, false));
-                    }
+                    dump_change_detail!("{}", dump(&new, false));
 
                     *e = new;
                 }
@@ -579,9 +577,7 @@ where
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
-                        if cfg!(feature = "debug") {
-                            trace!("iife: [x] Cannot inline because of usage of {}", pid);
-                        }
+                        log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
                         return false;
                     }
                 }
@@ -594,12 +590,10 @@ where
 
                 for param in param_ids {
                     if captured.contains(&param.to_id()) {
-                        if cfg!(feature = "debug") {
-                            trace!(
-                                "iife: [x] Cannot inline because of the capture of {}",
-                                param
-                            );
-                        }
+                        log_abort!(
+                            "iife: [x] Cannot inline because of the capture of `{}`",
+                            param
+                        );
                         return false;
                     }
                 }

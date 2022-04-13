@@ -84,9 +84,7 @@ where
         self.with_ctx(ctx).negate(&mut e.left, false);
         self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
-        if cfg!(feature = "debug") {
-            debug!("[Change] {} => {}", start, dump(&*e, false));
-        }
+        dump_change_detail!("{} => {}", start, dump(&*e, false));
 
         true
     }
