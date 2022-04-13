@@ -623,12 +623,10 @@ where
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
-            if cfg!(feature = "debug") {
-                trace!(
-                    "unused: Preserving assignment to `{}` because it's top-level",
-                    dump(&assign.left, false)
-                )
-            }
+            log_abort!(
+                "unused: Preserving assignment to `{}` because it's top-level",
+                dump(&assign.left, false)
+            );
             return;
         }
 
@@ -636,12 +634,10 @@ where
 
         match &mut assign.left {
             PatOrExpr::Expr(_) => {
-                if cfg!(feature = "debug") {
-                    trace!(
-                        "unused: Preserving assignment to `{}` because it's an expression",
-                        dump(&assign.left, false)
-                    )
-                }
+                log_abort!(
+                    "unused: Preserving assignment to `{}` because it's an expression",
+                    dump(&assign.left, false)
+                );
             }
             PatOrExpr::Pat(left) => {
                 if let Pat::Ident(i) = &**left {
@@ -655,9 +651,10 @@ where
                             && var.declared
                             && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
                         {
-                            debug!(
+                            report_change!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
-                                i.id.sym, i.id.span.ctxt
+                                i.id.sym,
+                                i.id.span.ctxt
                             );
                             self.changed = true;
                             if self.ctx.is_this_aware_callee {
@@ -669,13 +666,11 @@ where
                                 *e = *assign.right.take();
                             }
                         } else {
-                            if cfg!(feature = "debug") {
-                                trace!(
-                                    "unused: Preserving assignment to `{}` because of usage: {:?}",
-                                    dump(&assign.left, false),
-                                    var
-                                )
-                            }
+                            log_abort!(
+                                "unused: Preserving assignment to `{}` because of usage: {:?}",
+                                dump(&assign.left, false),
+                                var
+                            )
                         }
                     }
                 }

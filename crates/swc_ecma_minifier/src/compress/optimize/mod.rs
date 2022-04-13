@@ -1020,7 +1020,7 @@ where
             Expr::Array(arr) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                debug!("ignore_return_value: Inverting an array literal");
+                report_change!("ignore_return_value: Inverting an array literal");
                 exprs.extend(
                     arr.elems
                         .take()
@@ -1044,7 +1044,7 @@ where
             Expr::Object(obj) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                debug!("ignore_return_value: Inverting an object literal");
+                report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
                         PropOrSpread::Spread(mut e) => {

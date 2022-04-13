@@ -50,7 +50,7 @@ where
                 if self.options.unsafe_passes {
                     match &*prop.sym {
                         "length" => {
-                            debug!("evaluate: function.length");
+                            report_change!("evaluate: function.length");
 
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: *span,
@@ -61,7 +61,7 @@ where
                         }
 
                         "name" => {
-                            debug!("evaluate: function.name");
+                            report_change!("evaluate: function.name");
 
                             *e = Expr::Lit(Lit::Str(Str {
                                 span: *span,
