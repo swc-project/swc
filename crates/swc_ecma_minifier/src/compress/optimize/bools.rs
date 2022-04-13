@@ -281,7 +281,9 @@ where
                 match (lt, rt) {
                     (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
                         if op == op!("===") {
-                            debug!("Reducing `!== null || !== undefined` check to `!= null`");
+                            report_change!(
+                                "Reducing `!== null || !== undefined` check to `!= null`"
+                            );
                             return Some(BinExpr {
                                 span,
                                 op: op!("=="),
@@ -289,7 +291,9 @@ where
                                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                             });
                         } else {
-                            debug!("Reducing `=== null || === undefined` check to `== null`");
+                            report_change!(
+                                "Reducing `=== null || === undefined` check to `== null`"
+                            );
                             return Some(BinExpr {
                                 span,
                                 op: op!("!="),
