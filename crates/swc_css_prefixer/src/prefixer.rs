@@ -1,7 +1,6 @@
 use core::f64::consts::PI;
 use std::mem::take;
 
-use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -442,22 +441,6 @@ struct Prefixer {
     rule_prefix: Option<Prefix>,
     simple_block: Option<SimpleBlock>,
     added_declarations: Vec<Declaration>,
-}
-
-impl Prefixer {
-    fn same_name(&mut self, name: JsWord, n: &Declaration) {
-        let val = Ident {
-            span: DUMMY_SP,
-            value: name.clone(),
-            raw: name,
-        };
-        self.added_declarations.push(Declaration {
-            span: n.span,
-            name: n.name.clone(),
-            value: vec![ComponentValue::Ident(val)],
-            important: n.important.clone(),
-        });
-    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -955,7 +938,7 @@ impl VisitMut for Prefixer {
             );
         }
 
-        let ms_value = n.value.clone();
+        let mut ms_value = n.value.clone();
 
         // TODO lazy
         let mut declarations = vec![];
@@ -1045,16 +1028,6 @@ impl VisitMut for Prefixer {
                             important: n.important.clone(),
                         });
                     }
-                }
-            }};
-        }
-
-        macro_rules! same_name {
-            ($prefix:expr,$name:expr) => {{
-                // Use only specific prefix in prefixed at-rules or rule, i.e.
-                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
-                    self.same_name($name.into(), &n);
                 }
             }};
         }
@@ -1223,25 +1196,32 @@ impl VisitMut for Prefixer {
             }
 
             "display" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "flex" => {
-                            same_name!(Prefix::Webkit, "-webkit-box");
-                            same_name!(Prefix::Webkit, "-webkit-flex");
-                            same_name!(Prefix::Moz, "-moz-box");
-                            same_name!(Prefix::Ms, "-ms-flexbox");
-                        }
+                let mut old_spec_webkit_value = webkit_value.clone();
 
-                        "inline-flex" => {
-                            same_name!(Prefix::Webkit, "-webkit-inline-box");
-                            same_name!(Prefix::Webkit, "-webkit-inline-flex");
-                            same_name!(Prefix::Moz, "-moz-inline-box");
-                            same_name!(Prefix::Ms, "-ms-inline-flexbox");
-                        }
+                replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                replace_ident(
+                    &mut old_spec_webkit_value,
+                    "inline-flex",
+                    "-webkit-inline-box",
+                );
 
-                        _ => {}
-                    }
+                if n.value != old_spec_webkit_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: old_spec_webkit_value,
+                        important: n.important.clone(),
+                    });
                 }
+
+                replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+
+                replace_ident(&mut moz_value, "flex", "-moz-box");
+                replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+
+                replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
             }
 
             "flex" => {
