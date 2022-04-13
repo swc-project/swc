@@ -359,7 +359,7 @@ where
                         let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
-                            debug!("inline: Inlining a function call (arrow)");
+                            report_change!("inline: Inlining a function call (arrow)");
 
                             *e = new;
                         }
@@ -460,18 +460,18 @@ where
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                     if has_decl {
-                        trace!("iife: [x] Found decl");
+                        log_abort!("iife: [x] Found decl");
                         return;
                     }
                 }
 
                 if f.function.is_async {
-                    trace!("iife: [x] Cannot inline async fn");
+                    log_abort!("iife: [x] Cannot inline async fn");
                     return;
                 }
 
                 if f.function.is_generator {
-                    trace!("iife: [x] Cannot inline generator");
+                    log_abort!("iife: [x] Cannot inline generator");
                     return;
                 }
 
@@ -482,25 +482,25 @@ where
                         Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..)
                     )
                 }) {
-                    trace!("iife: [x] Found complex pattern");
+                    log_abort!("iife: [x] Found complex pattern");
                     return;
                 }
 
                 if let Some(i) = &f.ident {
                     if idents_used_by(&f.function.body).contains(&i.to_id()) {
-                        trace!("iife: [x] Recursive?");
+                        log_abort!("iife: [x] Recursive?");
                         return;
                     }
                 }
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
-                        trace!("iife: [x] Found spread argument");
+                        log_abort!("iife: [x] Found spread argument");
                         return;
                     }
                     match &*arg.expr {
                         Expr::Fn(..) | Expr::Arrow(..) => {
-                            trace!("iife: [x] Found callable argument");
+                            log_abort!("iife: [x] Found callable argument");
                             return;
                         }
                         _ => {}
