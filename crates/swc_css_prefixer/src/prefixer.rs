@@ -1,7 +1,7 @@
 use core::f64::consts::PI;
 use std::mem::take;
 
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -463,6 +463,12 @@ impl VisitMut for Prefixer {
             new.push(n);
         }
 
+        // TODO only for added_rules
+        new.dedup_by(|a, b| match (a, b) {
+            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
+            _ => false,
+        });
+
         n.rules = new;
     }
 
@@ -470,7 +476,6 @@ impl VisitMut for Prefixer {
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
         let mut added_at_rules = vec![];
 
-        // TODO avoid duplicate
         match &n.name {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
