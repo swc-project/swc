@@ -145,12 +145,12 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
     }
 
     if is_ret_val_ignored {
-        debug!("negate: noop because it's ignored");
+        log_abort!("negate: noop because it's ignored");
         *e = *arg;
 
         false
     } else {
-        debug!("negate: e => !e");
+        report_change!("negate: e => !e");
 
         *e = Expr::Unary(UnaryExpr {
             span: DUMMY_SP,
@@ -158,9 +158,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             arg,
         });
 
-        if cfg!(feature = "debug") {
-            trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
-        }
+        dump_change_detail!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
 
         true
     }

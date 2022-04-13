@@ -44,9 +44,10 @@ impl PostcompressOptimizer<'_> {
                         op!("&&")
                     };
 
-                    debug!(
+                    report_change!(
                         "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                        *op, new_op
+                        *op,
+                        new_op
                     );
                     *op = new_op;
                     *right = arg.take();
