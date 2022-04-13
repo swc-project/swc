@@ -309,8 +309,8 @@ impl NodeModulesResolver {
         base_dir: &Path,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
-        let absolute_path = to_absolute_path(base_dir).unwrap();
-        let mut path = Some(Path::new(absolute_path.to_str().unwrap()));
+        let absolute_path = to_absolute_path(base_dir)?;
+        let mut path = Some(&*absolute_path);
         while let Some(dir) = path {
             let node_modules = dir.join("node_modules");
             if node_modules.is_dir() {
@@ -410,7 +410,7 @@ impl Resolve for NodeModulesResolver {
                 } else {
                     self.resolve_node_modules(base_dir, target)
                         .and_then(|path| {
-                            let current_directory = current_dir().unwrap();
+                            let current_directory = current_dir()?;
                             let relative_path = diff_paths(path.unwrap(), current_directory);
                             self.wrap(relative_path)
                         })
