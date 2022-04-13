@@ -2040,6 +2040,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         self.functions
             .entry(f.ident.to_id())
@@ -2049,10 +2050,14 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        let ctx = Ctx { ..self.ctx };
+        let ctx = Ctx {
+            top_level: false,
+            ..self.ctx
+        };
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
@@ -2067,6 +2072,7 @@ where
         e.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
@@ -2087,6 +2093,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.right.visit_mut_with(self);
 
@@ -2107,6 +2114,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         let ctx = Ctx {
             executed_multiple_time: true,
@@ -2149,6 +2157,7 @@ where
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
+                top_level: false,
 
                 ..self.ctx
             };
@@ -2188,6 +2197,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.test.visit_mut_with(self);
 
@@ -2207,6 +2217,7 @@ where
         self.merge_else_if(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
             stmt_labelled: true,
@@ -2223,6 +2234,7 @@ where
         self.label = old_label;
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         {
             let ctx = Ctx {
@@ -2271,6 +2283,7 @@ where
         drop_invalid_stmts(stmts);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         {
             let ctx = Ctx {
@@ -2289,6 +2302,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
@@ -2299,6 +2313,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
@@ -2321,6 +2336,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             var_kind: None,
@@ -2338,6 +2354,7 @@ where
         n.retain(|p| !p.pat.is_invalid());
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
@@ -2358,6 +2375,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
@@ -2678,6 +2696,7 @@ where
         s.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
         if let SuperProp::Computed(c) = &mut n.prop {
             let ctx = Ctx {
@@ -2689,12 +2708,14 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
         n.visit_mut_children_with(self);
 
         self.optimize_switch_cases(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
 
@@ -2704,18 +2725,21 @@ where
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
 
         n.tpl.exprs.visit_mut_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
         self.optimize_in_fn_termination(&mut n.arg);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
@@ -2733,6 +2757,7 @@ where
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = Ctx {
             in_try_block: true,
@@ -2745,6 +2770,7 @@ where
         n.finalizer.visit_mut_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let ctx = Ctx {
             in_bang_arg: n.op == op!("!"),
@@ -2769,6 +2795,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let ctx = Ctx {
             is_update_arg: true,
@@ -2778,6 +2805,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         {
             let ctx = Ctx {
@@ -2806,6 +2834,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         var.name.visit_mut_with(self);
 
@@ -2817,6 +2846,7 @@ where
         self.store_var_for_prop_hoisting(var);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
@@ -2950,6 +2980,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
         {
             let ctx = Ctx {
@@ -2960,6 +2991,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 
