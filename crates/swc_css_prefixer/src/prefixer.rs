@@ -1065,8 +1065,22 @@ impl VisitMut for Prefixer {
         }
 
         macro_rules! same_name {
-            ($name:expr) => {{
-                self.same_name($name.into(), &n);
+            ($prefix:expr,$name:expr) => {{
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
+                    if $prefix != *rule_prefix {
+                        false
+                    } else {
+                        true
+                    }
+                } else {
+                    true
+                };
+
+                if need_prefix {
+                    self.same_name($name.into(), &n);
+                }
             }};
         }
 
@@ -1237,17 +1251,17 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "flex" => {
-                            same_name!("-webkit-box");
-                            same_name!("-webkit-flex");
-                            same_name!("-moz-box");
-                            same_name!("-ms-flexbox");
+                            same_name!(Prefix::Webkit, "-webkit-box");
+                            same_name!(Prefix::Webkit, "-webkit-flex");
+                            same_name!(Prefix::Moz, "-moz-box");
+                            same_name!(Prefix::Ms, "-ms-flexbox");
                         }
 
                         "inline-flex" => {
-                            same_name!("-webkit-inline-box");
-                            same_name!("-webkit-inline-flex");
-                            same_name!("-moz-inline-box");
-                            same_name!("-ms-inline-flexbox");
+                            same_name!(Prefix::Webkit, "-webkit-inline-box");
+                            same_name!(Prefix::Webkit, "-webkit-inline-flex");
+                            same_name!(Prefix::Moz, "-moz-inline-box");
+                            same_name!(Prefix::Ms, "-ms-inline-flexbox");
                         }
 
                         _ => {}
