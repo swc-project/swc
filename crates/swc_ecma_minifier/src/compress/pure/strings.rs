@@ -55,9 +55,7 @@ impl Pure<'_> {
             return;
         }
 
-        if cfg!(feature = "debug") {
-            debug!("compress_tpl");
-        }
+        trace_op!("compress_tpl");
 
         let mut quasis = vec![];
         let mut exprs = vec![];

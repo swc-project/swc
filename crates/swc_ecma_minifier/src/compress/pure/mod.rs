@@ -7,7 +7,7 @@ use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, undefined};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
+use tracing::{debug, span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{

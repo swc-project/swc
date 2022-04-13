@@ -118,9 +118,7 @@ where
             }
         }
 
-        if cfg!(feature = "debug") {
-            trace!("unused: drop_unused_vars({})", dump(&*name, false));
-        }
+        trace_op!("unused: drop_unused_vars({})", dump(&*name, false));
 
         // Top-level
         if !has_mark {
@@ -186,9 +184,7 @@ where
         i: &mut Ident,
         init: Option<&mut Expr>,
     ) {
-        if cfg!(debug_assertions) {
-            trace!("unused: Checking identifier `{}`", i);
-        }
+        trace_op!("unused: Checking identifier `{}`", i);
 
         if !parent_span.has_mark(self.marks.non_top_level)
             && self.options.top_retain.contains(&i.sym)
@@ -321,9 +317,7 @@ where
             return;
         }
 
-        if cfg!(feature = "debug") {
-            trace!("unused: take_pat_if_unused({})", dump(&*name, false));
-        }
+        trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
         if !name.is_ident() {
             // TODO: Use smart logic
@@ -606,12 +600,10 @@ where
             })
             .used_arguments;
 
-        if cfg!(feature = "debug") {
-            trace!(
-                "unused: drop_unused_assignments: Target: `{}`",
-                dump(&assign.left, false)
-            )
-        }
+        trace_op!(
+            "unused: drop_unused_assignments: Target: `{}`",
+            dump(&assign.left, false)
+        );
 
         if !has_mark
             && (!self.options.top_level() && self.options.top_retain.is_empty())

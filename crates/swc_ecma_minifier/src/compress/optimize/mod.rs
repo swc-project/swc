@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
+use tracing::{debug, span, Level};
 use Value::Known;
 
 use self::{

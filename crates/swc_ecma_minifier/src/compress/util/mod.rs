@@ -98,7 +98,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
 
         Expr::Seq(SeqExpr { exprs, .. }) => {
             if let Some(last) = exprs.last_mut() {
-                debug!("negate: seq");
+                trace_op!("negate: seq");
 
                 return negate_inner(&mut **last, in_bool_ctx, is_ret_val_ignored);
             }
@@ -341,7 +341,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
 
         // Print more info while testing negate_cost
         if cfg!(test) {
-            debug!(
+            trace_op!(
                 "negation cost of `{}` = {}",
                 dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),
                 cost,
