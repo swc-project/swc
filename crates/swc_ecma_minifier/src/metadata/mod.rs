@@ -292,12 +292,11 @@ where
         }
 
         if external_bindings.contains(used_id) {
-            if cfg!(feature = "debug") {
-                debug!(
-                    "bundle: Due to {}{:?} (top-level), it's not a bundle",
-                    used_id.0, used_id.1
-                );
-            }
+            trace_op!(
+                "bundle: Due to {}{:?} (top-level), it's not a bundle",
+                used_id.0,
+                used_id.1
+            );
 
             return false;
         }
@@ -320,12 +319,12 @@ where
             continue;
         }
 
-        if cfg!(feature = "debug") {
-            debug!(
-                "bundle: Due to {}{:?}, it's not a bundle",
-                used_id.0, used_id.1
-            );
-        }
+        trace_op!(
+            "bundle: Due to {}{:?}, it's not a bundle",
+            used_id.0,
+            used_id.1
+        );
+
         return false;
     }
 

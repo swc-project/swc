@@ -258,9 +258,7 @@ where
     where
         N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
     {
-        if cfg!(feature = "debug") {
-            trace!("inline: inline_vars_in_node");
-        }
+        trace_op!("inline: inline_vars_in_node");
 
         n.visit_mut_with(&mut MultiReplacer::new(
             &mut vars,
@@ -733,9 +731,8 @@ where
                 .collect::<Vec<_>>();
 
             if !vars.is_empty() {
-                if cfg!(feature = "debug") {
-                    debug!("iife: Creating variables: {:?}", vars);
-                }
+                trace_op!("iife: Creating variables: {:?}", vars);
+
                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     kind: VarDeclKind::Var,

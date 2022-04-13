@@ -30,13 +30,11 @@ where
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
-        if cfg!(feature = "debug") {
-            trace!(
-                "inline: store_var_for_inlining({}, should_preserve = {:?})",
-                dump(&var.name, false),
-                should_preserve
-            );
-        }
+        trace_op!(
+            "inline: store_var_for_inlining({}, should_preserve = {:?})",
+            dump(&var.name, false),
+            should_preserve
+        );
 
         if self.data.top.has_eval_call {
             return;
@@ -181,9 +179,10 @@ where
 
                         var.name.take();
                     } else if self.options.inline != 0 || self.options.reduce_vars {
-                        debug!(
+                        trace_op!(
                             "inline: Decided to copy '{}{:?}' because it's simple",
-                            i.id.sym, i.id.span.ctxt
+                            i.id.sym,
+                            i.id.span.ctxt
                         );
 
                         self.mode.store(i.to_id(), &*init);
@@ -355,7 +354,7 @@ where
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if !usage.reassigned() {
-                trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
+                trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -384,9 +383,7 @@ where
             _ => return,
         };
 
-        if cfg!(feature = "debug") {
-            trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
-        }
+        trace_op!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
 
         if self.options.inline == 0 && !self.options.reduce_vars {
             log_abort!("inline: [x] Inline disabled");
@@ -443,10 +440,11 @@ where
                             if !UsageFinder::find(&i, body)
                                 && self.is_fn_body_simple_enough_to_inline(body)
                             {
-                                debug!(
+                                trace_op!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
-                                    f.ident.sym, f.ident.span.ctxt
+                                    f.ident.sym,
+                                    f.ident.span.ctxt
                                 );
 
                                 if f.function.params.iter().any(|param| {

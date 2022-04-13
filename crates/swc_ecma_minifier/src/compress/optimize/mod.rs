@@ -1141,7 +1141,7 @@ where
             }
 
             Expr::Cond(cond) => {
-                trace!("ignore_return_value: Cond expr");
+                trace_op!("ignore_return_value: Cond expr");
 
                 self.restore_negated_iife(cond);
 

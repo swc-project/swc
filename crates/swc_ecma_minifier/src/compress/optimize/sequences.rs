@@ -1029,19 +1029,19 @@ where
             Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return Ok(false),
 
             Expr::Cond(b) => {
-                trace!("seq: Try test of cond");
+                trace_op!("seq: Try test of cond");
                 return self.merge_sequential_expr(a, &mut *b.test);
             }
 
             Expr::Unary(b) => {
-                trace!("seq: Try arg of unary");
+                trace_op!("seq: Try arg of unary");
                 return self.merge_sequential_expr(a, &mut b.arg);
             }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => {
-                trace!("seq: Try left of bin");
+                trace_op!("seq: Try left of bin");
                 if self.merge_sequential_expr(a, &mut **left)? {
                     return Ok(true);
                 }
@@ -1055,12 +1055,12 @@ where
                     _ => {}
                 }
 
-                trace!("seq: Try right of bin");
+                trace_op!("seq: Try right of bin");
                 return self.merge_sequential_expr(a, &mut **right);
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-                trace!("seq: Try object of member");
+                trace_op!("seq: Try object of member");
                 return self.merge_sequential_expr(a, &mut **obj);
             }
 
@@ -1069,7 +1069,7 @@ where
                 prop: MemberProp::Computed(c),
                 ..
             }) => {
-                trace!("seq: Try object of member (computed)");
+                trace_op!("seq: Try object of member (computed)");
                 if self.merge_sequential_expr(a, &mut **obj)? {
                     return Ok(true);
                 }
@@ -1078,7 +1078,7 @@ where
                     return Ok(false);
                 }
 
-                trace!("seq: Try prop of member (computed)");
+                trace_op!("seq: Try prop of member (computed)");
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
 
@@ -1086,14 +1086,14 @@ where
                 prop: SuperProp::Computed(c),
                 ..
             }) => {
-                trace!("seq: Try prop of member (computed)");
+                trace_op!("seq: Try prop of member (computed)");
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
                     PatOrExpr::Expr(b_left) => {
-                        trace!("seq: Try lhs of assign");
+                        trace_op!("seq: Try lhs of assign");
                         if self.merge_sequential_expr(a, &mut **b_left)? {
                             return Ok(true);
                         }
@@ -1108,7 +1108,7 @@ where
                     }
                     PatOrExpr::Pat(b_left) => match &mut **b_left {
                         Pat::Expr(b_left) => {
-                            trace!("seq: Try lhs of assign");
+                            trace_op!("seq: Try lhs of assign");
                             if self.merge_sequential_expr(a, &mut **b_left)? {
                                 return Ok(true);
                             }
@@ -1129,7 +1129,7 @@ where
                     return Ok(false);
                 }
 
-                trace!("seq: Try rhs of assign");
+                trace_op!("seq: Try rhs of assign");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
@@ -1148,7 +1148,7 @@ where
                     return Err(());
                 }
 
-                trace!("seq: Try rhs of assign with op");
+                trace_op!("seq: Try rhs of assign with op");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
@@ -1156,7 +1156,7 @@ where
                 for elem in &mut b.elems {
                     match elem {
                         Some(elem) => {
-                            trace!("seq: Try element of array");
+                            trace_op!("seq: Try element of array");
                             if self.merge_sequential_expr(a, &mut elem.expr)? {
                                 return Ok(true);
                             }
@@ -1179,7 +1179,7 @@ where
                 ..
             }) => {
                 let is_this_undefined = b_callee.is_ident();
-                trace!("seq: Try callee of call");
+                trace_op!("seq: Try callee of call");
                 if self.merge_sequential_expr(a, &mut **b_callee)? {
                     if is_this_undefined {
                         if let Expr::Member(..) = &**b_callee {
@@ -1205,7 +1205,7 @@ where
                 }
 
                 for arg in b_args {
-                    trace!("seq: Try arg of call");
+                    trace_op!("seq: Try arg of call");
                     if self.merge_sequential_expr(a, &mut arg.expr)? {
                         return Ok(true);
                     }
@@ -1221,7 +1221,7 @@ where
             Expr::New(NewExpr {
                 callee: b_callee, ..
             }) => {
-                trace!("seq: Try callee of new");
+                trace_op!("seq: Try callee of new");
                 if self.merge_sequential_expr(a, &mut **b_callee)? {
                     return Ok(true);
                 }
@@ -1231,7 +1231,7 @@ where
 
             Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
                 for b_expr in b_exprs {
-                    trace!("seq: Try elem of seq");
+                    trace_op!("seq: Try elem of seq");
 
                     if self.merge_sequential_expr(a, &mut **b_expr)? {
                         return Ok(true);
@@ -1310,14 +1310,14 @@ where
         if cfg!(feature = "debug") {
             match a {
                 Mergable::Var(a) => {
-                    trace!(
+                    trace_op!(
                         "sequences: Trying to merge `{}` => `{}`",
                         crate::debug::dump(&**a, false),
                         crate::debug::dump(&*b, false)
                     );
                 }
                 Mergable::Expr(a) => {
-                    trace!(
+                    trace_op!(
                         "sequences: Trying to merge `{}` => `{}`",
                         crate::debug::dump(&**a, false),
                         crate::debug::dump(&*b, false)

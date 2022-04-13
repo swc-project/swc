@@ -64,7 +64,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             op: op @ op!("&&"),
             ..
         }) if is_ok_to_negate_rhs(right) => {
-            debug!("negate: a && b => !a || !b");
+            trace_op!("negate: a && b => !a || !b");
 
             let a = negate_inner(&mut **left, in_bool_ctx, false);
             let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
@@ -78,7 +78,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             op: op @ op!("||"),
             ..
         }) if is_ok_to_negate_rhs(right) => {
-            debug!("negate: a || b => !a && !b");
+            trace_op!("negate: a || b => !a && !b");
 
             let a = negate_inner(&mut **left, in_bool_ctx, false);
             let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
@@ -89,7 +89,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
         Expr::Cond(CondExpr { cons, alt, .. })
             if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
         {
-            debug!("negate: cond");
+            trace_op!("negate: cond");
 
             let a = negate_inner(&mut **cons, in_bool_ctx, false);
             let b = negate_inner(&mut **alt, in_bool_ctx, is_ret_val_ignored);
@@ -353,15 +353,13 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
 
     let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
 
-    if cfg!(feature = "debug") {
-        trace!(
-            "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-            dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
-            cost,
-            in_bool_ctx,
-            is_ret_val_ignored
-        );
-    }
+    trace_op!(
+        "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
+        dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
+        cost,
+        in_bool_ctx,
+        is_ret_val_ignored
+    );
 
     cost
 }
