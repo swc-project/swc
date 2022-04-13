@@ -43,6 +43,9 @@
 
 - **(es/minifier)** Enable `dead_code` by default (#4309) ([74a5087](https://github.com/swc-project/swc/commit/74a5087989173f833517cb6f6bf51afcf9642286))
 
+
+- **(es/parser)** Support `extends` clause to `infer` type (#4326) ([1c3d1af](https://github.com/swc-project/swc/commit/1c3d1af01cdfdf6794e73e32bb0062698d4910be))
+
 ### Miscellaneous Tasks
 
 
