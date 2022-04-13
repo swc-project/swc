@@ -88,7 +88,7 @@ impl Pure<'_> {
 
                 if args.is_empty() && params.is_empty() {
                     self.changed = true;
-                    debug!("Flattening iife");
+                    report_change!("Flattening iife");
                     *s = Stmt::Block(body.take());
                 }
             }
@@ -189,7 +189,11 @@ impl Pure<'_> {
                             if let Value::Known(end) = end {
                                 let end = end.floor() as usize;
                                 self.changed = true;
-                                debug!("evaluate: Reducing array.slice({}, {}) call", start, end);
+                                report_change!(
+                                    "evaluate: Reducing array.slice({}, {}) call",
+                                    start,
+                                    end
+                                );
                                 let end = end.min(arr.elems.len());
 
                                 if start >= arr.elems.len() {
@@ -366,9 +370,11 @@ impl Pure<'_> {
                 let value = num_to_fixed(num.value, precision + 1);
 
                 self.changed = true;
-                debug!(
+                report_change!(
                     "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                    num, precision, value
+                    num,
+                    precision,
+                    value
                 );
 
                 *e = Expr::Lit(Lit::Str(Str {
@@ -433,7 +439,7 @@ impl Pure<'_> {
                 // foo || 1 => foo, 1
                 if v {
                     self.changed = true;
-                    debug!("evaluate: `foo || true` => `foo, 1`");
+                    report_change!("evaluate: `foo || true` => `foo, 1`");
 
                     *e = Expr::Seq(SeqExpr {
                         span: bin_expr.span,
@@ -442,7 +448,7 @@ impl Pure<'_> {
                     e.visit_mut_with(self);
                 } else {
                     self.changed = true;
-                    debug!("evaluate: `foo || false` => `foo` (bool ctx)");
+                    report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
 
                     *e = *bin_expr.left.take();
                 }
@@ -452,7 +458,7 @@ impl Pure<'_> {
             // 1 || foo => foo
             if let Value::Known(true) = bin_expr.left.as_pure_bool() {
                 self.changed = true;
-                debug!("evaluate: `true || foo` => `foo`");
+                report_change!("evaluate: `true || foo` => `foo`");
 
                 *e = *bin_expr.right.take();
             }
@@ -532,7 +538,7 @@ impl Pure<'_> {
                 if let Pat::Ident(a_left) = &**a_left {
                     if let Expr::Ident(b_id) = b {
                         if b_id.to_id() == a_left.id.to_id() {
-                            debug!("evaluate: Trivial: `{}`", a_left.id);
+                            report_change!("evaluate: Trivial: `{}`", a_left.id);
                             *b = *a_right.clone();
                             self.changed = true;
                         }
@@ -651,7 +657,7 @@ impl Pure<'_> {
         };
 
         self.changed = true;
-        debug!("evaluate: Evaluated `{}` of a string literal", method);
+        report_change!("evaluate: Evaluated `{}` of a string literal", method);
         *e = Expr::Lit(Lit::Str(Str {
             value: new_val.into(),
             ..s
