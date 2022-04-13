@@ -44,10 +44,9 @@ impl PostcompressOptimizer<'_> {
                         op!("&&")
                     };
 
-                    tracing::debug!(
+                    debug!(
                         "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                        *op,
-                        new_op
+                        *op, new_op
                     );
                     *op = new_op;
                     *right = arg.take();

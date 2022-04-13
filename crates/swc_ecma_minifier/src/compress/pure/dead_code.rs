@@ -21,7 +21,7 @@ impl Pure<'_> {
             {
                 if label.sym == ls.label.sym {
                     self.changed = true;
-                    tracing::debug!("Dropping instant break");
+                    debug!("Dropping instant break");
                     s.take();
                 }
             }
@@ -67,7 +67,7 @@ impl Pure<'_> {
                     {
                         if ls.label.sym == label.sym {
                             self.changed = true;
-                            tracing::debug!("Optimizing labeled stmt with a break to if statement");
+                            debug!("Optimizing labeled stmt with a break to if statement");
 
                             self.negate(test, true, false);
                             let test = test.take();
@@ -99,9 +99,7 @@ impl Pure<'_> {
                     {
                         if ls.label.sym == label.sym {
                             self.changed = true;
-                            tracing::debug!(
-                                "Optimizing labeled stmt with a break in alt to if statement"
-                            );
+                            debug!("Optimizing labeled stmt with a break in alt to if statement");
 
                             let test = test.take();
                             let cons = *cons.take();
@@ -175,7 +173,7 @@ impl Pure<'_> {
                 return None;
             }
             self.changed = true;
-            tracing::debug!("Remove useless continue (last stmt of a loop)");
+            debug!("Remove useless continue (last stmt of a loop)");
             b.stmts.remove(b.stmts.len() - 1);
 
             if let Some(label) = &label {
@@ -222,7 +220,7 @@ impl Pure<'_> {
                     }
 
                     Some(..) => {
-                        tracing::debug!("Removing unreachable statements");
+                        debug!("Removing unreachable statements");
                         self.changed = true;
                         stmt.take();
                     }
@@ -249,7 +247,7 @@ impl Pure<'_> {
         }
 
         self.changed = true;
-        tracing::debug!("Dropping useless block");
+        debug!("Dropping useless block");
 
         let mut new = vec![];
         for stmt in stmts.take() {
@@ -277,7 +275,7 @@ impl Pure<'_> {
                 arg,
             })) = r.arg.as_deref_mut()
             {
-                tracing::debug!("unused: Removing `return void` in end of a function");
+                debug!("unused: Removing `return void` in end of a function");
                 self.changed = true;
                 *s = Stmt::Expr(ExprStmt {
                     span: *span,
@@ -303,7 +301,7 @@ impl Pure<'_> {
         }
 
         self.changed = true;
-        tracing::debug!("dead_code: Removing dead codes");
+        debug!("dead_code: Removing dead codes");
 
         let mut new = vec![];
 

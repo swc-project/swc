@@ -46,7 +46,7 @@ where
         self.changed = true;
         // Remove the labeled statement.
         self.label = None;
-        tracing::debug!("loops: Removing a for loop with instant break");
+        debug!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
                 VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
@@ -79,7 +79,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(stmt);
                         self.changed |= changed;
                         if changed {
-                            tracing::debug!(
+                            debug!(
                                 "loops: Removing unreachable while statement without side effects"
                             );
                         }
@@ -87,9 +87,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(&mut w.body);
                         self.changed |= changed;
                         if changed {
-                            tracing::debug!(
-                                "loops: Removing unreachable body of a while statement"
-                            );
+                            debug!("loops: Removing unreachable body of a while statement");
                         }
                     }
                 }
@@ -101,7 +99,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;
                         if changed {
-                            tracing::debug!("loops: Removing unreachable body of a for statement");
+                            debug!("loops: Removing unreachable body of a for statement");
                         }
                         self.changed |= f.init.is_some() | f.update.is_some();
 
@@ -122,9 +120,7 @@ where
                     } else if let Known(true) = val {
                         if purity.is_pure() {
                             self.changed = true;
-                            tracing::debug!(
-                                "loops: Removing `test` part of a for stmt as it's always true"
-                            );
+                            debug!("loops: Removing `test` part of a for stmt as it's always true");
                             f.test = None;
                         }
                     }
@@ -151,7 +147,7 @@ where
                     } else {
                         s.init = None;
                         self.changed = true;
-                        tracing::debug!(
+                        debug!(
                             "loops: Removed side-effect-free expressions in `init` of a for stmt"
                         );
                     }

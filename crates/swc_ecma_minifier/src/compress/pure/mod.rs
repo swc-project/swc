@@ -551,7 +551,7 @@ impl VisitMut for Pure<'_> {
         e.exprs.retain(|e| {
             if e.is_invalid() {
                 self.changed = true;
-                tracing::debug!("Removing invalid expr in seq");
+                debug!("Removing invalid expr in seq");
                 return false;
             }
 
@@ -615,7 +615,7 @@ impl VisitMut for Pure<'_> {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
-                tracing::debug!("after: visit_mut_children_with: {}", text);
+                debug!("after: visit_mut_children_with: {}", text);
             }
         }
 
@@ -623,7 +623,7 @@ impl VisitMut for Pure<'_> {
             if let Stmt::Debugger(..) = s {
                 self.changed = true;
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                tracing::debug!("drop_debugger: Dropped a debugger statement");
+                debug!("drop_debugger: Dropped a debugger statement");
                 return;
             }
         }
@@ -649,7 +649,7 @@ impl VisitMut for Pure<'_> {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
-                tracing::debug!("after: visit_mut_stmt: {}", text);
+                debug!("after: visit_mut_stmt: {}", text);
             }
         }
 

@@ -44,7 +44,7 @@ impl Pure<'_> {
                     }
                 }
 
-                tracing::debug!("drop_console: Removing console call");
+                debug!("drop_console: Removing console call");
                 self.changed = true;
                 *e = *undefined(DUMMY_SP);
             }

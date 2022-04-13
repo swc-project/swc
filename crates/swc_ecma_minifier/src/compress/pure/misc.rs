@@ -27,7 +27,7 @@ impl Pure<'_> {
         if let Some(e) = s.arg.as_deref() {
             if is_pure_undefined(e) {
                 self.changed = true;
-                tracing::debug!("Dropped `undefined` from `return undefined`");
+                debug!("Dropped `undefined` from `return undefined`");
                 s.arg.take();
             }
         }
@@ -36,7 +36,7 @@ impl Pure<'_> {
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;
-            tracing::debug!("misc: Removing useless return");
+            debug!("misc: Removing useless return");
             stmts.pop();
         }
     }
@@ -83,7 +83,7 @@ impl Pure<'_> {
             Stmt::Return(ret) => {
                 self.changed = true;
                 if cfg!(feature = "debug") {
-                    tracing::trace!("Dropping `return` token");
+                    trace!("Dropping `return` token");
                 }
 
                 let span = ret.span;
@@ -177,7 +177,7 @@ impl Pure<'_> {
             }
 
             Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
+                debug!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new = self.make_ignored_expr(args.take().into_iter().map(|arg| arg.expr));
@@ -191,7 +191,7 @@ impl Pure<'_> {
                 tpl: Tpl { exprs, .. },
                 ..
             }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
+                debug!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new = self.make_ignored_expr(exprs.take().into_iter());
@@ -201,7 +201,7 @@ impl Pure<'_> {
             }
 
             Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
+                debug!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new =
@@ -232,13 +232,13 @@ impl Pure<'_> {
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
                     if is_global_var(&i.sym) {
-                        tracing::debug!("Dropping a reference to a global variable");
+                        debug!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
                 }
             } else {
-                tracing::debug!("Dropping an identifier as it's declared");
+                debug!("Dropping an identifier as it's declared");
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 return;
             }
@@ -262,7 +262,7 @@ impl Pure<'_> {
                     );
 
                     if arg.is_invalid() {
-                        tracing::debug!("Dropping an unary expression");
+                        debug!("Dropping an unary expression");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
@@ -277,7 +277,7 @@ impl Pure<'_> {
                     self.ignore_return_value(&mut be.right, opts);
 
                     if be.right.is_invalid() {
-                        tracing::debug!("Dropping the RHS of a binary expression ('&&' / '||')");
+                        debug!("Dropping the RHS of a binary expression ('&&' / '||')");
                         *e = *be.left.take();
                         return;
                     }
@@ -300,7 +300,7 @@ impl Pure<'_> {
                 Expr::Ident(i) => {
                     if let Some(bindings) = self.bindings.as_deref() {
                         if bindings.contains(&i.to_id()) {
-                            tracing::debug!("Dropping an identifier as it's declared");
+                            debug!("Dropping an identifier as it's declared");
 
                             self.changed = true;
                             *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -310,7 +310,7 @@ impl Pure<'_> {
                 }
 
                 Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
-                    tracing::debug!("Dropping literals");
+                    debug!("Dropping literals");
 
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -376,7 +376,7 @@ impl Pure<'_> {
 
                     if matches!(*bin.left, Expr::Await(..) | Expr::Update(..)) {
                         self.changed = true;
-                        tracing::debug!("ignore_return_value: Compressing binary as seq");
+                        debug!("ignore_return_value: Compressing binary as seq");
                         *e = Expr::Seq(SeqExpr {
                             span,
                             exprs: vec![bin.left.take(), bin.right.take()],

@@ -56,7 +56,7 @@ impl Pure<'_> {
         }
 
         if cfg!(feature = "debug") {
-            tracing::debug!("compress_tpl");
+            debug!("compress_tpl");
         }
 
         let mut quasis = vec![];
@@ -112,7 +112,7 @@ impl Pure<'_> {
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
 
-                    tracing::debug!(
+                    debug!(
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
@@ -130,7 +130,7 @@ impl Pure<'_> {
                 if let Some(r_first) = r.quasis.first_mut() {
                     self.changed = true;
 
-                    tracing::debug!(
+                    debug!(
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
@@ -162,7 +162,7 @@ impl Pure<'_> {
 
                 debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
                 self.changed = true;
-                tracing::debug!("strings: Merged to template literals");
+                debug!("strings: Merged to template literals");
             }
             _ => {}
         }
@@ -194,11 +194,9 @@ impl Pure<'_> {
                                 let left_span = left.span;
 
                                 self.changed = true;
-                                tracing::debug!(
+                                debug!(
                                     "strings: Concatting `{} + {}` to `{}`",
-                                    second_str,
-                                    third_str,
-                                    new_str
+                                    second_str, third_str, new_str
                                 );
 
                                 *e = Expr::Bin(BinExpr {
@@ -237,7 +235,7 @@ impl Pure<'_> {
                     })) = &**left
                     {
                         self.changed = true;
-                        tracing::debug!(
+                        debug!(
                             "string: Dropping empty string literal (in lhs) because it does not \
                              changes type"
                         );
@@ -252,7 +250,7 @@ impl Pure<'_> {
                     })) = &**right
                     {
                         self.changed = true;
-                        tracing::debug!(
+                        debug!(
                             "string: Dropping empty string literal (in rhs) because it does not \
                              changes type"
                         );

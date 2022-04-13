@@ -30,7 +30,7 @@ where
                         }
 
                         self.changed = true;
-                        tracing::debug!("arguments: Optimizing computed access to arguments");
+                        debug!("arguments: Optimizing computed access to arguments");
                         *prop = MemberProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
@@ -48,7 +48,7 @@ where
                         }
 
                         self.changed = true;
-                        tracing::debug!("arguments: Optimizing computed access to arguments");
+                        debug!("arguments: Optimizing computed access to arguments");
                         *prop = SuperProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
@@ -127,7 +127,7 @@ impl ArgReplacer<'_> {
         let new_args = idx + 1 - self.params.len();
 
         self.changed = true;
-        tracing::debug!("arguments: Injecting {} parameters", new_args);
+        debug!("arguments: Injecting {} parameters", new_args);
         let mut start = self.params.len();
         self.params.extend(
             repeat_with(|| {
@@ -206,7 +206,7 @@ impl VisitMut for ArgReplacer<'_> {
                         //
                         if let Some(param) = self.params.get(idx) {
                             if let Pat::Ident(i) = &param.pat {
-                                tracing::debug!(
+                                debug!(
                                     "arguments: Replacing access to arguments to normal reference",
                                 );
                                 self.changed = true;

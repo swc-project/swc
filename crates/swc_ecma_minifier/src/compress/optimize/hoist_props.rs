@@ -42,7 +42,7 @@ where
                 .unwrap_or(false)
             {
                 if cfg!(feature = "debug") {
-                    tracing::trace!("[x] bad usage");
+                    trace!("[x] bad usage");
                 }
                 return;
             }
@@ -88,7 +88,7 @@ where
 
             if !unknown_used_props.is_empty() {
                 if cfg!(feature = "debug") {
-                    tracing::trace!("[x] unknown used props: {:?}", unknown_used_props);
+                    trace!("[x] unknown used props: {:?}", unknown_used_props);
                 }
                 return;
             }
@@ -115,7 +115,7 @@ where
 
                         match &p.key {
                             PropName::Str(s) => {
-                                tracing::debug!(
+                                debug!(
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
@@ -124,7 +124,7 @@ where
                                 self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
-                                tracing::debug!(
+                                debug!(
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
@@ -177,10 +177,9 @@ where
                     );
                 }
                 None => {
-                    tracing::debug!(
+                    debug!(
                         "hoist_props: Stored {}{:?} to inline property access",
-                        name.id.sym,
-                        name.id.span.ctxt
+                        name.id.sym, name.id.span.ctxt
                     );
                 }
             }
@@ -204,7 +203,7 @@ where
                         f.function.span = DUMMY_SP;
                     }
 
-                    tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                    debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                     self.changed = true;
                     *e = *value;
                     return;
@@ -214,7 +213,7 @@ where
             if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                 member.obj = value;
                 self.changed = true;
-                tracing::debug!("hoist_props: Inlined a property");
+                debug!("hoist_props: Inlined a property");
             }
         }
     }

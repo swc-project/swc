@@ -34,7 +34,7 @@ where
         }) = &mut *s.cons
         {
             self.changed = true;
-            tracing::debug!("if_return: Merging nested if statements");
+            debug!("if_return: Merging nested if statements");
 
             s.test = Box::new(Expr::Bin(BinExpr {
                 span: s.test.span(),
@@ -74,7 +74,7 @@ where
             }
 
             self.changed = true;
-            tracing::debug!("if_return: Merging `else if` into `else`");
+            debug!("if_return: Merging `else if` into `else`");
 
             match &mut **alt_of_alt {
                 Stmt::Block(alt_of_alt) => {
@@ -181,7 +181,7 @@ where
                     None => true,
                 });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
-        tracing::trace!("if_return: Skip = {}", skip);
+        trace!("if_return: Skip = {}", skip);
         let mut last_idx = stmts.len() - 1;
 
         {
@@ -207,7 +207,7 @@ where
         }
 
         if last_idx <= skip {
-            tracing::trace!("if_return: [x] Aborting because of skip");
+            trace!("if_return: [x] Aborting because of skip");
             return;
         }
 
@@ -218,7 +218,7 @@ where
             // There's no return statement so merging requires injecting unnecessary `void
             // 0`
             if return_count == 0 {
-                tracing::trace!("if_return: [x] Aborting because we failed to find return");
+                trace!("if_return: [x] Aborting because we failed to find return");
                 return;
             }
 
@@ -244,9 +244,7 @@ where
                     (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..)))
                         if if_return_count <= 1 =>
                     {
-                        tracing::trace!(
-                            "if_return: [x] Aborting because last stmt is a not return stmt"
-                        );
+                        trace!("if_return: [x] Aborting because last stmt is a not return stmt");
                         return;
                     }
 
@@ -258,7 +256,7 @@ where
                     ) => match &**cons {
                         Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
                         _ => {
-                            tracing::trace!(
+                            trace!(
                                 "if_return: [x] Aborting because stmt before last is an if stmt \
                                  and cons of it is not a return stmt"
                             );
@@ -314,13 +312,13 @@ where
             }
         }
 
-        tracing::debug!("if_return: Merging returns");
+        debug!("if_return: Merging returns");
         if cfg!(feature = "debug") {
             let block = BlockStmt {
                 span: DUMMY_SP,
                 stmts: stmts.clone(),
             };
-            tracing::trace!("if_return: {}", dump(&block, false))
+            trace!("if_return: {}", dump(&block, false))
         }
         self.changed = true;
 
@@ -443,7 +441,7 @@ where
                         }))
                     } else {
                         if cfg!(feature = "debug") {
-                            tracing::debug!("if_return: Ignoring return value");
+                            debug!("if_return: Ignoring return value");
                         }
                     }
                 }
@@ -535,7 +533,7 @@ where
             _ => false,
         };
         // if !res {
-        //     tracing::trace!("Cannot merge: {}", dump(s));
+        //     trace!("Cannot merge: {}", dump(s));
         // }
 
         res
@@ -634,7 +632,7 @@ fn can_merge_as_if_return(s: &Stmt) -> bool {
     let c = cost(s);
 
     if cfg!(feature = "debug") {
-        tracing::trace!("merging cost of `{}` = {:?}", dump(s, false), c);
+        trace!("merging cost of `{}` = {:?}", dump(s, false), c);
     }
 
     c.unwrap_or(0) < 0
