@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Parse legacy `calc`s (#4320) ([81370d1](https://github.com/swc-project/swc/commit/81370d16cb405d43aeb9198e1fce4aa11009045f))
+
+
 - **(css/prefixer)** Don't prefix if it's already prefixed (#4307) ([690ce26](https://github.com/swc-project/swc/commit/690ce2628c988a3d1823cbcf4f786203e548cb84))
 
 
