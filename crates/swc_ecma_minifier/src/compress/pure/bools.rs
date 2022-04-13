@@ -520,7 +520,7 @@ impl Pure<'_> {
         }
 
         if self.can_swap_bin_operands(left, right, false) {
-            debug!("Swapping operands of binary expession");
+            report_change!("Swapping operands of binary expession");
             swap(left, right);
             return true;
         }
@@ -535,7 +535,7 @@ impl Pure<'_> {
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
                 if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
                     self.changed = true;
-                    debug!("comparisons: Swapping operands of {}", e.op);
+                    report_change!("comparisons: Swapping operands of {}", e.op);
 
                     e.op = if e.op == op!("<=") {
                         op!(">=")
