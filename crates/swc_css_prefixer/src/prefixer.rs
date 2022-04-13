@@ -867,87 +867,93 @@ impl VisitMut for Prefixer {
         // TODO make it lazy?
         let mut webkit_value = n.value.clone();
 
-        replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
-        replace_image_set_function_on_legacy_variant(
-            &mut webkit_value,
-            "image-set",
-            "-webkit-image-set",
-        );
-        replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
-        replace_cross_fade_function_on_legacy_variant(
-            &mut webkit_value,
-            "cross-fade",
-            "-webkit-cross-fade",
-        );
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            replace_image_set_function_on_legacy_variant(
+                &mut webkit_value,
+                "image-set",
+                "-webkit-image-set",
+            );
+            replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+            replace_cross_fade_function_on_legacy_variant(
+                &mut webkit_value,
+                "cross-fade",
+                "-webkit-cross-fade",
+            );
 
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "linear-gradient",
-            "-webkit-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "repeating-linear-gradient",
-            "-webkit-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "radial-gradient",
-            "-webkit-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "repeating-radial-gradient",
-            "-webkit-repeating-radial-gradient",
-        );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "linear-gradient",
+                "-webkit-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-linear-gradient",
+                "-webkit-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "radial-gradient",
+                "-webkit-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-radial-gradient",
+                "-webkit-repeating-radial-gradient",
+            );
+        }
 
         let mut moz_value = n.value.clone();
 
-        replace_function_name(&mut moz_value, "element", "-moz-element");
-        replace_function_name(&mut moz_value, "calc", "-moz-calc");
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "linear-gradient",
-            "-moz-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "repeating-linear-gradient",
-            "-moz-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "radial-gradient",
-            "-moz-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "repeating-radial-gradient",
-            "-moz-repeating-linear-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            replace_function_name(&mut moz_value, "element", "-moz-element");
+            replace_function_name(&mut moz_value, "calc", "-moz-calc");
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "linear-gradient",
+                "-moz-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-linear-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "radial-gradient",
+                "-moz-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-radial-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+        }
 
         let mut o_value = n.value.clone();
 
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "linear-gradient",
-            "-o-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "repeating-linear-gradient",
-            "-o-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "radial-gradient",
-            "-o-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "repeating-radial-gradient",
-            "-o-repeating-radial-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "linear-gradient",
+                "-o-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-linear-gradient",
+                "-o-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "radial-gradient",
+                "-o-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-radial-gradient",
+                "-o-repeating-radial-gradient",
+            );
+        }
 
         let ms_value = n.value.clone();
 
@@ -989,8 +995,7 @@ impl VisitMut for Prefixer {
             })
             .collect();
 
-        // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
-        // declaration and versa vice
+        // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{

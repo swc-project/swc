@@ -1,7 +1,6 @@
 @-webkit-keyframes anim {
   from {
     top: -webkit-calc(10% + 10px);
-    top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -webkit-transform: rotate(10deg);
     transform: rotate(10deg);
@@ -14,7 +13,6 @@
   }
   to {
     top: -webkit-calc(10%);
-    top: -moz-calc(10%);
     top: calc(10%);
     -webkit-transform: rotate(0);
     transform: rotate(0);
@@ -22,7 +20,6 @@
 }
 @-moz-keyframes anim {
   from {
-    top: -webkit-calc(10% + 10px);
     top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -moz-transform: rotate(10deg);
@@ -34,7 +31,6 @@
     display: flex;
   }
   to {
-    top: -webkit-calc(10%);
     top: -moz-calc(10%);
     top: calc(10%);
     -moz-transform: rotate(0);
@@ -43,8 +39,6 @@
 }
 @-o-keyframes anim {
   from {
-    top: -webkit-calc(10% + 10px);
-    top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -o-transform: rotate(10deg);
     transform: rotate(10deg);
@@ -54,8 +48,6 @@
     display: flex;
   }
   to {
-    top: -webkit-calc(10%);
-    top: -moz-calc(10%);
     top: calc(10%);
     -o-transform: rotate(0);
     transform: rotate(0);
