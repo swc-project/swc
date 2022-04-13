@@ -157,7 +157,7 @@ impl Pure<'_> {
                 match call.args.len() {
                     0 => {
                         self.changed = true;
-                        debug!("evaluate: Dropping array.slice call");
+                        report_change!("evaluate: Dropping array.slice call");
                         *e = *obj.take();
                     }
                     1 => {
@@ -165,7 +165,7 @@ impl Pure<'_> {
                             let start = start.floor() as usize;
 
                             self.changed = true;
-                            debug!("evaluate: Reducing array.slice({}) call", start);
+                            report_change!("evaluate: Reducing array.slice({}) call", start);
 
                             if start >= arr.elems.len() {
                                 *e = Expr::Array(ArrayLit {
@@ -212,7 +212,7 @@ impl Pure<'_> {
 
             if self.options.unsafe_passes && &*method_name.sym == "toString" && arr.elems.len() == 1
             {
-                debug!("evaluate: Reducing array.toString() call");
+                report_change!("evaluate: Reducing array.toString() call");
                 self.changed = true;
                 *obj = arr.elems[0]
                     .take()
@@ -270,7 +270,7 @@ impl Pure<'_> {
                 }
 
                 self.changed = true;
-                debug!("evaluate: Reduced `function.valueOf()` into a function expression");
+                report_change!("evaluate: Reduced `function.valueOf()` into a function expression");
 
                 *e = *obj.take();
                 return;
@@ -286,7 +286,7 @@ impl Pure<'_> {
                 }
 
                 self.changed = true;
-                debug!("evaluate: Reduced `function.toString()` into a string");
+                report_change!("evaluate: Reduced `function.toString()` into a string");
 
                 *e = Str {
                     span: call.span,
@@ -315,7 +315,9 @@ impl Pure<'_> {
                     }) = &**callee
                     {
                         self.changed = true;
-                        debug!("evaluate: Reducing a call to `Number` into an unary operation");
+                        report_change!(
+                            "evaluate: Reducing a call to `Number` into an unary operation"
+                        );
 
                         *e = Expr::Unary(UnaryExpr {
                             span: *span,
@@ -621,7 +623,7 @@ impl Pure<'_> {
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            debug!(
+                            report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
                                 v
                             );
@@ -633,7 +635,9 @@ impl Pure<'_> {
                         }
                         None => {
                             self.changed = true;
-                            debug!("evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",);
+                            report_change!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
                             *e = Expr::Ident(Ident::new(
                                 js_word!("NaN"),
                                 e.span().with_ctxt(SyntaxContext::empty()),
