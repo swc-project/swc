@@ -115,7 +115,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
     {
         match &mut **arg {
             Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
-                debug!("negate: !!bool => !bool");
+                report_change!("negate: !!bool => !bool");
                 *e = *arg.take();
                 return true;
             }
@@ -124,19 +124,19 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
                 op: op!("instanceof"),
                 ..
             }) => {
-                debug!("negate: !bool => bool");
+                report_change!("negate: !bool => bool");
                 *e = *arg.take();
                 return true;
             }
             _ => {
                 if in_bool_ctx {
-                    debug!("negate: !expr => expr (in bool context)");
+                    report_change!("negate: !expr => expr (in bool context)");
                     *e = *arg.take();
                     return true;
                 }
 
                 if is_ret_val_ignored {
-                    debug!("negate: !expr => expr (return value ignored)");
+                    report_change!("negate: !expr => expr (return value ignored)");
                     *e = *arg.take();
                     return true;
                 }

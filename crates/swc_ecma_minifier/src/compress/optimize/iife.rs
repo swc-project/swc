@@ -42,7 +42,7 @@ where
         };
 
         if let Expr::Fn(..) = callee {
-            debug!("negate_iife: Negating iife");
+            report_change!("negate_iife: Negating iife");
             *e = Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),

@@ -1444,18 +1444,17 @@ where
 
             new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
-            if cfg!(feature = "debug") {
-                trace!(
-                    "[Change] merged: {}",
-                    dump(
-                        &BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: new.clone()
-                        },
-                        false
-                    )
+            dump_change_detail!(
+                "[Change] merged: {}",
+                dump(
+                    &BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: new.clone()
+                    },
+                    false
                 )
-            }
+            );
+
             *stmts = new
         }
     }
@@ -1481,7 +1480,7 @@ where
                             .iter()
                             .all(|stmt| !matches!(stmt, Stmt::Decl(..)))
                         {
-                            debug!("optimizer: Removing nested block");
+                            report_change!("optimizer: Removing nested block");
                             self.changed = true;
                             bs.stmts = block.stmts.take();
                         }
@@ -1502,7 +1501,7 @@ where
                         )
                     })
                 {
-                    debug!("optimizer: Unwrapping a block with variable statements");
+                    report_change!("optimizer: Unwrapping a block with variable statements");
                     self.changed = true;
                     *s = bs.stmts[0].take();
                     return;
@@ -1512,7 +1511,7 @@ where
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
                             self.changed = true;
-                            debug!("optimizer: Removing empty block");
+                            report_change!("optimizer: Removing empty block");
                             *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         }
                     }
@@ -1522,12 +1521,12 @@ where
                     match &bs.stmts[0] {
                         Stmt::Expr(..) | Stmt::If(..) => {
                             *s = bs.stmts[0].take();
-                            debug!("optimizer: Unwrapping block stmt");
+                            report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
                         Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
                             *s = bs.stmts[0].take();
-                            debug!("optimizer: Unwrapping block stmt in non strcit mode");
+                            report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
                         _ => {}
@@ -1598,7 +1597,7 @@ where
         if stmt.alt.is_none() {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
-                debug!("Converting if statement to a form `test && cons`");
+                report_change!("Converting if statement to a form `test && cons`");
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
                     expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
@@ -1633,9 +1632,8 @@ where
                 }
                 BlockStmtOrExpr::Expr(v) => {
                     self.changed = true;
-                    if cfg!(feature = "debug") {
-                        debug!("Converting a body of an arrow expression to BlockStmt");
-                    }
+                    report_change!("Converting a body of an arrow expression to BlockStmt");
+
                     stmts.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(v.take()),
