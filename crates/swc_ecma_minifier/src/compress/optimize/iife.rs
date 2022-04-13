@@ -214,7 +214,7 @@ where
 
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            trace!(
+                            trace_op!(
                                 "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
@@ -222,7 +222,7 @@ where
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        trace!(
+                        trace_op!(
                             "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
@@ -241,11 +241,11 @@ where
             let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    trace!("inline: Inlining arguments");
+                    trace_op!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    trace!("inline: Inlining arguments");
+                    trace_op!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 _ => {}

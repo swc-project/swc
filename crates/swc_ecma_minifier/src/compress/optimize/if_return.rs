@@ -181,7 +181,7 @@ where
                     None => true,
                 });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
-        trace!("if_return: Skip = {}", skip);
+        trace_op!("if_return: Skip = {}", skip);
         let mut last_idx = stmts.len() - 1;
 
         {
@@ -436,9 +436,7 @@ where
                             expr: Box::new(cur),
                         }))
                     } else {
-                        if cfg!(feature = "debug") {
-                            debug!("if_return: Ignoring return value");
-                        }
+                        trace_op!("if_return: Ignoring return value");
                     }
                 }
                 _ => {
@@ -627,9 +625,7 @@ fn can_merge_as_if_return(s: &Stmt) -> bool {
 
     let c = cost(s);
 
-    if cfg!(feature = "debug") {
-        trace!("merging cost of `{}` = {:?}", dump(s, false), c);
-    }
+    trace_op!("merging cost of `{}` = {:?}", dump(s, false), c);
 
     c.unwrap_or(0) < 0
 }
