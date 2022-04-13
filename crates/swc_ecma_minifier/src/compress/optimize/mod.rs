@@ -2584,7 +2584,7 @@ where
 
                 if can_be_removed {
                     self.changed = true;
-                    debug!("unused: Dropping an expression without side effect");
+                    report_change!("unused: Dropping an expression without side effect");
                     if cfg!(feature = "debug") {
                         trace!("unused: [Change] Dropping \n{}\n", dump(&*expr, false));
                     }

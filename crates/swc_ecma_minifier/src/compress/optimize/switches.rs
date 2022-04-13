@@ -249,7 +249,7 @@ where
         }
     }
 
-    /// If a case ends with break but content is same with the consequtive case
+    /// If a case ends with break but content is same with the consecutive case
     /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
         let mut stop_pos_opt = cases

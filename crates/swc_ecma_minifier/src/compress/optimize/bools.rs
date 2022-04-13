@@ -104,7 +104,7 @@ where
         if stmt.alt == None {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
-                debug!("conditionals: `if (foo) bar;` => `foo && bar`");
+                report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
                     expr: Box::new(Expr::Bin(BinExpr {

@@ -547,9 +547,7 @@ where
 
                 self.vars.vars_for_inlining.insert(i.to_id(), e);
             } else {
-                if cfg!(feature = "debug") {
-                    trace!("inline: [x] Usage: {:?}", usage);
-                }
+                log_abort!("inline: [x] Usage: {:?}", usage);
             }
         }
     }
@@ -616,16 +614,11 @@ where
 
             if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
                 self.changed = true;
-                debug!(
-                    "inline: Replacing '{}{:?}' with an expression",
-                    i.sym, i.span.ctxt
-                );
+                report_change!("inline: Replacing '{}' with an expression", i);
 
                 *e = *value;
 
-                if cfg!(feature = "debug") {
-                    trace!("inline: [Change] {}", dump(&*e, false))
-                }
+                log_abort!("inline: [Change] {}", dump(&*e, false))
             }
         }
     }
