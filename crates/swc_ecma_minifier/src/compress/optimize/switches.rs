@@ -66,9 +66,9 @@ where
                     return;
                 }
 
-                debug!("switches: Removing unreachable cases from a constant switch");
+                report_change!("switches: Removing unreachable cases from a constant switch");
             } else {
-                debug!("switches: Removing a constant switch");
+                report_change!("switches: Removing a constant switch");
             }
 
             self.changed = true;
@@ -242,7 +242,7 @@ where
 
         if let Some(last) = cases.last_mut() {
             if let Some(Stmt::Break(BreakStmt { label: None, .. })) = last.cons.last() {
-                debug!("switches: Removing `break` at the end");
+                report_change!("switches: Removing `break` at the end");
                 self.changed = true;
                 last.cons.pop();
             }
@@ -301,7 +301,7 @@ where
 
         if let Some(idx) = found {
             self.changed = true;
-            debug!("switches: Merging cases with same cons");
+            report_change!("switches: Merging cases with same cons");
             cases[idx].cons.clear();
         }
     }

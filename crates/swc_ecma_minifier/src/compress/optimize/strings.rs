@@ -38,7 +38,9 @@ where
 
                     if let Expr::Lit(Lit::Str(..)) = &*args[0].expr {
                         self.changed = true;
-                        debug!("strings: Unsafely reduced `RegExp` call in a string context");
+                        report_change!(
+                            "strings: Unsafely reduced `RegExp` call in a string context"
+                        );
 
                         *e = *args[0].expr.take();
                     }
