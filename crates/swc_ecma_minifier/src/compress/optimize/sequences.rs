@@ -415,7 +415,9 @@ where
             }
         }
         self.changed = true;
-        debug!("sequences: Splitted a sequence expression to multiple expression statements");
+        report_change!(
+            "sequences: Splitted a sequence expression to multiple expression statements"
+        );
         *stmts = new_stmts;
     }
 
@@ -447,7 +449,7 @@ where
             if !can_work {
                 return;
             }
-            debug!("sequences: Lifting");
+            report_change!("sequences: Lifting");
             self.changed = true;
         }
 
@@ -524,7 +526,7 @@ where
                     if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                         e.exprs.pop();
                         self.changed = true;
-                        debug!("sequences: Shifting assignment");
+                        report_change!("sequences: Shifting assignment");
                     }
                 };
             }
@@ -1460,8 +1462,8 @@ where
                             }
 
                             if usage.declared_as_fn_expr {
-                                trace!(
-                                    "sequences: [X] Declared as fn expr ({}, {:?})",
+                                log_abort!(
+                                    "sequences: Declared as fn expr ({}, {:?})",
                                     left_id.sym,
                                     left_id.span.ctxt
                                 );
@@ -1554,16 +1556,14 @@ where
             };
             b.visit_with(&mut v);
             if v.expr_usage != 1 || v.pat_usage != 0 {
-                if cfg!(feature = "debug") {
-                    trace!(
-                        "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = \
-                         {})",
-                        left_id.sym,
-                        left_id.span.ctxt,
-                        v.expr_usage,
-                        v.pat_usage
-                    );
-                }
+                log_abort!(
+                    "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
+                    left_id.sym,
+                    left_id.span.ctxt,
+                    v.expr_usage,
+                    v.pat_usage
+                );
+
                 return Ok(false);
             }
         }
