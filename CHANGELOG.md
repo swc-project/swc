@@ -55,6 +55,12 @@
 
 - **(es/minifier)** Update terser test references (#4297) ([df0d572](https://github.com/swc-project/swc/commit/df0d572b4ff250be037ca9a04b6bcd95329f9f3b))
 
+### Refactor
+
+
+
+- **(es/minifier)** Clean up logging (#4322) ([2002554](https://github.com/swc-project/swc/commit/2002554fa26c1ebd683f71d87263f26fd95d00f1))
+
 ## [1.2.165] - 2022-04-09
 
 ### Bug Fixes
