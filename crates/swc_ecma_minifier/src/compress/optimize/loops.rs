@@ -46,7 +46,7 @@ where
         self.changed = true;
         // Remove the labeled statement.
         self.label = None;
-        debug!("loops: Removing a for loop with instant break");
+        report_change!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
                 VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
@@ -79,7 +79,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(stmt);
                         self.changed |= changed;
                         if changed {
-                            debug!(
+                            report_change!(
                                 "loops: Removing unreachable while statement without side effects"
                             );
                         }
@@ -87,7 +87,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(&mut w.body);
                         self.changed |= changed;
                         if changed {
-                            debug!("loops: Removing unreachable body of a while statement");
+                            report_change!("loops: Removing unreachable body of a while statement");
                         }
                     }
                 }
@@ -99,7 +99,7 @@ where
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;
                         if changed {
-                            debug!("loops: Removing unreachable body of a for statement");
+                            report_change!("loops: Removing unreachable body of a for statement");
                         }
                         self.changed |= f.init.is_some() | f.update.is_some();
 
@@ -149,7 +149,7 @@ where
                     } else {
                         s.init = None;
                         self.changed = true;
-                        debug!(
+                        report_change!(
                             "loops: Removed side-effect-free expressions in `init` of a for stmt"
                         );
                     }
