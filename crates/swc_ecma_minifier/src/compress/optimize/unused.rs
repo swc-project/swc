@@ -141,13 +141,11 @@ where
                 }
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
                     if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
-                        if cfg!(feature = "debug") {
-                            trace!(
-                                "unused: [X] Preserving block scoped var `{}` because it's \
-                                 top-level",
-                                dump(&*name, false)
-                            );
-                        }
+                        log_abort!(
+                            "unused: Preserving block scoped var `{}` because it's top-level",
+                            dump(&*name, false)
+                        );
+
                         return;
                     }
                 }
@@ -157,12 +155,10 @@ where
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
             if scope.has_eval_call || scope.has_with_stmt {
-                if cfg!(feature = "debug") {
-                    trace!(
-                        "unused: [X] Preserving `{}` because of usages",
-                        dump(&*name, false)
-                    );
-                }
+                log_abort!(
+                    "unused: Preserving `{}` because of usages",
+                    dump(&*name, false)
+                );
                 return;
             }
         }
@@ -199,9 +195,7 @@ where
         if !parent_span.has_mark(self.marks.non_top_level)
             && self.options.top_retain.contains(&i.sym)
         {
-            if cfg!(feature = "debug") {
-                trace!("unused: [X] Top-retain")
-            }
+            log_abort!("unused: [X] Top-retain");
             return;
         }
 
@@ -213,9 +207,10 @@ where
                 && !v.declared_as_catch_param
             {
                 self.changed = true;
-                debug!(
+                report_change!(
                     "unused: Dropping a variable '{}{:?}' because it is not used",
-                    i.sym, i.span.ctxt
+                    i.sym,
+                    i.span.ctxt
                 );
                 // This will remove variable.
                 i.take();
@@ -243,12 +238,10 @@ where
                 }
             }
 
-            if cfg!(feature = "debug") {
-                trace!(
-                    "unused: Cannot drop ({}) because it's used",
-                    dump(&*i, false)
-                );
-            }
+            log_abort!(
+                "unused: Cannot drop ({}) because it's used",
+                dump(&*i, false)
+            );
         }
     }
 
@@ -487,9 +480,10 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    debug!(
+                    report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
-                        ident.sym, ident.span.ctxt
+                        ident.sym,
+                        ident.span.ctxt
                     );
                     // This will remove the declaration.
                     decl.take();
@@ -523,9 +517,10 @@ where
                 // Update is counted as usage
                 if var.declared && var.is_fn_local && var.usage_count == 1 {
                     self.changed = true;
-                    debug!(
+                    report_change!(
                         "unused: Dropping an update '{}{:?}' because it is not used",
-                        arg.sym, arg.span.ctxt
+                        arg.sym,
+                        arg.span.ctxt
                     );
                     // This will remove the update.
                     e.take();
@@ -567,9 +562,10 @@ where
                     // TODO: We don't need fn_local check
                     if var.declared && var.is_fn_local && var.usage_count == 1 {
                         self.changed = true;
-                        debug!(
+                        report_change!(
                             "unused: Dropping an op-assign '{}{:?}' because it is not used",
-                            left.id.sym, left.id.span.ctxt
+                            left.id.sym,
+                            left.id.span.ctxt
                         );
                         // This will remove the op-assign.
                         *e = *assign.right.take();
@@ -699,7 +695,7 @@ where
 
             if can_remove_ident {
                 self.changed = true;
-                debug!("Removing ident of an class / function expression");
+                report_change!("Removing ident of an class / function expression");
                 *name = None;
             }
         }
@@ -721,7 +717,7 @@ where
                     if let Some(usage) = self.data.vars.get(&name.to_id()) {
                         if usage.is_fn_local && usage.declared_as_fn_param {
                             d.name.take();
-                            debug!(
+                            report_change!(
                                 "Removing a variable statement because it's a function parameter"
                             );
                             self.changed = true;
@@ -752,7 +748,7 @@ where
             }
 
             self.changed = true;
-            debug!(
+            report_change!(
                 "unused: Removing the name of a function expression because it's not used by it'"
             );
             f.ident = None;
