@@ -38,7 +38,7 @@ where
 
                     if let Expr::Lit(Lit::Str(..)) = &*args[0].expr {
                         self.changed = true;
-                        tracing::debug!(
+                        report_change!(
                             "strings: Unsafely reduced `RegExp` call in a string context"
                         );
 
@@ -59,7 +59,7 @@ where
                 if let Expr::Lit(Lit::Str(..)) = &*e.expr {
                     *n = *e.expr.take();
                     self.changed = true;
-                    tracing::debug!("string: Removed a paren in a string context");
+                    report_change!("string: Removed a paren in a string context");
                 }
 
                 return;
@@ -72,7 +72,7 @@ where
             let span = n.span();
 
             self.changed = true;
-            tracing::debug!(
+            report_change!(
                 "strings: Converted an expression into a string literal (in string context)"
             );
             *n = Expr::Lit(Lit::Str(Str {
@@ -86,7 +86,7 @@ where
         match n {
             Expr::Lit(Lit::Num(v)) => {
                 self.changed = true;
-                tracing::debug!(
+                report_change!(
                     "strings: Converted a numeric literal ({}) into a string literal (in string \
                      context)",
                     v.value
@@ -106,7 +106,7 @@ where
                     return;
                 }
                 self.changed = true;
-                tracing::debug!(
+                report_change!(
                     "strings: Converted a regex (/{}/{}) into a string literal (in string context)",
                     v.exp,
                     v.flags
@@ -139,7 +139,7 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    tracing::debug!(
+                    report_change!(
                         "strings: Converting an unresolved reference ({}{:?}) into `undefined` \
                          (in string context)",
                         i.sym,

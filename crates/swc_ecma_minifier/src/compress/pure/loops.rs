@@ -16,7 +16,7 @@ impl Pure<'_> {
         match s {
             Stmt::While(stmt) => {
                 self.changed = true;
-                tracing::debug!("loops: Converting a while loop to a for loop");
+                report_change!("loops: Converting a while loop to a for loop");
                 *s = Stmt::For(ForStmt {
                     span: stmt.span,
                     init: None,
@@ -29,7 +29,7 @@ impl Pure<'_> {
                 let val = stmt.test.as_pure_bool();
                 if let Value::Known(true) = val {
                     self.changed = true;
-                    tracing::debug!("loops: Converting an always-true do-while loop to a for loop");
+                    report_change!("loops: Converting an always-true do-while loop to a for loop");
 
                     *s = Stmt::For(ForStmt {
                         span: stmt.span,
@@ -91,7 +91,7 @@ impl Pure<'_> {
                         }
                     }
 
-                    tracing::debug!("loops: Optimizing a for loop with an if-then-break");
+                    report_change!("loops: Optimizing a for loop with an if-then-break");
 
                     first.take();
                     return None;
@@ -122,7 +122,7 @@ impl Pure<'_> {
                         }
                     }
 
-                    tracing::debug!("loops: Optimizing a for loop with an if-else-break");
+                    report_change!("loops: Optimizing a for loop with an if-else-break");
 
                     *first = *cons.take();
                     return None;
@@ -166,7 +166,7 @@ impl Pure<'_> {
                 // will remove block and with the next pass we can apply
                 // this pass.
                 self.changed = true;
-                tracing::debug!("loops: Compressing for-if-break into a for statement");
+                report_change!("loops: Compressing for-if-break into a for statement");
 
                 // We negate because this `test` is used as a condition for `break`.
                 self.negate(test, true, false);

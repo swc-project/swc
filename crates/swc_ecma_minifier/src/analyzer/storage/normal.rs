@@ -32,7 +32,7 @@ impl Storage for ProgramData {
         }
 
         for (id, mut var_info) in child.vars {
-            // tracing::trace!("merge({:?},{}{:?})", kind, id.0, id.1);
+            // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
@@ -118,7 +118,7 @@ impl Storage for ProgramData {
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
         // if cfg!(feature = "debug") {
-        //     tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
+        //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
         let v = self
@@ -126,9 +126,7 @@ impl Storage for ProgramData {
             .entry(i.to_id())
             .and_modify(|v| {
                 if has_init && v.declared {
-                    if cfg!(feature = "debug") {
-                        tracing::debug!("declare_decl(`{}`): Already declared", i);
-                    }
+                    trace_op!("declare_decl(`{}`): Already declared", i);
 
                     v.mutated = true;
                     v.reassigned_with_var_decl = true;
@@ -184,7 +182,7 @@ impl ScopeDataLike for ScopeData {
 
 impl ProgramData {
     fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
-        // tracing::trace!("report({}{:?})", i.0, i.1);
+        // trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();
 
@@ -193,7 +191,7 @@ impl ProgramData {
         }
 
         let e = self.vars.entry(i).or_insert_with(|| {
-            // tracing::trace!("insert({}{:?})", i.0, i.1);
+            // trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
                 is_fn_local: true,
