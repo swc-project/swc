@@ -751,27 +751,23 @@ where
 
         match e {
             Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                if cfg!(feature = "debug") {
-                    debug!(
-                        "ignore_return_value: Dropping unused expr: {}",
-                        dump(&*e, false)
-                    );
-                }
+                report_change!(
+                    "ignore_return_value: Dropping unused expr: {}",
+                    dump(&*e, false)
+                );
                 self.changed = true;
                 return None;
             }
 
             Expr::Tpl(t) if t.exprs.is_empty() => {
-                if cfg!(feature = "debug") {
-                    debug!("ignore_return_value: Dropping tpl expr without expr");
-                }
+                report_change!("ignore_return_value: Dropping tpl expr without expr");
                 self.changed = true;
                 return None;
             }
 
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
-                debug!(
+                report_change!(
                     "ignore_return_value: Dropping unused fn expr as it does not have any side \
                      effect"
                 );

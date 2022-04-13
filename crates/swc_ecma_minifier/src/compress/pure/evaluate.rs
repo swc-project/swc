@@ -389,7 +389,7 @@ impl Pure<'_> {
                 //
                 if is_pure_undefined_or_null(obj) {
                     self.changed = true;
-                    debug!(
+                    report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
                          always null or undefined"
                     );
@@ -401,7 +401,7 @@ impl Pure<'_> {
             OptChainBase::Call(OptCall { span, callee, .. }) => {
                 if is_pure_undefined_or_null(callee) {
                     self.changed = true;
-                    debug!(
+                    report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
                          because object is always null or undefined"
                     );
@@ -460,12 +460,12 @@ impl Pure<'_> {
             if let Value::Known(v) = bin_expr.right.as_pure_bool() {
                 if v {
                     self.changed = true;
-                    debug!("evaluate: `foo && true` => `foo` (bool ctx)");
+                    report_change!("evaluate: `foo && true` => `foo` (bool ctx)");
 
                     *e = *bin_expr.left.take();
                 } else {
                     self.changed = true;
-                    debug!("evaluate: `foo && false` => `foo, false`");
+                    report_change!("evaluate: `foo && false` => `foo, false`");
 
                     *e = Expr::Seq(SeqExpr {
                         span: bin_expr.span,
@@ -478,7 +478,7 @@ impl Pure<'_> {
 
             if let Value::Known(true) = bin_expr.left.as_pure_bool() {
                 self.changed = true;
-                debug!("evaluate: `true && foo` => `foo`");
+                report_change!("evaluate: `true && foo` => `foo`");
 
                 *e = *bin_expr.right.take();
             }

@@ -389,9 +389,7 @@ where
         }
 
         if self.options.inline == 0 && !self.options.reduce_vars {
-            if cfg!(feature = "debug") {
-                trace!("inline: [x] Inline disabled");
-            }
+            log_abort!("inline: [x] Inline disabled");
             return;
         }
 
@@ -429,13 +427,11 @@ where
             }
 
             if usage.reassigned() || usage.inline_prevented {
-                if cfg!(feature = "debug") {
-                    trace!(
-                        "inline: [x] reassigned = {}, inline_prevented = {}",
-                        usage.reassigned(),
-                        usage.inline_prevented
-                    );
-                }
+                log_abort!(
+                    "inline: [x] reassigned = {}, inline_prevented = {}",
+                    usage.reassigned(),
+                    usage.inline_prevented
+                );
                 return;
             }
 
