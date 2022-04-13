@@ -3091,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.100.2"
+version = "0.100.3"
 dependencies = [
  "swc_atoms",
  "swc_common",
