@@ -825,12 +825,26 @@ impl VisitMut for Prefixer {
         for mut n in take(&mut simple_block.value) {
             n.visit_mut_children_with(self);
 
-            new.extend(
-                self.added_declarations
-                    .drain(..)
-                    .map(DeclarationOrAtRule::Declaration)
-                    .map(ComponentValue::DeclarationOrAtRule),
-            );
+            match n {
+                ComponentValue::StyleBlock(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(StyleBlock::Declaration)
+                            .map(ComponentValue::StyleBlock),
+                    );
+                }
+                ComponentValue::DeclarationOrAtRule(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(DeclarationOrAtRule::Declaration)
+                            .map(ComponentValue::DeclarationOrAtRule),
+                    );
+                }
+                _ => {}
+            }
+
             new.push(n);
         }
 
