@@ -1307,22 +1307,20 @@ where
             _ => {}
         }
 
-        if cfg!(feature = "debug") {
-            match a {
-                Mergable::Var(a) => {
-                    trace_op!(
-                        "sequences: Trying to merge `{}` => `{}`",
-                        crate::debug::dump(&**a, false),
-                        crate::debug::dump(&*b, false)
-                    );
-                }
-                Mergable::Expr(a) => {
-                    trace_op!(
-                        "sequences: Trying to merge `{}` => `{}`",
-                        crate::debug::dump(&**a, false),
-                        crate::debug::dump(&*b, false)
-                    );
-                }
+        match a {
+            Mergable::Var(a) => {
+                trace_op!(
+                    "sequences: Trying to merge `{}` => `{}`",
+                    crate::debug::dump(&**a, false),
+                    crate::debug::dump(&*b, false)
+                );
+            }
+            Mergable::Expr(a) => {
+                trace_op!(
+                    "sequences: Trying to merge `{}` => `{}`",
+                    crate::debug::dump(&**a, false),
+                    crate::debug::dump(&*b, false)
+                );
             }
         }
 
@@ -1371,15 +1369,13 @@ where
                     };
                     b.visit_with(&mut v);
                     if v.expr_usage != 1 || v.pat_usage != 0 {
-                        if cfg!(feature = "debug") {
-                            log_abort!(
-                                "sequences: Aborting merging of an update expression because of \
-                                 usage counts ({}, ref = {}, pat = {})",
-                                a_id,
-                                v.expr_usage,
-                                v.pat_usage
-                            );
-                        }
+                        log_abort!(
+                            "sequences: Aborting merging of an update expression because of usage \
+                             counts ({}, ref = {}, pat = {})",
+                            a_id,
+                            v.expr_usage,
+                            v.pat_usage
+                        );
 
                         return Ok(false);
                     }
