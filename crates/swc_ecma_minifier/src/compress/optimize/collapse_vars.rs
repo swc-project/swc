@@ -62,9 +62,10 @@ where
                 _ => return,
             };
 
-            debug!(
+            report_change!(
                 "collpase_vars: Decided to inline {}{:?}",
-                left.id.sym, left.id.span.ctxt
+                left.id.sym,
+                left.id.span.ctxt
             );
 
             self.vars.lits.insert(left.to_id(), value);

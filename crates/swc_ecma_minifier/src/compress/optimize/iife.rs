@@ -315,19 +315,19 @@ where
         };
 
         if self.ctx.dont_invoke_iife {
-            trace!("iife: [x] Inline is prevented");
+            log_abort!("iife: [x] Inline is prevented");
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
-                    trace!("iife: [x] Cannot inline async fn");
+                    log_abort!("iife: [x] Cannot inline async fn");
                     return;
                 }
 
                 if f.is_generator {
-                    trace!("iife: [x] Cannot inline generator");
+                    log_abort!("iife: [x] Cannot inline generator");
                     return;
                 }
 
