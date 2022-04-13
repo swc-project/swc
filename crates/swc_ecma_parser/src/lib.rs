@@ -387,6 +387,8 @@ pub struct Context {
     allow_direct_super: bool,
 
     ignore_else_clause: bool,
+
+    disallow_conditional_types: bool,
 }
 
 #[cfg(test)]
