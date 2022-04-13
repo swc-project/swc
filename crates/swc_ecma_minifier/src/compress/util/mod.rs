@@ -54,7 +54,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
                     unreachable!()
                 }
             };
-            debug!("negate: binary");
+            report_change!("negate: binary");
             return true;
         }
 

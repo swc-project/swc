@@ -128,12 +128,10 @@ where
                 Some(VarDeclKind::Var) => {
                     if !self.options.top_level() && self.options.top_retain.is_empty() {
                         if self.ctx.in_top_level() {
-                            if cfg!(feature = "debug") {
-                                trace!(
-                                    "unused: [X] Preserving `var` `{}` because it's top-level",
-                                    dump(&*name, false)
-                                );
-                            }
+                            log_abort!(
+                                "unused: [X] Preserving `var` `{}` because it's top-level",
+                                dump(&*name, false)
+                            );
 
                             return;
                         }

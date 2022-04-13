@@ -59,7 +59,7 @@ where
                 if let Expr::Lit(Lit::Str(..)) = &*e.expr {
                     *n = *e.expr.take();
                     self.changed = true;
-                    debug!("string: Removed a paren in a string context");
+                    report_change!("string: Removed a paren in a string context");
                 }
 
                 return;
@@ -72,7 +72,9 @@ where
             let span = n.span();
 
             self.changed = true;
-            debug!("strings: Converted an expression into a string literal (in string context)");
+            report_change!(
+                "strings: Converted an expression into a string literal (in string context)"
+            );
             *n = Expr::Lit(Lit::Str(Str {
                 span,
                 raw: None,
@@ -84,7 +86,7 @@ where
         match n {
             Expr::Lit(Lit::Num(v)) => {
                 self.changed = true;
-                debug!(
+                report_change!(
                     "strings: Converted a numeric literal ({}) into a string literal (in string \
                      context)",
                     v.value
@@ -104,9 +106,10 @@ where
                     return;
                 }
                 self.changed = true;
-                debug!(
+                report_change!(
                     "strings: Converted a regex (/{}/{}) into a string literal (in string context)",
-                    v.exp, v.flags
+                    v.exp,
+                    v.flags
                 );
 
                 let value = format!("/{}/{}", v.exp, v.flags);
@@ -136,10 +139,11 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    debug!(
+                    report_change!(
                         "strings: Converting an unresolved reference ({}{:?}) into `undefined` \
                          (in string context)",
-                        i.sym, i.span.ctxt
+                        i.sym,
+                        i.span.ctxt
                     );
 
                     *n = Expr::Lit(Lit::Str(Str {

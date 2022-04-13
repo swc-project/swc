@@ -139,7 +139,7 @@ where
             }
         }
 
-        debug!("sequences: Compressing statements as a sequences");
+        report_change!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
         let mut exprs = vec![];
