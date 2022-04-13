@@ -5,7 +5,19 @@
 
 
 
+- **(css/parser)** Parse legacy `calc`s (#4320) ([81370d1](https://github.com/swc-project/swc/commit/81370d16cb405d43aeb9198e1fce4aa11009045f))
+
+
 - **(css/prefixer)** Don't prefix if it's already prefixed (#4307) ([690ce26](https://github.com/swc-project/swc/commit/690ce2628c988a3d1823cbcf4f786203e548cb84))
+
+
+- **(css/prefixer)** Handle at-rules and don't generate unnecessary prefixes (#4318) ([ac4f14a](https://github.com/swc-project/swc/commit/ac4f14ad7b70e67c41507cafd997f6b4e346e815))
+
+
+- **(es/codegen)** Fix overflow of numeric literals (#4321) ([0245e26](https://github.com/swc-project/swc/commit/0245e26af5f984cf89a2f474d89f6b3dfe2f0eff))
+
+
+- **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([6c9882e](https://github.com/swc-project/swc/commit/6c9882ec68fee9b702f5e4749482eca74fbd87e8))
 
 
 - **(es/lints)** Check parameters in the duplicate binding rule (#4288) ([e4a565c](https://github.com/swc-project/swc/commit/e4a565c2d4c90dc23267b44e8f4aee2e0cc79c23))
@@ -18,6 +30,9 @@
 
 ### Features
 
+
+
+- **(css/minifier)** Compress colors (#4308) ([65b18ee](https://github.com/swc-project/swc/commit/65b18ee602506d455ce10c6ca2bd599d57d29d14))
 
 
 - **(es)** Support `typeof` with private fields (#4302) ([d0de5a6](https://github.com/swc-project/swc/commit/d0de5a63a01ef45101cdd10f90546ec7950ce7ac))

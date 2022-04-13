@@ -2818,6 +2818,7 @@ name = "swc"
 version = "0.167.0"
 dependencies = [
  "ahash",
+ "ansi_term",
  "anyhow",
  "base64 0.13.0",
  "criterion",
@@ -3068,13 +3069,14 @@ dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
+ "swc_css_utils",
  "swc_css_visit",
  "testing",
 ]
 
 [[package]]
 name = "swc_css_parser"
-version = "0.100.1"
+version = "0.100.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3089,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.100.2"
+version = "0.100.3"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3103,8 +3105,11 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.89.0"
+version = "0.89.1"
 dependencies = [
+ "once_cell",
+ "serde",
+ "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -3139,7 +3144,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3414,7 +3419,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.91.0"
+version = "0.91.1"
 dependencies = [
  "ahash",
  "arrayvec",

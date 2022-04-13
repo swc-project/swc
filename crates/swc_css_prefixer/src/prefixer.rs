@@ -437,11 +437,10 @@ macro_rules! str_to_ident {
 
 #[derive(Default)]
 struct Prefixer {
-    in_stylesheet: bool,
-    in_media_query_list: bool,
     in_keyframe_block: bool,
-    simple_block: Option<SimpleBlock>,
     added_rules: Vec<Rule>,
+    rule_prefix: Option<Prefix>,
+    simple_block: Option<SimpleBlock>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -498,6 +497,7 @@ impl Prefixer {
     }
 }
 
+#[derive(Clone, Debug, PartialEq)]
 pub enum Prefix {
     Webkit,
     Moz,
@@ -506,15 +506,130 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
+        let mut new = vec![];
+
+        for mut n in take(&mut n.rules) {
+            n.visit_mut_children_with(self);
+
+            new.append(&mut self.added_rules);
+            new.push(n);
+        }
+
+        n.rules = new;
+    }
+
     // TODO handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
-    // TODO handle `@keyframes`
+    // TODO don't generate wrong prefixes in prefixed selectors and at-rules
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        let mut added_at_rules = vec![];
+
+        // TODO avoid duplicate
+        match &n.name {
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("viewport") =>
+            {
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-viewport".into(),
+                    raw: "-ms-viewport".into(),
+                });
+
+                added_at_rules.push((
+                    Some(Prefix::Ms),
+                    AtRule {
+                        span: DUMMY_SP,
+                        name: new_name,
+                        prelude: n.prelude.clone(),
+                        block: n.block.clone(),
+                    },
+                ));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-o-viewport".into(),
+                    raw: "-o-viewport".into(),
+                });
+
+                added_at_rules.push((
+                    Some(Prefix::O),
+                    AtRule {
+                        span: DUMMY_SP,
+                        name: new_name,
+                        prelude: n.prelude.clone(),
+                        block: n.block.clone(),
+                    },
+                ));
+            }
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("keyframes") =>
+            {
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-webkit-keyframes".into(),
+                    raw: "-webkit-keyframes".into(),
+                });
+
+                added_at_rules.push((
+                    Some(Prefix::Webkit),
+                    AtRule {
+                        span: DUMMY_SP,
+                        name: new_name,
+                        prelude: n.prelude.clone(),
+                        block: n.block.clone(),
+                    },
+                ));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-moz-keyframes".into(),
+                    raw: "-moz-keyframes".into(),
+                });
+
+                added_at_rules.push((
+                    Some(Prefix::Moz),
+                    AtRule {
+                        span: DUMMY_SP,
+                        name: new_name,
+                        prelude: n.prelude.clone(),
+                        block: n.block.clone(),
+                    },
+                ));
+
+                let new_name = AtRuleName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-o-keyframes".into(),
+                    raw: "-o-keyframes".into(),
+                });
+
+                added_at_rules.push((
+                    Some(Prefix::O),
+                    AtRule {
+                        span: DUMMY_SP,
+                        name: new_name,
+                        prelude: n.prelude.clone(),
+                        block: n.block.clone(),
+                    },
+                ));
+            }
+            _ => {}
+        }
+
+        n.visit_mut_children_with(self);
+
+        for mut rule in take(&mut added_at_rules) {
+            let old_rule_prefix = self.rule_prefix.clone();
+
+            self.rule_prefix = rule.0;
+
+            rule.1.visit_mut_children_with(self);
+
+            self.added_rules.push(Rule::AtRule(rule.1));
+            self.rule_prefix = old_rule_prefix;
+        }
+    }
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
-        let old_in_media_query_list = self.in_media_query_list;
-
-        self.in_media_query_list = true;
-
         let mut new = vec![];
 
         for mut n in take(&mut media_query_list.queries) {
@@ -560,8 +675,6 @@ impl VisitMut for Prefixer {
         }
 
         media_query_list.queries = new;
-
-        self.in_media_query_list = old_in_media_query_list;
     }
 
     fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
@@ -574,13 +687,8 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
-    // TODO don't generate wrong prefixes in prefixed selectors
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
-
-        if !self.in_stylesheet {
-            return;
-        }
 
         if let QualifiedRulePrelude::Invalid(_) = n.prelude {
             return;
@@ -700,23 +808,28 @@ impl VisitMut for Prefixer {
         }
     }
 
-    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
-        let old_in_stylesheet = self.in_stylesheet;
+    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
+        let old_simple_block = self.simple_block.clone();
 
-        self.in_stylesheet = true;
+        self.simple_block = Some(simple_block.clone());
 
         let mut new = vec![];
 
-        for mut n in take(&mut n.rules) {
+        for mut n in take(&mut simple_block.value) {
             n.visit_mut_children_with(self);
 
-            new.append(&mut self.added_rules);
+            new.extend(
+                self.added_declarations
+                    .drain(..)
+                    .map(DeclarationOrAtRule::Declaration)
+                    .map(ComponentValue::DeclarationOrAtRule),
+            );
             new.push(n);
         }
 
-        n.rules = new;
+        simple_block.value = new;
 
-        self.in_stylesheet = old_in_stylesheet;
+        self.simple_block = old_simple_block;
     }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
@@ -839,52 +952,82 @@ impl VisitMut for Prefixer {
         // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
-                let need_prefix = match self.get_declaration_by_name($name) {
-                    Some(_) => false,
-                    _ => true,
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
+                    if $prefix != *rule_prefix {
+                        false
+                    } else {
+                        true
+                    }
+                } else {
+                    true
                 };
 
                 if need_prefix {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: $name.into(),
-                        raw: $name.into(),
-                    });
-                    let new_value = match $prefix {
-                        Prefix::Webkit => webkit_value.clone(),
-                        Prefix::Moz => moz_value.clone(),
-                        Prefix::O => o_value.clone(),
-                        Prefix::Ms => ms_value.clone(),
+                    // Check we don't have prefixed property
+                    let need_prefix = match self.get_declaration_by_name($name) {
+                        Some(_) => false,
+                        _ => true,
                     };
 
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
+                    if need_prefix {
+                        let name = DeclarationName::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: $name.into(),
+                            raw: $name.into(),
+                        });
+                        let new_value = match $prefix {
+                            Prefix::Webkit => webkit_value.clone(),
+                            Prefix::Moz => moz_value.clone(),
+                            Prefix::O => o_value.clone(),
+                            Prefix::Ms => ms_value.clone(),
+                        };
+
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name,
+                            value: new_value,
+                            important: n.important.clone(),
+                        });
+                    }
                 }
             }};
 
             ($prefix:expr,$name:expr,$value:expr) => {{
-                let need_prefix = match self.get_declaration_by_name($name) {
-                    Some(_) => false,
-                    _ => true,
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
+                    if $prefix != *rule_prefix {
+                        false
+                    } else {
+                        true
+                    }
+                } else {
+                    true
                 };
 
                 if need_prefix {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: $name.into(),
-                        raw: $name.into(),
-                    });
+                    // Check we don't have prefixed property
+                    let need_prefix = match self.get_declaration_by_name($name) {
+                        Some(_) => false,
+                        _ => true,
+                    };
 
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: $value,
-                        important: n.important.clone(),
-                    });
+                    if need_prefix {
+                        let name = DeclarationName::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: $name.into(),
+                            raw: $name.into(),
+                        });
+
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name,
+                            value: $value,
+                            important: n.important.clone(),
+                        });
+                    }
                 }
             }};
         }
@@ -2248,29 +2391,5 @@ impl VisitMut for Prefixer {
                 important: n.important.clone(),
             });
         }
-    }
-
-    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let old_simple_block = self.simple_block.clone();
-
-        self.simple_block = Some(simple_block.clone());
-
-        let mut new = vec![];
-
-        for mut n in take(&mut simple_block.value) {
-            n.visit_mut_children_with(self);
-
-            new.extend(
-                self.added_declarations
-                    .drain(..)
-                    .map(DeclarationOrAtRule::Declaration)
-                    .map(ComponentValue::DeclarationOrAtRule),
-            );
-            new.push(n);
-        }
-
-        simple_block.value = new;
-
-        self.simple_block = old_simple_block;
     }
 }
