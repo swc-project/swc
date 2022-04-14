@@ -1,8 +1,7 @@
 use core::f64::consts::PI;
 use std::mem::take;
 
-use swc_atoms::JsWord;
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -438,63 +437,12 @@ macro_rules! str_to_ident {
 #[derive(Default)]
 struct Prefixer {
     in_keyframe_block: bool,
-    added_rules: Vec<Rule>,
-    rule_prefix: Option<Prefix>,
     simple_block: Option<SimpleBlock>,
+    rule_prefix: Option<Prefix>,
+    added_top_rules: Vec<(Prefix, Rule)>,
+    added_at_rules: Vec<(Prefix, AtRule)>,
+    added_qualified_rules: Vec<(Prefix, QualifiedRule)>,
     added_declarations: Vec<Declaration>,
-}
-
-impl Prefixer {
-    fn same_name(&mut self, name: JsWord, n: &Declaration) {
-        let val = Ident {
-            span: DUMMY_SP,
-            value: name.clone(),
-            raw: name,
-        };
-        self.added_declarations.push(Declaration {
-            span: n.span,
-            name: n.name.clone(),
-            value: vec![ComponentValue::Ident(val)],
-            important: n.important.clone(),
-        });
-    }
-
-    fn get_declaration_by_name(&mut self, name: &str) -> Option<Declaration> {
-        match &self.simple_block {
-            Some(SimpleBlock { value, .. }) => {
-                let mut found = None;
-
-                for n in value.iter().rev() {
-                    match n {
-                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        ComponentValue::StyleBlock(StyleBlock::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        _ => {}
-                    }
-                }
-
-                found
-            }
-            _ => None,
-        }
-    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -512,120 +460,122 @@ impl VisitMut for Prefixer {
         for mut n in take(&mut n.rules) {
             n.visit_mut_children_with(self);
 
-            new.append(&mut self.added_rules);
+            for mut n in take(&mut self.added_top_rules) {
+                let old_rule_prefix = self.rule_prefix.take();
+
+                self.rule_prefix = Some(n.0);
+
+                n.1.visit_mut_children_with(self);
+
+                new.push(n.1);
+
+                self.rule_prefix = old_rule_prefix;
+            }
+
             new.push(n);
         }
+
+        // Avoid duplicate prefixed at-rules
+        new.dedup_by(|a, b| match (a, b) {
+            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
+            _ => false,
+        });
 
         n.rules = new;
     }
 
     // TODO handle declarations in `@media`/`@support`
-    // TODO don't generate wrong prefixes in prefixed selectors and at-rules
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        let mut added_at_rules = vec![];
+        let original_simple_block = n.block.clone();
 
-        // TODO avoid duplicate
+        n.visit_mut_children_with(self);
+
         match &n.name {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
             {
-                let new_name = AtRuleName::Ident(Ident {
+                let ms_at_rule = AtRule {
                     span: DUMMY_SP,
-                    value: "-ms-viewport".into(),
-                    raw: "-ms-viewport".into(),
-                });
-
-                added_at_rules.push((
-                    Some(Prefix::Ms),
-                    AtRule {
+                    name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
-                        name: new_name,
-                        prelude: n.prelude.clone(),
-                        block: n.block.clone(),
-                    },
-                ));
+                        value: "-ms-viewport".into(),
+                        raw: "-ms-viewport".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
 
-                let new_name = AtRuleName::Ident(Ident {
+                let o_at_rule = AtRule {
                     span: DUMMY_SP,
-                    value: "-o-viewport".into(),
-                    raw: "-o-viewport".into(),
-                });
-
-                added_at_rules.push((
-                    Some(Prefix::O),
-                    AtRule {
+                    name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
-                        name: new_name,
-                        prelude: n.prelude.clone(),
-                        block: n.block.clone(),
-                    },
-                ));
+                        value: "-o-viewport".into(),
+                        raw: "-o-viewport".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Ms, Rule::AtRule(ms_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
+                } else {
+                    self.added_at_rules.push((Prefix::Ms, ms_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                }
             }
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("keyframes") =>
             {
-                let new_name = AtRuleName::Ident(Ident {
+                let webkit_at_rule = AtRule {
                     span: DUMMY_SP,
-                    value: "-webkit-keyframes".into(),
-                    raw: "-webkit-keyframes".into(),
-                });
-
-                added_at_rules.push((
-                    Some(Prefix::Webkit),
-                    AtRule {
+                    name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
-                        name: new_name,
-                        prelude: n.prelude.clone(),
-                        block: n.block.clone(),
-                    },
-                ));
+                        value: "-webkit-keyframes".into(),
+                        raw: "-webkit-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
 
-                let new_name = AtRuleName::Ident(Ident {
+                let moz_at_rule = AtRule {
                     span: DUMMY_SP,
-                    value: "-moz-keyframes".into(),
-                    raw: "-moz-keyframes".into(),
-                });
-
-                added_at_rules.push((
-                    Some(Prefix::Moz),
-                    AtRule {
+                    name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
-                        name: new_name,
-                        prelude: n.prelude.clone(),
-                        block: n.block.clone(),
-                    },
-                ));
+                        value: "-moz-keyframes".into(),
+                        raw: "-moz-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
 
-                let new_name = AtRuleName::Ident(Ident {
+                let o_at_rule = AtRule {
                     span: DUMMY_SP,
-                    value: "-o-keyframes".into(),
-                    raw: "-o-keyframes".into(),
-                });
-
-                added_at_rules.push((
-                    Some(Prefix::O),
-                    AtRule {
+                    name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
-                        name: new_name,
-                        prelude: n.prelude.clone(),
-                        block: n.block.clone(),
-                    },
-                ));
+                        value: "-o-keyframes".into(),
+                        raw: "-o-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::AtRule(webkit_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::Moz, Rule::AtRule(moz_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
+                } else {
+                    self.added_at_rules.push((Prefix::Webkit, webkit_at_rule));
+                    self.added_at_rules.push((Prefix::Moz, moz_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                }
             }
             _ => {}
-        }
-
-        n.visit_mut_children_with(self);
-
-        for mut rule in take(&mut added_at_rules) {
-            let old_rule_prefix = self.rule_prefix.clone();
-
-            self.rule_prefix = rule.0;
-
-            rule.1.visit_mut_children_with(self);
-
-            self.added_rules.push(Rule::AtRule(rule.1));
-            self.rule_prefix = old_rule_prefix;
         }
     }
 
@@ -677,6 +627,209 @@ impl VisitMut for Prefixer {
         media_query_list.queries = new;
     }
 
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
+            n.visit_mut_children_with(self);
+
+            return;
+        }
+
+        let original_simple_block = n.block.clone();
+
+        n.visit_mut_children_with(self);
+
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            let mut new_webkit_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "autofill",
+                "-webkit-autofill",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "any-link",
+                "-webkit-any-link",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "fullscreen",
+                "-webkit-full-screen",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "file-selector-button",
+                "-webkit-file-upload-button",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "backdrop",
+                "-webkit-backdrop",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "placeholder",
+                "-webkit-input-placeholder",
+            );
+
+            if n.prelude != new_webkit_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_webkit_prelude,
+                    block: original_simple_block.clone(),
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Webkit, qualified_rule));
+                }
+            }
+        }
+
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            let mut new_moz_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-only", "-moz-read-only");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "read-write",
+                "-moz-read-write",
+            );
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "any-link", "-moz-any-link");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "fullscreen",
+                "-moz-full-screen",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "placeholder-shown",
+                "-moz-placeholder-shown",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
+                "selection",
+                "-moz-selection",
+            );
+
+            {
+                let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
+
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_moz_prelude_with_previous,
+                    "placeholder",
+                    "-moz-placeholder",
+                );
+
+                if new_moz_prelude_with_previous != new_moz_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_moz_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
+
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Moz, qualified_rule));
+                    }
+                }
+            }
+
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
+                "placeholder",
+                "-moz-placeholder",
+            );
+
+            if n.prelude != new_moz_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_moz_prelude,
+                    block: original_simple_block.clone(),
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Moz, qualified_rule));
+                }
+            }
+        }
+
+        if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+            let mut new_ms_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(&mut new_ms_prelude, "fullscreen", "-ms-fullscreen");
+            replace_pseudo_class_selector_name(
+                &mut new_ms_prelude,
+                "placeholder-shown",
+                "-ms-input-placeholder",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
+                "file-selector-button",
+                "-ms-browse",
+            );
+            replace_pseudo_element_selector_name(&mut new_ms_prelude, "backdrop", "-ms-backdrop");
+
+            {
+                let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
+
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_ms_prelude_with_previous,
+                    "placeholder",
+                    "-ms-input-placeholder",
+                );
+
+                if new_ms_prelude_with_previous != new_ms_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_ms_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
+
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Ms, qualified_rule));
+                    }
+                }
+            }
+
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
+                "placeholder",
+                "-ms-input-placeholder",
+            );
+
+            if n.prelude != new_ms_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_ms_prelude,
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Ms, qualified_rule));
+                }
+            }
+        }
+    }
+
     fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
         let old_in_keyframe_block = self.in_keyframe_block;
 
@@ -687,129 +840,8 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
-    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        n.visit_mut_children_with(self);
-
-        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
-            return;
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
-        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-webkit-any-link");
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-webkit-full-screen");
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "file-selector-button",
-            "-webkit-file-upload-button",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "placeholder",
-            "-webkit-input-placeholder",
-        );
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
-        replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
-        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-moz-full-screen");
-        replace_pseudo_class_selector_name(
-            &mut new_prelude,
-            "placeholder-shown",
-            "-moz-placeholder-shown",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
-
-        {
-            let mut new_prelude_with_previous = new_prelude.clone();
-
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_prelude_with_previous,
-                "placeholder",
-                "-moz-placeholder",
-            );
-
-            if new_prelude_with_previous != new_prelude {
-                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                    span: DUMMY_SP,
-                    prelude: new_prelude_with_previous,
-                    block: n.block.clone(),
-                }));
-            }
-        }
-
-        replace_pseudo_element_selector_name(&mut new_prelude, "placeholder", "-moz-placeholder");
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-ms-fullscreen");
-        replace_pseudo_class_selector_name(
-            &mut new_prelude,
-            "placeholder-shown",
-            "-ms-input-placeholder",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "file-selector-button",
-            "-ms-browse",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
-
-        {
-            let mut new_prelude_with_previous = new_prelude.clone();
-
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_prelude_with_previous,
-                "placeholder",
-                "-ms-input-placeholder",
-            );
-
-            if new_prelude_with_previous != new_prelude {
-                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                    span: DUMMY_SP,
-                    prelude: new_prelude_with_previous,
-                    block: n.block.clone(),
-                }));
-            }
-        }
-
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "placeholder",
-            "-ms-input-placeholder",
-        );
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-    }
-
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let old_simple_block = self.simple_block.clone();
+        let old_simple_block = self.simple_block.take();
 
         self.simple_block = Some(simple_block.clone());
 
@@ -818,12 +850,87 @@ impl VisitMut for Prefixer {
         for mut n in take(&mut simple_block.value) {
             n.visit_mut_children_with(self);
 
-            new.extend(
-                self.added_declarations
-                    .drain(..)
-                    .map(DeclarationOrAtRule::Declaration)
-                    .map(ComponentValue::DeclarationOrAtRule),
-            );
+            match n {
+                ComponentValue::DeclarationOrAtRule(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(StyleBlock::Declaration)
+                            .map(ComponentValue::StyleBlock),
+                    );
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                ComponentValue::Rule(_) => {
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                ComponentValue::StyleBlock(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(StyleBlock::Declaration)
+                            .map(ComponentValue::StyleBlock),
+                    );
+
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                _ => {}
+            }
+
             new.push(n);
         }
 
@@ -862,116 +969,145 @@ impl VisitMut for Prefixer {
         // TODO make it lazy?
         let mut webkit_value = n.value.clone();
 
-        replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
-        replace_image_set_function_on_legacy_variant(
-            &mut webkit_value,
-            "image-set",
-            "-webkit-image-set",
-        );
-        replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
-        replace_cross_fade_function_on_legacy_variant(
-            &mut webkit_value,
-            "cross-fade",
-            "-webkit-cross-fade",
-        );
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            replace_image_set_function_on_legacy_variant(
+                &mut webkit_value,
+                "image-set",
+                "-webkit-image-set",
+            );
+            replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+            replace_cross_fade_function_on_legacy_variant(
+                &mut webkit_value,
+                "cross-fade",
+                "-webkit-cross-fade",
+            );
 
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "linear-gradient",
-            "-webkit-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "repeating-linear-gradient",
-            "-webkit-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "radial-gradient",
-            "-webkit-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_value,
-            "repeating-radial-gradient",
-            "-webkit-repeating-radial-gradient",
-        );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "linear-gradient",
+                "-webkit-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-linear-gradient",
+                "-webkit-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "radial-gradient",
+                "-webkit-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-radial-gradient",
+                "-webkit-repeating-radial-gradient",
+            );
+        }
 
         let mut moz_value = n.value.clone();
 
-        replace_function_name(&mut moz_value, "element", "-moz-element");
-        replace_function_name(&mut moz_value, "calc", "-moz-calc");
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "linear-gradient",
-            "-moz-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "repeating-linear-gradient",
-            "-moz-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "radial-gradient",
-            "-moz-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_value,
-            "repeating-radial-gradient",
-            "-moz-repeating-linear-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            replace_function_name(&mut moz_value, "element", "-moz-element");
+            replace_function_name(&mut moz_value, "calc", "-moz-calc");
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "linear-gradient",
+                "-moz-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-linear-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "radial-gradient",
+                "-moz-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-radial-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+        }
 
         let mut o_value = n.value.clone();
 
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "linear-gradient",
-            "-o-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "repeating-linear-gradient",
-            "-o-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "radial-gradient",
-            "-o-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_value,
-            "repeating-radial-gradient",
-            "-o-repeating-radial-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "linear-gradient",
+                "-o-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-linear-gradient",
+                "-o-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "radial-gradient",
+                "-o-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-radial-gradient",
+                "-o-repeating-radial-gradient",
+            );
+        }
 
-        let ms_value = n.value.clone();
+        let mut ms_value = n.value.clone();
 
-        // TODO avoid insert values with `-webkit`/etc prefixes in `-moz` prefixed
-        // declaration and versa vice
-        // TODO improve perf by getting all declaration and values once (i.e. lazy)
+        // TODO lazy
+        let mut declarations = vec![];
+
+        if let Some(SimpleBlock { value, .. }) = &self.simple_block {
+            for n in value.iter() {
+                match n {
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
+                        declaration,
+                    )) => declarations.push(declaration),
+                    ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
+                        declarations.push(declaration)
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        // TODO lazy
+        let property_names: Vec<&str> = declarations
+            .iter()
+            .filter(|declaration| {
+                !matches!(
+                    declaration,
+                    Declaration {
+                        name: DeclarationName::DashedIdent(_),
+                        ..
+                    }
+                )
+            })
+            .map(|declaration| match declaration {
+                Declaration {
+                    name: DeclarationName::Ident(ident),
+                    ..
+                } => &*ident.value,
+                _ => {
+                    unreachable!();
+                }
+            })
+            .collect();
+
+        // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
                 // Use only specific prefix in prefixed at-rules or rule, i.e.
                 // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
-                    if $prefix != *rule_prefix {
-                        false
-                    } else {
-                        true
-                    }
-                } else {
-                    true
-                };
-
-                if need_prefix {
+                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                     // Check we don't have prefixed property
-                    let need_prefix = match self.get_declaration_by_name($name) {
-                        Some(_) => false,
-                        _ => true,
-                    };
-
-                    if need_prefix {
+                    if !property_names.contains(&$name) {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
@@ -997,24 +1133,9 @@ impl VisitMut for Prefixer {
             ($prefix:expr,$name:expr,$value:expr) => {{
                 // Use only specific prefix in prefixed at-rules or rule, i.e.
                 // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                let need_prefix = if let Some(rule_prefix) = &self.rule_prefix {
-                    if $prefix != *rule_prefix {
-                        false
-                    } else {
-                        true
-                    }
-                } else {
-                    true
-                };
-
-                if need_prefix {
+                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                     // Check we don't have prefixed property
-                    let need_prefix = match self.get_declaration_by_name($name) {
-                        Some(_) => false,
-                        _ => true,
-                    };
-
-                    if need_prefix {
+                    if !property_names.contains(&$name) {
                         let name = DeclarationName::Ident(Ident {
                             span: DUMMY_SP,
                             value: $name.into(),
@@ -1029,12 +1150,6 @@ impl VisitMut for Prefixer {
                         });
                     }
                 }
-            }};
-        }
-
-        macro_rules! same_name {
-            ($name:expr) => {{
-                self.same_name($name.into(), &n);
             }};
         }
 
@@ -1190,36 +1305,55 @@ impl VisitMut for Prefixer {
             }
 
             "cursor" => {
-                replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
-                replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
-                replace_ident(&mut webkit_value, "grab", "-webkit-grab");
-                replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
+                    replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
+                    replace_ident(&mut webkit_value, "grab", "-webkit-grab");
+                    replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                }
 
-                replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
-                replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
-                replace_ident(&mut moz_value, "grab", "-moz-grab");
-                replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
+                    replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
+                    replace_ident(&mut moz_value, "grab", "-moz-grab");
+                    replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                }
             }
 
             "display" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "flex" => {
-                            same_name!("-webkit-box");
-                            same_name!("-webkit-flex");
-                            same_name!("-moz-box");
-                            same_name!("-ms-flexbox");
-                        }
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_value = webkit_value.clone();
 
-                        "inline-flex" => {
-                            same_name!("-webkit-inline-box");
-                            same_name!("-webkit-inline-flex");
-                            same_name!("-moz-inline-box");
-                            same_name!("-ms-inline-flexbox");
-                        }
+                    replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                    replace_ident(
+                        &mut old_spec_webkit_value,
+                        "inline-flex",
+                        "-webkit-inline-box",
+                    );
 
-                        _ => {}
+                    if n.value != old_spec_webkit_value {
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: old_spec_webkit_value,
+                            important: n.important.clone(),
+                        });
                     }
+                }
+
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                    replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                }
+
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "flex", "-moz-box");
+                    replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                }
+
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                    replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
                 }
             }
 
@@ -1448,7 +1582,9 @@ impl VisitMut for Prefixer {
                     _ => true,
                 };
 
-                if need_old_spec {
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_webkit_new_value = webkit_value.clone();
 
                     replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
@@ -1464,7 +1600,9 @@ impl VisitMut for Prefixer {
 
                 add_declaration!(Prefix::Webkit, "-webkit-justify-content");
 
-                if need_old_spec {
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_moz_value = moz_value.clone();
 
                     replace_ident(&mut old_spec_moz_value, "flex-start", "start");
@@ -1474,14 +1612,16 @@ impl VisitMut for Prefixer {
                     add_declaration!(Prefix::Moz, "-moz-box-pack", old_spec_moz_value);
                 }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "flex-start", "start");
-                replace_ident(&mut old_spec_ms_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_value, "space-between", "justify");
-                replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "space-between", "justify");
+                    replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_value);
+                }
             }
 
             "order" => {
@@ -1522,78 +1662,97 @@ impl VisitMut for Prefixer {
             }
 
             "align-items" => {
-                let mut old_spec_webkit_new_value = webkit_value.clone();
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_new_value = webkit_value.clone();
 
-                replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
 
-                add_declaration!(
-                    Prefix::Webkit,
-                    "-webkit-box-align",
-                    old_spec_webkit_new_value
-                );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-align",
+                        old_spec_webkit_new_value
+                    );
+                }
+
                 add_declaration!(Prefix::Webkit, "-webkit-align-items");
 
-                let mut old_spec_moz_value = moz_value.clone();
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    let mut old_spec_moz_value = moz_value.clone();
 
-                replace_ident(&mut old_spec_moz_value, "flex-end", "end");
-                replace_ident(&mut old_spec_moz_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_value);
+                    add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_value);
+                }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_value);
+                }
             }
 
             "align-self" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-self");
 
-                let mut spec_2012_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_value);
+                }
             }
 
             "align-content" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-content");
 
-                let mut spec_2012_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
-                replace_ident(&mut spec_2012_ms_value, "space-between", "justify");
-                replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "space-between", "justify");
+                    replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_value);
+                }
             }
 
             "image-rendering" => {
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
-                replace_ident(
-                    &mut webkit_value,
-                    "crisp-edges",
-                    "-webkit-optimize-contrast",
-                );
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
+                    replace_ident(
+                        &mut webkit_value,
+                        "crisp-edges",
+                        "-webkit-optimize-contrast",
+                    );
+                }
 
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
-                replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
+                    replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                }
 
-                replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
+                    replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
 
-                if ms_value != old_spec_ms_value {
-                    add_declaration!(Prefix::Ms, "-ms-interpolation-mode", old_spec_ms_value);
+                    if ms_value != old_spec_ms_value {
+                        add_declaration!(Prefix::Ms, "-ms-interpolation-mode", old_spec_ms_value);
+                    }
                 }
             }
 
@@ -1732,7 +1891,9 @@ impl VisitMut for Prefixer {
             }
 
             "position" if n.value.len() == 1 => {
-                replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                }
             }
 
             "user-select" => {
@@ -1892,24 +2053,38 @@ impl VisitMut for Prefixer {
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
-                replace_ident(&mut webkit_value, "transform", "-webkit-transform");
-                replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                    replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                }
 
                 add_declaration!(Prefix::Webkit, "-webkit-transition");
 
-                replace_ident(&mut moz_value, "transform", "-moz-transform");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
 
                 add_declaration!(Prefix::Moz, "-moz-transition");
 
-                replace_ident(&mut o_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
 
                 add_declaration!(Prefix::O, "-o-transition");
             }
 
             "transition-property" => {
-                replace_ident(&mut webkit_value, "transform", "-webkit-transform");
-                replace_ident(&mut moz_value, "transform", "-moz-transform");
-                replace_ident(&mut o_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                }
+
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
+
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
 
                 add_declaration!(Prefix::Webkit, "-webkit-transition-property");
                 add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
@@ -1935,7 +2110,12 @@ impl VisitMut for Prefixer {
             }
 
             "writing-mode" if n.value.len() == 1 => {
-                let direction = match self.get_declaration_by_name("direction") {
+                let direction = match declarations.into_iter().rev().find(|declaration| {
+                    matches!(declaration, Declaration {
+                              name: DeclarationName::Ident(Ident { value, .. }),
+                                ..
+                            } if value.as_ref().eq_ignore_ascii_case("direction"))
+                }) {
                     Some(Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
@@ -2055,18 +2235,22 @@ impl VisitMut for Prefixer {
                         | "grid-auto-rows"
                 );
 
-                replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
-                replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
-                replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
-                replace_ident(
-                    &mut webkit_value,
-                    "fill-available",
-                    "-webkit-fill-available",
-                );
-                replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
-                replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
+                    replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
+                    replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
+                    replace_ident(
+                        &mut webkit_value,
+                        "fill-available",
+                        "-webkit-fill-available",
+                    );
+                    replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
+                    replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                }
 
-                if !is_grid_property {
+                if !is_grid_property
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut moz_value, "fit-content", "-moz-fit-content");
                     replace_ident(&mut moz_value, "max-content", "-moz-max-content");
                     replace_ident(&mut moz_value, "min-content", "-moz-min-content");
@@ -2077,16 +2261,19 @@ impl VisitMut for Prefixer {
             }
 
             "touch-action" => {
-                let mut value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut new_ms_value = ms_value.clone();
 
-                replace_ident(&mut value, "pan-x", "-ms-pan-x");
-                replace_ident(&mut value, "pan-y", "-ms-pan-y");
-                replace_ident(&mut value, "double-tap-zoom", "-ms-double-tap-zoom");
-                replace_ident(&mut value, "manipulation", "-ms-manipulation");
-                replace_ident(&mut value, "none", "-ms-none");
-                replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
+                    replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
+                    replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
+                    replace_ident(&mut new_ms_value, "double-tap-zoom", "-ms-double-tap-zoom");
+                    replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
+                    replace_ident(&mut new_ms_value, "none", "-ms-none");
+                    replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
 
-                add_declaration!(Prefix::Ms, "-ms-touch-action", value);
+                    add_declaration!(Prefix::Ms, "-ms-touch-action", new_ms_value);
+                }
+
                 add_declaration!(Prefix::Ms, "-ms-touch-action");
             }
 
@@ -2095,17 +2282,19 @@ impl VisitMut for Prefixer {
             }
 
             "unicode-bidi" => {
-                replace_ident(&mut moz_value, "isolate", "-moz-isolate");
-                replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
-                replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "isolate", "-moz-isolate");
+                    replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
+                    replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
 
-                replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
-                replace_ident(
-                    &mut webkit_value,
-                    "isolate-override",
-                    "-webpack-isolate-override",
-                );
-                replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                    replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
+                    replace_ident(
+                        &mut webkit_value,
+                        "isolate-override",
+                        "-webpack-isolate-override",
+                    );
+                    replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                }
             }
 
             "text-spacing" => {

@@ -13,3 +13,7 @@
 .class {
     display: flex;
 }
+
+:fullscreen a {
+    display: flex;
+}
