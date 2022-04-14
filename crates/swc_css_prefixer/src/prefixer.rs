@@ -461,7 +461,7 @@ impl VisitMut for Prefixer {
             n.visit_mut_children_with(self);
 
             for mut n in take(&mut self.added_top_rules) {
-                let old_rule_prefix = self.rule_prefix.clone();
+                let old_rule_prefix = self.rule_prefix.take();
 
                 self.rule_prefix = Some(n.0);
 
@@ -841,7 +841,7 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let old_simple_block = self.simple_block.clone();
+        let old_simple_block = self.simple_block.take();
 
         self.simple_block = Some(simple_block.clone());
 
@@ -860,7 +860,7 @@ impl VisitMut for Prefixer {
                     );
 
                     for mut n in take(&mut self.added_at_rules) {
-                        let old_rule_prefix = self.rule_prefix.clone();
+                        let old_rule_prefix = self.rule_prefix.take();
 
                         self.rule_prefix = Some(n.0);
 
@@ -873,7 +873,7 @@ impl VisitMut for Prefixer {
                 }
                 ComponentValue::Rule(_) => {
                     for mut n in take(&mut self.added_qualified_rules) {
-                        let old_rule_prefix = self.rule_prefix.clone();
+                        let old_rule_prefix = self.rule_prefix.take();
 
                         self.rule_prefix = Some(n.0);
 
@@ -885,7 +885,7 @@ impl VisitMut for Prefixer {
                     }
 
                     for mut n in take(&mut self.added_at_rules) {
-                        let old_rule_prefix = self.rule_prefix.clone();
+                        let old_rule_prefix = self.rule_prefix.take();
 
                         self.rule_prefix = Some(n.0);
 
@@ -905,7 +905,7 @@ impl VisitMut for Prefixer {
                     );
 
                     for mut n in take(&mut self.added_qualified_rules) {
-                        let old_rule_prefix = self.rule_prefix.clone();
+                        let old_rule_prefix = self.rule_prefix.take();
 
                         self.rule_prefix = Some(n.0);
 
@@ -917,7 +917,7 @@ impl VisitMut for Prefixer {
                     }
 
                     for mut n in take(&mut self.added_at_rules) {
-                        let old_rule_prefix = self.rule_prefix.clone();
+                        let old_rule_prefix = self.rule_prefix.take();
 
                         self.rule_prefix = Some(n.0);
 
