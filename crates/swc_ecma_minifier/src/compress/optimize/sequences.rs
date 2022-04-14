@@ -848,8 +848,10 @@ where
         Ok(())
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
+            log_abort!("try block");
             return false;
         }
 
@@ -863,11 +865,13 @@ where
                     match a {
                         Mergable::Var(a) => {
                             if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (var)");
                                 return false;
                             }
                         }
                         Mergable::Expr(a) => {
                             if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (expr)");
                                 return false;
                             }
                         }
@@ -892,18 +896,23 @@ where
                 let left_id = e.left.as_ident();
                 let left_id = match left_id {
                     Some(v) => v,
-                    _ => return false,
+                    _ => {
+                        log_abort!("e.left is not ident");
+                        return false;
+                    }
                 };
 
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a (var)");
                                 return false;
                             }
                         }
                         Mergable::Expr(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a (expr)");
                                 return false;
                             }
                         }
@@ -915,6 +924,7 @@ where
                 }
 
                 if contains_this_expr(&*e.right) {
+                    log_abort!("e.right contains this");
                     return false;
                 }
 
@@ -924,6 +934,7 @@ where
                 }
 
                 if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
+                    log_abort!("bad used_ids");
                     return false;
                 }
 
@@ -937,12 +948,15 @@ where
 
                 // TODO: Check for side effects in object properties.
 
+                log_abort!("unimpl: object");
+
                 false
             }
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
                     if !self.is_skippable_for_seq(a, &elem.expr) {
+                        log_abort!("array element");
                         return false;
                     }
                 }
@@ -950,7 +964,10 @@ where
                 true
             }
 
-            _ => false,
+            _ => {
+                log_abort!("todo: Unknown expr");
+                false
+            }
         }
     }
 
