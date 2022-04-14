@@ -1302,44 +1302,56 @@ impl VisitMut for Prefixer {
             }
 
             "cursor" => {
-                replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
-                replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
-                replace_ident(&mut webkit_value, "grab", "-webkit-grab");
-                replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
+                    replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
+                    replace_ident(&mut webkit_value, "grab", "-webkit-grab");
+                    replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                }
 
-                replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
-                replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
-                replace_ident(&mut moz_value, "grab", "-moz-grab");
-                replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
+                    replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
+                    replace_ident(&mut moz_value, "grab", "-moz-grab");
+                    replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                }
             }
 
             "display" if n.value.len() == 1 => {
-                let mut old_spec_webkit_value = webkit_value.clone();
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_value = webkit_value.clone();
 
-                replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
-                replace_ident(
-                    &mut old_spec_webkit_value,
-                    "inline-flex",
-                    "-webkit-inline-box",
-                );
+                    replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                    replace_ident(
+                        &mut old_spec_webkit_value,
+                        "inline-flex",
+                        "-webkit-inline-box",
+                    );
 
-                if n.value != old_spec_webkit_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: old_spec_webkit_value,
-                        important: n.important.clone(),
-                    });
+                    if n.value != old_spec_webkit_value {
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: old_spec_webkit_value,
+                            important: n.important.clone(),
+                        });
+                    }
                 }
 
-                replace_ident(&mut webkit_value, "flex", "-webkit-flex");
-                replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                    replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                }
 
-                replace_ident(&mut moz_value, "flex", "-moz-box");
-                replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "flex", "-moz-box");
+                    replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                }
 
-                replace_ident(&mut ms_value, "flex", "-ms-flexbox");
-                replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                    replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
+                }
             }
 
             "flex" => {
@@ -1567,7 +1579,9 @@ impl VisitMut for Prefixer {
                     _ => true,
                 };
 
-                if need_old_spec {
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_webkit_new_value = webkit_value.clone();
 
                     replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
@@ -1583,7 +1597,9 @@ impl VisitMut for Prefixer {
 
                 add_declaration!(Prefix::Webkit, "-webkit-justify-content");
 
-                if need_old_spec {
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_moz_value = moz_value.clone();
 
                     replace_ident(&mut old_spec_moz_value, "flex-start", "start");
@@ -1593,14 +1609,16 @@ impl VisitMut for Prefixer {
                     add_declaration!(Prefix::Moz, "-moz-box-pack", old_spec_moz_value);
                 }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "flex-start", "start");
-                replace_ident(&mut old_spec_ms_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_value, "space-between", "justify");
-                replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "space-between", "justify");
+                    replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_value);
+                }
             }
 
             "order" => {
@@ -1641,78 +1659,97 @@ impl VisitMut for Prefixer {
             }
 
             "align-items" => {
-                let mut old_spec_webkit_new_value = webkit_value.clone();
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_new_value = webkit_value.clone();
 
-                replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
 
-                add_declaration!(
-                    Prefix::Webkit,
-                    "-webkit-box-align",
-                    old_spec_webkit_new_value
-                );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-align",
+                        old_spec_webkit_new_value
+                    );
+                }
+
                 add_declaration!(Prefix::Webkit, "-webkit-align-items");
 
-                let mut old_spec_moz_value = moz_value.clone();
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    let mut old_spec_moz_value = moz_value.clone();
 
-                replace_ident(&mut old_spec_moz_value, "flex-end", "end");
-                replace_ident(&mut old_spec_moz_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_value);
+                    add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_value);
+                }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_value);
+                }
             }
 
             "align-self" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-self");
 
-                let mut spec_2012_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_value);
+                }
             }
 
             "align-content" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-content");
 
-                let mut spec_2012_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
-                replace_ident(&mut spec_2012_ms_value, "space-between", "justify");
-                replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "space-between", "justify");
+                    replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
 
-                add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_value);
+                    add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_value);
+                }
             }
 
             "image-rendering" => {
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
-                replace_ident(
-                    &mut webkit_value,
-                    "crisp-edges",
-                    "-webkit-optimize-contrast",
-                );
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
+                    replace_ident(
+                        &mut webkit_value,
+                        "crisp-edges",
+                        "-webkit-optimize-contrast",
+                    );
+                }
 
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
-                replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
+                    replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                }
 
-                replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                }
 
-                let mut old_spec_ms_value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
+                    replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
 
-                if ms_value != old_spec_ms_value {
-                    add_declaration!(Prefix::Ms, "-ms-interpolation-mode", old_spec_ms_value);
+                    if ms_value != old_spec_ms_value {
+                        add_declaration!(Prefix::Ms, "-ms-interpolation-mode", old_spec_ms_value);
+                    }
                 }
             }
 
@@ -1851,7 +1888,9 @@ impl VisitMut for Prefixer {
             }
 
             "position" if n.value.len() == 1 => {
-                replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                }
             }
 
             "user-select" => {
@@ -2011,24 +2050,38 @@ impl VisitMut for Prefixer {
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
-                replace_ident(&mut webkit_value, "transform", "-webkit-transform");
-                replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                    replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                }
 
                 add_declaration!(Prefix::Webkit, "-webkit-transition");
 
-                replace_ident(&mut moz_value, "transform", "-moz-transform");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
 
                 add_declaration!(Prefix::Moz, "-moz-transition");
 
-                replace_ident(&mut o_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
 
                 add_declaration!(Prefix::O, "-o-transition");
             }
 
             "transition-property" => {
-                replace_ident(&mut webkit_value, "transform", "-webkit-transform");
-                replace_ident(&mut moz_value, "transform", "-moz-transform");
-                replace_ident(&mut o_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                }
+
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
+
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
 
                 add_declaration!(Prefix::Webkit, "-webkit-transition-property");
                 add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
@@ -2179,18 +2232,22 @@ impl VisitMut for Prefixer {
                         | "grid-auto-rows"
                 );
 
-                replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
-                replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
-                replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
-                replace_ident(
-                    &mut webkit_value,
-                    "fill-available",
-                    "-webkit-fill-available",
-                );
-                replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
-                replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
+                    replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
+                    replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
+                    replace_ident(
+                        &mut webkit_value,
+                        "fill-available",
+                        "-webkit-fill-available",
+                    );
+                    replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
+                    replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                }
 
-                if !is_grid_property {
+                if !is_grid_property
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut moz_value, "fit-content", "-moz-fit-content");
                     replace_ident(&mut moz_value, "max-content", "-moz-max-content");
                     replace_ident(&mut moz_value, "min-content", "-moz-min-content");
@@ -2201,16 +2258,19 @@ impl VisitMut for Prefixer {
             }
 
             "touch-action" => {
-                let mut value = ms_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut new_ms_value = ms_value.clone();
 
-                replace_ident(&mut value, "pan-x", "-ms-pan-x");
-                replace_ident(&mut value, "pan-y", "-ms-pan-y");
-                replace_ident(&mut value, "double-tap-zoom", "-ms-double-tap-zoom");
-                replace_ident(&mut value, "manipulation", "-ms-manipulation");
-                replace_ident(&mut value, "none", "-ms-none");
-                replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
+                    replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
+                    replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
+                    replace_ident(&mut new_ms_value, "double-tap-zoom", "-ms-double-tap-zoom");
+                    replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
+                    replace_ident(&mut new_ms_value, "none", "-ms-none");
+                    replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
 
-                add_declaration!(Prefix::Ms, "-ms-touch-action", value);
+                    add_declaration!(Prefix::Ms, "-ms-touch-action", new_ms_value);
+                }
+
                 add_declaration!(Prefix::Ms, "-ms-touch-action");
             }
 
@@ -2219,17 +2279,19 @@ impl VisitMut for Prefixer {
             }
 
             "unicode-bidi" => {
-                replace_ident(&mut moz_value, "isolate", "-moz-isolate");
-                replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
-                replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "isolate", "-moz-isolate");
+                    replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
+                    replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
 
-                replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
-                replace_ident(
-                    &mut webkit_value,
-                    "isolate-override",
-                    "-webpack-isolate-override",
-                );
-                replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                    replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
+                    replace_ident(
+                        &mut webkit_value,
+                        "isolate-override",
+                        "-webpack-isolate-override",
+                    );
+                    replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                }
             }
 
             "text-spacing" => {
