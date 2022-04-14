@@ -607,7 +607,7 @@ where
             return;
         }
 
-        if self.ctx.in_top_level() && !self.options.top_level() {
+        if self.ctx.is_top_level_for_block_level_vars() && !self.options.top_level() {
             log_abort!("sequences: [x] Top level");
             return;
         }
