@@ -2652,10 +2652,7 @@ where
             return;
         }
 
-        let ctx = Ctx {
-            top_level: false,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx).inject_else(stmts);
 
