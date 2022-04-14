@@ -33,6 +33,26 @@ where
             return;
         }
 
+        if !self.options.top_level()
+            && (self.ctx.is_top_level_for_block_level_vars() || self.ctx.in_top_level())
+            && !var.span.has_mark(self.marks.non_top_level)
+        {
+            match self.ctx.var_kind {
+                Some(VarDeclKind::Const) | Some(VarDeclKind::Let) => {
+                    if self.ctx.is_top_level_for_block_level_vars() {
+                        log_abort!("unused: Top-level (block level)");
+                        return;
+                    }
+                }
+                _ => {
+                    if self.ctx.in_top_level() {
+                        log_abort!("unused: Top-level");
+                        return;
+                    }
+                }
+            }
+        }
+
         let had_init = var.init.is_some();
 
         match &mut var.init {
@@ -316,25 +336,6 @@ where
     ) {
         if self.ctx.is_exported {
             return;
-        }
-
-        if is_var_decl
-            && self.ctx.in_top_level()
-            && !self.options.top_level()
-            && !parent_span.has_mark(self.marks.non_top_level)
-        {
-            match self.ctx.var_kind {
-                Some(VarDeclKind::Const) | Some(VarDeclKind::Let) => {
-                    if self.ctx.is_top_level_for_block_level_vars() {
-                        log_abort!("unused: Top-level (block level)");
-                        return;
-                    }
-                }
-                _ => {
-                    log_abort!("unused: Top-level");
-                    return;
-                }
-            }
         }
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
