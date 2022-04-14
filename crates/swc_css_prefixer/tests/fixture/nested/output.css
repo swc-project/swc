@@ -189,3 +189,71 @@
     appearance: auto;
   }
 }
+@media (orientation: landscape) {
+  .test {
+    &.class::-webkit-input-placeholder {
+      -webkit-appearance: auto;
+      appearance: auto;
+    }
+    &.class:-moz-placeholder {
+      -moz-appearance: auto;
+      appearance: auto;
+    }
+    &.class::-moz-placeholder {
+      -moz-appearance: auto;
+      appearance: auto;
+    }
+    &.class:-ms-input-placeholder {
+      -ms-appearance: auto;
+      appearance: auto;
+    }
+    &.class::-ms-input-placeholder {
+      -ms-appearance: auto;
+      appearance: auto;
+    }
+    &.class::placeholder {
+      -webkit-appearance: auto;
+      -moz-appearance: auto;
+      -ms-appearance: auto;
+      appearance: auto;
+    }
+  }
+}
+@media (orientation: landscape) {
+  .test {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+    &.class {
+      -webkit-appearance: auto;
+      -moz-appearance: auto;
+      -ms-appearance: auto;
+      appearance: auto;
+    }
+  }
+}
+.test {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  &.class {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    -ms-appearance: auto;
+    appearance: auto;
+    &.class {
+      -webkit-appearance: menulist-button;
+      -moz-appearance: menulist-button;
+      -ms-appearance: menulist-button;
+      appearance: menulist-button;
+      &.class {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        -ms-appearance: button;
+        appearance: button;
+      }
+    }
+  }
+}

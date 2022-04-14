@@ -72,3 +72,37 @@
         appearance: auto;
     }
 }
+
+@media (orientation: landscape) {
+    .test {
+        &.class::placeholder {
+             appearance: auto;
+        }
+    }
+}
+
+@media (orientation: landscape) {
+    .test {
+        appearance: auto;
+
+        &.class {
+            appearance: auto;
+        }
+    }
+}
+
+.test {
+    appearance: none;
+
+    &.class {
+        appearance: auto;
+
+        &.class {
+            appearance: menulist-button;
+
+            &.class {
+                appearance: button;
+            }
+        }
+    }
+}
