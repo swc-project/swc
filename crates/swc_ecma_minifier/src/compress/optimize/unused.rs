@@ -317,6 +317,14 @@ where
             return;
         }
 
+        if self.ctx.in_top_level()
+            && !self.options.top_level()
+            && !parent_span.has_mark(self.marks.non_top_level)
+        {
+            log_abort!("unused: Top-level");
+            return;
+        }
+
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
         if !name.is_ident() {
