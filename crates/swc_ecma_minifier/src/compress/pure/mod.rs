@@ -254,6 +254,10 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
+        }
+
         {
             let ctx = Ctx {
                 in_first_expr: false,

@@ -279,6 +279,9 @@ dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
+dead_code/dead_code_const_declaration/input.js
+dead_code/dead_code_constant_boolean_should_warn_more/input.js
+dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_timeout_and_interval_symbols/input.js
 dead_code/issue_2233_1/input.js
 dead_code/issue_2233_2/input.js

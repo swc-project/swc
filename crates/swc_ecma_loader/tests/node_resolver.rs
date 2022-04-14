@@ -1,15 +1,14 @@
+#![deny(warnings)]
 #![cfg(feature = "node")]
 
 use std::{
-    collections::HashMap,
     env::{current_dir, set_current_dir},
     path::PathBuf,
     sync::{Arc, Mutex},
 };
 
-use anyhow::{anyhow, Error};
 use lazy_static::lazy_static;
-use swc_common::{collections::AHashMap, FileName};
+use swc_common::FileName;
 extern crate swc_ecma_loader;
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
 
@@ -37,7 +36,7 @@ fn basic_import() {
 
         // When
         let resolved = node_resolver
-            .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
+            .resolve(&FileName::Real(PathBuf::from("jquery")), "jquery")
             .expect("should resolve");
 
         // Expect
@@ -56,7 +55,7 @@ fn hoisting() {
 
         // When
         let resolved = node_resolver
-            .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
+            .resolve(&FileName::Real(PathBuf::from("jquery")), "jquery")
             .expect("should resolve");
 
         // Expect

@@ -64,9 +64,11 @@ where
         T: StmtLike,
     {
         if !self.options.sequences() {
+            log_abort!("sequences: make_sequence for statements is disabled");
             return;
         }
         if self.ctx.in_asm {
+            log_abort!("sequences: asm.js is not supported");
             return;
         }
 
@@ -718,6 +720,7 @@ where
         };
 
         if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
+            log_abort!("sequences: Disabled && no mark");
             return;
         }
 

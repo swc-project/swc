@@ -33,6 +33,26 @@ where
             return;
         }
 
+        if !self.options.top_level()
+            && (self.ctx.is_top_level_for_block_level_vars() || self.ctx.in_top_level())
+            && !var.span.has_mark(self.marks.non_top_level)
+        {
+            match self.ctx.var_kind {
+                Some(VarDeclKind::Const) | Some(VarDeclKind::Let) => {
+                    if self.ctx.is_top_level_for_block_level_vars() {
+                        log_abort!("unused: Top-level (block level)");
+                        return;
+                    }
+                }
+                _ => {
+                    if self.ctx.in_top_level() {
+                        log_abort!("unused: Top-level");
+                        return;
+                    }
+                }
+            }
+        }
+
         let had_init = var.init.is_some();
 
         match &mut var.init {
@@ -94,7 +114,7 @@ where
             }
         }
 
-        self.take_pat_if_unused(DUMMY_SP, pat, None)
+        self.take_pat_if_unused(DUMMY_SP, pat, None, false)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -163,13 +183,13 @@ where
             return;
         }
 
-        self.take_pat_if_unused(var_declarator_span, name, init);
+        self.take_pat_if_unused(var_declarator_span, name, init, true);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
+            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None, false);
 
             if !param.pat.is_invalid() {
                 return;
@@ -312,6 +332,7 @@ where
         parent_span: Span,
         name: &mut Pat,
         mut init: Option<&mut Expr>,
+        is_var_decl: bool,
     ) {
         if self.ctx.is_exported {
             return;
@@ -360,7 +381,7 @@ where
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(parent_span, p, elem);
+                            self.take_pat_if_unused(parent_span, p, elem, is_var_decl);
                         }
                         None => {}
                     }
@@ -387,7 +408,7 @@ where
                                 continue;
                             }
 
-                            self.take_pat_if_unused(parent_span, &mut p.value, None);
+                            self.take_pat_if_unused(parent_span, &mut p.value, None, is_var_decl);
                         }
                         ObjectPatProp::Assign(AssignPatProp {
                             key, value: None, ..
