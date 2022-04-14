@@ -965,7 +965,7 @@ where
             }
 
             _ => {
-                log_abort!("todo: Unknown expr");
+                log_abort!("todo: Unknown expr: {}", dump(e, true));
                 false
             }
         }
