@@ -565,12 +565,7 @@ impl<I: Tokens> Parser<I> {
 
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
-            if is_one_of!(
-                p, ',', '.', '?', ')', ']', ':', '&', '|', '^', '}', "??", "==", "===", "!=",
-                "!==", "&&", "||"
-            ) || is_exact!(p, ';')
-                || eof!(p)
-            {
+            if !p.is_start_of_expr()? {
                 Ok(Some(type_args))
             } else {
                 Ok(None)
