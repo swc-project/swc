@@ -412,14 +412,20 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
+        node.right.visit_children_with(self);
+    }
+
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 
         self.vars.push(node.key.clone());
     }
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        node.right.visit_children_with(self);
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
+        self.vars.push(f.ident.clone());
+
+        f.visit_children_with(self)
     }
 
     fn visit_pat(&mut self, p: &Pat) {
