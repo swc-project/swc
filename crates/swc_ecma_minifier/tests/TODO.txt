@@ -116,6 +116,8 @@ conditionals/issue_2535_1/input.js
 conditionals/issue_2994/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
+dead_code/dead_code_const_annotation/input.js
+dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2749/input.js
 dead_code/issue_2860_2/input.js
