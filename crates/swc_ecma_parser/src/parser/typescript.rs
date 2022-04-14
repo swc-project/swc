@@ -909,7 +909,13 @@ impl<I: Tokens> Parser<I> {
             }
 
             let check_type = ty;
-            let extends_type = p.parse_ts_non_conditional_type_within_ctx()?;
+            let extends_type = {
+                p.with_ctx(Context {
+                    disallow_conditional_types: true,
+                    ..p.ctx()
+                })
+                .parse_ts_non_conditional_type()?
+            };
 
             expect!(p, '?');
 
@@ -927,14 +933,6 @@ impl<I: Tokens> Parser<I> {
                 false_type,
             })))
         })
-    }
-
-    fn parse_ts_non_conditional_type_within_ctx(&mut self) -> PResult<Box<TsType>> {
-        self.with_ctx(Context {
-            disallow_conditional_types: true,
-            ..self.ctx()
-        })
-        .parse_ts_non_conditional_type()
     }
 
     /// `tsParseNonConditionalType`
