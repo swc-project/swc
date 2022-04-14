@@ -67,6 +67,9 @@
 
 - **(es/minifier)** Clean up logging (#4322) ([2002554](https://github.com/swc-project/swc/commit/2002554fa26c1ebd683f71d87263f26fd95d00f1))
 
+
+- **(es/parser)** Simplify logic (#4329) ([37aec5b](https://github.com/swc-project/swc/commit/37aec5b19965bedbe67fa1b454be6a7017ccedec))
+
 ## [1.2.165] - 2022-04-09
 
 ### Bug Fixes
