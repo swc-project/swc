@@ -439,9 +439,9 @@ struct Prefixer {
     in_keyframe_block: bool,
     simple_block: Option<SimpleBlock>,
     rule_prefix: Option<Prefix>,
-    added_top_rules: Vec<Rule>,
-    added_at_rules: Vec<AtRule>,
-    added_qualified_rules: Vec<QualifiedRule>,
+    added_top_rules: Vec<(Prefix, Rule)>,
+    added_at_rules: Vec<(Prefix, AtRule)>,
+    added_qualified_rules: Vec<(Prefix, QualifiedRule)>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -454,14 +454,24 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
-    // TODO handle `StyleBlock` for nested qualified_rule
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
         let mut new = vec![];
 
         for mut n in take(&mut n.rules) {
             n.visit_mut_children_with(self);
 
-            new.append(&mut self.added_top_rules);
+            for mut n in take(&mut self.added_top_rules) {
+                let old_rule_prefix = self.rule_prefix.clone();
+
+                self.rule_prefix = Some(n.0);
+
+                n.1.visit_mut_children_with(self);
+
+                new.push(n.1);
+
+                self.rule_prefix = old_rule_prefix;
+            }
+
             new.push(n);
         }
 
@@ -484,11 +494,7 @@ impl VisitMut for Prefixer {
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("viewport") =>
             {
-                let old_rule_prefix = self.rule_prefix.clone();
-
-                self.rule_prefix = Some(Prefix::Ms);
-
-                let mut ms_at_rule = AtRule {
+                let ms_at_rule = AtRule {
                     span: DUMMY_SP,
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
@@ -499,11 +505,7 @@ impl VisitMut for Prefixer {
                     block: original_simple_block.clone(),
                 };
 
-                ms_at_rule.visit_mut_children_with(self);
-
-                self.rule_prefix = Some(Prefix::O);
-
-                let mut o_at_rule = AtRule {
+                let o_at_rule = AtRule {
                     span: DUMMY_SP,
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
@@ -514,26 +516,20 @@ impl VisitMut for Prefixer {
                     block: original_simple_block,
                 };
 
-                o_at_rule.visit_mut_children_with(self);
-
                 if self.simple_block.is_none() {
-                    self.added_top_rules.push(Rule::AtRule(ms_at_rule));
-                    self.added_top_rules.push(Rule::AtRule(o_at_rule));
+                    self.added_top_rules
+                        .push((Prefix::Ms, Rule::AtRule(ms_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
                 } else {
-                    self.added_at_rules.push(ms_at_rule);
-                    self.added_at_rules.push(o_at_rule);
+                    self.added_at_rules.push((Prefix::Ms, ms_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
                 }
-
-                self.rule_prefix = old_rule_prefix;
             }
             AtRuleName::Ident(Ident { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("keyframes") =>
             {
-                let old_rule_prefix = self.rule_prefix.clone();
-
-                self.rule_prefix = Some(Prefix::Webkit);
-
-                let mut webkit_at_rule = AtRule {
+                let webkit_at_rule = AtRule {
                     span: DUMMY_SP,
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
@@ -544,11 +540,7 @@ impl VisitMut for Prefixer {
                     block: original_simple_block.clone(),
                 };
 
-                webkit_at_rule.visit_mut_children_with(self);
-
-                self.rule_prefix = Some(Prefix::Moz);
-
-                let mut moz_at_rule = AtRule {
+                let moz_at_rule = AtRule {
                     span: DUMMY_SP,
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
@@ -559,11 +551,7 @@ impl VisitMut for Prefixer {
                     block: original_simple_block.clone(),
                 };
 
-                moz_at_rule.visit_mut_children_with(self);
-
-                self.rule_prefix = Some(Prefix::O);
-
-                let mut o_at_rule = AtRule {
+                let o_at_rule = AtRule {
                     span: DUMMY_SP,
                     name: AtRuleName::Ident(Ident {
                         span: DUMMY_SP,
@@ -574,19 +562,18 @@ impl VisitMut for Prefixer {
                     block: original_simple_block,
                 };
 
-                o_at_rule.visit_mut_children_with(self);
-
                 if self.simple_block.is_none() {
-                    self.added_top_rules.push(Rule::AtRule(webkit_at_rule));
-                    self.added_top_rules.push(Rule::AtRule(moz_at_rule));
-                    self.added_top_rules.push(Rule::AtRule(o_at_rule));
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::AtRule(webkit_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::Moz, Rule::AtRule(moz_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
                 } else {
-                    self.added_at_rules.push(webkit_at_rule);
-                    self.added_at_rules.push(moz_at_rule);
-                    self.added_at_rules.push(o_at_rule);
+                    self.added_at_rules.push((Prefix::Webkit, webkit_at_rule));
+                    self.added_at_rules.push((Prefix::Moz, moz_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
                 }
-
-                self.rule_prefix = old_rule_prefix;
             }
             _ => {}
         }
@@ -651,204 +638,195 @@ impl VisitMut for Prefixer {
 
         n.visit_mut_children_with(self);
 
-        let mut new_webkit_prelude = n.prelude.clone();
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            let mut new_webkit_prelude = n.prelude.clone();
 
-        replace_pseudo_class_selector_name(&mut new_webkit_prelude, "autofill", "-webkit-autofill");
-        replace_pseudo_class_selector_name(&mut new_webkit_prelude, "any-link", "-webkit-any-link");
-        replace_pseudo_class_selector_name(
-            &mut new_webkit_prelude,
-            "fullscreen",
-            "-webkit-full-screen",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_webkit_prelude,
-            "file-selector-button",
-            "-webkit-file-upload-button",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_webkit_prelude,
-            "backdrop",
-            "-webkit-backdrop",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_webkit_prelude,
-            "placeholder",
-            "-webkit-input-placeholder",
-        );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "autofill",
+                "-webkit-autofill",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "any-link",
+                "-webkit-any-link",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "fullscreen",
+                "-webkit-full-screen",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "file-selector-button",
+                "-webkit-file-upload-button",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "backdrop",
+                "-webkit-backdrop",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "placeholder",
+                "-webkit-input-placeholder",
+            );
 
-        if n.prelude != new_webkit_prelude {
-            let old_rule_prefix = self.rule_prefix.clone();
+            if n.prelude != new_webkit_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_webkit_prelude,
+                    block: original_simple_block.clone(),
+                };
 
-            self.rule_prefix = Some(Prefix::Webkit);
-
-            let mut qualified_rule = QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_webkit_prelude,
-                block: original_simple_block.clone(),
-            };
-
-            qualified_rule.visit_mut_children_with(self);
-
-            if self.simple_block.is_none() {
-                self.added_top_rules
-                    .push(Rule::QualifiedRule(qualified_rule));
-            } else {
-                self.added_qualified_rules.push(qualified_rule);
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Webkit, qualified_rule));
+                }
             }
-
-            self.rule_prefix = old_rule_prefix;
         }
 
-        let mut new_moz_prelude = n.prelude.clone();
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            let mut new_moz_prelude = n.prelude.clone();
 
-        replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-only", "-moz-read-only");
-        replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-write", "-moz-read-write");
-        replace_pseudo_class_selector_name(&mut new_moz_prelude, "any-link", "-moz-any-link");
-        replace_pseudo_class_selector_name(&mut new_moz_prelude, "fullscreen", "-moz-full-screen");
-        replace_pseudo_class_selector_name(
-            &mut new_moz_prelude,
-            "placeholder-shown",
-            "-moz-placeholder-shown",
-        );
-        replace_pseudo_element_selector_name(&mut new_moz_prelude, "selection", "-moz-selection");
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-only", "-moz-read-only");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "read-write",
+                "-moz-read-write",
+            );
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "any-link", "-moz-any-link");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "fullscreen",
+                "-moz-full-screen",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "placeholder-shown",
+                "-moz-placeholder-shown",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
+                "selection",
+                "-moz-selection",
+            );
 
-        {
-            let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
+            {
+                let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
 
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_moz_prelude_with_previous,
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_moz_prelude_with_previous,
+                    "placeholder",
+                    "-moz-placeholder",
+                );
+
+                if new_moz_prelude_with_previous != new_moz_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_moz_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
+
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Moz, qualified_rule));
+                    }
+                }
+            }
+
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
                 "placeholder",
                 "-moz-placeholder",
             );
 
-            if new_moz_prelude_with_previous != new_moz_prelude {
-                let old_rule_prefix = self.rule_prefix.clone();
-
-                self.rule_prefix = Some(Prefix::Moz);
-
-                let mut qualified_rule = QualifiedRule {
+            if n.prelude != new_moz_prelude {
+                let qualified_rule = QualifiedRule {
                     span: DUMMY_SP,
-                    prelude: new_moz_prelude_with_previous,
+                    prelude: new_moz_prelude,
                     block: original_simple_block.clone(),
                 };
 
-                qualified_rule.visit_mut_children_with(self);
-
                 if self.simple_block.is_none() {
                     self.added_top_rules
-                        .push(Rule::QualifiedRule(qualified_rule));
+                        .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
                 } else {
-                    self.added_qualified_rules.push(qualified_rule);
+                    self.added_qualified_rules
+                        .push((Prefix::Moz, qualified_rule));
                 }
-
-                self.rule_prefix = old_rule_prefix;
             }
         }
 
-        replace_pseudo_element_selector_name(
-            &mut new_moz_prelude,
-            "placeholder",
-            "-moz-placeholder",
-        );
+        if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+            let mut new_ms_prelude = n.prelude.clone();
 
-        if n.prelude != new_moz_prelude {
-            let old_rule_prefix = self.rule_prefix.clone();
+            replace_pseudo_class_selector_name(&mut new_ms_prelude, "fullscreen", "-ms-fullscreen");
+            replace_pseudo_class_selector_name(
+                &mut new_ms_prelude,
+                "placeholder-shown",
+                "-ms-input-placeholder",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
+                "file-selector-button",
+                "-ms-browse",
+            );
+            replace_pseudo_element_selector_name(&mut new_ms_prelude, "backdrop", "-ms-backdrop");
 
-            self.rule_prefix = Some(Prefix::Moz);
+            {
+                let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
 
-            let mut qualified_rule = QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_moz_prelude,
-                block: original_simple_block.clone(),
-            };
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_ms_prelude_with_previous,
+                    "placeholder",
+                    "-ms-input-placeholder",
+                );
 
-            qualified_rule.visit_mut_children_with(self);
+                if new_ms_prelude_with_previous != new_ms_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_ms_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
 
-            if self.simple_block.is_none() {
-                self.added_top_rules
-                    .push(Rule::QualifiedRule(qualified_rule));
-            } else {
-                self.added_qualified_rules.push(qualified_rule);
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Ms, qualified_rule));
+                    }
+                }
             }
 
-            self.rule_prefix = old_rule_prefix;
-        }
-
-        let mut new_ms_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_ms_prelude, "fullscreen", "-ms-fullscreen");
-        replace_pseudo_class_selector_name(
-            &mut new_ms_prelude,
-            "placeholder-shown",
-            "-ms-input-placeholder",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_ms_prelude,
-            "file-selector-button",
-            "-ms-browse",
-        );
-        replace_pseudo_element_selector_name(&mut new_ms_prelude, "backdrop", "-ms-backdrop");
-
-        {
-            let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
-
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_ms_prelude_with_previous,
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
                 "placeholder",
                 "-ms-input-placeholder",
             );
 
-            if new_ms_prelude_with_previous != new_ms_prelude {
-                let old_rule_prefix = self.rule_prefix.clone();
-
-                self.rule_prefix = Some(Prefix::Ms);
-
-                let mut qualified_rule = QualifiedRule {
+            if n.prelude != new_ms_prelude {
+                let qualified_rule = QualifiedRule {
                     span: DUMMY_SP,
-                    prelude: new_ms_prelude_with_previous,
-                    block: original_simple_block.clone(),
+                    prelude: new_ms_prelude,
+                    block: original_simple_block,
                 };
-
-                qualified_rule.visit_mut_children_with(self);
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
-                        .push(Rule::QualifiedRule(qualified_rule));
+                        .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
                 } else {
-                    self.added_qualified_rules.push(qualified_rule);
+                    self.added_qualified_rules
+                        .push((Prefix::Ms, qualified_rule));
                 }
-
-                self.rule_prefix = old_rule_prefix;
             }
-        }
-
-        replace_pseudo_element_selector_name(
-            &mut new_ms_prelude,
-            "placeholder",
-            "-ms-input-placeholder",
-        );
-
-        if n.prelude != new_ms_prelude {
-            let old_rule_prefix = self.rule_prefix.clone();
-
-            self.rule_prefix = Some(Prefix::Ms);
-
-            let mut qualified_rule = QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_ms_prelude,
-                block: original_simple_block,
-            };
-
-            qualified_rule.visit_mut_children_with(self);
-
-            if self.simple_block.is_none() {
-                self.added_top_rules
-                    .push(Rule::QualifiedRule(qualified_rule));
-            } else {
-                self.added_qualified_rules.push(qualified_rule);
-            }
-
-            self.rule_prefix = old_rule_prefix;
         }
     }
 
@@ -881,27 +859,42 @@ impl VisitMut for Prefixer {
                             .map(ComponentValue::StyleBlock),
                     );
 
-                    new.extend(
-                        self.added_at_rules
-                            .drain(..)
-                            .map(StyleBlock::AtRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.clone();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
                 }
                 ComponentValue::Rule(_) => {
-                    new.extend(
-                        self.added_qualified_rules
-                            .drain(..)
-                            .map(StyleBlock::QualifiedRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.clone();
 
-                    new.extend(
-                        self.added_at_rules
-                            .drain(..)
-                            .map(StyleBlock::AtRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.clone();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
                 }
                 ComponentValue::StyleBlock(_) => {
                     new.extend(
@@ -911,19 +904,29 @@ impl VisitMut for Prefixer {
                             .map(ComponentValue::StyleBlock),
                     );
 
-                    new.extend(
-                        self.added_qualified_rules
-                            .drain(..)
-                            .map(StyleBlock::QualifiedRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.clone();
 
-                    new.extend(
-                        self.added_at_rules
-                            .drain(..)
-                            .map(StyleBlock::AtRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.clone();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
                 }
                 _ => {}
             }

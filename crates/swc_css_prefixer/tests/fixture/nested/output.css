@@ -67,19 +67,19 @@
   }
 }
 .test {
+  &.class::-webkit-input-placeholder {
+    color: red;
+  }
+  &.class:-moz-placeholder {
+    color: red;
+  }
+  &.class::-moz-placeholder {
+    color: red;
+  }
+  &.class:-ms-input-placeholder {
+    color: red;
+  }
   &.class::-ms-input-placeholder {
-    &.class:-ms-input-placeholder {
-      &.class::-moz-placeholder {
-        &.class:-moz-placeholder {
-          &.class::-webkit-input-placeholder {
-            color: red;
-          }
-          color: red;
-        }
-        color: red;
-      }
-      color: red;
-    }
     color: red;
   }
   &.class::placeholder {
@@ -87,24 +87,24 @@
   }
 }
 .test {
+  &.class::-webkit-input-placeholder {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  &.class:-moz-placeholder {
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+  &.class::-moz-placeholder {
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+  &.class:-ms-input-placeholder {
+    -ms-appearance: auto;
+    appearance: auto;
+  }
   &.class::-ms-input-placeholder {
     -ms-appearance: auto;
-    &.class:-ms-input-placeholder {
-      -ms-appearance: auto;
-      &.class::-moz-placeholder {
-        -moz-appearance: auto;
-        &.class:-moz-placeholder {
-          -moz-appearance: auto;
-          &.class::-webkit-input-placeholder {
-            -webkit-appearance: auto;
-            appearance: auto;
-          }
-          appearance: auto;
-        }
-        appearance: auto;
-      }
-      appearance: auto;
-    }
     appearance: auto;
   }
   &.class::placeholder {
@@ -156,24 +156,24 @@
   -moz-appearance: auto;
   -ms-appearance: auto;
   appearance: auto;
+  &.class::-webkit-input-placeholder {
+    -webkit-appearance: auto;
+    appearance: auto;
+  }
+  &.class:-moz-placeholder {
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+  &.class::-moz-placeholder {
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+  &.class:-ms-input-placeholder {
+    -ms-appearance: auto;
+    appearance: auto;
+  }
   &.class::-ms-input-placeholder {
     -ms-appearance: auto;
-    &.class:-ms-input-placeholder {
-      -ms-appearance: auto;
-      &.class::-moz-placeholder {
-        -moz-appearance: auto;
-        &.class:-moz-placeholder {
-          -moz-appearance: auto;
-          &.class::-webkit-input-placeholder {
-            -webkit-appearance: auto;
-            appearance: auto;
-          }
-          appearance: auto;
-        }
-        appearance: auto;
-      }
-      appearance: auto;
-    }
     appearance: auto;
   }
   &.class::placeholder {
