@@ -3091,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.100.3"
+version = "0.100.4"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3280,7 +3280,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.101.1"
+version = "0.101.2"
 dependencies = [
  "criterion",
  "either",

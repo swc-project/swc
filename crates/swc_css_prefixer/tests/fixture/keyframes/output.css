@@ -1,7 +1,6 @@
 @-webkit-keyframes anim {
   from {
     top: -webkit-calc(10% + 10px);
-    top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -webkit-transform: rotate(10deg);
     transform: rotate(10deg);
@@ -10,13 +9,10 @@
     top: 0;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
   to {
     top: -webkit-calc(10%);
-    top: -moz-calc(10%);
     top: calc(10%);
     -webkit-transform: rotate(0);
     transform: rotate(0);
@@ -24,7 +20,6 @@
 }
 @-moz-keyframes anim {
   from {
-    top: -webkit-calc(10% + 10px);
     top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -moz-transform: rotate(10deg);
@@ -32,14 +27,10 @@
   }
   50% {
     top: 0;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
   to {
-    top: -webkit-calc(10%);
     top: -moz-calc(10%);
     top: calc(10%);
     -moz-transform: rotate(0);
@@ -48,23 +39,15 @@
 }
 @-o-keyframes anim {
   from {
-    top: -webkit-calc(10% + 10px);
-    top: -moz-calc(10% + 10px);
     top: calc(10% + 10px);
     -o-transform: rotate(10deg);
     transform: rotate(10deg);
   }
   50% {
     top: 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
   to {
-    top: -webkit-calc(10%);
-    top: -moz-calc(10%);
     top: calc(10%);
     -o-transform: rotate(0);
     transform: rotate(0);
@@ -98,10 +81,10 @@
     transform: rotate(0);
   }
 }
-@-webkit-keyframes inside {}
-@-moz-keyframes inside {}
-@-o-keyframes inside {}
 @media screen {
+  @-webkit-keyframes inside {}
+  @-moz-keyframes inside {}
+  @-o-keyframes inside {}
   @keyframes inside {}
 }
 @-webkit-keyframes spaces {

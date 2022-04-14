@@ -1,0 +1,33 @@
+.class {
+    &.foo {
+         appearance: auto;
+    }
+
+    @media all {
+        appearance: auto;
+    }
+}
+
+@media (min-width: 50em) {
+    .foo {
+        appearance: auto;
+    }
+
+    @supports (flex-wrap: wrap) {
+        .foo {
+            appearance: auto;
+        }
+    }
+}
+
+@supports (flex-wrap: wrap) {
+    .foo {
+        appearance: auto;
+    }
+
+    @media (min-width: 50em) {
+        .foo {
+            appearance: auto;
+        }
+    }
+}

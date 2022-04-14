@@ -120,3 +120,14 @@
   -webkit-align-content: flex-start;
   align-content: flex-start;
 }
+.class-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
