@@ -4,7 +4,7 @@ use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, input::Input, BytePos, Span};
-use swc_html_ast::{Attribute, Token, TokenAndSpan};
+use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
     error::{Error, ErrorKind},
@@ -2085,7 +2085,7 @@ where
                                 match token {
                                     Token::StartTag { attributes, .. }
                                     | Token::EndTag { attributes, .. } => {
-                                        attributes.push(Attribute {
+                                        attributes.push(AttributeToken {
                                             name: c.to_string().into(),
                                             raw_name: Some(c.to_string().into()),
                                             value: None,
@@ -2107,7 +2107,7 @@ where
                                 match token {
                                     Token::StartTag { attributes, .. }
                                     | Token::EndTag { attributes, .. } => {
-                                        attributes.push(Attribute {
+                                        attributes.push(AttributeToken {
                                             name: "".into(),
                                             raw_name: Some("".into()),
                                             value: None,
@@ -2284,7 +2284,7 @@ where
                                 match token {
                                     Token::StartTag { attributes, .. }
                                     | Token::EndTag { attributes, .. } => {
-                                        attributes.push(Attribute {
+                                        attributes.push(AttributeToken {
                                             name: "".into(),
                                             raw_name: Some("".into()),
                                             value: None,

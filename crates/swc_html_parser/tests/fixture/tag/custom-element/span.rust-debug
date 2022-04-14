@@ -27,9 +27,9 @@
  24 | `-> </template>
     `----
 
-  x StartTag { tag_name: Atom('popup-info' type=dynamic), raw_tag_name: Some(Atom('popup-info' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('img' type=inline), raw_name:
-  | Some(Atom('img' type=inline)), value: Some(Atom('img/alt.png' type=dynamic)), raw_value: Some(Atom('"img/alt.png"' type=dynamic)) }, Attribute { name: Atom('data-text' type=dynamic), raw_name:
-  | Some(Atom('data-text' type=dynamic)), value: Some(Atom('Your card validation code (CVC)
+  x StartTag { tag_name: Atom('popup-info' type=dynamic), raw_tag_name: Some(Atom('popup-info' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('img' type=inline),
+  | raw_name: Some(Atom('img' type=inline)), value: Some(Atom('img/alt.png' type=dynamic)), raw_value: Some(Atom('"img/alt.png"' type=dynamic)) }, AttributeToken { name: Atom('data-text'
+  | type=dynamic), raw_name: Some(Atom('data-text' type=dynamic)), value: Some(Atom('Your card validation code (CVC)
   |   is an extra security feature — it is the last 3 or 4 numbers on the
   |   back of your card.' type=dynamic)), raw_value: Some(Atom('"Your card validation code (CVC)
   |   is an extra security feature — it is the last 3 or 4 numbers on the
@@ -61,8 +61,8 @@
  5 | <custom-square l="100" c="red"></custom-square>
    `----
 
-  x StartTag { tag_name: Atom('custom-square' type=dynamic), raw_tag_name: Some(Atom('custom-square' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('l' type=inline),
-  | raw_name: Some(Atom('l' type=inline)), value: Some(Atom('100' type=inline)), raw_value: Some(Atom('"100"' type=inline)) }, Attribute { name: Atom('c' type=inline), raw_name: Some(Atom('c'
+  x StartTag { tag_name: Atom('custom-square' type=dynamic), raw_tag_name: Some(Atom('custom-square' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('l' type=inline),
+  | raw_name: Some(Atom('l' type=inline)), value: Some(Atom('100' type=inline)), raw_value: Some(Atom('"100"' type=inline)) }, AttributeToken { name: Atom('c' type=inline), raw_name: Some(Atom('c'
   | type=inline)), value: Some(Atom('red' type=inline)), raw_value: Some(Atom('"red"' type=inline)) }] }
    ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
  5 | <custom-square l="100" c="red"></custom-square>
@@ -90,8 +90,9 @@
  7 | <app-drawer open disabled></app-drawer>
    `----
 
-  x StartTag { tag_name: Atom('app-drawer' type=dynamic), raw_tag_name: Some(Atom('app-drawer' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('open' type=inline), raw_name:
-  | Some(Atom('open' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('disabled' type=dynamic), raw_name: Some(Atom('disabled' type=dynamic)), value: None, raw_value: None }] }
+  x StartTag { tag_name: Atom('app-drawer' type=dynamic), raw_tag_name: Some(Atom('app-drawer' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('open' type=inline),
+  | raw_name: Some(Atom('open' type=inline)), value: None, raw_value: None }, AttributeToken { name: Atom('disabled' type=dynamic), raw_name: Some(Atom('disabled' type=dynamic)), value: None,
+  | raw_value: None }] }
    ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
  7 | <app-drawer open disabled></app-drawer>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -156,15 +157,15 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('type' type=static),
-  | raw_name: Some(Atom('type' type=static)), value: Some(Atom('twitter' type=inline)), raw_value: Some(Atom('"twitter"' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('type'
+  | type=static), raw_name: Some(Atom('type' type=static)), value: Some(Atom('twitter' type=inline)), raw_value: Some(Atom('"twitter"' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
  10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
-  | type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [AttributeToken { name: Atom('href' type=inline), raw_name:
+  | Some(Atom('href' type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
  10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
     :                               ^^^^^^^^^^^^^^
@@ -256,15 +257,15 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('type' type=static),
-  | raw_name: Some(Atom('type' type=static)), value: Some(Atom('fb' type=inline)), raw_value: Some(Atom('"fb"' type=inline)) }] }
+  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('type'
+  | type=static), raw_name: Some(Atom('type' type=static)), value: Some(Atom('fb' type=inline)), raw_value: Some(Atom('"fb"' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
  11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
-  | type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [AttributeToken { name: Atom('href' type=inline), raw_name:
+  | Some(Atom('href' type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
  11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
     :                          ^^^^^^^^^^^^^^
@@ -362,15 +363,15 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('type' type=static),
-  | raw_name: Some(Atom('type' type=static)), value: Some(Atom('plus' type=inline)), raw_value: Some(Atom('"plus"' type=inline)) }] }
+  x StartTag { tag_name: Atom('social-button' type=dynamic), raw_tag_name: Some(Atom('social-button' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('type'
+  | type=static), raw_name: Some(Atom('type' type=static)), value: Some(Atom('plus' type=inline)), raw_value: Some(Atom('"plus"' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
  12 | <social-button type="plus"><a href="...">G+</a></social-button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
-  | type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [AttributeToken { name: Atom('href' type=inline), raw_name:
+  | Some(Atom('href' type=inline)), value: Some(Atom('...' type=inline)), raw_value: Some(Atom('"..."' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
  12 | <social-button type="plus"><a href="...">G+</a></social-button>
     :                            ^^^^^^^^^^^^^^
@@ -658,7 +659,7 @@
  19 | <template id="x-foo-from-template">
     `----
 
-  x StartTag { tag_name: Atom('template' type=dynamic), raw_tag_name: Some(Atom('template' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('id' type=inline), raw_name:
+  x StartTag { tag_name: Atom('template' type=dynamic), raw_tag_name: Some(Atom('template' type=dynamic)), self_closing: false, attributes: [AttributeToken { name: Atom('id' type=inline), raw_name:
   | Some(Atom('id' type=inline)), value: Some(Atom('x-foo-from-template' type=dynamic)), raw_value: Some(Atom('"x-foo-from-template"' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:19:1]
  19 | <template id="x-foo-from-template">

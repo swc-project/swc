@@ -9,7 +9,7 @@ pub struct TokenAndSpan {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Attribute {
+pub struct AttributeToken {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
@@ -49,13 +49,13 @@ pub enum Token {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
         self_closing: bool,
-        attributes: Vec<Attribute>,
+        attributes: Vec<AttributeToken>,
     },
     EndTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
         self_closing: bool,
-        attributes: Vec<Attribute>,
+        attributes: Vec<AttributeToken>,
     },
     Comment {
         data: JsWord,
