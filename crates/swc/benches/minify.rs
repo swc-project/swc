@@ -1,3 +1,6 @@
+/// Explicit extern crate to use allocator.
+extern crate swc_node_base;
+
 use std::{path::PathBuf, sync::Arc};
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
