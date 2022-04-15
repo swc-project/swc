@@ -76,7 +76,7 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
 
 #[derive(Debug, Clone)]
 #[allow(unused)]
-enum State {
+pub enum State {
     Data,
     Rcdata,
     Rawtext,
@@ -159,16 +159,7 @@ enum State {
     NumericCharacterReferenceEnd,
 }
 
-#[allow(unused)]
-enum LexerMode {
-    Data,
-    Rcdata,
-    Rawtext,
-    ScriptData,
-    PlainText,
-    CdataSection,
-}
-
+// TODO rename
 #[derive(Debug, Clone, Copy)]
 pub struct LexerState {
     pos: BytePos,
@@ -208,6 +199,10 @@ where
 
     fn reset(&mut self, state: &Self::State) {
         self.input.reset_to(state.pos);
+    }
+
+    fn set_input_state(&mut self, state: State) {
+        self.state = state;
     }
 }
 
