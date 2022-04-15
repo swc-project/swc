@@ -1,13 +1,13 @@
 use std::mem::take;
 
+use swc_common::Span;
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};
-use crate::{error::Error, Parse};
+use crate::error::Error;
 
 #[macro_use]
 mod macros;
-mod base;
 pub mod input;
 
 pub type PResult<T> = Result<T, Error>;
@@ -15,10 +15,39 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {}
 
-#[derive(Debug, Default, Clone, Copy)]
-struct Ctx {}
+#[derive(Debug, Clone)]
+enum InsertionMode {
+    Initial,
+    BeforeHtml,
+    BeforeHead,
+    InHead,
+    InHeadNoScript,
+    AfterHead,
+    InBody,
+    Text,
+    InTable,
+    InTableText,
+    InCaption,
+    InColumnGroup,
+    InTableBody,
+    InRow,
+    InCell,
+    InSelect,
+    InSelectInTable,
+    InTemplate,
+    AfterBody,
+    InFrameset,
+    AfterFrameset,
+    AfterAfterBody,
+    AfterAfterFrameset,
+}
 
-#[derive(Debug)]
+impl Default for InsertionMode {
+    fn default() -> Self {
+        InsertionMode::Initial
+    }
+}
+
 pub struct Parser<I>
 where
     I: ParserInput,
@@ -26,7 +55,15 @@ where
     #[allow(dead_code)]
     config: ParserConfig,
     input: Buffer<I>,
-    // ctx: Ctx,
+    stopped: bool,
+    insertion_mode: InsertionMode,
+    original_insertion_mode: InsertionMode,
+    /// The template insertion mode stack is maintained from the left. Ie. the
+    /// topmost element will always have index 0.
+    template_insertion_mode_stack: Vec<InsertionMode>,
+    document: Option<Document>,
+    head_element: Option<Element>,
+    open_elements_stack: Vec<Node>,
     errors: Vec<Error>,
 }
 
@@ -38,7 +75,13 @@ where
         Parser {
             config,
             input: Buffer::new(input),
-            // ctx: Default::default(),
+            stopped: false,
+            insertion_mode: Default::default(),
+            original_insertion_mode: Default::default(),
+            template_insertion_mode_stack: vec![],
+            document: None,
+            head_element: None,
+            open_elements_stack: vec![],
             errors: Default::default(),
         }
     }
@@ -52,7 +95,3003 @@ where
         take(&mut self.errors)
     }
 
-    pub fn parse_all(&mut self) -> PResult<Document> {
-        self.parse()
+    pub fn parse_document(&mut self) -> PResult<Document> {
+        let start = self.input.cur_span()?;
+        let document = Document {
+            span: Default::default(),
+            children: vec![],
+        };
+
+        self.document = Some(document);
+
+        while !self.stopped {
+            self.tree_construction_dispatcher()?;
+        }
+
+        let last = self.input.last_pos()?;
+
+        let mut document = match self.document.take() {
+            Some(document) => document,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        document.span = Span::new(start.lo, last, Default::default());
+
+        Ok(document)
+    }
+
+    fn tree_construction_dispatcher(&mut self) -> PResult<()> {
+        let span = self.input.cur_span()?;
+        let token = match self.input.cur()? {
+            Some(_) => {
+                bump!(self)
+            }
+            _ => Token::Eof,
+        };
+        let token_and_span = TokenAndSpan {
+            span: span!(self, span.lo),
+            token,
+        };
+
+        // As each token is emitted from the tokenizer, the user agent must follow the
+        // appropriate steps from the following list, known as the tree construction
+        // dispatcher:
+        //
+        // If the stack of open elements is empty
+        //
+        // If the adjusted current node is an element in the HTML namespace
+        //
+        // If the adjusted current node is a MathML text integration point and the token
+        // is a start tag whose tag name is neither "mglyph" nor "malignmark"
+        //
+        // If the adjusted current node is a MathML text integration point and the token
+        // is a character token
+        //
+        // If the adjusted current node is a MathML annotation-xml element and the token
+        // is a start tag whose tag name is "svg"
+        //
+        // If the adjusted current node is an HTML integration point and the token is a
+        // start tag
+        //
+        // If the adjusted current node is an HTML integration point and the token is a
+        // character token
+        //
+        // If the token is an end-of-file token
+        //
+        // Process the token according to the rules given in the section corresponding
+        // to the current insertion mode in HTML content. TODO
+        if false {
+            todo!()
+        }
+        // Otherwise
+        // Process the token according to the rules given in the section for parsing tokens in
+        // foreign content.
+        else {
+            self.process_token(token_and_span)?
+        }
+
+        Ok(())
+    }
+
+    fn process_token(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+        let TokenAndSpan { token, .. } = &token_and_span;
+
+        match self.insertion_mode {
+            // The "initial" insertion mode
+            InsertionMode::Initial => {
+                // A Document object has an associated parser cannot change the mode flag (a
+                // boolean). It is initially false.
+
+                // When the user agent is to apply the rules for the "initial" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Ignore the token.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment as the last child of the Document object.
+                    Token::Comment { .. } => {
+                        // self.insert_a_comment(
+                        //     token,
+                        //     Some(ChildrenNode::Document(self.document)),
+                        // )?;
+                    }
+                    // A DOCTYPE token
+                    //
+                    // If the DOCTYPE token's name is not "html", or the token's public identifier
+                    // is not missing, or the token's system identifier is neither missing nor
+                    // "about:legacy-compat", then there is a parse error.
+                    //
+                    // Append a DocumentType node to the Document node, with its name set to the
+                    // name given in the DOCTYPE token, or the empty string if the name was missing;
+                    // its public ID set to the public identifier given in the DOCTYPE token, or the
+                    // empty string if the public identifier was missing; and its system ID set to
+                    // the system identifier given in the DOCTYPE token, or the empty string if the
+                    // system identifier was missing.
+                    //
+                    // Then, switch the insertion mode to "before html".
+                    Token::Doctype { .. } => {
+                        self.insertion_mode = InsertionMode::BeforeHtml;
+                    }
+                    // Anything else
+                    //
+                    // If the document is not an iframe srcdoc document, then this is a parse error;
+                    // if the parser cannot change the mode flag is false, set the Document to
+                    // quirks mode.
+                    //
+                    // In any case, switch the insertion mode to "before html", then reprocess the
+                    // token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::BeforeHtml;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "before html" insertion mode
+            InsertionMode::BeforeHtml => {
+                // When the user agent is to apply the rules for the "before html" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A comment token
+                    //
+                    // Insert a comment as the last child of the Document object.
+                    Token::Comment { .. } => {}
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Ignore the token.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Create an element for the token in the HTML namespace, with the Document as
+                    // the intended parent. Append it to the Document object. Put this element in
+                    // the stack of open elements.
+                    //
+                    // Switch the insertion mode to "before head".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
+                    {
+                        let span = self.input.cur_span()?;
+                        let element = Node::Element(Element {
+                            span: span!(self, span.lo),
+                            tag_name: tag_name.into(),
+                            start_tag: Some(Tag {
+                                span: span!(self, span.lo),
+                                attributes: vec![],
+                            }),
+                            children: vec![],
+                            end_tag: None,
+                        });
+
+                        self.open_elements_stack.push(element.clone());
+                        self.insertion_mode = InsertionMode::BeforeHead;
+                    }
+                    // An end tag whose tag name is one of: "head", "body", "html", "br"
+                    //
+                    // Act as described in the "anything else" entry below.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "head" | "body" | "html" | "br") =>
+                    {
+                        self.insertion_mode = InsertionMode::BeforeHead;
+                    }
+                    // Any other end tag
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { .. } => {}
+                    // Anything else
+                    //
+                    // Create an html element whose node document is the Document object. Append it
+                    // to the Document object. Put this element in the stack of open elements.
+                    //
+                    // Switch the insertion mode to "before head", then reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::BeforeHead;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+
+                // The document element can end up being removed from the
+                // Document object, e.g. by scripts; nothing in particular
+                // happens in such cases, content continues being appended to
+                // the nodes as described in the next section.
+            }
+            // The "before head" insertion mode
+            InsertionMode::BeforeHead => {
+                // When the user agent is to apply the rules for the "before head" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Ignore the token.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is "head"
+                    // Insert an HTML element for the token.
+                    //
+                    // Set the head element pointer to the newly created head element.
+                    //
+                    // Switch the insertion mode to "in head".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // An end tag whose tag name is one of: "head", "body", "html", "br"
+                    //
+                    // Act as described in the "anything else" entry below.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "head" | "body" | "html" | "br") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // Any other end tag
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { .. } => {}
+                    // Anything else
+                    //
+                    // Insert an HTML element for a "head" start tag token with no attributes.
+                    //
+                    // Set the head element pointer to the newly created head element.
+                    //
+                    // Switch the insertion mode to "in head".
+                    //
+                    // Reprocess the current token.
+                    _ => {
+                        let span = self.input.cur_span()?;
+                        let element = Element {
+                            span: span!(self, span.lo),
+                            tag_name: "head".into(),
+                            start_tag: None,
+                            children: vec![],
+                            end_tag: None,
+                        };
+
+                        self.head_element = Some(element);
+                        self.insertion_mode = InsertionMode::InHead;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "in head" insertion mode
+            InsertionMode::InHead => {
+                // When the user agent is to apply the rules for the "in head" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Insert the character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link"
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "base" | "basefont" | "bgsound" | "link"
+                        ) =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // A start tag whose tag name is "meta"
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    //
+                    // If the active speculative HTML parser is null, then:
+                    //
+                    // If the element has a charset attribute, and getting an encoding from its
+                    // value results in an encoding, and the confidence is currently tentative, then
+                    // change the encoding to the resulting encoding.
+                    //
+                    // Otherwise, if the element has an http-equiv attribute whose value is an ASCII
+                    // case-insensitive match for the string "Content-Type", and the element has a
+                    // content attribute, and applying the algorithm for extracting a character
+                    // encoding from a meta element to that attribute's value returns an encoding,
+                    // and the confidence is currently tentative, then change the encoding to the
+                    // extracted encoding.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("meta") => {}
+                    // A start tag whose tag name is "title"
+                    //
+                    // Follow the generic RCDATA element parsing algorithm.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("title") =>
+                    {
+                        // self.insert_an_html_element(token)?;
+                        // self.input.set_input_state(State::Rcdata);
+                        // self.original_insertion_mode =
+                        // self.insertion_mode.clone();
+                        // self.insertion_mode = InsertionMode::Text;
+                    }
+                    // A start tag whose tag name is "noscript", if the scripting flag is enabled
+                    // A start tag whose tag name is one of: "noframes", "style"
+                    //
+                    // Follow the generic raw text element parsing algorithm.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noscript") && true => {}
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "noframes" | "style") => {}
+                    // A start tag whose tag name is "noscript", if the scripting flag is disabled
+                    // Insert an HTML element for the token.
+                    //
+                    // Switch the insertion mode to "in head noscript".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noscript") && true =>
+                    {
+                        self.insertion_mode = InsertionMode::InHeadNoScript;
+                    }
+                    // A start tag whose tag name is "script"
+                    //
+                    // Run these steps:
+                    //
+                    // Let the adjusted insertion location be the appropriate place for inserting a
+                    // node.
+                    //
+                    // Create an element for the token in the HTML namespace, with the intended
+                    // parent being the element in which the adjusted insertion location finds
+                    // itself.
+                    //
+                    // Set the element's parser document to the Document, and unset the element's
+                    // "non-blocking" flag.
+                    //
+                    // This ensures that, if the script is external, any document.write() calls in
+                    // the script will execute in-line, instead of blowing the document away, as
+                    // would happen in most other cases. It also prevents the script from executing
+                    // until the end tag is seen.
+                    //
+                    // If the parser was created as part of the HTML fragment parsing algorithm,
+                    // then mark the script element as "already started". (fragment case)
+                    //
+                    // If the parser was invoked via the document.write() or document.writeln()
+                    // methods, then optionally mark the script element as "already started". (For
+                    // example, the user agent might use this clause to prevent execution of
+                    // cross-origin scripts inserted via document.write() under slow network
+                    // conditions, or when the page has already taken a long time to load.)
+                    //
+                    // Insert the newly created element at the adjusted insertion location.
+                    //
+                    // Push the element onto the stack of open elements so that it is the new
+                    // current node.
+                    //
+                    // Switch the tokenizer to the script data state.
+                    //
+                    // Let the original insertion mode be the current insertion mode.
+                    //
+                    // Switch the insertion mode to "text".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("script") =>
+                    {
+                        self.insertion_mode = InsertionMode::Text;
+                    }
+                    // An end tag whose tag name is "head"
+                    //
+                    // Pop the current node (which will be the head element) off the stack of open
+                    // elements.
+                    //
+                    // Switch the insertion mode to "after head".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterHead;
+                    }
+                    // An end tag whose tag name is one of: "body", "html", "br"
+                    //
+                    // Act as described in the "anything else" entry below.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "body" | "html" | "br") => {}
+                    // A start tag whose tag name is "template"
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Insert a marker at the end of the list of active formatting elements.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Switch the insertion mode to "in template".
+                    //
+                    // Push "in template" onto the stack of template insertion modes so that it is
+                    // the new current template insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
+                    {
+                        self.insertion_mode = InsertionMode::InTemplate;
+                    }
+                    // An end tag whose tag name is "template"
+                    //
+                    // If there is no template element on the stack of open elements, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate all implied end tags thoroughly.
+                    //
+                    // If the current node is not a template element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until a template element has
+                    // been popped from the stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Reset the insertion mode appropriately.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterHead;
+                    }
+                    // A start tag whose tag name is "head"
+                    // Any other end tag
+                    //
+                    // Parse error. Ignore the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("head") => {}
+                    Token::EndTag { .. } => {}
+                    // Anything else
+                    //
+                    // Pop the current node (which will be the head element) off the stack of open
+                    // elements.
+                    //
+                    // Switch the insertion mode to "after head".
+                    //
+                    // Reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::AfterHead;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "in head noscript" insertion mode
+            InsertionMode::InHeadNoScript => {
+                // When the user agent is to apply the rules for the "in head noscript"
+                // insertion mode, the user agent must handle the token as follows:
+                match token {
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // An end tag whose tag name is "noscript"
+                    //
+                    // Pop the current node (which will be a noscript element) from the stack of
+                    // open elements; the new current node will be a head element.
+                    //
+                    // Switch the insertion mode to "in head".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noscript") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // A comment token
+                    //
+                    // A start tag whose tag name is one of: "basefont", "bgsound", "link", "meta",
+                    // "noframes", "style"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    Token::Comment { .. } => {}
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "basefont" | "bgsound" | "link" | "meta" | "noframes" | "style"
+                        ) => {}
+                    // An end tag whose tag name is "br"
+                    //
+                    // Act as described in the "anything else" entry below.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("br") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // A start tag whose tag name is one of: "head", "noscript"
+                    //
+                    // Any other end tag
+                    // Parse error. Ignore the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "head" | "noscript") => {}
+                    Token::EndTag { .. } => {}
+                    // Anything else
+                    //
+                    // Parse error.
+                    //
+                    // Pop the current node (which will be a noscript element) from the stack of
+                    // open elements; the new current node will be a head element.
+                    //
+                    // Switch the insertion mode to "in head".
+                    //
+                    // Reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::InHead;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "after head" insertion mode
+            InsertionMode::AfterHead => {
+                // When the user agent is to apply the rules for the "after head" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Insert the character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is "body"
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Switch the insertion mode to "in body".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("body") =>
+                    {
+                        self.insertion_mode = InsertionMode::InBody;
+                    }
+                    // A start tag whose tag name is "frameset"
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Switch the insertion mode to "in frameset".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
+                    {
+                        self.insertion_mode = InsertionMode::InFrameset;
+                    }
+                    // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
+                    // "meta", "noframes", "script", "style", "template", "title"
+                    //
+                    // Parse error.
+                    //
+                    // Push the node pointed to by the head element pointer onto the stack of open
+                    // elements.
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    //
+                    // Remove the node pointed to by the head element pointer from the stack of open
+                    // elements. (It might not be the current node at this point.)
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
+                        ) => {}
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // An end tag whose tag name is one of: "body", "html", "br"
+                    //
+                    // Act as described in the "anything else" entry below.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "body" | "html" | "br") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // A start tag whose tag name is "head"
+                    // Any other end tag
+                    //
+                    // Parse error. Ignore the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("head") => {}
+                    Token::EndTag { .. } => {}
+                    // Anything else
+                    //
+                    // Insert an HTML element for a "body" start tag token with no attributes.
+                    //
+                    // Switch the insertion mode to "in body".
+                    //
+                    // Reprocess the current token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::InBody;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "in body" insertion mode
+            InsertionMode::InBody => {
+                // When the user agent is to apply the rules for the "in body" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // A character token that is U+0000 NULL
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Character { value, .. } if *value == '\x00' => {}
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert the token's character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // Any other character token
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert the token's character.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    Token::Character { .. } => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Parse error.
+                    //
+                    // If there is a template element on the stack of open elements, then ignore the
+                    // token.
+                    //
+                    // Otherwise, for each attribute on the token, check to see if the attribute is
+                    // already present on the top element of the stack of open elements. If it is
+                    // not, add the attribute and its corresponding value to that element.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
+                    // "meta", "noframes", "script", "style", "template", "title"
+                    //
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
+                        ) => {}
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
+                    {
+                        self.insertion_mode = InsertionMode::InHead;
+                    }
+                    // A start tag whose tag name is "body"
+                    //
+                    // Parse error.
+                    //
+                    // If the second element on the stack of open elements is not a body element, if
+                    // the stack of open elements has only one node on it, or if there is a template
+                    // element on the stack of open elements, then ignore the token. (fragment case)
+                    //
+                    // Otherwise, set the frameset-ok flag to "not ok"; then, for each attribute on
+                    // the token, check to see if the attribute is already present on the body
+                    // element (the second element) on the stack of open elements, and if it is not,
+                    // add the attribute and its corresponding value to that element.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("body") => {}
+                    // A start tag whose tag name is "frameset"
+                    //
+                    // Parse error.
+                    //
+                    // If the stack of open elements has only one node on it, or if the second
+                    // element on the stack of open elements is not a body element, then ignore the
+                    // token. (fragment case)
+                    //
+                    // If the frameset-ok flag is set to "not ok", ignore the token.
+                    //
+                    // Otherwise, run the following steps:
+                    //
+                    // Remove the second element on the stack of open elements from its parent node,
+                    // if it has one.
+                    //
+                    // Pop all the nodes from the bottom of the stack of open elements, from the
+                    // current node up to, but not including, the root html element.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Switch the insertion mode to "in frameset".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") => {}
+                    // An end-of-file token
+                    //
+                    // If the stack of template insertion modes is not empty, then process the token
+                    // using the rules for the "in template" insertion mode.
+                    //
+                    // Otherwise, follow these steps:
+                    //
+                    // If there is a node in the stack of open elements that is not either a dd
+                    // element, a dt element, an li element, an optgroup element, an option element,
+                    // a p element, an rb element, an rp element, an rt element, an rtc element, a
+                    // tbody element, a td element, a tfoot element, a th element, a thead element,
+                    // a tr element, the body element, or the html element, then this is a parse
+                    // error.
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        if !self.template_insertion_mode_stack.is_empty() {
+                        } else {
+                            self.stopped = true;
+                        }
+                    }
+                    // An end tag whose tag name is "body"
+                    //
+                    // If the stack of open elements does not have a body element in scope, this is
+                    // a parse error; ignore the token.
+                    //
+                    // Otherwise, if there is a node in the stack of open elements that is not
+                    // either a dd element, a dt element, an li element, an optgroup element, an
+                    // option element, a p element, an rb element, an rp element, an rt element, an
+                    // rtc element, a tbody element, a td element, a tfoot element, a th element, a
+                    // thead element, a tr element, the body element, or the html element, then this
+                    // is a parse error.
+                    //
+                    // Switch the insertion mode to "after body".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("body") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // An end tag whose tag name is "html"
+                    //
+                    // If the stack of open elements does not have a body element in scope, this is
+                    // a parse error; ignore the token.
+                    //
+                    // Otherwise, if there is a node in the stack of open elements that is not
+                    // either a dd element, a dt element, an li element, an optgroup element, an
+                    // option element, a p element, an rb element, an rp element, an rt element, an
+                    // rtc element, a tbody element, a td element, a tfoot element, a th element, a
+                    // thead element, a tr element, the body element, or the html element, then this
+                    // is a parse error.
+                    //
+                    // Switch the insertion mode to "after body".
+                    //
+                    // Reprocess the token.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                        self.process_token(token_and_span)?;
+                    }
+                    // A start tag whose tag name is one of: "address", "article", "aside",
+                    // "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset",
+                    // "figcaption", "figure", "footer", "header", "hgroup", "main", "menu", "nav",
+                    // "ol", "p", "section", "summary", "ul"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "address"
+                                | "article"
+                                | "aside"
+                                | "blockquote"
+                                | "center"
+                                | "details"
+                                | "dialog"
+                                | "dir"
+                                | "div"
+                                | "dl"
+                                | "fieldset"
+                                | "figcaption"
+                                | "figure"
+                                | "footer"
+                                | "header"
+                                | "hgroup"
+                                | "main"
+                                | "menu"
+                                | "nav"
+                                | "ol"
+                                | "p"
+                                | "section"
+                                | "summary"
+                                | "ul"
+                        ) => {}
+                    // A start tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // If the current node is an HTML element whose tag name is one of "h1", "h2",
+                    // "h3", "h4", "h5", or "h6", then this is a parse error; pop the current node
+                    // off the stack of open elements.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+                        ) => {}
+                    // A start tag whose tag name is one of: "pre", "listing"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // If the next token is a U+000A LINE FEED (LF) character token, then ignore
+                    // that token and move on to the next one. (Newlines at the start of pre blocks
+                    // are ignored as an authoring convenience.)
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "pre" | "listing") => {}
+                    // A start tag whose tag name is "form"
+                    //
+                    // If the form element pointer is not null, and there is no template element on
+                    // the stack of open elements, then this is a parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Insert an HTML element for the token, and, if there is no template element on
+                    // the stack of open elements, set the form element pointer to point to the
+                    // element created.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("form") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // A start tag whose tag name is "li"
+                    //
+                    // Run these steps:
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Initialize node to be the current node (the bottommost node of the stack).
+                    //
+                    // Loop: If node is an li element, then run these substeps:
+                    //
+                    // Generate implied end tags, except for li elements.
+                    //
+                    // If the current node is not an li element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an li element has been
+                    // popped from the stack.
+                    //
+                    // Jump to the step labeled done below.
+                    //
+                    // If node is in the special category, but is not an address, div, or p element,
+                    // then jump to the step labeled done below.
+                    //
+                    // Otherwise, set node to the previous entry in the stack of open elements and
+                    // return to the step labeled loop.
+                    //
+                    // Done: If the stack of open elements has a p element in button scope, then
+                    // close a p element.
+                    //
+                    // Finally, insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("li") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // A start tag whose tag name is one of: "dd", "dt"
+                    //
+                    // Run these steps:
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Initialize node to be the current node (the bottommost node of the stack).
+                    //
+                    // Loop: If node is a dd element, then run these substeps:
+                    //
+                    // Generate implied end tags, except for dd elements.
+                    //
+                    // If the current node is not a dd element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until a dd element has been
+                    // popped from the stack.
+                    //
+                    // Jump to the step labeled done below.
+                    //
+                    // If node is a dt element, then run these substeps:
+                    //
+                    // Generate implied end tags, except for dt elements.
+                    //
+                    // If the current node is not a dt element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until a dt element has been
+                    // popped from the stack.
+                    //
+                    // Jump to the step labeled done below.
+                    //
+                    // If node is in the special category, but is not an address, div, or p element,
+                    // then jump to the step labeled done below.
+                    //
+                    // Otherwise, set node to the previous entry in the stack of open elements and
+                    // return to the step labeled loop.
+                    //
+                    // Done: If the stack of open elements has a p element in button scope, then
+                    // close a p element.
+                    //
+                    // Finally, insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "dd" | "dt") => {}
+                    // A start tag whose tag name is "plaintext"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Switch the tokenizer to the PLAINTEXT state.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("plaintext") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // A start tag whose tag name is "button"
+                    //
+                    // If the stack of open elements has a button element in scope, then run these
+                    // substeps:
+                    //
+                    // Parse error.
+                    //
+                    // Generate implied end tags.
+                    //
+                    // Pop elements from the stack of open elements until a button element has been
+                    // popped from the stack.
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("button") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // An end tag whose tag name is one of: "address", "article", "aside",
+                    // "blockquote", "button", "center", "details", "dialog", "dir", "div", "dl",
+                    // "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "listing",
+                    // "main", "menu", "nav", "ol", "pre", "section", "summary", "ul"
+                    //
+                    // If the stack of open elements does not have an element in scope that is an
+                    // HTML element with the same tag name as that of the token, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // If the current node is not an HTML element with the same tag name as that of
+                    // the token, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an HTML element with the
+                    // same tag name as the token has been popped from the stack.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "address"
+                                | "article"
+                                | "aside"
+                                | "blockquote"
+                                | "button"
+                                | "center"
+                                | "details"
+                                | "dialog"
+                                | "dir"
+                                | "div"
+                                | "dl"
+                                | "fieldset"
+                                | "figcaption"
+                                | "figure"
+                                | "footer"
+                                | "header"
+                                | "hgroup"
+                                | "listing"
+                                | "main"
+                                | "menu"
+                                | "nav"
+                                | "ol"
+                                | "pre"
+                                | "section"
+                                | "summary"
+                                | "ul"
+                        ) => {}
+                    // An end tag whose tag name is "form"
+                    //
+                    // If there is no template element on the stack of open elements, then run these
+                    // substeps:
+                    //
+                    // Let node be the element that the form element pointer is set to, or null if
+                    // it is not set to an element.
+                    //
+                    // Set the form element pointer to null.
+                    //
+                    // If node is null or if the stack of open elements does not have node in scope,
+                    // then this is a parse error; return and ignore the token.
+                    //
+                    // Generate implied end tags.
+                    //
+                    // If the current node is not node, then this is a parse error.
+                    //
+                    // Remove node from the stack of open elements.
+                    //
+                    // If there is a template element on the stack of open elements, then run these
+                    // substeps instead:
+                    //
+                    // If the stack of open elements does not have a form element in scope, then
+                    // this is a parse error; return and ignore the token.
+                    //
+                    // Generate implied end tags.
+                    //
+                    // If the current node is not a form element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until a form element has been
+                    // popped from the stack.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("form") => {}
+                    // An end tag whose tag name is "p"
+                    //
+                    // If the stack of open elements does not have a p element in button scope, then
+                    // this is a parse error; insert an HTML element for a "p" start tag token with
+                    // no attributes.
+                    //
+                    // Close a p element.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("p") => {}
+                    // An end tag whose tag name is "li"
+                    //
+                    // If the stack of open elements does not have an li element in list item scope,
+                    // then this is a parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate implied end tags, except for li elements.
+                    //
+                    // If the current node is not an li element, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an li element has been
+                    // popped from the stack.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("li") => {}
+                    // An end tag whose tag name is one of: "dd", "dt"
+                    //
+                    // If the stack of open elements does not have an element in scope that is an
+                    // HTML element with the same tag name as that of the token, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate implied end tags, except for HTML elements with the same tag name as
+                    // the token.
+                    //
+                    // If the current node is not an HTML element with the same tag name as that of
+                    // the token, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an HTML element with the
+                    // same tag name as the token has been popped from the stack.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "dd" | "dt") => {}
+                    // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
+                    //
+                    // If the stack of open elements does not have an element in scope that is an
+                    // HTML element and whose tag name is one of "h1", "h2", "h3", "h4", "h5", or
+                    // "h6", then this is a parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // If the current node is not an HTML element with the same tag name as that of
+                    // the token, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an HTML element whose tag
+                    // name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the
+                    // stack.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+                        ) => {}
+                    // An end tag whose tag name is "sarcasm"
+                    //
+                    // Take a deep breath, then act as described in the "any other end tag" entry
+                    // below.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("sarcasm") => {}
+                    // A start tag whose tag name is "a"
+                    //
+                    // If the list of active formatting elements contains an a element between the
+                    // end of the list and the last marker on the list (or the start of the list if
+                    // there is no marker on the list), then this is a parse error; run the adoption
+                    // agency algorithm for the token, then remove that element from the list of
+                    // active formatting elements and the stack of open elements if the adoption
+                    // agency algorithm didn't already remove it (it might not have if the element
+                    // is not in table scope).
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token. Push onto the list of active formatting
+                    // elements that element.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("a") => {}
+                    // A start tag whose tag name is one of: "b", "big", "code", "em", "font", "i",
+                    // "s", "small", "strike", "strong", "tt", "u"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token. Push onto the list of active formatting
+                    // elements that element.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "b" | "big"
+                                | "code"
+                                | "em"
+                                | "font"
+                                | "i"
+                                | "s"
+                                | "small"
+                                | "strike"
+                                | "strong"
+                                | "tt"
+                                | "u"
+                        ) => {}
+                    // A start tag whose tag name is "nobr"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // If the stack of open elements has a nobr element in scope, then this is a
+                    // parse error; run the adoption agency algorithm for the token, then once again
+                    // reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token. Push onto the list of active formatting
+                    // elements that element.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("nobr") => {}
+                    // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
+                    // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
+                    //
+                    // Run the adoption agency algorithm for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "a" | "b"
+                                | "big"
+                                | "code"
+                                | "em"
+                                | "font"
+                                | "i"
+                                | "nobr"
+                                | "s"
+                                | "small"
+                                | "strike"
+                                | "strong"
+                                | "tt"
+                                | "u"
+                        ) => {}
+                    // A start tag whose tag name is one of: "applet", "marquee", "object"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Insert a marker at the end of the list of active formatting elements.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "applet" | "marquee" | "object") => {
+                    }
+                    // An end tag token whose tag name is one of: "applet", "marquee", "object"
+                    //
+                    // If the stack of open elements does not have an element in scope that is an
+                    // HTML element with the same tag name as that of the token, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise, run these steps:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // If the current node is not an HTML element with the same tag name as that of
+                    // the token, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until an HTML element with the
+                    // same tag name as the token has been popped from the stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "applet" | "marquee" | "object") => {
+                    }
+                    // A start tag whose tag name is "table"
+                    //
+                    // If the Document is not set to quirks mode, and the stack of open elements has
+                    // a p element in button scope, then close a p element.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Switch the insertion mode to "in table".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") => {}
+                    // An end tag whose tag name is "br"
+                    //
+                    // Parse error. Drop the attributes from the token, and act as described in the
+                    // next entry; i.e. act as if this was a "br" start tag token with no
+                    // attributes, rather than the end tag token that it actually is.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("br") => {}
+                    // A start tag whose tag name is one of: "area", "br", "embed", "img", "keygen",
+                    // "wbr"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "area" | "br" | "embed" | "img" | "keygen" | "wbr"
+                        ) => {}
+                    // A start tag whose tag name is "input"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    //
+                    // If the token does not have an attribute with the name "type", or if it does,
+                    // but that attribute's value is not an ASCII case-insensitive match for the
+                    // string "hidden", then: set the frameset-ok flag to "not ok".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("input") => {}
+                    // A start tag whose tag name is one of: "param", "source", "track"
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "param" | "source" | "track") => {}
+                    // A start tag whose tag name is "hr"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("hr") => {}
+                    // A start tag whose tag name is "image"
+                    //
+                    // Parse error. Change the token's tag name to "img" and reprocess it. (Don't
+                    // ask.)
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("image") => {}
+                    // A start tag whose tag name is "textarea"
+                    //
+                    // Run these steps:
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // If the next token is a U+000A LINE FEED (LF) character token, then ignore
+                    // that token and move on to the next one. (Newlines at the start of textarea
+                    // elements are ignored as an authoring convenience.)
+                    //
+                    // Switch the tokenizer to the RCDATA state.
+                    //
+                    // Let the original insertion mode be the current insertion mode.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Switch the insertion mode to "text".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("textarea") => {}
+                    // A start tag whose tag name is "xmp"
+                    //
+                    // If the stack of open elements has a p element in button scope, then close a p
+                    // element.
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Follow the generic raw text element parsing algorithm.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("xmp") => {}
+                    // A start tag whose tag name is "iframe"
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // Follow the generic raw text element parsing algorithm.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("iframe") => {}
+                    // A start tag whose tag name is "noembed"
+                    //
+                    // A start tag whose tag name is "noscript", if the scripting flag is enabled
+                    //
+                    // Follow the generic raw text element parsing algorithm.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noembed") => {}
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noscript") && true => {}
+                    // A start tag whose tag name is "select"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Set the frameset-ok flag to "not ok".
+                    //
+                    // If the insertion mode is one of "in table", "in caption", "in table body",
+                    // "in row", or "in cell", then switch the insertion mode to "in select in
+                    // table". Otherwise, switch the insertion mode to "in select".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("select") => {}
+                    // A start tag whose tag name is one of: "optgroup", "option"
+                    //
+                    // If the current node is an option element, then pop the current node off the
+                    // stack of open elements.
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "optgroup" | "option") => {}
+                    // A start tag whose tag name is one of: "rb", "rtc"
+                    //
+                    // If the stack of open elements has a ruby element in scope, then generate
+                    // implied end tags. If the current node is not now a ruby element, this is a
+                    // parse error.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "rb" | "rtc") => {}
+                    // A start tag whose tag name is one of: "rp", "rt"
+                    //
+                    // If the stack of open elements has a ruby element in scope, then generate
+                    // implied end tags, except for rtc elements. If the current node is not now a
+                    // rtc element or a ruby element, this is a parse error.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "rp" | "rt") => {}
+                    // A start tag whose tag name is "math"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Adjust MathML attributes for the token. (This fixes the case of MathML
+                    // attributes that are not all lowercase.)
+                    //
+                    // Adjust foreign attributes for the token. (This fixes the use of namespaced
+                    // attributes, in particular XLink.)
+                    //
+                    // Insert a foreign element for the token, in the MathML namespace.
+                    //
+                    // If the token has its self-closing flag set, pop the current node off the
+                    // stack of open elements and acknowledge the token's self-closing flag.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("math") => {}
+                    // A start tag whose tag name is "svg"
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Adjust SVG attributes for the token. (This fixes the case of SVG attributes
+                    // that are not all lowercase.)
+                    //
+                    // Adjust foreign attributes for the token. (This fixes the use of namespaced
+                    // attributes, in particular XLink in SVG.)
+                    //
+                    // Insert a foreign element for the token, in the SVG namespace.
+                    //
+                    // If the token has its self-closing flag set, pop the current node off the
+                    // stack of open elements and acknowledge the token's self-closing flag.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("svg") => {}
+                    // A start tag whose tag name is one of: "caption", "col", "colgroup", "frame",
+                    // "head", "tbody", "td", "tfoot", "th", "thead", "tr"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "frame"
+                                | "head"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
+                        ) => {}
+                    // Any other start tag
+                    //
+                    // Reconstruct the active formatting elements, if any.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { .. } => {}
+                    // Any other end tag
+                    //
+                    // Run these steps:
+                    //
+                    // Initialize node to be the current node (the bottommost node of the stack).
+                    //
+                    // Loop: If node is an HTML element with the same tag name as the token, then:
+                    //
+                    // Generate implied end tags, except for HTML elements with the same tag name as
+                    // the token.
+                    //
+                    // If node is not the current node, then this is a parse error.
+                    //
+                    // Pop all the nodes from the current node up to node, including node, then stop
+                    // these steps.
+                    //
+                    // Otherwise, if node is in the special category, then this is a parse error;
+                    // ignore the token, and return.
+                    //
+                    // Set node to the previous entry in the stack of open elements.
+                    //
+                    // Return to the step labeled loop.
+                    _ => {}
+                }
+
+                // When the steps above say the user agent is to close a p
+                // element, it means that the user agent must run the following
+                // steps:
+                //
+                // Generate implied end tags, except for p elements.
+                //
+                // If the current node is not a p element, then this is a parse
+                // error.
+                //
+                // Pop elements from the stack of open elements until a p
+                // element has been popped from the stack.
+                //
+                // The adoption agency algorithm, which takes as its only
+                // argument a token token for which the algorithm is being run,
+                // consists of the following steps:
+                //
+                // Let subject be token's tag name.
+                //
+                // If the current node is an HTML element whose tag name is
+                // subject, and the current node is not in the list of active
+                // formatting elements, then pop the current node off the stack
+                // of open elements and return.
+                //
+                // Let outer loop counter be 0.
+                //
+                // While true:
+                //
+                // If outer loop counter is greater than or equal to 8, then
+                // return.
+                //
+                // Increment outer loop counter by 1.
+                //
+                // Let formatting element be the last element in the list of
+                // active formatting elements that:
+                //
+                // is between the end of the list and the last marker in the
+                // list, if any, or the start of the list otherwise, and
+                // has the tag name subject.
+                // If there is no such element, then return and instead act as
+                // described in the "any other end tag" entry above.
+                //
+                // If formatting element is not in the stack of open elements,
+                // then this is a parse error; remove the element from the list,
+                // and return.
+                //
+                // If formatting element is in the stack of open elements, but
+                // the element is not in scope, then this is a parse error;
+                // return.
+                //
+                // If formatting element is not the current node, this is a
+                // parse error. (But do not return.)
+                //
+                // Let furthest block be the topmost node in the stack of open
+                // elements that is lower in the stack than formatting element,
+                // and is an element in the special category. There might not be
+                // one.
+                //
+                // If there is no furthest block, then the UA must first pop all
+                // the nodes from the bottom of the stack of open elements, from
+                // the current node up to and including formatting element, then
+                // remove formatting element from the list of active formatting
+                // elements, and finally return.
+                //
+                // Let common ancestor be the element immediately above
+                // formatting element in the stack of open elements.
+                //
+                // Let a bookmark note the position of formatting element in the
+                // list of active formatting elements relative to the elements
+                // on either side of it in the list.
+                //
+                // Let node and last node be furthest block.
+                //
+                // Let inner loop counter be 0.
+                //
+                // While true:
+                //
+                // Increment inner loop counter by 1.
+                //
+                // Let node be the element immediately above node in the stack
+                // of open elements, or if node is no longer in the stack of
+                // open elements (e.g. because it got removed by this
+                // algorithm), the element that was immediately above node in
+                // the stack of open elements before node was removed.
+                //
+                // If node is formatting element, then break.
+                //
+                // If inner loop counter is greater than 3 and node is in the
+                // list of active formatting elements, then remove node from the
+                // list of active formatting elements.
+                //
+                // If node is not in the list of active formatting elements,
+                // then remove node from the stack of open elements and
+                // continue.
+                //
+                // Create an element for the token for which the element node
+                // was created, in the HTML namespace, with common ancestor as
+                // the intended parent; replace the entry for node in the list
+                // of active formatting elements with an entry for the new
+                // element, replace the entry for node in the stack of open
+                // elements with an entry for the new element, and let node be
+                // the new element.
+                //
+                // If last node is furthest block, then move the aforementioned
+                // bookmark to be immediately after the new node in the list of
+                // active formatting elements.
+                //
+                // Append last node to node.
+                //
+                // Set last node to node.
+                //
+                // Insert whatever last node ended up being in the previous step
+                // at the appropriate place for inserting a node, but using
+                // common ancestor as the override target.
+                //
+                // Create an element for the token for which formatting element
+                // was created, in the HTML namespace, with furthest block as
+                // the intended parent.
+                //
+                // Take all of the child nodes of furthest block and append them
+                // to the element created in the last step.
+                //
+                // Append that new element to furthest block.
+                //
+                // Remove formatting element from the list of active formatting
+                // elements, and insert the new element into the list of active
+                // formatting elements at the position of the aforementioned
+                // bookmark.
+                //
+                // Remove formatting element from the stack of open elements,
+                // and insert the new element into the stack of open elements
+                // immediately below the position of furthest block in that
+                // stack.
+            }
+            // The "text" insertion mode
+            InsertionMode::Text => {
+                // When the user agent is to apply the rules for the "text" insertion mode, the
+                // user agent must handle the token as follows:
+                match token {
+                    // A character token
+                    //
+                    // Insert the token's character.
+                    Token::Character { .. } => {}
+                    // An end-of-file token
+                    // Parse error.
+                    //
+                    // If the current node is a script element, mark the script element as "already
+                    // started".
+                    //
+                    // Pop the current node off the stack of open elements.
+                    //
+                    // Switch the insertion mode to the original insertion mode and reprocess the
+                    // token.
+                    Token::Eof => {}
+                    // An end tag whose tag name is "script"
+                    // If the active speculative HTML parser is null and the JavaScript execution
+                    // context stack is empty, then perform a microtask checkpoint.
+                    //
+                    // Let script be the current node (which will be a script element).
+                    //
+                    // Pop the current node off the stack of open elements.
+                    //
+                    // Switch the insertion mode to the original insertion mode.
+                    //
+                    // Let the old insertion point have the same value as the current insertion
+                    // point. Let the insertion point be just before the next input character.
+                    //
+                    // Increment the parser's script nesting level by one.
+                    //
+                    // If the active speculative HTML parser is null, then prepare the script. This
+                    // might cause some script to execute, which might cause new characters to be
+                    // inserted into the tokenizer, and might cause the tokenizer to output more
+                    // tokens, resulting in a reentrant invocation of the parser.
+                    //
+                    // Decrement the parser's script nesting level by one. If the parser's script
+                    // nesting level is zero, then set the parser pause flag to false.
+                    //
+                    // Let the insertion point have the value of the old insertion point. (In other
+                    // words, restore the insertion point to its previous value. This value might be
+                    // the "undefined" value.)
+                    //
+                    // At this stage, if there is a pending parsing-blocking script, then:
+                    //
+                    // If the script nesting level is not zero:
+                    // Set the parser pause flag to true, and abort the processing of any nested
+                    // invocations of the tokenizer, yielding control back to the caller.
+                    // (Tokenization will resume when the caller returns to the "outer" tree
+                    // construction stage.)
+                    //
+                    // The tree construction stage of this particular parser is being called
+                    // reentrantly, say from a call to document.write().
+                    //
+                    // Otherwise:
+                    // Run these steps:
+                    //
+                    // Let the script be the pending parsing-blocking script. There is no longer a
+                    // pending parsing-blocking script.
+                    //
+                    // Start the speculative HTML parser for this instance of the HTML parser.
+                    //
+                    // Block the tokenizer for this instance of the HTML parser, such that the event
+                    // loop will not run tasks that invoke the tokenizer.
+                    //
+                    // If the parser's Document has a style sheet that is blocking scripts or the
+                    // script's "ready to be parser-executed" flag is not set: spin the event loop
+                    // until the parser's Document has no style sheet that is blocking scripts and
+                    // the script's "ready to be parser-executed" flag is set.
+                    //
+                    // If this parser has been aborted in the meantime, return.
+                    //
+                    // This could happen if, e.g., while the spin the event loop algorithm is
+                    // running, the browsing context gets closed, or the document.open() method gets
+                    // invoked on the Document.
+                    //
+                    // Stop the speculative HTML parser for this instance of the HTML parser.
+                    //
+                    // Unblock the tokenizer for this instance of the HTML parser, such that tasks
+                    // that invoke the tokenizer can again be run.
+                    //
+                    // Let the insertion point be just before the next input character.
+                    //
+                    // Increment the parser's script nesting level by one (it should be zero before
+                    // this step, so this sets it to one).
+                    //
+                    // Execute the script.
+                    //
+                    // Decrement the parser's script nesting level by one. If the parser's script
+                    // nesting level is zero (which it always should be at this point), then set the
+                    // parser pause flag to false.
+                    //
+                    // Let the insertion point be undefined again.
+                    //
+                    // If there is once again a pending parsing-blocking script, then repeat these
+                    // steps from step 1.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("script") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterBody;
+                    }
+                    // Any other end tag
+                    //
+                    // Pop the current node off the stack of open elements.
+                    //
+                    // Switch the insertion mode to the original insertion mode.
+                    _ => {}
+                }
+            }
+            // The "in table" insertion mode
+            InsertionMode::InTable => {
+                // When the user agent is to apply the rules for the "in table" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // A character token, if the current node is table, tbody, tfoot, thead, or tr
+                    // element
+                    //
+                    // Let the pending table character tokens be an empty list of tokens.
+                    //
+                    // Let the original insertion mode be the current insertion mode.
+                    //
+                    // Switch the insertion mode to "in table text" and reprocess the token.
+                    Token::Character { .. } if true => {
+                        self.insertion_mode = InsertionMode::InTableText;
+                        self.process_token(token_and_span)?;
+                    }
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "caption"
+                    //
+                    // Clear the stack back to a table context. (See below.)
+                    //
+                    // Insert a marker at the end of the list of active formatting elements.
+                    //
+                    // Insert an HTML element for the token, then switch the insertion mode to "in
+                    // caption".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("caption") => {}
+                    // A start tag whose tag name is "colgroup"
+                    //
+                    // Clear the stack back to a table context. (See below.)
+                    //
+                    // Insert an HTML element for the token, then switch the insertion mode to "in
+                    // column group".
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("colgroup") => {}
+                    // A start tag whose tag name is "col"
+                    //
+                    // Clear the stack back to a table context. (See below.)
+                    //
+                    // Insert an HTML element for a "colgroup" start tag token with no attributes,
+                    // then switch the insertion mode to "in column group".
+                    //
+                    // Reprocess the current token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("col") => {}
+                    // A start tag whose tag name is one of: "tbody", "tfoot", "thead"
+                    //
+                    // Clear the stack back to a table context. (See below.)
+                    //
+                    // Insert an HTML element for the token, then switch the insertion mode to "in
+                    // table body".
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") => {}
+                    // A start tag whose tag name is one of: "td", "th", "tr"
+                    //
+                    // Clear the stack back to a table context. (See below.)
+                    //
+                    // Insert an HTML element for a "tbody" start tag token with no attributes, then
+                    // switch the insertion mode to "in table body".
+                    //
+                    // Reprocess the current token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "td" | "th" | "tr") => {}
+                    // A start tag whose tag name is "table"
+                    //
+                    // Parse error.
+                    //
+                    // If the stack of open elements does not have a table element in table scope,
+                    // ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from this stack until a table element has been popped from the
+                    // stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    //
+                    // Reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // An end tag whose tag name is "table"
+                    //
+                    // If the stack of open elements does not have a table element in table scope,
+                    // this is a parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from this stack until a table element has been popped from the
+                    // stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") => {}
+                    // An end tag whose tag name is one of: "body", "caption", "col", "colgroup",
+                    // "html", "tbody", "td", "tfoot", "th", "thead", "tr"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "body"
+                                | "caption"
+                                | "col"
+                                | "colgroup"
+                                | "html"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
+                        ) => {}
+                    // A start tag whose tag name is one of: "style", "script", "template"
+                    //
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "style" | "script" | "template") => {
+                    }
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") => {}
+                    // A start tag whose tag name is "input"
+                    //
+                    // If the token does not have an attribute with the name "type", or if it does,
+                    // but that attribute's value is not an ASCII case-insensitive match for the
+                    // string "hidden", then: act as described in the "anything else" entry below.
+                    //
+                    // Otherwise:
+                    //
+                    // Parse error.
+                    //
+                    // Insert an HTML element for the token.
+                    //
+                    // Pop that input element off the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("input") => {}
+                    // A start tag whose tag name is "form"
+                    //
+                    // Parse error.
+                    //
+                    // If there is a template element on the stack of open elements, or if the form
+                    // element pointer is not null, ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Insert an HTML element for the token, and set the form element pointer to
+                    // point to the element created.
+                    //
+                    // Pop that form element off the stack of open elements.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("form") => {}
+                    // An end-of-file token
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Eof => {}
+                    // Anything else
+                    //
+                    // Parse error. Enable foster parenting, process the token using the rules for
+                    // the "in body" insertion mode, and then disable foster parenting.
+                    _ => {}
+                }
+                // When the steps above require the UA to clear the stack back
+                // to a table context, it means that the UA must, while the
+                // current node is not a table, template, or html element, pop
+                // elements from the stack of open elements.
+            }
+            // The "in table text" insertion mode
+            InsertionMode::InTableText => {
+                // When the user agent is to apply the rules for the "in table text" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is U+0000 NULL
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Character { value, .. } if *value == '\x00' => {}
+                    // Any other character token
+                    //
+                    // Append the character token to the pending table character tokens list.
+                    Token::Character { .. } => {}
+                    // Anything else
+                    //
+                    // If any of the tokens in the pending table character tokens list are character
+                    // tokens that are not ASCII whitespace, then this is a parse error: reprocess
+                    // the character tokens in the pending table character tokens list using the
+                    // rules given in the "anything else" entry in the "in table" insertion mode.
+                    //
+                    // Otherwise, insert the characters given by the pending table character tokens
+                    // list.
+                    //
+                    // Switch the insertion mode to the original insertion mode and reprocess the
+                    // token.
+                    _ => {}
+                }
+            }
+            // The "in caption" insertion mode
+            InsertionMode::InCaption => {
+                match token {
+                    // An end tag whose tag name is "caption"
+                    //
+                    // If the stack of open elements does not have a caption element in table scope,
+                    // this is a parse error; ignore the token. (fragment case)
+                    //
+                    // Otherwise:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // Now, if the current node is not a caption element, then this is a parse
+                    // error.
+                    //
+                    // Pop elements from this stack until a caption element has been popped from the
+                    // stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    //
+                    // Switch the insertion mode to "in table".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("caption") => {}
+                    // A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody",
+                    // "td", "tfoot", "th", "thead", "tr"
+                    // An end tag whose tag name is "table"
+                    //
+                    // If the stack of open elements does not have a caption element in table scope,
+                    // this is a parse error; ignore the token. (fragment case)
+                    //
+                    // Otherwise:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // Now, if the current node is not a caption element, then this is a parse
+                    // error.
+                    //
+                    // Pop elements from this stack until a caption element has been popped from the
+                    // stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    //
+                    // Switch the insertion mode to "in table".
+                    //
+                    // Reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
+                        ) =>
+                    {
+                        self.insertion_mode = InsertionMode::InTable;
+                        self.process_token(token_and_span)?;
+                    }
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") => {}
+                    // An end tag whose tag name is one of: "body", "col", "colgroup", "html",
+                    // "tbody", "td", "tfoot", "th", "thead", "tr"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "body"
+                                | "col"
+                                | "colgroup"
+                                | "html"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
+                        ) => {}
+                    // Anything else
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    _ => {}
+                }
+            }
+            // The "in column group" insertion mode
+            InsertionMode::InColumnGroup => {
+                // When the user agent is to apply the rules for the "in column group" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Insert the character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is "col"
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("col") => {}
+                    // An end tag whose tag name is "colgroup"
+                    //
+                    // If the current node is not a colgroup element, then this is a parse error;
+                    // ignore the token.
+                    //
+                    // Otherwise, pop the current node from the stack of open elements. Switch the
+                    // insertion mode to "in table".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("colgroup") => {}
+                    // An end tag whose tag name is "col"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("col") => {}
+                    // A start tag whose tag name is "template"
+                    //
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") => {}
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") => {}
+                    // An end-of-file token
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Eof => {}
+                    // Anything else
+                    //
+                    // If the current node is not a colgroup element, then this is a parse error;
+                    // ignore the token.
+                    //
+                    // Otherwise, pop the current node from the stack of open elements.
+                    //
+                    // Switch the insertion mode to "in table".
+                    //
+                    // Reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::InTable;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "in table body" insertion mode
+            InsertionMode::InTableBody => {
+                // When the user agent is to apply the rules for the "in table body" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A start tag whose tag name is "tr"
+                    //
+                    // Clear the stack back to a table body context. (See below.)
+                    //
+                    // Insert an HTML element for the token, then switch the insertion mode to "in
+                    // row".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("tr") => {}
+                    // A start tag whose tag name is one of: "th", "td"
+                    //
+                    // Parse error.
+                    //
+                    // Clear the stack back to a table body context. (See below.)
+                    //
+                    // Insert an HTML element for a "tr" start tag token with no attributes, then
+                    // switch the insertion mode to "in row".
+                    //
+                    // Reprocess the current token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "th" | "td") => {}
+                    // An end tag whose tag name is one of: "tbody", "tfoot", "thead"
+                    //
+                    // If the stack of open elements does not have an element in table scope that is
+                    // an HTML element with the same tag name as the token, this is a parse error;
+                    // ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Clear the stack back to a table body context. (See below.)
+                    //
+                    // Pop the current node from the stack of open elements. Switch the insertion
+                    // mode to "in table".
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") => {}
+                    // A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody",
+                    // "tfoot", "thead"
+                    //
+                    // An end tag whose tag name is "table"
+                    //
+                    // If the stack of open elements does not have a tbody, thead, or tfoot element
+                    // in table scope, this is a parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Clear the stack back to a table body context. (See below.)
+                    //
+                    // Pop the current node from the stack of open elements. Switch the insertion
+                    // mode to "in table".
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead"
+                        ) => {}
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") => {}
+                    // An end tag whose tag name is one of: "body", "caption", "col", "colgroup",
+                    // "html", "td", "th", "tr"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th" | "tr"
+                        ) => {}
+                    // Anything else
+                    //
+                    // Process the token using the rules for the "in table" insertion mode.
+                    _ => {}
+                }
+                // When the steps above require the UA to clear the stack back
+                // to a table body context, it means that the UA must, while the
+                // current node is not a tbody, tfoot, thead, template, or html
+                // element, pop elements from the stack of open elements.
+            }
+            // The "in row" insertion mode
+            InsertionMode::InRow => {
+                // When the user agent is to apply the rules for the "in row" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // A start tag whose tag name is one of: "th", "td"
+                    //
+                    // Clear the stack back to a table row context. (See below.)
+                    //
+                    // Insert an HTML element for the token, then switch the insertion mode to "in
+                    // cell".
+                    //
+                    // Insert a marker at the end of the list of active formatting elements.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "th" | "td") => {}
+                    // An end tag whose tag name is "tr"
+                    //
+                    // If the stack of open elements does not have a tr element in table scope, this
+                    // is a parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Clear the stack back to a table row context. (See below.)
+                    //
+                    // Pop the current node (which will be a tr element) from the stack of open
+                    // elements. Switch the insertion mode to "in table body".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("tr") => {}
+                    // A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody",
+                    // "tfoot", "thead", "tr"
+                    //
+                    // An end tag whose tag name is "table"
+                    //
+                    // If the stack of open elements does not have a tr element in table scope, this
+                    // is a parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Clear the stack back to a table row context. (See below.)
+                    //
+                    // Pop the current node (which will be a tr element) from the stack of open
+                    // elements. Switch the insertion mode to "in table body".
+                    //
+                    // Reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead" | "tr"
+                        ) =>
+                    {
+                        self.insertion_mode = InsertionMode::InTableBody;
+                        self.process_token(token_and_span)?;
+                    }
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("table") => {}
+                    // An end tag whose tag name is one of: "tbody", "tfoot", "thead"
+                    //
+                    // If the stack of open elements does not have an element in table scope that is
+                    // an HTML element with the same tag name as the token, this is a parse error;
+                    // ignore the token.
+                    //
+                    // If the stack of open elements does not have a tr element in table scope,
+                    // ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Clear the stack back to a table row context. (See below.)
+                    //
+                    // Pop the current node (which will be a tr element) from the stack of open
+                    // elements. Switch the insertion mode to "in table body".
+                    //
+                    // Reprocess the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // An end tag whose tag name is one of: "body", "caption", "col", "colgroup",
+                    // "html", "td", "th"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
+                        ) => {}
+                    // Anything else
+                    //
+                    // Process the token using the rules for the "in table" insertion mode.
+                    _ => {}
+                }
+                // When the steps above require the UA to clear the stack back
+                // to a table row context, it means that the UA must, while the
+                // current node is not a tr, template, or html element, pop
+                // elements from the stack of open elements.
+            }
+            // The "in cell" insertion mode
+            InsertionMode::InCell => {
+                // When the user agent is to apply the rules for the "in cell" insertion mode,
+                // the user agent must handle the token as follows:
+                match token {
+                    // An end tag whose tag name is one of: "td", "th"
+                    //
+                    // If the stack of open elements does not have an element in table scope that is
+                    // an HTML element with the same tag name as that of the token, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise:
+                    //
+                    // Generate implied end tags.
+                    //
+                    // Now, if the current node is not an HTML element with the same tag name as the
+                    // token, then this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements stack until an HTML element with
+                    // the same tag name as the token has been popped from the stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    //
+                    // Switch the insertion mode to "in row".
+                    Token::EndTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "td" | "th") => {}
+                    // A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody",
+                    // "td", "tfoot", "th", "thead", "tr"
+                    //
+                    // If the stack of open elements does not have a td or th element in table
+                    // scope, then this is a parse error; ignore the token. (fragment case)
+                    //
+                    // Otherwise, close the cell (see below) and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
+                        ) =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // An end tag whose tag name is one of: "body", "caption", "col", "colgroup",
+                    // "html"
+                    //
+                    // Parse error. Ignore the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "body" | "caption" | "col" | "colgroup" | "html"
+                        ) => {}
+                    // An end tag whose tag name is one of: "table", "tbody", "tfoot", "thead", "tr"
+                    //
+                    // If the stack of open elements does not have an element in table scope that is
+                    // an HTML element with the same tag name as that of the token, then this is a
+                    // parse error; ignore the token.
+                    //
+                    // Otherwise, close the cell (see below) and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "table" | "tbody" | "tfoot" | "thead" | "tr"
+                        ) =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // Anything else
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    _ => {}
+                }
+
+                // Where the steps above say to close the cell, they mean to run
+                // the following algorithm:
+                //
+                // Generate implied end tags.
+                //
+                // If the current node is not now a td element or a th element,
+                // then this is a parse error.
+                //
+                // Pop elements from the stack of open elements stack until a td
+                // element or a th element has been popped from the stack.
+                //
+                // Clear the list of active formatting elements up to the last
+                // marker.
+                //
+                // Switch the insertion mode to "in row".
+            }
+            // The "in select" insertion mode
+            InsertionMode::InSelect => {
+                match token {
+                    // A character token that is U+0000 NULL
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Character { value, .. } if *value == '\x00' => {}
+                    // Any other character token
+                    //
+                    // Insert the token's character.
+                    Token::Character { .. } => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is "option"
+                    //
+                    // If the current node is an option element, pop that node from the stack of
+                    // open elements.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("option") => {}
+                    // A start tag whose tag name is "optgroup"
+                    //
+                    // If the current node is an option element, pop that node from the stack of
+                    // open elements.
+                    //
+                    // If the current node is an optgroup element, pop that node from the stack of
+                    // open elements.
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("optgroup") => {}
+                    // An end tag whose tag name is "optgroup"
+                    //
+                    // First, if the current node is an option element, and the node immediately
+                    // before it in the stack of open elements is an optgroup element, then pop the
+                    // current node from the stack of open elements.
+                    //
+                    // If the current node is an optgroup element, then pop that node from the stack
+                    // of open elements. Otherwise, this is a parse error; ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("optgroup") => {}
+                    // An end tag whose tag name is "option"
+                    //
+                    // If the current node is an option element, then pop that node from the stack
+                    // of open elements. Otherwise, this is a parse error; ignore the token.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("option") => {}
+                    // An end tag whose tag name is "select"
+                    //
+                    // If the stack of open elements does not have a select element in select scope,
+                    // this is a parse error; ignore the token. (fragment case)
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from the stack of open elements until a select element has been
+                    // popped from the stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("select") => {}
+                    // A start tag whose tag name is "select"
+                    //
+                    // Parse error.
+                    //
+                    // If the stack of open elements does not have a select element in select scope,
+                    // ignore the token. (fragment case)
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from the stack of open elements until a select element has been
+                    // popped from the stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("select") => {}
+                    // A start tag whose tag name is one of: "input", "keygen", "textarea"
+                    //
+                    // Parse error.
+                    //
+                    // If the stack of open elements does not have a select element in select scope,
+                    // ignore the token. (fragment case)
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from the stack of open elements until a select element has been
+                    // popped from the stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    //
+                    // Reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "input" | "keygen" | "textarea") =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // A start tag whose tag name is one of: "script", "template"
+                    //
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "script" | "template") => {}
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") => {}
+                    // An end-of-file token
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Eof => {}
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => {}
+                }
+            }
+            // The "in select in table" insertion mode
+            InsertionMode::InSelectInTable => {
+                // When the user agent is to apply the rules for the "in select in table"
+                // insertion mode, the user agent must handle the token as follows:
+                match token {
+                    // A start tag whose tag name is one of: "caption", "table", "tbody", "tfoot",
+                    // "thead", "tr", "td", "th"
+                    //
+                    // Parse error.
+                    //
+                    // Pop elements from the stack of open elements until a select element has been
+                    // popped from the stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    //
+                    // Reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
+                        ) =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // An end tag whose tag name is one of: "caption", "table", "tbody", "tfoot",
+                    // "thead", "tr", "td", "th"
+                    //
+                    // Parse error.
+                    //
+                    // If the stack of open elements does not have an element in table scope that is
+                    // an HTML element with the same tag name as that of the token, then ignore the
+                    // token.
+                    //
+                    // Otherwise:
+                    //
+                    // Pop elements from the stack of open elements until a select element has been
+                    // popped from the stack.
+                    //
+                    // Reset the insertion mode appropriately.
+                    //
+                    // Reprocess the token.
+                    Token::EndTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
+                        ) =>
+                    {
+                        self.process_token(token_and_span)?;
+                    }
+                    // Anything else
+                    //
+                    // Process the token using the rules for the "in select" insertion mode.
+                    _ => {}
+                }
+            }
+            // The "in template" insertion mode
+            InsertionMode::InTemplate => {
+                // When the user agent is to apply the rules for the "in template" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token
+                    // A comment token
+                    // A DOCTYPE token
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Character { .. } => {}
+                    Token::Comment { .. } => {}
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
+                    // "meta", "noframes", "script", "style", "template", "title"
+                    // An end tag whose tag name is "template"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
+                        ) => {}
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("template") => {}
+                    // A start tag whose tag name is one of: "caption", "colgroup", "tbody",
+                    // "tfoot", "thead"
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Push "in table" onto the stack of template insertion modes so that it is the
+                    // new current template insertion mode.
+                    //
+                    // Switch the insertion mode to "in table", and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(
+                            &*tag_name.to_lowercase(),
+                            "caption" | "colgroup" | "tbody" | "tfoot" | "thead"
+                        ) =>
+                    {
+                        self.insertion_mode = InsertionMode::InTable;
+                        self.process_token(token_and_span)?;
+                    }
+                    // A start tag whose tag name is "col"
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Push "in column group" onto the stack of template insertion modes so that it
+                    // is the new current template insertion mode.
+                    //
+                    // Switch the insertion mode to "in column group", and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("col") =>
+                    {
+                        self.insertion_mode = InsertionMode::InColumnGroup;
+                        self.process_token(token_and_span)?;
+                    }
+                    // A start tag whose tag name is "tr"
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Push "in table body" onto the stack of template insertion modes so that it is
+                    // the new current template insertion mode.
+                    //
+                    // Switch the insertion mode to "in table body", and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("tr") =>
+                    {
+                        self.insertion_mode = InsertionMode::InTableBody;
+                        self.process_token(token_and_span)?;
+                    }
+                    // A start tag whose tag name is one of: "td", "th"
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Push "in row" onto the stack of template insertion modes so that it is the
+                    // new current template insertion mode.
+                    //
+                    // Switch the insertion mode to "in row", and reprocess the token.
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&*tag_name.to_lowercase(), "td" | "th") =>
+                    {
+                        self.insertion_mode = InsertionMode::InRow;
+                        self.process_token(token_and_span)?;
+                    }
+                    // Any other start tag
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Push "in body" onto the stack of template insertion modes so that it is the
+                    // new current template insertion mode.
+                    //
+                    // Switch the insertion mode to "in body", and reprocess the token.
+                    Token::StartTag { .. } => {
+                        self.insertion_mode = InsertionMode::InBody;
+                        self.process_token(token_and_span)?;
+                    }
+                    // Any other end tag
+                    //
+                    // Parse error. Ignore the token.
+                    Token::EndTag { .. } => {}
+                    // An end-of-file token
+                    //
+                    // If there is no template element on the stack of open elements, then stop
+                    // parsing. (fragment case)
+                    //
+                    // Otherwise, this is a parse error.
+                    //
+                    // Pop elements from the stack of open elements until a template element has
+                    // been popped from the stack.
+                    //
+                    // Clear the list of active formatting elements up to the last marker.
+                    //
+                    // Pop the current template insertion mode off the stack of template insertion
+                    // modes.
+                    //
+                    // Reset the insertion mode appropriately.
+                    //
+                    // Reprocess the token.
+                    Token::Eof => {
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "after body" insertion mode
+            InsertionMode::AfterBody => {
+                // When the user agent is to apply the rules for the "after body" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment as the last child of the first element in the stack of open
+                    // elements (the html element).
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // An end tag whose tag name is "html"
+                    //
+                    // If the parser was created as part of the HTML fragment parsing algorithm,
+                    // this is a parse error; ignore the token. (fragment case)
+                    //
+                    // Otherwise, switch the insertion mode to "after after body".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
+                    {
+                        let is_fragment_parsing = false;
+
+                        if is_fragment_parsing {
+                        } else {
+                            self.insertion_mode = InsertionMode::AfterAfterBody;
+                        }
+                    }
+                    // An end-of-file token
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        self.stopped = true;
+                    }
+                    // Anything else
+                    //
+                    // Parse error. Switch the insertion mode to "in body" and reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::InBody;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "in frameset" insertion mode
+            InsertionMode::InFrameset => {
+                // When the user agent is to apply the rules for the "in frameset" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Insert the character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // A start tag whose tag name is "frameset"
+                    //
+                    // Insert an HTML element for the token.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") => {}
+                    // An end tag whose tag name is "frameset"
+                    //
+                    // If the current node is the root html element, then this is a parse error;
+                    // ignore the token. (fragment case)
+                    //
+                    // Otherwise, pop the current node from the stack of open elements.
+                    //
+                    // If the parser was not created as part of the HTML fragment parsing algorithm
+                    // (fragment case), and the current node is no longer a frameset element, then
+                    // switch the insertion mode to "after frameset".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") => {}
+                    // A start tag whose tag name is "frame"
+                    //
+                    // Insert an HTML element for the token. Immediately pop the current node off
+                    // the stack of open elements.
+                    //
+                    // Acknowledge the token's self-closing flag, if it is set.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("frame") => {}
+                    // A start tag whose tag name is "noframes"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") => {}
+                    // An end-of-file token
+                    //
+                    // If the current node is not the root html element, then this is a parse error.
+                    Token::Eof => {}
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => {}
+                }
+            }
+            // The "after frameset" insertion mode
+            InsertionMode::AfterFrameset => {
+                // When the user agent is to apply the rules for the "after frameset" insertion
+                // mode, the user agent must handle the token as follows:
+                match token {
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // Insert the character.
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    // A comment token
+                    //
+                    // Insert a comment.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // Parse error. Ignore the token.
+                    Token::Doctype { .. } => {}
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // An end tag whose tag name is "html"
+                    //
+                    // Switch the insertion mode to "after after frameset".
+                    Token::EndTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
+                    {
+                        self.insertion_mode = InsertionMode::AfterAfterFrameset;
+                    }
+                    // A start tag whose tag name is "noframes"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") => {}
+                    // An end-of-file token
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        self.stopped = true;
+                    }
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => {}
+                }
+            }
+            // The "after after body" insertion mode
+            InsertionMode::AfterAfterBody => {
+                // When the user agent is to apply the rules for the "after after body"
+                // insertion mode, the user agent must handle the token as follows:
+                match token {
+                    // A comment token
+                    //
+                    // Insert a comment as the last child of the Document object.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Doctype { .. } => {}
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // An end-of-file token
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        self.stopped = true;
+                    }
+                    // Anything else
+                    //
+                    // Parse error. Switch the insertion mode to "in body" and reprocess the token.
+                    _ => {
+                        self.insertion_mode = InsertionMode::InBody;
+                        self.process_token(token_and_span)?;
+                    }
+                }
+            }
+            // The "after after frameset" insertion mode
+            InsertionMode::AfterAfterFrameset => {
+                // When the user agent is to apply the rules for the "after after frameset"
+                // insertion mode, the user agent must handle the token as follows:
+                match token {
+                    // A comment token
+                    //
+                    // Insert a comment as the last child of the Document object.
+                    Token::Comment { .. } => {}
+                    // A DOCTYPE token
+                    //
+                    // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
+                    // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
+                    // SPACE
+                    //
+                    // A start tag whose tag name is "html"
+                    //
+                    // Process the token using the rules for the "in body" insertion mode.
+                    Token::Doctype { .. } => {}
+                    Token::Character { value, .. }
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("html") => {}
+                    // An end-of-file token
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        self.stopped = true;
+                    }
+                    // A start tag whose tag name is "noframes"
+                    //
+                    // Process the token using the rules for the "in head" insertion mode.
+                    Token::StartTag { tag_name, .. }
+                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") => {}
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => {}
+                }
+            }
+        }
+
+        Ok(())
     }
 }

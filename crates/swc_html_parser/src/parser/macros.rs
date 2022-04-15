@@ -1,20 +1,12 @@
-macro_rules! is {
-    ($parser:expr, EOF) => {{
-        $parser.input.cur()?.is_none()
-    }};
-
-    ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
-            Some(tok_pat!($tt)) => true,
-            _ => false,
-        }
+macro_rules! span {
+    ($parser:expr, $start:expr) => {{
+        let last_pos = $parser.input.last_pos()?;
+        swc_common::Span::new($start, last_pos, Default::default())
     }};
 }
 
-macro_rules! is_one_of {
-    ($parser:expr, $($tt:tt),+) => {
-        $(
-            is!($parser, $tt)
-        )||*
+macro_rules! bump {
+    ($parser:expr) => {
+        $parser.input.bump()?.unwrap().token
     };
 }
