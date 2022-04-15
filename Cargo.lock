@@ -2994,7 +2994,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.104.1"
+version = "0.104.2"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3006,7 +3006,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "is-macro",
  "serde",
