@@ -2407,7 +2407,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     proseTypes.set("prose", prose);
 
     // deno-lint-ignore ban-types
-    const proseSm = (l, i, nl, bp): string => {
+    const proseSm = (l, i, nl, bp) => {
         return i(l) + bp + "prose-sm {" + nl +
             i(l + 1) + "font-size: 0.875rem;" + nl +
             i(l + 1) + "line-height: 1.7142857;" + nl +
@@ -2595,7 +2595,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     proseTypes.set("prose-sm", proseSm);
 
     // deno-lint-ignore ban-types
-    const proseLg = (l, i, nl, bp): string => {
+    const proseLg = (l, i, nl, bp) => {
         return i(l) + bp + "prose-lg {" + nl +
             i(l + 1) + "font-size: 1.125rem;" + nl +
             i(l + 1) + "line-height: 1.7777778;" + nl +
@@ -2783,7 +2783,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     proseTypes.set("prose-lg", proseLg);
 
     // deno-lint-ignore ban-types
-    const proseXl = (l, i, nl, bp): string => {
+    const proseXl = (l, i, nl, bp) => {
         return i(l) + bp + "prose-xl {" + nl +
             i(l + 1) + "font-size: 1.25rem;" + nl +
             i(l + 1) + "line-height: 1.8;" + nl +
