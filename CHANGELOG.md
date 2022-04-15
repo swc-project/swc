@@ -82,6 +82,9 @@
 
 - **(es/minifier)** Update terser test references (#4297) ([df0d572](https://github.com/swc-project/swc/commit/df0d572b4ff250be037ca9a04b6bcd95329f9f3b))
 
+
+- **(es/minifier)** Add full benchmark for `.minify()` (#4341) ([ba5f743](https://github.com/swc-project/swc/commit/ba5f7436c18b7e3845bc2935aca6cdb76477b686))
+
 ### Refactor
 
 
