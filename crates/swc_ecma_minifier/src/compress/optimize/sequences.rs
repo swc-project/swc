@@ -969,6 +969,8 @@ where
                     log_abort!("todo: Unknown expr: {}", dump(e, true));
                     false
                 } else {
+                    trace_op!("sequences: skip: {}", dump(e, true));
+
                     true
                 }
             }
