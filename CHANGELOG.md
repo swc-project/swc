@@ -20,6 +20,9 @@
 - **(es/codegen)** Fix overflow of numeric literals (#4321) ([0245e26](https://github.com/swc-project/swc/commit/0245e26af5f984cf89a2f474d89f6b3dfe2f0eff))
 
 
+- **(es/codegen)** Fix codegen of arrow expressions (#4306) ([4c99730](https://github.com/swc-project/swc/commit/4c9973010a5c2b865e6ed676a4e0364234cf5d88))
+
+
 - **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([6c9882e](https://github.com/swc-project/swc/commit/6c9882ec68fee9b702f5e4749482eca74fbd87e8))
 
 
