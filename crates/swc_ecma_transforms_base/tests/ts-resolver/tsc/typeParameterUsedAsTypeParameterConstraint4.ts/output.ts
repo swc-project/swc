@@ -29,7 +29,7 @@ function foo2<U__9 extends T__9, T__9>(x__9: T__9, y__9: U__9): W {
 }
 var f3 = <T__12, U__12 extends T__12>(x__12: T__12, y__12: U__12)=>{
     function bar__12<V__13 extends T__12, W__13 extends U__12>(r__13: X, s__13: Y) {
-        var g__13 = <X__14 extends W__13, Y__14 extends V__13>(a__14: X__14, b__14: Y__14)=>{
+        var g__13 = <X__14 extends W__13, Y__14 extends V__13>(a__14: X__14, b__14: Y__14): T__12 =>{
             x__12 = y__12;
             return y__12;
         };
@@ -37,7 +37,7 @@ var f3 = <T__12, U__12 extends T__12>(x__12: T__12, y__12: U__12)=>{
 };
 var f4 = <U__15 extends T__15, T__15>(x__15: V, y__15: X)=>{
     function bar__15<V__16 extends T__15, W__16 extends U__15>() {
-        var g__16 = <X__17 extends W__16, Y__17 extends V__16>(a__17: X__17, b__17: Y__17)=>{
+        var g__16 = <X__17 extends W__16, Y__17 extends V__16>(a__17: X__17, b__17: Y__17): T__15 =>{
             x__15 = y__15;
             return y__15;
         };

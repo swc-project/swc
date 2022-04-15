@@ -97,7 +97,6 @@ pub(crate) fn assert_min(from: &str, to: &str) {
         from,
         Config { minify: true },
         Syntax::Es(EsConfig {
-            static_blocks: true,
             ..Default::default()
         }),
         EsVersion::latest(),

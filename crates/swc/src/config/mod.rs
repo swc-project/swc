@@ -1708,7 +1708,6 @@ impl Merge for swc_ecma_parser::EsConfig {
         self.decorators_before_export |= from.decorators_before_export;
         self.export_default_from |= from.export_default_from;
         self.import_assertions |= from.import_assertions;
-        self.static_blocks |= from.static_blocks;
         self.private_in_object |= from.private_in_object;
     }
 }

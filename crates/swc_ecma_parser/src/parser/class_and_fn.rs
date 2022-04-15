@@ -480,8 +480,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // Avoid to parse
                 //   static
                 //   {}
-                let is_parsing_static_blocks =
-                    self.input.syntax().static_blocks() && is!(self, '{');
+                let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
                     let key = Either::Right(PropName::Ident(Ident::new(
                         js_word!("static"),
@@ -601,27 +600,25 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.input.syntax().static_blocks() {
-            if is_static && is!(self, '{') {
-                if let Some(span) = declare_token {
-                    self.emit_err(span, SyntaxError::TS1184);
-                }
-                if accessibility.is_some() {
-                    self.emit_err(self.input.cur_span(), SyntaxError::TS1184);
-                }
-                return self.parse_static_block(start);
+        if is_static && is!(self, '{') {
+            if let Some(span) = declare_token {
+                self.emit_err(span, SyntaxError::TS1184);
             }
-            if is!(self, "static") && peeked_is!(self, '{') {
-                // For "readonly", "abstract" and "override"
-                if let Some(span) = modifier_span {
-                    self.emit_err(span, SyntaxError::TS1184);
-                }
-                if let Some(span) = static_token {
-                    self.emit_err(span, SyntaxError::TS1184);
-                }
-                bump!(self); // consume "static"
-                return self.parse_static_block(start);
+            if accessibility.is_some() {
+                self.emit_err(self.input.cur_span(), SyntaxError::TS1184);
             }
+            return self.parse_static_block(start);
+        }
+        if is!(self, "static") && peeked_is!(self, '{') {
+            // For "readonly", "abstract" and "override"
+            if let Some(span) = modifier_span {
+                self.emit_err(span, SyntaxError::TS1184);
+            }
+            if let Some(span) = static_token {
+                self.emit_err(span, SyntaxError::TS1184);
+            }
+            bump!(self); // consume "static"
+            return self.parse_static_block(start);
         }
 
         if self.input.syntax().typescript()

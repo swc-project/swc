@@ -27,7 +27,6 @@ use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        static_blocks: true,
         ..Default::default()
     })
 }
