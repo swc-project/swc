@@ -46,9 +46,9 @@ jobs:
 
       - name: Build
         run: |
-          (cd crates/wasm && yarn)
-          (cd crates/wasm && ./scripts/build.sh --features plugin)
+          (cd crates/binding_core_wasm && yarn)
+          (cd crates/binding_core_wasm && ./scripts/build.sh --features plugin)
 
       - name: Test
         run: |
-          (cd crates/wasm && ./scripts/test.sh)
+          (cd crates/binding_core_wasm && ./scripts/test.sh)

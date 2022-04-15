@@ -11,6 +11,8 @@ os:
     - swc_ecma_preset_env
     - swc_ecma_transforms_module
     - swc_ecma_transforms_testing
+    - swc_html_codegen
+    - swc_html_parser
     - swc_node_bundler
     - swc_plugin
     - swc_plugin_runner
