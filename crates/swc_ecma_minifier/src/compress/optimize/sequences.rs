@@ -965,14 +965,8 @@ where
             }
 
             _ => {
-                if a.is_some() {
-                    log_abort!("todo: Unknown expr: {}", dump(e, true));
-                    false
-                } else {
-                    trace_op!("sequences: skip: {}", dump(e, true));
-
-                    true
-                }
+                log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
+                false
             }
         }
     }
