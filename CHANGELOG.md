@@ -44,6 +44,9 @@
 - **(es/parser)** Enable static blocks by default (#4334) ([7599fe7](https://github.com/swc-project/swc/commit/7599fe74317f790cce8f8638e84c320c5ebbc4c2))
 
 
+- **(es/parser)** Make parsing of TS InstantiationExpr more permissive (#4332) ([ea466af](https://github.com/swc-project/swc/commit/ea466afdc8dc6b64be81244a8c0261ac34f22157))
+
+
 - **(node-swc/types)** Add `isTypeOnly` to types (#4303) ([1a48732](https://github.com/swc-project/swc/commit/1a48732e78b9c650f93320f4d6f7be57a9f4a6c4))
 
 ### Features
