@@ -263,10 +263,14 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_codegen
             os: ubuntu-latest
+          - crate: swc_html_codegen
+            os: windows-latest
           - crate: swc_html_codegen_macros
             os: ubuntu-latest
           - crate: swc_html_parser
             os: ubuntu-latest
+          - crate: swc_html_parser
+            os: windows-latest
           - crate: swc_html_visit
             os: ubuntu-latest
           - crate: swc_macros_common
