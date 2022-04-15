@@ -89,6 +89,8 @@ where
                 return;
             }
 
+            self.mode.store(name.to_id(), n.init.as_deref().unwrap());
+
             if let Some(Expr::Object(init)) = n.init.as_deref_mut() {
                 for prop in &mut init.props {
                     let prop = match prop {
@@ -117,7 +119,6 @@ where
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
-                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                                 self.simple_props
                                     .insert((name.to_id(), s.value.clone()), value);
                             }
@@ -126,7 +127,6 @@ where
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
-                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                                 self.simple_props
                                     .insert((name.to_id(), i.sym.clone()), value);
                             }
