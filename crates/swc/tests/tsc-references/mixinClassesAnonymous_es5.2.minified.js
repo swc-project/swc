@@ -36,7 +36,7 @@ var Thing2 = Tagged(((_class = function(superClass) {
         return swcHelpers.classCallCheck(this, _class), _super.apply(this, arguments);
     }
     return _class.prototype.print = function() {
-        this.x + this.y;
+        this.x, this.y;
     }, _class;
 }(Derived)).message = "hello", _class));
 Thing2.message;

@@ -679,7 +679,7 @@ unitTest(
     try {
       await response.text();
       fail(
-        "Reponse.text() didn't throw on a filtered response without a body (type opaqueredirect)"
+        "Response.text() didn't throw on a filtered response without a body (type opaqueredirect)"
       );
     } catch (e) {
       return;
@@ -702,7 +702,7 @@ unitTest(
     try {
       await response.text();
       fail(
-        "Reponse.text() didn't throw on a filtered response without a body (type error)"
+        "Response.text() didn't throw on a filtered response without a body (type error)"
       );
     } catch (e) {
       return;

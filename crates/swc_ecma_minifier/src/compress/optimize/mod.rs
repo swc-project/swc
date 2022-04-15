@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
+use tracing::{debug, span, Level};
 use Value::Known;
 
 use self::{
@@ -673,7 +673,7 @@ where
             }
         }
 
-        tracing::debug!("Compressing array.join()");
+        report_change!("Compressing array.join()");
 
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
@@ -708,7 +708,7 @@ where
         if self.options.bools_as_ints || self.options.bools {
             if let Lit::Bool(v) = lit {
                 self.changed = true;
-                tracing::debug!("Compressing boolean literal");
+                report_change!("Compressing boolean literal");
                 *e = Expr::Unary(UnaryExpr {
                     span: v.span,
                     op: op!("!"),
@@ -751,27 +751,23 @@ where
 
         match e {
             Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                if cfg!(feature = "debug") {
-                    tracing::debug!(
-                        "ignore_return_value: Dropping unused expr: {}",
-                        dump(&*e, false)
-                    );
-                }
+                report_change!(
+                    "ignore_return_value: Dropping unused expr: {}",
+                    dump(&*e, false)
+                );
                 self.changed = true;
                 return None;
             }
 
             Expr::Tpl(t) if t.exprs.is_empty() => {
-                if cfg!(feature = "debug") {
-                    tracing::debug!("ignore_return_value: Dropping tpl expr without expr");
-                }
+                report_change!("ignore_return_value: Dropping tpl expr without expr");
                 self.changed = true;
                 return None;
             }
 
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
-                tracing::debug!(
+                report_change!(
                     "ignore_return_value: Dropping unused fn expr as it does not have any side \
                      effect"
                 );
@@ -913,7 +909,7 @@ where
                 _ => false,
             } && args.is_empty() =>
             {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
+                report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
                 return None;
             }
@@ -1020,7 +1016,7 @@ where
             Expr::Array(arr) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                tracing::debug!("ignore_return_value: Inverting an array literal");
+                report_change!("ignore_return_value: Inverting an array literal");
                 exprs.extend(
                     arr.elems
                         .take()
@@ -1044,7 +1040,7 @@ where
             Expr::Object(obj) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                tracing::debug!("ignore_return_value: Inverting an object literal");
+                report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
                         PropOrSpread::Spread(mut e) => {
@@ -1114,14 +1110,14 @@ where
 
                 *arg = Box::new(processed_arg);
 
-                tracing::trace!("ignore_return_value: Preserving negated iife");
+                log_abort!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
             // `delete` is handled above
             Expr::Unary(expr) => {
                 self.changed = true;
-                tracing::debug!("ignore_return_value: Reducing unary ({})", expr.op);
+                report_change!("ignore_return_value: Reducing unary ({})", expr.op);
                 return self.ignore_return_value(&mut expr.arg);
             }
 
@@ -1132,7 +1128,7 @@ where
                 op,
                 ..
             }) => {
-                tracing::debug!("ignore_return_value: Reducing binary ({})", *op);
+                report_change!("ignore_return_value: Reducing binary ({})", *op);
 
                 let left = self.ignore_return_value(&mut **left).map(Box::new);
                 let right = self.ignore_return_value(&mut **right).map(Box::new);
@@ -1145,7 +1141,7 @@ where
             }
 
             Expr::Cond(cond) => {
-                tracing::trace!("ignore_return_value: Cond expr");
+                trace_op!("ignore_return_value: Cond expr");
 
                 self.restore_negated_iife(cond);
 
@@ -1172,12 +1168,12 @@ where
                     span: cond.span,
                     test: cond.test.take(),
                     cons: cons.unwrap_or_else(|| {
-                        tracing::debug!("ignore_return_value: Dropped `cons`");
+                        report_change!("ignore_return_value: Dropped `cons`");
                         self.changed = true;
                         undefined(cons_span)
                     }),
                     alt: alt.unwrap_or_else(|| {
-                        tracing::debug!("ignore_return_value: Dropped `alt`");
+                        report_change!("ignore_return_value: Dropped `alt`");
                         self.changed = true;
                         undefined(alt_span)
                     }),
@@ -1223,7 +1219,7 @@ where
 
                         // Make return type undefined.
                         if let Some(last) = exprs.last_mut() {
-                            tracing::debug!("ignore_return_value: Shifting void");
+                            report_change!("ignore_return_value: Shifting void");
                             self.changed = true;
                             *last = Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
@@ -1234,7 +1230,7 @@ where
                     }
 
                     if exprs.is_empty() {
-                        tracing::debug!("ignore_return_value: Dropping empty seq");
+                        report_change!("ignore_return_value: Dropping empty seq");
                         return None;
                     }
 
@@ -1335,7 +1331,7 @@ where
             })
             .unwrap_or(js_word!(""));
 
-        tracing::debug!("Converting call to RegExp into a regexp literal");
+        report_change!("Converting call to RegExp into a regexp literal");
         self.changed = true;
         *e = Expr::Lit(Lit::Regex(Regex {
             span,
@@ -1403,19 +1399,17 @@ where
         }) {
             self.changed = true;
 
-            if cfg!(feature = "debug") {
-                tracing::debug!("Merging variable declarations");
-                tracing::trace!(
-                    "[Before]: {}",
-                    dump(
-                        &BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: stmts.clone()
-                        },
-                        false
-                    )
+            report_change!("Merging variable declarations");
+            dump_change_detail!(
+                "[Before]: {}",
+                dump(
+                    &BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: stmts.clone()
+                    },
+                    false
                 )
-            }
+            );
 
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
@@ -1448,18 +1442,17 @@ where
 
             new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
-            if cfg!(feature = "debug") {
-                tracing::trace!(
-                    "[Change] merged: {}",
-                    dump(
-                        &BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: new.clone()
-                        },
-                        false
-                    )
+            dump_change_detail!(
+                "[Change] merged: {}",
+                dump(
+                    &BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: new.clone()
+                    },
+                    false
                 )
-            }
+            );
+
             *stmts = new
         }
     }
@@ -1485,7 +1478,7 @@ where
                             .iter()
                             .all(|stmt| !matches!(stmt, Stmt::Decl(..)))
                         {
-                            tracing::debug!("optimizer: Removing nested block");
+                            report_change!("optimizer: Removing nested block");
                             self.changed = true;
                             bs.stmts = block.stmts.take();
                         }
@@ -1506,7 +1499,7 @@ where
                         )
                     })
                 {
-                    tracing::debug!("optimizer: Unwrapping a block with variable statements");
+                    report_change!("optimizer: Unwrapping a block with variable statements");
                     self.changed = true;
                     *s = bs.stmts[0].take();
                     return;
@@ -1516,7 +1509,7 @@ where
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
                             self.changed = true;
-                            tracing::debug!("optimizer: Removing empty block");
+                            report_change!("optimizer: Removing empty block");
                             *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         }
                     }
@@ -1526,12 +1519,12 @@ where
                     match &bs.stmts[0] {
                         Stmt::Expr(..) | Stmt::If(..) => {
                             *s = bs.stmts[0].take();
-                            tracing::debug!("optimizer: Unwrapping block stmt");
+                            report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
                         Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
                             *s = bs.stmts[0].take();
-                            tracing::debug!("optimizer: Unwrapping block stmt in non strcit mode");
+                            report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
                         _ => {}
@@ -1602,7 +1595,7 @@ where
         if stmt.alt.is_none() {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
-                tracing::debug!("Converting if statement to a form `test && cons`");
+                report_change!("Converting if statement to a form `test && cons`");
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
                     expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
@@ -1637,9 +1630,8 @@ where
                 }
                 BlockStmtOrExpr::Expr(v) => {
                     self.changed = true;
-                    if cfg!(feature = "debug") {
-                        tracing::debug!("Converting a body of an arrow expression to BlockStmt");
-                    }
+                    report_change!("Converting a body of an arrow expression to BlockStmt");
+
                     stmts.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(v.take()),
@@ -1772,7 +1764,7 @@ where
                         raw: None,
                     })));
                     self.changed = true;
-                    tracing::debug!("injecting zero to preserve `this` in call");
+                    report_change!("injecting zero to preserve `this` in call");
 
                     *callee = Box::new(Expr::Seq(SeqExpr {
                         span: callee.span(),
@@ -1925,7 +1917,7 @@ where
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
             if let Some(expr) = expr {
-                tracing::debug!("Optimizing: Literal comparison");
+                report_change!("Optimizing: Literal comparison");
                 self.changed = true;
                 *e = expr;
             }
@@ -2016,9 +2008,7 @@ where
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                if cfg!(feature = "debug") {
-                    tracing::debug!("visit_mut_expr_stmt: Dropped an expression statement");
-                }
+                report_change!("visit_mut_expr_stmt: Dropped an expression statement");
                 undefined(DUMMY_SP)
             });
         } else {
@@ -2040,6 +2030,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         self.functions
             .entry(f.ident.to_id())
@@ -2049,10 +2040,14 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        let ctx = Ctx { ..self.ctx };
+        let ctx = Ctx {
+            top_level: false,
+            ..self.ctx
+        };
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
@@ -2067,6 +2062,7 @@ where
         e.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
@@ -2087,6 +2083,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.right.visit_mut_with(self);
 
@@ -2107,6 +2104,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         let ctx = Ctx {
             executed_multiple_time: true,
@@ -2149,6 +2147,8 @@ where
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
+                top_level: false,
+
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
@@ -2187,6 +2187,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.test.visit_mut_with(self);
 
@@ -2206,6 +2207,7 @@ where
         self.merge_else_if(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
             stmt_labelled: true,
@@ -2222,6 +2224,7 @@ where
         self.label = old_label;
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         {
             let ctx = Ctx {
@@ -2270,6 +2273,7 @@ where
         drop_invalid_stmts(stmts);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         {
             let ctx = Ctx {
@@ -2288,21 +2292,26 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
         if let Some(Stmt::Empty(..)) = s.as_deref() {
             self.changed = true;
-            tracing::debug!("misc: Removing empty statement");
+            report_change!("misc: Removing empty statement");
             *s = None;
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
         match n {
             Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Invalid(..) => {
+                    *n = None;
+                }
                 Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
                     *n = None;
                 }
@@ -2317,6 +2326,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             var_kind: None,
@@ -2334,6 +2344,7 @@ where
         n.retain(|p| !p.pat.is_invalid());
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
@@ -2354,6 +2365,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
@@ -2497,8 +2509,6 @@ where
 
         self.try_removing_block(s, false);
 
-        self.extract_vars_in_subscopes(s);
-
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
@@ -2531,7 +2541,7 @@ where
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
-                tracing::debug!("after: visit_mut_children_with: {}", text);
+                debug!("after: visit_mut_children_with: {}", text);
             }
         }
 
@@ -2553,7 +2563,7 @@ where
                     _ => false,
                 }
             {
-                tracing::debug!("Removing 'use strict'");
+                report_change!("Removing 'use strict'");
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
@@ -2564,10 +2574,8 @@ where
 
                 if can_be_removed {
                     self.changed = true;
-                    tracing::debug!("unused: Dropping an expression without side effect");
-                    if cfg!(feature = "debug") {
-                        tracing::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr, false));
-                    }
+                    report_change!("unused: Dropping an expression without side effect");
+                    dump_change_detail!("unused: Dropping \n{}\n", dump(&*expr, false));
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -2617,7 +2625,7 @@ where
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
-                tracing::debug!("after: visit_mut_stmt: {}", text);
+                debug!("after: visit_mut_stmt: {}", text);
             }
         }
 
@@ -2644,10 +2652,7 @@ where
             return;
         }
 
-        let ctx = Ctx {
-            top_level: false,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx).inject_else(stmts);
 
@@ -2676,6 +2681,7 @@ where
         s.visit_mut_children_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
         if let SuperProp::Computed(c) = &mut n.prop {
             let ctx = Ctx {
@@ -2687,12 +2693,14 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
         n.visit_mut_children_with(self);
 
         self.optimize_switch_cases(n);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
 
@@ -2702,18 +2710,21 @@ where
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
 
         n.tpl.exprs.visit_mut_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
         self.optimize_in_fn_termination(&mut n.arg);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
@@ -2731,6 +2742,7 @@ where
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = Ctx {
             in_try_block: true,
@@ -2743,6 +2755,7 @@ where
         n.finalizer.visit_mut_with(self);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let ctx = Ctx {
             in_bang_arg: n.op == op!("!"),
@@ -2758,7 +2771,7 @@ where
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
-                    tracing::debug!("Ignoring arg of `void`");
+                    report_change!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
                     n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
@@ -2767,6 +2780,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let ctx = Ctx {
             is_update_arg: true,
@@ -2776,6 +2790,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         {
             let ctx = Ctx {
@@ -2793,7 +2808,7 @@ where
                 if let Some(e) = &var.init {
                     if is_pure_undefined(e) {
                         self.changed = true;
-                        tracing::debug!(
+                        report_change!(
                             "Dropping explicit initializer which evaluates to `undefined`"
                         );
 
@@ -2804,6 +2819,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         var.name.visit_mut_with(self);
 
@@ -2815,6 +2831,7 @@ where
         self.store_var_for_prop_hoisting(var);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
@@ -2948,6 +2965,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
         {
             let ctx = Ctx {
@@ -2958,6 +2976,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 

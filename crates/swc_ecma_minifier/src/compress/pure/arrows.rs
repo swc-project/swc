@@ -26,7 +26,7 @@ impl Pure<'_> {
             }
 
             self.changed = true;
-            tracing::debug!("unsafe_arrows: Fn expr => arrow");
+            report_change!("unsafe_arrows: Fn expr => arrow");
 
             *e = Expr::Arrow(ArrowExpr {
                 span: function.span,
@@ -50,7 +50,7 @@ impl Pure<'_> {
                 if s.stmts.len() == 1 {
                     if let Stmt::Return(s) = &mut s.stmts[0] {
                         if let Some(arg) = &mut s.arg {
-                            tracing::debug!("arrows: Optimizing the body of an arrow");
+                            report_change!("arrows: Optimizing the body of an arrow");
                             *b = BlockStmtOrExpr::Expr(arg.take());
                         }
                     }
@@ -90,7 +90,7 @@ impl Pure<'_> {
                         return;
                     }
                     self.changed = true;
-                    tracing::debug!("Method property => arrow");
+                    report_change!("Method property => arrow");
 
                     let arg = body
                         .take()

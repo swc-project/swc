@@ -1,0 +1,108 @@
+@keyframes test {
+    0% {
+        color: red;
+    }
+}
+
+@supports (flex-wrap: wrap) {
+    @keyframes test {
+        0% {
+            color: red;
+        }
+    }
+}
+
+@supports (flex-wrap: wrap) {
+    @supports (flex-wrap: wrap) {
+        @keyframes test {
+            0% {
+                color: red;
+            }
+        }
+    }
+}
+
+.test {
+    &.class::placeholder {
+        color: red;
+    }
+}
+
+.test {
+    &.class::placeholder {
+         appearance: auto;
+    }
+}
+
+.test {
+    appearance: auto;
+
+    &.class {
+        color: red;
+    }
+}
+
+.test {
+    appearance: auto;
+
+    &.class {
+         appearance: auto;
+    }
+}
+
+.test {
+    @supports (foo: bar) {
+        appearance: auto;
+    }
+}
+
+.test {
+    @media (orientation: landscape) {
+        appearance: auto;
+    }
+}
+
+.test {
+    appearance: auto;
+
+    &.class::placeholder {
+        appearance: auto;
+    }
+    @media (orientation: landscape) {
+        appearance: auto;
+    }
+}
+
+@media (orientation: landscape) {
+    .test {
+        &.class::placeholder {
+             appearance: auto;
+        }
+    }
+}
+
+@media (orientation: landscape) {
+    .test {
+        appearance: auto;
+
+        &.class {
+            appearance: auto;
+        }
+    }
+}
+
+.test {
+    appearance: none;
+
+    &.class {
+        appearance: auto;
+
+        &.class {
+            appearance: menulist-button;
+
+            &.class {
+                appearance: button;
+            }
+        }
+    }
+}

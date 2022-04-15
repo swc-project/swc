@@ -19,7 +19,7 @@ Tagged(Derived);
 const Thing2 = Tagged(((superClass)=>{
     class _class extends superClass {
         print() {
-            this.x + this.y;
+            this.x, this.y;
         }
     }
     return _class.message = "hello", _class;

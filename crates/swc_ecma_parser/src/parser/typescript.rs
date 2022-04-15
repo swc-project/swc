@@ -180,7 +180,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseEntityName`
-    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
+    fn parse_ts_entity_name(
+        &mut self,
+        allow_reserved_words: bool,
+        allow_private_identifiers: bool,
+    ) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
 
         let init = self.parse_ident_name()?;
@@ -196,7 +200,7 @@ impl<I: Tokens> Parser<I> {
         let mut entity = TsEntityName::Ident(init);
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
-            if !is!(self, '#') && !is!(self, IdentName) {
+            if !allow_private_identifiers && !is!(self, '#') && !is!(self, IdentName) {
                 self.emit_err(
                     Span::new(dot_start, dot_start, Default::default()),
                     SyntaxError::TS1003,
@@ -205,10 +209,13 @@ impl<I: Tokens> Parser<I> {
             }
 
             let left = entity;
-            let right = if allow_reserved_words {
-                self.parse_ident_name()?
+            let right = if allow_private_identifiers {
+                self.parse_maybe_private_name()?
+                    .either(Into::into, Into::into)
+            } else if allow_reserved_words {
+                self.parse_ident_name()?.into()
             } else {
-                self.parse_ident(false, false)?
+                self.parse_ident(false, false)?.into()
             };
             entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
         }
@@ -225,7 +232,9 @@ impl<I: Tokens> Parser<I> {
 
         let has_modifier = self.eat_any_ts_modifier()?;
 
-        let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
+        let type_name = self.parse_ts_entity_name(
+            /* allow_reserved_words */ true, /* allow_private_identifiers */ false,
+        )?;
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
@@ -317,7 +326,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ')');
 
         let qualifier = if eat!(self, '.') {
-            self.parse_ts_entity_name(false).map(Some)?
+            self.parse_ts_entity_name(false, false).map(Some)?
         } else {
             None
         };
@@ -347,7 +356,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             self.parse_ts_entity_name(
                 // allow_reserved_word
-                true,
+                true, true,
             )
             .map(From::from)?
         };
@@ -889,29 +898,41 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let ty = self.parse_ts_non_conditional_type()?;
-        if self.input.had_line_break_before_cur() || !eat!(self, "extends") {
-            return Ok(ty);
-        }
+        self.with_ctx(Context {
+            disallow_conditional_types: false,
+            ..self.ctx()
+        })
+        .parse_with(|p| {
+            let ty = p.parse_ts_non_conditional_type()?;
+            if p.input.had_line_break_before_cur() || !eat!(p, "extends") {
+                return Ok(ty);
+            }
 
-        let check_type = ty;
-        let extends_type = self.parse_ts_non_conditional_type()?;
+            let check_type = ty;
+            let extends_type = {
+                p.with_ctx(Context {
+                    disallow_conditional_types: true,
+                    ..p.ctx()
+                })
+                .parse_ts_non_conditional_type()?
+            };
 
-        expect!(self, '?');
+            expect!(p, '?');
 
-        let true_type = self.parse_ts_type()?;
+            let true_type = p.parse_ts_type()?;
 
-        expect!(self, ':');
+            expect!(p, ':');
 
-        let false_type = self.parse_ts_type()?;
+            let false_type = p.parse_ts_type()?;
 
-        Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
-            span: span!(self, start),
-            check_type,
-            extends_type,
-            true_type,
-            false_type,
-        })))
+            Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
+                span: span!(p, start),
+                check_type,
+                extends_type,
+                true_type,
+                false_type,
+            })))
+        })
     }
 
     /// `tsParseNonConditionalType`
@@ -1126,8 +1147,10 @@ impl<I: Tokens> Parser<I> {
         if self.is_ts_external_module_ref()? {
             self.parse_ts_external_module_ref().map(From::from)
         } else {
-            self.parse_ts_entity_name(/* allow_reserved_words */ false)
-                .map(From::from)
+            self.parse_ts_entity_name(
+                /* allow_reserved_words */ false, /* allow_private_identifiers */ false,
+            )
+            .map(From::from)
         }
     }
 
@@ -2186,12 +2209,21 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, "infer");
         let type_param_name = self.parse_ident_name()?;
+        let constraint = self.try_parse_ts(|p| {
+            expect!(p, "extends");
+            let constraint = p.parse_ts_non_conditional_type();
+            if p.ctx().disallow_conditional_types || !is!(p, '?') {
+                constraint.map(Some)
+            } else {
+                Ok(None)
+            }
+        });
         let type_param = TsTypeParam {
             span: type_param_name.span(),
             name: type_param_name,
             is_in: false,
             is_out: false,
-            constraint: None,
+            constraint,
             default: None,
         };
         Ok(TsInferType {

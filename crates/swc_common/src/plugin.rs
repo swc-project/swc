@@ -24,13 +24,13 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 pub enum PluginError {
     /// Occurs when failed to convert size passed from host / guest into usize
     /// or similar for the conversion. This is an internal error rasied via
-    /// plugin_macro, noramlly plugin author should not raise this manually.
+    /// plugin_macro, normally plugin author should not raise this manually.
     SizeInteropFailure(String),
     /// Occurs when failed to reconstruct a struct from `Serialized`.
     Deserialize(String),
     /// Occurs when failed to serialize a struct into `Serialized`.
     /// Unlike deserialize error, this error cannot forward any context for the
-    /// raw bytes: when serialze failed, there's nothing we can pass between
+    /// raw bytes: when serialize failed, there's nothing we can pass between
     /// runtime.
     Serialize(String),
 }
@@ -104,7 +104,7 @@ impl Serialized {
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
 
-    /// Convinient wrapper to Serialized::* to construct actual struct from raw
+    /// Convenient wrapper to Serialized::* to construct actual struct from raw
     /// ptr. This is common workflow on both of runtime (host / plugin) to
     /// deserialize struct from allocated / copied ptr.
     ///

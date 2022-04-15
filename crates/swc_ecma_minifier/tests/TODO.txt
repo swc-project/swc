@@ -107,6 +107,7 @@ collapse_vars/unused_orig/input.js
 collapse_vars/var_defs/input.js
 collapse_vars/var_side_effects_2/input.js
 conditionals/equality_conditionals_false/input.js
+conditionals/hoist_decl/input.js
 conditionals/ifs_5/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
@@ -117,9 +118,6 @@ dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_const_annotation/input.js
 dead_code/dead_code_const_annotation_complex_scope/input.js
-dead_code/dead_code_const_declaration/input.js
-dead_code/dead_code_constant_boolean_should_warn_more/input.js
-dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2749/input.js
 dead_code/issue_2860_2/input.js
@@ -453,11 +451,7 @@ issue_269/strings_concat/input.js
 issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
 issue_281/inner_var_for_in_1/input.js
-issue_281/issue_1288_side_effects/input.js
 issue_281/issue_1758/input.js
-issue_281/pure_annotation_1/input.js
-issue_281/pure_annotation_2/input.js
-issue_281/ref_scope/input.js
 issue_2871/comparison_with_undefined/input.js
 issue_368/collapse/input.js
 issue_417/test_unexpected_crash/input.js
@@ -511,7 +505,6 @@ loops/issue_2740_8/input.js
 negate_iife/issue_1254_negate_iife_nested/input.js
 negate_iife/issue_1254_negate_iife_true/input.js
 negate_iife/issue_1288/input.js
-negate_iife/issue_1288_side_effects/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
 numbers/evaluate_1/input.js
@@ -633,7 +626,6 @@ pure_getters/set_mutable_2/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-pure_globals/globals_whose_access_is_pure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
@@ -732,6 +724,7 @@ sequences/issue_1758/input.js
 sequences/lift_sequences_2/input.js
 sequences/lift_sequences_5/input.js
 sequences/side_effects_cascade_3/input.js
+switch/if_switch_typeof/input.js
 template_string/array_join/input.js
 template_string/coerce_to_string/input.js
 template_string/evaluate_nested_templates/input.js
@@ -741,8 +734,9 @@ template_string/special_chars_in_string/input.js
 template_string/tagged_template_function_inline_5/input.js
 template_string/template_concattenating_string/input.js
 template_string/template_string_with_predefined_constants/input.js
+transform/if_else_empty/input.js
 transform/if_return/input.js
-transform/while_if_break/input.js
+transform/label_if_break/input.js
 try_catch/catch_destructuring_with_sequence/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js

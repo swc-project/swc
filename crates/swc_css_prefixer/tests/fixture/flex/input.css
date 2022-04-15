@@ -169,3 +169,7 @@ a {
 .class {
     flex-flow: wrap column;
 }
+
+.class-17 {
+    flex-direction: row;
+}

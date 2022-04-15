@@ -3543,7 +3543,7 @@ fn minify_number(num: f64) -> String {
 
     let mut original = printed.clone();
 
-    if num.fract() == 0.0 {
+    if num.fract() == 0.0 && num.is_sign_positive() && num <= (0x7fffffffffffffff_i64 as f64) {
         let hex = format!("{:#x}", num as i64);
 
         if hex.len() < printed.len() {

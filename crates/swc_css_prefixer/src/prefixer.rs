@@ -1,8 +1,7 @@
 use core::f64::consts::PI;
 use std::mem::take;
 
-use swc_atoms::JsWord;
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -425,88 +424,28 @@ where
     node.visit_mut_with(&mut MediaFeatureResolutionReplacerOnLegacyVariant { from, to });
 }
 
+macro_rules! str_to_ident {
+    ($val:expr) => {{
+        ComponentValue::Ident(Ident {
+            span: DUMMY_SP,
+            value: $val.into(),
+            raw: $val.into(),
+        })
+    }};
+}
+
 #[derive(Default)]
 struct Prefixer {
-    in_stylesheet: bool,
-    in_media_query_list: bool,
     in_keyframe_block: bool,
     simple_block: Option<SimpleBlock>,
-    added_rules: Vec<Rule>,
+    rule_prefix: Option<Prefix>,
+    added_top_rules: Vec<(Prefix, Rule)>,
+    added_at_rules: Vec<(Prefix, AtRule)>,
+    added_qualified_rules: Vec<(Prefix, QualifiedRule)>,
     added_declarations: Vec<Declaration>,
 }
 
-impl Prefixer {
-    fn simple(&mut self, name: JsWord, val: JsWord, n: &Declaration) {
-        let val = ComponentValue::Ident(Ident {
-            span: DUMMY_SP,
-            value: val.clone(),
-            raw: val,
-        });
-        let name = DeclarationName::Ident(Ident {
-            span: DUMMY_SP,
-            value: name.clone(),
-            raw: name,
-        });
-        self.added_declarations.push(Declaration {
-            span: n.span,
-            name,
-            value: vec![val],
-            important: n.important.clone(),
-        });
-    }
-
-    fn same_name(&mut self, name: JsWord, n: &Declaration) {
-        let val = Ident {
-            span: DUMMY_SP,
-            value: name.clone(),
-            raw: name,
-        };
-        self.added_declarations.push(Declaration {
-            span: n.span,
-            name: n.name.clone(),
-            value: vec![ComponentValue::Ident(val)],
-            important: n.important.clone(),
-        });
-    }
-
-    fn get_declaration_by_name(&mut self, name: &str) -> Option<Declaration> {
-        match &self.simple_block {
-            Some(SimpleBlock { value, .. }) => {
-                let mut found = None;
-
-                for n in value.iter().rev() {
-                    match n {
-                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        ComponentValue::StyleBlock(StyleBlock::Declaration(
-                            declaration @ Declaration {
-                                name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            },
-                        )) if value.as_ref().eq_ignore_ascii_case(name) => {
-                            found = Some(declaration.clone());
-
-                            break;
-                        }
-                        _ => {}
-                    }
-                }
-
-                found
-            }
-            _ => None,
-        }
-    }
-}
-
+#[derive(Clone, Debug, PartialEq)]
 pub enum Prefix {
     Webkit,
     Moz,
@@ -515,15 +454,132 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
+        let mut new = vec![];
+
+        for mut n in take(&mut n.rules) {
+            n.visit_mut_children_with(self);
+
+            for mut n in take(&mut self.added_top_rules) {
+                let old_rule_prefix = self.rule_prefix.take();
+
+                self.rule_prefix = Some(n.0);
+
+                n.1.visit_mut_children_with(self);
+
+                new.push(n.1);
+
+                self.rule_prefix = old_rule_prefix;
+            }
+
+            new.push(n);
+        }
+
+        // Avoid duplicate prefixed at-rules
+        new.dedup_by(|a, b| match (a, b) {
+            (Rule::AtRule(a), Rule::AtRule(b)) => a.eq_ignore_span(b),
+            _ => false,
+        });
+
+        n.rules = new;
+    }
+
     // TODO handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
-    // TODO handle `@keyframes`
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        let original_simple_block = n.block.clone();
+
+        n.visit_mut_children_with(self);
+
+        match &n.name {
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("viewport") =>
+            {
+                let ms_at_rule = AtRule {
+                    span: DUMMY_SP,
+                    name: AtRuleName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-ms-viewport".into(),
+                        raw: "-ms-viewport".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
+
+                let o_at_rule = AtRule {
+                    span: DUMMY_SP,
+                    name: AtRuleName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-o-viewport".into(),
+                        raw: "-o-viewport".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Ms, Rule::AtRule(ms_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
+                } else {
+                    self.added_at_rules.push((Prefix::Ms, ms_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                }
+            }
+            AtRuleName::Ident(Ident { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("keyframes") =>
+            {
+                let webkit_at_rule = AtRule {
+                    span: DUMMY_SP,
+                    name: AtRuleName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-keyframes".into(),
+                        raw: "-webkit-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
+
+                let moz_at_rule = AtRule {
+                    span: DUMMY_SP,
+                    name: AtRuleName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-keyframes".into(),
+                        raw: "-moz-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block.clone(),
+                };
+
+                let o_at_rule = AtRule {
+                    span: DUMMY_SP,
+                    name: AtRuleName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-o-keyframes".into(),
+                        raw: "-o-keyframes".into(),
+                    }),
+                    prelude: n.prelude.clone(),
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::AtRule(webkit_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::Moz, Rule::AtRule(moz_at_rule)));
+                    self.added_top_rules
+                        .push((Prefix::O, Rule::AtRule(o_at_rule)));
+                } else {
+                    self.added_at_rules.push((Prefix::Webkit, webkit_at_rule));
+                    self.added_at_rules.push((Prefix::Moz, moz_at_rule));
+                    self.added_at_rules.push((Prefix::O, o_at_rule));
+                }
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
-        let old_in_media_query_list = self.in_media_query_list;
-
-        self.in_media_query_list = true;
-
         let mut new = vec![];
 
         for mut n in take(&mut media_query_list.queries) {
@@ -569,8 +625,209 @@ impl VisitMut for Prefixer {
         }
 
         media_query_list.queries = new;
+    }
 
-        self.in_media_query_list = old_in_media_query_list;
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
+            n.visit_mut_children_with(self);
+
+            return;
+        }
+
+        let original_simple_block = n.block.clone();
+
+        n.visit_mut_children_with(self);
+
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            let mut new_webkit_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "autofill",
+                "-webkit-autofill",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "any-link",
+                "-webkit-any-link",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_webkit_prelude,
+                "fullscreen",
+                "-webkit-full-screen",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "file-selector-button",
+                "-webkit-file-upload-button",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "backdrop",
+                "-webkit-backdrop",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_webkit_prelude,
+                "placeholder",
+                "-webkit-input-placeholder",
+            );
+
+            if n.prelude != new_webkit_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_webkit_prelude,
+                    block: original_simple_block.clone(),
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Webkit, qualified_rule));
+                }
+            }
+        }
+
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            let mut new_moz_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "read-only", "-moz-read-only");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "read-write",
+                "-moz-read-write",
+            );
+            replace_pseudo_class_selector_name(&mut new_moz_prelude, "any-link", "-moz-any-link");
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "fullscreen",
+                "-moz-full-screen",
+            );
+            replace_pseudo_class_selector_name(
+                &mut new_moz_prelude,
+                "placeholder-shown",
+                "-moz-placeholder-shown",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
+                "selection",
+                "-moz-selection",
+            );
+
+            {
+                let mut new_moz_prelude_with_previous = new_moz_prelude.clone();
+
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_moz_prelude_with_previous,
+                    "placeholder",
+                    "-moz-placeholder",
+                );
+
+                if new_moz_prelude_with_previous != new_moz_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_moz_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
+
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Moz, qualified_rule));
+                    }
+                }
+            }
+
+            replace_pseudo_element_selector_name(
+                &mut new_moz_prelude,
+                "placeholder",
+                "-moz-placeholder",
+            );
+
+            if n.prelude != new_moz_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_moz_prelude,
+                    block: original_simple_block.clone(),
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Moz, qualified_rule));
+                }
+            }
+        }
+
+        if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+            let mut new_ms_prelude = n.prelude.clone();
+
+            replace_pseudo_class_selector_name(&mut new_ms_prelude, "fullscreen", "-ms-fullscreen");
+            replace_pseudo_class_selector_name(
+                &mut new_ms_prelude,
+                "placeholder-shown",
+                "-ms-input-placeholder",
+            );
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
+                "file-selector-button",
+                "-ms-browse",
+            );
+            replace_pseudo_element_selector_name(&mut new_ms_prelude, "backdrop", "-ms-backdrop");
+
+            {
+                let mut new_ms_prelude_with_previous = new_ms_prelude.clone();
+
+                replace_pseudo_class_selector_on_pseudo_element_selector(
+                    &mut new_ms_prelude_with_previous,
+                    "placeholder",
+                    "-ms-input-placeholder",
+                );
+
+                if new_ms_prelude_with_previous != new_ms_prelude {
+                    let qualified_rule = QualifiedRule {
+                        span: DUMMY_SP,
+                        prelude: new_ms_prelude_with_previous,
+                        block: original_simple_block.clone(),
+                    };
+
+                    if self.simple_block.is_none() {
+                        self.added_top_rules
+                            .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
+                    } else {
+                        self.added_qualified_rules
+                            .push((Prefix::Ms, qualified_rule));
+                    }
+                }
+            }
+
+            replace_pseudo_element_selector_name(
+                &mut new_ms_prelude,
+                "placeholder",
+                "-ms-input-placeholder",
+            );
+
+            if n.prelude != new_ms_prelude {
+                let qualified_rule = QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_ms_prelude,
+                    block: original_simple_block,
+                };
+
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Ms, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Ms, qualified_rule));
+                }
+            }
+        }
     }
 
     fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
@@ -583,149 +840,103 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
-    // TODO don't generate wrong prefixes in prefixed selectors
-    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        n.visit_mut_children_with(self);
+    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
+        let old_simple_block = self.simple_block.take();
 
-        if !self.in_stylesheet {
-            return;
-        }
-
-        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
-            return;
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
-        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-webkit-any-link");
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-webkit-full-screen");
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "file-selector-button",
-            "-webkit-file-upload-button",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "placeholder",
-            "-webkit-input-placeholder",
-        );
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
-        replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
-        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-moz-full-screen");
-        replace_pseudo_class_selector_name(
-            &mut new_prelude,
-            "placeholder-shown",
-            "-moz-placeholder-shown",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
-
-        {
-            let mut new_prelude_with_previous = new_prelude.clone();
-
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_prelude_with_previous,
-                "placeholder",
-                "-moz-placeholder",
-            );
-
-            if new_prelude_with_previous != new_prelude {
-                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                    span: DUMMY_SP,
-                    prelude: new_prelude_with_previous,
-                    block: n.block.clone(),
-                }));
-            }
-        }
-
-        replace_pseudo_element_selector_name(&mut new_prelude, "placeholder", "-moz-placeholder");
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-
-        let mut new_prelude = n.prelude.clone();
-
-        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-ms-fullscreen");
-        replace_pseudo_class_selector_name(
-            &mut new_prelude,
-            "placeholder-shown",
-            "-ms-input-placeholder",
-        );
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "file-selector-button",
-            "-ms-browse",
-        );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
-
-        {
-            let mut new_prelude_with_previous = new_prelude.clone();
-
-            replace_pseudo_class_selector_on_pseudo_element_selector(
-                &mut new_prelude_with_previous,
-                "placeholder",
-                "-ms-input-placeholder",
-            );
-
-            if new_prelude_with_previous != new_prelude {
-                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                    span: DUMMY_SP,
-                    prelude: new_prelude_with_previous,
-                    block: n.block.clone(),
-                }));
-            }
-        }
-
-        replace_pseudo_element_selector_name(
-            &mut new_prelude,
-            "placeholder",
-            "-ms-input-placeholder",
-        );
-
-        if n.prelude != new_prelude {
-            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
-                span: DUMMY_SP,
-                prelude: new_prelude,
-                block: n.block.clone(),
-            }));
-        }
-    }
-
-    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
-        let old_in_stylesheet = self.in_stylesheet;
-
-        self.in_stylesheet = true;
+        self.simple_block = Some(simple_block.clone());
 
         let mut new = vec![];
 
-        for mut n in take(&mut n.rules) {
+        for mut n in take(&mut simple_block.value) {
             n.visit_mut_children_with(self);
 
-            new.append(&mut self.added_rules);
+            match n {
+                ComponentValue::DeclarationOrAtRule(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(StyleBlock::Declaration)
+                            .map(ComponentValue::StyleBlock),
+                    );
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                ComponentValue::Rule(_) => {
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                ComponentValue::StyleBlock(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(StyleBlock::Declaration)
+                            .map(ComponentValue::StyleBlock),
+                    );
+
+                    for mut n in take(&mut self.added_qualified_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+
+                    for mut n in take(&mut self.added_at_rules) {
+                        let old_rule_prefix = self.rule_prefix.take();
+
+                        self.rule_prefix = Some(n.0);
+
+                        n.1.visit_mut_children_with(self);
+
+                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+
+                        self.rule_prefix = old_rule_prefix;
+                    }
+                }
+                _ => {}
+            }
+
             new.push(n);
         }
 
-        n.rules = new;
+        simple_block.value = new;
 
-        self.in_stylesheet = old_in_stylesheet;
+        self.simple_block = old_simple_block;
     }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
@@ -756,124 +967,189 @@ impl VisitMut for Prefixer {
         };
 
         // TODO make it lazy?
-        let mut webkit_new_value = n.value.clone();
+        let mut webkit_value = n.value.clone();
 
-        replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
-        replace_image_set_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "image-set",
-            "-webkit-image-set",
-        );
-        replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
-        replace_cross_fade_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "cross-fade",
-            "-webkit-cross-fade",
-        );
+        if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+            replace_function_name(&mut webkit_value, "filter", "-webkit-filter");
+            replace_image_set_function_on_legacy_variant(
+                &mut webkit_value,
+                "image-set",
+                "-webkit-image-set",
+            );
+            replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+            replace_cross_fade_function_on_legacy_variant(
+                &mut webkit_value,
+                "cross-fade",
+                "-webkit-cross-fade",
+            );
 
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "linear-gradient",
-            "-webkit-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "repeating-linear-gradient",
-            "-webkit-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "radial-gradient",
-            "-webkit-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut webkit_new_value,
-            "repeating-radial-gradient",
-            "-webkit-repeating-radial-gradient",
-        );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "linear-gradient",
+                "-webkit-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-linear-gradient",
+                "-webkit-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "radial-gradient",
+                "-webkit-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut webkit_value,
+                "repeating-radial-gradient",
+                "-webkit-repeating-radial-gradient",
+            );
+        }
 
-        let mut moz_new_value = n.value.clone();
+        let mut moz_value = n.value.clone();
 
-        replace_function_name(&mut moz_new_value, "element", "-moz-element");
-        replace_function_name(&mut moz_new_value, "calc", "-moz-calc");
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_new_value,
-            "linear-gradient",
-            "-moz-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_new_value,
-            "repeating-linear-gradient",
-            "-moz-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_new_value,
-            "radial-gradient",
-            "-moz-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut moz_new_value,
-            "repeating-radial-gradient",
-            "-moz-repeating-linear-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+            replace_function_name(&mut moz_value, "element", "-moz-element");
+            replace_function_name(&mut moz_value, "calc", "-moz-calc");
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "linear-gradient",
+                "-moz-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-linear-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "radial-gradient",
+                "-moz-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut moz_value,
+                "repeating-radial-gradient",
+                "-moz-repeating-linear-gradient",
+            );
+        }
 
-        let mut o_new_value = n.value.clone();
+        let mut o_value = n.value.clone();
 
-        replace_gradient_function_on_legacy_variant(
-            &mut o_new_value,
-            "linear-gradient",
-            "-o-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_new_value,
-            "repeating-linear-gradient",
-            "-o-repeating-linear-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_new_value,
-            "radial-gradient",
-            "-o-radial-gradient",
-        );
-        replace_gradient_function_on_legacy_variant(
-            &mut o_new_value,
-            "repeating-radial-gradient",
-            "-o-repeating-radial-gradient",
-        );
+        if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "linear-gradient",
+                "-o-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-linear-gradient",
+                "-o-repeating-linear-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "radial-gradient",
+                "-o-radial-gradient",
+            );
+            replace_gradient_function_on_legacy_variant(
+                &mut o_value,
+                "repeating-radial-gradient",
+                "-o-repeating-radial-gradient",
+            );
+        }
 
-        let ms_new_value = n.value.clone();
+        let mut ms_value = n.value.clone();
 
-        macro_rules! same_content {
+        // TODO lazy
+        let mut declarations = vec![];
+
+        if let Some(SimpleBlock { value, .. }) = &self.simple_block {
+            for n in value.iter() {
+                match n {
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
+                        declaration,
+                    )) => declarations.push(declaration),
+                    ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
+                        declarations.push(declaration)
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        // TODO lazy
+        let property_names: Vec<&str> = declarations
+            .iter()
+            .filter(|declaration| {
+                !matches!(
+                    declaration,
+                    Declaration {
+                        name: DeclarationName::DashedIdent(_),
+                        ..
+                    }
+                )
+            })
+            .map(|declaration| match declaration {
+                Declaration {
+                    name: DeclarationName::Ident(ident),
+                    ..
+                } => &*ident.value,
+                _ => {
+                    unreachable!();
+                }
+            })
+            .collect();
+
+        // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
+        // TODO avoid duplication insert
+        macro_rules! add_declaration {
             ($prefix:expr,$name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                let new_value = match $prefix {
-                    Prefix::Webkit => webkit_new_value.clone(),
-                    Prefix::Moz => moz_new_value.clone(),
-                    Prefix::O => o_new_value.clone(),
-                    Prefix::Ms => ms_new_value.clone(),
-                };
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
+                    // Check we don't have prefixed property
+                    if !property_names.contains(&$name) {
+                        let name = DeclarationName::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: $name.into(),
+                            raw: $name.into(),
+                        });
+                        let new_value = match $prefix {
+                            Prefix::Webkit => webkit_value.clone(),
+                            Prefix::Moz => moz_value.clone(),
+                            Prefix::O => o_value.clone(),
+                            Prefix::Ms => ms_value.clone(),
+                        };
 
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: new_value,
-                    important: n.important.clone(),
-                });
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name,
+                            value: new_value,
+                            important: n.important.clone(),
+                        });
+                    }
+                }
             }};
-        }
 
-        macro_rules! simple {
-            ($name:expr,$val:expr) => {{
-                self.simple($name.into(), $val.into(), &n);
-            }};
-        }
+            ($prefix:expr,$name:expr,$value:expr) => {{
+                // Use only specific prefix in prefixed at-rules or rule, i.e.
+                // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+                if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
+                    // Check we don't have prefixed property
+                    if !property_names.contains(&$name) {
+                        let name = DeclarationName::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: $name.into(),
+                            raw: $name.into(),
+                        });
 
-        macro_rules! same_name {
-            ($name:expr) => {{
-                self.same_name($name.into(), &n);
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name,
+                            value: $value,
+                            important: n.important.clone(),
+                        });
+                    }
+                }
             }};
         }
 
@@ -881,9 +1157,9 @@ impl VisitMut for Prefixer {
 
         match property_name {
             "appearance" => {
-                same_content!(Prefix::Webkit, "-webkit-appearance");
-                same_content!(Prefix::Moz, "-moz-appearance");
-                same_content!(Prefix::Ms, "-ms-appearance");
+                add_declaration!(Prefix::Webkit, "-webkit-appearance");
+                add_declaration!(Prefix::Moz, "-moz-appearance");
+                add_declaration!(Prefix::Ms, "-ms-appearance");
             }
 
             "animation" => {
@@ -895,28 +1171,28 @@ impl VisitMut for Prefixer {
                 });
 
                 if need_prefix {
-                    same_content!(Prefix::Webkit, "-webkit-animation");
-                    same_content!(Prefix::Moz, "-moz-animation");
-                    same_content!(Prefix::O, "-o-animation");
+                    add_declaration!(Prefix::Webkit, "-webkit-animation");
+                    add_declaration!(Prefix::Moz, "-moz-animation");
+                    add_declaration!(Prefix::O, "-o-animation");
                 }
             }
 
             "animation-name" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-name");
-                same_content!(Prefix::Moz, "-moz-animation-name");
-                same_content!(Prefix::O, "-o-animation-name");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-name");
+                add_declaration!(Prefix::Moz, "-moz-animation-name");
+                add_declaration!(Prefix::O, "-o-animation-name");
             }
 
             "animation-duration" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-duration");
-                same_content!(Prefix::Moz, "-moz-animation-duration");
-                same_content!(Prefix::O, "-o-animation-duration");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-duration");
+                add_declaration!(Prefix::Moz, "-moz-animation-duration");
+                add_declaration!(Prefix::O, "-o-animation-duration");
             }
 
             "animation-delay" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-delay");
-                same_content!(Prefix::Moz, "-moz-animation-delay");
-                same_content!(Prefix::O, "-o-animation-delay");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-delay");
+                add_declaration!(Prefix::Moz, "-moz-animation-delay");
+                add_declaration!(Prefix::O, "-o-animation-delay");
             }
 
             "animation-direction" => {
@@ -925,140 +1201,159 @@ impl VisitMut for Prefixer {
                         "alternate-reverse" | "reverse" => {}
 
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-animation-direction");
-                            same_content!(Prefix::Moz, "-moz-animation-direction");
-                            same_content!(Prefix::O, "-o-animation-direction");
+                            add_declaration!(Prefix::Webkit, "-webkit-animation-direction");
+                            add_declaration!(Prefix::Moz, "-moz-animation-direction");
+                            add_declaration!(Prefix::O, "-o-animation-direction");
                         }
                     }
                 }
             }
 
             "animation-fill-mode" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-fill-mode");
-                same_content!(Prefix::Moz, "-moz-animation-fill-mode");
-                same_content!(Prefix::O, "-o-animation-fill-mode");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-fill-mode");
+                add_declaration!(Prefix::Moz, "-moz-animation-fill-mode");
+                add_declaration!(Prefix::O, "-o-animation-fill-mode");
             }
 
             "animation-iteration-count" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-iteration-count");
-                same_content!(Prefix::Moz, "-moz-animation-iteration-count");
-                same_content!(Prefix::O, "-o-animation-iteration-count");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-iteration-count");
+                add_declaration!(Prefix::Moz, "-moz-animation-iteration-count");
+                add_declaration!(Prefix::O, "-o-animation-iteration-count");
             }
 
             "animation-play-state" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-play-state");
-                same_content!(Prefix::Moz, "-moz-animation-play-state");
-                same_content!(Prefix::O, "-o-animation-play-state");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-play-state");
+                add_declaration!(Prefix::Moz, "-moz-animation-play-state");
+                add_declaration!(Prefix::O, "-o-animation-play-state");
             }
 
             "animation-timing-function" => {
-                same_content!(Prefix::Webkit, "-webkit-animation-timing-function");
-                same_content!(Prefix::Moz, "-moz-animation-timing-function");
-                same_content!(Prefix::O, "-o-animation-timing-function");
+                add_declaration!(Prefix::Webkit, "-webkit-animation-timing-function");
+                add_declaration!(Prefix::Moz, "-moz-animation-timing-function");
+                add_declaration!(Prefix::O, "-o-animation-timing-function");
             }
 
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
-                        same_content!(Prefix::Webkit, "-webkit-background-clip");
+                        add_declaration!(Prefix::Webkit, "-webkit-background-clip");
                     }
                 }
             }
 
             "box-decoration-break" => {
-                same_content!(Prefix::Webkit, "-webkit-box-decoration-break");
+                add_declaration!(Prefix::Webkit, "-webkit-box-decoration-break");
             }
 
             "box-sizing" => {
-                same_content!(Prefix::Webkit, "-webkit-box-sizing");
-                same_content!(Prefix::Moz, "-moz-box-sizing");
+                add_declaration!(Prefix::Webkit, "-webkit-box-sizing");
+                add_declaration!(Prefix::Moz, "-moz-box-sizing");
             }
 
             "color-adjust" => {
-                same_content!(Prefix::Webkit, "-webkit-print-color-adjust");
+                add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust");
             }
 
             "columns" => {
-                same_content!(Prefix::Webkit, "-webkit-columns");
-                same_content!(Prefix::Moz, "-moz-columns");
+                add_declaration!(Prefix::Webkit, "-webkit-columns");
+                add_declaration!(Prefix::Moz, "-moz-columns");
             }
 
             "column-width" => {
-                same_content!(Prefix::Webkit, "-webkit-column-width");
-                same_content!(Prefix::Moz, "-moz-column-width");
+                add_declaration!(Prefix::Webkit, "-webkit-column-width");
+                add_declaration!(Prefix::Moz, "-moz-column-width");
             }
 
             "column-gap" => {
-                same_content!(Prefix::Webkit, "-webkit-column-gap");
-                same_content!(Prefix::Moz, "-moz-column-gap");
+                add_declaration!(Prefix::Webkit, "-webkit-column-gap");
+                add_declaration!(Prefix::Moz, "-moz-column-gap");
             }
 
             "column-rule" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule");
-                same_content!(Prefix::Moz, "-moz-column-rule");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule");
+                add_declaration!(Prefix::Moz, "-moz-column-rule");
             }
 
             "column-rule-color" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-color");
-                same_content!(Prefix::Moz, "-moz-column-rule-color");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-color");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-color");
             }
 
             "column-rule-width" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-width");
-                same_content!(Prefix::Moz, "-moz-column-rule-width");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-width");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-width");
             }
 
             "column-count" => {
-                same_content!(Prefix::Webkit, "-webkit-column-count");
-                same_content!(Prefix::Moz, "-moz-column-count");
+                add_declaration!(Prefix::Webkit, "-webkit-column-count");
+                add_declaration!(Prefix::Moz, "-moz-column-count");
             }
 
             "column-rule-style" => {
-                same_content!(Prefix::Webkit, "-webkit-column-rule-style");
-                same_content!(Prefix::Moz, "-moz-column-rule-style");
+                add_declaration!(Prefix::Webkit, "-webkit-column-rule-style");
+                add_declaration!(Prefix::Moz, "-moz-column-rule-style");
             }
 
             "column-span" => {
-                same_content!(Prefix::Webkit, "-webkit-column-span");
-                same_content!(Prefix::Moz, "-moz-column-span");
+                add_declaration!(Prefix::Webkit, "-webkit-column-span");
+                add_declaration!(Prefix::Moz, "-moz-column-span");
             }
 
             "column-fill" => {
-                same_content!(Prefix::Webkit, "-webkit-column-fill");
-                same_content!(Prefix::Moz, "-moz-column-fill");
+                add_declaration!(Prefix::Webkit, "-webkit-column-fill");
+                add_declaration!(Prefix::Moz, "-moz-column-fill");
             }
 
             "cursor" => {
-                replace_ident(&mut webkit_new_value, "zoom-in", "-webkit-zoom-in");
-                replace_ident(&mut webkit_new_value, "zoom-out", "-webkit-zoom-out");
-                replace_ident(&mut webkit_new_value, "grab", "-webkit-grab");
-                replace_ident(&mut webkit_new_value, "grabbing", "-webkit-grabbing");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
+                    replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
+                    replace_ident(&mut webkit_value, "grab", "-webkit-grab");
+                    replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                }
 
-                replace_ident(&mut moz_new_value, "zoom-in", "-moz-zoom-in");
-                replace_ident(&mut moz_new_value, "zoom-out", "-moz-zoom-out");
-                replace_ident(&mut moz_new_value, "grab", "-moz-grab");
-                replace_ident(&mut moz_new_value, "grabbing", "-moz-grabbing");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
+                    replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
+                    replace_ident(&mut moz_value, "grab", "-moz-grab");
+                    replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                }
             }
 
             "display" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "flex" => {
-                            same_name!("-webkit-box");
-                            same_name!("-webkit-flex");
-                            same_name!("-moz-box");
-                            same_name!("-ms-flexbox");
-                        }
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_value = webkit_value.clone();
 
-                        "inline-flex" => {
-                            same_name!("-webkit-inline-box");
-                            same_name!("-webkit-inline-flex");
-                            same_name!("-moz-inline-box");
-                            same_name!("-ms-inline-flexbox");
-                        }
+                    replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                    replace_ident(
+                        &mut old_spec_webkit_value,
+                        "inline-flex",
+                        "-webkit-inline-box",
+                    );
 
-                        _ => {}
+                    if n.value != old_spec_webkit_value {
+                        self.added_declarations.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: old_spec_webkit_value,
+                            important: n.important.clone(),
+                        });
                     }
+                }
+
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                    replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                }
+
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "flex", "-moz-box");
+                    replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                }
+
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                    replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
                 }
             }
 
@@ -1087,43 +1382,25 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some(spec_2009_value) = &spec_2009_value {
-                    let value = vec![spec_2009_value.clone()];
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-flex".into(),
-                        raw: "-webkit-box-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-flex",
+                        vec![spec_2009_value.clone()]
+                    );
                 } else {
-                    same_content!(Prefix::Webkit, "-webkit-box-flex");
+                    add_declaration!(Prefix::Webkit, "-webkit-box-flex");
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex");
+                add_declaration!(Prefix::Webkit, "-webkit-flex");
 
                 if let Some(spec_2009_value) = &spec_2009_value {
-                    let value = vec![spec_2009_value.clone()];
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-flex".into(),
-                        raw: "-moz-box-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-flex", vec![spec_2009_value.clone()]);
                 } else {
-                    same_content!(Prefix::Webkit, "-moz-box-flex");
+                    add_declaration!(Prefix::Webkit, "-moz-box-flex");
                 }
 
                 if n.value.len() == 3 {
-                    let mut value = ms_new_value.clone();
+                    let mut value = ms_value.clone();
 
                     if let Some(ComponentValue::Integer(Integer { value: 0, span, .. })) =
                         value.get(2)
@@ -1143,37 +1420,27 @@ impl VisitMut for Prefixer {
                         }));
                     }
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-ms-flex".into(),
-                        raw: "-ms-flex".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Ms, "-ms-flex", value);
                 } else {
-                    same_content!(Prefix::Ms, "-ms-flex");
+                    add_declaration!(Prefix::Ms, "-ms-flex");
                 }
             }
 
             "flex-grow" => {
-                same_content!(Prefix::Webkit, "-webkit-box-flex");
-                same_content!(Prefix::Webkit, "-webkit-flex-grow");
-                same_content!(Prefix::Moz, "-moz-box-flex");
-                same_content!(Prefix::Ms, "-ms-flex-positive");
+                add_declaration!(Prefix::Webkit, "-webkit-box-flex");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-grow");
+                add_declaration!(Prefix::Moz, "-moz-box-flex");
+                add_declaration!(Prefix::Ms, "-ms-flex-positive");
             }
 
             "flex-shrink" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-shrink");
-                same_content!(Prefix::Ms, "-ms-flex-negative");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-shrink");
+                add_declaration!(Prefix::Ms, "-ms-flex-negative");
             }
 
             "flex-basis" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-basis");
-                same_content!(Prefix::Ms, "-ms-flex-preferred-size");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-basis");
+                add_declaration!(Prefix::Ms, "-ms-flex-preferred-size");
             }
 
             "flex-direction" => {
@@ -1202,79 +1469,35 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-orient",
+                        vec![str_to_ident!(orient)]
+                    );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex-direction");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-direction");
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-orient", vec![str_to_ident!(orient)]);
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-moz-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-direction");
+                add_declaration!(Prefix::Ms, "-ms-flex-direction");
             }
 
             "flex-wrap" => {
-                same_content!(Prefix::Webkit, "-webkit-flex-wrap");
-                same_content!(Prefix::Ms, "-ms-flex-wrap");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-wrap");
+                add_declaration!(Prefix::Ms, "-ms-flex-wrap");
             }
 
             "flex-flow" => {
@@ -1323,74 +1546,30 @@ impl VisitMut for Prefixer {
                 };
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-orient".into(),
-                        raw: "-webkit-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-direction".into(),
-                        raw: "-webkit-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-orient",
+                        vec![str_to_ident!(orient)]
+                    );
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-flex-flow");
+                add_declaration!(Prefix::Webkit, "-webkit-flex-flow");
 
                 if let Some((orient, direction)) = old_values {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-orient".into(),
-                        raw: "-moz-box-orient".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: orient.into(),
-                            raw: orient.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-direction".into(),
-                        raw: "-moz-box-direction".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: vec![ComponentValue::Ident(Ident {
-                            span: DUMMY_SP,
-                            value: direction.into(),
-                            raw: direction.into(),
-                        })],
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-orient", vec![str_to_ident!(orient)]);
+                    add_declaration!(
+                        Prefix::Moz,
+                        "-moz-box-direction",
+                        vec![str_to_ident!(direction)]
+                    );
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-flow");
+                add_declaration!(Prefix::Ms, "-ms-flex-flow");
             }
 
             "justify-content" => {
@@ -1403,66 +1582,46 @@ impl VisitMut for Prefixer {
                     _ => true,
                 };
 
-                if need_old_spec {
-                    let mut old_spec_webkit_new_value = webkit_new_value.clone();
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
+                    let mut old_spec_webkit_new_value = webkit_value.clone();
 
                     replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
                     replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
                     replace_ident(&mut old_spec_webkit_new_value, "space-between", "justify");
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-webkit-box-pack".into(),
-                        raw: "-webkit-box-pack".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: old_spec_webkit_new_value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-pack",
+                        old_spec_webkit_new_value
+                    );
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-justify-content");
+                add_declaration!(Prefix::Webkit, "-webkit-justify-content");
 
-                if need_old_spec {
-                    let mut old_spec_moz_new_value = moz_new_value.clone();
+                if need_old_spec
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
+                    let mut old_spec_moz_value = moz_value.clone();
 
-                    replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
-                    replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
-                    replace_ident(&mut old_spec_moz_new_value, "space-between", "justify");
+                    replace_ident(&mut old_spec_moz_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_value, "space-between", "justify");
 
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: "-moz-box-pack".into(),
-                        raw: "-moz-box-pack".into(),
-                    });
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name,
-                        value: old_spec_moz_new_value,
-                        important: n.important.clone(),
-                    });
+                    add_declaration!(Prefix::Moz, "-moz-box-pack", old_spec_moz_value);
                 }
 
-                let mut old_spec_ms_new_value = ms_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
-                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_new_value, "space-between", "justify");
-                replace_ident(&mut old_spec_ms_new_value, "space-around", "distribute");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "space-between", "justify");
+                    replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-pack".into(),
-                    raw: "-ms-flex-pack".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Ms, "-ms-flex-pack", old_spec_ms_value);
+                }
             }
 
             "order" => {
@@ -1473,148 +1632,126 @@ impl VisitMut for Prefixer {
 
                 match old_spec_num {
                     Some(old_spec_num) if n.value.len() == 1 => {
-                        simple!("-webkit-box-ordinal-group", old_spec_num.to_string());
+                        add_declaration!(
+                            Prefix::Webkit,
+                            "-webkit-box-ordinal-group",
+                            vec![str_to_ident!(old_spec_num.to_string())]
+                        );
                     }
                     _ => {
-                        same_content!(Prefix::Webkit, "-webkit-box-ordinal-group");
+                        add_declaration!(Prefix::Webkit, "-webkit-box-ordinal-group");
                     }
                 }
 
-                same_content!(Prefix::Webkit, "-webkit-order");
+                add_declaration!(Prefix::Webkit, "-webkit-order");
 
                 match old_spec_num {
                     Some(old_spec_num) if n.value.len() == 1 => {
-                        simple!("-moz-box-ordinal-group", old_spec_num.to_string());
+                        add_declaration!(
+                            Prefix::Moz,
+                            "-moz-box-ordinal-group",
+                            vec![str_to_ident!(old_spec_num.to_string())]
+                        );
                     }
                     _ => {
-                        same_content!(Prefix::Webkit, "-moz-box-ordinal-group");
+                        add_declaration!(Prefix::Webkit, "-moz-box-ordinal-group");
                     }
                 }
 
-                same_content!(Prefix::Ms, "-ms-flex-order");
+                add_declaration!(Prefix::Ms, "-ms-flex-order");
             }
 
             "align-items" => {
-                let mut old_spec_ms_new_value = webkit_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    let mut old_spec_webkit_new_value = webkit_value.clone();
 
-                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-webkit-box-align".into(),
-                    raw: "-webkit-box-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(
+                        Prefix::Webkit,
+                        "-webkit-box-align",
+                        old_spec_webkit_new_value
+                    );
+                }
 
-                same_content!(Prefix::Webkit, "-webkit-align-items");
+                add_declaration!(Prefix::Webkit, "-webkit-align-items");
 
-                let mut old_spec_moz_new_value = moz_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    let mut old_spec_moz_value = moz_value.clone();
 
-                replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-moz-box-align".into(),
-                    raw: "-moz-box-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_moz_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Moz, "-moz-box-align", old_spec_moz_value);
+                }
 
-                let mut old_spec_ms_new_value = ms_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
 
-                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
-                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_ms_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_ms_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-align".into(),
-                    raw: "-ms-flex-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: old_spec_ms_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Ms, "-ms-flex-align", old_spec_ms_value);
+                }
             }
 
             "align-self" => {
-                same_content!(Prefix::Webkit, "-webkit-align-self");
+                add_declaration!(Prefix::Webkit, "-webkit-align-self");
 
-                let mut spec_2012_ms_new_value = ms_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-item-align".into(),
-                    raw: "-ms-flex-item-align".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: spec_2012_ms_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Ms, "-ms-flex-item-align", spec_2012_ms_value);
+                }
             }
 
             "align-content" => {
-                same_content!(Prefix::Webkit, "-webkit-align-content");
+                add_declaration!(Prefix::Webkit, "-webkit-align-content");
 
-                let mut spec_2012_ms_new_value = ms_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut spec_2012_ms_value = ms_value.clone();
 
-                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
-                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
-                replace_ident(&mut spec_2012_ms_new_value, "space-between", "justify");
-                replace_ident(&mut spec_2012_ms_new_value, "space-around", "distribute");
+                    replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
+                    replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
+                    replace_ident(&mut spec_2012_ms_value, "space-between", "justify");
+                    replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-flex-line-pack".into(),
-                    raw: "-ms-flex-line-pack".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: spec_2012_ms_new_value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Ms, "-ms-flex-line-pack", spec_2012_ms_value);
+                }
             }
 
             "image-rendering" => {
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(
-                    &mut webkit_new_value,
-                    "pixelated",
-                    "-webkit-optimize-contrast",
-                );
-                replace_ident(
-                    &mut webkit_new_value,
-                    "crisp-edges",
-                    "-webkit-optimize-contrast",
-                );
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
+                    replace_ident(
+                        &mut webkit_value,
+                        "crisp-edges",
+                        "-webkit-optimize-contrast",
+                    );
+                }
 
-                // Fallback to nearest-neighbor algorithm
-                replace_ident(&mut moz_new_value, "pixelated", "-moz-crisp-edges");
-                replace_ident(&mut moz_new_value, "crisp-edges", "-moz-crisp-edges");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
+                    replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                }
 
-                replace_ident(&mut o_new_value, "pixelated", "-o-pixelated");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                }
 
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &*value.to_lowercase() == "pixelated" {
-                        simple!("-ms-interpolation-mode", "nearest-neighbor");
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut old_spec_ms_value = ms_value.clone();
+
+                    replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
+
+                    if ms_value != old_spec_ms_value {
+                        add_declaration!(Prefix::Ms, "-ms-interpolation-mode", old_spec_ms_value);
                     }
                 }
             }
@@ -1625,150 +1762,156 @@ impl VisitMut for Prefixer {
                 ComponentValue::Function(Function { name, .. })
                     if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
-                    same_content!(Prefix::Webkit, "-webkit-filter");
+                    add_declaration!(Prefix::Webkit, "-webkit-filter");
                 }
             },
 
             "backdrop-filter" => {
-                same_content!(Prefix::Webkit, "-webkit-backdrop-filter");
+                add_declaration!(Prefix::Webkit, "-webkit-backdrop-filter");
             }
 
             "mask-clip" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-clip");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-clip");
             }
 
             // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
             "mask-composite" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-composite");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-composite");
             }
 
             "mask-image" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-image");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-image");
             }
 
             "mask-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-origin");
             }
 
             "mask-repeat" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-repeat");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-repeat");
             }
 
             "mask-border-repeat" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-border-repeat");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-border-repeat");
             }
 
             "mask-border-source" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-border-source");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-border-source");
             }
 
             "mask" => {
-                same_content!(Prefix::Webkit, "-webkit-mask");
+                add_declaration!(Prefix::Webkit, "-webkit-mask");
             }
 
             "mask-position" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-position");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-position");
             }
 
             "mask-size" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-size");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-size");
             }
 
             "mask-border" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image");
             }
 
             "mask-border-outset" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-outset");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-outset");
             }
 
             "mask-border-width" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-width");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-width");
             }
 
             "mask-border-slice" => {
-                same_content!(Prefix::Webkit, "-webkit-mask-box-image-slice");
+                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-slice");
             }
 
             "border-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-border-start");
-                same_content!(Prefix::Moz, "-moz-border-start");
+                add_declaration!(Prefix::Webkit, "-webkit-border-start");
+                add_declaration!(Prefix::Moz, "-moz-border-start");
             }
 
             "border-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-border-end");
-                same_content!(Prefix::Moz, "-moz-border-end");
+                add_declaration!(Prefix::Webkit, "-webkit-border-end");
+                add_declaration!(Prefix::Moz, "-moz-border-end");
             }
 
             "margin-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-start");
-                same_content!(Prefix::Moz, "-moz-margin-start");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-start");
+                add_declaration!(Prefix::Moz, "-moz-margin-start");
             }
 
             "margin-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-end");
-                same_content!(Prefix::Moz, "-moz-margin-end");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-end");
+                add_declaration!(Prefix::Moz, "-moz-margin-end");
             }
 
             "padding-inline-start" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-start");
-                same_content!(Prefix::Moz, "-moz-padding-start");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-start");
+                add_declaration!(Prefix::Moz, "-moz-padding-start");
             }
 
             "padding-inline-end" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-end");
-                same_content!(Prefix::Moz, "-moz-padding-end");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-end");
+                add_declaration!(Prefix::Moz, "-moz-padding-end");
             }
 
             "border-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-border-before");
+                add_declaration!(Prefix::Webkit, "-webkit-border-before");
             }
 
             "border-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-border-after");
+                add_declaration!(Prefix::Webkit, "-webkit-border-after");
             }
 
             "margin-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-before");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-before");
             }
 
             "margin-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-margin-after");
+                add_declaration!(Prefix::Webkit, "-webkit-margin-after");
             }
 
             "padding-block-start" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-before");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-before");
             }
 
             "padding-block-end" => {
-                same_content!(Prefix::Webkit, "-webkit-padding-after");
+                add_declaration!(Prefix::Webkit, "-webkit-padding-after");
             }
 
             "backface-visibility" => {
-                same_content!(Prefix::Webkit, "-webkit-backface-visibility");
-                same_content!(Prefix::Moz, "-moz-backface-visibility");
+                add_declaration!(Prefix::Webkit, "-webkit-backface-visibility");
+                add_declaration!(Prefix::Moz, "-moz-backface-visibility");
             }
 
             "clip-path" => {
-                same_content!(Prefix::Webkit, "-webkit-clip-path");
+                add_declaration!(Prefix::Webkit, "-webkit-clip-path");
             }
 
             "position" if n.value.len() == 1 => {
-                replace_ident(&mut webkit_new_value, "sticky", "-webkit-sticky");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                }
             }
 
             "user-select" => {
-                same_content!(Prefix::Webkit, "-webkit-user-select");
-                same_content!(Prefix::Moz, "-moz-user-select");
+                add_declaration!(Prefix::Webkit, "-webkit-user-select");
+                add_declaration!(Prefix::Moz, "-moz-user-select");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "contain" => {
-                            simple!("-ms-user-select", "element");
+                            add_declaration!(
+                                Prefix::Ms,
+                                "-ms-user-select",
+                                vec![str_to_ident!("element")]
+                            );
                         }
                         "all" => {}
                         _ => {
-                            same_content!(Prefix::Ms, "-ms-user-select");
+                            add_declaration!(Prefix::Ms, "-ms-user-select");
                         }
                     }
                 }
@@ -1796,42 +1939,42 @@ impl VisitMut for Prefixer {
                     _ => false,
                 });
 
-                same_content!(Prefix::Webkit, "-webkit-transform");
-                same_content!(Prefix::Moz, "-moz-transform");
+                add_declaration!(Prefix::Webkit, "-webkit-transform");
+                add_declaration!(Prefix::Moz, "-moz-transform");
 
                 if !has_3d_function {
                     if !self.in_keyframe_block {
-                        same_content!(Prefix::Ms, "-ms-transform");
+                        add_declaration!(Prefix::Ms, "-ms-transform");
                     }
 
-                    same_content!(Prefix::O, "-o-transform");
+                    add_declaration!(Prefix::O, "-o-transform");
                 }
             }
 
             "transform-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-transform-origin");
-                same_content!(Prefix::Moz, "-moz-transform-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-transform-origin");
+                add_declaration!(Prefix::Moz, "-moz-transform-origin");
 
                 if !self.in_keyframe_block {
-                    same_content!(Prefix::Ms, "-ms-transform-origin");
+                    add_declaration!(Prefix::Ms, "-ms-transform-origin");
                 }
 
-                same_content!(Prefix::O, "-o-transform-origin");
+                add_declaration!(Prefix::O, "-o-transform-origin");
             }
 
             "transform-style" => {
-                same_content!(Prefix::Webkit, "-webkit-transform-style");
-                same_content!(Prefix::Moz, "-moz-transform-style");
+                add_declaration!(Prefix::Webkit, "-webkit-transform-style");
+                add_declaration!(Prefix::Moz, "-moz-transform-style");
             }
 
             "perspective" => {
-                same_content!(Prefix::Webkit, "-webkit-perspective");
-                same_content!(Prefix::Moz, "-moz-perspective");
+                add_declaration!(Prefix::Webkit, "-webkit-perspective");
+                add_declaration!(Prefix::Moz, "-moz-perspective");
             }
 
             "perspective-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-perspective-origin");
-                same_content!(Prefix::Moz, "-moz-perspective-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-perspective-origin");
+                add_declaration!(Prefix::Moz, "-moz-perspective-origin");
             }
 
             "text-decoration" => {
@@ -1851,43 +1994,47 @@ impl VisitMut for Prefixer {
                                     | "unset"
                             ) => {}
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-text-decoration");
-                            same_content!(Prefix::Moz, "-moz-text-decoration");
+                            add_declaration!(Prefix::Webkit, "-webkit-text-decoration");
+                            add_declaration!(Prefix::Moz, "-moz-text-decoration");
                         }
                     }
                 } else {
-                    same_content!(Prefix::Webkit, "-webkit-text-decoration");
-                    same_content!(Prefix::Moz, "-moz-text-decoration");
+                    add_declaration!(Prefix::Webkit, "-webkit-text-decoration");
+                    add_declaration!(Prefix::Moz, "-moz-text-decoration");
                 }
             }
 
             "text-decoration-style" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-style");
-                same_content!(Prefix::Moz, "-moz-text-decoration-style");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-style");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-style");
             }
 
             "text-decoration-color" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-color");
-                same_content!(Prefix::Moz, "-moz-text-decoration-color");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-color");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-color");
             }
 
             "text-decoration-line" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-line");
-                same_content!(Prefix::Moz, "-moz-text-decoration-line");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-line");
+                add_declaration!(Prefix::Moz, "-moz-text-decoration-line");
             }
 
             "text-decoration-skip" => {
-                same_content!(Prefix::Webkit, "-webkit-text-decoration-skip");
+                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-skip");
             }
 
             "text-decoration-skip-ink" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" => {
-                            simple!("-webkit-text-decoration-skip", "ink")
+                            add_declaration!(
+                                Prefix::Webkit,
+                                "-webkit-text-decoration-skip",
+                                vec![str_to_ident!("ink")]
+                            );
                         }
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-text-decoration-skip-ink");
+                            add_declaration!(Prefix::Webkit, "-webkit-text-decoration-skip-ink");
                         }
                     }
                 }
@@ -1896,9 +2043,9 @@ impl VisitMut for Prefixer {
             "text-size-adjust" if n.value.len() == 1 => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "none" {
-                        same_content!(Prefix::Webkit, "-webkit-text-size-adjust");
-                        same_content!(Prefix::Moz, "-moz-text-size-adjust");
-                        same_content!(Prefix::Ms, "-ms-text-size-adjust");
+                        add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust");
+                        add_declaration!(Prefix::Moz, "-moz-text-size-adjust");
+                        add_declaration!(Prefix::Ms, "-ms-text-size-adjust");
                     }
                 }
             }
@@ -1906,50 +2053,69 @@ impl VisitMut for Prefixer {
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
-                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
-                replace_ident(&mut webkit_new_value, "filter", "-webkit-filter");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                    replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                }
 
-                same_content!(Prefix::Webkit, "-webkit-transition");
+                add_declaration!(Prefix::Webkit, "-webkit-transition");
 
-                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
 
-                same_content!(Prefix::Moz, "-moz-transition");
+                add_declaration!(Prefix::Moz, "-moz-transition");
 
-                replace_ident(&mut o_new_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
 
-                same_content!(Prefix::O, "-o-transition");
+                add_declaration!(Prefix::O, "-o-transition");
             }
 
             "transition-property" => {
-                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
-                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
-                replace_ident(&mut o_new_value, "transform", "-o-transform");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                }
 
-                same_content!(Prefix::Webkit, "-webkit-transition-property");
-                same_content!(Prefix::Moz, "-moz-transition-timing-function");
-                same_content!(Prefix::O, "-o-transition-timing-function");
+                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "transform", "-moz-transform");
+                }
+
+                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                    replace_ident(&mut o_value, "transform", "-o-transform");
+                }
+
+                add_declaration!(Prefix::Webkit, "-webkit-transition-property");
+                add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
+                add_declaration!(Prefix::O, "-o-transition-timing-function");
             }
 
             "transition-duration" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-duration");
-                same_content!(Prefix::Moz, "-moz-transition-duration");
-                same_content!(Prefix::O, "-o-transition-duration");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-duration");
+                add_declaration!(Prefix::Moz, "-moz-transition-duration");
+                add_declaration!(Prefix::O, "-o-transition-duration");
             }
 
             "transition-delay" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-delay");
-                same_content!(Prefix::Moz, "-moz-transition-delay");
-                same_content!(Prefix::O, "-o-transition-delay");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-delay");
+                add_declaration!(Prefix::Moz, "-moz-transition-delay");
+                add_declaration!(Prefix::O, "-o-transition-delay");
             }
 
             "transition-timing-function" => {
-                same_content!(Prefix::Webkit, "-webkit-transition-timing-function");
-                same_content!(Prefix::Moz, "-moz-transition-timing-function");
-                same_content!(Prefix::O, "-o-transition-timing-function");
+                add_declaration!(Prefix::Webkit, "-webkit-transition-timing-function");
+                add_declaration!(Prefix::Moz, "-moz-transition-timing-function");
+                add_declaration!(Prefix::O, "-o-transition-timing-function");
             }
 
             "writing-mode" if n.value.len() == 1 => {
-                let direction = match self.get_declaration_by_name("direction") {
+                let direction = match declarations.into_iter().rev().find(|declaration| {
+                    matches!(declaration, Declaration {
+                              name: DeclarationName::Ident(Ident { value, .. }),
+                                ..
+                            } if value.as_ref().eq_ignore_ascii_case("direction"))
+                }) {
                     Some(Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
@@ -1964,54 +2130,78 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "vertical-lr" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
-                                    simple!("-ms-writing-mode", "tb-lr");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("tb-lr")]
+                                    );
                                 }
                                 Some("rtl") => {
-                                    simple!("-ms-writing-mode", "bt-lr");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("bt-lr")]
+                                    );
                                 }
                                 _ => {}
                             }
                         }
 
                         "vertical-rl" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
-                                    simple!("-ms-writing-mode", "tb-rl");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("tb-rl")]
+                                    );
                                 }
                                 Some("rtl") => {
-                                    simple!("-ms-writing-mode", "bt-rl");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("bt-rl")]
+                                    );
                                 }
                                 _ => {}
                             }
                         }
 
                         "horizontal-tb" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
 
                             match direction {
                                 Some("ltr") => {
-                                    simple!("-ms-writing-mode", "lr-tb");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("lr-tb")]
+                                    );
                                 }
                                 Some("rtl") => {
-                                    simple!("-ms-writing-mode", "rl-tb");
+                                    add_declaration!(
+                                        Prefix::Ms,
+                                        "-ms-writing-mode",
+                                        vec![str_to_ident!("rl-tb")]
+                                    );
                                 }
                                 _ => {}
                             }
                         }
 
                         "sideways-rl" | "sideways-lr" => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
                         }
 
                         _ => {
-                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
-                            same_content!(Prefix::Ms, "-ms-writing-mode");
+                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode");
+                            add_declaration!(Prefix::Ms, "-ms-writing-mode");
                         }
                     }
                 }
@@ -2045,242 +2235,244 @@ impl VisitMut for Prefixer {
                         | "grid-auto-rows"
                 );
 
-                replace_ident(&mut webkit_new_value, "fit-content", "-webkit-fit-content");
-                replace_ident(&mut webkit_new_value, "max-content", "-webkit-max-content");
-                replace_ident(&mut webkit_new_value, "min-content", "-webkit-min-content");
-                replace_ident(
-                    &mut webkit_new_value,
-                    "fill-available",
-                    "-webkit-fill-available",
-                );
-                replace_ident(&mut webkit_new_value, "fill", "-webkit-fill-available");
-                replace_ident(&mut webkit_new_value, "stretch", "-webkit-fill-available");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
+                    replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
+                    replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
+                    replace_ident(
+                        &mut webkit_value,
+                        "fill-available",
+                        "-webkit-fill-available",
+                    );
+                    replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
+                    replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                }
 
-                if !is_grid_property {
-                    replace_ident(&mut moz_new_value, "fit-content", "-moz-fit-content");
-                    replace_ident(&mut moz_new_value, "max-content", "-moz-max-content");
-                    replace_ident(&mut moz_new_value, "min-content", "-moz-min-content");
-                    replace_ident(&mut moz_new_value, "fill-available", "-moz-available");
-                    replace_ident(&mut moz_new_value, "fill", "-moz-available");
-                    replace_ident(&mut moz_new_value, "stretch", "-moz-available");
+                if !is_grid_property
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
+                    replace_ident(&mut moz_value, "fit-content", "-moz-fit-content");
+                    replace_ident(&mut moz_value, "max-content", "-moz-max-content");
+                    replace_ident(&mut moz_value, "min-content", "-moz-min-content");
+                    replace_ident(&mut moz_value, "fill-available", "-moz-available");
+                    replace_ident(&mut moz_value, "fill", "-moz-available");
+                    replace_ident(&mut moz_value, "stretch", "-moz-available");
                 }
             }
 
             "touch-action" => {
-                let mut value = ms_new_value.clone();
+                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                    let mut new_ms_value = ms_value.clone();
 
-                replace_ident(&mut value, "pan-x", "-ms-pan-x");
-                replace_ident(&mut value, "pan-y", "-ms-pan-y");
-                replace_ident(&mut value, "double-tap-zoom", "-ms-double-tap-zoom");
-                replace_ident(&mut value, "manipulation", "-ms-manipulation");
-                replace_ident(&mut value, "none", "-ms-none");
-                replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
+                    replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
+                    replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
+                    replace_ident(&mut new_ms_value, "double-tap-zoom", "-ms-double-tap-zoom");
+                    replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
+                    replace_ident(&mut new_ms_value, "none", "-ms-none");
+                    replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-ms-touch-action".into(),
-                    raw: "-ms-touch-action".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value,
-                    important: n.important.clone(),
-                });
+                    add_declaration!(Prefix::Ms, "-ms-touch-action", new_ms_value);
+                }
 
-                same_content!(Prefix::Ms, "-ms-touch-action");
+                add_declaration!(Prefix::Ms, "-ms-touch-action");
             }
 
             "text-orientation" => {
-                same_content!(Prefix::Webkit, "-webkit-text-orientation");
+                add_declaration!(Prefix::Webkit, "-webkit-text-orientation");
             }
 
             "unicode-bidi" => {
-                replace_ident(&mut moz_new_value, "isolate", "-moz-isolate");
-                replace_ident(
-                    &mut moz_new_value,
-                    "isolate-override",
-                    "-moz-isolate-override",
-                );
-                replace_ident(&mut moz_new_value, "plaintext", "-moz-plaintext");
+                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                    replace_ident(&mut moz_value, "isolate", "-moz-isolate");
+                    replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
+                    replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
 
-                replace_ident(&mut webkit_new_value, "isolate", "-webkit-isolate");
-                replace_ident(
-                    &mut webkit_new_value,
-                    "isolate-override",
-                    "-webpack-isolate-override",
-                );
-                replace_ident(&mut webkit_new_value, "plaintext", "-webpack-plaintext");
+                    replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
+                    replace_ident(
+                        &mut webkit_value,
+                        "isolate-override",
+                        "-webpack-isolate-override",
+                    );
+                    replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                }
             }
 
             "text-spacing" => {
-                same_content!(Prefix::Ms, "-ms-text-spacing");
+                add_declaration!(Prefix::Ms, "-ms-text-spacing");
             }
 
             "text-emphasis" => {
-                same_content!(Prefix::Webkit, "-webkit-text-spacing");
+                add_declaration!(Prefix::Webkit, "-webkit-text-spacing");
             }
 
             "text-emphasis-position" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-position");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-position");
             }
 
             "text-emphasis-style" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-style");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-style");
             }
 
             "text-emphasis-color" => {
-                same_content!(Prefix::Webkit, "-webkit-text-emphasis-color");
+                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-color");
             }
 
             "flow-into" => {
-                same_content!(Prefix::Webkit, "-webkit-flow-into");
-                same_content!(Prefix::Ms, "-ms-flow-into");
+                add_declaration!(Prefix::Webkit, "-webkit-flow-into");
+                add_declaration!(Prefix::Ms, "-ms-flow-into");
             }
 
             "flow-from" => {
-                same_content!(Prefix::Webkit, "-webkit-flow-from");
-                same_content!(Prefix::Ms, "-ms-flow-from");
+                add_declaration!(Prefix::Webkit, "-webkit-flow-from");
+                add_declaration!(Prefix::Ms, "-ms-flow-from");
             }
 
             "region-fragment" => {
-                same_content!(Prefix::Webkit, "-webkit-region-fragment");
-                same_content!(Prefix::Ms, "-ms-region-fragment");
+                add_declaration!(Prefix::Webkit, "-webkit-region-fragment");
+                add_declaration!(Prefix::Ms, "-ms-region-fragment");
             }
 
             "scroll-snap-type" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-type");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-type");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-type");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-type");
             }
 
             "scroll-snap-coordinate" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-coordinate");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-coordinate");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-coordinate");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-coordinate");
             }
 
             "scroll-snap-destination" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-destination");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-destination");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-destination");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-destination");
             }
 
             "scroll-snap-points-x" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-x");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-points-x");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-x");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-x");
             }
 
             "scroll-snap-points-y" => {
-                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-y");
-                same_content!(Prefix::Ms, "-ms-scroll-snap-points-y");
+                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-y");
+                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-y");
             }
 
             "text-align-last" => {
-                same_content!(Prefix::Moz, "-moz-text-align-last");
+                add_declaration!(Prefix::Moz, "-moz-text-align-last");
             }
 
             "text-overflow" => {
-                same_content!(Prefix::O, "-o-text-overflow");
+                add_declaration!(Prefix::O, "-o-text-overflow");
             }
 
             "shape-margin" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-margin");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-margin");
             }
 
             "shape-outside" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-outside");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-outside");
             }
 
             "shape-image-threshold" => {
-                same_content!(Prefix::Webkit, "-webkit-shape-image-threshold");
+                add_declaration!(Prefix::Webkit, "-webkit-shape-image-threshold");
             }
 
             "object-fit" => {
-                same_content!(Prefix::O, "-o-object-fit");
+                add_declaration!(Prefix::O, "-o-object-fit");
             }
 
             "object-position" => {
-                same_content!(Prefix::O, "-o-object-position");
+                add_declaration!(Prefix::O, "-o-object-position");
             }
 
             "tab-size" => {
-                same_content!(Prefix::Moz, "-moz-tab-size");
-                same_content!(Prefix::O, "-o-tab-size");
+                add_declaration!(Prefix::Moz, "-moz-tab-size");
+                add_declaration!(Prefix::O, "-o-tab-size");
             }
 
             "hyphens" => {
-                same_content!(Prefix::Webkit, "-webkit-hyphens");
-                same_content!(Prefix::Moz, "-moz-hyphens");
-                same_content!(Prefix::Ms, "-ms-hyphens");
+                add_declaration!(Prefix::Webkit, "-webkit-hyphens");
+                add_declaration!(Prefix::Moz, "-moz-hyphens");
+                add_declaration!(Prefix::Ms, "-ms-hyphens");
             }
 
             "border-image" => {
-                same_content!(Prefix::Webkit, "-webkit-border-image");
-                same_content!(Prefix::Moz, "-moz-border-image");
-                same_content!(Prefix::O, "-o-border-image");
+                add_declaration!(Prefix::Webkit, "-webkit-border-image");
+                add_declaration!(Prefix::Moz, "-moz-border-image");
+                add_declaration!(Prefix::O, "-o-border-image");
             }
 
             "font-kerning" => {
-                same_content!(Prefix::Webkit, "-webkit-font-kerning");
+                add_declaration!(Prefix::Webkit, "-webkit-font-kerning");
             }
 
             "font-feature-settings" => {
-                same_content!(Prefix::Webkit, "-webkit-font-feature-settings");
-                same_content!(Prefix::Moz, "-moz-font-feature-settings");
+                add_declaration!(Prefix::Webkit, "-webkit-font-feature-settings");
+                add_declaration!(Prefix::Moz, "-moz-font-feature-settings");
             }
 
             "font-variant-ligatures" => {
-                same_content!(Prefix::Webkit, "-webkit-font-variant-ligatures");
-                same_content!(Prefix::Moz, "-moz-font-variant-ligatures");
+                add_declaration!(Prefix::Webkit, "-webkit-font-variant-ligatures");
+                add_declaration!(Prefix::Moz, "-moz-font-variant-ligatures");
             }
 
             "font-language-override" => {
-                same_content!(Prefix::Webkit, "-webkit-font-language-override");
-                same_content!(Prefix::Moz, "-moz-font-language-override");
+                add_declaration!(Prefix::Webkit, "-webkit-font-language-override");
+                add_declaration!(Prefix::Moz, "-moz-font-language-override");
             }
 
             "background-origin" => {
-                same_content!(Prefix::Webkit, "-webkit-background-origin");
-                same_content!(Prefix::Moz, "-moz-background-origin");
-                same_content!(Prefix::O, "-o-background-origin");
+                add_declaration!(Prefix::Webkit, "-webkit-background-origin");
+                add_declaration!(Prefix::Moz, "-moz-background-origin");
+                add_declaration!(Prefix::O, "-o-background-origin");
             }
 
             "background-size" => {
-                same_content!(Prefix::Webkit, "-webkit-background-size");
-                same_content!(Prefix::Moz, "-moz-background-size");
-                same_content!(Prefix::O, "-o-background-size");
+                add_declaration!(Prefix::Webkit, "-webkit-background-size");
+                add_declaration!(Prefix::Moz, "-moz-background-size");
+                add_declaration!(Prefix::O, "-o-background-size");
             }
 
             "overscroll-behavior" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" => {
-                            simple!("-ms-scroll-chaining", "chained");
+                            add_declaration!(
+                                Prefix::Ms,
+                                "-ms-scroll-chaining",
+                                vec![str_to_ident!("chained")]
+                            );
                         }
                         "none" | "contain" => {
-                            simple!("-ms-scroll-chaining", "none");
+                            add_declaration!(
+                                Prefix::Ms,
+                                "-ms-scroll-chaining",
+                                vec![str_to_ident!("none")]
+                            );
                         }
                         _ => {
-                            same_content!(Prefix::Ms, "-ms-scroll-chaining");
+                            add_declaration!(Prefix::Ms, "-ms-scroll-chaining");
                         }
                     }
                 } else {
-                    same_content!(Prefix::Ms, "-ms-scroll-chaining");
+                    add_declaration!(Prefix::Ms, "-ms-scroll-chaining");
                 }
             }
 
             "box-shadow" => {
-                same_content!(Prefix::Webkit, "-webkit-box-shadow");
-                same_content!(Prefix::Moz, "-moz-box-shadow");
+                add_declaration!(Prefix::Webkit, "-webkit-box-shadow");
+                add_declaration!(Prefix::Moz, "-moz-box-shadow");
             }
 
             "forced-color-adjust" => {
-                same_content!(Prefix::Ms, "-ms-high-contrast-adjust");
+                add_declaration!(Prefix::Ms, "-ms-high-contrast-adjust");
             }
 
             "break-inside" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-inside");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-inside");
                         }
                         _ => {}
                     }
@@ -2291,10 +2483,14 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-before");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-before");
                         }
                         "column" => {
-                            simple!("-webkit-column-break-before", "always");
+                            add_declaration!(
+                                Prefix::Webkit,
+                                "-webkit-column-break-before",
+                                vec![str_to_ident!("always")]
+                            );
                         }
                         _ => {}
                     }
@@ -2305,10 +2501,14 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!(Prefix::Webkit, "-webkit-column-break-after");
+                            add_declaration!(Prefix::Webkit, "-webkit-column-break-after");
                         }
                         "column" => {
-                            simple!("-webkit-column-break-after", "always");
+                            add_declaration!(
+                                Prefix::Webkit,
+                                "-webkit-column-break-after",
+                                vec![str_to_ident!("always")]
+                            );
                         }
                         _ => {}
                     }
@@ -2316,28 +2516,28 @@ impl VisitMut for Prefixer {
             }
 
             "border-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius");
+                add_declaration!(Prefix::Webkit, "-webkit-border-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius");
             }
 
             "border-top-left-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-top-left-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-topleft");
+                add_declaration!(Prefix::Webkit, "-webkit-border-top-left-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-topleft");
             }
 
             "border-top-right-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-top-right-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-topright");
+                add_declaration!(Prefix::Webkit, "-webkit-border-top-right-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-topright");
             }
 
             "border-bottom-right-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-bottom-right-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-bottomright");
+                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-right-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomright");
             }
 
             "border-bottom-left-radius" => {
-                same_content!(Prefix::Webkit, "-webkit-border-bottom-left-radius");
-                same_content!(Prefix::Moz, "-moz-border-radius-bottomleft");
+                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-left-radius");
+                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft");
             }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
@@ -2345,64 +2545,40 @@ impl VisitMut for Prefixer {
             _ => {}
         }
 
-        if n.value != webkit_new_value {
+        if n.value != webkit_value {
             self.added_declarations.push(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: webkit_new_value,
+                value: webkit_value,
                 important: n.important.clone(),
             });
         }
 
-        if n.value != moz_new_value {
+        if n.value != moz_value {
             self.added_declarations.push(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: moz_new_value,
+                value: moz_value,
                 important: n.important.clone(),
             });
         }
 
-        if n.value != o_new_value {
+        if n.value != o_value {
             self.added_declarations.push(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: o_new_value,
+                value: o_value,
                 important: n.important.clone(),
             });
         }
 
-        if n.value != ms_new_value {
+        if n.value != ms_value {
             self.added_declarations.push(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: ms_new_value,
+                value: ms_value,
                 important: n.important.clone(),
             });
         }
-    }
-
-    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let old_simple_block = self.simple_block.clone();
-
-        self.simple_block = Some(simple_block.clone());
-
-        let mut new = vec![];
-
-        for mut n in take(&mut simple_block.value) {
-            n.visit_mut_children_with(self);
-
-            new.extend(
-                self.added_declarations
-                    .drain(..)
-                    .map(DeclarationOrAtRule::Declaration)
-                    .map(ComponentValue::DeclarationOrAtRule),
-            );
-            new.push(n);
-        }
-
-        simple_block.value = new;
-
-        self.simple_block = old_simple_block;
     }
 }

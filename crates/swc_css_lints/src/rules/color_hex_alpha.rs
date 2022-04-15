@@ -43,7 +43,7 @@ impl Visit for ColorHexAlpha {
             Preference::Never if length == 4 || length == 8 => {
                 self.ctx.report(
                     hex_color,
-                    format!("Unxpected alpha channel in '#{}'.", hex_color.value),
+                    format!("Unexpected alpha channel in '#{}'.", hex_color.value),
                 );
             }
             _ => {}

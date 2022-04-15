@@ -67,6 +67,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ var runtime = function(exports) {
+        "use strict";
         var Op = Object.prototype;
         var hasOwn = Op.hasOwnProperty;
         var undefined; // More compressible than void 0.

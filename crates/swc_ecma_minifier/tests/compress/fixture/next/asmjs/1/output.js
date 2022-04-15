@@ -150,8 +150,8 @@ export function foo(global, env, buffer) {
     }
     function Qb() {
         var b = 0, d = 0;
-        BC(8104, 8, 400) | 0;
-        BC(8504, 408, 540) | 0;
+        BC(8104, 8, 400);
+        BC(8504, 408, 540);
         b = 9044;
         d = b + 44 | 0;
         do {
@@ -163,7 +163,7 @@ export function foo(global, env, buffer) {
         c1[2273] = 0;
         c1[2274] = 948;
         c1[2275] = 948;
-        Ha1(17, 8104, o1 | 0) | 0;
+        Ha1(17, 8104, o1 | 0);
         return;
     }
     function Rb(a) {
@@ -189,15 +189,12 @@ export function foo(global, env, buffer) {
                 case 2:
                 case 4:
                 case 5:
-                    {
-                        if (c1[a + 52 >> 2] | 0) {
-                            a = a + 48 | 0;
-                            break a;
-                        }
-                        break;
+                    if (c1[a + 52 >> 2] | 0) {
+                        a = a + 48 | 0;
+                        break a;
                     }
+                    break;
                 default:
-                    {}
             }
             if (!(c1[a + 68 >> 2] | 0)) {
                 a = (b | 1) == 5 ? 948 : d;
@@ -216,7 +213,7 @@ export function foo(global, env, buffer) {
         d = oB(1e3) | 0;
         Vb(b, (d | 0) != 0, 2456);
         c1[2276] = (c1[2276] | 0) + 1;
-        BC(d | 0, 8104, 1e3) | 0;
+        BC(d | 0, 8104, 1e3);
         if (a1[b + 2 >> 0] | 0) {
             c1[d + 4 >> 2] = 2;
             c1[d + 12 >> 2] = 4;
@@ -256,7 +253,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0;
-        BC(a | 0, b | 0, 948) | 0;
+        BC(a | 0, b | 0, 948);
         ie(a + 948 | 0, b + 948 | 0);
         d = a + 960 | 0;
         a = b + 960 | 0;
@@ -274,7 +271,7 @@ export function foo(global, env, buffer) {
         b = a + 944 | 0;
         d = c1[b >> 2] | 0;
         if (d | 0) {
-            _b(d + 948 | 0, a) | 0;
+            _b(d + 948 | 0, a);
             c1[b >> 2] = 0;
         }
         d = $b(a) | 0;
@@ -308,7 +305,7 @@ export function foo(global, env, buffer) {
             h = 4;
         } else {
             a = e;
-            while(1){
+            while(true){
                 if ((c1[a >> 2] | 0) == (b | 0)) {
                     f = a;
                     h = 4;
@@ -322,21 +319,23 @@ export function foo(global, env, buffer) {
             }
         }
         while (0)
-        if ((h | 0) == 4) if ((f | 0) != (d | 0)) {
-            e = f + 4 | 0;
-            a = g - e | 0;
-            b = a >> 2;
-            if (b) {
-                GC(f | 0, e | 0, a | 0) | 0;
-                d = c1[i >> 2] | 0;
-            }
-            a = f + (b << 2) | 0;
-            if ((d | 0) == (a | 0)) a = 1;
-            else {
-                c1[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
-                a = 1;
-            }
-        } else a = 0;
+        if ((h | 0) == 4) {
+            if ((f | 0) != (d | 0)) {
+                e = f + 4 | 0;
+                a = g - e | 0;
+                b = a >> 2;
+                if (b) {
+                    GC(f | 0, e | 0, a | 0);
+                    d = c1[i >> 2] | 0;
+                }
+                a = f + (b << 2) | 0;
+                if ((d | 0) == (a | 0)) a = 1;
+                else {
+                    c1[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
+                    a = 1;
+                }
+            } else a = 0;
+        }
         return a | 0;
     }
     function $b(a) {
@@ -377,7 +376,7 @@ export function foo(global, env, buffer) {
         do if (k | 0) {
             if ((c1[(ac(a, 0) | 0) + 944 >> 2] | 0) == (a | 0)) {
                 if (!(_b(a + 948 | 0, b) | 0)) break;
-                BC(b + 400 | 0, 8504, 540) | 0;
+                BC(b + 400 | 0, 8504, 540);
                 c1[b + 944 >> 2] = 0;
                 nc(a);
                 break;
@@ -411,7 +410,7 @@ export function foo(global, env, buffer) {
                     b = f >> 2;
                     if (!b) f = d;
                     else {
-                        GC(g | 0, e | 0, f | 0) | 0;
+                        GC(g | 0, e | 0, f | 0);
                         d = c1[i >> 2] | 0;
                         f = d;
                     }
@@ -440,7 +439,7 @@ export function foo(global, env, buffer) {
         bc(d);
         d = b + 976 | 0;
         e = c1[d >> 2] | 0;
-        BC(b | 0, 8104, 1e3) | 0;
+        BC(b | 0, 8104, 1e3);
         if (a1[e + 2 >> 0] | 0) {
             c1[b + 4 >> 2] = 2;
             c1[b + 12 >> 2] = 4;
@@ -530,7 +529,7 @@ export function foo(global, env, buffer) {
         b = a + 948 | 0;
         c1[h >> 2] = (c1[b >> 2] | 0) + (d << 2);
         c1[g >> 2] = c1[h >> 2];
-        mc(b, g, f) | 0;
+        mc(b, g, f);
         c1[(c1[f >> 2] | 0) + 944 >> 2] = a;
         nc(a);
         l1 = e;
@@ -637,7 +636,7 @@ export function foo(global, env, buffer) {
                 f = j - g | 0;
                 g = f >> 2;
                 if (g) {
-                    GC(i | 0, e | 0, f | 0) | 0;
+                    GC(i | 0, e | 0, f | 0);
                     e = c1[k >> 2] | 0;
                 }
                 t = i + (g << 2) | 0;
@@ -698,7 +697,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         if (BB(a, b, 400) | 0) {
-            BC(a | 0, b | 0, 400) | 0;
+            BC(a | 0, b | 0, 400);
             nc(a);
         }
         return;
@@ -1411,17 +1410,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T1(g1[a + 424 + (b << 2) >> 2]);
     }
@@ -1431,17 +1425,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T1(g1[a + 448 + (b << 2) >> 2]);
     }
@@ -1451,17 +1440,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c1[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T1(g1[a + 472 + (b << 2) >> 2]);
     }
@@ -1669,7 +1653,7 @@ export function foo(global, env, buffer) {
             if (!s) w = 21;
             else {
                 r = 0;
-                while(1){
+                while(true){
                     q = b + 524 + (r * 24 | 0) | 0;
                     if (((Ld(T1(g1[q >> 2]), d) | 0 ? Ld(T1(g1[b + 524 + (r * 24 | 0) + 4 >> 2]), e) | 0 : 0) ? (c1[b + 524 + (r * 24 | 0) + 8 >> 2] | 0) == (i | 0) : 0) ? (c1[b + 524 + (r * 24 | 0) + 12 >> 2] | 0) == (j | 0) : 0) {
                         w = 22;
@@ -1694,7 +1678,7 @@ export function foo(global, env, buffer) {
                 if (!s) w = 21;
                 else {
                     r = 0;
-                    while(1){
+                    while(true){
                         q = b + 524 + (r * 24 | 0) | 0;
                         H = T1(g1[q >> 2]);
                         I = T1(g1[b + 524 + (r * 24 | 0) + 4 >> 2]);
@@ -1723,12 +1707,14 @@ export function foo(global, env, buffer) {
             }
         } else if ((w | 0) == 22) {
             r = (a1[11697] | 0) != 0;
-            if (!((q | 0) != 0 & (F ^ 1))) if (r) {
-                w = 28;
-                break;
-            } else {
-                w = 31;
-                break;
+            if (!((q | 0) != 0 & (F ^ 1))) {
+                if (r) {
+                    w = 28;
+                    break;
+                } else {
+                    w = 31;
+                    break;
+                }
             }
             t = q + 16 | 0;
             c1[b + 908 >> 2] = c1[t >> 2];
@@ -1961,7 +1947,7 @@ export function foo(global, env, buffer) {
             a: do if ((D | 0) == 1) {
                 h = 0;
                 r = 0;
-                while(1){
+                while(true){
                     q = ac(b, r) | 0;
                     if (!h) {
                         if (T1(Ee(q)) > T1(0.0) ? T1(Fe(q)) > T1(0.0) : 0) h = q;
@@ -2035,7 +2021,7 @@ export function foo(global, env, buffer) {
             L = 0;
             oa = T1(0.0);
             da = T1(0.0);
-            while(1){
+            while(true){
                 b: do if (G >>> 0 < Ia >>> 0) {
                     C = c1[Ha >> 2] | 0;
                     s = 0;
@@ -2046,7 +2032,7 @@ export function foo(global, env, buffer) {
                     r = 0;
                     q = 0;
                     t = G;
-                    while(1){
+                    while(true){
                         B = c1[C + (t << 2) >> 2] | 0;
                         if ((c1[B + 36 >> 2] | 0) != 1 ? (c1[B + 940 >> 2] = L, (c1[B + 24 >> 2] | 0) != 1) : 0) {
                             x = T1(Ud(B, Ja, Ea));
@@ -2242,7 +2228,7 @@ export function foo(global, env, buffer) {
                             E = T1(g1[ea >> 2]);
                             Na = c1[ha >> 2] | 0;
                             Oa = c1[ga >> 2] | 0;
-                            Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p) | 0;
+                            Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p);
                             a1[Y >> 0] = a1[Y >> 0] | a1[r + 508 >> 0];
                             r = c1[r + 960 >> 2] | 0;
                         }while ((r | 0) != 0)
@@ -2274,61 +2260,48 @@ export function foo(global, env, buffer) {
                         f = T1(0.0);
                     } else X = 101;
                 } else X = 101;
-                d: do if ((X | 0) == 101) {
+                d: if ((X | 0) == 101) {
                     X = 0;
                     switch(Z | 0){
                         case 1:
-                            {
-                                q = 0;
-                                x = T1(v * T1(.5));
-                                f = T1(0.0);
-                                break d;
-                            }
+                            q = 0;
+                            x = T1(v * T1(.5));
+                            f = T1(0.0);
+                            break d;
                         case 2:
-                            {
-                                q = 0;
-                                x = v;
-                                f = T1(0.0);
-                                break d;
-                            }
+                            q = 0;
+                            x = v;
+                            f = T1(0.0);
+                            break d;
                         case 3:
-                            {
-                                if (k >>> 0 <= 1) {
-                                    q = 0;
-                                    x = T1(0.0);
-                                    f = T1(0.0);
-                                    break d;
-                                }
-                                f = T1((k + -1 | 0) >>> 0);
-                                q = 0;
-                                x = T1(0.0);
-                                f = T1(T1(cC(v, T1(0.0))) / f);
-                                break d;
-                            }
-                        case 5:
-                            {
-                                f = T1(v / T1((k + 1 | 0) >>> 0));
-                                q = 0;
-                                x = f;
-                                break d;
-                            }
-                        case 4:
-                            {
-                                f = T1(v / T1(k >>> 0));
-                                q = 0;
-                                x = T1(f * T1(.5));
-                                break d;
-                            }
-                        default:
-                            {
+                            if (k >>> 0 <= 1) {
                                 q = 0;
                                 x = T1(0.0);
                                 f = T1(0.0);
                                 break d;
                             }
+                            f = T1((k + -1 | 0) >>> 0);
+                            q = 0;
+                            x = T1(0.0);
+                            f = T1(T1(cC(v, T1(0.0))) / f);
+                            break d;
+                        case 5:
+                            f = T1(v / T1((k + 1 | 0) >>> 0));
+                            q = 0;
+                            x = f;
+                            break d;
+                        case 4:
+                            f = T1(v / T1(k >>> 0));
+                            q = 0;
+                            x = T1(f * T1(.5));
+                            break d;
+                        default:
+                            q = 0;
+                            x = T1(0.0);
+                            f = T1(0.0);
+                            break d;
                     }
                 }
-                while (0)
                 e = T1($ + x);
                 if (B) {
                     w = T1(v / T1(q | 0));
@@ -2340,42 +2313,37 @@ export function foo(global, env, buffer) {
                         e: do if ((c1[q + 36 >> 2] | 0) != 1) {
                             switch(c1[q + 24 >> 2] | 0){
                                 case 1:
-                                    {
-                                        if (Ne(q, Ja) | 0) {
-                                            if (!o) break e;
-                                            Ma = T1(Oe(q, Ja, H));
-                                            Ma = T1(Ma + T1(se(b, Ja)));
-                                            Ma = T1(Ma + T1(me(q, Ja, Ea)));
-                                            g1[q + 400 + (c1[S >> 2] << 2) >> 2] = Ma;
-                                            break e;
-                                        }
-                                        break;
+                                    if (Ne(q, Ja) | 0) {
+                                        if (!o) break e;
+                                        Ma = T1(Oe(q, Ja, H));
+                                        Ma = T1(Ma + T1(se(b, Ja)));
+                                        Ma = T1(Ma + T1(me(q, Ja, Ea)));
+                                        g1[q + 400 + (c1[S >> 2] << 2) >> 2] = Ma;
+                                        break e;
                                     }
+                                    break;
                                 case 0:
-                                    {
-                                        Oa = (c1[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                        Ma = T1(w + e);
-                                        e = Oa ? Ma : e;
-                                        if (o) {
-                                            Oa = q + 400 + (c1[S >> 2] << 2) | 0;
-                                            g1[Oa >> 2] = T1(e + T1(g1[Oa >> 2]));
-                                        }
-                                        Oa = (c1[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                        Ma = T1(w + e);
-                                        e = Oa ? Ma : e;
-                                        if (M) {
-                                            Ma = T1(f + T1(Ud(q, Ja, Ea)));
-                                            v = qa;
-                                            e = T1(e + T1(Ma + T1(g1[q + 504 >> 2])));
-                                            break e;
-                                        } else {
-                                            e = T1(e + T1(f + T1(Pe(q, Ja, Ea))));
-                                            v = T1(cC(v, T1(Pe(q, Ka, Ea))));
-                                            break e;
-                                        }
+                                    Oa = (c1[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                    Ma = T1(w + e);
+                                    e = Oa ? Ma : e;
+                                    if (o) {
+                                        Oa = q + 400 + (c1[S >> 2] << 2) | 0;
+                                        g1[Oa >> 2] = T1(e + T1(g1[Oa >> 2]));
+                                    }
+                                    Oa = (c1[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                    Ma = T1(w + e);
+                                    e = Oa ? Ma : e;
+                                    if (M) {
+                                        Ma = T1(f + T1(Ud(q, Ja, Ea)));
+                                        v = qa;
+                                        e = T1(e + T1(Ma + T1(g1[q + 504 >> 2])));
+                                        break e;
+                                    } else {
+                                        e = T1(e + T1(f + T1(Pe(q, Ja, Ea))));
+                                        v = T1(cC(v, T1(Pe(q, Ka, Ea))));
+                                        break e;
                                     }
                                 default:
-                                    {}
                             }
                             if (o) {
                                 Ma = T1(x + T1(se(b, Ja)));
@@ -2446,7 +2414,7 @@ export function foo(global, env, buffer) {
                                 Ma = Fa ? e : F;
                                 e = Fa ? F : e;
                                 Oa = ((Sb(Ma) | 0) ^ 1) & 1;
-                                Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p) | 0;
+                                Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p);
                                 e = u;
                             } else X = 139;
                             while (0)
@@ -2469,20 +2437,14 @@ export function foo(global, env, buffer) {
                                 }
                                 switch(q | 0){
                                     case 1:
-                                        {
-                                            e = u;
-                                            break f;
-                                        }
+                                        e = u;
+                                        break f;
                                     case 2:
-                                        {
-                                            e = T1(u + T1(e * T1(.5)));
-                                            break f;
-                                        }
+                                        e = T1(u + T1(e * T1(.5)));
+                                        break f;
                                     default:
-                                        {
-                                            e = T1(u + e);
-                                            break f;
-                                        }
+                                        e = T1(u + e);
+                                        break f;
                                 }
                             }
                             while (0)
@@ -2511,23 +2473,17 @@ export function foo(global, env, buffer) {
                     e = T1(qa - oa);
                     g: do switch(c1[b + 12 >> 2] | 0){
                         case 3:
-                            {
-                                u = T1(u + e);
-                                z = T1(0.0);
-                                break;
-                            }
+                            u = T1(u + e);
+                            z = T1(0.0);
+                            break;
                         case 2:
-                            {
-                                u = T1(u + T1(e * T1(.5)));
-                                z = T1(0.0);
-                                break;
-                            }
+                            u = T1(u + T1(e * T1(.5)));
+                            z = T1(0.0);
+                            break;
                         case 4:
-                            {
-                                if (qa > oa) z = T1(e / T1(k >>> 0));
-                                else z = T1(0.0);
-                                break;
-                            }
+                            if (qa > oa) z = T1(e / T1(k >>> 0));
+                            else z = T1(0.0);
+                            break;
                         case 7:
                             if (qa > oa) {
                                 u = T1(u + T1(e / T1(k << 1 >>> 0)));
@@ -2540,11 +2496,9 @@ export function foo(global, env, buffer) {
                                 break g;
                             }
                         case 6:
-                            {
-                                z = T1(e / T1(L >>> 0));
-                                z = qa > oa & q ? z : T1(0.0);
-                                break;
-                            }
+                            z = T1(e / T1(L >>> 0));
+                            z = qa > oa & q ? z : T1(0.0);
+                            break;
                         default:
                             z = T1(0.0);
                     }
@@ -2554,13 +2508,13 @@ export function foo(global, env, buffer) {
                         C = 976 + (Ka << 2) | 0;
                         t = 0;
                         r = 0;
-                        while(1){
+                        while(true){
                             h: do if (r >>> 0 < Ia >>> 0) {
                                 v = T1(0.0);
                                 w = T1(0.0);
                                 e = T1(0.0);
                                 s = r;
-                                while(1){
+                                while(true){
                                     q = c1[(c1[Ha >> 2] | 0) + (s << 2) >> 2] | 0;
                                     do if ((c1[q + 36 >> 2] | 0) != 1 ? (c1[q + 24 >> 2] | 0) == 0 : 0) {
                                         if ((c1[q + 940 >> 2] | 0) != (t | 0)) break h;
@@ -2601,53 +2555,42 @@ export function foo(global, env, buffer) {
                                 q = r;
                                 do {
                                     r = c1[(c1[Ha >> 2] | 0) + (q << 2) >> 2] | 0;
-                                    i: do if ((c1[r + 36 >> 2] | 0) != 1 ? (c1[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
+                                    i: if ((c1[r + 36 >> 2] | 0) != 1 ? (c1[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
                                         case 1:
-                                            {
-                                                Ma = T1(f + T1(me(r, Ka, Ea)));
-                                                g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T1(f + T1(me(r, Ka, Ea)));
+                                            g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 3:
-                                            {
-                                                Ma = T1(T1(u - T1(ne(r, Ka, Ea))) - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2]));
-                                                g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T1(T1(u - T1(ne(r, Ka, Ea))) - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2]));
+                                            g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 2:
-                                            {
-                                                Ma = T1(f + T1(T1(y - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2])) * T1(.5)));
-                                                g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T1(f + T1(T1(y - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2])) * T1(.5)));
+                                            g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 4:
-                                            {
-                                                Ma = T1(f + T1(me(r, Ka, Ea)));
-                                                g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
-                                                if (ae(r, Ka, qa) | 0) break i;
-                                                if (Fa) {
-                                                    v = T1(g1[r + 908 >> 2]);
-                                                    e = T1(v + T1(Ud(r, Ja, Ea)));
-                                                    w = y;
-                                                } else {
-                                                    w = T1(g1[r + 912 >> 2]);
-                                                    w = T1(w + T1(Ud(r, Ka, Ea)));
-                                                    e = y;
-                                                    v = T1(g1[r + 908 >> 2]);
-                                                }
-                                                if (Ld(e, v) | 0 ? Ld(w, T1(g1[r + 912 >> 2])) | 0 : 0) break i;
-                                                Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p) | 0;
-                                                break i;
+                                            Ma = T1(f + T1(me(r, Ka, Ea)));
+                                            g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
+                                            if (ae(r, Ka, qa) | 0) break i;
+                                            if (Fa) {
+                                                v = T1(g1[r + 908 >> 2]);
+                                                e = T1(v + T1(Ud(r, Ja, Ea)));
+                                                w = y;
+                                            } else {
+                                                w = T1(g1[r + 912 >> 2]);
+                                                w = T1(w + T1(Ud(r, Ka, Ea)));
+                                                e = y;
+                                                v = T1(g1[r + 908 >> 2]);
                                             }
+                                            if (Ld(e, v) | 0 ? Ld(w, T1(g1[r + 912 >> 2])) | 0 : 0) break i;
+                                            Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p);
+                                            break i;
                                         case 5:
-                                            {
-                                                g1[r + 404 >> 2] = T1(T1(x - T1(Se(r))) + T1(Oe(r, 0, qa)));
-                                                break i;
-                                            }
+                                            g1[r + 404 >> 2] = T1(T1(x - T1(Se(r))) + T1(Oe(r, 0, qa)));
+                                            break i;
                                         default:
                                             break i;
                                     }
-                                    while (0)
                                     q = q + 1 | 0;
                                 }while ((q | 0) != (s | 0))
                             }
@@ -2797,22 +2740,16 @@ export function foo(global, env, buffer) {
         switch(c1[a + 4 >> 2] | 0){
             case 0:
             case 3:
-                {
-                    a = 0;
-                    break;
-                }
+                a = 0;
+                break;
             case 1:
-                {
-                    if (T1(g1[a >> 2]) < T1(0.0)) a = 0;
-                    else e = 5;
-                    break;
-                }
+                if (T1(g1[a >> 2]) < T1(0.0)) a = 0;
+                else e = 5;
+                break;
             case 2:
-                {
-                    if (T1(g1[a >> 2]) < T1(0.0)) a = 0;
-                    else a = (Sb(d) | 0) ^ 1;
-                    break;
-                }
+                if (T1(g1[a >> 2]) < T1(0.0)) a = 0;
+                else a = (Sb(d) | 0) ^ 1;
+                break;
             default:
                 e = 5;
         }
@@ -2824,15 +2761,11 @@ export function foo(global, env, buffer) {
         b = T1(b);
         switch(c1[a + 4 >> 2] | 0){
             case 2:
-                {
-                    b = T1(T1(T1(g1[a >> 2]) * b) / T1(100.0));
-                    break;
-                }
+                b = T1(T1(T1(g1[a >> 2]) * b) / T1(100.0));
+                break;
             case 1:
-                {
-                    b = T1(g1[a >> 2]);
-                    break;
-                }
+                b = T1(g1[a >> 2]);
+                break;
             default:
                 b = T1(t1);
         }
@@ -2912,10 +2845,8 @@ export function foo(global, env, buffer) {
         switch(d | 0){
             case 5:
             case 0:
-                {
-                    a = CB(c1[489] | 0, e, f) | 0;
-                    break;
-                }
+                a = CB(c1[489] | 0, e, f) | 0;
+                break;
             default:
                 a = iC(e, f) | 0;
         }
@@ -2942,7 +2873,7 @@ export function foo(global, env, buffer) {
         e = e | 0;
         f = f | 0;
         a = a | 0 ? a : 956;
-        Bb[c1[a + 8 >> 2] & 1](a, b, d, e, f) | 0;
+        Bb[c1[a + 8 >> 2] & 1](a, b, d, e, f);
         if ((d | 0) == 5) Ta();
         else return;
     }
@@ -2990,7 +2921,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c1[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c1[e >> 2] | 0, b | 0, a | 0);
             c1[e >> 2] = (c1[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -3039,17 +2970,13 @@ export function foo(global, env, buffer) {
         a: do if ((b | 0) == 2) {
             switch(a | 0){
                 case 2:
-                    {
-                        a = 3;
-                        break a;
-                    }
+                    a = 3;
+                    break a;
                 case 3:
                     break;
                 default:
-                    {
-                        c = 4;
-                        break a;
-                    }
+                    c = 4;
+                    break a;
             }
             a = 2;
         } else c = 4;
@@ -3237,7 +3164,7 @@ export function foo(global, env, buffer) {
     function Ge(b) {
         b = b | 0;
         var d = 0, e = 0;
-        yC(b + 400 | 0, 0, 540) | 0;
+        yC(b + 400 | 0, 0, 540);
         a1[b + 985 >> 0] = 1;
         lc(b);
         e = $b(b) | 0;
@@ -3367,7 +3294,7 @@ export function foo(global, env, buffer) {
             Me(b, 0, i, h, D, B);
             d = T1(g1[A >> 2]);
             f = T1(g1[B >> 2]);
-            Td(b, d, f, k, c1[C >> 2] | 0, c1[D >> 2] | 0, h, i, 0, 3565, m) | 0;
+            Td(b, d, f, k, c1[C >> 2] | 0, c1[D >> 2] | 0, h, i, 0, 3565, m);
             i = T1(g1[b + 908 + (c1[976 + (F << 2) >> 2] << 2) >> 2]);
             g1[b + 504 >> 2] = T1(cC(i, T1(Ce(b, F, h))));
         }
@@ -3419,22 +3346,17 @@ export function foo(global, env, buffer) {
         switch(c1[f >> 2] | 0){
             case 2:
             case 1:
-                {
-                    f = Sb(d) | 0;
-                    e = T1(g1[h >> 2]);
-                    g1[h >> 2] = f | e < d ? e : d;
-                    break;
-                }
+                f = Sb(d) | 0;
+                e = T1(g1[h >> 2]);
+                g1[h >> 2] = f | e < d ? e : d;
+                break;
             case 0:
-                {
-                    if (!(Sb(d) | 0)) {
-                        c1[f >> 2] = 2;
-                        g1[h >> 2] = d;
-                    }
-                    break;
+                if (!(Sb(d) | 0)) {
+                    c1[f >> 2] = 2;
+                    g1[h >> 2] = d;
                 }
+                break;
             default:
-                {}
         }
         return;
     }
@@ -3479,7 +3401,7 @@ export function foo(global, env, buffer) {
                 if (!d) b = 0;
                 else {
                     b = 0;
-                    while(1){
+                    while(true){
                         e = ac(a, b) | 0;
                         if ((c1[e + 24 >> 2] | 0) == 0 ? (c1[e + 20 >> 2] | 0) == 5 : 0) {
                             b = 1;
@@ -3513,7 +3435,7 @@ export function foo(global, env, buffer) {
             do if (h | 0) {
                 d = 0;
                 f = 0;
-                while(1){
+                while(true){
                     e = ac(a, f) | 0;
                     if (c1[e + 940 >> 2] | 0) {
                         i = 8;
@@ -3609,13 +3531,15 @@ export function foo(global, env, buffer) {
         } else k = T1(o + T1(be(c1[b + 996 >> 2] | 0, f)));
         l = Sb(j) | 0;
         m = Sb(k) | 0;
-        do if (l ^ m ? (p = T1(g1[b + 396 >> 2]), !(Sb(p) | 0)) : 0) if (l) {
-            j = T1(n + T1(T1(k - o) * p));
-            break;
-        } else {
-            v = T1(o + T1(T1(j - n) / p));
-            k = m ? v : k;
-            break;
+        do if (l ^ m ? (p = T1(g1[b + 396 >> 2]), !(Sb(p) | 0)) : 0) {
+            if (l) {
+                j = T1(n + T1(T1(k - o) * p));
+                break;
+            } else {
+                v = T1(o + T1(T1(j - n) / p));
+                k = m ? v : k;
+                break;
+            }
         }
         while (0)
         m = Sb(j) | 0;
@@ -3624,13 +3548,13 @@ export function foo(global, env, buffer) {
             w = (m ^ 1) & 1;
             e = d > T1(0.0) & ((e | 0) != 0 & m);
             j = r ? j : e ? d : j;
-            Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i) | 0;
+            Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i);
             j = T1(g1[b + 908 >> 2]);
             j = T1(j + T1(Ud(b, 2, d)));
             k = T1(g1[b + 912 >> 2]);
             k = T1(k + T1(Ud(b, 0, d)));
         }
-        Td(b, j, k, h, 1, 1, j, k, 1, 3635, i) | 0;
+        Td(b, j, k, h, 1, 1, j, k, 1, 3635, i);
         if (Ze(b, s) | 0 ? !(Ne(b, s) | 0) : 0) {
             w = c1[976 + (s << 2) >> 2] | 0;
             v = T1(g1[a + 908 + (w << 2) >> 2]);
@@ -3706,12 +3630,10 @@ export function foo(global, env, buffer) {
         switch(c1[b + 56 >> 2] | 0){
             case 0:
             case 3:
-                {
-                    d = T1(g1[b + 40 >> 2]);
-                    if (d > T1(0.0) & ((Sb(d) | 0) ^ 1)) b = a1[(c1[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
-                    else b = 1056;
-                    break;
-                }
+                d = T1(g1[b + 40 >> 2]);
+                if (d > T1(0.0) & ((Sb(d) | 0) ^ 1)) b = a1[(c1[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
+                else b = 1056;
+                break;
             default:
                 b = b + 52 | 0;
         }
@@ -3791,7 +3713,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -3841,7 +3763,7 @@ export function foo(global, env, buffer) {
                 c1[h >> 2] = e;
             }while (a >>> 0 < d >>> 0)
         }
-        if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0) | 0;
+        if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0);
         return;
     }
     function ff(a, b, d) {
@@ -3856,12 +3778,12 @@ export function foo(global, env, buffer) {
         g = h - f | 0;
         e = j + (0 - (g >> 2) << 2) | 0;
         c1[i >> 2] = e;
-        if ((g | 0) > 0) BC(e | 0, f | 0, g | 0) | 0;
+        if ((g | 0) > 0) BC(e | 0, f | 0, g | 0);
         f = a + 4 | 0;
         g = b + 8 | 0;
         e = (c1[f >> 2] | 0) - h | 0;
         if ((e | 0) > 0) {
-            BC(c1[g >> 2] | 0, d | 0, e | 0) | 0;
+            BC(c1[g >> 2] | 0, d | 0, e | 0);
             c1[g >> 2] = (c1[g >> 2] | 0) + (e >>> 2 << 2);
         }
         h = c1[a >> 2] | 0;
@@ -4608,7 +4530,7 @@ export function foo(global, env, buffer) {
             c1[a + 12 >> 2] = c1[b + 12 >> 2];
         } else {
             Zg(d, 0);
-            Ja1(e | 0, d | 0) | 0;
+            Ja1(e | 0, d | 0);
             _g(a, d);
             $g(d);
         }
@@ -4882,419 +4804,419 @@ export function foo(global, env, buffer) {
         f = b + 8 | 0;
         e = b;
         Eh(a, 3646);
-        Fh(a, 3651, 2) | 0;
-        Gh(a, 3665, 2) | 0;
-        Hh(a, 3682, 18) | 0;
+        Fh(a, 3651, 2);
+        Gh(a, 3665, 2);
+        Hh(a, 3682, 18);
         c1[Ga >> 2] = 19;
         c1[Ga + 4 >> 2] = 0;
         c1[d >> 2] = c1[Ga >> 2];
         c1[d + 4 >> 2] = c1[Ga + 4 >> 2];
-        Ih(a, 3690, d) | 0;
+        Ih(a, 3690, d);
         c1[Fa >> 2] = 1;
         c1[Fa + 4 >> 2] = 0;
         c1[d >> 2] = c1[Fa >> 2];
         c1[d + 4 >> 2] = c1[Fa + 4 >> 2];
-        Jh(a, 3696, d) | 0;
+        Jh(a, 3696, d);
         c1[Ea >> 2] = 2;
         c1[Ea + 4 >> 2] = 0;
         c1[d >> 2] = c1[Ea >> 2];
         c1[d + 4 >> 2] = c1[Ea + 4 >> 2];
-        Kh(a, 3706, d) | 0;
+        Kh(a, 3706, d);
         c1[Da >> 2] = 1;
         c1[Da + 4 >> 2] = 0;
         c1[d >> 2] = c1[Da >> 2];
         c1[d + 4 >> 2] = c1[Da + 4 >> 2];
-        Lh(a, 3722, d) | 0;
+        Lh(a, 3722, d);
         c1[Ca >> 2] = 2;
         c1[Ca + 4 >> 2] = 0;
         c1[d >> 2] = c1[Ca >> 2];
         c1[d + 4 >> 2] = c1[Ca + 4 >> 2];
-        Lh(a, 3734, d) | 0;
+        Lh(a, 3734, d);
         c1[Ba >> 2] = 3;
         c1[Ba + 4 >> 2] = 0;
         c1[d >> 2] = c1[Ba >> 2];
         c1[d + 4 >> 2] = c1[Ba + 4 >> 2];
-        Kh(a, 3753, d) | 0;
+        Kh(a, 3753, d);
         c1[Aa >> 2] = 4;
         c1[Aa + 4 >> 2] = 0;
         c1[d >> 2] = c1[Aa >> 2];
         c1[d + 4 >> 2] = c1[Aa + 4 >> 2];
-        Kh(a, 3769, d) | 0;
+        Kh(a, 3769, d);
         c1[za >> 2] = 5;
         c1[za + 4 >> 2] = 0;
         c1[d >> 2] = c1[za >> 2];
         c1[d + 4 >> 2] = c1[za + 4 >> 2];
-        Kh(a, 3783, d) | 0;
+        Kh(a, 3783, d);
         c1[ya >> 2] = 6;
         c1[ya + 4 >> 2] = 0;
         c1[d >> 2] = c1[ya >> 2];
         c1[d + 4 >> 2] = c1[ya + 4 >> 2];
-        Kh(a, 3796, d) | 0;
+        Kh(a, 3796, d);
         c1[xa >> 2] = 7;
         c1[xa + 4 >> 2] = 0;
         c1[d >> 2] = c1[xa >> 2];
         c1[d + 4 >> 2] = c1[xa + 4 >> 2];
-        Kh(a, 3813, d) | 0;
+        Kh(a, 3813, d);
         c1[wa >> 2] = 8;
         c1[wa + 4 >> 2] = 0;
         c1[d >> 2] = c1[wa >> 2];
         c1[d + 4 >> 2] = c1[wa + 4 >> 2];
-        Kh(a, 3825, d) | 0;
+        Kh(a, 3825, d);
         c1[va >> 2] = 3;
         c1[va + 4 >> 2] = 0;
         c1[d >> 2] = c1[va >> 2];
         c1[d + 4 >> 2] = c1[va + 4 >> 2];
-        Lh(a, 3843, d) | 0;
+        Lh(a, 3843, d);
         c1[ua >> 2] = 4;
         c1[ua + 4 >> 2] = 0;
         c1[d >> 2] = c1[ua >> 2];
         c1[d + 4 >> 2] = c1[ua + 4 >> 2];
-        Lh(a, 3853, d) | 0;
+        Lh(a, 3853, d);
         c1[ta >> 2] = 9;
         c1[ta + 4 >> 2] = 0;
         c1[d >> 2] = c1[ta >> 2];
         c1[d + 4 >> 2] = c1[ta + 4 >> 2];
-        Kh(a, 3870, d) | 0;
+        Kh(a, 3870, d);
         c1[sa >> 2] = 10;
         c1[sa + 4 >> 2] = 0;
         c1[d >> 2] = c1[sa >> 2];
         c1[d + 4 >> 2] = c1[sa + 4 >> 2];
-        Kh(a, 3884, d) | 0;
+        Kh(a, 3884, d);
         c1[ra >> 2] = 11;
         c1[ra + 4 >> 2] = 0;
         c1[d >> 2] = c1[ra >> 2];
         c1[d + 4 >> 2] = c1[ra + 4 >> 2];
-        Kh(a, 3896, d) | 0;
+        Kh(a, 3896, d);
         c1[qa >> 2] = 1;
         c1[qa + 4 >> 2] = 0;
         c1[d >> 2] = c1[qa >> 2];
         c1[d + 4 >> 2] = c1[qa + 4 >> 2];
-        Mh(a, 3907, d) | 0;
+        Mh(a, 3907, d);
         c1[pa >> 2] = 2;
         c1[pa + 4 >> 2] = 0;
         c1[d >> 2] = c1[pa >> 2];
         c1[d + 4 >> 2] = c1[pa + 4 >> 2];
-        Mh(a, 3915, d) | 0;
+        Mh(a, 3915, d);
         c1[oa >> 2] = 3;
         c1[oa + 4 >> 2] = 0;
         c1[d >> 2] = c1[oa >> 2];
         c1[d + 4 >> 2] = c1[oa + 4 >> 2];
-        Mh(a, 3928, d) | 0;
+        Mh(a, 3928, d);
         c1[na >> 2] = 4;
         c1[na + 4 >> 2] = 0;
         c1[d >> 2] = c1[na >> 2];
         c1[d + 4 >> 2] = c1[na + 4 >> 2];
-        Mh(a, 3948, d) | 0;
+        Mh(a, 3948, d);
         c1[ma >> 2] = 5;
         c1[ma + 4 >> 2] = 0;
         c1[d >> 2] = c1[ma >> 2];
         c1[d + 4 >> 2] = c1[ma + 4 >> 2];
-        Mh(a, 3960, d) | 0;
+        Mh(a, 3960, d);
         c1[la >> 2] = 6;
         c1[la + 4 >> 2] = 0;
         c1[d >> 2] = c1[la >> 2];
         c1[d + 4 >> 2] = c1[la + 4 >> 2];
-        Mh(a, 3974, d) | 0;
+        Mh(a, 3974, d);
         c1[ka >> 2] = 7;
         c1[ka + 4 >> 2] = 0;
         c1[d >> 2] = c1[ka >> 2];
         c1[d + 4 >> 2] = c1[ka + 4 >> 2];
-        Mh(a, 3983, d) | 0;
+        Mh(a, 3983, d);
         c1[ja >> 2] = 20;
         c1[ja + 4 >> 2] = 0;
         c1[d >> 2] = c1[ja >> 2];
         c1[d + 4 >> 2] = c1[ja + 4 >> 2];
-        Ih(a, 3999, d) | 0;
+        Ih(a, 3999, d);
         c1[ia >> 2] = 8;
         c1[ia + 4 >> 2] = 0;
         c1[d >> 2] = c1[ia >> 2];
         c1[d + 4 >> 2] = c1[ia + 4 >> 2];
-        Mh(a, 4012, d) | 0;
+        Mh(a, 4012, d);
         c1[ha >> 2] = 9;
         c1[ha + 4 >> 2] = 0;
         c1[d >> 2] = c1[ha >> 2];
         c1[d + 4 >> 2] = c1[ha + 4 >> 2];
-        Mh(a, 4022, d) | 0;
+        Mh(a, 4022, d);
         c1[ga >> 2] = 21;
         c1[ga + 4 >> 2] = 0;
         c1[d >> 2] = c1[ga >> 2];
         c1[d + 4 >> 2] = c1[ga + 4 >> 2];
-        Ih(a, 4039, d) | 0;
+        Ih(a, 4039, d);
         c1[fa >> 2] = 10;
         c1[fa + 4 >> 2] = 0;
         c1[d >> 2] = c1[fa >> 2];
         c1[d + 4 >> 2] = c1[fa + 4 >> 2];
-        Mh(a, 4053, d) | 0;
+        Mh(a, 4053, d);
         c1[ea >> 2] = 11;
         c1[ea + 4 >> 2] = 0;
         c1[d >> 2] = c1[ea >> 2];
         c1[d + 4 >> 2] = c1[ea + 4 >> 2];
-        Mh(a, 4065, d) | 0;
+        Mh(a, 4065, d);
         c1[da >> 2] = 12;
         c1[da + 4 >> 2] = 0;
         c1[d >> 2] = c1[da >> 2];
         c1[d + 4 >> 2] = c1[da + 4 >> 2];
-        Mh(a, 4084, d) | 0;
+        Mh(a, 4084, d);
         c1[ca >> 2] = 13;
         c1[ca + 4 >> 2] = 0;
         c1[d >> 2] = c1[ca >> 2];
         c1[d + 4 >> 2] = c1[ca + 4 >> 2];
-        Mh(a, 4097, d) | 0;
+        Mh(a, 4097, d);
         c1[ba >> 2] = 14;
         c1[ba + 4 >> 2] = 0;
         c1[d >> 2] = c1[ba >> 2];
         c1[d + 4 >> 2] = c1[ba + 4 >> 2];
-        Mh(a, 4117, d) | 0;
+        Mh(a, 4117, d);
         c1[aa >> 2] = 15;
         c1[aa + 4 >> 2] = 0;
         c1[d >> 2] = c1[aa >> 2];
         c1[d + 4 >> 2] = c1[aa + 4 >> 2];
-        Mh(a, 4129, d) | 0;
+        Mh(a, 4129, d);
         c1[$ >> 2] = 16;
         c1[$ + 4 >> 2] = 0;
         c1[d >> 2] = c1[$ >> 2];
         c1[d + 4 >> 2] = c1[$ + 4 >> 2];
-        Mh(a, 4148, d) | 0;
+        Mh(a, 4148, d);
         c1[_ >> 2] = 17;
         c1[_ + 4 >> 2] = 0;
         c1[d >> 2] = c1[_ >> 2];
         c1[d + 4 >> 2] = c1[_ + 4 >> 2];
-        Mh(a, 4161, d) | 0;
+        Mh(a, 4161, d);
         c1[Z >> 2] = 18;
         c1[Z + 4 >> 2] = 0;
         c1[d >> 2] = c1[Z >> 2];
         c1[d + 4 >> 2] = c1[Z + 4 >> 2];
-        Mh(a, 4181, d) | 0;
+        Mh(a, 4181, d);
         c1[Y >> 2] = 5;
         c1[Y + 4 >> 2] = 0;
         c1[d >> 2] = c1[Y >> 2];
         c1[d + 4 >> 2] = c1[Y + 4 >> 2];
-        Lh(a, 4196, d) | 0;
+        Lh(a, 4196, d);
         c1[X >> 2] = 6;
         c1[X + 4 >> 2] = 0;
         c1[d >> 2] = c1[X >> 2];
         c1[d + 4 >> 2] = c1[X + 4 >> 2];
-        Lh(a, 4206, d) | 0;
+        Lh(a, 4206, d);
         c1[W >> 2] = 7;
         c1[W + 4 >> 2] = 0;
         c1[d >> 2] = c1[W >> 2];
         c1[d + 4 >> 2] = c1[W + 4 >> 2];
-        Lh(a, 4217, d) | 0;
+        Lh(a, 4217, d);
         c1[V >> 2] = 3;
         c1[V + 4 >> 2] = 0;
         c1[d >> 2] = c1[V >> 2];
         c1[d + 4 >> 2] = c1[V + 4 >> 2];
-        Nh(a, 4235, d) | 0;
+        Nh(a, 4235, d);
         c1[U >> 2] = 1;
         c1[U + 4 >> 2] = 0;
         c1[d >> 2] = c1[U >> 2];
         c1[d + 4 >> 2] = c1[U + 4 >> 2];
-        Oh(a, 4251, d) | 0;
+        Oh(a, 4251, d);
         c1[T >> 2] = 4;
         c1[T + 4 >> 2] = 0;
         c1[d >> 2] = c1[T >> 2];
         c1[d + 4 >> 2] = c1[T + 4 >> 2];
-        Nh(a, 4263, d) | 0;
+        Nh(a, 4263, d);
         c1[S >> 2] = 5;
         c1[S + 4 >> 2] = 0;
         c1[d >> 2] = c1[S >> 2];
         c1[d + 4 >> 2] = c1[S + 4 >> 2];
-        Nh(a, 4279, d) | 0;
+        Nh(a, 4279, d);
         c1[R >> 2] = 6;
         c1[R + 4 >> 2] = 0;
         c1[d >> 2] = c1[R >> 2];
         c1[d + 4 >> 2] = c1[R + 4 >> 2];
-        Nh(a, 4293, d) | 0;
+        Nh(a, 4293, d);
         c1[Q >> 2] = 7;
         c1[Q + 4 >> 2] = 0;
         c1[d >> 2] = c1[Q >> 2];
         c1[d + 4 >> 2] = c1[Q + 4 >> 2];
-        Nh(a, 4306, d) | 0;
+        Nh(a, 4306, d);
         c1[P >> 2] = 8;
         c1[P + 4 >> 2] = 0;
         c1[d >> 2] = c1[P >> 2];
         c1[d + 4 >> 2] = c1[P + 4 >> 2];
-        Nh(a, 4323, d) | 0;
+        Nh(a, 4323, d);
         c1[O >> 2] = 9;
         c1[O + 4 >> 2] = 0;
         c1[d >> 2] = c1[O >> 2];
         c1[d + 4 >> 2] = c1[O + 4 >> 2];
-        Nh(a, 4335, d) | 0;
+        Nh(a, 4335, d);
         c1[N >> 2] = 2;
         c1[N + 4 >> 2] = 0;
         c1[d >> 2] = c1[N >> 2];
         c1[d + 4 >> 2] = c1[N + 4 >> 2];
-        Oh(a, 4353, d) | 0;
+        Oh(a, 4353, d);
         c1[M >> 2] = 12;
         c1[M + 4 >> 2] = 0;
         c1[d >> 2] = c1[M >> 2];
         c1[d + 4 >> 2] = c1[M + 4 >> 2];
-        Ph(a, 4363, d) | 0;
+        Ph(a, 4363, d);
         c1[L >> 2] = 1;
         c1[L + 4 >> 2] = 0;
         c1[d >> 2] = c1[L >> 2];
         c1[d + 4 >> 2] = c1[L + 4 >> 2];
-        Qh(a, 4376, d) | 0;
+        Qh(a, 4376, d);
         c1[K >> 2] = 2;
         c1[K + 4 >> 2] = 0;
         c1[d >> 2] = c1[K >> 2];
         c1[d + 4 >> 2] = c1[K + 4 >> 2];
-        Qh(a, 4388, d) | 0;
+        Qh(a, 4388, d);
         c1[J >> 2] = 13;
         c1[J + 4 >> 2] = 0;
         c1[d >> 2] = c1[J >> 2];
         c1[d + 4 >> 2] = c1[J + 4 >> 2];
-        Ph(a, 4402, d) | 0;
+        Ph(a, 4402, d);
         c1[I >> 2] = 14;
         c1[I + 4 >> 2] = 0;
         c1[d >> 2] = c1[I >> 2];
         c1[d + 4 >> 2] = c1[I + 4 >> 2];
-        Ph(a, 4411, d) | 0;
+        Ph(a, 4411, d);
         c1[H >> 2] = 15;
         c1[H + 4 >> 2] = 0;
         c1[d >> 2] = c1[H >> 2];
         c1[d + 4 >> 2] = c1[H + 4 >> 2];
-        Ph(a, 4421, d) | 0;
+        Ph(a, 4421, d);
         c1[G >> 2] = 16;
         c1[G + 4 >> 2] = 0;
         c1[d >> 2] = c1[G >> 2];
         c1[d + 4 >> 2] = c1[G + 4 >> 2];
-        Ph(a, 4433, d) | 0;
+        Ph(a, 4433, d);
         c1[F >> 2] = 17;
         c1[F + 4 >> 2] = 0;
         c1[d >> 2] = c1[F >> 2];
         c1[d + 4 >> 2] = c1[F + 4 >> 2];
-        Ph(a, 4446, d) | 0;
+        Ph(a, 4446, d);
         c1[E >> 2] = 18;
         c1[E + 4 >> 2] = 0;
         c1[d >> 2] = c1[E >> 2];
         c1[d + 4 >> 2] = c1[E + 4 >> 2];
-        Ph(a, 4458, d) | 0;
+        Ph(a, 4458, d);
         c1[D >> 2] = 3;
         c1[D + 4 >> 2] = 0;
         c1[d >> 2] = c1[D >> 2];
         c1[d + 4 >> 2] = c1[D + 4 >> 2];
-        Qh(a, 4471, d) | 0;
+        Qh(a, 4471, d);
         c1[C >> 2] = 1;
         c1[C + 4 >> 2] = 0;
         c1[d >> 2] = c1[C >> 2];
         c1[d + 4 >> 2] = c1[C + 4 >> 2];
-        Rh(a, 4486, d) | 0;
+        Rh(a, 4486, d);
         c1[B >> 2] = 10;
         c1[B + 4 >> 2] = 0;
         c1[d >> 2] = c1[B >> 2];
         c1[d + 4 >> 2] = c1[B + 4 >> 2];
-        Nh(a, 4496, d) | 0;
+        Nh(a, 4496, d);
         c1[A >> 2] = 11;
         c1[A + 4 >> 2] = 0;
         c1[d >> 2] = c1[A >> 2];
         c1[d + 4 >> 2] = c1[A + 4 >> 2];
-        Nh(a, 4508, d) | 0;
+        Nh(a, 4508, d);
         c1[z >> 2] = 3;
         c1[z + 4 >> 2] = 0;
         c1[d >> 2] = c1[z >> 2];
         c1[d + 4 >> 2] = c1[z + 4 >> 2];
-        Oh(a, 4519, d) | 0;
+        Oh(a, 4519, d);
         c1[y >> 2] = 4;
         c1[y + 4 >> 2] = 0;
         c1[d >> 2] = c1[y >> 2];
         c1[d + 4 >> 2] = c1[y + 4 >> 2];
-        Sh(a, 4530, d) | 0;
+        Sh(a, 4530, d);
         c1[x >> 2] = 19;
         c1[x + 4 >> 2] = 0;
         c1[d >> 2] = c1[x >> 2];
         c1[d + 4 >> 2] = c1[x + 4 >> 2];
-        Th(a, 4542, d) | 0;
+        Th(a, 4542, d);
         c1[w >> 2] = 12;
         c1[w + 4 >> 2] = 0;
         c1[d >> 2] = c1[w >> 2];
         c1[d + 4 >> 2] = c1[w + 4 >> 2];
-        Uh(a, 4554, d) | 0;
+        Uh(a, 4554, d);
         c1[v >> 2] = 13;
         c1[v + 4 >> 2] = 0;
         c1[d >> 2] = c1[v >> 2];
         c1[d + 4 >> 2] = c1[v + 4 >> 2];
-        Vh(a, 4568, d) | 0;
+        Vh(a, 4568, d);
         c1[u >> 2] = 2;
         c1[u + 4 >> 2] = 0;
         c1[d >> 2] = c1[u >> 2];
         c1[d + 4 >> 2] = c1[u + 4 >> 2];
-        Wh(a, 4578, d) | 0;
+        Wh(a, 4578, d);
         c1[t >> 2] = 20;
         c1[t + 4 >> 2] = 0;
         c1[d >> 2] = c1[t >> 2];
         c1[d + 4 >> 2] = c1[t + 4 >> 2];
-        Xh(a, 4587, d) | 0;
+        Xh(a, 4587, d);
         c1[s >> 2] = 22;
         c1[s + 4 >> 2] = 0;
         c1[d >> 2] = c1[s >> 2];
         c1[d + 4 >> 2] = c1[s + 4 >> 2];
-        Ih(a, 4602, d) | 0;
+        Ih(a, 4602, d);
         c1[r >> 2] = 23;
         c1[r + 4 >> 2] = 0;
         c1[d >> 2] = c1[r >> 2];
         c1[d + 4 >> 2] = c1[r + 4 >> 2];
-        Ih(a, 4619, d) | 0;
+        Ih(a, 4619, d);
         c1[q >> 2] = 14;
         c1[q + 4 >> 2] = 0;
         c1[d >> 2] = c1[q >> 2];
         c1[d + 4 >> 2] = c1[q + 4 >> 2];
-        Yh(a, 4629, d) | 0;
+        Yh(a, 4629, d);
         c1[p >> 2] = 1;
         c1[p + 4 >> 2] = 0;
         c1[d >> 2] = c1[p >> 2];
         c1[d + 4 >> 2] = c1[p + 4 >> 2];
-        Zh(a, 4637, d) | 0;
+        Zh(a, 4637, d);
         c1[o >> 2] = 4;
         c1[o + 4 >> 2] = 0;
         c1[d >> 2] = c1[o >> 2];
         c1[d + 4 >> 2] = c1[o + 4 >> 2];
-        Qh(a, 4653, d) | 0;
+        Qh(a, 4653, d);
         c1[n >> 2] = 5;
         c1[n + 4 >> 2] = 0;
         c1[d >> 2] = c1[n >> 2];
         c1[d + 4 >> 2] = c1[n + 4 >> 2];
-        Qh(a, 4669, d) | 0;
+        Qh(a, 4669, d);
         c1[m >> 2] = 6;
         c1[m + 4 >> 2] = 0;
         c1[d >> 2] = c1[m >> 2];
         c1[d + 4 >> 2] = c1[m + 4 >> 2];
-        Qh(a, 4686, d) | 0;
+        Qh(a, 4686, d);
         c1[k >> 2] = 7;
         c1[k + 4 >> 2] = 0;
         c1[d >> 2] = c1[k >> 2];
         c1[d + 4 >> 2] = c1[k + 4 >> 2];
-        Qh(a, 4701, d) | 0;
+        Qh(a, 4701, d);
         c1[j >> 2] = 8;
         c1[j + 4 >> 2] = 0;
         c1[d >> 2] = c1[j >> 2];
         c1[d + 4 >> 2] = c1[j + 4 >> 2];
-        Qh(a, 4719, d) | 0;
+        Qh(a, 4719, d);
         c1[i >> 2] = 9;
         c1[i + 4 >> 2] = 0;
         c1[d >> 2] = c1[i >> 2];
         c1[d + 4 >> 2] = c1[i + 4 >> 2];
-        Qh(a, 4736, d) | 0;
+        Qh(a, 4736, d);
         c1[h >> 2] = 21;
         c1[h + 4 >> 2] = 0;
         c1[d >> 2] = c1[h >> 2];
         c1[d + 4 >> 2] = c1[h + 4 >> 2];
-        _h(a, 4754, d) | 0;
+        _h(a, 4754, d);
         c1[g >> 2] = 2;
         c1[g + 4 >> 2] = 0;
         c1[d >> 2] = c1[g >> 2];
         c1[d + 4 >> 2] = c1[g + 4 >> 2];
-        Rh(a, 4772, d) | 0;
+        Rh(a, 4772, d);
         c1[f >> 2] = 3;
         c1[f + 4 >> 2] = 0;
         c1[d >> 2] = c1[f >> 2];
         c1[d + 4 >> 2] = c1[f + 4 >> 2];
-        Rh(a, 4790, d) | 0;
+        Rh(a, 4790, d);
         c1[e >> 2] = 4;
         c1[e + 4 >> 2] = 0;
         c1[d >> 2] = c1[e >> 2];
         c1[d + 4 >> 2] = c1[e + 4 >> 2];
-        Rh(a, 4808, d) | 0;
+        Rh(a, 4808, d);
         l1 = b;
         return;
     }
@@ -5727,7 +5649,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7616] | 0)) {
             qi(9136);
-            Ha1(24, 9136, o1 | 0) | 0;
+            Ha1(24, 9136, o1 | 0);
             d = 7616;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -5807,7 +5729,7 @@ export function foo(global, env, buffer) {
         g = a + 28 | 0;
         c1[p >> 2] = c1[g >> 2];
         c1[o >> 2] = c1[p >> 2];
-        gi(a + 24 | 0, o, n, m, k, j, i) | 0;
+        gi(a + 24 | 0, o, n, m, k, j, i);
         c1[g >> 2] = c1[c1[g >> 2] >> 2];
         l1 = h;
         return;
@@ -5934,7 +5856,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -6081,7 +6003,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7632] | 0)) {
             Ti(9184);
-            Ha1(25, 9184, o1 | 0) | 0;
+            Ha1(25, 9184, o1 | 0);
             b = 7632;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -6111,7 +6033,7 @@ export function foo(global, env, buffer) {
     function Gi(a, b) {
         a = a | 0;
         b = b | 0;
-        Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0) | 0;
+        Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0);
         return;
     }
     function Hi(a) {
@@ -6353,7 +6275,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7640] | 0)) {
             jj(9232);
-            Ha1(26, 9232, o1 | 0) | 0;
+            Ha1(26, 9232, o1 | 0);
             d = 7640;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -6492,7 +6414,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -6689,7 +6611,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7648] | 0)) {
             Ij(9268);
-            Ha1(27, 9268, o1 | 0) | 0;
+            Ha1(27, 9268, o1 | 0);
             d = 7648;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -6828,7 +6750,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -6982,7 +6904,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7656] | 0)) {
             ak(9304);
-            Ha1(28, 9304, o1 | 0) | 0;
+            Ha1(28, 9304, o1 | 0);
             d = 7656;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -7121,7 +7043,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -7309,7 +7231,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7664] | 0)) {
             yk(9340);
-            Ha1(29, 9340, o1 | 0) | 0;
+            Ha1(29, 9340, o1 | 0);
             d = 7664;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -7448,7 +7370,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -7625,7 +7547,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7672] | 0)) {
             Vk(9376);
-            Ha1(30, 9376, o1 | 0) | 0;
+            Ha1(30, 9376, o1 | 0);
             d = 7672;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -7764,7 +7686,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -7914,7 +7836,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7680] | 0)) {
             ml(9412);
-            Ha1(31, 9412, o1 | 0) | 0;
+            Ha1(31, 9412, o1 | 0);
             d = 7680;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -8053,7 +7975,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -8207,7 +8129,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7688] | 0)) {
             Gl(9448);
-            Ha1(32, 9448, o1 | 0) | 0;
+            Ha1(32, 9448, o1 | 0);
             d = 7688;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -8346,7 +8268,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -8519,7 +8441,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7696] | 0)) {
             am(9484);
-            Ha1(33, 9484, o1 | 0) | 0;
+            Ha1(33, 9484, o1 | 0);
             d = 7696;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -8658,7 +8580,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -8822,7 +8744,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7704] | 0)) {
             tm(9520);
-            Ha1(34, 9520, o1 | 0) | 0;
+            Ha1(34, 9520, o1 | 0);
             d = 7704;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -8961,7 +8883,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -9120,7 +9042,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7712] | 0)) {
             Mm(9556);
-            Ha1(35, 9556, o1 | 0) | 0;
+            Ha1(35, 9556, o1 | 0);
             d = 7712;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -9259,7 +9181,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -9409,7 +9331,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7720] | 0)) {
             dn(9592);
-            Ha1(36, 9592, o1 | 0) | 0;
+            Ha1(36, 9592, o1 | 0);
             d = 7720;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -9548,7 +9470,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -9674,7 +9596,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7736] | 0)) {
             An(9640);
-            Ha1(25, 9640, o1 | 0) | 0;
+            Ha1(25, 9640, o1 | 0);
             b = 7736;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -9684,7 +9606,7 @@ export function foo(global, env, buffer) {
     function on(a, b) {
         a = a | 0;
         b = b | 0;
-        un(b, a, a + 8 | 0) | 0;
+        un(b, a, a + 8 | 0);
         return;
     }
     function pn(a) {
@@ -9850,7 +9772,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7744] | 0)) {
             Mn(9684);
-            Ha1(37, 9684, o1 | 0) | 0;
+            Ha1(37, 9684, o1 | 0);
             d = 7744;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -9989,7 +9911,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -10150,7 +10072,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7752] | 0)) {
             eo(9720);
-            Ha1(38, 9720, o1 | 0) | 0;
+            Ha1(38, 9720, o1 | 0);
             d = 7752;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -10289,7 +10211,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -10439,7 +10361,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7760] | 0)) {
             xo(9756);
-            Ha1(39, 9756, o1 | 0) | 0;
+            Ha1(39, 9756, o1 | 0);
             d = 7760;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -10578,7 +10500,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -10737,7 +10659,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7768] | 0)) {
             Qo(9792);
-            Ha1(40, 9792, o1 | 0) | 0;
+            Ha1(40, 9792, o1 | 0);
             d = 7768;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -10876,7 +10798,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -11040,7 +10962,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7776] | 0)) {
             hp(9828);
-            Ha1(41, 9828, o1 | 0) | 0;
+            Ha1(41, 9828, o1 | 0);
             d = 7776;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -11179,7 +11101,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -11338,7 +11260,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7784] | 0)) {
             Ap(9864);
-            Ha1(42, 9864, o1 | 0) | 0;
+            Ha1(42, 9864, o1 | 0);
             d = 7784;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -11477,7 +11399,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -11650,7 +11572,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7792] | 0)) {
             Wp(9900);
-            Ha1(43, 9900, o1 | 0) | 0;
+            Ha1(43, 9900, o1 | 0);
             d = 7792;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -11789,7 +11711,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -11904,7 +11826,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7800] | 0)) {
             mq(9936);
-            Ha1(44, 9936, o1 | 0) | 0;
+            Ha1(44, 9936, o1 | 0);
             d = 7800;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -12022,7 +11944,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -12124,7 +12046,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7808] | 0)) {
             Dq(9972);
-            Ha1(45, 9972, o1 | 0) | 0;
+            Ha1(45, 9972, o1 | 0);
             d = 7808;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -12242,7 +12164,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -12360,7 +12282,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7816] | 0)) {
             Yq(10008);
-            Ha1(46, 10008, o1 | 0) | 0;
+            Ha1(46, 10008, o1 | 0);
             d = 7816;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -12478,7 +12400,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -12557,7 +12479,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7832] | 0)) {
             nr(10052);
-            Ha1(25, 10052, o1 | 0) | 0;
+            Ha1(25, 10052, o1 | 0);
             b = 7832;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -12639,23 +12561,23 @@ export function foo(global, env, buffer) {
         f = b + 8 | 0;
         e = b;
         pr(a, 4827);
-        qr(a, 4834, 3) | 0;
-        rr(a, 3682, 47) | 0;
+        qr(a, 4834, 3);
+        rr(a, 3682, 47);
         c1[g >> 2] = 9;
         c1[g + 4 >> 2] = 0;
         c1[d >> 2] = c1[g >> 2];
         c1[d + 4 >> 2] = c1[g + 4 >> 2];
-        sr(a, 4841, d) | 0;
+        sr(a, 4841, d);
         c1[f >> 2] = 1;
         c1[f + 4 >> 2] = 0;
         c1[d >> 2] = c1[f >> 2];
         c1[d + 4 >> 2] = c1[f + 4 >> 2];
-        tr(a, 4871, d) | 0;
+        tr(a, 4871, d);
         c1[e >> 2] = 10;
         c1[e + 4 >> 2] = 0;
         c1[d >> 2] = c1[e >> 2];
         c1[d + 4 >> 2] = c1[e + 4 >> 2];
-        ur(a, 4891, d) | 0;
+        ur(a, 4891, d);
         l1 = b;
         return;
     }
@@ -12789,7 +12711,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7840] | 0)) {
             Gr(10100);
-            Ha1(48, 10100, o1 | 0) | 0;
+            Ha1(48, 10100, o1 | 0);
             d = 7840;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -12928,7 +12850,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -13087,7 +13009,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7848] | 0)) {
             Zr(10136);
-            Ha1(49, 10136, o1 | 0) | 0;
+            Ha1(49, 10136, o1 | 0);
             d = 7848;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -13226,7 +13148,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -13399,7 +13321,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7856] | 0)) {
             ts(10172);
-            Ha1(50, 10172, o1 | 0) | 0;
+            Ha1(50, 10172, o1 | 0);
             d = 7856;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -13538,7 +13460,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -13680,7 +13602,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7864] | 0)) {
             Os(10208);
-            Ha1(51, 10208, o1 | 0) | 0;
+            Ha1(51, 10208, o1 | 0);
             d = 7864;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -13798,7 +13720,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -13903,7 +13825,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7872] | 0)) {
             et(10244);
-            Ha1(52, 10244, o1 | 0) | 0;
+            Ha1(52, 10244, o1 | 0);
             d = 7872;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -14021,7 +13943,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -14107,7 +14029,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7880] | 0)) {
             ut(10280);
-            Ha1(25, 10280, o1 | 0) | 0;
+            Ha1(25, 10280, o1 | 0);
             b = 7880;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14163,8 +14085,8 @@ export function foo(global, env, buffer) {
     function vt(a) {
         a = a | 0;
         wt(a, 4920);
-        xt(a) | 0;
-        yt(a) | 0;
+        xt(a);
+        yt(a);
         return;
     }
     function wt(a, b) {
@@ -14195,7 +14117,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7888] | 0)) {
             Bt(10328);
-            Ha1(53, 10328, o1 | 0) | 0;
+            Ha1(53, 10328, o1 | 0);
             b = 7888;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14322,7 +14244,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7896] | 0)) {
             Nt(10364);
-            Ha1(54, 10364, o1 | 0) | 0;
+            Ha1(54, 10364, o1 | 0);
             b = 7896;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14468,7 +14390,7 @@ export function foo(global, env, buffer) {
     function eu(a) {
         a = a | 0;
         fu(a, 4926);
-        gu(a) | 0;
+        gu(a);
         return;
     }
     function fu(a, b) {
@@ -14492,7 +14414,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7912] | 0)) {
             iu(10412);
-            Ha1(56, 10412, o1 | 0) | 0;
+            Ha1(56, 10412, o1 | 0);
             b = 7912;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14629,8 +14551,8 @@ export function foo(global, env, buffer) {
     function yu(a) {
         a = a | 0;
         zu(a, 4933);
-        Au(a) | 0;
-        Bu(a) | 0;
+        Au(a);
+        Bu(a);
         return;
     }
     function zu(a, b) {
@@ -14661,7 +14583,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7920] | 0)) {
             Du(10452);
-            Ha1(58, 10452, o1 | 0) | 0;
+            Ha1(58, 10452, o1 | 0);
             b = 7920;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14814,7 +14736,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7928] | 0)) {
             Tu(10488);
-            Ha1(59, 10488, o1 | 0) | 0;
+            Ha1(59, 10488, o1 | 0);
             b = 7928;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -14911,7 +14833,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7936] | 0)) {
             jv(10524);
-            Ha1(25, 10524, o1 | 0) | 0;
+            Ha1(25, 10524, o1 | 0);
             b = 7936;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -15005,7 +14927,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[7944] | 0)) {
             ov(10568);
-            Ha1(61, 10568, o1 | 0) | 0;
+            Ha1(61, 10568, o1 | 0);
             d = 7944;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -15138,7 +15060,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -15195,7 +15117,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7952] | 0)) {
             Rv(10612);
-            Ha1(25, 10612, o1 | 0) | 0;
+            Ha1(25, 10612, o1 | 0);
             b = 7952;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -15218,7 +15140,7 @@ export function foo(global, env, buffer) {
         b = l1;
         l1 = l1 + 16 | 0;
         d = b;
-        Iv() | 0;
+        Iv();
         c1[d >> 2] = a;
         Jv(10608, d);
         l1 = b;
@@ -15227,7 +15149,7 @@ export function foo(global, env, buffer) {
     function Iv() {
         if (!(a1[11714] | 0)) {
             c1[2652] = 0;
-            Ha1(62, 10608, o1 | 0) | 0;
+            Ha1(62, 10608, o1 | 0);
             a1[11714] = 1;
         }
         return 10608;
@@ -15296,10 +15218,10 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0, e = 0;
-        Iv() | 0;
+        Iv();
         d = c1[2652] | 0;
         a: do if (d | 0) {
-            while(1){
+            while(true){
                 e = c1[d + 4 >> 2] | 0;
                 if (e | 0 ? (AB(Tv(e) | 0, a) | 0) == 0 : 0) break;
                 d = c1[d >> 2] | 0;
@@ -15332,7 +15254,7 @@ export function foo(global, env, buffer) {
     function Vv() {
         if (!(a1[11716] | 0)) {
             c1[2664] = 0;
-            Ha1(63, 10656, o1 | 0) | 0;
+            Ha1(63, 10656, o1 | 0);
             a1[11716] = 1;
         }
         return 10656;
@@ -15388,7 +15310,7 @@ export function foo(global, env, buffer) {
         c1[j >> 2] = d;
         c1[i >> 2] = e;
         c1[h >> 2] = f;
-        Vv() | 0;
+        Vv();
         _v(10656, m, k, j, i, h);
         l1 = g;
         return;
@@ -15436,7 +15358,7 @@ export function foo(global, env, buffer) {
                     c1[j >> 2] = 0;
                     e = (cw(i) | 0) + 1 | 0;
                     dw(q, e);
-                    if (e | 0) while(1){
+                    if (e | 0) while(true){
                         e = e + -1 | 0;
                         OA(r, c1[f >> 2] | 0);
                         g = c1[p >> 2] | 0;
@@ -15451,10 +15373,10 @@ export function foo(global, env, buffer) {
                     c1[r >> 2] = 0;
                     c1[k >> 2] = 0;
                     c1[m >> 2] = 0;
-                    a: do if (c1[e >> 2] | 0) {
+                    a: if (c1[e >> 2] | 0) {
                         f = 0;
                         g = 0;
-                        while(1){
+                        while(true){
                             if ((f | 0) == (g | 0)) gw(r, e);
                             else {
                                 c1[f >> 2] = c1[e >> 2];
@@ -15466,7 +15388,6 @@ export function foo(global, env, buffer) {
                             g = c1[n >> 2] | 0;
                         }
                     }
-                    while (0)
                     c1[s >> 2] = hw(h) | 0;
                     c1[t >> 2] = si(i) | 0;
                     iw(d, a, s, t, q, r);
@@ -15698,7 +15619,7 @@ export function foo(global, env, buffer) {
         c1[n >> 2] = 0;
         c1[m >> 2] = 0;
         c1[g >> 2] = 0;
-        Ba1(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0) | 0;
+        Ba1(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0);
         jw(j);
         kw(i);
         l1 = h;
@@ -15792,7 +15713,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[7960] | 0)) {
             Fw(10664);
-            Ha1(25, 10664, o1 | 0) | 0;
+            Ha1(25, 10664, o1 | 0);
             b = 7960;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -15886,7 +15807,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c1[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c1[e >> 2] | 0, b | 0, a | 0);
             c1[e >> 2] = (c1[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -15917,7 +15838,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c1[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c1[e >> 2] | 0, b | 0, a | 0);
             c1[e >> 2] = (c1[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -15960,7 +15881,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -16024,7 +15945,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -16075,7 +15996,7 @@ export function foo(global, env, buffer) {
         if (h | 0) {
             j = c1[i + 8 >> 2] | 0;
             i = c1[i + 4 >> 2] | 0;
-            while(1){
+            while(true){
                 OA(m, h);
                 Vw(a, m, i, j);
                 g = g + 4 | 0;
@@ -16200,7 +16121,7 @@ export function foo(global, env, buffer) {
             if (!b) a = e;
             else {
                 b = e;
-                while(1){
+                while(true){
                     a = qC(12) | 0;
                     j = (hx(f) | 0) + 4 | 0;
                     i = c1[j + 4 >> 2] | 0;
@@ -16275,7 +16196,7 @@ export function foo(global, env, buffer) {
         c1[i >> 2] = 0;
         c1[h >> 2] = 0;
         c1[d >> 2] = 0;
-        xa1(0, g | 0, a | 0, b | 0, tw(f) | 0) | 0;
+        xa1(0, g | 0, a | 0, b | 0, tw(f) | 0);
         kw(f);
         l1 = e;
         return;
@@ -16339,7 +16260,7 @@ export function foo(global, env, buffer) {
         c1[h >> 2] = c1[b >> 2];
         c1[g >> 2] = c1[h >> 2];
         b = qw(g) | 0;
-        xa1(0, f | 0, a | 0, b | 0, rw(d) | 0) | 0;
+        xa1(0, f | 0, a | 0, b | 0, rw(d) | 0);
         l1 = e;
         return;
     }
@@ -16418,7 +16339,7 @@ export function foo(global, env, buffer) {
         c1[h >> 2] = c1[i >> 2];
         b = qw(h) | 0;
         d = rx(d) | 0;
-        $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0) | 0;
+        $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0);
         l1 = f;
         return;
     }
@@ -16467,58 +16388,50 @@ export function foo(global, env, buffer) {
         c1[j + 8 >> 2] = 0;
         switch(f << 24 >> 24){
             case 0:
-                {
-                    a1[m >> 0] = 0;
-                    wx(k, e, m);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
-                }
+                a1[m >> 0] = 0;
+                wx(k, e, m);
+                xx(b, k);
+                wf(k);
+                break;
             case 8:
-                {
-                    o = PA(d) | 0;
-                    a1[m >> 0] = 8;
-                    OA(n, c1[o + 4 >> 2] | 0);
-                    yx(k, e, m, n, o + 8 | 0);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
-                }
+                o = PA(d) | 0;
+                a1[m >> 0] = 8;
+                OA(n, c1[o + 4 >> 2] | 0);
+                yx(k, e, m, n, o + 8 | 0);
+                xx(b, k);
+                wf(k);
+                break;
             case 9:
-                {
-                    h = PA(d) | 0;
-                    d = c1[h + 4 >> 2] | 0;
-                    if (d | 0) {
-                        i = j + 8 | 0;
-                        g = h + 12 | 0;
-                        while(1){
-                            d = d + -1 | 0;
-                            OA(k, c1[g >> 2] | 0);
-                            f = c1[o >> 2] | 0;
-                            if (f >>> 0 < (c1[i >> 2] | 0) >>> 0) {
-                                c1[f >> 2] = c1[k >> 2];
-                                c1[o >> 2] = (c1[o >> 2] | 0) + 4;
-                            } else ew(j, k);
-                            if (!d) break;
-                            else g = g + 4 | 0;
-                        }
+                h = PA(d) | 0;
+                d = c1[h + 4 >> 2] | 0;
+                if (d | 0) {
+                    i = j + 8 | 0;
+                    g = h + 12 | 0;
+                    while(true){
+                        d = d + -1 | 0;
+                        OA(k, c1[g >> 2] | 0);
+                        f = c1[o >> 2] | 0;
+                        if (f >>> 0 < (c1[i >> 2] | 0) >>> 0) {
+                            c1[f >> 2] = c1[k >> 2];
+                            c1[o >> 2] = (c1[o >> 2] | 0) + 4;
+                        } else ew(j, k);
+                        if (!d) break;
+                        else g = g + 4 | 0;
                     }
-                    a1[m >> 0] = 9;
-                    OA(n, c1[h + 8 >> 2] | 0);
-                    zx(k, e, m, n, j);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
                 }
+                a1[m >> 0] = 9;
+                OA(n, c1[h + 8 >> 2] | 0);
+                zx(k, e, m, n, j);
+                xx(b, k);
+                wf(k);
+                break;
             default:
-                {
-                    o = PA(d) | 0;
-                    a1[m >> 0] = f;
-                    OA(n, c1[o + 4 >> 2] | 0);
-                    Ax(k, e, m, n);
-                    xx(b, k) | 0;
-                    wf(k);
-                }
+                o = PA(d) | 0;
+                a1[m >> 0] = f;
+                OA(n, c1[o + 4 >> 2] | 0);
+                Ax(k, e, m, n);
+                xx(b, k);
+                wf(k);
         }
         kw(j);
         l1 = p;
@@ -16794,7 +16707,7 @@ export function foo(global, env, buffer) {
     function Wx(a) {
         a = a | 0;
         Xx(a, 5044);
-        Yx(a) | 0;
+        Yx(a);
         return;
     }
     function Xx(a, b) {
@@ -16818,7 +16731,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[8032] | 0)) {
             _x(10820);
-            Ha1(64, 10820, o1 | 0) | 0;
+            Ha1(64, 10820, o1 | 0);
             b = 8032;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -16980,12 +16893,12 @@ export function foo(global, env, buffer) {
     function qy(a) {
         a = a | 0;
         ry(a, 5052);
-        sy(a) | 0;
-        ty(a, 5058, 26) | 0;
-        uy(a, 5069, 1) | 0;
-        vy(a, 5077, 10) | 0;
-        wy(a, 5087, 19) | 0;
-        yy(a, 5094, 27) | 0;
+        sy(a);
+        ty(a, 5058, 26);
+        uy(a, 5069, 1);
+        vy(a, 5077, 10);
+        wy(a, 5087, 19);
+        yy(a, 5094, 27);
         return;
     }
     function ry(a, b) {
@@ -17037,9 +16950,9 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0, e = 0;
-        a: while(1){
+        a: while(true){
             d = c1[2703] | 0;
-            while(1){
+            while(true){
                 if ((d | 0) == (b | 0)) break a;
                 e = c1[d >> 2] | 0;
                 c1[2703] = e;
@@ -17074,7 +16987,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[8040] | 0)) {
             Jy(10860);
-            Ha1(65, 10860, o1 | 0) | 0;
+            Ha1(65, 10860, o1 | 0);
             d = 8040;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -17192,7 +17105,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -17302,7 +17215,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[8048] | 0)) {
             $y(10896);
-            Ha1(66, 10896, o1 | 0) | 0;
+            Ha1(66, 10896, o1 | 0);
             d = 8048;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -17420,7 +17333,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -17524,7 +17437,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[8056] | 0)) {
             rz(10932);
-            Ha1(67, 10932, o1 | 0) | 0;
+            Ha1(67, 10932, o1 | 0);
             d = 8056;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -17642,7 +17555,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -17769,7 +17682,7 @@ export function foo(global, env, buffer) {
         if (!(e & 1)) c1[a >> 2] = c1[b >> 2];
         else {
             Dz(d, 0);
-            Ja1(e | 0, d | 0) | 0;
+            Ja1(e | 0, d | 0);
             Ez(a, d);
             Fz(d);
         }
@@ -17811,7 +17724,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[8064] | 0)) {
             Qz(10968);
-            Ha1(68, 10968, o1 | 0) | 0;
+            Ha1(68, 10968, o1 | 0);
             d = 8064;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -17929,7 +17842,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -18059,7 +17972,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a1[8072] | 0)) {
             gA(11004);
-            Ha1(69, 11004, o1 | 0) | 0;
+            Ha1(69, 11004, o1 | 0);
             d = 8072;
             c1[d >> 2] = 1;
             c1[d + 4 >> 2] = 0;
@@ -18177,7 +18090,7 @@ export function foo(global, env, buffer) {
         d = (c1[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c1[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c1[g >> 2] | 0;
         } else e = g;
@@ -18290,7 +18203,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[8080] | 0)) {
             sA(11040);
-            Ha1(70, 11040, o1 | 0) | 0;
+            Ha1(70, 11040, o1 | 0);
             b = 8080;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -18406,7 +18319,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a1[8088] | 0)) {
             NA(11076);
-            Ha1(25, 11076, o1 | 0) | 0;
+            Ha1(25, 11076, o1 | 0);
             b = 8088;
             c1[b >> 2] = 1;
             c1[b + 4 >> 2] = 0;
@@ -18478,7 +18391,7 @@ export function foo(global, env, buffer) {
         l1 = l1 + 16 | 0;
         e = d;
         c1[e >> 2] = c1[a >> 2];
-        SA(b, e) | 0;
+        SA(b, e);
         l1 = d;
         return;
     }
@@ -18558,7 +18471,7 @@ export function foo(global, env, buffer) {
         if (b | 0) {
             g = c1[f + 8 >> 2] | 0;
             f = c1[f + 4 >> 2] | 0;
-            while(1){
+            while(true){
                 Ma1(b | 0, d1[f >> 0] | 0, a1[g >> 0] | 0);
                 e = e + 4 | 0;
                 b = c1[e >> 2] | 0;
@@ -18588,14 +18501,14 @@ export function foo(global, env, buffer) {
             if (b | 0) {
                 m = n;
                 do {
-                    while(1){
+                    while(true){
                         h = b;
                         b = c1[b >> 2] | 0;
                         h = c1[h + 4 >> 2] | 0;
                         if (!(cB(h) | 0)) break;
                         c1[p >> 2] = m;
                         c1[o >> 2] = c1[p >> 2];
-                        dB(n, o) | 0;
+                        dB(n, o);
                         if (!b) break a;
                     }
                     eB(h);
@@ -18610,7 +18523,7 @@ export function foo(global, env, buffer) {
                     if (e | 0) {
                         f = j;
                         g = k;
-                        while(1){
+                        while(true){
                             c1[f >> 2] = c1[(Xw(c1[e + 4 >> 2] | 0) | 0) >> 2];
                             c1[g >> 2] = c1[e + 8 >> 2];
                             e = c1[e >> 2] | 0;
@@ -18647,55 +18560,48 @@ export function foo(global, env, buffer) {
             b = c1[b >> 2] | 0;
         }while ((b | 0) != 0)
         b = c1[(Iv() | 0) >> 2] | 0;
-        b: do if (b | 0) {
-            c: while(1){
+        b: if (b | 0) {
+            c: while(true){
                 e = c1[b + 4 >> 2] | 0;
                 if (e | 0 ? (q = c1[(Xw(e) | 0) >> 2] | 0, r = c1[(ax(e) | 0) >> 2] | 0, r | 0) : 0) {
                     f = r;
                     do {
                         e = f + 4 | 0;
                         g = aw(e) | 0;
-                        d: do if (g | 0) switch(si(g) | 0){
+                        d: if (g | 0) switch(si(g) | 0){
                             case 0:
                                 break c;
                             case 4:
                             case 3:
                             case 2:
-                                {
-                                    k = fw(g) | 0;
-                                    m = bw(g) | 0;
-                                    n = (cw(g) | 0) + 1 | 0;
-                                    o = iB(g) | 0;
-                                    p = si(g) | 0;
-                                    t = hw(e) | 0;
-                                    Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                    break d;
-                                }
+                                k = fw(g) | 0;
+                                m = bw(g) | 0;
+                                n = (cw(g) | 0) + 1 | 0;
+                                o = iB(g) | 0;
+                                p = si(g) | 0;
+                                t = hw(e) | 0;
+                                Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                break d;
                             case 1:
-                                {
-                                    j = fw(g) | 0;
-                                    k = bw(g) | 0;
-                                    m = (cw(g) | 0) + 1 | 0;
-                                    n = iB(g) | 0;
-                                    o = jB(e) | 0;
-                                    p = si(g) | 0;
-                                    t = hw(e) | 0;
-                                    Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                    break d;
-                                }
+                                j = fw(g) | 0;
+                                k = bw(g) | 0;
+                                m = (cw(g) | 0) + 1 | 0;
+                                n = iB(g) | 0;
+                                o = jB(e) | 0;
+                                p = si(g) | 0;
+                                t = hw(e) | 0;
+                                Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                break d;
                             case 5:
-                                {
-                                    n = fw(g) | 0;
-                                    o = bw(g) | 0;
-                                    p = (cw(g) | 0) + 1 | 0;
-                                    t = iB(g) | 0;
-                                    Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
-                                    break d;
-                                }
+                                n = fw(g) | 0;
+                                o = bw(g) | 0;
+                                p = (cw(g) | 0) + 1 | 0;
+                                t = iB(g) | 0;
+                                Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
+                                break d;
                             default:
                                 break d;
                         }
-                        while (0)
                         f = c1[f >> 2] | 0;
                     }while ((f | 0) != 0)
                 }
@@ -18704,7 +18610,6 @@ export function foo(global, env, buffer) {
             }
             Ta();
         }
-        while (0)
         Sa();
         l1 = s;
         return;
@@ -18904,7 +18809,7 @@ export function foo(global, env, buffer) {
                                     break;
                                 }
                             }
-                            while(1){
+                            while(true){
                                 d = b + 20 | 0;
                                 e = c1[d >> 2] | 0;
                                 if (e | 0) {
@@ -19019,17 +18924,19 @@ export function foo(global, env, buffer) {
                     a = 0;
                     h = k << ((i | 0) == 31 ? 0 : 25 - (i >>> 1) | 0);
                     g = 0;
-                    while(1){
+                    while(true){
                         f = (c1[d + 4 >> 2] & -8) - k | 0;
-                        if (f >>> 0 < e >>> 0) if (!f) {
-                            a = d;
-                            e = 0;
-                            f = d;
-                            v = 61;
-                            break a;
-                        } else {
-                            a = d;
-                            e = f;
+                        if (f >>> 0 < e >>> 0) {
+                            if (!f) {
+                                a = d;
+                                e = 0;
+                                f = d;
+                                v = 61;
+                                break a;
+                            } else {
+                                a = d;
+                                e = f;
+                            }
                         }
                         f = c1[d + 20 >> 2] | 0;
                         d = c1[d + 16 + (h >>> 31 << 2) >> 2] | 0;
@@ -19072,7 +18979,7 @@ export function foo(global, env, buffer) {
                         v = 61;
                     }
                 }
-                if ((v | 0) == 61) while(1){
+                if ((v | 0) == 61) while(true){
                     v = 0;
                     d = (c1[f + 4 >> 2] & -8) - k | 0;
                     n = d >>> 0 < e >>> 0;
@@ -19108,7 +19015,7 @@ export function foo(global, env, buffer) {
                                 break;
                             }
                         }
-                        while(1){
+                        while(true){
                             d = b + 20 | 0;
                             e = c1[d >> 2] | 0;
                             if (e | 0) {
@@ -19214,7 +19121,7 @@ export function foo(global, env, buffer) {
                         }
                         a = h << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                         d = c1[d >> 2] | 0;
-                        while(1){
+                        while(true){
                             if ((c1[d + 4 >> 2] & -8 | 0) == (h | 0)) {
                                 v = 97;
                                 break;
@@ -19326,7 +19233,7 @@ export function foo(global, env, buffer) {
             d = c1[2789] | 0;
             c: do if (d) {
                 e = 11580;
-                while(1){
+                while(true){
                     a = c1[e >> 2] | 0;
                     if (a >>> 0 <= d >>> 0 ? (r = e + 4 | 0, (a + (c1[r >> 2] | 0) | 0) >>> 0 > d >>> 0) : 0) break;
                     a = c1[e + 8 >> 2] | 0;
@@ -19375,14 +19282,16 @@ export function foo(global, env, buffer) {
             while (0)
             do if ((v | 0) == 126) {
                 d = 0 - b | 0;
-                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) if ((e | 0) == -1) {
-                    b = 0;
-                    break;
-                } else {
-                    h = b;
-                    g = e;
-                    v = 135;
-                    break b;
+                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) {
+                    if ((e | 0) == -1) {
+                        b = 0;
+                        break;
+                    } else {
+                        h = b;
+                        g = e;
+                        v = 135;
+                        break b;
+                    }
                 }
                 a = c1[2903] | 0;
                 a = j - b + a & 0 - a;
@@ -19393,7 +19302,7 @@ export function foo(global, env, buffer) {
                     break b;
                 }
                 if ((FC(a | 0) | 0) == -1) {
-                    FC(d | 0) | 0;
+                    FC(d | 0);
                     b = 0;
                     break;
                 } else {
@@ -19423,7 +19332,7 @@ export function foo(global, env, buffer) {
             j = c1[2789] | 0;
             do if (j) {
                 b = 11580;
-                while(1){
+                while(true){
                     a = c1[b >> 2] | 0;
                     d = b + 4 | 0;
                     e = c1[d >> 2] | 0;
@@ -19451,7 +19360,7 @@ export function foo(global, env, buffer) {
                 if (g >>> 0 < (c1[2787] | 0) >>> 0) c1[2787] = g;
                 d = g + h | 0;
                 b = 11580;
-                while(1){
+                while(true){
                     if ((c1[b >> 2] | 0) == (d | 0)) {
                         v = 153;
                         break;
@@ -19509,7 +19418,7 @@ export function foo(global, env, buffer) {
                                             break;
                                         } else d = e;
                                     }
-                                    while(1){
+                                    while(true){
                                         e = a + 20 | 0;
                                         f = c1[e >> 2] | 0;
                                         if (f | 0) {
@@ -19617,7 +19526,7 @@ export function foo(global, env, buffer) {
                         }
                         a = f << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                         d = c1[e >> 2] | 0;
-                        while(1){
+                        while(true){
                             if ((c1[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                                 v = 194;
                                 break;
@@ -19660,7 +19569,7 @@ export function foo(global, env, buffer) {
                     return w | 0;
                 }
                 b = 11580;
-                while(1){
+                while(true){
                     a = c1[b >> 2] | 0;
                     if (a >>> 0 <= j >>> 0 ? (w = a + (c1[b + 4 >> 2] | 0) | 0, w >>> 0 > j >>> 0) : 0) break;
                     b = c1[b + 8 >> 2] | 0;
@@ -19749,7 +19658,7 @@ export function foo(global, env, buffer) {
                     }
                     a = g << ((d | 0) == 31 ? 0 : 25 - (d >>> 1) | 0);
                     d = c1[e >> 2] | 0;
-                    while(1){
+                    while(true){
                         if ((c1[d + 4 >> 2] & -8 | 0) == (g | 0)) {
                             v = 216;
                             break;
@@ -19885,7 +19794,7 @@ export function foo(global, env, buffer) {
                         break;
                     } else b = d;
                 }
-                while(1){
+                while(true){
                     d = a + 20 | 0;
                     e = c1[d >> 2] | 0;
                     if (e | 0) {
@@ -20004,7 +19913,7 @@ export function foo(global, env, buffer) {
                             break;
                         } else b = d;
                     }
-                    while(1){
+                    while(true){
                         d = a + 20 | 0;
                         e = c1[d >> 2] | 0;
                         if (e | 0) {
@@ -20110,7 +20019,7 @@ export function foo(global, env, buffer) {
         do if (b & d) {
             b = f << ((a | 0) == 31 ? 0 : 25 - (a >>> 1) | 0);
             d = c1[e >> 2] | 0;
-            while(1){
+            while(true){
                 if ((c1[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                     a = 73;
                     break;
@@ -20153,7 +20062,7 @@ export function foo(global, env, buffer) {
         c1[2791] = j;
         if (!j) a = 11588;
         else return;
-        while(1){
+        while(true){
             a = c1[a >> 2] | 0;
             if (!a) break;
             else a = a + 8 | 0;
@@ -20201,7 +20110,7 @@ export function foo(global, env, buffer) {
         g = uB(gb(146, g | 0) | 0) | 0;
         a: do if ((e | 0) != (g | 0)) {
             b = 2;
-            while(1){
+            while(true){
                 if ((g | 0) < 0) break;
                 e = e - g | 0;
                 p = c1[f + 4 >> 2] | 0;
@@ -20319,7 +20228,7 @@ export function foo(global, env, buffer) {
         var e = 0, f = 0;
         a: do if (!d) b = 0;
         else {
-            while(1){
+            while(true){
                 e = a1[b >> 0] | 0;
                 f = a1[c >> 0] | 0;
                 if (e << 24 >> 24 != f << 24 >> 24) break;
@@ -20376,7 +20285,7 @@ export function foo(global, env, buffer) {
                 c1[k >> 2] = r + 80;
                 e = DB(b, d, n, q, o) | 0;
                 if (h) {
-                    sb[c1[b + 36 >> 2] & 7](b, 0, 0) | 0;
+                    sb[c1[b + 36 >> 2] & 7](b, 0, 0);
                     e = (c1[j >> 2] | 0) == 0 ? -1 : e;
                     c1[g >> 2] = h;
                     c1[f >> 2] = 0;
@@ -20416,14 +20325,16 @@ export function foo(global, env, buffer) {
         k = 0;
         j = 0;
         p = 0;
-        a: while(1){
-            do if ((j | 0) > -1) if ((k | 0) > (2147483647 - j | 0)) {
-                c1[(vB() | 0) >> 2] = 75;
-                j = -1;
-                break;
-            } else {
-                j = k + j | 0;
-                break;
+        a: while(true){
+            do if ((j | 0) > -1) {
+                if ((k | 0) > (2147483647 - j | 0)) {
+                    c1[(vB() | 0) >> 2] = 75;
+                    j = -1;
+                    break;
+                } else {
+                    j = k + j | 0;
+                    break;
+                }
             }
             while (0)
             k = a1[e >> 0] | 0;
@@ -20431,28 +20342,23 @@ export function foo(global, env, buffer) {
                 w = 87;
                 break;
             } else m = e;
-            b: while(1){
+            b: while(true){
                 switch(k << 24 >> 24){
                     case 37:
-                        {
-                            k = m;
-                            w = 9;
-                            break b;
-                        }
+                        k = m;
+                        w = 9;
+                        break b;
                     case 0:
-                        {
-                            k = m;
-                            break b;
-                        }
+                        k = m;
+                        break b;
                     default:
-                        {}
                 }
                 v = m + 1 | 0;
                 c1[D >> 2] = v;
                 k = a1[v >> 0] | 0;
                 m = v;
             }
-            c: do if ((w | 0) == 9) while(1){
+            c: do if ((w | 0) == 9) while(true){
                 w = 0;
                 if ((a1[m + 1 >> 0] | 0) != 37) break c;
                 k = k + 1 | 0;
@@ -20482,7 +20388,7 @@ export function foo(global, env, buffer) {
             d: do if (m >>> 0 < 32) {
                 o = 0;
                 q = k;
-                while(1){
+                while(true){
                     k = 1 << m;
                     if (!(k & 75913)) {
                         k = q;
@@ -20565,7 +20471,7 @@ export function foo(global, env, buffer) {
             } else m = -1;
             while (0)
             t = 0;
-            while(1){
+            while(true){
                 if (((a1[n >> 0] | 0) + -65 | 0) >>> 0 > 57) {
                     j = -1;
                     break a;
@@ -20620,175 +20526,139 @@ export function foo(global, env, buffer) {
                 case 110:
                     switch((t & 255) << 24 >> 24){
                         case 0:
-                            {
-                                c1[c1[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c1[c1[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 1:
-                            {
-                                c1[c1[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c1[c1[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 2:
-                            {
-                                k = c1[E >> 2] | 0;
-                                c1[k >> 2] = j;
-                                c1[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = c1[E >> 2] | 0;
+                            c1[k >> 2] = j;
+                            c1[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 3:
-                            {
-                                b1[c1[E >> 2] >> 1] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            b1[c1[E >> 2] >> 1] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 4:
-                            {
-                                a1[c1[E >> 2] >> 0] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            a1[c1[E >> 2] >> 0] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 6:
-                            {
-                                c1[c1[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c1[c1[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 7:
-                            {
-                                k = c1[E >> 2] | 0;
-                                c1[k >> 2] = j;
-                                c1[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = c1[E >> 2] | 0;
+                            c1[k >> 2] = j;
+                            c1[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                            k = 0;
+                            e = v;
+                            continue a;
                         default:
-                            {
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = 0;
+                            e = v;
+                            continue a;
                     }
                 case 112:
-                    {
-                        n = 120;
-                        m = m >>> 0 > 8 ? m : 8;
-                        e = u | 8;
-                        w = 61;
-                        break;
-                    }
+                    n = 120;
+                    m = m >>> 0 > 8 ? m : 8;
+                    e = u | 8;
+                    w = 61;
+                    break;
                 case 88:
                 case 120:
-                    {
-                        e = u;
-                        w = 61;
-                        break;
-                    }
+                    e = u;
+                    w = 61;
+                    break;
                 case 111:
-                    {
-                        n = E;
-                        e = c1[n >> 2] | 0;
-                        n = c1[n + 4 >> 2] | 0;
-                        r = KB(e, n, y) | 0;
-                        s = z - r | 0;
-                        o = 0;
-                        q = 5642;
-                        m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
-                        s = u;
-                        w = 67;
-                        break;
-                    }
+                    n = E;
+                    e = c1[n >> 2] | 0;
+                    n = c1[n + 4 >> 2] | 0;
+                    r = KB(e, n, y) | 0;
+                    s = z - r | 0;
+                    o = 0;
+                    q = 5642;
+                    m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
+                    s = u;
+                    w = 67;
+                    break;
                 case 105:
                 case 100:
-                    {
-                        n = E;
-                        e = c1[n >> 2] | 0;
-                        n = c1[n + 4 >> 2] | 0;
-                        if ((n | 0) < 0) {
-                            e = wC(0, 0, e | 0, n | 0) | 0;
-                            n = A1;
-                            o = E;
-                            c1[o >> 2] = e;
-                            c1[o + 4 >> 2] = n;
-                            o = 1;
-                            q = 5642;
-                            w = 66;
-                            break e;
-                        } else {
-                            o = (u & 2049 | 0) != 0 & 1;
-                            q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
-                            w = 66;
-                            break e;
-                        }
+                    n = E;
+                    e = c1[n >> 2] | 0;
+                    n = c1[n + 4 >> 2] | 0;
+                    if ((n | 0) < 0) {
+                        e = wC(0, 0, e | 0, n | 0) | 0;
+                        n = A1;
+                        o = E;
+                        c1[o >> 2] = e;
+                        c1[o + 4 >> 2] = n;
+                        o = 1;
+                        q = 5642;
+                        w = 66;
+                        break e;
+                    } else {
+                        o = (u & 2049 | 0) != 0 & 1;
+                        q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
+                        w = 66;
+                        break e;
                     }
                 case 117:
-                    {
-                        n = E;
-                        o = 0;
-                        q = 5642;
-                        e = c1[n >> 2] | 0;
-                        n = c1[n + 4 >> 2] | 0;
-                        w = 66;
-                        break;
-                    }
+                    n = E;
+                    o = 0;
+                    q = 5642;
+                    e = c1[n >> 2] | 0;
+                    n = c1[n + 4 >> 2] | 0;
+                    w = 66;
+                    break;
                 case 99:
-                    {
-                        a1[B >> 0] = c1[E >> 2];
-                        e = B;
-                        o = 0;
-                        q = 5642;
-                        r = y;
-                        n = 1;
-                        m = s;
-                        break;
-                    }
+                    a1[B >> 0] = c1[E >> 2];
+                    e = B;
+                    o = 0;
+                    q = 5642;
+                    r = y;
+                    n = 1;
+                    m = s;
+                    break;
                 case 109:
-                    {
-                        n = MB(c1[(vB() | 0) >> 2] | 0) | 0;
-                        w = 71;
-                        break;
-                    }
+                    n = MB(c1[(vB() | 0) >> 2] | 0) | 0;
+                    w = 71;
+                    break;
                 case 115:
-                    {
-                        n = c1[E >> 2] | 0;
-                        n = n | 0 ? n : 5652;
-                        w = 71;
-                        break;
-                    }
+                    n = c1[E >> 2] | 0;
+                    n = n | 0 ? n : 5652;
+                    w = 71;
+                    break;
                 case 67:
-                    {
-                        c1[F >> 2] = c1[E >> 2];
-                        c1[C >> 2] = 0;
-                        c1[E >> 2] = F;
-                        r = -1;
-                        n = F;
-                        w = 75;
-                        break;
-                    }
+                    c1[F >> 2] = c1[E >> 2];
+                    c1[C >> 2] = 0;
+                    c1[E >> 2] = F;
+                    r = -1;
+                    n = F;
+                    w = 75;
+                    break;
                 case 83:
-                    {
-                        e = c1[E >> 2] | 0;
-                        if (!m) {
-                            OB(d, 32, k, 0, u);
-                            e = 0;
-                            w = 84;
-                        } else {
-                            r = m;
-                            n = e;
-                            w = 75;
-                        }
-                        break;
+                    e = c1[E >> 2] | 0;
+                    if (!m) {
+                        OB(d, 32, k, 0, u);
+                        e = 0;
+                        w = 84;
+                    } else {
+                        r = m;
+                        n = e;
+                        w = 75;
                     }
+                    break;
                 case 65:
                 case 71:
                 case 70:
@@ -20797,19 +20667,15 @@ export function foo(global, env, buffer) {
                 case 103:
                 case 102:
                 case 101:
-                    {
-                        k = QB(d, +h1[E >> 3], k, m, u, n) | 0;
-                        e = v;
-                        continue a;
-                    }
+                    k = QB(d, +h1[E >> 3], k, m, u, n) | 0;
+                    e = v;
+                    continue a;
                 default:
-                    {
-                        o = 0;
-                        q = 5642;
-                        r = y;
-                        n = m;
-                        m = u;
-                    }
+                    o = 0;
+                    q = 5642;
+                    r = y;
+                    n = m;
+                    m = u;
             }
             while (0)
             f: do if ((w | 0) == 61) {
@@ -20843,7 +20709,7 @@ export function foo(global, env, buffer) {
                 q = n;
                 e = 0;
                 m = 0;
-                while(1){
+                while(true){
                     o = c1[q >> 2] | 0;
                     if (!o) break;
                     m = PB(G, o) | 0;
@@ -20862,7 +20728,7 @@ export function foo(global, env, buffer) {
                     w = 84;
                 } else {
                     o = 0;
-                    while(1){
+                    while(true){
                         m = c1[n >> 2] | 0;
                         if (!m) {
                             w = 84;
@@ -20912,28 +20778,30 @@ export function foo(global, env, buffer) {
             e = v;
         }
         g: do if ((w | 0) == 87) {
-            if (!d) if (!p) j = 0;
-            else {
-                j = 1;
-                while(1){
-                    e = c1[i + (j << 2) >> 2] | 0;
-                    if (!e) break;
-                    IB(g + (j << 3) | 0, e, f);
-                    j = j + 1 | 0;
-                    if ((j | 0) >= 10) {
-                        j = 1;
-                        break g;
+            if (!d) {
+                if (!p) j = 0;
+                else {
+                    j = 1;
+                    while(true){
+                        e = c1[i + (j << 2) >> 2] | 0;
+                        if (!e) break;
+                        IB(g + (j << 3) | 0, e, f);
+                        j = j + 1 | 0;
+                        if ((j | 0) >= 10) {
+                            j = 1;
+                            break g;
+                        }
                     }
-                }
-                while(1){
-                    if (c1[i + (j << 2) >> 2] | 0) {
-                        j = -1;
-                        break g;
-                    }
-                    j = j + 1 | 0;
-                    if ((j | 0) >= 10) {
-                        j = 1;
-                        break;
+                    while(true){
+                        if (c1[i + (j << 2) >> 2] | 0) {
+                            j = -1;
+                            break g;
+                        }
+                        j = j + 1 | 0;
+                        if ((j | 0) >= 10) {
+                            j = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -20954,7 +20822,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         d = d | 0;
-        if (!(c1[a >> 2] & 32)) aC(b, d, a) | 0;
+        if (!(c1[a >> 2] & 32)) aC(b, d, a);
         return;
     }
     function HB(b) {
@@ -20978,110 +20846,88 @@ export function foo(global, env, buffer) {
         b = b | 0;
         d = d | 0;
         var e = 0, f = 0, g = 0.0;
-        a: do if (b >>> 0 <= 20) do switch(b | 0){
+        a: if (b >>> 0 <= 20) switch(b | 0){
             case 9:
-                {
-                    e = (c1[d >> 2] | 0) + 3 & -4;
-                    b = c1[e >> 2] | 0;
-                    c1[d >> 2] = e + 4;
-                    c1[a >> 2] = b;
-                    break a;
-                }
+                e = (c1[d >> 2] | 0) + 3 & -4;
+                b = c1[e >> 2] | 0;
+                c1[d >> 2] = e + 4;
+                c1[a >> 2] = b;
+                break a;
             case 10:
-                {
-                    e = (c1[d >> 2] | 0) + 3 & -4;
-                    b = c1[e >> 2] | 0;
-                    c1[d >> 2] = e + 4;
-                    e = a;
-                    c1[e >> 2] = b;
-                    c1[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                e = (c1[d >> 2] | 0) + 3 & -4;
+                b = c1[e >> 2] | 0;
+                c1[d >> 2] = e + 4;
+                e = a;
+                c1[e >> 2] = b;
+                c1[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
+                break a;
             case 11:
-                {
-                    e = (c1[d >> 2] | 0) + 3 & -4;
-                    b = c1[e >> 2] | 0;
-                    c1[d >> 2] = e + 4;
-                    e = a;
-                    c1[e >> 2] = b;
-                    c1[e + 4 >> 2] = 0;
-                    break a;
-                }
+                e = (c1[d >> 2] | 0) + 3 & -4;
+                b = c1[e >> 2] | 0;
+                c1[d >> 2] = e + 4;
+                e = a;
+                c1[e >> 2] = b;
+                c1[e + 4 >> 2] = 0;
+                break a;
             case 12:
-                {
-                    e = (c1[d >> 2] | 0) + 7 & -8;
-                    b = e;
-                    f = c1[b >> 2] | 0;
-                    b = c1[b + 4 >> 2] | 0;
-                    c1[d >> 2] = e + 8;
-                    e = a;
-                    c1[e >> 2] = f;
-                    c1[e + 4 >> 2] = b;
-                    break a;
-                }
+                e = (c1[d >> 2] | 0) + 7 & -8;
+                b = e;
+                f = c1[b >> 2] | 0;
+                b = c1[b + 4 >> 2] | 0;
+                c1[d >> 2] = e + 8;
+                e = a;
+                c1[e >> 2] = f;
+                c1[e + 4 >> 2] = b;
+                break a;
             case 13:
-                {
-                    f = (c1[d >> 2] | 0) + 3 & -4;
-                    e = c1[f >> 2] | 0;
-                    c1[d >> 2] = f + 4;
-                    e = (e & 65535) << 16 >> 16;
-                    f = a;
-                    c1[f >> 2] = e;
-                    c1[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 3 & -4;
+                e = c1[f >> 2] | 0;
+                c1[d >> 2] = f + 4;
+                e = (e & 65535) << 16 >> 16;
+                f = a;
+                c1[f >> 2] = e;
+                c1[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                break a;
             case 14:
-                {
-                    f = (c1[d >> 2] | 0) + 3 & -4;
-                    e = c1[f >> 2] | 0;
-                    c1[d >> 2] = f + 4;
-                    f = a;
-                    c1[f >> 2] = e & 65535;
-                    c1[f + 4 >> 2] = 0;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 3 & -4;
+                e = c1[f >> 2] | 0;
+                c1[d >> 2] = f + 4;
+                f = a;
+                c1[f >> 2] = e & 65535;
+                c1[f + 4 >> 2] = 0;
+                break a;
             case 15:
-                {
-                    f = (c1[d >> 2] | 0) + 3 & -4;
-                    e = c1[f >> 2] | 0;
-                    c1[d >> 2] = f + 4;
-                    e = (e & 255) << 24 >> 24;
-                    f = a;
-                    c1[f >> 2] = e;
-                    c1[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 3 & -4;
+                e = c1[f >> 2] | 0;
+                c1[d >> 2] = f + 4;
+                e = (e & 255) << 24 >> 24;
+                f = a;
+                c1[f >> 2] = e;
+                c1[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                break a;
             case 16:
-                {
-                    f = (c1[d >> 2] | 0) + 3 & -4;
-                    e = c1[f >> 2] | 0;
-                    c1[d >> 2] = f + 4;
-                    f = a;
-                    c1[f >> 2] = e & 255;
-                    c1[f + 4 >> 2] = 0;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 3 & -4;
+                e = c1[f >> 2] | 0;
+                c1[d >> 2] = f + 4;
+                f = a;
+                c1[f >> 2] = e & 255;
+                c1[f + 4 >> 2] = 0;
+                break a;
             case 17:
-                {
-                    f = (c1[d >> 2] | 0) + 7 & -8;
-                    g = +h1[f >> 3];
-                    c1[d >> 2] = f + 8;
-                    h1[a >> 3] = g;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 7 & -8;
+                g = +h1[f >> 3];
+                c1[d >> 2] = f + 8;
+                h1[a >> 3] = g;
+                break a;
             case 18:
-                {
-                    f = (c1[d >> 2] | 0) + 7 & -8;
-                    g = +h1[f >> 3];
-                    c1[d >> 2] = f + 8;
-                    h1[a >> 3] = g;
-                    break a;
-                }
+                f = (c1[d >> 2] | 0) + 7 & -8;
+                g = +h1[f >> 3];
+                c1[d >> 2] = f + 8;
+                h1[a >> 3] = g;
+                break a;
             default:
                 break a;
         }
-        while (0)
-        while (0)
         return;
     }
     function JB(b, c, e, f) {
@@ -21115,7 +20961,7 @@ export function foo(global, env, buffer) {
         d = d | 0;
         var e = 0;
         if (c >>> 0 > 0 | (c | 0) == 0 & b >>> 0 > 4294967295) {
-            while(1){
+            while(true){
                 e = HC(b | 0, c | 0, 10, 0) | 0;
                 d = d + -1 | 0;
                 a1[d >> 0] = e & 255 | 48;
@@ -21126,7 +20972,7 @@ export function foo(global, env, buffer) {
             }
             c = b;
         } else c = b;
-        if (c) while(1){
+        if (c) while(true){
             d = d + -1 | 0;
             a1[d >> 0] = (c >>> 0) % 10 | 48;
             if (c >>> 0 < 10) break;
@@ -21147,7 +20993,7 @@ export function foo(global, env, buffer) {
         f = (e | 0) != 0;
         a: do if (f & (b & 3 | 0) != 0) {
             g = d & 255;
-            while(1){
+            while(true){
                 if ((a1[b >> 0] | 0) == g << 24 >> 24) {
                     i = 6;
                     break a;
@@ -21162,13 +21008,15 @@ export function foo(global, env, buffer) {
             }
         } else i = 5;
         while (0)
-        if ((i | 0) == 5) if (f) i = 6;
-        else e = 0;
+        if ((i | 0) == 5) {
+            if (f) i = 6;
+            else e = 0;
+        }
         b: do if ((i | 0) == 6) {
             g = d & 255;
             if ((a1[b >> 0] | 0) != g << 24 >> 24) {
                 f = P1(h, 16843009) | 0;
-                c: do if (e >>> 0 > 3) while(1){
+                c: do if (e >>> 0 > 3) while(true){
                     h = c1[b >> 2] ^ f;
                     if ((h & -2139062144 ^ -2139062144) & h + -16843009 | 0) break;
                     b = b + 4 | 0;
@@ -21186,7 +21034,7 @@ export function foo(global, env, buffer) {
                         break;
                     }
                 }
-                while(1){
+                while(true){
                     if ((a1[b >> 0] | 0) == g << 24 >> 24) break b;
                     b = b + 1 | 0;
                     e = e + -1 | 0;
@@ -21212,7 +21060,7 @@ export function foo(global, env, buffer) {
         f = g;
         if ((c | 0) > (d | 0) & (e & 73728 | 0) == 0) {
             e = c - d | 0;
-            yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0) | 0;
+            yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0);
             if (e >>> 0 > 255) {
                 b = c - d | 0;
                 do {
@@ -21250,7 +21098,7 @@ export function foo(global, env, buffer) {
         n = H + 512 | 0;
         c1[u >> 2] = 0;
         E = n + 12 | 0;
-        RB(e) | 0;
+        RB(e);
         if ((A1 | 0) < 0) {
             e = -e;
             C = 1;
@@ -21259,7 +21107,7 @@ export function foo(global, env, buffer) {
             C = (h & 2049 | 0) != 0 & 1;
             B = (h & 2048 | 0) == 0 ? (h & 1 | 0) == 0 ? 5660 : 5665 : 5662;
         }
-        RB(e) | 0;
+        RB(e);
         D = A1 & 2146435072;
         do if (D >>> 0 < 2146435072 | (D | 0) == 2146435072 & false) {
             r = +SB(e, u) * 2.0;
@@ -21342,7 +21190,7 @@ export function foo(global, env, buffer) {
             if ((j | 0) > 0) {
                 n = D;
                 p = m;
-                while(1){
+                while(true){
                     o = (j | 0) < 29 ? j : 29;
                     j = p + -4 | 0;
                     if (j >>> 0 >= n >>> 0) {
@@ -21362,7 +21210,7 @@ export function foo(global, env, buffer) {
                         }
                     }
                     m = p;
-                    while(1){
+                    while(true){
                         if (m >>> 0 <= n >>> 0) break;
                         j = m + -4 | 0;
                         if (!(c1[j >> 2] | 0)) m = j;
@@ -21460,7 +21308,7 @@ export function foo(global, env, buffer) {
                         c1[s >> 2] = x;
                         if (x >>> 0 > 999999999) {
                             m = s;
-                            while(1){
+                            while(true){
                                 n = m + -4 | 0;
                                 c1[m >> 2] = 0;
                                 if (n >>> 0 < j >>> 0) {
@@ -21492,7 +21340,7 @@ export function foo(global, env, buffer) {
                 x = j;
             }
             w = n;
-            while(1){
+            while(true){
                 if (w >>> 0 <= x >>> 0) {
                     u = 0;
                     break;
@@ -21584,7 +21432,7 @@ export function foo(global, env, buffer) {
                             m = q;
                         }
                     } else if (m >>> 0 > G >>> 0) {
-                        yC(G | 0, 48, m - F | 0) | 0;
+                        yC(G | 0, 48, m - F | 0);
                         do m = m + -1 | 0;
                         while (m >>> 0 > G >>> 0)
                     }
@@ -21592,10 +21440,10 @@ export function foo(global, env, buffer) {
                     n = n + 4 | 0;
                 }while (n >>> 0 <= D >>> 0)
                 if (t | 0) GB(b, 5710, 1);
-                if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(1){
+                if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(true){
                     m = LB(c1[n >> 2] | 0, 0, s) | 0;
                     if (m >>> 0 > G >>> 0) {
-                        yC(G | 0, 48, m - F | 0) | 0;
+                        yC(G | 0, 48, m - F | 0);
                         do m = m + -1 | 0;
                         while (m >>> 0 > G >>> 0)
                     }
@@ -21634,7 +21482,7 @@ export function foo(global, env, buffer) {
                             m = n;
                         } else {
                             if (m >>> 0 <= G >>> 0) break;
-                            yC(G | 0, 48, m + p | 0) | 0;
+                            yC(G | 0, 48, m + p | 0);
                             do m = m + -1 | 0;
                             while (m >>> 0 > G >>> 0)
                         }
@@ -21684,23 +21532,19 @@ export function foo(global, env, buffer) {
         f = AC(d | 0, e | 0, 52) | 0;
         switch(f & 2047){
             case 0:
-                {
-                    if (a != 0.0) {
-                        a = +TB(a * 18446744073709551616.0, b);
-                        d = (c1[b >> 2] | 0) + -64 | 0;
-                    } else d = 0;
-                    c1[b >> 2] = d;
-                    break;
-                }
+                if (a != 0.0) {
+                    a = +TB(a * 18446744073709551616.0, b);
+                    d = (c1[b >> 2] | 0) + -64 | 0;
+                } else d = 0;
+                c1[b >> 2] = d;
+                break;
             case 2047:
                 break;
             default:
-                {
-                    c1[b >> 2] = (f & 2047) + -1022;
-                    c1[j1 >> 2] = d;
-                    c1[j1 + 4 >> 2] = e & -2146435073 | 1071644672;
-                    a = +h1[j1 >> 3];
-                }
+                c1[b >> 2] = (f & 2047) + -1022;
+                c1[j1 >> 2] = d;
+                c1[j1 + 4 >> 2] = e & -2146435073 | 1071644672;
+                a = +h1[j1 >> 3];
         }
         return +a;
     }
@@ -21714,14 +21558,16 @@ export function foo(global, env, buffer) {
                 b = 1;
                 break;
             }
-            if (!(c1[c1[(VB() | 0) + 188 >> 2] >> 2] | 0)) if ((d & -128 | 0) == 57216) {
-                a1[b >> 0] = d;
-                b = 1;
-                break;
-            } else {
-                c1[(vB() | 0) >> 2] = 84;
-                b = -1;
-                break;
+            if (!(c1[c1[(VB() | 0) + 188 >> 2] >> 2] | 0)) {
+                if ((d & -128 | 0) == 57216) {
+                    a1[b >> 0] = d;
+                    b = 1;
+                    break;
+                } else {
+                    c1[(vB() | 0) >> 2] = 84;
+                    b = -1;
+                    break;
+                }
             }
             if (d >>> 0 < 2048) {
                 a1[b >> 0] = d >>> 6 | 192;
@@ -21763,7 +21609,7 @@ export function foo(global, env, buffer) {
         e = e | 0;
         var f = 0, g = 0;
         g = 0;
-        while(1){
+        while(true){
             if ((d1[5712 + g >> 0] | 0) == (b | 0)) {
                 b = 2;
                 break;
@@ -21776,12 +21622,14 @@ export function foo(global, env, buffer) {
                 break;
             } else g = f;
         }
-        if ((b | 0) == 2) if (!g) f = 5800;
-        else {
-            f = 5800;
-            b = 5;
+        if ((b | 0) == 2) {
+            if (!g) f = 5800;
+            else {
+                f = 5800;
+                b = 5;
+            }
         }
-        if ((b | 0) == 5) while(1){
+        if ((b | 0) == 5) while(true){
             do {
                 b = f;
                 f = f + 1 | 0;
@@ -21817,7 +21665,7 @@ export function foo(global, env, buffer) {
             n = f >>> 2;
             m = g >>> 2;
             l = 0;
-            while(1){
+            while(true){
                 j = h >>> 1;
                 k = l + j | 0;
                 i = k << 1;
@@ -21882,7 +21730,7 @@ export function foo(global, env, buffer) {
             }
             b: do if ((a1[e + 75 >> 0] | 0) > -1) {
                 i = d;
-                while(1){
+                while(true){
                     if (!i) {
                         h = 0;
                         g = b;
@@ -21903,7 +21751,7 @@ export function foo(global, env, buffer) {
                 g = b;
             }
             while (0)
-            BC(f | 0, g | 0, d | 0) | 0;
+            BC(f | 0, g | 0, d | 0);
             c1[j >> 2] = (c1[j >> 2] | 0) + d;
             f = h + d | 0;
         }
@@ -21938,12 +21786,14 @@ export function foo(global, env, buffer) {
         c = dC(a) | 0;
         do if ((c & 2147483647) >>> 0 <= 2139095040) {
             d = dC(b) | 0;
-            if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
-                a = (c | 0) < 0 ? b : a;
-                break;
-            } else {
-                a = a < b ? b : a;
-                break;
+            if ((d & 2147483647) >>> 0 <= 2139095040) {
+                if ((d ^ c | 0) < 0) {
+                    a = (c | 0) < 0 ? b : a;
+                    break;
+                } else {
+                    a = a < b ? b : a;
+                    break;
+                }
             }
         } else a = b;
         while (0)
@@ -21960,12 +21810,14 @@ export function foo(global, env, buffer) {
         c = fC(a) | 0;
         do if ((c & 2147483647) >>> 0 <= 2139095040) {
             d = fC(b) | 0;
-            if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
-                a = (c | 0) < 0 ? a : b;
-                break;
-            } else {
-                a = a < b ? a : b;
-                break;
+            if ((d & 2147483647) >>> 0 <= 2139095040) {
+                if ((d ^ c | 0) < 0) {
+                    a = (c | 0) < 0 ? a : b;
+                    break;
+                } else {
+                    a = a < b ? a : b;
+                    break;
+                }
             }
         } else a = b;
         while (0)
@@ -22018,9 +21870,11 @@ export function foo(global, env, buffer) {
             f = e - k | 0;
             h = (f | 0) > -1;
             b: do if ((d | 0) > (i | 0)) {
-                while(1){
-                    if (h) if (!f) break;
-                    else e = f;
+                while(true){
+                    if (h) {
+                        if (!f) break;
+                        else e = f;
+                    }
                     e = e << 1;
                     d = d + -1 | 0;
                     f = e - k | 0;
@@ -22031,10 +21885,12 @@ export function foo(global, env, buffer) {
                 break a;
             }
             while (0)
-            if (h) if (!f) {
-                b = T1(a * T1(0.0));
-                break;
-            } else e = f;
+            if (h) {
+                if (!f) {
+                    b = T1(a * T1(0.0));
+                    break;
+                } else e = f;
+            }
             if (e >>> 0 < 8388608) do {
                 e = e << 1;
                 d = d + -1 | 0;
@@ -22103,7 +21959,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         var b = 0;
         b = (a | 0) == 0 ? 1 : a;
-        while(1){
+        while(true){
             a = oB(b) | 0;
             if (a | 0) break;
             a = uC() | 0;
@@ -22451,7 +22307,7 @@ export function foo(global, env, buffer) {
                 g = i | g << 1;
                 e = a << 1 | e >>> 31 | 0;
                 n = a >>> 31 | b << 1 | 0;
-                wC(k | 0, d | 0, e | 0, n | 0) | 0;
+                wC(k | 0, d | 0, e | 0, n | 0);
                 p = A1;
                 o = p >> 31 | ((p | 0) < 0 ? -1 : 0) << 1;
                 i = o & 1;
@@ -22485,7 +22341,7 @@ export function foo(global, env, buffer) {
         b = c1[i1 >> 2] | 0;
         a = b + d | 0;
         if ((d | 0) > 0 & (a | 0) < (b | 0) | (a | 0) < 0) {
-            Y1() | 0;
+            Y1();
             Qa(12);
             return -1;
         }
@@ -22513,7 +22369,7 @@ export function foo(global, env, buffer) {
                 a1[b >> 0] = a1[c >> 0] | 0;
             }
             b = e;
-        } else BC(b, c, d) | 0;
+        } else BC(b, c, d);
         return b | 0;
     }
     function HC(a, b, d, e) {
@@ -22525,7 +22381,7 @@ export function foo(global, env, buffer) {
         g = l1;
         l1 = l1 + 16 | 0;
         f = g | 0;
-        DC(a, b, d, e, f) | 0;
+        DC(a, b, d, e, f);
         l1 = g;
         return (A1 = c1[f + 4 >> 2] | 0, c1[f >> 2] | 0) | 0;
     }

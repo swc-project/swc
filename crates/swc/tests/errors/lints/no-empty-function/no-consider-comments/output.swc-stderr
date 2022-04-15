@@ -2,6 +2,6 @@
   x Unexpected empty function pattern
    ,-[1:1]
  1 | ,-> function foo1() {
- 2 | |       // commnet into
+ 2 | |       // comment into
  3 | `-> }
    `----

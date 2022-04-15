@@ -135,7 +135,7 @@ struct BabelClassMethod<'a> {
 
 #[derive(Serialize)]
 struct AcornClassMethodValue<'a> {
-    /// `FuncionExpression`
+    /// `FunctionExpression`
     #[serde(rename = "type")]
     type_: &'a str,
     #[serde(flatten)]

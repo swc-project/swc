@@ -43,6 +43,8 @@ use crate::{
     },
 };
 
+#[macro_use]
+mod macros;
 mod analyzer;
 mod compress;
 mod debug;

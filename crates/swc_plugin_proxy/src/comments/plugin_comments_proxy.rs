@@ -24,7 +24,7 @@ extern "C" {
     fn __add_pure_comment_proxy(byte_pos: u32);
 }
 
-/// A struct to exchance allocated Vec<Comment> between memory spaces.
+/// A struct to exchange allocated Vec<Comment> between memory spaces.
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)]
 pub struct CommentsVecPtr(pub i32, pub i32);
 
@@ -70,7 +70,7 @@ impl PluginCommentsProxy {
         }
     }
 
-    /// Utiilty wrapper to call host fn which returns a Comment or Vec<Comment>.
+    /// Utility wrapper to call host fn which returns a Comment or Vec<Comment>.
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn read_returned_comments_from_host<F, R>(&self, f: F) -> Option<R>
     where
@@ -90,7 +90,7 @@ impl PluginCommentsProxy {
         {
             let ret = f(serialized_comments_vec_ptr_raw_ptr as _);
 
-            // Host fn call completes: by contract in commments_proxy, if return value is 0
+            // Host fn call completes: by contract in comments_proxy, if return value is 0
             // we know there's no value to read. Otherwise, we know host filled in
             // CommentsVecPtr to the pointer for the actual value for the
             // results.

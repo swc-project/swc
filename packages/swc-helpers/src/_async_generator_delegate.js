@@ -13,8 +13,6 @@ export default function _asyncGeneratorDelegate(inner, awaitWrap) {
     };
   }
 
-  ;
-
   if (typeof Symbol === "function" && Symbol.iterator) {
     iter[Symbol.iterator] = function () {
       return this;

@@ -1,6 +1,5 @@
 "use strict";
 var foo;
+var x = 10, y;
 var moo;
-var x = 10,
-    y;
 bar();

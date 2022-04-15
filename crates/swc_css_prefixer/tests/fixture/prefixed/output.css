@@ -1,0 +1,133 @@
+.class {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-1 {
+  -webkit-appearance: unknown;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}
+.class-3 {
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+.class-4 {
+  -moz-appearance: unknown;
+  -ms-appearance: unknown;
+  appearance: unknown;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: unknown;
+}
+.class-5 {
+  -webkit-appearance: searchfield;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+.class-6 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -webkit-appearance: searchfield;
+}
+.class-7 {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+  -moz-appearance: -webkit-button;
+  -ms-appearance: -webkit-button;
+  appearance: -webkit-button;
+}
+.class-8 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+}
+.class-9 {
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+  -webkit-appearance: -webkit-button;
+  -webkit-appearance: -webkit-unknown;
+}
+.class-10 {
+  -webkit-appearance: -webkit-button;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+.class-11 {
+  -webkit-animation: rotation-reverse;
+  animation: rotation-reverse reverse;
+}
+.class-12 {
+  -webkit-animation: rotation-reverse 100ms;
+  -moz-animation: rotation-reverse;
+  -o-animation: rotation-reverse;
+  animation: rotation-reverse;
+}
+.class-13 {
+  display: block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.class-14 {
+  -webkit-column-break-before: avoid;
+  -moz-column-break-before: column;
+  break-before: column;
+}
+.class-15 {
+  align-content: flex-start;
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+}
+.class-16 {
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+}
+.class-17 {
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+  -ms-flex-line-pack: end;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+}
+.class-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}

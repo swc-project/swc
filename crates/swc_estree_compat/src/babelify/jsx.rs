@@ -213,7 +213,7 @@ impl Babelify for JSXAttrValue {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             JSXAttrValue::Lit(lit) => {
-                // TODO(dwoznicki): Babel only seems to accept string literals here. Is taht
+                // TODO(dwoznicki): Babel only seems to accept string literals here. Is that
                 // right?
                 match lit {
                     Lit::Str(s) => JSXAttrVal::String(s.babelify(ctx)),

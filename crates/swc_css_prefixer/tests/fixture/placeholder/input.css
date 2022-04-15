@@ -5,3 +5,11 @@ input::placeholder {
 input::placeholder, #fs-toggle:fullscreen {
     color: red;
 }
+
+input::placeholder {
+    backdrop-filter: blur(2px);
+}
+
+input.appearance::placeholder {
+    appearance: none;
+}

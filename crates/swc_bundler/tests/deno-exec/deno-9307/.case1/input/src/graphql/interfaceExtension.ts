@@ -30,22 +30,22 @@ const interfaceToAST = (
 /**
  * We treat `anyOf` or `allOf` JsonSchema compositions as a _object extension_
  * mechanism.
- * 
+ *
  * Example:
- *   
+ *
  *   title: FooBar
  *   allOf:
  *     - $ref: "#/components/schemas/Foo"
  *     - $ref: "#/components/schemas/Bar"
- * 
+ *
  * You could read the example as the object "FooBar" extends "Foo" and "Bar".
- * 
+ *
  * We use GraphQL _interface_ to improve query definitions, the "FooBar" object
  * type will implement "Foo" and "Bar" interfaces and if "Foo" exists somewhere
  * else, programmer can create single "FooInterface" GraphQL Fragment and use
- * it for all occurences of "Foo" as well as for all types, which implements
+ * it for all occurrences of "Foo" as well as for all types, which implements
  * "FooInterface".
- * 
+ *
  * We must use schema extension for this task. During GraphQL distillation, if
  * "Foo" is distilled sooner than we reach "FooBar", the "Foo" object type is
  * already created, but we need the "Foo" object to self-extend "FooInterface".

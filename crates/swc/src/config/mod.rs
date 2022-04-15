@@ -324,7 +324,7 @@ impl Options {
 
         // Do a resolver pass before everything.
         //
-        // We do this before creating custom passses, so custom passses can use the
+        // We do this before creating custom passes, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
             assumptions.set_class_methods = !transform.use_define_for_class_fields;

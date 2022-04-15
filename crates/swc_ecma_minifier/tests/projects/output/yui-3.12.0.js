@@ -162,11 +162,13 @@ var YUI = function() {
                             break;
                         }
                     }
-                    if (mod.fn) if (Y.config.throwFail) mod.fn(Y, name);
-                    else try {
-                        mod.fn(Y, name);
-                    } catch (e) {
-                        return Y.error('Attach error: ' + name, e, name), !1;
+                    if (mod.fn) {
+                        if (Y.config.throwFail) mod.fn(Y, name);
+                        else try {
+                            mod.fn(Y, name);
+                        } catch (e) {
+                            return Y.error('Attach error: ' + name, e, name), !1;
+                        }
                     }
                     if (use) {
                         for(j = 0; j < use.length; j++)if (!done[use[j]]) {
@@ -211,11 +213,13 @@ var YUI = function() {
         },
         _notify: function(callback, response, args) {
             if (!response.success && this.config.loadErrorFn) this.config.loadErrorFn.call(this, this, callback, response, args);
-            else if (callback) if (this.Env._missed && this.Env._missed.length && (response.msg = 'Missing modules: ' + this.Env._missed.join(), response.success = !1), this.config.throwFail) callback(this, response);
-            else try {
-                callback(this, response);
-            } catch (e) {
-                this.error('use callback error', e, args);
+            else if (callback) {
+                if (this.Env._missed && this.Env._missed.length && (response.msg = 'Missing modules: ' + this.Env._missed.join(), response.success = !1), this.config.throwFail) callback(this, response);
+                else try {
+                    callback(this, response);
+                } catch (e) {
+                    this.error('use callback error', e, args);
+                }
             }
         },
         _use: function(args, callback) {
@@ -1383,15 +1387,17 @@ var YUI = function() {
         _config: function(o) {
             var i, j, val, a, f, group, groupName, mod3, self = this, mods = [];
             if (o) {
-                for(i in o)if (o.hasOwnProperty(i)) if (val = o[i], 'require' === i) self.require(val);
-                else if ('skin' === i) 'string' == typeof val && (self.skin.defaultSkin = o.skin, val = {
-                    defaultSkin: val
-                }), Y.mix(self.skin, val, !0);
-                else if ('groups' === i) {
-                    for(j in val)if (val.hasOwnProperty(j) && (groupName = j, group = val[j], self.addGroup(group, groupName), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
-                } else if ('modules' === i) for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
-                else if ('aliases' === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
-                else 'gallery' === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : 'yui2' === i || '2in3' === i ? this.groups.yui2.update && this.groups.yui2.update(o['2in3'], o.yui2, o) : self[i] = val;
+                for(i in o)if (o.hasOwnProperty(i)) {
+                    if (val = o[i], 'require' === i) self.require(val);
+                    else if ('skin' === i) 'string' == typeof val && (self.skin.defaultSkin = o.skin, val = {
+                        defaultSkin: val
+                    }), Y.mix(self.skin, val, !0);
+                    else if ('groups' === i) {
+                        for(j in val)if (val.hasOwnProperty(j) && (groupName = j, group = val[j], self.addGroup(group, groupName), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
+                    } else if ('modules' === i) for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
+                    else if ('aliases' === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
+                    else 'gallery' === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : 'yui2' === i || '2in3' === i ? this.groups.yui2.update && this.groups.yui2.update(o['2in3'], o.yui2, o) : self[i] = val;
+                }
             }
             if (f = self.filter, L.isString(f) && (f = f.toUpperCase(), self.filterName = f, self.filter = self.FILTER_DEFS[f], 'DEBUG' === f && self.require('yui-log', 'dump')), self.filterName && self.coverage && 'COVERAGE' === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
                 for(i = 0; i < self.coverage.length; i++)mod3 = self.coverage[i], self.moduleInfo[mod3] && self.moduleInfo[mod3].use ? mods = [].concat(mods, self.moduleInfo[mod3].use) : mods.push(mod3);
@@ -1750,10 +1756,12 @@ var YUI = function() {
             }, url = j, mods = comboSources[j], len = mods.length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m1 = mods[i]) && (m1.combine || !m1.ext) ? (resCombos[j].comboSep = m1.comboSep, resCombos[j].group = m1.group, resCombos[j].maxURLLength = m1.maxURLLength, frag = (L.isValue(m1.root) ? m1.root : self.root) + (m1.path || m1.fullpath), frag = self._filter(frag, m1.name), resCombos[j][m1.type].push(frag), resCombos[j][m1.type + 'Mods'].push(m1)) : mods[i] && addSingle(mods[i]));
             for(j in resCombos)if (resCombos.hasOwnProperty(j)) {
                 for(type in comboSep = resCombos[base = j].comboSep || self.comboSep, maxURLLength = resCombos[base].maxURLLength || self.maxURLLength, resCombos[base])if ('js' === type || 'css' === type) {
-                    if (urls = resCombos[base][type], mods = resCombos[base][type + 'Mods'], len = urls.length, tmpBase = base + urls.join(comboSep), baseLen = tmpBase.length, maxURLLength <= base.length && (maxURLLength = 1024), len) if (baseLen > maxURLLength) {
-                        for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m1 = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m1 && u.push(m1));
-                        u.length && (tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)));
-                    } else resolved[type].push(self._filter(tmpBase, null, resCombos[base].group));
+                    if (urls = resCombos[base][type], mods = resCombos[base][type + 'Mods'], len = urls.length, tmpBase = base + urls.join(comboSep), baseLen = tmpBase.length, maxURLLength <= base.length && (maxURLLength = 1024), len) {
+                        if (baseLen > maxURLLength) {
+                            for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m1 = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m1 && u.push(m1));
+                            u.length && (tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)));
+                        } else resolved[type].push(self._filter(tmpBase, null, resCombos[base].group));
+                    }
                     resolved[type + 'Mods'] = resolved[type + 'Mods'].concat(mods);
                 }
             }
