@@ -965,8 +965,12 @@ where
             }
 
             _ => {
-                log_abort!("todo: Unknown expr: {}", dump(e, true));
-                false
+                if a.is_some() {
+                    log_abort!("todo: Unknown expr: {}", dump(e, true));
+                    false
+                } else {
+                    true
+                }
             }
         }
     }
