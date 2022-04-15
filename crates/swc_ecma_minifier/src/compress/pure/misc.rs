@@ -34,6 +34,10 @@ impl Pure<'_> {
     }
 
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.options.dead_code && !self.options.reduce_vars {
+            return;
+        }
+
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;
             report_change!("misc: Removing useless return");

@@ -607,7 +607,7 @@ where
             return;
         }
 
-        if self.ctx.in_top_level() && !self.options.top_level() {
+        if self.ctx.is_top_level_for_block_level_vars() && !self.options.top_level() {
             log_abort!("sequences: [x] Top level");
             return;
         }
@@ -848,8 +848,10 @@ where
         Ok(())
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
+            log_abort!("try block");
             return false;
         }
 
@@ -863,47 +865,54 @@ where
                     match a {
                         Mergable::Var(a) => {
                             if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (var)");
                                 return false;
                             }
                         }
                         Mergable::Expr(a) => {
                             if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (expr)");
                                 return false;
                             }
                         }
                     }
                 }
 
-                true
+                return true;
             }
 
-            Expr::Lit(..) => true,
+            Expr::Lit(..) => return true,
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
                 arg,
                 ..
-            }) => self.is_skippable_for_seq(a, arg),
+            }) => return self.is_skippable_for_seq(a, arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
+                return self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
             }
 
             Expr::Assign(e) => {
                 let left_id = e.left.as_ident();
                 let left_id = match left_id {
                     Some(v) => v,
-                    _ => return false,
+                    _ => {
+                        log_abort!("e.left is not ident");
+                        return false;
+                    }
                 };
 
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a (var)");
                                 return false;
                             }
                         }
                         Mergable::Expr(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a (expr)");
                                 return false;
                             }
                         }
@@ -915,6 +924,7 @@ where
                 }
 
                 if contains_this_expr(&*e.right) {
+                    log_abort!("e.right contains this");
                     return false;
                 }
 
@@ -924,10 +934,11 @@ where
                 }
 
                 if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
+                    log_abort!("bad used_ids");
                     return false;
                 }
 
-                self.is_skippable_for_seq(a, &e.right)
+                return self.is_skippable_for_seq(a, &e.right);
             }
 
             Expr::Object(e) => {
@@ -937,21 +948,45 @@ where
 
                 // TODO: Check for side effects in object properties.
 
-                false
+                log_abort!("unimpl: object");
+
+                return false;
             }
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
                     if !self.is_skippable_for_seq(a, &elem.expr) {
+                        log_abort!("array element");
                         return false;
                     }
                 }
 
-                true
+                return true;
             }
 
-            _ => false,
+            Expr::Call(e) => {
+                if e.args.is_empty() {
+                    if let Callee::Expr(callee) = &e.callee {
+                        if let Expr::Fn(callee) = &**callee {
+                            let ids = idents_used_by(&callee.function);
+
+                            if ids
+                                .iter()
+                                .all(|id| id.1.outer() == self.marks.top_level_mark)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            _ => {}
         }
+
+        log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
+
+        false
     }
 
     /// Returns true if something is modified.
