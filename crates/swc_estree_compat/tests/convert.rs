@@ -85,7 +85,6 @@ fn fixtures() -> Result<(), Error> {
                     })
                 } else {
                     Syntax::Es(EsConfig {
-                        static_blocks: true,
                         ..Default::default()
                     })
                 };

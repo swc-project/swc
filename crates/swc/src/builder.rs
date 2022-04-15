@@ -280,7 +280,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, EsVersion::Es2015)
                 ),
                 Optional::new(
-                    compat::es3(syntax.dynamic_import()),
+                    compat::es3(true),
                     cfg!(feature = "es3") && self.target == EsVersion::Es3
                 )
             ))
