@@ -199,6 +199,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_core_wasm"
+version = "1.2.165"
+dependencies = [
+ "anyhow",
+ "console_error_panic_hook",
+ "js-sys",
+ "once_cell",
+ "parking_lot_core",
+ "path-clean",
+ "serde",
+ "serde_json",
+ "swc",
+ "swc_common",
+ "swc_ecma_lints",
+ "swc_ecmascript",
+ "swc_plugin_runner",
+ "tracing",
+ "wasm-bindgen",
+ "wasmer",
+ "wasmer-wasi",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4454,29 +4477,6 @@ name = "wasi"
 version = "0.10.2+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
-
-[[package]]
-name = "wasm"
-version = "1.2.165"
-dependencies = [
- "anyhow",
- "console_error_panic_hook",
- "js-sys",
- "once_cell",
- "parking_lot_core",
- "path-clean",
- "serde",
- "serde_json",
- "swc",
- "swc_common",
- "swc_ecma_lints",
- "swc_ecmascript",
- "swc_plugin_runner",
- "tracing",
- "wasm-bindgen",
- "wasmer",
- "wasmer-wasi",
-]
 
 [[package]]
 name = "wasm-bindgen"
