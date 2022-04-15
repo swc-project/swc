@@ -38,6 +38,9 @@
 - **(es/minifier)** Respect `dead_code` (#4328) ([8886a4b](https://github.com/swc-project/swc/commit/8886a4b572c4b24091aa3db38fdc7b486334c069))
 
 
+- **(es/minifier)** Inline before cloning (#4338) ([4110fcb](https://github.com/swc-project/swc/commit/4110fcb9612ceeba0c52f539896075a571c9a619))
+
+
 - **(es/parser)** Enable static blocks by default (#4334) ([7599fe7](https://github.com/swc-project/swc/commit/7599fe74317f790cce8f8638e84c320c5ebbc4c2))
 
 
