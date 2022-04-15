@@ -40,6 +40,8 @@ where
             return;
         }
 
+        self.vars.inline_with_multi_replacer(init);
+
         // TODO: Check for side effect between original decl position and inlined
         // position
 
