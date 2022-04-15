@@ -66,13 +66,11 @@ impl OpenElementsStack {
         false
     }
 
-    pub fn clear_the_stack_back_to_a_table_context(&mut self) {}
-
-    pub fn clear_the_stack_back_to_a_table_row_context(&mut self) {}
-
-    pub fn clear_the_stack_back_to_a_table_body_context(&mut self) {}
-
     pub fn has_in_select_scope(&mut self, tag_name: &str) -> bool {
+        false
+    }
+
+    pub fn has_in_table_scope(&mut self, tag_name: &str) -> bool {
         false
     }
 
@@ -80,7 +78,15 @@ impl OpenElementsStack {
         false
     }
 
+    pub fn clear_the_stack_back_to_a_table_context(&mut self) {}
+
+    pub fn clear_the_stack_back_to_a_table_row_context(&mut self) {}
+
+    pub fn clear_the_stack_back_to_a_table_body_context(&mut self) {}
+
     pub fn generate_implied_end_tags(&mut self) {}
+
+    pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {}
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &str) {}
 }
@@ -93,6 +99,8 @@ impl FormattingElementList {
     }
 
     pub fn insert_marker(&mut self) {}
+
+    pub fn clear_to_last_marker(&mut self) {}
 }
 
 pub struct Parser<I>
@@ -110,6 +118,7 @@ where
     template_insertion_mode_stack: Vec<InsertionMode>,
     document: Option<Document>,
     head_element: Option<Element>,
+    form_element: Option<Element>,
     open_elements_stack: Option<OpenElementsStack>,
     active_formatting_elements: Option<FormattingElementList>,
     // TODO keep only `token`?
@@ -134,6 +143,7 @@ where
             template_insertion_mode_stack: vec![],
             document: None,
             head_element: None,
+            form_element: None,
             open_elements_stack: None,
             active_formatting_elements: None,
             pending_character_tokens: vec![],
@@ -1117,7 +1127,13 @@ where
                         if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
                     {
                         if false {
-                            self.frameset_ok = false;
+                            if !self.frameset_ok {
+                                // Ignore
+                            } else {
+                                // self.openElements.popAllUpToHtmlElement();
+                                self.insert_an_html_element(token_and_span)?;
+                                self.insertion_mode = InsertionMode::InFrameset;
+                            }
                         } else {
                         }
                     }
@@ -1232,7 +1248,22 @@ where
                         if matches!(
                             &*tag_name.to_lowercase(),
                             "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-                        ) => {}
+                        ) =>
+                    {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_button_scope("p") {
+                                self.close_a_p_element();
+                            }
+                        }
+
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if matches!("", "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+                                open_elements_stack.pop();
+                            }
+                        }
+
+                        self.insert_an_html_element(token_and_span)?;
+                    }
                     // A start tag whose tag name is one of: "pre", "listing"
                     //
                     // If the stack of open elements has a p element in button scope, then close a p
@@ -1246,6 +1277,14 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(&*tag_name.to_lowercase(), "pre" | "listing") =>
                     {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_button_scope("p") {
+                                self.close_a_p_element();
+                            }
+                        }
+
+                        self.insert_an_html_element(token_and_span)?;
+
                         match self.input.cur()? {
                             Some(Token::Character { value, .. }) if *value == '\x0A' => {
                                 bump!(self);
@@ -1305,7 +1344,7 @@ where
                     {
                         self.frameset_ok = false;
 
-                        self.insertion_mode = InsertionMode::AfterBody;
+                        self.insert_an_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "dd", "dt"
                     //
@@ -1351,6 +1390,7 @@ where
                         if matches!(&*tag_name.to_lowercase(), "dd" | "dt") =>
                     {
                         self.frameset_ok = false;
+                        self.insert_a_character(token_and_span)?;
                     }
                     // A start tag whose tag name is "plaintext"
                     //
@@ -1363,7 +1403,13 @@ where
                     Token::StartTag { tag_name, .. }
                         if tag_name.as_ref().eq_ignore_ascii_case("plaintext") =>
                     {
-                        self.insertion_mode = InsertionMode::AfterBody;
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_button_scope("p") {
+                                self.close_a_p_element();
+                            }
+                        }
+
+                        self.insert_a_character(token_and_span)?;
                         self.input.set_input_state(State::PlainText);
                     }
                     // A start tag whose tag name is "button"
@@ -1695,7 +1741,16 @@ where
                     Token::StartTag { tag_name, .. }
                         if tag_name.as_ref().eq_ignore_ascii_case("table") =>
                     {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            // if (self.document.mode != DOCUMENT_MODE.QUIRKS &&
+                            // open_elements_stack.has_in_button_scope("p")) {
+                            self.close_a_p_element();
+                            // }
+                        }
+
+                        self.insert_an_html_element(token_and_span)?;
                         self.frameset_ok = false;
+                        self.insertion_mode = InsertionMode::InTable;
                     }
                     // An end tag whose tag name is "br"
                     //
@@ -1738,7 +1793,16 @@ where
                     Token::StartTag { tag_name, .. }
                         if tag_name.as_ref().eq_ignore_ascii_case("input") =>
                     {
+                        self.reconstruct_the_active_formatting_elements()?;
+                        self.insert_an_html_element(token_and_span)?;
+
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            open_elements_stack.pop();
+                        }
+
+                        // if (!isHiddenInput(token)) {
                         self.frameset_ok = false;
+                        // }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
                     //
@@ -1747,7 +1811,14 @@ where
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "param" | "source" | "track") => {}
+                        if matches!(&*tag_name.to_lowercase(), "param" | "source" | "track") =>
+                    {
+                        self.insert_an_html_element(token_and_span)?;
+
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            open_elements_stack.pop();
+                        }
+                    }
                     // A start tag whose tag name is "hr"
                     //
                     // If the stack of open elements has a p element in button scope, then close a p
@@ -1762,6 +1833,18 @@ where
                     Token::StartTag { tag_name, .. }
                         if tag_name.as_ref().eq_ignore_ascii_case("hr") =>
                     {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_button_scope("p") {
+                                self.close_a_p_element();
+                            }
+                        }
+
+                        self.insert_an_html_element(token_and_span)?;
+
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            open_elements_stack.pop();
+                        }
+
                         self.frameset_ok = false;
                     }
                     // A start tag whose tag name is "image"
@@ -1769,7 +1852,15 @@ where
                     // Parse error. Change the token's tag name to "img" and reprocess it. (Don't
                     // ask.)
                     Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("image") => {}
+                        if tag_name.as_ref().eq_ignore_ascii_case("image") =>
+                    {
+                        let mut new_token_and_span = token_and_span.clone();
+                        if let Token::StartTag { tag_name, .. } = &mut new_token_and_span.token {
+                            // TODO
+
+                            self.process_token(new_token_and_span)?;
+                        }
+                    }
                     // A start tag whose tag name is "textarea"
                     //
                     // Run these steps:
@@ -1915,6 +2006,14 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(&*tag_name.to_lowercase(), "rb" | "rtc") =>
                     {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_scope("ruby") {
+                                open_elements_stack.generate_implied_end_tags();
+                            }
+                        }
+
+                        // TODO error
+
                         self.insert_an_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "rp", "rt"
@@ -1927,6 +2026,15 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(&*tag_name.to_lowercase(), "rp" | "rt") =>
                     {
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if open_elements_stack.has_in_scope("ruby") {
+                                open_elements_stack.generate_implied_end_tags_with_exclusion("rtc");
+                                open_elements_stack.generate_implied_end_tags();
+                            }
+                        }
+
+                        // TODO error
+
                         self.insert_an_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is "math"
@@ -2304,7 +2412,10 @@ where
                     // Let the original insertion mode be the current insertion mode.
                     //
                     // Switch the insertion mode to "in table text" and reprocess the token.
+                    // TODO
                     Token::Character { .. } if true => {
+                        self.pending_character_tokens = vec![];
+                        self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::InTableText;
                         self.process_token(token_and_span)?;
                     }
@@ -2514,7 +2625,21 @@ where
                     //
                     // Pop that form element off the stack of open elements.
                     Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("form") => {}
+                        if tag_name.as_ref().eq_ignore_ascii_case("form") =>
+                    {
+                        // TODO
+
+                        if false {
+                        } else {
+                            let element = self.insert_an_html_element(token_and_span)?;
+
+                            self.form_element = Some(element);
+
+                            if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                                open_elements_stack.pop();
+                            }
+                        }
+                    }
                     // An end-of-file token
                     //
                     // Process the token using the rules for the "in body" insertion mode.
@@ -2602,9 +2727,25 @@ where
                     Token::EndTag { tag_name, .. }
                         if tag_name.as_ref().eq_ignore_ascii_case("caption") =>
                     {
-                        if false {
-                        } else {
-                            self.insertion_mode = InsertionMode::InTable;
+                        if let Some(open_elements_stack) = &mut self.open_elements_stack {
+                            if !open_elements_stack.has_in_table_scope("caption") {
+                                // TODO error
+                                // Ignore
+                            } else {
+                                open_elements_stack.generate_implied_end_tags();
+
+                                // TODO
+
+                                open_elements_stack.pop_until_tag_name_popped("caption");
+
+                                if let Some(active_formatting_elements) =
+                                    &mut self.active_formatting_elements
+                                {
+                                    active_formatting_elements.clear_to_last_marker();
+                                }
+
+                                self.insertion_mode = InsertionMode::InTable;
+                            }
                         }
                     }
                     // A start tag whose tag name is one of: "caption", "col", "colgroup", "tbody",
