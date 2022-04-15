@@ -1903,4 +1903,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
     }
+
+    fn is_start_of_left_hand_side_expr(&mut self) -> PResult<bool> {
+        Ok(is_one_of!(
+            self, "this", "super", "null", "true", "false", Num, BigInt, Str, '`', '(', '[', '{',
+            "function", "class", "new", Regex, IdentRef
+        ) || (is!(self, "import")
+            && (peeked_is!(self, '(') || peeked_is!(self, '<') || peeked_is!(self, '.'))))
+    }
+
+    pub(super) fn is_start_of_expr(&mut self) -> PResult<bool> {
+        Ok(self.is_start_of_left_hand_side_expr()?
+            || is_one_of!(
+                self, '+', '-', '~', '!', "delete", "typeof", "void", "++", "--", '<', "await",
+                "yield"
+            )
+            || (is!(self, '#') && peeked_is!(self, IdentName)))
+    }
 }
