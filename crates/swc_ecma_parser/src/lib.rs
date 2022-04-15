@@ -173,30 +173,12 @@ impl Syntax {
         }
     }
 
-    pub fn static_blocks(self) -> bool {
-        matches!(
-            self,
-            Syntax::Es(EsConfig {
-                static_blocks: true,
-                ..
-            }) | Syntax::Typescript(..)
-        )
-    }
-
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
         matches!(
             self,
             Syntax::Es(EsConfig { jsx: true, .. }) | Syntax::Typescript(TsConfig { tsx: true, .. })
         )
-    }
-
-    pub const fn optional_chaining(self) -> bool {
-        true
-    }
-
-    pub const fn dynamic_import(self) -> bool {
-        true
     }
 
     pub fn fn_bind(self) -> bool {

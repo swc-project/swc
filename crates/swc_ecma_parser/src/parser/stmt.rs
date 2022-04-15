@@ -1291,7 +1291,7 @@ where
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
-        if self.input.syntax().dynamic_import() && is!(self, "import") && peeked_is!(self, '(') {
+        if is!(self, "import") && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -2045,7 +2045,6 @@ export default function waitUntil(callback, options = {}) {
             test_parser(
                 src,
                 Syntax::Es(EsConfig {
-                    static_blocks: true,
                     ..Default::default()
                 }),
                 |p| p.parse_expr()
@@ -2083,7 +2082,6 @@ export default function waitUntil(callback, options = {}) {
             test_parser(
                 src,
                 Syntax::Es(EsConfig {
-                    static_blocks: true,
                     ..Default::default()
                 }),
                 |p| p.parse_expr()
