@@ -16,7 +16,7 @@ impl<'a, I: Tokens> Parser<I> {
             .into());
         }
 
-        if self.input.syntax().dynamic_import() && peeked_is!(self, '(') {
+        if peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
