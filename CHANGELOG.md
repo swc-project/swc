@@ -59,6 +59,9 @@
 - **(es/minifier)** Enable `dead_code` by default (#4309) ([74a5087](https://github.com/swc-project/swc/commit/74a5087989173f833517cb6f6bf51afcf9642286))
 
 
+- **(es/minifier)** Improve sequential inliner (#4335) ([f92242d](https://github.com/swc-project/swc/commit/f92242dcb17a7b6dc25dac63d052df9e3d7042bc))
+
+
 - **(es/parser)** Support `extends` clause to `infer` type (#4326) ([1c3d1af](https://github.com/swc-project/swc/commit/1c3d1af01cdfdf6794e73e32bb0062698d4910be))
 
 ### Miscellaneous Tasks
