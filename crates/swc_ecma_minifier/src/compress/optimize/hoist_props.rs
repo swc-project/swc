@@ -89,7 +89,9 @@ where
                 return;
             }
 
-            self.mode.store(name.to_id(), n.init.as_deref().unwrap());
+            if let Some(init) = n.init.as_deref() {
+                self.mode.store(name.to_id(), init);
+            }
 
             if let Some(Expr::Object(init)) = n.init.as_deref_mut() {
                 for prop in &mut init.props {
