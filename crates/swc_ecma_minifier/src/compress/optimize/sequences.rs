@@ -878,18 +878,18 @@ where
                     }
                 }
 
-                true
+                return true;
             }
 
-            Expr::Lit(..) => true,
+            Expr::Lit(..) => return true,
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
                 arg,
                 ..
-            }) => self.is_skippable_for_seq(a, arg),
+            }) => return self.is_skippable_for_seq(a, arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
+                return self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
             }
 
             Expr::Assign(e) => {
@@ -938,7 +938,7 @@ where
                     return false;
                 }
 
-                self.is_skippable_for_seq(a, &e.right)
+                return self.is_skippable_for_seq(a, &e.right);
             }
 
             Expr::Object(e) => {
@@ -950,7 +950,7 @@ where
 
                 log_abort!("unimpl: object");
 
-                false
+                return false;
             }
 
             Expr::Array(e) => {
@@ -961,14 +961,14 @@ where
                     }
                 }
 
-                true
+                return true;
             }
 
-            _ => {
-                log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
-                false
-            }
+            _ => {}
         }
+
+        log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
+        false
     }
 
     /// Returns true if something is modified.
