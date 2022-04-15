@@ -25,7 +25,6 @@ fn span(entry: PathBuf) {
                 Syntax::Es(EsConfig {
                     jsx: true,
                     decorators: true,
-                    static_blocks: true,
                     ..Default::default()
                 })
             } else {
