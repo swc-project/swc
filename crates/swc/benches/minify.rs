@@ -57,15 +57,24 @@ fn files_group(c: &mut Criterion) {
     let mut group = c.benchmark_group("libraries");
     group.sample_size(10);
 
-    macro_rules! one {
-        ($name:ident, $target:expr) => {
-            group.bench_function(stringify!($name), |b| {
-                bench_minify(b, $target);
-            });
-        };
-    }
+    let mut bench_file = |name: &str| {
+        group.bench_function(name, |b| {
+            bench_minify(b, &format!("{}.js", name));
+        });
+    };
 
-    one!(antd, "antd.js");
+    bench_file("antd");
+    bench_file("d3");
+    bench_file("echarts");
+    bench_file("jquery");
+    bench_file("lodash");
+    bench_file("moment");
+    bench_file("react");
+    bench_file("terser");
+    bench_file("three");
+    bench_file("typescript");
+    bench_file("victory");
+    bench_file("vue");
 }
 
 criterion_group!(benches, files_group);
