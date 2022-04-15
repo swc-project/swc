@@ -2114,7 +2114,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     const proseTypes = new Map();
 
     // deno-lint-ignore ban-types
-    const prose = (l, i, nl, bp): string => {
+    const prose = (l, i, nl, bp) => {
         return i(l) + bp + "prose {" + nl +
             i(l + 1) + "color: #374151;" + nl +
             i(l + 1) + "max-width: 65ch;" + nl +
