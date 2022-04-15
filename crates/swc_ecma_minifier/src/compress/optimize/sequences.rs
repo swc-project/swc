@@ -964,10 +964,28 @@ where
                 return true;
             }
 
+            Expr::Call(e) => {
+                if e.args.is_empty() {
+                    if let Callee::Expr(callee) = &e.callee {
+                        if let Expr::Fn(callee) = &**callee {
+                            let ids = idents_used_by(&callee.function);
+
+                            if ids
+                                .iter()
+                                .all(|id| id.1.outer() == self.marks.top_level_mark)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
             _ => {}
         }
 
         log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
+
         false
     }
 
