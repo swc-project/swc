@@ -145,6 +145,7 @@ impl Error {
 #[derive(Debug, Clone, PartialEq)]
 #[non_exhaustive]
 pub enum ErrorKind {
+    // Tokens errors
     Eof,
     ControlCharacterInInputStream,
     NoncharacterInInputStream,

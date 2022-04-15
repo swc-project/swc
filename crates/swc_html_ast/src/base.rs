@@ -36,16 +36,8 @@ pub struct DocumentType {
 pub struct Element {
     pub span: Span,
     pub tag_name: JsWord,
-    pub start_tag: Option<Tag>,
-    pub children: Vec<Node>,
-    pub end_tag: Option<Tag>,
-}
-
-#[ast_node("Tag")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
-pub struct Tag {
-    pub span: Span,
     pub attributes: Vec<Attribute>,
+    pub children: Vec<Node>,
 }
 
 #[ast_node("Attribute")]
@@ -53,7 +45,7 @@ pub struct Tag {
 pub struct Attribute {
     pub span: Span,
     pub name: JsWord,
-    pub value: JsWord,
+    pub value: Option<JsWord>,
 }
 
 #[ast_node("Text")]

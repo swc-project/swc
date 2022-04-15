@@ -32,20 +32,14 @@ define!({
     pub struct Element {
         pub span: Span,
         pub tag_name: JsWord,
-        pub start_tag: Option<Tag>,
-        pub children: Vec<AstNode>,
-        pub end_tag: Option<Tag>,
-    }
-
-    pub struct Tag {
-        pub span: Span,
         pub attributes: Vec<Attribute>,
+        pub children: Vec<AstNode>,
     }
 
     pub struct Attribute {
         pub span: Span,
         pub name: JsWord,
-        pub value: JsWord,
+        pub value: Option<JsWord>,
     }
 
     pub struct Text {
