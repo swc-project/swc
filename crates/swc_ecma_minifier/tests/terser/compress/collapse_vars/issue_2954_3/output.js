@@ -1,12 +1,10 @@
-var a = "FAIL_1",
-    b;
-try {
-} finally {
+var b, a = "FAIL_1";
+try {} finally{
     do {
         a = "FAIL_2";
-        (b = (function () {
+        (b = function() {
             throw new Error("PASS");
-        })()) && b.c;
-    } while (0);
+        }()) && b.c;
+    }while (0)
 }
 console.log(a);
