@@ -4,7 +4,7 @@
  * @param {RegExp} regex
  * @returns {(code: Code) => code is number}
  */
-function regexCheck(regex) {
+export function regexCheck(regex) {
     return check
 
     /**
