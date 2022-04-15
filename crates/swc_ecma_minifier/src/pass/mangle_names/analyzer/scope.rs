@@ -110,11 +110,6 @@ impl Scope {
                     continue;
                 }
 
-                //
-                // if self.data.usages.contains(left) || self.data.decls.contains(left) {
-                //     return false;
-                // }
-
                 if self.data.all.contains(left) {
                     return false;
                 }
