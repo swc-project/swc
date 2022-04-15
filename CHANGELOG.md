@@ -20,6 +20,9 @@
 - **(es/codegen)** Fix overflow of numeric literals (#4321) ([0245e26](https://github.com/swc-project/swc/commit/0245e26af5f984cf89a2f474d89f6b3dfe2f0eff))
 
 
+- **(es/codegen)** Fix codegen of arrow expressions (#4306) ([4c99730](https://github.com/swc-project/swc/commit/4c9973010a5c2b865e6ed676a4e0364234cf5d88))
+
+
 - **(es/compat)** Fix renaming bug of `block_scoping` (#4310) ([6c9882e](https://github.com/swc-project/swc/commit/6c9882ec68fee9b702f5e4749482eca74fbd87e8))
 
 
@@ -33,6 +36,12 @@
 
 
 - **(es/minifier)** Respect `dead_code` (#4328) ([8886a4b](https://github.com/swc-project/swc/commit/8886a4b572c4b24091aa3db38fdc7b486334c069))
+
+
+- **(es/minifier)** Inline before cloning (#4338) ([4110fcb](https://github.com/swc-project/swc/commit/4110fcb9612ceeba0c52f539896075a571c9a619))
+
+
+- **(es/parser)** Enable static blocks by default (#4334) ([7599fe7](https://github.com/swc-project/swc/commit/7599fe74317f790cce8f8638e84c320c5ebbc4c2))
 
 
 - **(node-swc/types)** Add `isTypeOnly` to types (#4303) ([1a48732](https://github.com/swc-project/swc/commit/1a48732e78b9c650f93320f4d6f7be57a9f4a6c4))
@@ -53,6 +62,9 @@
 - **(es/minifier)** Enable `dead_code` by default (#4309) ([74a5087](https://github.com/swc-project/swc/commit/74a5087989173f833517cb6f6bf51afcf9642286))
 
 
+- **(es/minifier)** Improve sequential inliner (#4335) ([f92242d](https://github.com/swc-project/swc/commit/f92242dcb17a7b6dc25dac63d052df9e3d7042bc))
+
+
 - **(es/parser)** Support `extends` clause to `infer` type (#4326) ([1c3d1af](https://github.com/swc-project/swc/commit/1c3d1af01cdfdf6794e73e32bb0062698d4910be))
 
 ### Miscellaneous Tasks
@@ -69,6 +81,9 @@
 
 ### Refactor
 
+
+
+- **(bindings)** Rename crates (#4337) ([83a8f48](https://github.com/swc-project/swc/commit/83a8f489ec5b7010a762a75dc31a63b2fb060372))
 
 
 - **(es/minifier)** Clean up logging (#4322) ([2002554](https://github.com/swc-project/swc/commit/2002554fa26c1ebd683f71d87263f26fd95d00f1))

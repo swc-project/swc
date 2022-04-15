@@ -89,14 +89,20 @@ where
                 return;
             }
 
-            if let Some(Expr::Object(init)) = n.init.as_deref() {
-                for prop in &init.props {
+            if let Some(init) = n.init.as_deref() {
+                self.mode.store(name.to_id(), init);
+            }
+
+            if let Some(Expr::Object(init)) = n.init.as_deref_mut() {
+                for prop in &mut init.props {
                     let prop = match prop {
                         PropOrSpread::Spread(_) => continue,
                         PropOrSpread::Prop(prop) => prop,
                     };
 
-                    if let Prop::KeyValue(p) = &**prop {
+                    if let Prop::KeyValue(p) = &mut **prop {
+                        self.vars.inline_with_multi_replacer(&mut p.value);
+
                         let value = match &*p.value {
                             Expr::Lit(..) => p.value.clone(),
                             Expr::Fn(..) | Expr::Arrow(..) => {
@@ -117,7 +123,6 @@ where
                                 );
                                 self.simple_props
                                     .insert((name.to_id(), s.value.clone()), value);
-                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
                                 trace_op!(
@@ -126,7 +131,6 @@ where
                                 );
                                 self.simple_props
                                     .insert((name.to_id(), i.sym.clone()), value);
-                                self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             _ => {}
                         }

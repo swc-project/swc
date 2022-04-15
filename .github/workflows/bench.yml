@@ -32,7 +32,7 @@ jobs:
           yarn build
 
       - name: Print binary size
-        run: ls -al ./target/release/libnode*
+        run: ls -al ./target/release/libbinding*
 
   benchmark:
     name: Performance regression check
@@ -71,7 +71,7 @@ jobs:
           yarn
 
       - name: Run benchmark
-        run: cargo bench --workspace --exclude swc_plugin --exclude wasm --exclude swc_cli --exclude node -- --output-format bencher | tee output.txt
+        run: cargo bench --workspace --exclude swc_plugin --exclude binding_core_wasm --exclude swc_cli --exclude binding_core_node -- --output-format bencher | tee output.txt
 
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json

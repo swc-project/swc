@@ -1103,14 +1103,13 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
 
-        let question_dot_token =
-            if self.input.syntax().optional_chaining() && is!(self, '?') && peeked_is!(self, '.') {
-                let start = cur_pos!(self);
-                eat!(self, '?');
-                Some(span!(self, start))
-            } else {
-                None
-            };
+        let question_dot_token = if is!(self, '?') && peeked_is!(self, '.') {
+            let start = cur_pos!(self);
+            eat!(self, '?');
+            Some(span!(self, start))
+        } else {
+            None
+        };
 
         // $obj[name()]
         if !no_computed_member

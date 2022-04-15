@@ -18,7 +18,6 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
         let lexer = Lexer::new(
             Syntax::Es(EsConfig {
-                static_blocks: true,
                 ..Default::default()
             }),
             EsVersion::latest(),

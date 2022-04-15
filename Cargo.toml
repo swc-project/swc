@@ -1,7 +1,8 @@
 [workspace]
 members = [
   "crates/jsdoc",
-  "crates/node",
+  "crates/binding_core_node",
+  "crates/binding_core_wasm",
   "crates/swc_cli",
   "crates/swc_css",
   "crates/swc_css_lints",
@@ -16,25 +17,6 @@ members = [
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
   "crates/swc_plugin_proxy",
-  "crates/swc_timer",
-  "crates/swc_webpack_ast",
-  "crates/wasm",
-]
-
-default-members = [
-  "crates/jsdoc",
-  "crates/swc_cli",
-  "crates/swc_css",
-  "crates/swc_css_lints",
-  "crates/swc_css_prefixer",
-  "crates/swc_ecmascript",
-  "crates/swc_ecma_lints",
-  "crates/swc_ecma_quote",
-  "crates/swc_estree_compat",
-  "crates/swc_plugin",
-  "crates/swc_plugin_macro",
-  "crates/swc_plugin_runner",
-  "crates/swc_plugin_testing",
   "crates/swc_timer",
   "crates/swc_webpack_ast",
 ]

@@ -144,7 +144,7 @@ impl Pure<'_> {
         }
     }
 
-    /// Returns [Some] if the whole statement sohuld be replaced
+    /// Returns [Some] if the whole statement should be replaced
     fn drop_useless_continue_inner(
         &mut self,
         label: Option<Ident>,
