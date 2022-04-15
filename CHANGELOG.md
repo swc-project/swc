@@ -35,6 +35,9 @@
 - **(es/minifier)** Respect `dead_code` (#4328) ([8886a4b](https://github.com/swc-project/swc/commit/8886a4b572c4b24091aa3db38fdc7b486334c069))
 
 
+- **(es/parser)** Enable static blocks by default (#4334) ([7599fe7](https://github.com/swc-project/swc/commit/7599fe74317f790cce8f8638e84c320c5ebbc4c2))
+
+
 - **(node-swc/types)** Add `isTypeOnly` to types (#4303) ([1a48732](https://github.com/swc-project/swc/commit/1a48732e78b9c650f93320f4d6f7be57a9f4a6c4))
 
 ### Features
