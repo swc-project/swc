@@ -2133,7 +2133,6 @@ export default function waitUntil(callback, options = {}) {
             test_parser(
                 src,
                 Syntax::Es(EsConfig {
-                    static_blocks: true,
                     ..Default::default()
                 }),
                 |p| p.parse_expr()
@@ -2174,7 +2173,6 @@ export default function waitUntil(callback, options = {}) {
             test_parser(
                 src,
                 Syntax::Es(EsConfig {
-                    static_blocks: true,
                     ..Default::default()
                 }),
                 |p| p.parse_expr()
