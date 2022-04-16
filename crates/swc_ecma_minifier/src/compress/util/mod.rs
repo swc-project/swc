@@ -793,3 +793,29 @@ impl Visit for SuperFinder {
         self.found = true;
     }
 }
+
+/// stmts contain top level return/break/continue/throw
+pub(crate) fn abort(stmt: &Stmt) -> bool {
+    match stmt {
+        Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => return true,
+        Stmt::Block(block) if abort_stmts(&block.stmts) => return true,
+        Stmt::If(IfStmt {
+            cons,
+            alt: Some(alt),
+            ..
+        }) if abort(cons) && abort(alt) => return true,
+        _ => (),
+    }
+
+    false
+}
+
+pub(crate) fn abort_stmts(stmts: &[Stmt]) -> bool {
+    for s in stmts {
+        if abort(s) {
+            return true;
+        }
+    }
+
+    false
+}

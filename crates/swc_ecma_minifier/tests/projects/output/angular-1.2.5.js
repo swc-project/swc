@@ -3185,12 +3185,8 @@
                     case "string":
                         return comparator(obj, text);
                     case "object":
-                        switch(typeof text){
-                            case "object":
-                                return comparator(obj, text);
-                            default:
-                                for(var objKey in obj)if ('$' !== objKey.charAt(0) && search(obj[objKey], text)) return !0;
-                        }
+                        if ("object" == typeof text) return comparator(obj, text);
+                        for(var objKey in obj)if ('$' !== objKey.charAt(0) && search(obj[objKey], text)) return !0;
                         return !1;
                     case "array":
                         for(var i = 0; i < obj.length; i++)if (search(obj[i], text)) return !0;

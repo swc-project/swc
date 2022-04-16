@@ -1,14 +1,10 @@
-var a = 100,
-    b = 10;
+var a = 100, b = 10;
 function f() {
-    switch (--b) {
+    switch(--b){
         default:
         case false:
         case b--:
-            switch (0) {
-                default:
-                case a--:
-            }
+            a--;
             break;
         case a++:
     }

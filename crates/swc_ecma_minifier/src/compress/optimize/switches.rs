@@ -6,7 +6,10 @@ use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::K
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, mode::Mode};
+use crate::{
+    compress::util::{abort_stmts, is_pure_undefined},
+    mode::Mode,
+};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -16,7 +19,7 @@ where
     /// Handle switches in the case where we can know which branch will be
     /// taken.
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
-        if !self.options.switches || self.ctx.stmt_labelled {
+        if !self.options.switches || !self.options.dead_code || self.ctx.stmt_labelled {
             return;
         }
 
@@ -29,6 +32,7 @@ where
             _ => return,
         };
 
+        // TODO: evaluate
         fn tail_expr(e: &Expr) -> &Expr {
             match e {
                 Expr::Seq(s) => s.exprs.last().unwrap(),
@@ -42,7 +46,6 @@ where
 
         match tail {
             Expr::Lit(_) => (),
-            Expr::Ident(id) if self.data.vars.get(&id.to_id()).unwrap().declared => (),
             e if is_pure_undefined(e) => (),
             _ => return,
         }
@@ -58,12 +61,13 @@ where
             let mut var_ids = vec![];
             let mut stmts = vec![];
 
-            let should_preserve_switch = stmt.cases.iter().skip(case_idx).any(|case| {
+            let should_preserve_switch = stmt.cases[..=case_idx].iter().any(|case| {
                 let mut v = BreakFinder {
-                    found_unlabelled_break_for_stmt: false,
+                    top_level: true,
+                    nested_unlabelled_break: false,
                 };
                 case.visit_with(&mut v);
-                v.found_unlabelled_break_for_stmt
+                v.nested_unlabelled_break
             });
             if should_preserve_switch {
                 // Prevent infinite loop.
@@ -84,10 +88,13 @@ where
                     expr: discriminant.take(),
                 }));
 
-                if let Some(expr) = stmt.cases[case_idx].test.take() {
+                for test in stmt.cases[..case_idx]
+                    .iter_mut()
+                    .filter_map(|case| case.test.as_mut())
+                {
                     preserved.push(Stmt::Expr(ExprStmt {
-                        span: stmt.cases[case_idx].span,
-                        expr,
+                        span: DUMMY_SP,
+                        expr: test.take(),
                     }));
                 }
             }
@@ -195,7 +202,7 @@ where
     ///
     /// - drop the empty cases at the end.
     pub(super) fn optimize_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
-        if !self.options.switches {
+        if !self.options.switches || !self.options.dead_code {
             return;
         }
 
@@ -343,17 +350,20 @@ where
         if let Stmt::Switch(sw) = s {
             match &mut *sw.cases {
                 [] => {
+                    report_change!("switches: Removing empty switch");
                     *s = Stmt::Expr(ExprStmt {
                         span: sw.span,
                         expr: sw.discriminant.take(),
                     })
                 }
                 [case] => {
+                    report_change!("switches: Turn one case switch into if");
                     let mut v = BreakFinder {
-                        found_unlabelled_break_for_stmt: false,
+                        top_level: true,
+                        nested_unlabelled_break: false,
                     };
                     case.visit_with(&mut v);
-                    if v.found_unlabelled_break_for_stmt {
+                    if v.nested_unlabelled_break {
                         return;
                     }
 
@@ -390,6 +400,73 @@ where
                         })
                     }
                 }
+                [first, second] if first.test.is_none() || second.test.is_none() => {
+                    report_change!("switches: Turn two cases switch into if else");
+                    let abort = abort_stmts(&first.cons);
+
+                    if abort {
+                        if let Stmt::Break(BreakStmt { label: None, .. }) =
+                            first.cons.last().unwrap()
+                        {
+                            first.cons.pop();
+                        }
+                        // they cannot both be default as that's syntax error
+                        let (def, case) = if first.test.is_none() {
+                            (first, second)
+                        } else {
+                            (second, first)
+                        };
+                        *s = Stmt::If(IfStmt {
+                            span: sw.span,
+                            test: Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: sw.discriminant.take(),
+                                right: case.test.take().unwrap(),
+                            })
+                            .into(),
+                            cons: Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: case.cons.take(),
+                            })
+                            .into(),
+                            alt: Some(
+                                Stmt::Block(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: def.cons.take(),
+                                })
+                                .into(),
+                            ),
+                        })
+                    } else {
+                        let (def, case) = if first.test.is_none() {
+                            (first, second)
+                        } else {
+                            (second, first)
+                        };
+                        let mut stmts = vec![Stmt::If(IfStmt {
+                            span: DUMMY_SP,
+                            test: Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("==="),
+                                left: sw.discriminant.take(),
+                                right: case.test.take().unwrap(),
+                            })
+                            .into(),
+                            cons: Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: case.cons.take(),
+                            })
+                            .into(),
+                            alt: None,
+                        })];
+                        stmts.extend(def.cons.take());
+                        *s = Stmt::Block(BlockStmt {
+                            span: sw.span,
+                            stmts,
+                        })
+                    }
+                }
                 _ => (),
             }
         }
@@ -398,16 +475,37 @@ where
 
 #[derive(Default)]
 struct BreakFinder {
-    found_unlabelled_break_for_stmt: bool,
+    top_level: bool,
+    nested_unlabelled_break: bool,
+}
+
+impl BreakFinder {
+    fn visit_nested<S: VisitWith<Self> + ?Sized>(&mut self, s: &S) {
+        if self.top_level {
+            self.top_level = false;
+            s.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            s.visit_children_with(self);
+        }
+    }
 }
 
 impl Visit for BreakFinder {
     noop_visit_type!();
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
-        if s.label.is_none() {
-            self.found_unlabelled_break_for_stmt = true;
+        if !self.top_level && s.label.is_none() {
+            self.nested_unlabelled_break = true;
         }
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.visit_nested(stmts)
+    }
+
+    fn visit_if_stmt(&mut self, i: &IfStmt) {
+        self.visit_nested(i)
     }
 
     /// We don't care about breaks in a loop
@@ -430,12 +528,4 @@ impl Visit for BreakFinder {
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_class(&mut self, _: &Class) {}
-}
-
-fn ends_with_break(stmts: &[Stmt]) -> bool {
-    if let Some(last) = stmts.last() {
-        last.is_break_stmt()
-    } else {
-        false
-    }
 }

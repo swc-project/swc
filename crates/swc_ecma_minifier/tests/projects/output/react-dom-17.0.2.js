@@ -6587,21 +6587,8 @@
                         break;
                     default:
                         error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
-                        break;
                 }
                 else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
-            if (void 0 !== revealOrder && 'forwards' !== revealOrder && 'backwards' !== revealOrder && 'together' !== revealOrder && !didWarnAboutRevealOrder[revealOrder]) if (didWarnAboutRevealOrder[revealOrder] = !0, 'string' == typeof revealOrder) switch(revealOrder.toLowerCase()){
-                case 'together':
-                case 'forwards':
-                case 'backwards':
-                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
-                    break;
-                case 'forward':
-                case 'backward':
-                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
-                    break;
-                default:
-                    error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
             }
         }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ('collapsed' !== tailMode && 'hidden' !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1('"%s" is not a supported value for tail on <SuspenseList />. Did you mean "collapsed" or "hidden"?', tailMode)) : 'forwards' !== revealOrder2 && 'backwards' !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1('<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?', tailMode))), function(children, revealOrder) {
             if (('forwards' === revealOrder || 'backwards' === revealOrder) && null != children && !1 !== children) {
@@ -7679,12 +7666,7 @@
         var ref = finishedWork.ref;
         if (null !== ref) {
             var instanceToUse, instance = finishedWork.stateNode;
-            switch(finishedWork.tag){
-                case 5:
-                default:
-                    instanceToUse = instance;
-            }
-            'function' == typeof ref ? ref(instanceToUse) : (ref.hasOwnProperty('current') || error1("Unexpected ref object provided for %s. Use either a ref-setter function or React.createRef().", getComponentName(finishedWork.type)), ref.current = instanceToUse);
+            instanceToUse = (finishedWork.tag, instance), 'function' == typeof ref ? ref(instanceToUse) : (ref.hasOwnProperty('current') || error1("Unexpected ref object provided for %s. Use either a ref-setter function or React.createRef().", getComponentName(finishedWork.type)), ref.current = instanceToUse);
         }
     }
     function commitDetachRef(current) {
@@ -9162,13 +9144,7 @@
     }
     function getPublicRootInstance(container) {
         var containerFiber = container.current;
-        if (!containerFiber.child) return null;
-        switch(containerFiber.child.tag){
-            case 5:
-                return containerFiber.child.stateNode;
-            default:
-                return containerFiber.child.stateNode;
-        }
+        return containerFiber.child ? (containerFiber.child.tag, containerFiber.child.stateNode) : null;
     }
     function markRetryLaneImpl(fiber, retryLane) {
         var a, b, suspenseState = fiber.memoizedState;

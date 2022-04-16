@@ -1,3 +1,1 @@
-if (a() === a()) {
-    console.log(123);
-}
+if (a() === a()) console.log(123);

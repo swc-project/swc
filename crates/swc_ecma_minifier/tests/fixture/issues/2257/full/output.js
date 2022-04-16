@@ -13090,18 +13090,14 @@
                             a: {
                                 for(l2 = f.key, k2 = d; null !== k2;){
                                     if (k2.key === l2) {
-                                        switch(k2.tag){
-                                            case 7:
-                                                if (f.type === ua) {
-                                                    c6(a15, k2.sibling), (d = e5(k2, f.props.children)).return = a15, a15 = d;
-                                                    break a;
-                                                }
-                                                break;
-                                            default:
-                                                if (k2.elementType === f.type) {
-                                                    c6(a15, k2.sibling), (d = e5(k2, f.props)).ref = Qg(a15, k2, f), d.return = a15, a15 = d;
-                                                    break a;
-                                                }
+                                        if (7 === k2.tag) {
+                                            if (f.type === ua) {
+                                                c6(a15, k2.sibling), (d = e5(k2, f.props.children)).return = a15, a15 = d;
+                                                break a;
+                                            }
+                                        } else if (k2.elementType === f.type) {
+                                            c6(a15, k2.sibling), (d = e5(k2, f.props)).ref = Qg(a15, k2, f), d.return = a15, a15 = d;
+                                            break a;
                                         }
                                         c6(a15, k2);
                                         break;
@@ -15177,12 +15173,7 @@
                                 var Q = Z.ref;
                                 if (null !== Q) {
                                     var L = Z.stateNode;
-                                    switch(Z.tag){
-                                        case 5:
-                                        default:
-                                            q = L;
-                                    }
-                                    "function" == typeof Q ? Q(q) : Q.current = q;
+                                    Z.tag, q = L, "function" == typeof Q ? Q(q) : Q.current = q;
                                 }
                             }
                             Z = Z.nextEffect;
@@ -15410,13 +15401,7 @@
                 }, null !== (d = void 0 === d ? null : d) && (b.callback = d), Ag(e, b), Jg(e, g, f), g;
             }
             function mk(a) {
-                if (!(a = a.current).child) return null;
-                switch(a.child.tag){
-                    case 5:
-                        return a.child.stateNode;
-                    default:
-                        return a.child.stateNode;
-                }
+                return (a = a.current).child ? (a.child.tag, a.child.stateNode) : null;
             }
             function nk(a, b) {
                 if (null !== (a = a.memoizedState) && null !== a.dehydrated) {
