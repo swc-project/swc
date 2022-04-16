@@ -1,4 +1,5 @@
 use is_macro::Is;
+use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -6,7 +7,18 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Document {
     pub span: Span,
+    pub mode: DocumentMode,
     pub children: Vec<Node>,
+}
+
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum DocumentMode {
+    /// `no-quirks`
+    NoQuirks,
+    /// `limited-quirks`
+    LimitedQuirks,
+    /// `quirks`
+    Quirks,
 }
 
 #[ast_node]

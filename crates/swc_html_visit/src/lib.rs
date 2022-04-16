@@ -12,7 +12,14 @@ pub trait Node {}
 define!({
     pub struct Document {
         pub span: Span,
+        pub mode: DocumentMode,
         pub children: Vec<AstNode>,
+    }
+
+    pub enum DocumentMode {
+        NoQuirks,
+        LimitedQuirks,
+        Quirks,
     }
 
     pub enum AstNode {

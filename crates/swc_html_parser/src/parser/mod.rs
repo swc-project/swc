@@ -120,6 +120,7 @@ where
     I: ParserInput,
 {
     #[allow(dead_code)]
+    scripting_enabled: bool,
     config: ParserConfig,
     input: Buffer<I>,
     stopped: bool,
@@ -136,8 +137,8 @@ where
     pending_character_tokens: Vec<TokenAndSpan>,
     has_non_whitespace_pending_character_token: bool,
     frameset_ok: bool,
+    foster_parenting_enabled: bool,
     errors: Vec<Error>,
-    scripting_enabled: bool,
 }
 
 impl<I> Parser<I>
@@ -146,6 +147,8 @@ where
 {
     pub fn new(input: I, config: ParserConfig) -> Self {
         Parser {
+            // TODO should we move it in options?
+            scripting_enabled: true,
             config,
             input: Buffer::new(input),
             stopped: false,
@@ -161,8 +164,7 @@ where
             pending_character_tokens: vec![],
             has_non_whitespace_pending_character_token: false,
             frameset_ok: true,
-            // TODO should we move it in options?
-            scripting_enabled: true,
+            foster_parenting_enabled: false,
             errors: Default::default(),
         }
     }
@@ -180,6 +182,7 @@ where
         let start = self.input.cur_span()?;
         let document = Document {
             span: Default::default(),
+            mode: DocumentMode::NoQuirks,
             children: vec![],
         };
 
@@ -1985,10 +1988,15 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        // if (self.document.mode != DOCUMENT_MODE.QUIRKS &&
-                        // open_elements_stack.has_in_button_scope("p")) {
-                        self.close_a_p_element();
-                        // }
+                        match &self.document {
+                            Some(Document { mode, .. })
+                                if *mode != DocumentMode::Quirks
+                                    && self.open_elements_stack.has_in_button_scope("p") =>
+                            {
+                                self.close_a_p_element();
+                            }
+                            _ => {}
+                        }
 
                         self.insert_an_html_element(token_and_span)?;
                         self.frameset_ok = false;
@@ -2003,7 +2011,19 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        // TODO br
+                        self.reconstruct_the_active_formatting_elements()?;
+                        self.insert_an_html_element(TokenAndSpan {
+                            span: Default::default(),
+                            token: Token::StartTag {
+                                tag_name: "br".into(),
+                                raw_tag_name: Some("br".into()),
+                                self_closing: true,
+                                attributes: vec![],
+                            },
+                        })?;
+                        self.open_elements_stack.pop();
+                        // TODO fix me
+                        self.frameset_ok = false;
                     }
                     // A start tag whose tag name is one of: "area", "br", "embed", "img", "keygen",
                     // "wbr"
@@ -2046,10 +2066,11 @@ where
                         self.open_elements_stack.pop();
 
                         // TODO fix me
+                        let is_hidden = false;
 
-                        // if (!isHiddenInput(token)) {
-                        self.frameset_ok = false;
-                        // }
+                        if !is_hidden {
+                            self.frameset_ok = false;
+                        }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
                     //
@@ -2892,8 +2913,6 @@ where
 
                             self.insert_an_html_element(token_and_span)?;
                             self.open_elements_stack.pop();
-
-                            // TODO
                         }
                     }
                     // A start tag whose tag name is "form"
@@ -2913,7 +2932,8 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        if false {
+                        // TODO
+                        if false || self.form_element.is_some() {
                             // Ignore
                         } else {
                             let element = self.insert_an_html_element(token_and_span)?;
@@ -2938,9 +2958,11 @@ where
                             ErrorKind::UnexpectedNullCharacter,
                         ));
 
-                        // TODO enable foster parenting
+                        let saved_foster_parenting_state = self.foster_parenting_enabled;
+
+                        self.foster_parenting_enabled = true;
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
-                        // TODO disable foster parenti
+                        self.foster_parenting_enabled = saved_foster_parenting_state;
                     }
                 }
                 // When the steps above require the UA to clear the stack back
