@@ -1,4 +1,4 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_ecma_utils::Id;
@@ -103,11 +103,11 @@ impl Scope {
     }
 
     #[inline(never)]
-    fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
-        if let Some(lefts) = renamed.get_by_right(symbol) {
+        if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
                 if *left == *id {
                     continue;
