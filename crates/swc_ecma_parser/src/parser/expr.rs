@@ -511,6 +511,33 @@ impl<'a, I: Tokens> Parser<I> {
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
             return_if_arrow!(self, callee);
 
+            if is_new_expr {
+                match *callee {
+                    Expr::OptChain(OptChainExpr {
+                        question_dot_token, ..
+                    }) => {
+                        syntax_error!(
+                            self,
+                            question_dot_token,
+                            SyntaxError::OptChainCannotFollowConstructorCall
+                        )
+                    }
+                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                        if let Expr::OptChain(OptChainExpr {
+                            question_dot_token, ..
+                        }) = **obj
+                        {
+                            syntax_error!(
+                                self,
+                                question_dot_token,
+                                SyntaxError::OptChainCannotFollowConstructorCall
+                            )
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
