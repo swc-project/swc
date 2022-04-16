@@ -2204,6 +2204,15 @@ where
                             .clone()
                             .into_iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
+                        let is_hidden = match &input_type {
+                            Some(input_type) => match &input_type.value {
+                                Some(value) if value.as_ref().eq_ignore_ascii_case("hidden") => {
+                                    true
+                                }
+                                _ => false,
+                            },
+                            _ => false,
+                        };
 
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
@@ -2213,19 +2222,8 @@ where
                             self.acknowledge_self_closing = Some(true);
                         }
 
-                        match input_type {
-                            None => {
-                                self.frameset_ok = false;
-                            }
-                            Some(input_type) => {
-                                if let Some(value) = &input_type.value {
-                                    if &*value != "hidden" {
-                                        self.frameset_ok = false;
-                                    }
-                                } else {
-                                    self.frameset_ok = false;
-                                }
-                            }
+                        if input_type.is_none() || !is_hidden {
+                            self.frameset_ok = false;
                         }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
@@ -2589,25 +2587,34 @@ where
                     //
                     // Run these steps:
                     //
-                    // Initialize node to be the current node (the bottommost node of the stack).
+                    // 1. Initialize node to be the current node (the bottommost node of the stack).
                     //
-                    // Loop: If node is an HTML element with the same tag name as the token, then:
+                    // 2. Loop: If node is an HTML element with the same tag name as the token,
+                    // then:
                     //
-                    // Generate implied end tags, except for HTML elements with the same tag name as
-                    // the token.
+                    //   1. Generate implied end tags, except for HTML elements with the same tag
+                    // name as   the token.
                     //
-                    // If node is not the current node, then this is a parse error.
+                    //   2. If node is not the current node, then this is a parse error.
                     //
-                    // Pop all the nodes from the current node up to node, including node, then stop
-                    // these steps.
+                    //   3. Pop all the nodes from the current node up to node, including node, then
+                    // stop   these steps.
                     //
-                    // Otherwise, if node is in the special category, then this is a parse error;
+                    // 3. Otherwise, if node is in the special category, then this is a parse error;
                     // ignore the token, and return.
                     //
-                    // Set node to the previous entry in the stack of open elements.
+                    // 4. Set node to the previous entry in the stack of open elements.
                     //
-                    // Return to the step labeled loop.
-                    _ => {}
+                    // 5. Return to the step labeled loop.
+                    Token::EndTag { .. } => {
+                        // TODO
+                        let node = &mut self.open_elements_stack.current;
+
+                        if false {
+                            self.errors
+                                .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
+                        }
+                    }
                 }
 
                 // When the steps above say the user agent is to close a p
@@ -3112,9 +3119,17 @@ where
                             .clone()
                             .into_iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
+                        let is_hidden = match &input_type {
+                            Some(input_type) => match &input_type.value {
+                                Some(value) if value.as_ref().eq_ignore_ascii_case("hidden") => {
+                                    true
+                                }
+                                _ => false,
+                            },
+                            _ => false,
+                        };
 
-                        // TODO
-                        if input_type.is_none() || false {
+                        if input_type.is_none() || !is_hidden {
                             self.errors.push(Error::new(
                                 token_and_span.span,
                                 ErrorKind::UnexpectedNullCharacter,
