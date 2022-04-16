@@ -5,6 +5,20 @@
 
 
 
+- **(es/parser)** Reject optional constructor call (#4340) ([31b3336](https://github.com/swc-project/swc/commit/31b3336cd5881ff8f99d791254ee02ff4fa23fcc))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix wasm publish script ([1900d35](https://github.com/swc-project/swc/commit/1900d3506efb8bc319dece4219789e2509ecf67c))
+
+## [1.2.166] - 2022-04-15
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Parse legacy `calc`s (#4320) ([81370d1](https://github.com/swc-project/swc/commit/81370d16cb405d43aeb9198e1fce4aa11009045f))
 
 
