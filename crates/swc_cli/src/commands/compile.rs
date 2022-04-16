@@ -84,6 +84,14 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
+    /// Preserve the file extensions of the input files.
+    #[clap(long, group = "file_extension")]
+    keep_file_extension: bool,
+
+    /// Use a specific extension for the output files
+    #[clap(long, group = "file_extension")]
+    with_file_extension: Option<String>,
+
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
     #[clap(group = "experimental_trace", long)]
@@ -158,7 +166,11 @@ fn get_files_list(
 /// Calculate full, absolute path to the file to emit.
 /// Currently this is quite naive calculation based on assumption input file's
 /// path and output dir are relative to the same directory.
-fn resolve_output_file_path(out_dir: &Path, file_path: &Path) -> anyhow::Result<PathBuf> {
+fn resolve_output_file_path(
+    out_dir: &Path,
+    file_path: &Path,
+    file_extension: PathBuf,
+) -> anyhow::Result<PathBuf> {
     let default = PathBuf::from(".");
     let base = file_path.parent().unwrap_or(&default).display().to_string();
 
@@ -185,7 +197,7 @@ fn resolve_output_file_path(out_dir: &Path, file_path: &Path) -> anyhow::Result<
     let output_path = base.to_logical_path(dist_absolute_path).join(
         // Custom output file extension is not supported yet
         file_path
-            .with_extension("js")
+            .with_extension(file_extension)
             .file_name()
             .expect("Filename should be available"),
     );
@@ -197,9 +209,10 @@ fn emit_output(
     output: &TransformOutput,
     out_dir: &Option<PathBuf>,
     file_path: &Path,
+    file_extension: PathBuf,
 ) -> anyhow::Result<()> {
     if let Some(out_dir) = out_dir {
-        let output_file_path = resolve_output_file_path(out_dir, file_path)?;
+        let output_file_path = resolve_output_file_path(out_dir, file_path, file_extension)?;
         let output_dir = output_file_path
             .parent()
             .expect("Parent should be available");
@@ -249,6 +262,7 @@ struct InputContext {
     fm: Arc<SourceFile>,
     compiler: Arc<Compiler>,
     file_path: PathBuf,
+    file_extension: PathBuf,
 }
 
 #[swc_trace]
@@ -281,6 +295,25 @@ impl CompileOptions {
         Ok(ret)
     }
 
+    fn build_extension(&self, options: &Options) -> anyhow::Result<PathBuf> {
+        if self.with_file_extension.is_some() && self.keep_file_extension {
+            anyhow::bail!("--out-file-extension cannot be used with --keep-file-extension");
+        };
+
+        let file_extension = if self.keep_file_extension {
+            Path::new(&options.filename)
+                .extension()
+                .ok_or_else(|| anyhow::anyhow!("input file doesn't have an extension"))?
+                .into()
+        } else {
+            match &self.with_file_extension {
+                Some(extension) => PathBuf::from(extension),
+                None => PathBuf::from("js"),
+            }
+        };
+        Ok(file_extension)
+    }
+
     /// Create canonical list of inputs to be processed across stdin / single
     /// file / multiple files.
     fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
@@ -302,7 +335,7 @@ impl CompileOptions {
                 },
                 stdin_input,
             );
-
+            let file_extension = self.build_extension(&options)?;
             return Ok(vec![InputContext {
                 options,
                 fm,
@@ -311,6 +344,7 @@ impl CompileOptions {
                     .filename
                     .clone()
                     .unwrap_or_else(|| PathBuf::from("unknown")),
+                file_extension,
             }]);
         } else if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
@@ -333,11 +367,13 @@ impl CompileOptions {
                             .cm
                             .load_file(file_path)
                             .context("failed to load file");
+                        let file_extension = self.build_extension(&options)?;
                         fm.map(|fm| InputContext {
                             options,
                             fm,
                             compiler: compiler.clone(),
                             file_path: file_path.to_path_buf(),
+                            file_extension,
                         })
                     })
             })
@@ -369,7 +405,7 @@ impl CompileOptions {
                          compiler,
                          fm,
                          options,
-                         file_path: _,
+                         ..
                      }| execute(compiler, fm, options),
                 )
                 .collect();
@@ -394,11 +430,14 @@ impl CompileOptions {
                      fm,
                      options,
                      file_path,
+                     file_extension,
                  }| {
                     let result = execute(compiler, fm, options);
 
                     match result {
-                        Ok(output) => emit_output(&output, &self.out_dir, &file_path),
+                        Ok(output) => {
+                            emit_output(&output, &self.out_dir, &file_path, file_extension)
+                        }
                         Err(e) => Err(e),
                     }
                 },
