@@ -67,16 +67,6 @@ where
         Ok(self.cur.as_ref().map(|v| &v.token))
     }
 
-    pub(super) fn peek(&mut self) -> PResult<Option<&Token>> {
-        self.cur()?;
-
-        if self.peeked.is_none() {
-            self.peeked = Some(self.input.next()?);
-        }
-
-        Ok(self.peeked.as_ref().map(|v| &v.token))
-    }
-
     #[track_caller]
     pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
         debug_assert!(
@@ -124,22 +114,4 @@ where
     pub(super) fn set_input_state(&mut self, state: State) {
         self.input.set_input_state(state);
     }
-
-    pub(super) fn state(&mut self) -> WrappedState<I::State> {
-        WrappedState {
-            cur: self.cur.clone(),
-            inner: self.input.state(),
-        }
-    }
-
-    pub(super) fn reset(&mut self, state: &WrappedState<I::State>) {
-        self.cur = state.cur.clone();
-        self.input.reset(&state.inner);
-    }
-}
-
-#[derive(Debug, Clone)]
-pub(super) struct WrappedState<S> {
-    cur: Option<TokenAndSpan>,
-    inner: S,
 }

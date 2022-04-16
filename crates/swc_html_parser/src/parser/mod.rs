@@ -53,11 +53,15 @@ impl Default for InsertionMode {
 
 struct OpenElementsStack {
     current: Option<Element>,
+    items: Vec<Element>,
 }
 
 impl OpenElementsStack {
     pub fn new() -> Self {
-        OpenElementsStack { current: None }
+        OpenElementsStack {
+            current: None,
+            items: vec![],
+        }
     }
 
     pub fn push(&mut self, node: Element) {}
@@ -1167,8 +1171,25 @@ where
                         if self.open_elements_stack.in_template() {
                             // Ignore
                         } else {
+                            let mut element = match self.open_elements_stack.items.first_mut() {
+                                Some(element) => element,
+                                _ => {
+                                    // TODO
+                                    todo!();
+                                }
+                            };
+
                             for attribute in attributes {
-                                if false {}
+                                // TODO
+                                let has_attribute = false;
+
+                                if !has_attribute {
+                                    element.attributes.push(Attribute {
+                                        span: Default::default(),
+                                        name: attribute.name.clone(),
+                                        value: attribute.value.clone(),
+                                    })
+                                }
                             }
                         }
                     }
@@ -2459,8 +2480,11 @@ where
 
                         self.reconstruct_the_active_formatting_elements()?;
 
-                        // TODO
-                        // TODO
+                        let token_and_span = self.adjust_math_ml_attributes(token_and_span);
+                        let token_and_span =
+                            self.adjust_foreign_attributes_for_the_token(token_and_span);
+
+                        self.insert_a_foreign_element(token_and_span);
 
                         if is_self_closing {
                             self.open_elements_stack.pop();
@@ -2490,8 +2514,11 @@ where
 
                         self.reconstruct_the_active_formatting_elements()?;
 
-                        // TODO
-                        // TODO
+                        let token_and_span = self.adjust_svg_attributes(token_and_span);
+                        let token_and_span =
+                            self.adjust_foreign_attributes_for_the_token(token_and_span);
+
+                        self.insert_a_foreign_element(token_and_span);
 
                         if is_self_closing {
                             self.open_elements_stack.pop();
@@ -3177,18 +3204,19 @@ where
                     // Switch the insertion mode to the original insertion mode and reprocess the
                     // token.
                     _ => {
-                        // TODO
                         if self.has_non_whitespace_pending_character_token {
-                            // for (; i < p.pendingCharacterTokens.length; i++)
-                            // {     tokenInTable(p,
-                            // p.pendingCharacterTokens[i]);
-                            // }
+                            self.errors.push(Error::new(
+                                token_and_span.span,
+                                ErrorKind::UnexpectedNullCharacter,
+                            ));
+
+                            for mut character_token in take(&mut self.pending_character_tokens) {
+                                // TODO fix me
+                            }
                         } else {
-                            // for (; i < p.pendingCharacterTokens.length; i++)
-                            // {
-                            //     p._insertCharacters(p.
-                            // pendingCharacterTokens[i]);
-                            // }
+                            for mut character_token in take(&mut self.pending_character_tokens) {
+                                self.insert_a_character(character_token)?;
+                            }
                         }
 
                         self.insertion_mode = self.original_insertion_mode.clone();
@@ -4765,24 +4793,7 @@ where
                     .map(|attribute| Attribute {
                         span: Default::default(),
                         name: attribute.name.clone(),
-                        value: attribute.value.clone(),
-                    })
-                    .collect(),
-                children: vec![],
-            },
-            Token::StartTag {
-                tag_name,
-                attributes,
-                ..
-            } => Element {
-                span: span!(self, token_and_span.span.lo),
-                tag_name,
-                attributes: attributes
-                    .into_iter()
-                    .map(|attribute| Attribute {
-                        span: Default::default(),
-                        name: attribute.name.clone(),
-                        value: attribute.value.clone(),
+                        value: attribute.value,
                     })
                     .collect(),
                 children: vec![],
@@ -4796,6 +4807,23 @@ where
     }
 
     fn insert_template(&mut self, token_and_span: TokenAndSpan) {}
+
+    fn insert_a_foreign_element(&mut self, token_and_span: TokenAndSpan) {}
+
+    fn adjust_math_ml_attributes(&mut self, token_and_span: TokenAndSpan) -> TokenAndSpan {
+        token_and_span
+    }
+
+    fn adjust_svg_attributes(&mut self, token_and_span: TokenAndSpan) -> TokenAndSpan {
+        token_and_span
+    }
+
+    fn adjust_foreign_attributes_for_the_token(
+        &mut self,
+        token_and_span: TokenAndSpan,
+    ) -> TokenAndSpan {
+        token_and_span
+    }
 
     fn run_the_adoption_agency_algorithm(&mut self, token_and_span: TokenAndSpan) {}
 
