@@ -522,18 +522,18 @@ impl<'a, I: Tokens> Parser<I> {
                             SyntaxError::OptChainCannotFollowConstructorCall
                         )
                     }
-                    Expr::Member(MemberExpr { ref obj, .. }) => match **obj {
-                        Expr::OptChain(OptChainExpr {
+                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                        if let Expr::OptChain(OptChainExpr {
                             question_dot_token, ..
-                        }) => {
+                        }) = **obj
+                        {
                             syntax_error!(
                                 self,
                                 question_dot_token,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
             }
