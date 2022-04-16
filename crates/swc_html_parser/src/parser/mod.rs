@@ -284,6 +284,8 @@ where
             self.process_token(token_and_span, None)?
         }
 
+        // TODO handle error for void
+
         Ok(())
     }
 
