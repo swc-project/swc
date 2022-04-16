@@ -84,6 +84,10 @@ impl OpenElementsStack {
         false
     }
 
+    pub fn has_numbered_header_in_scope(&mut self) -> bool {
+        false
+    }
+
     pub fn clear_the_stack_back_to_a_table_context(&mut self) {}
 
     pub fn clear_the_stack_back_to_a_table_row_context(&mut self) {}
@@ -95,6 +99,8 @@ impl OpenElementsStack {
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {}
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &str) {}
+
+    pub fn pop_until_numbered_header_popped(&mut self) {}
 }
 
 struct FormattingElementList {}
@@ -370,7 +376,7 @@ where
                         tag_name,
                         attributes,
                         ..
-                    } if tag_name.as_ref().eq_ignore_ascii_case("html") => {
+                    } if tag_name == "html" => {
                         let element = Element {
                             span: span!(self, token_and_span.span.lo),
                             tag_name: tag_name.into(),
@@ -396,7 +402,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "head" | "body" | "html" | "br") =>
+                        if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
                         let element = Element {
                             span: Default::default(),
@@ -482,9 +488,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "head"
@@ -494,9 +498,7 @@ where
                     // Set the head element pointer to the newly created head element.
                     //
                     // Switch the insertion mode to "in head".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         let element = self.insert_an_html_element(token_and_span)?;
 
                         self.head_element = Some(element);
@@ -506,7 +508,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "head" | "body" | "html" | "br") =>
+                        if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
                         let span = self.input.cur_span()?;
                         let element = Element {
@@ -588,9 +590,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link"
@@ -601,7 +601,7 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "base" | "basefont" | "bgsound" | "link"
                         ) =>
                     {
@@ -630,17 +630,13 @@ where
                     // encoding from a meta element to that attribute's value returns an encoding,
                     // and the confidence is currently tentative, then change the encoding to the
                     // extracted encoding.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("meta") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "meta" => {
                         self.insert_an_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is "title"
                     //
                     // Follow the generic RCDATA element parsing algorithm.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("title") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "title" => {
                         self.follow_the_generic_rcdata_element_parsing_algorithm();
                     }
                     // A start tag whose tag name is "noscript", if the scripting flag is enabled
@@ -648,13 +644,12 @@ where
                     //
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noscript")
-                            && self.scripting_enabled =>
+                        if tag_name == "noscript" && self.scripting_enabled =>
                     {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "noframes" | "style") =>
+                        if matches!(tag_name.as_ref(), "noframes" | "style") =>
                     {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
@@ -664,8 +659,7 @@ where
                     //
                     // Switch the insertion mode to "in head noscript".
                     Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noscript")
-                            && !self.scripting_enabled =>
+                        if tag_name == "noscript" && !self.scripting_enabled =>
                     {
                         self.insert_an_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InHeadNoScript;
@@ -708,9 +702,7 @@ where
                     // Let the original insertion mode be the current insertion mode.
                     //
                     // Switch the insertion mode to "text".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("script") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "script" => {
                         self.input.set_input_state(State::ScriptData);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::Text;
@@ -721,9 +713,7 @@ where
                     // elements.
                     //
                     // Switch the insertion mode to "after head".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "head" => {
                         self.open_elements_stack.pop();
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
@@ -731,7 +721,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "body" | "html" | "br") =>
+                        if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
                         self.open_elements_stack.pop();
                         self.insertion_mode = InsertionMode::AfterHead;
@@ -749,9 +739,7 @@ where
                     //
                     // Push "in template" onto the stack of template insertion modes so that it is
                     // the new current template insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "template" => {
                         self.insert_template(token_and_span);
                         self.active_formatting_elements.insert_marker();
                         self.frameset_ok = false;
@@ -779,9 +767,7 @@ where
                     // modes.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.reset_insertion_mode();
                     }
                     // A start tag whose tag name is "head"
@@ -789,9 +775,7 @@ where
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         self.errors.push(Error::new(
                             token_and_span.span,
                             ErrorKind::MisplacedStartTagForHeadElement,
@@ -833,9 +817,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "noscript"
@@ -844,9 +826,7 @@ where
                     // open elements; the new current node will be a head element.
                     //
                     // Switch the insertion mode to "in head".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noscript") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
                         self.open_elements_stack.pop();
                         self.insertion_mode = InsertionMode::InHead;
                     }
@@ -870,7 +850,7 @@ where
                     }
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "basefont" | "bgsound" | "link" | "meta" | "noframes" | "style"
                         ) =>
                     {
@@ -879,9 +859,7 @@ where
                     // An end tag whose tag name is "br"
                     //
                     // Act as described in the "anything else" entry below.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("br") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "br" => {
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A start tag whose tag name is one of: "head", "noscript"
@@ -890,7 +868,7 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "head" | "noscript") =>
+                        if matches!(tag_name.as_ref(), "head" | "noscript") =>
                     {
                         // TODO error
                         self.errors.push(Error::new(
@@ -948,9 +926,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "body"
@@ -960,9 +936,9 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "in body".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("body") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "body" => {
+                        self.insert_an_html_element(token_and_span)?;
+                        self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InBody;
                     }
                     // A start tag whose tag name is "frameset"
@@ -970,9 +946,8 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Switch the insertion mode to "in frameset".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
+                        self.insert_an_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InFrameset;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
@@ -989,7 +964,7 @@ where
                     // elements. (It might not be the current node at this point.)
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -1002,33 +977,38 @@ where
                                 | "title"
                         ) =>
                     {
+                        // TODO better error
+                        self.errors
+                            .push(Error::new(token_and_span.span, ErrorKind::MisplacedDoctype));
+
                         // TODO
+
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+
+                        // TODO
                     }
                     // An end tag whose tag name is "template"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "body" | "html" | "br") =>
+                        if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
-                        self.insertion_mode = InsertionMode::InHead;
+                        // self.insert_an_html_element(Fake);
+                        self.insertion_mode = InsertionMode::InBody;
+                        self.process_token(token_and_span, None)?;
                     }
                     // A start tag whose tag name is "head"
                     //
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("head") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         self.errors.push(Error::new(
                             token_and_span.span,
                             ErrorKind::MisplacedStartTagForHeadElement,
@@ -1048,6 +1028,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
+                        // self.insert_an_html_element(Fake);
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_span, None)?;
                     }
@@ -1112,9 +1093,7 @@ where
                     // Otherwise, for each attribute on the token, check to see if the attribute is
                     // already present on the top element of the stack of open elements. If it is
                     // not, add the attribute and its corresponding value to that element.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         // TODO better error
                         self.errors.push(Error::new(
                             token_and_span.span,
@@ -1129,7 +1108,7 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -1144,9 +1123,7 @@ where
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "body"
@@ -1161,9 +1138,7 @@ where
                     // the token, check to see if the attribute is already present on the body
                     // element (the second element) on the stack of open elements, and if it is not,
                     // add the attribute and its corresponding value to that element.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("body") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "body" => {
                         if false {
                         } else {
                             self.frameset_ok = false;
@@ -1190,9 +1165,7 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Switch the insertion mode to "in frameset".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
                         if false {
                             if !self.frameset_ok {
                                 // Ignore
@@ -1238,9 +1211,7 @@ where
                     // is a parse error.
                     //
                     // Switch the insertion mode to "after body".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("body") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "body" => {
                         self.insertion_mode = InsertionMode::AfterBody;
                     }
                     // An end tag whose tag name is "html"
@@ -1258,9 +1229,7 @@ where
                     // Switch the insertion mode to "after body".
                     //
                     // Reprocess the token.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         self.insertion_mode = InsertionMode::AfterBody;
                         self.process_token(token_and_span, None)?;
                     }
@@ -1275,7 +1244,7 @@ where
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "address"
                                 | "article"
                                 | "aside"
@@ -1319,10 +1288,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(
-                            &*tag_name.to_lowercase(),
-                            "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-                        ) =>
+                        if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
@@ -1345,7 +1311,7 @@ where
                     // that token and move on to the next one. (Newlines at the start of pre blocks
                     // are ignored as an authoring convenience.)
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "pre" | "listing") =>
+                        if matches!(tag_name.as_ref(), "pre" | "listing") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
@@ -1373,9 +1339,7 @@ where
                     // Insert an HTML element for the token, and, if there is no template element on
                     // the stack of open elements, set the form element pointer to point to the
                     // element created.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("form") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "form" => {
                         self.insertion_mode = InsertionMode::AfterBody;
                     }
                     // A start tag whose tag name is "li"
@@ -1407,9 +1371,7 @@ where
                     // close a p element.
                     //
                     // Finally, insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("li") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "li" => {
                         self.frameset_ok = false;
 
                         self.insert_an_html_element(token_and_span)?;
@@ -1455,7 +1417,7 @@ where
                     //
                     // Finally, insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "dd" | "dt") =>
+                        if matches!(tag_name.as_ref(), "dd" | "dt") =>
                     {
                         self.frameset_ok = false;
                         self.insert_a_character(token_and_span)?;
@@ -1468,9 +1430,7 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Switch the tokenizer to the PLAINTEXT state.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("plaintext") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
                         }
@@ -1495,9 +1455,7 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("button") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "button" => {
                         if self.open_elements_stack.has_in_scope("button") {
                             self.open_elements_stack.generate_implied_end_tags();
                             self.open_elements_stack.pop_until_tag_name_popped("button");
@@ -1527,7 +1485,7 @@ where
                     // same tag name as the token has been popped from the stack.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "address"
                                 | "article"
                                 | "aside"
@@ -1597,9 +1555,7 @@ where
                     //
                     // Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("form") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "form" => {
                         if false {
                             self.form_element = None;
 
@@ -1627,9 +1583,7 @@ where
                     // no attributes.
                     //
                     // Close a p element.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("p") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "p" => {
                         // TODO error
 
                         self.close_a_p_element();
@@ -1647,9 +1601,7 @@ where
                     //
                     // Pop elements from the stack of open elements until an li element has been
                     // popped from the stack.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("li") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "li" => {
                         if !self.open_elements_stack.has_in_list_item_scope("li") {
                             // TODO error
                         } else {
@@ -1679,8 +1631,23 @@ where
                     //
                     // Pop elements from the stack of open elements until an HTML element with the
                     // same tag name as the token has been popped from the stack.
-                    Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "dd" | "dt") => {}
+                    Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "dd" | "dt") => {
+                        if !self.open_elements_stack.has_in_scope(tag_name) {
+                            self.errors.push(Error::new(
+                                token_and_span.span,
+                                ErrorKind::EndTagWithoutMatchingOpenElement,
+                            ));
+                        } else {
+                            self.open_elements_stack
+                                .generate_implied_end_tags_with_exclusion(tag_name);
+
+                            if false {
+                                // TODO error
+                            }
+
+                            self.open_elements_stack.pop_until_tag_name_popped(tag_name);
+                        }
+                    }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
                     //
                     // If the stack of open elements does not have an element in scope that is an
@@ -1698,16 +1665,25 @@ where
                     // name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the
                     // stack.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            &*tag_name.to_lowercase(),
-                            "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-                        ) => {}
+                        if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
+                    {
+                        if !self.open_elements_stack.has_numbered_header_in_scope() {
+                            // TODO error
+                        } else {
+                            self.open_elements_stack.generate_implied_end_tags();
+
+                            if false {
+                                // TODO error
+                            }
+
+                            self.open_elements_stack.pop_until_numbered_header_popped();
+                        }
+                    }
                     // An end tag whose tag name is "sarcasm"
                     //
                     // Take a deep breath, then act as described in the "any other end tag" entry
                     // below.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("sarcasm") => {}
+                    Token::EndTag { tag_name, .. } if tag_name == "sarcasm" => {}
                     // A start tag whose tag name is "a"
                     //
                     // If the list of active formatting elements contains an a element between the
@@ -1722,11 +1698,7 @@ where
                     //
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("a") =>
-                    {
-                        if false {}
-                    }
+                    Token::StartTag { tag_name, .. } if tag_name == "a" => if false {},
                     // A start tag whose tag name is one of: "b", "big", "code", "em", "font", "i",
                     // "s", "small", "strike", "strong", "tt", "u"
                     //
@@ -1736,7 +1708,7 @@ where
                     // elements that element.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "b" | "big"
                                 | "code"
                                 | "em"
@@ -1762,9 +1734,7 @@ where
                     //
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("nobr") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "nobr" => {
                         self.reconstruct_the_active_formatting_elements()?;
 
                         if false {
@@ -1781,7 +1751,7 @@ where
                     // Run the adoption agency algorithm for the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "a" | "b"
                                 | "big"
                                 | "code"
@@ -1809,7 +1779,7 @@ where
                     //
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "applet" | "marquee" | "object") =>
+                        if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") =>
                     {
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
@@ -1834,8 +1804,7 @@ where
                     //
                     // Clear the list of active formatting elements up to the last marker.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "applet" | "marquee" | "object") => {
-                    }
+                        if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") => {}
                     // A start tag whose tag name is "table"
                     //
                     // If the Document is not set to quirks mode, and the stack of open elements has
@@ -1846,9 +1815,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "in table".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "table" => {
                         // if (self.document.mode != DOCUMENT_MODE.QUIRKS &&
                         // open_elements_stack.has_in_button_scope("p")) {
                         self.close_a_p_element();
@@ -1863,9 +1830,7 @@ where
                     // Parse error. Drop the attributes from the token, and act as described in the
                     // next entry; i.e. act as if this was a "br" start tag token with no
                     // attributes, rather than the end tag token that it actually is.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("br") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "br" => {
                         // TODO error
 
                         // TODO br
@@ -1883,7 +1848,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "area" | "br" | "embed" | "img" | "keygen" | "wbr"
                         ) =>
                     {
@@ -1901,9 +1866,7 @@ where
                     // If the token does not have an attribute with the name "type", or if it does,
                     // but that attribute's value is not an ASCII case-insensitive match for the
                     // string "hidden", then: set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("input") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "input" => {
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
@@ -1919,7 +1882,7 @@ where
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "param" | "source" | "track") =>
+                        if matches!(tag_name.as_ref(), "param" | "source" | "track") =>
                     {
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
@@ -1935,9 +1898,7 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     //
                     // Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("hr") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "hr" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
                         }
@@ -1950,9 +1911,7 @@ where
                     //
                     // Parse error. Change the token's tag name to "img" and reprocess it. (Don't
                     // ask.)
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("image") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "image" => {
                         let mut new_token_and_span = token_and_span.clone();
                         if let Token::StartTag { tag_name, .. } = &mut new_token_and_span.token {
                             // TODO
@@ -1977,9 +1936,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "text".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("textarea") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
                         self.insert_an_html_element(token_and_span)?;
 
                         match self.input.cur()? {
@@ -2004,9 +1961,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("xmp") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "xmp" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
                         }
@@ -2019,9 +1974,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("iframe") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "iframe" => {
                         self.frameset_ok = false;
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
@@ -2030,14 +1983,11 @@ where
                     // A start tag whose tag name is "noscript", if the scripting flag is enabled
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noembed") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "noembed" => {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
                     Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noscript")
-                            && self.scripting_enabled =>
+                        if tag_name == "noscript" && self.scripting_enabled =>
                     {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
@@ -2052,9 +2002,7 @@ where
                     // If the insertion mode is one of "in table", "in caption", "in table body",
                     // "in row", or "in cell", then switch the insertion mode to "in select in
                     // table". Otherwise, switch the insertion mode to "in select".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("select") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "select" => {
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
                         self.frameset_ok = false;
@@ -2081,7 +2029,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "optgroup" | "option") =>
+                        if matches!(tag_name.as_ref(), "optgroup" | "option") =>
                     {
                         // if self.open_elements_stack.current.tag_name == "option" {
                         if false {
@@ -2099,7 +2047,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "rb" | "rtc") =>
+                        if matches!(tag_name.as_ref(), "rb" | "rtc") =>
                     {
                         if self.open_elements_stack.has_in_scope("ruby") {
                             self.open_elements_stack.generate_implied_end_tags();
@@ -2117,7 +2065,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "rp" | "rt") =>
+                        if matches!(tag_name.as_ref(), "rp" | "rt") =>
                     {
                         if self.open_elements_stack.has_in_scope("ruby") {
                             self.open_elements_stack
@@ -2143,9 +2091,7 @@ where
                     //
                     // If the token has its self-closing flag set, pop the current node off the
                     // stack of open elements and acknowledge the token's self-closing flag.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("math") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "math" => {
                         self.reconstruct_the_active_formatting_elements()?;
                     }
                     // A start tag whose tag name is "svg"
@@ -2162,9 +2108,7 @@ where
                     //
                     // If the token has its self-closing flag set, pop the current node off the
                     // stack of open elements and acknowledge the token's self-closing flag.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("svg") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "svg" => {
                         self.reconstruct_the_active_formatting_elements()?;
                     }
                     // A start tag whose tag name is one of: "caption", "col", "colgroup", "frame",
@@ -2173,7 +2117,7 @@ where
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption"
                                 | "col"
                                 | "colgroup"
@@ -2467,9 +2411,7 @@ where
                     //
                     // If there is once again a pending parsing-blocking script, then repeat these
                     // steps from step 1.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("script") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "script" => {
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
@@ -2536,9 +2478,7 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // caption".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("caption") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "caption" => {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
                         self.active_formatting_elements.insert_marker();
@@ -2551,9 +2491,7 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // column group".
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("colgroup") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "colgroup" => {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
                         self.insert_an_html_element(token_and_span)?;
@@ -2567,9 +2505,7 @@ where
                     // then switch the insertion mode to "in column group".
                     //
                     // Reprocess the current token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("col") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
                         // TODO fix me
@@ -2584,7 +2520,7 @@ where
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // table body".
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") =>
+                        if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
@@ -2600,7 +2536,7 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "td" | "th" | "tr") =>
+                        if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
@@ -2624,9 +2560,7 @@ where
                     // Reset the insertion mode appropriately.
                     //
                     // Reprocess the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "table" => {
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
                         } else {
@@ -2646,9 +2580,7 @@ where
                     // stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             self.errors.push(Error::new(
                                 token_and_span.span,
@@ -2665,7 +2597,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "body"
                                 | "caption"
                                 | "col"
@@ -2687,13 +2619,11 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "style" | "script" | "template") =>
+                        if matches!(tag_name.as_ref(), "style" | "script" | "template") =>
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "input"
@@ -2711,9 +2641,7 @@ where
                     // Pop that input element off the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("input") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "input" => {
                         if false {
                         } else {
                             // TODO
@@ -2737,9 +2665,7 @@ where
                     // point to the element created.
                     //
                     // Pop that form element off the stack of open elements.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("form") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "form" => {
                         // TODO
 
                         if false {
@@ -2843,9 +2769,7 @@ where
                     // Clear the list of active formatting elements up to the last marker.
                     //
                     // Switch the insertion mode to "in table".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("caption") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "caption" => {
                         if !self.open_elements_stack.has_in_table_scope("caption") {
                             // TODO error
                             // Ignore
@@ -2883,7 +2807,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption"
                                 | "col"
                                 | "colgroup"
@@ -2895,12 +2819,16 @@ where
                                 | "tr"
                         ) =>
                     {
-                        if false {
+                        if self.open_elements_stack.has_in_table_scope("caption") {
+                            // TODO error
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
-                            if false {
-                                // TODO error
+                            match &self.open_elements_stack.current {
+                                Some(Element { tag_name, .. }) if tag_name != "caption" => {
+                                    // TODO error
+                                }
+                                _ => {}
                             }
 
                             self.open_elements_stack
@@ -2911,9 +2839,7 @@ where
                             self.process_token(token_and_span, None)?;
                         }
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
                         if false {
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
@@ -2936,7 +2862,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "body"
                                 | "col"
                                 | "colgroup"
@@ -2949,7 +2875,10 @@ where
                                 | "tr"
                         ) =>
                     {
-                        // TODO error
+                        self.errors.push(Error::new(
+                            token_and_span.span,
+                            ErrorKind::EndTagWithoutMatchingOpenElement,
+                        ));
                     }
                     // Anything else
                     //
@@ -2990,9 +2919,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "col"
@@ -3001,9 +2928,7 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("col") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
@@ -3016,14 +2941,12 @@ where
                     //
                     // Otherwise, pop the current node from the stack of open elements. Switch the
                     // insertion mode to "in table".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("colgroup") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "colgroup" => {
                         match &self.open_elements_stack.current {
                             Some(Element { tag_name, .. }) if tag_name != "colgroup" => {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
-                                    ErrorKind::MisplacedStartTagForHeadElement,
+                                    ErrorKind::EndTagWithoutMatchingOpenElement,
                                 ));
                             }
                             _ => {
@@ -3035,12 +2958,10 @@ where
                     // An end tag whose tag name is "col"
                     //
                     // Parse error. Ignore the token.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("col") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "col" => {
                         self.errors.push(Error::new(
                             token_and_span.span,
-                            ErrorKind::MisplacedStartTagForHeadElement,
+                            ErrorKind::EndTagWithoutMatchingOpenElement,
                         ));
                     }
                     // A start tag whose tag name is "template"
@@ -3048,14 +2969,10 @@ where
                     // An end tag whose tag name is "template"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -3075,6 +2992,7 @@ where
                     // Reprocess the token.
                     _ => match &self.open_elements_stack.current {
                         Some(Element { tag_name, .. }) if tag_name != "colgroup" => {
+                            // TODO error
                             self.errors.push(Error::new(
                                 token_and_span.span,
                                 ErrorKind::MisplacedStartTagForHeadElement,
@@ -3099,12 +3017,9 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // row".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("tr") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "tr" => {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_context();
-
                         self.insert_an_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InRow;
                     }
@@ -3119,19 +3034,24 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "th" | "td") =>
+                        if matches!(tag_name.as_ref(), "th" | "td") =>
                     {
                         // TODO error
                         self.errors.push(Error::new(
                             token_and_span.span,
                             ErrorKind::MisplacedStartTagForHeadElement,
                         ));
-
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_body_context();
-
-                        // TODO
-
+                        self.insert_an_html_element(TokenAndSpan {
+                            span: Default::default(),
+                            token: Token::StartTag {
+                                tag_name: "tr".into(),
+                                raw_tag_name: Some("tr".into()),
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_span, None)?;
                     }
@@ -3148,13 +3068,12 @@ where
                     // Pop the current node from the stack of open elements. Switch the insertion
                     // mode to "in table".
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") =>
+                        if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
-                        // TODO
-                        if false {
+                        if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_span.span,
-                                ErrorKind::MisplacedStartTagForHeadElement,
+                                ErrorKind::EndTagWithoutMatchingOpenElement,
                             ));
                         } else {
                             self.open_elements_stack
@@ -3179,12 +3098,15 @@ where
                     // mode to "in table".
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
-                        // TODO + error too
-                        if false {
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
+                        {
+                            // TODO error
                             self.errors.push(Error::new(
                                 token_and_span.span,
                                 ErrorKind::MisplacedStartTagForHeadElement,
@@ -3196,14 +3118,14 @@ where
                             self.insertion_mode = InsertionMode::InTable;
                         }
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
-                        // TODO + error too
-                        if false {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
+                        {
                             self.errors.push(Error::new(
                                 token_and_span.span,
-                                ErrorKind::MisplacedStartTagForHeadElement,
+                                ErrorKind::EndTagWithoutMatchingOpenElement,
                             ));
                         } else {
                             self.open_elements_stack
@@ -3218,13 +3140,13 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th" | "tr"
                         ) =>
                     {
                         self.errors.push(Error::new(
                             token_and_span.span,
-                            ErrorKind::MisplacedStartTagForHeadElement,
+                            ErrorKind::EndTagWithoutMatchingOpenElement,
                         ));
                     }
                     // Anything else
@@ -3253,7 +3175,7 @@ where
                     //
                     // Insert a marker at the end of the list of active formatting elements.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "th" | "td") =>
+                        if matches!(tag_name.as_ref(), "th" | "td") =>
                     {
                         self.open_elements_stack
                             .clear_the_stack_back_to_a_table_row_context();
@@ -3272,13 +3194,11 @@ where
                     //
                     // Pop the current node (which will be a tr element) from the stack of open
                     // elements. Switch the insertion mode to "in table body".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("tr") =>
-                    {
-                        if false {
+                    Token::EndTag { tag_name, .. } if tag_name == "tr" => {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_span.span,
-                                ErrorKind::MisplacedStartTagForHeadElement,
+                                ErrorKind::EndTagWithoutMatchingOpenElement,
                             ));
                         } else {
                             self.open_elements_stack
@@ -3305,11 +3225,11 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead" | "tr"
                         ) =>
                     {
-                        if false {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             // TODO error message
                             self.errors.push(Error::new(
                                 token_and_span.span,
@@ -3318,14 +3238,13 @@ where
                         } else {
                             self.open_elements_stack
                                 .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
                         }
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("table") =>
-                    {
-                        if false {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_span.span,
                                 ErrorKind::EndTagWithoutMatchingOpenElement,
@@ -3333,6 +3252,7 @@ where
                         } else {
                             self.open_elements_stack
                                 .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
                         }
@@ -3355,15 +3275,19 @@ where
                     //
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "tbody" | "tfoot" | "thead") =>
+                        if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
-                        if false {
+                        if !self.open_elements_stack.has_in_table_scope(tag_name) {
+                            self.errors.push(Error::new(
+                                token_and_span.span,
+                                ErrorKind::EndTagWithoutMatchingOpenElement,
+                            ));
+                        } else if self.open_elements_stack.has_in_table_scope("tr") {
+                            // Ignore
                         } else {
                             self.open_elements_stack
                                 .clear_the_stack_back_to_a_table_row_context();
-
-                            // TODO
-
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
                         }
@@ -3374,7 +3298,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
@@ -3419,9 +3343,7 @@ where
                     // Clear the list of active formatting elements up to the last marker.
                     //
                     // Switch the insertion mode to "in row".
-                    Token::EndTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "td" | "th") =>
-                    {
+                    Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "td" | "th") => {
                         if false {
                         } else {
                             // TODO
@@ -3440,7 +3362,7 @@ where
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption"
                                 | "col"
                                 | "colgroup"
@@ -3467,7 +3389,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "body" | "caption" | "col" | "colgroup" | "html"
                         ) =>
                     {
@@ -3485,7 +3407,7 @@ where
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "table" | "tbody" | "tfoot" | "thead" | "tr"
                         ) =>
                     {
@@ -3550,9 +3472,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "option"
@@ -3561,9 +3481,7 @@ where
                     // open elements.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("option") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "option" => {
                         match &self.open_elements_stack.current {
                             Some(Element { tag_name, .. }) if &*tag_name == "option" => {
                                 self.open_elements_stack.pop();
@@ -3582,9 +3500,7 @@ where
                     // open elements.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("optgroup") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "optgroup" => {
                         match &self.open_elements_stack.current {
                             Some(Element { tag_name, .. }) if &*tag_name == "option" => {
                                 self.open_elements_stack.pop();
@@ -3609,9 +3525,7 @@ where
                     //
                     // If the current node is an optgroup element, then pop that node from the stack
                     // of open elements. Otherwise, this is a parse error; ignore the token.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("optgroup") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "optgroup" => {
                         if false {
                             self.open_elements_stack.pop();
                         }
@@ -3630,9 +3544,7 @@ where
                     //
                     // If the current node is an option element, then pop that node from the stack
                     // of open elements. Otherwise, this is a parse error; ignore the token.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("option") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match &self.open_elements_stack.current {
                             Some(Element { tag_name, .. }) if &*tag_name == "option" => {
                                 self.open_elements_stack.pop();
@@ -3654,9 +3566,7 @@ where
                     // popped from the stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("select") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "select" => {
                         if !self.open_elements_stack.has_in_select_scope("select") {
                             self.errors.push(Error::new(
                                 token_and_span.span,
@@ -3680,9 +3590,7 @@ where
                     // popped from the stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("select") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "select" => {
                         // TODO better error
                         self.errors.push(Error::new(
                             token_and_span.span,
@@ -3712,7 +3620,7 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "input" | "keygen" | "textarea") =>
+                        if matches!(tag_name.as_ref(), "input" | "keygen" | "textarea") =>
                     {
                         // TODO better Error
                         self.errors.push(Error::new(
@@ -3734,13 +3642,11 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "script" | "template") =>
+                        if matches!(tag_name.as_ref(), "script" | "template") =>
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -3779,7 +3685,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
@@ -3811,7 +3717,7 @@ where
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
@@ -3866,7 +3772,7 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -3881,9 +3787,7 @@ where
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("template") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is one of: "caption", "colgroup", "tbody",
@@ -3898,7 +3802,7 @@ where
                     // Switch the insertion mode to "in table", and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            &*tag_name.to_lowercase(),
+                            tag_name.as_ref(),
                             "caption" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
@@ -3917,9 +3821,7 @@ where
                     // is the new current template insertion mode.
                     //
                     // Switch the insertion mode to "in column group", and reprocess the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("col") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InColumnGroup);
@@ -3935,9 +3837,7 @@ where
                     // the new current template insertion mode.
                     //
                     // Switch the insertion mode to "in table body", and reprocess the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("tr") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "tr" => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InTableBody);
@@ -3954,7 +3854,7 @@ where
                     //
                     // Switch the insertion mode to "in row", and reprocess the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(&*tag_name.to_lowercase(), "td" | "th") =>
+                        if matches!(tag_name.as_ref(), "td" | "th") =>
                     {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
@@ -4051,9 +3951,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
@@ -4062,9 +3960,7 @@ where
                     // this is a parse error; ignore the token. (fragment case)
                     //
                     // Otherwise, switch the insertion mode to "after after body".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         let is_fragment_parsing = false;
 
                         if is_fragment_parsing {
@@ -4118,17 +4014,13 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "frameset"
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
                         self.insert_an_html_element(token_and_span)?;
                     }
                     // An end tag whose tag name is "frameset"
@@ -4141,9 +4033,7 @@ where
                     // If the parser was not created as part of the HTML fragment parsing algorithm
                     // (fragment case), and the current node is no longer a frameset element, then
                     // switch the insertion mode to "after frameset".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("frameset") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "frameset" => {
                         if false {
                             self.insertion_mode = InsertionMode::AfterFrameset;
                         }
@@ -4154,18 +4044,14 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("frame") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "frame" => {
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
                     }
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -4221,25 +4107,19 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
                     //
                     // Switch the insertion mode to "after after frameset".
-                    Token::EndTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -4289,9 +4169,7 @@ where
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
@@ -4338,9 +4216,7 @@ where
                     {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("html") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
@@ -4352,9 +4228,7 @@ where
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. }
-                        if tag_name.as_ref().eq_ignore_ascii_case("noframes") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // Anything else
