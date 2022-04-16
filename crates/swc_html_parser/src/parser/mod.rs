@@ -138,6 +138,7 @@ where
     has_non_whitespace_pending_character_token: bool,
     frameset_ok: bool,
     foster_parenting_enabled: bool,
+    acknowledge_self_closing: Option<bool>,
     errors: Vec<Error>,
 }
 
@@ -165,6 +166,7 @@ where
             has_non_whitespace_pending_character_token: false,
             frameset_ok: true,
             foster_parenting_enabled: false,
+            acknowledge_self_closing: None,
             errors: Default::default(),
         }
     }
@@ -548,15 +550,15 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        let span = self.input.cur_span()?;
-                        let element = Element {
-                            span: span!(self, span.lo),
-                            tag_name: "head".into(),
-                            attributes: vec![],
-                            children: vec![],
-                        };
-
-                        // TODO fix me
+                        let element = self.insert_an_html_element(TokenAndSpan {
+                            span: Default::default(),
+                            token: Token::StartTag {
+                                tag_name: "head".into(),
+                                raw_tag_name: Some("head".into()),
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
 
                         self.head_element = Some(element);
                         self.insertion_mode = InsertionMode::InHead;
@@ -604,15 +606,19 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            tag_name.as_ref(),
-                            "base" | "basefont" | "bgsound" | "link"
-                        ) =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if matches!(tag_name.as_ref(), "base" | "basefont" | "bgsound" | "link") => {
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
-                        // TODO
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
                     }
                     // A start tag whose tag name is "meta"
                     //
@@ -633,9 +639,19 @@ where
                     // encoding from a meta element to that attribute's value returns an encoding,
                     // and the confidence is currently tentative, then change the encoding to the
                     // extracted encoding.
-                    Token::StartTag { tag_name, .. } if tag_name == "meta" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "meta" => {
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
                     }
                     // A start tag whose tag name is "title"
                     //
@@ -2036,16 +2052,25 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     //
                     // Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            tag_name.as_ref(),
-                            "area" | "br" | "embed" | "img" | "keygen" | "wbr"
-                        ) =>
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if matches!(
+                        tag_name.as_ref(),
+                        "area" | "br" | "embed" | "img" | "keygen" | "wbr"
+                    ) =>
                     {
+                        let is_self_closing = *self_closing;
+
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
-                        // TODO fix me
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
+
                         self.frameset_ok = false;
                     }
                     // A start tag whose tag name is "input"
@@ -2060,10 +2085,20 @@ where
                     // If the token does not have an attribute with the name "type", or if it does,
                     // but that attribute's value is not an ASCII case-insensitive match for the
                     // string "hidden", then: set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. } if tag_name == "input" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "input" => {
+                        let is_self_closing = *self_closing;
+
                         self.reconstruct_the_active_formatting_elements()?;
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
 
                         // TODO fix me
                         let is_hidden = false;
@@ -2078,12 +2113,19 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(tag_name.as_ref(), "param" | "source" | "track") =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if matches!(tag_name.as_ref(), "param" | "source" | "track") => {
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
-                        // TODO fix me
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
                     }
                     // A start tag whose tag name is "hr"
                     //
@@ -2096,14 +2138,24 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     //
                     // Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. } if tag_name == "hr" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "hr" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
                         }
 
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
-                        // TODO fix me
+
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
+
                         self.frameset_ok = false;
                     }
                     // A start tag whose tag name is "image"
@@ -2315,14 +2367,16 @@ where
                         self_closing,
                         ..
                     } if tag_name == "math" => {
+                        let is_self_closing = *self_closing;
+
                         self.reconstruct_the_active_formatting_elements()?;
 
                         // TODO
                         // TODO
 
-                        if *self_closing {
+                        if is_self_closing {
                             self.open_elements_stack.pop();
-                            // TODO
+                            self.acknowledge_self_closing = Some(true);
                         }
                     }
                     // A start tag whose tag name is "svg"
@@ -2344,14 +2398,16 @@ where
                         self_closing,
                         ..
                     } if tag_name == "svg" => {
+                        let is_self_closing = *self_closing;
+
                         self.reconstruct_the_active_formatting_elements()?;
 
                         // TODO
                         // TODO
 
-                        if *self_closing {
+                        if is_self_closing {
                             self.open_elements_stack.pop();
-                            // TODO
+                            self.acknowledge_self_closing = Some(true);
                         }
                     }
 
@@ -2904,15 +2960,37 @@ where
                     // Pop that input element off the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. } if tag_name == "input" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "input" => {
                         if false {
-                            // TODO
+                            self.errors.push(Error::new(
+                                token_and_span.span,
+                                ErrorKind::UnexpectedNullCharacter,
+                            ));
+
+                            let saved_foster_parenting_state = self.foster_parenting_enabled;
+
+                            self.foster_parenting_enabled = true;
+                            self.process_token_using_the_rules(
+                                token_and_span,
+                                InsertionMode::InBody,
+                            )?;
+                            self.foster_parenting_enabled = saved_foster_parenting_state;
                         } else {
+                            let is_self_closing = *self_closing;
+
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
                             self.insert_an_html_element(token_and_span)?;
                             self.open_elements_stack.pop();
+
+                            if is_self_closing {
+                                self.acknowledge_self_closing = Some(true);
+                            }
                         }
                     }
                     // A start tag whose tag name is "form"
@@ -3221,11 +3299,19 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "col" => {
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
-                        // TODO
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
                     }
                     // An end tag whose tag name is "colgroup"
                     //
@@ -4333,11 +4419,19 @@ where
                     // the stack of open elements.
                     //
                     // Acknowledge the token's self-closing flag, if it is set.
-                    Token::StartTag { tag_name, .. } if tag_name == "frame" => {
+                    Token::StartTag {
+                        tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "frame" => {
+                        let is_self_closing = *self_closing;
+
                         self.insert_an_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
-                        // TODO Acknowledge
+                        if is_self_closing {
+                            self.acknowledge_self_closing = Some(true);
+                        }
                     }
                     // A start tag whose tag name is "noframes"
                     //
