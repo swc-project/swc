@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::Span;
+use swc_common::{EqIgnoreSpan, Span};
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};
@@ -16,7 +16,9 @@ pub mod input;
 pub type PResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ParserConfig {}
+pub struct ParserConfig {
+    pub scripting_enabled: bool,
+}
 
 #[derive(Debug, Clone)]
 enum InsertionMode {
@@ -64,6 +66,22 @@ impl OpenElementsStack {
         }
     }
 
+    pub fn push(&mut self, element: Element) {
+        self.items.push(element);
+    }
+
+    pub fn pop(&mut self) -> Option<Element> {
+        self.items.pop()
+    }
+
+    pub fn remove(&mut self, element: Option<&Element>) {}
+
+    pub fn bottom(&mut self) {}
+
+    pub fn contains(&self, element: Option<&Element>) -> bool {
+        false
+    }
+
     pub fn current_node_is_root_html_element(&mut self) -> bool {
         false
     }
@@ -72,47 +90,39 @@ impl OpenElementsStack {
         None
     }
 
-    pub fn push(&mut self, node: Element) {}
-
-    pub fn pop(&mut self) {}
-
-    pub fn first(&mut self) -> Option<Node> {
+    pub fn first(&mut self) -> Option<Element> {
         None
     }
 
-    pub fn in_template(&mut self) -> bool {
+    pub fn contains_template_element(&mut self) -> bool {
         false
     }
 
-    pub fn has_in_button_scope(&mut self, tag_name: &str) -> bool {
+    pub fn has_in_button_scope(&self, tag_name: &str) -> bool {
+        true
+    }
+
+    pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
         false
     }
 
-    pub fn has_in_select_scope(&mut self, tag_name: &str) -> bool {
+    pub fn has_in_table_scope(&self, tag_name: &str) -> bool {
         false
     }
 
-    pub fn has_in_table_scope(&mut self, tag_name: &str) -> bool {
+    pub fn has_in_scope(&self, tag_name: &str) -> bool {
         false
     }
 
-    pub fn has_in_scope(&mut self, tag_name: &str) -> bool {
+    pub fn has_in_list_item_scope(&self, tag_name: &str) -> bool {
         false
     }
 
-    pub fn has_in_list_item_scope(&mut self, tag_name: &str) -> bool {
-        false
-    }
+    pub fn clear_back_to_table_context(&mut self) {}
 
-    pub fn has_numbered_header_in_scope(&mut self) -> bool {
-        false
-    }
+    pub fn clear_back_to_table_row_context(&mut self) {}
 
-    pub fn clear_the_stack_back_to_a_table_context(&mut self) {}
-
-    pub fn clear_the_stack_back_to_a_table_row_context(&mut self) {}
-
-    pub fn clear_the_stack_back_to_a_table_body_context(&mut self) {}
+    pub fn clear_back_to_table_body_context(&mut self) {}
 
     pub fn generate_implied_end_tags(&mut self) {}
 
@@ -142,22 +152,19 @@ where
     I: ParserInput,
 {
     #[allow(dead_code)]
-    scripting_enabled: bool,
     config: ParserConfig,
     input: Buffer<I>,
     stopped: bool,
-    fragment_context: bool,
+    is_fragment_case: bool,
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
     document: Option<Document>,
-    head_element: Option<Element>,
-    form_element: Option<Element>,
+    head_element_pointer: Option<Element>,
+    form_element_pointer: Option<Element>,
     open_elements_stack: OpenElementsStack,
     active_formatting_elements: FormattingElementList,
-    // TODO keep only `token`?
     pending_character_tokens: Vec<TokenAndSpan>,
-    has_non_whitespace_pending_character_token: bool,
     frameset_ok: bool,
     foster_parenting_enabled: bool,
     acknowledge_self_closing: Option<bool>,
@@ -170,22 +177,19 @@ where
 {
     pub fn new(input: I, config: ParserConfig) -> Self {
         Parser {
-            // TODO should we move it in options?
-            scripting_enabled: true,
             config,
             input: Buffer::new(input),
             stopped: false,
-            fragment_context: false,
+            is_fragment_case: false,
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
             document: None,
-            head_element: None,
-            form_element: None,
+            head_element_pointer: None,
+            form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
             active_formatting_elements: FormattingElementList::new(),
             pending_character_tokens: vec![],
-            has_non_whitespace_pending_character_token: false,
             frameset_ok: true,
             foster_parenting_enabled: false,
             acknowledge_self_closing: None,
@@ -314,7 +318,7 @@ where
                     //
                     // Insert a comment as the last child of the Document object.
                     Token::Comment { .. } => {
-                        self.insert_a_comment_as_the_last_child_of_the_document(token_and_span)?;
+                        self.insert_comment_as_last_child_of_document(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -364,6 +368,13 @@ where
                     // token.
                     _ => {
                         // TODO fix me for `srcdoc`
+                        // if self.document.is_iframe_srcdoc() {
+                        //     self.errors
+                        //         .push(Error::new(token_and_span.span,
+                        // ErrorKind::UnexpectedToken));
+                        //
+                        //     self.document.mode = DocumentMode::Quirks;
+                        // }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
                         self.process_token(token_and_span, None)?;
@@ -386,7 +397,7 @@ where
                     //
                     // Insert a comment as the last child of the Document object.
                     Token::Comment { .. } => {
-                        self.insert_a_comment_as_the_last_child_of_the_document(token_and_span)?;
+                        self.insert_comment_as_last_child_of_document(token_and_span)?;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
                     // FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020
@@ -503,7 +514,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -516,7 +527,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "head"
                     //
@@ -526,9 +537,9 @@ where
                     //
                     // Switch the insertion mode to "in head".
                     Token::StartTag { tag_name, .. } if tag_name == "head" => {
-                        let element = self.insert_an_html_element(token_and_span)?;
+                        let element = self.insert_html_element(token_and_span)?;
 
-                        self.head_element = Some(element);
+                        self.head_element_pointer = Some(element);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // An end tag whose tag name is one of: "head", "body", "html", "br"
@@ -537,7 +548,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = self.insert_an_html_element(TokenAndSpan {
+                        let element = self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "head".into(),
@@ -547,7 +558,7 @@ where
                             },
                         })?;
 
-                        self.head_element = Some(element);
+                        self.head_element_pointer = Some(element);
                         self.insertion_mode = InsertionMode::InHead;
                         self.process_token(token_and_span, None)?;
                     }
@@ -570,7 +581,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        let element = self.insert_an_html_element(TokenAndSpan {
+                        let element = self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "head".into(),
@@ -580,7 +591,7 @@ where
                             },
                         })?;
 
-                        self.head_element = Some(element);
+                        self.head_element_pointer = Some(element);
                         self.insertion_mode = InsertionMode::InHead;
                         self.process_token(token_and_span, None)?;
                     }
@@ -599,13 +610,13 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -618,7 +629,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link"
                     //
@@ -633,7 +644,7 @@ where
                     } if matches!(tag_name.as_ref(), "base" | "basefont" | "bgsound" | "link") => {
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -666,7 +677,7 @@ where
                     } if tag_name == "meta" => {
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -684,7 +695,7 @@ where
                     //
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. }
-                        if tag_name == "noscript" && self.scripting_enabled =>
+                        if tag_name == "noscript" && self.config.scripting_enabled =>
                     {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
@@ -699,9 +710,9 @@ where
                     //
                     // Switch the insertion mode to "in head noscript".
                     Token::StartTag { tag_name, .. }
-                        if tag_name == "noscript" && !self.scripting_enabled =>
+                        if tag_name == "noscript" && !self.config.scripting_enabled =>
                     {
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InHeadNoScript;
                     }
                     // A start tag whose tag name is "script"
@@ -744,6 +755,15 @@ where
                     // Switch the insertion mode to "text".
                     Token::StartTag { tag_name, .. } if tag_name == "script" => {
                         // TODO
+                        // let adjusted_insertion_location =
+                        //     self.get_appropriate_place_for_inserting_node();
+                        // let node = self.create_element_for_token(
+                        //     token_and_span,
+                        //     Namespaces::HTML,
+                        //     $adjustedInsertionLocation[0]
+                        // );
+                        // self.insert_node(node, adjusted_insertion_location);
+                        // self.open_elements_stack.push(node);
                         self.input.set_input_state(State::ScriptData);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::Text;
@@ -808,7 +828,7 @@ where
                     //
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        if !self.open_elements_stack.in_template() {
+                        if !self.open_elements_stack.contains_template_element() {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -875,7 +895,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "noscript"
                     //
@@ -900,10 +920,10 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::Comment { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::StartTag { tag_name, .. }
                         if matches!(
@@ -911,7 +931,7 @@ where
                             "basefont" | "bgsound" | "link" | "meta" | "noframes" | "style"
                         ) =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end tag whose tag name is "br"
                     //
@@ -970,13 +990,13 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -989,7 +1009,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "body"
                     //
@@ -999,7 +1019,7 @@ where
                     //
                     // Switch the insertion mode to "in body".
                     Token::StartTag { tag_name, .. } if tag_name == "body" => {
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InBody;
                     }
@@ -1009,7 +1029,7 @@ where
                     //
                     // Switch the insertion mode to "in frameset".
                     Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InFrameset;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
@@ -1042,19 +1062,21 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        if let Some(head_element) = self.head_element.take() {
-                            self.open_elements_stack.push(head_element);
+                        // TODO do we need take?
+                        if let Some(head_element_pointer) = self.head_element_pointer.take() {
+                            self.open_elements_stack.push(head_element_pointer);
                         }
 
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
 
-                        // TODO
+                        self.open_elements_stack
+                            .remove(self.head_element_pointer.as_ref());
                     }
                     // An end tag whose tag name is "template"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
                     //
@@ -1062,7 +1084,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "body".into(),
@@ -1095,7 +1117,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "body".into(),
@@ -1131,7 +1153,7 @@ where
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // Any other character token
                     //
@@ -1142,14 +1164,14 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::Character { .. } => {
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                         self.frameset_ok = false;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -1176,27 +1198,32 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        if self.open_elements_stack.in_template() {
+                        if self.open_elements_stack.contains_template_element() {
                             // Ignore
                         } else {
-                            let mut element = match self.open_elements_stack.items.first_mut() {
-                                Some(element) => element,
-                                _ => {
-                                    // TODO
-                                    todo!();
-                                }
-                            };
+                            let mut first = self.open_elements_stack.items.first_mut();
 
                             for attribute in attributes {
-                                // TODO
-                                let has_attribute = false;
+                                let has_attribute = if let Some(element) = &first {
+                                    // TODO
+                                    // element.attributes.contains(|first_attribute: Attribute|
+                                    // first_attribute.name == attribute.name)
+                                    false
+                                } else {
+                                    false
+                                };
 
                                 if !has_attribute {
-                                    element.attributes.push(Attribute {
-                                        span: Default::default(),
-                                        name: attribute.name.clone(),
-                                        value: attribute.value.clone(),
-                                    })
+                                    match &mut first {
+                                        Some(Element { attributes, .. }) => {
+                                            attributes.push(Attribute {
+                                                span: Default::default(),
+                                                name: attribute.name.clone(),
+                                                value: attribute.value.clone(),
+                                            })
+                                        }
+                                        _ => {}
+                                    }
                                 }
                             }
                         }
@@ -1222,10 +1249,10 @@ where
                                 | "title"
                         ) =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "body"
                     //
@@ -1247,12 +1274,22 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        if false {
+                        let is_second_body = match self.open_elements_stack.items.get(1) {
+                            Some(Element { tag_name, .. }) if tag_name == "body" => true,
+                            _ => false,
+                        };
+
+                        if !is_second_body
+                            || self.open_elements_stack.items.len() == 1
+                            || self.open_elements_stack.contains_template_element()
+                        {
                             // Ignore
                         } else {
                             self.frameset_ok = false;
 
-                            for attribute in attributes {}
+                            for attribute in attributes {
+                                // TODO fix me
+                            }
                         }
                     }
                     // A start tag whose tag name is "frameset"
@@ -1280,18 +1317,34 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        // TODO
-                        if self.open_elements_stack.items.len() == 1
-                        // || self.open_elements_stack.items[1].is_some()
-                        {
+                        let len = self.open_elements_stack.items.len();
+                        let is_second_body = match self.open_elements_stack.items.get(1) {
+                            Some(Element { tag_name, .. }) if tag_name == "body" => true,
+                            _ => false,
+                        };
+
+                        if len == 1 || !is_second_body {
                             // Ignore
                         } else {
                             if !self.frameset_ok {
                                 // Ignore
                             } else {
+                                let body = self.open_elements_stack.items.get(1);
                                 // TODO remove the second element
-                                // self.open_elements_stack.pop_all_up_to_html_element();
-                                self.insert_an_html_element(token_and_span)?;
+                                let parent: Option<Element> = None;
+
+                                if parent.is_some() {
+                                    // $parent->removeChild($body);
+                                }
+
+                                let mut i = len - 1;
+
+                                while i > 0 {
+                                    self.open_elements_stack.pop();
+                                    i -= 1;
+                                }
+
+                                self.insert_html_element(token_and_span)?;
                                 self.insertion_mode = InsertionMode::InFrameset;
                             }
                         }
@@ -1313,12 +1366,46 @@ where
                     // Stop parsing.
                     Token::Eof => {
                         if !self.template_insertion_mode_stack.is_empty() {
-                            self.process_token_using_the_rules(
+                            self.process_token_using_rules(
                                 token_and_span,
                                 InsertionMode::InTemplate,
                             )?;
                         } else {
-                            if false {
+                            let mut errored = false;
+
+                            for element in &self.open_elements_stack.items {
+                                match element {
+                                    Element { tag_name, .. }
+                                        if matches!(
+                                            &**tag_name,
+                                            "dd" | "dt"
+                                                | "li"
+                                                | "optgroup"
+                                                | "option"
+                                                | "p"
+                                                | "rb"
+                                                | "rp"
+                                                | "rt"
+                                                | "rtc"
+                                                | "tbody"
+                                                | "td"
+                                                | "tfoot"
+                                                | "th"
+                                                | "thead"
+                                                | "tr"
+                                                | "body"
+                                                | "html"
+                                        ) =>
+                                    {
+                                        errored = true;
+
+                                        break;
+                                    }
+                                    _ => {}
+                                }
+                            }
+
+                            if errored {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
@@ -1346,7 +1433,41 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            if false {
+                            let mut errored = false;
+
+                            for element in &self.open_elements_stack.items {
+                                match element {
+                                    Element { tag_name, .. }
+                                        if matches!(
+                                            &**tag_name,
+                                            "dd" | "dt"
+                                                | "li"
+                                                | "optgroup"
+                                                | "option"
+                                                | "p"
+                                                | "rb"
+                                                | "rp"
+                                                | "rt"
+                                                | "rtc"
+                                                | "tbody"
+                                                | "td"
+                                                | "tfoot"
+                                                | "th"
+                                                | "thead"
+                                                | "tr"
+                                                | "body"
+                                                | "html"
+                                        ) =>
+                                    {
+                                        errored = true;
+
+                                        break;
+                                    }
+                                    _ => {}
+                                }
+                            }
+
+                            if errored {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
@@ -1375,13 +1496,51 @@ where
                         if !self.open_elements_stack.has_in_scope("body") {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
-                        } else if false {
-                            self.errors
-                                .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
-                        }
+                        } else {
+                            let mut errored = false;
 
-                        self.insertion_mode = InsertionMode::AfterBody;
-                        self.process_token(token_and_span, None)?;
+                            for element in &self.open_elements_stack.items {
+                                match element {
+                                    Element { tag_name, .. }
+                                        if matches!(
+                                            &**tag_name,
+                                            "dd" | "dt"
+                                                | "li"
+                                                | "optgroup"
+                                                | "option"
+                                                | "p"
+                                                | "rb"
+                                                | "rp"
+                                                | "rt"
+                                                | "rtc"
+                                                | "tbody"
+                                                | "td"
+                                                | "tfoot"
+                                                | "th"
+                                                | "thead"
+                                                | "tr"
+                                                | "body"
+                                                | "html"
+                                        ) =>
+                                    {
+                                        errored = true;
+
+                                        break;
+                                    }
+                                    _ => {}
+                                }
+                            }
+
+                            if errored {
+                                self.errors.push(Error::new(
+                                    token_and_span.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+                            }
+
+                            self.insertion_mode = InsertionMode::AfterBody;
+                            self.process_token(token_and_span, None)?;
+                        }
                     }
                     // A start tag whose tag name is one of: "address", "article", "aside",
                     // "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset",
@@ -1425,7 +1584,7 @@ where
                             self.close_a_p_element();
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
                     //
@@ -1461,7 +1620,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "pre", "listing"
                     //
@@ -1473,6 +1632,8 @@ where
                     // If the next token is a U+000A LINE FEED (LF) character token, then ignore
                     // that token and move on to the next one. (Newlines at the start of pre blocks
                     // are ignored as an authoring convenience.)
+                    //
+                    // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "pre" | "listing") =>
                     {
@@ -1480,7 +1641,7 @@ where
                             self.close_a_p_element();
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
 
                         match self.input.cur()? {
                             Some(Token::Character { value, .. }) if *value == '\x0A' => {
@@ -1488,6 +1649,8 @@ where
                             }
                             _ => {}
                         }
+
+                        self.frameset_ok = false;
                     }
                     // A start tag whose tag name is "form"
                     //
@@ -1503,7 +1666,9 @@ where
                     // the stack of open elements, set the form element pointer to point to the
                     // element created.
                     Token::StartTag { tag_name, .. } if tag_name == "form" => {
-                        if self.form_element.is_some() && false {
+                        if self.form_element_pointer.is_some()
+                            && !self.open_elements_stack.contains_template_element()
+                        {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -1511,10 +1676,10 @@ where
                                 self.close_a_p_element();
                             }
 
-                            let element = self.insert_an_html_element(token_and_span)?;
+                            let element = self.insert_html_element(token_and_span)?;
 
-                            if !self.open_elements_stack.in_template() {
-                                self.form_element = Some(element);
+                            if !self.open_elements_stack.contains_template_element() {
+                                self.form_element_pointer = Some(element);
                             }
                         }
                     }
@@ -1550,34 +1715,65 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "li" => {
                         self.frameset_ok = false;
 
-                        let node = self.open_elements_stack.current.clone();
+                        // Initialise node to be the current node (the bottommost node of
+                        // the stack).
+                        // Step "Loop".
+                        for element in self.open_elements_stack.items.iter() {
+                            match element {
+                                Element { tag_name, .. } if &*tag_name == "li" => {
+                                    // Generate implied end tags, except for li elements.
+                                    self.open_elements_stack
+                                        .generate_implied_end_tags_with_exclusion("li");
 
-                        // TODO done
-                        loop {
-                            self.open_elements_stack
-                                .generate_implied_end_tags_with_exclusion("li");
+                                    // If the current node is not an li element, then this is a
+                                    // parse error.
+                                    match &self.open_elements_stack.current {
+                                        Some(Element { tag_name, .. }) if &*tag_name != "li" => {
+                                            self.errors.push(Error::new(
+                                                token_and_span.span,
+                                                ErrorKind::UnexpectedToken,
+                                            ));
+                                        }
+                                        _ => {}
+                                    }
 
-                            if false {}
+                                    // Pop elements from the stack of open elements until an li
+                                    // element has been popped from the stack.
+                                    self.open_elements_stack
+                                        .generate_implied_end_tags_with_exclusion("li");
 
-                            self.open_elements_stack.pop_until_tag_name_popped("li");
+                                    // Jump to the step labeled done below.
+                                    break;
+                                }
+                                _ => {}
+                            }
 
-                            break;
+                            // If node is in the special category, but is not an address,
+                            // div, or p element, then jump to the step labeled done below.
+                            // Otherwise, set node to the previous entry in the stack
+                            // of open elements and return to the step labeled loop.
+                            if self.is_special_element(element)
+                                && !match element {
+                                    Element { tag_name, .. }
+                                        if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
+                                    {
+                                        true
+                                    }
+                                    _ => false,
+                                }
+                            {
+                                break;
+                            }
                         }
 
-                        // if element_id != Some("address")
-                        //     && element_id != Some("div")
-                        //     && element_id != Some("p")
-                        // // self.is_special_element(p.openElements.items[i], element_id)
-                        // {
-                        //
-                        // } else {
-                        // }
-
+                        // Step "Done".
+                        // If the stack of open elements has a p element in button scope,
+                        // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_a_p_element();
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "dd", "dt"
                     //
@@ -1622,9 +1818,90 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "dd" | "dt") =>
                     {
-                        // TDOO fix me
                         self.frameset_ok = false;
-                        self.insert_a_character(token_and_span)?;
+
+                        // Initialise node to be the current node (the bottommost node of
+                        // the stack).
+                        // Step "Loop".
+                        for element in self.open_elements_stack.items.iter() {
+                            match element {
+                                Element { tag_name, .. } if &*tag_name == "dd" => {
+                                    // Generate implied end tags, except for dd elements.
+                                    self.open_elements_stack
+                                        .generate_implied_end_tags_with_exclusion("dd");
+
+                                    // If the current node is not an li element, then this is a
+                                    // parse error.
+                                    match &self.open_elements_stack.current {
+                                        Some(Element { tag_name, .. }) if &*tag_name != "dd" => {
+                                            self.errors.push(Error::new(
+                                                token_and_span.span,
+                                                ErrorKind::UnexpectedToken,
+                                            ));
+                                        }
+                                        _ => {}
+                                    }
+
+                                    // Pop elements from the stack of open elements until an dd
+                                    // element has been popped from the stack.
+                                    self.open_elements_stack.pop_until_tag_name_popped("dd");
+
+                                    // Jump to the step labeled done below.
+                                    break;
+                                }
+                                Element { tag_name, .. } if &*tag_name == "dt" => {
+                                    // Generate implied end tags, except for li elements.
+                                    self.open_elements_stack
+                                        .generate_implied_end_tags_with_exclusion("dt");
+
+                                    // If the current node is not an li element, then this is a
+                                    // parse error.
+                                    match &self.open_elements_stack.current {
+                                        Some(Element { tag_name, .. }) if &*tag_name != "dt" => {
+                                            self.errors.push(Error::new(
+                                                token_and_span.span,
+                                                ErrorKind::UnexpectedToken,
+                                            ));
+                                        }
+                                        _ => {}
+                                    }
+
+                                    // Pop elements from the stack of open elements until an dt
+                                    // element has been popped from the stack.
+                                    self.open_elements_stack.pop_until_tag_name_popped("dt");
+
+                                    // Jump to the step labeled done below.
+                                    break;
+                                }
+                                _ => {}
+                            }
+
+                            // If node is in the special category, but is not an address,
+                            // div, or p element, then jump to the step labeled done below.
+                            // Otherwise, set node to the previous entry in the stack of
+                            // open elements and return to the step labeled loop.
+                            if self.is_special_element(element)
+                                && !match element {
+                                    Element { tag_name, .. }
+                                        if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
+                                    {
+                                        true
+                                    }
+                                    _ => false,
+                                }
+                            {
+                                break;
+                            }
+                        }
+
+                        // Step "Done".
+                        // If the stack of open elements has a p element in button scope,
+                        // then close a p element.
+                        if self.open_elements_stack.has_in_button_scope("p") {
+                            self.close_a_p_element();
+                        }
+
+                        self.insert_character(token_and_span)?;
                     }
                     // A start tag whose tag name is "plaintext"
                     //
@@ -1639,7 +1916,7 @@ where
                             self.close_a_p_element();
                         }
 
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.input.set_input_state(State::PlainText);
                     }
                     // A start tag whose tag name is "button"
@@ -1668,7 +1945,7 @@ where
                         }
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.frameset_ok = false;
                     }
                     // An end tag whose tag name is one of: "address", "article", "aside",
@@ -1689,7 +1966,7 @@ where
                     //
                     // Pop elements from the stack of open elements until an HTML element with the
                     // same tag name as the token has been popped from the stack.
-                    Token::StartTag { tag_name, .. }
+                    Token::EndTag { tag_name, .. }
                         if matches!(
                             tag_name.as_ref(),
                             "address"
@@ -1774,24 +2051,49 @@ where
                     // Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "form" => {
-                        if false {
-                            self.form_element = None;
+                        if self.open_elements_stack.contains_template_element() {
+                            let node = self.form_element_pointer.take();
 
-                            if false {
-                                // TODO
+                            self.form_element_pointer = None;
+
+                            if node.is_none() || !self.open_elements_stack.contains(node.as_ref()) {
+                                self.errors.push(Error::new(
+                                    token_and_span.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+                            } else {
+                                self.open_elements_stack.generate_implied_end_tags();
+
+                                if self.open_elements_stack.current.eq_ignore_span(&node) {
+                                    self.errors.push(Error::new(
+                                        token_and_span.span,
+                                        ErrorKind::UnexpectedToken,
+                                    ));
+                                }
+
+                                self.open_elements_stack.remove(node.as_ref());
                             }
                         } else {
-                            if false {
-                                // TODO
+                            if self.open_elements_stack.has_in_scope("form") {
+                                self.errors.push(Error::new(
+                                    token_and_span.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+                            } else {
+                                self.open_elements_stack.generate_implied_end_tags();
+
+                                match &self.open_elements_stack.current {
+                                    Some(Element { tag_name, .. }) if &*tag_name != "form" => {
+                                        self.errors.push(Error::new(
+                                            token_and_span.span,
+                                            ErrorKind::UnexpectedToken,
+                                        ));
+                                    }
+                                    _ => {}
+                                }
+
+                                self.open_elements_stack.pop_until_tag_name_popped("form");
                             }
-
-                            self.open_elements_stack.generate_implied_end_tags();
-
-                            if false {
-                                // TODO Error
-                            }
-
-                            self.open_elements_stack.pop_until_tag_name_popped("form");
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -1806,7 +2108,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                            self.insert_an_html_element(TokenAndSpan {
+                            self.insert_html_element(TokenAndSpan {
                                 span: Default::default(),
                                 token: Token::StartTag {
                                     tag_name: "p".into(),
@@ -1912,7 +2214,13 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
-                        if !self.open_elements_stack.has_numbered_header_in_scope() {
+                        if !self.open_elements_stack.has_in_scope("h1")
+                            && !self.open_elements_stack.has_in_scope("h2")
+                            && !self.open_elements_stack.has_in_scope("h3")
+                            && !self.open_elements_stack.has_in_scope("h4")
+                            && !self.open_elements_stack.has_in_scope("h5")
+                            && !self.open_elements_stack.has_in_scope("h6")
+                        {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -1956,11 +2264,39 @@ where
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
                     Token::StartTag { tag_name, .. } if tag_name == "a" => {
-                        // TODO fix me
+                        // TODO
+                        // if !self.active_formatting_elements.is_empty() {
+                        //     let has_anchor_element = false;
+                        //     let element = None;
+                        //
+                        //    for element in self.active_formatting_elements {
+                        //         match element {
+                        //             Element { tag_name, .. } if tag_name = "market" => {
+                        //                 break;
+                        //             }
+                        //            Element { tag_name, .. } if &*tag_name == "a" => {
+                        //                  break;
+                        //              }
+                        //             _ => {}
+                        //          }
+                        //      }
+                        //
+                        //     if has_anchor_element {
+                        //         // Parse error.
+                        //        self.run_the_adoption_agency_algorithm(token_and_span);
+                        //
+                        //        if (element.is_some() &&
+                        // self.activeFormattingElements.contains(element))
+                        //        {
+                        //           self.active_formatting_elements.remove(element);
+                        //           self.open_element_stack.remove($element);
+                        //        }
+                        //     }
+                        // }
 
                         self.reconstruct_the_active_formatting_elements()?;
 
-                        let element = self.insert_an_html_element(token_and_span)?;
+                        let element = self.insert_html_element(token_and_span)?;
 
                         self.active_formatting_elements.push(element);
                     }
@@ -1989,7 +2325,7 @@ where
                     {
                         self.reconstruct_the_active_formatting_elements()?;
 
-                        let element = self.insert_an_html_element(token_and_span)?;
+                        let element = self.insert_html_element(token_and_span)?;
 
                         self.active_formatting_elements.push(element);
                     }
@@ -2013,15 +2349,16 @@ where
                             self.run_the_adoption_agency_algorithm(token_and_span);
                             self.reconstruct_the_active_formatting_elements()?;
                         } else {
-                            self.insert_an_html_element(token_and_span)?;
-                            // TODO
+                            let element = self.insert_html_element(token_and_span)?;
+
+                            self.active_formatting_elements.push(element);
                         }
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
                     // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
                     //
                     // Run the adoption agency algorithm for the token.
-                    Token::StartTag { tag_name, .. }
+                    Token::EndTag { tag_name, .. }
                         if matches!(
                             tag_name.as_ref(),
                             "a" | "b"
@@ -2054,7 +2391,7 @@ where
                         if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") =>
                     {
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.active_formatting_elements.insert_marker();
                         self.frameset_ok = false;
                     }
@@ -2122,7 +2459,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InTable;
                     }
@@ -2131,22 +2468,29 @@ where
                     // Parse error. Drop the attributes from the token, and act as described in the
                     // next entry; i.e. act as if this was a "br" start tag token with no
                     // attributes, rather than the end tag token that it actually is.
-                    Token::EndTag { tag_name, .. } if tag_name == "br" => {
+                    Token::EndTag {
+                        tag_name,
+                        raw_tag_name,
+                        self_closing,
+                        ..
+                    } if tag_name == "br" => {
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
-                                tag_name: "br".into(),
-                                raw_tag_name: Some("br".into()),
-                                self_closing: true,
+                                tag_name: tag_name.clone(),
+                                raw_tag_name: raw_tag_name.clone(),
+                                self_closing: *self_closing,
                                 attributes: vec![],
                             },
                         })?;
                         self.open_elements_stack.pop();
+
                         // TODO fix me
+
                         self.frameset_ok = false;
                     }
                     // A start tag whose tag name is one of: "area", "br", "embed", "img", "keygen",
@@ -2172,7 +2516,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -2215,7 +2559,7 @@ where
                         };
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -2239,7 +2583,7 @@ where
                     } if matches!(tag_name.as_ref(), "param" | "source" | "track") => {
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -2268,7 +2612,7 @@ where
 
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -2322,7 +2666,7 @@ where
                     //
                     // Switch the insertion mode to "text".
                     Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
 
                         match self.input.cur()? {
                             Some(Token::Character { value, .. }) if *value == '\x0A' => {
@@ -2373,7 +2717,7 @@ where
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
                     Token::StartTag { tag_name, .. }
-                        if tag_name == "noscript" && self.scripting_enabled =>
+                        if tag_name == "noscript" && self.config.scripting_enabled =>
                     {
                         self.follow_the_generic_raw_text_element_parsing_algorithm();
                     }
@@ -2390,7 +2734,7 @@ where
                     // table". Otherwise, switch the insertion mode to "in select".
                     Token::StartTag { tag_name, .. } if tag_name == "select" => {
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.frameset_ok = false;
 
                         match self.insertion_mode {
@@ -2425,7 +2769,7 @@ where
                         }
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "rb", "rtc"
                     //
@@ -2451,7 +2795,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is one of: "rp", "rt"
                     //
@@ -2480,7 +2824,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // A start tag whose tag name is "math"
                     //
@@ -2581,7 +2925,7 @@ where
                     // Insert an HTML element for the token.
                     Token::StartTag { .. } => {
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // Any other end tag
                     //
@@ -2606,13 +2950,48 @@ where
                     // 4. Set node to the previous entry in the stack of open elements.
                     //
                     // 5. Return to the step labeled loop.
-                    Token::EndTag { .. } => {
-                        // TODO
-                        let node = &mut self.open_elements_stack.current;
+                    Token::EndTag { tag_name, .. } => {
+                        for element in &self.open_elements_stack.items {
+                            // TODO fix me
+                            if false {
+                                // Generate implied end tags, except for HTML
+                                // elements with
+                                // the same tag name as the token.
+                                // self.open_elements_stack.
+                                // generate_implied_end_tags_with_exclusion(tag_name);
 
-                        if false {
-                            self.errors
-                                .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
+                                // If node is not the current node, then this is
+                                // a parse error.
+                                // match &self.open_elements_stack.current {
+                                //     Some(Element { tag_name, .. })
+                                //         if !matches!(tag_name.as_ref(), "rtc"
+                                // | "ruby") =>
+                                //     {
+                                //         self.errors.push(Error::new(
+                                //             token_and_span.span,
+                                //             ErrorKind::UnexpectedToken,
+                                //         ));
+                                //     }
+                                //     _ => {}
+                                // }
+
+                                // Pop all the nodes from the current node up to
+                                // node, including
+                                // node, then stop these steps.
+                                // while (!self.open_elements_stack.is_empty() {
+                                //     if (self.open_elements_stack.pop() ==
+                                // element) {
+                                //         break 2;
+                                //     }
+                                // }
+                            } else if self.is_special_element(element) {
+                                // Parse error.
+                                // Ignore the token.
+                                self.errors.push(Error::new(
+                                    token_and_span.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+                            }
                         }
                     }
                 }
@@ -2759,7 +3138,7 @@ where
                     //
                     // Insert the token's character.
                     Token::Character { .. } => {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // An end-of-file token
                     //
@@ -2861,7 +3240,7 @@ where
                     // If there is once again a pending parsing-blocking script, then repeat these
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                        // TODO
+                        self.open_elements_stack.bottom();
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
@@ -2911,7 +3290,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -2929,10 +3308,9 @@ where
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // caption".
                     Token::StartTag { tag_name, .. } if tag_name == "caption" => {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
+                        self.open_elements_stack.clear_back_to_table_context();
                         self.active_formatting_elements.insert_marker();
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InCaption;
                     }
                     // A start tag whose tag name is "colgroup"
@@ -2942,9 +3320,8 @@ where
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // column group".
                     Token::StartTag { tag_name, .. } if tag_name == "colgroup" => {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
-                        self.insert_an_html_element(token_and_span)?;
+                        self.open_elements_stack.clear_back_to_table_context();
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                     }
                     // A start tag whose tag name is "col"
@@ -2956,9 +3333,8 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "colgroup".into(),
@@ -2979,9 +3355,8 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
-                        self.insert_an_html_element(token_and_span)?;
+                        self.open_elements_stack.clear_back_to_table_context();
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InTableBody;
                     }
                     // A start tag whose tag name is one of: "td", "th", "tr"
@@ -2995,9 +3370,8 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "tbody".into(),
@@ -3089,10 +3463,10 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "style" | "script" | "template") =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "input"
                     //
@@ -3138,10 +3512,7 @@ where
                             let saved_foster_parenting_state = self.foster_parenting_enabled;
 
                             self.foster_parenting_enabled = true;
-                            self.process_token_using_the_rules(
-                                token_and_span,
-                                InsertionMode::InBody,
-                            )?;
+                            self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                             self.foster_parenting_enabled = saved_foster_parenting_state;
                         } else {
                             let is_self_closing = *self_closing;
@@ -3149,7 +3520,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                            self.insert_an_html_element(token_and_span)?;
+                            self.insert_html_element(token_and_span)?;
                             self.open_elements_stack.pop();
 
                             if is_self_closing {
@@ -3174,12 +3545,14 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        if self.open_elements_stack.in_template() || self.form_element.is_some() {
+                        if self.open_elements_stack.contains_template_element()
+                            || self.form_element_pointer.is_some()
+                        {
                             // Ignore
                         } else {
-                            let element = self.insert_an_html_element(token_and_span)?;
+                            let element = self.insert_html_element(token_and_span)?;
 
-                            self.form_element = Some(element);
+                            self.form_element_pointer = Some(element);
                             self.open_elements_stack.pop();
                         }
                     }
@@ -3187,7 +3560,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::Eof => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // Anything else
                     //
@@ -3202,7 +3575,7 @@ where
                         let saved_foster_parenting_state = self.foster_parenting_enabled;
 
                         self.foster_parenting_enabled = true;
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                         self.foster_parenting_enabled = saved_foster_parenting_state;
                     }
                 }
@@ -3230,7 +3603,6 @@ where
                     // Append the character token to the pending table character tokens list.
                     Token::Character { .. } => {
                         self.pending_character_tokens.push(token_and_span);
-                        self.has_non_whitespace_pending_character_token = true;
                     }
                     // Anything else
                     //
@@ -3245,18 +3617,43 @@ where
                     // Switch the insertion mode to the original insertion mode and reprocess the
                     // token.
                     _ => {
-                        if self.has_non_whitespace_pending_character_token {
+                        let mut has_non_ascii_whitespace = false;
+
+                        for character_token in &self.pending_character_tokens {
+                            match character_token.token {
+                                Token::Character { value, .. }
+                                    if !matches!(
+                                        value,
+                                        '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20'
+                                    ) =>
+                                {
+                                    has_non_ascii_whitespace = true;
+
+                                    break;
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        if has_non_ascii_whitespace {
                             self.errors.push(Error::new(
                                 token_and_span.span,
                                 ErrorKind::UnexpectedNullCharacter,
                             ));
 
                             for mut character_token in take(&mut self.pending_character_tokens) {
-                                // TODO fix me
+                                let saved_foster_parenting_state = self.foster_parenting_enabled;
+
+                                self.foster_parenting_enabled = true;
+                                self.process_token_using_rules(
+                                    character_token,
+                                    InsertionMode::InBody,
+                                )?;
+                                self.foster_parenting_enabled = saved_foster_parenting_state;
                             }
                         } else {
                             for mut character_token in take(&mut self.pending_character_tokens) {
-                                self.insert_a_character(character_token)?;
+                                self.insert_character(character_token)?;
                             }
                         }
 
@@ -3419,7 +3816,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     _ => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                 }
             }
@@ -3436,13 +3833,13 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -3455,7 +3852,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "col"
                     //
@@ -3470,7 +3867,7 @@ where
                     } if tag_name == "col" => {
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -3511,15 +3908,15 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::Eof => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // Anything else
                     //
@@ -3556,9 +3953,8 @@ where
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // row".
                     Token::EndTag { tag_name, .. } if tag_name == "tr" => {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_context();
-                        self.insert_an_html_element(token_and_span)?;
+                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InRow;
                     }
                     // A start tag whose tag name is one of: "th", "td"
@@ -3576,9 +3972,8 @@ where
                     {
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_body_context();
-                        self.insert_an_html_element(TokenAndSpan {
+                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.insert_html_element(TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "tr".into(),
@@ -3609,8 +4004,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_body_context();
+                            self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -3629,6 +4023,8 @@ where
                     //
                     // Pop the current node from the stack of open elements. Switch the insertion
                     // mode to "in table".
+                    //
+                    // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
                             tag_name.as_ref(),
@@ -3642,10 +4038,10 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_body_context();
+                            self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
+                            self.process_token(token_and_span, None)?;
                         }
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
@@ -3656,10 +4052,10 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_body_context();
+                            self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
+                            self.process_token(token_and_span, None)?;
                         }
                     }
                     // An end tag whose tag name is one of: "body", "caption", "col", "colgroup",
@@ -3679,7 +4075,7 @@ where
                     //
                     // Process the token using the rules for the "in table" insertion mode.
                     _ => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InTable)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InTable)?;
                     }
                 }
                 // When the steps above require the UA to clear the stack back
@@ -3703,9 +4099,8 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "th" | "td") =>
                     {
-                        self.open_elements_stack
-                            .clear_the_stack_back_to_a_table_row_context();
-                        self.insert_an_html_element(token_and_span)?;
+                        self.open_elements_stack.clear_back_to_table_row_context();
+                        self.insert_html_element(token_and_span)?;
                         self.insertion_mode = InsertionMode::InCell;
                         self.active_formatting_elements.insert_marker();
                     }
@@ -3725,8 +4120,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                         }
@@ -3757,8 +4151,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
@@ -3769,8 +4162,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
@@ -3804,8 +4196,7 @@ where
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
                         } else {
-                            self.open_elements_stack
-                                .clear_the_stack_back_to_a_table_row_context();
+                            self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_span, None)?;
@@ -3828,7 +4219,7 @@ where
                     //
                     // Process the token using the rules for the "in table" insertion mode.
                     _ => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InTable)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InTable)?;
                     }
                 }
                 // When the steps above require the UA to clear the stack back
@@ -3906,8 +4297,8 @@ where
                                 | "tr"
                         ) =>
                     {
-                        if !(self.open_elements_stack.has_in_table_scope("td")
-                            || self.open_elements_stack.has_in_table_scope("th"))
+                        if !self.open_elements_stack.has_in_table_scope("td")
+                            && !self.open_elements_stack.has_in_table_scope("th")
                         {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
@@ -3954,7 +4345,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     _ => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                 }
 
@@ -3987,13 +4378,13 @@ where
                     //
                     // Insert the token's character.
                     Token::Character { .. } => {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4006,7 +4397,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "option"
                     //
@@ -4022,7 +4413,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A start tag whose tag name is "optgroup"
                     //
@@ -4048,7 +4439,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // An end tag whose tag name is "optgroup"
                     //
@@ -4175,16 +4566,16 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "script" | "template") =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::Eof => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // Anything else
                     //
@@ -4261,10 +4652,7 @@ where
                     //
                     // Process the token using the rules for the "in select" insertion mode.
                     _ => {
-                        self.process_token_using_the_rules(
-                            token_and_span,
-                            InsertionMode::InSelect,
-                        )?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InSelect)?;
                     }
                 }
             }
@@ -4278,14 +4666,8 @@ where
                     // A DOCTYPE token
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::Character { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
-                    }
-                    Token::Comment { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
-                    }
-                    Token::Doctype { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                    Token::Character { .. } | Token::Comment { .. } | Token::Doctype { .. } => {
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
                     // "meta", "noframes", "script", "style", "template", "title"
@@ -4308,10 +4690,10 @@ where
                                 | "title"
                         ) =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is one of: "caption", "colgroup", "tbody",
                     // "tfoot", "thead"
@@ -4427,7 +4809,7 @@ where
                     //
                     // Reprocess the token.
                     Token::Eof => {
-                        if !self.open_elements_stack.in_template() {
+                        if !self.open_elements_stack.contains_template_element() {
                             self.stopped = true;
                         } else {
                             self.errors
@@ -4456,7 +4838,7 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A comment token
                     //
@@ -4465,7 +4847,7 @@ where
                     Token::Comment { .. } => {
                         let first_element = self.open_elements_stack.first();
 
-                        self.insert_a_comment(token_and_span, first_element)?;
+                        self.insert_comment(token_and_span, first_element)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4478,7 +4860,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
                     //
@@ -4487,7 +4869,7 @@ where
                     //
                     // Otherwise, switch the insertion mode to "after after body".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
-                        if self.fragment_context {
+                        if self.is_fragment_case {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -4525,13 +4907,13 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4544,13 +4926,13 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "frameset"
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                     }
                     // An end tag whose tag name is "frameset"
                     //
@@ -4569,7 +4951,7 @@ where
                         } else {
                             self.open_elements_stack.pop();
 
-                            if !self.fragment_context {
+                            if !self.is_fragment_case {
                                 match &self.open_elements_stack.current {
                                     Some(Element { tag_name, .. }) if &*tag_name != "frameset" => {
                                         self.insertion_mode = InsertionMode::AfterFrameset;
@@ -4592,10 +4974,11 @@ where
                     } if tag_name == "frame" => {
                         let is_self_closing = *self_closing;
 
-                        self.insert_an_html_element(token_and_span)?;
+                        self.insert_html_element(token_and_span)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
+                            // TODO refactor me
                             self.acknowledge_self_closing = Some(true);
                         }
                     }
@@ -4603,18 +4986,27 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
                     //
                     // If the current node is not the root html element, then this is a parse error.
-                    Token::Eof => match &self.open_elements_stack.current {
-                        Some(Element { tag_name, .. }) if &*tag_name != "html" => {
-                            self.errors
-                                .push(Error::new(token_and_span.span, ErrorKind::Eof));
+                    //
+                    // Note: The current node can only be the root html element in the fragment
+                    // case.
+                    //
+                    // Stop parsing.
+                    Token::Eof => {
+                        match &self.open_elements_stack.current {
+                            Some(Element { tag_name, .. }) if &*tag_name != "html" => {
+                                self.errors
+                                    .push(Error::new(token_and_span.span, ErrorKind::Eof));
+                            }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+
+                        self.stopped = true;
+                    }
                     // Anything else
                     //
                     // Parse error. Ignore the token.
@@ -4637,13 +5029,13 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.insert_a_character(token_and_span)?;
+                        self.insert_character(token_and_span)?;
                     }
                     // A comment token
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_a_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span, None)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4656,7 +5048,7 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
                     //
@@ -4668,7 +5060,7 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
                     //
@@ -4694,7 +5086,7 @@ where
                     //
                     // Insert a comment as the last child of the Document object.
                     Token::Comment { .. } => {
-                        self.insert_a_comment_as_the_last_child_of_the_document(token_and_span)?;
+                        self.insert_comment_as_last_child_of_document(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4706,15 +5098,15 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::Doctype { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
                     //
@@ -4742,7 +5134,7 @@ where
                     //
                     // Insert a comment as the last child of the Document object.
                     Token::Comment { .. } => {
-                        self.insert_a_comment_as_the_last_child_of_the_document(token_and_span)?;
+                        self.insert_comment_as_last_child_of_document(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4754,15 +5146,15 @@ where
                     //
                     // Process the token using the rules for the "in body" insertion mode.
                     Token::Doctype { .. } => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InBody)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
                     //
@@ -4774,7 +5166,7 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
-                        self.process_token_using_the_rules(token_and_span, InsertionMode::InHead)?;
+                        self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
                     }
                     // Anything else
                     //
@@ -4787,7 +5179,7 @@ where
         Ok(())
     }
 
-    fn process_token_using_the_rules(
+    fn process_token_using_rules(
         &mut self,
         token_and_span: TokenAndSpan,
         insertion_mode: InsertionMode,
@@ -4797,26 +5189,51 @@ where
         Ok(())
     }
 
-    fn insert_a_comment(
+    fn insert_comment(
         &mut self,
         token_and_span: TokenAndSpan,
-        position: Option<Node>,
+        position: Option<Element>,
     ) -> PResult<()> {
         Ok(())
     }
 
-    fn insert_a_comment_as_the_last_child_of_the_document(
+    fn insert_comment_as_last_child_of_document(
         &mut self,
         token_and_span: TokenAndSpan,
     ) -> PResult<()> {
         Ok(())
     }
 
-    fn insert_a_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+    fn should_foster_parent_on_insertion(&self) -> bool {
+        let current = self.open_elements_stack.current.as_ref();
+
+        self.foster_parenting_enabled && self.is_element_causes_foster_parenting(current)
+    }
+
+    fn is_element_causes_foster_parenting(&self, element: Option<&Element>) -> bool {
+        false
+    }
+
+    fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+        if self.should_foster_parent_on_insertion() {
+            // ({ parent, beforeElement } =
+            // this._findFosterParentingLocation());
+            //
+            // if (beforeElement) {
+            //     this.treeAdapter.insertTextBefore(parent, token.chars,
+            // beforeElement); } else {
+            //     this.treeAdapter.insertText(parent, token.chars);
+            // }
+        } else {
+            // parent = self.open_elements_stack.currentTmplContentOrNode;
+            //
+            // this.treeAdapter.insertText(parent, token.chars);
+        }
+
         Ok(())
     }
 
-    fn insert_an_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
+    fn insert_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
         let element = match token_and_span.token {
             Token::StartTag {
                 tag_name,
@@ -4874,11 +5291,36 @@ where
 
     fn close_a_p_element(&mut self) {}
 
-    fn close_the_cell(&mut self) {}
+    fn close_the_cell(&mut self) {
+        // Generate implied end tags.
+        self.open_elements_stack.generate_implied_end_tags();
+
+        match &self.open_elements_stack.current {
+            Some(Element { tag_name, .. }) if matches!(tag_name.as_ref(), "td" | "th") => {
+                // TODO error
+            }
+            _ => {}
+        }
+
+        // Pop elements from the stack of open elements stack until a td
+        // element or a th element has been popped from the stack.
+        // TODO fix me for `ht`
+        self.open_elements_stack.pop_until_tag_name_popped("td");
+
+        // Clear the list of active formatting elements up to the last marker.
+        self.active_formatting_elements.clear_to_last_marker();
+
+        // Switch the insertion mode to "in row".
+        self.insertion_mode = InsertionMode::InRow;
+
+        // NOTE: The stack of open elements cannot have both a td and a th
+        // element in table scope at the same time, nor can it have neither
+        // when the close the cell algorithm is invoked.
+    }
 
     fn reset_insertion_mode(&mut self) {}
 
-    fn is_special_element(&mut self) -> bool {
+    fn is_special_element(&self, element: &Element) -> bool {
         false
     }
 }
