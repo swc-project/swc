@@ -1,9 +1,9 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::util::take::Take;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::{pass::mangle_names::rename_map::RenameMap, util::base54};
+use crate::util::base54;
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -64,7 +64,8 @@ impl Scope {
 
     pub(super) fn rename(
         &mut self,
-        to: &mut RenameMap,
+        to: &mut AHashMap<Id, JsWord>,
+        reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) {
@@ -72,6 +73,7 @@ impl Scope {
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
+        let mut cloned_reverse = reverse.clone();
         for (id, cnt) in queue {
             if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
                 continue;
@@ -87,8 +89,9 @@ impl Scope {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, to) {
-                    to.insert(id.clone(), sym);
+                if self.can_rename(&id, &sym, &cloned_reverse) {
+                    to.insert(id.clone(), sym.clone());
+                    cloned_reverse.entry(sym).or_default().push(id.clone());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
@@ -98,7 +101,7 @@ impl Scope {
         }
 
         for child in self.children.iter_mut() {
-            child.rename(to, preserved, preserved_symbols);
+            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
         }
     }
 

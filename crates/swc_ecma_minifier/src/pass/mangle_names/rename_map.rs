@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
