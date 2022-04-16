@@ -64,6 +64,14 @@ impl OpenElementsStack {
         }
     }
 
+    pub fn current_node_is_root_html_element(&mut self) -> bool {
+        false
+    }
+
+    pub fn get_before_current(&mut self) -> Option<Element> {
+        None
+    }
+
     pub fn push(&mut self, node: Element) {}
 
     pub fn pop(&mut self) {}
@@ -1272,16 +1280,20 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        // TODO fix me
-                        if false {
+                        // TODO
+                        if self.open_elements_stack.items.len() == 1
+                        // || self.open_elements_stack.items[1].is_some()
+                        {
+                            // Ignore
+                        } else {
                             if !self.frameset_ok {
                                 // Ignore
                             } else {
-                                // self.openElements.popAllUpToHtmlElement();
+                                // TODO remove the second element
+                                // self.open_elements_stack.pop_all_up_to_html_element();
                                 self.insert_an_html_element(token_and_span)?;
                                 self.insertion_mode = InsertionMode::InFrameset;
                             }
-                        } else {
                         }
                     }
                     // An end-of-file token
@@ -2273,11 +2285,26 @@ where
                     // ask.)
                     Token::StartTag { tag_name, .. } if tag_name == "image" => {
                         let mut new_token_and_span = token_and_span.clone();
-                        if let Token::StartTag { tag_name, .. } = &mut new_token_and_span.token {
-                            // TODO
 
-                            self.process_token(new_token_and_span, None)?;
+                        match &mut new_token_and_span {
+                            TokenAndSpan {
+                                token:
+                                    Token::StartTag {
+                                        tag_name,
+                                        raw_tag_name,
+                                        ..
+                                    },
+                                ..
+                            } => {
+                                *tag_name = "img".into();
+                                *raw_tag_name = Some("img".into());
+                            }
+                            _ => {
+                                unreachable!()
+                            }
                         }
+
+                        self.process_token(new_token_and_span, None)?;
                     }
                     // A start tag whose tag name is "textarea"
                     //
@@ -3132,8 +3159,7 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        // TODO
-                        if false || self.form_element.is_some() {
+                        if self.open_elements_stack.in_template() || self.form_element.is_some() {
                             // Ignore
                         } else {
                             let element = self.insert_an_html_element(token_and_span)?;
@@ -4019,9 +4045,13 @@ where
                     // of open elements. Otherwise, this is a parse error; ignore the token.
                     Token::EndTag { tag_name, .. } if tag_name == "optgroup" => {
                         match &self.open_elements_stack.current {
-                            // TODO
-                            Some(Element { tag_name, .. }) if &*tag_name == "option" && false => {
-                                self.open_elements_stack.pop();
+                            Some(Element { tag_name, .. }) if &*tag_name == "option" => {
+                                match self.open_elements_stack.get_before_current() {
+                                    Some(Element { tag_name, .. }) if &*tag_name == "optgroup" => {
+                                        self.open_elements_stack.pop();
+                                    }
+                                    _ => {}
+                                }
                             }
                             _ => {}
                         }
@@ -4382,19 +4412,19 @@ where
                     //
                     // Reprocess the token.
                     Token::Eof => {
-                        // TODO invalid
-                        if self.template_insertion_mode_stack.is_empty() {
+                        if !self.open_elements_stack.in_template() {
                             self.stopped = true;
                         } else {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped("template");
-                            self.active_formatting_elements.clear_to_last_marker();
-                            self.template_insertion_mode_stack.pop();
-                            self.reset_insertion_mode();
-                            self.process_token(token_and_span, None)?;
                         }
+
+                        self.open_elements_stack
+                            .pop_until_tag_name_popped("template");
+                        self.active_formatting_elements.clear_to_last_marker();
+                        self.template_insertion_mode_stack.pop();
+                        self.reset_insertion_mode();
+                        self.process_token(token_and_span, None)?;
                     }
                 }
             }
@@ -4518,26 +4548,18 @@ where
                     // (fragment case), and the current node is no longer a frameset element, then
                     // switch the insertion mode to "after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "frameset" => {
-                        match &self.open_elements_stack.current {
-                            // TODO is root
-                            Some(Element { tag_name, .. }) if tag_name == "html" => {
-                                self.errors.push(Error::new(
-                                    token_and_span.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-                            _ => {
-                                self.open_elements_stack.pop();
+                        if self.open_elements_stack.current_node_is_root_html_element() {
+                            self.errors
+                                .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
+                        } else {
+                            self.open_elements_stack.pop();
 
-                                if !self.fragment_context {
-                                    match &self.open_elements_stack.current {
-                                        Some(Element { tag_name, .. })
-                                            if &*tag_name != "frameset" =>
-                                        {
-                                            self.insertion_mode = InsertionMode::AfterFrameset;
-                                        }
-                                        _ => {}
+                            if !self.fragment_context {
+                                match &self.open_elements_stack.current {
+                                    Some(Element { tag_name, .. }) if &*tag_name != "frameset" => {
+                                        self.insertion_mode = InsertionMode::AfterFrameset;
                                     }
+                                    _ => {}
                                 }
                             }
                         }
