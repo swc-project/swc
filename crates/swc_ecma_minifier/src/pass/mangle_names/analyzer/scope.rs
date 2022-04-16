@@ -104,6 +104,9 @@ impl Scope {
 
     #[inline(never)]
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
+        // We can optimize this
+        // We only need to check the current scope and parents (ignoring `a` generated
+        // for unrelated scopes)
         if let Some(lefts) = renamed.get_by_right(symbol) {
             for left in lefts {
                 if *left == *id {
