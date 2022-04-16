@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtLike, Value};
+use swc_ecma_utils::{ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -312,14 +312,49 @@ impl Pure<'_> {
                 Ok(stmt) => match stmt {
                     Stmt::If(mut s) => {
                         if let Value::Known(v) = s.test.as_bool().1 {
+                            let mut var_ids = vec![];
                             new.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr: s.test.take(),
                             })));
 
                             if v {
+                                if let Some(alt) = s.alt.take() {
+                                    var_ids.extend(alt.extract_var_ids().into_iter().map(|name| {
+                                        VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(name.into()),
+                                            init: None,
+                                            definite: Default::default(),
+                                        }
+                                    }));
+                                }
+                                if !var_ids.is_empty() {
+                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: Default::default(),
+                                        decls: var_ids,
+                                    }))))
+                                }
                                 new.push(T::from_stmt(*s.cons.take()));
                             } else {
+                                var_ids.extend(s.cons.extract_var_ids().into_iter().map(|name| {
+                                    VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(name.into()),
+                                        init: None,
+                                        definite: Default::default(),
+                                    }
+                                }));
+                                if !var_ids.is_empty() {
+                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: Default::default(),
+                                        decls: var_ids,
+                                    }))))
+                                }
                                 if let Some(alt) = s.alt.take() {
                                     new.push(T::from_stmt(*alt));
                                 }
