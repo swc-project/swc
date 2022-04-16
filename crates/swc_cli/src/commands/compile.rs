@@ -90,7 +90,7 @@ pub struct CompileOptions {
 
     /// Use a specific extension for the output files
     #[clap(long, group = "file_extension")]
-    with_file_extension: Option<String>,
+    out_file_extension: Option<String>,
 
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
@@ -296,7 +296,7 @@ impl CompileOptions {
     }
 
     fn build_extension(&self, options: &Options) -> anyhow::Result<PathBuf> {
-        if self.with_file_extension.is_some() && self.keep_file_extension {
+        if self.out_file_extension.is_some() && self.keep_file_extension {
             anyhow::bail!("--out-file-extension cannot be used with --keep-file-extension");
         };
 
@@ -306,7 +306,7 @@ impl CompileOptions {
                 .ok_or_else(|| anyhow::anyhow!("input file doesn't have an extension"))?
                 .into()
         } else {
-            match &self.with_file_extension {
+            match &self.out_file_extension {
                 Some(extension) => PathBuf::from(extension),
                 None => PathBuf::from("js"),
             }
