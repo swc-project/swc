@@ -73,7 +73,7 @@ impl Scope {
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
         for (id, cnt) in queue {
-            if cnt == 0 || preserved.contains(&id) {
+            if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
                 continue;
             }
 

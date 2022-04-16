@@ -23,6 +23,10 @@ impl RenameMap {
         self.rev.entry(sym).or_default().push(id);
     }
 
+    pub fn get(&self, id: &Id) -> Option<&JsWord> {
+        self.map.get(id)
+    }
+
     pub fn get_by_right(&self, right: &JsWord) -> Option<&[Id]> {
         self.rev.get(right).map(|v| &**v)
     }
