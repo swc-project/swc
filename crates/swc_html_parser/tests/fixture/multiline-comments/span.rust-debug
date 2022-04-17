@@ -41,15 +41,19 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:6:1]
+ 6 | ,-> <!--
+ 7 | |   <p>Look at this cool image:</p>
+ 8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+ 9 | `-> -->
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:6:1]
+ 6 | ,-> <!--
+ 7 | |   <p>Look at this cool image:</p>
+ 8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+ 9 | `-> -->
    `----
 
   x Child

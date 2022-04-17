@@ -41,13 +41,13 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/hidden-comments/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:8:1]
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/hidden-comments/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:8:1]
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

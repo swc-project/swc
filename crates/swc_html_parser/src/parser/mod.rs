@@ -410,16 +410,18 @@ impl OpenElementsStack {
     }
 }
 
-struct FormattingElementList {
+struct ActiveFormattingElementStack {
     items: Vec<Element>,
 }
 
-impl FormattingElementList {
+impl ActiveFormattingElementStack {
     pub fn new() -> Self {
-        FormattingElementList { items: vec![] }
+        ActiveFormattingElementStack { items: vec![] }
     }
 
-    pub fn push(&mut self, node: Element) {}
+    pub fn push(&mut self, element: Element) {
+        self.items.push(element);
+    }
 
     pub fn insert_marker(&mut self) {}
 
@@ -442,7 +444,7 @@ where
     head_element_pointer: Option<Element>,
     form_element_pointer: Option<Element>,
     open_elements_stack: OpenElementsStack,
-    active_formatting_elements: FormattingElementList,
+    active_formatting_elements: ActiveFormattingElementStack,
     pending_character_tokens: Vec<TokenAndSpan>,
     frameset_ok: bool,
     foster_parenting_enabled: bool,
@@ -467,7 +469,7 @@ where
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
-            active_formatting_elements: FormattingElementList::new(),
+            active_formatting_elements: ActiveFormattingElementStack::new(),
             pending_character_tokens: vec![],
             frameset_ok: true,
             foster_parenting_enabled: false,
@@ -594,7 +596,10 @@ where
                     //
                     // Ignore the token.
                     Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
+                    {
+                        return Ok(());
+                    }
                     // A comment token
                     //
                     // Insert a comment as the last child of the Document object.
@@ -686,7 +691,10 @@ where
                     //
                     // Ignore the token.
                     Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
+                    {
+                        return Ok(());
+                    }
                     // A start tag whose tag name is "html"
                     //
                     // Create an element for the token in the HTML namespace, with the Document as
@@ -705,7 +713,7 @@ where
                             namespace: Namespace::HTML,
                             children: vec![],
                             attributes: attributes
-                                .into_iter()
+                                .iter()
                                 .map(|attribute| Attribute {
                                     span: Default::default(),
                                     name: attribute.name.clone(),
@@ -793,7 +801,10 @@ where
                     //
                     // Ignore the token.
                     Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') => {}
+                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
+                    {
+                        return Ok(());
+                    }
                     // A comment token
                     //
                     // Insert a comment.
@@ -1486,28 +1497,26 @@ where
 
                         if self.open_elements_stack.contains_template_element() {
                             // Ignore
-                        } else {
-                            let mut first = self.open_elements_stack.items.first_mut();
+                            return Ok(());
+                        }
 
-                            for attribute in attributes {
-                                let has_attribute = if let Some(element) = &first {
-                                    // TODO
-                                    false
-                                } else {
-                                    false
-                                };
+                        let mut first = self.open_elements_stack.items.first_mut();
 
-                                if !has_attribute {
-                                    match &mut first {
-                                        Some(Element { attributes, .. }) => {
-                                            attributes.push(Attribute {
-                                                span: Default::default(),
-                                                name: attribute.name.clone(),
-                                                value: attribute.value.clone(),
-                                            })
-                                        }
-                                        _ => {}
-                                    }
+                        for attribute in attributes {
+                            let has_attribute = if let Some(_element) = &first {
+                                // TODO
+                                false
+                            } else {
+                                false
+                            };
+
+                            if !has_attribute {
+                                if let Some(Element { attributes, .. }) = &mut first {
+                                    attributes.push(Attribute {
+                                        span: Default::default(),
+                                        name: attribute.name.clone(),
+                                        value: attribute.value.clone(),
+                                    });
                                 }
                             }
                         }
@@ -1558,22 +1567,19 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        let is_second_body = match self.open_elements_stack.items.get(1) {
-                            Some(Element { tag_name, .. }) if tag_name == "body" => true,
-                            _ => false,
-                        };
+                        let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(Element { tag_name, .. }) if tag_name == "body");
 
                         if !is_second_body
                             || self.open_elements_stack.items.len() == 1
                             || self.open_elements_stack.contains_template_element()
                         {
-                            // Ignore
-                        } else {
-                            self.frameset_ok = false;
+                            return Ok(());
+                        }
 
-                            for attribute in attributes {
-                                // TODO fix me
-                            }
+                        self.frameset_ok = false;
+
+                        for _attribute in attributes {
+                            // TODO fix me
                         }
                     }
                     // A start tag whose tag name is "frameset"
@@ -1602,36 +1608,37 @@ where
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
                         let len = self.open_elements_stack.items.len();
-                        let is_second_body = match self.open_elements_stack.items.get(1) {
-                            Some(Element { tag_name, .. }) if tag_name == "body" => true,
-                            _ => false,
-                        };
+                        let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(Element { tag_name, .. }) if tag_name == "body");
 
                         if len == 1 || !is_second_body {
                             // Ignore
-                        } else {
-                            if !self.frameset_ok {
-                                // Ignore
-                            } else {
-                                let body = self.open_elements_stack.items.get(1);
-                                // TODO remove the second element
-                                let parent: Option<Element> = None;
 
-                                if parent.is_some() {
-                                    // $parent->removeChild($body);
-                                }
-
-                                let mut i = len - 1;
-
-                                while i > 0 {
-                                    self.open_elements_stack.pop();
-                                    i -= 1;
-                                }
-
-                                self.insert_html_element(token_and_span)?;
-                                self.insertion_mode = InsertionMode::InFrameset;
-                            }
+                            return Ok(());
                         }
+
+                        if !self.frameset_ok {
+                            // Ignore
+
+                            return Ok(());
+                        }
+
+                        let _body = self.open_elements_stack.items.get(1);
+                        // TODO remove the second element
+                        let parent: Option<Element> = None;
+
+                        if parent.is_some() {
+                            // $parent->removeChild($body);
+                        }
+
+                        let mut i = len - 1;
+
+                        while i > 0 {
+                            self.open_elements_stack.pop();
+                            i -= 1;
+                        }
+
+                        self.insert_html_element(token_and_span)?;
+                        self.insertion_mode = InsertionMode::InFrameset;
                     }
                     // An end-of-file token
                     //
@@ -2310,31 +2317,32 @@ where
                     // If there is no template element on the stack of open elements, then run these
                     // substeps:
                     //
-                    // Let node be the element that the form element pointer is set to, or null if
-                    // it is not set to an element.
+                    // 1. Let node be the element that the form element pointer is set to, or null
+                    // if it is not set to an element.
                     //
-                    // Set the form element pointer to null.
+                    // 2. Set the form element pointer to null.
                     //
-                    // If node is null or if the stack of open elements does not have node in scope,
-                    // then this is a parse error; return and ignore the token.
+                    // 3. If node is null or if the stack of open elements does not have node in
+                    // scope, then this is a parse error; return and ignore the
+                    // token.
                     //
-                    // Generate implied end tags.
+                    // 4. Generate implied end tags.
                     //
-                    // If the current node is not node, then this is a parse error.
+                    // 5. If the current node is not node, then this is a parse error.
                     //
-                    // Remove node from the stack of open elements.
+                    // 6. Remove node from the stack of open elements.
                     //
                     // If there is a template element on the stack of open elements, then run these
                     // substeps instead:
                     //
-                    // If the stack of open elements does not have a form element in scope, then
+                    // 1. If the stack of open elements does not have a form element in scope, then
                     // this is a parse error; return and ignore the token.
                     //
-                    // Generate implied end tags.
+                    // 2, Generate implied end tags.
                     //
-                    // If the current node is not a form element, then this is a parse error.
+                    // 3. If the current node is not a form element, then this is a parse error.
                     //
-                    // Pop elements from the stack of open elements until a form element has been
+                    // 4. Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "form" => {
                         if self.open_elements_stack.contains_template_element() {
@@ -2346,7 +2354,7 @@ where
                                 || !self
                                     .open_elements_stack
                                     .items
-                                    .contains(&node.as_ref().unwrap())
+                                    .contains(node.as_ref().unwrap())
                             {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
@@ -2372,22 +2380,24 @@ where
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
                                 ));
-                            } else {
-                                self.open_elements_stack.generate_implied_end_tags();
 
-                                match &self.open_elements_stack.items.last() {
-                                    Some(Element { tag_name, .. }) if &*tag_name != "form" => {
-                                        self.errors.push(Error::new(
-                                            token_and_span.span,
-                                            ErrorKind::UnexpectedToken,
-                                        ));
-                                    }
-                                    _ => {}
-                                }
-
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&["form"]);
+                                return Ok(());
                             }
+
+                            self.open_elements_stack.generate_implied_end_tags();
+
+                            match &self.open_elements_stack.items.last() {
+                                Some(Element { tag_name, .. }) if &*tag_name != "form" => {
+                                    self.errors.push(Error::new(
+                                        token_and_span.span,
+                                        ErrorKind::UnexpectedToken,
+                                    ));
+                                }
+                                _ => {}
+                            }
+
+                            self.open_elements_stack
+                                .pop_until_tag_name_popped(&["form"]);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3246,7 +3256,7 @@ where
                     // 4. Set node to the previous entry in the stack of open elements.
                     //
                     // 5. Return to the step labeled loop.
-                    Token::EndTag { tag_name, .. } => {
+                    Token::EndTag { tag_name: _, .. } => {
                         for element in &self.open_elements_stack.items {
                             // TODO fix me
                             if false {
@@ -3288,6 +3298,8 @@ where
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
                                 ));
+
+                                return Ok(());
                             }
                         }
                     }
@@ -3704,12 +3716,14 @@ where
 
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
-                        } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["table"]);
-                            self.reset_insertion_mode();
-                            self.process_token(token_and_span, None)?;
+
+                            return Ok(());
                         }
+
+                        self.open_elements_stack
+                            .pop_until_tag_name_popped(&["table"]);
+                        self.reset_insertion_mode();
+                        self.process_token(token_and_span, None)?;
                     }
                     // An end tag whose tag name is "table"
                     //
@@ -3849,12 +3863,13 @@ where
                             || self.form_element_pointer.is_some()
                         {
                             // Ignore
-                        } else {
-                            let element = self.insert_html_element(token_and_span)?;
-
-                            self.form_element_pointer = Some(element);
-                            self.open_elements_stack.pop();
+                            return Ok(());
                         }
+
+                        let element = self.insert_html_element(token_and_span)?;
+
+                        self.form_element_pointer = Some(element);
+                        self.open_elements_stack.pop();
                     }
                     // An end-of-file token
                     //
@@ -4495,6 +4510,8 @@ where
                             ));
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
+
+                            return Ok(());
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
@@ -4834,11 +4851,12 @@ where
 
                         if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
-                        } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["select"]);
-                            self.reset_insertion_mode();
+
+                            return Ok(());
                         }
+                        self.open_elements_stack
+                            .pop_until_tag_name_popped(&["select"]);
+                        self.reset_insertion_mode();
                     }
                     // A start tag whose tag name is one of: "input", "keygen", "textarea"
                     //
@@ -4863,12 +4881,13 @@ where
 
                         if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
-                        } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["select"]);
-                            self.reset_insertion_mode();
-                            self.process_token(token_and_span, None)?;
+                            return Ok(());
                         }
+
+                        self.open_elements_stack
+                            .pop_until_tag_name_popped(&["select"]);
+                        self.reset_insertion_mode();
+                        self.process_token(token_and_span, None)?;
                     }
                     // A start tag whose tag name is one of: "script", "template"
                     //
@@ -4955,12 +4974,13 @@ where
 
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             // Ignore
-                        } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["select"]);
-                            self.reset_insertion_mode();
-                            self.process_token(token_and_span, None)?;
+                            return Ok(());
                         }
+
+                        self.open_elements_stack
+                            .pop_until_tag_name_popped(&["select"]);
+                        self.reset_insertion_mode();
+                        self.process_token(token_and_span, None)?;
                     }
                     // Anything else
                     //
@@ -5529,7 +5549,7 @@ where
         token_and_span
     }
 
-    fn run_the_adoption_agency_algorithm(&mut self, token_and_span: TokenAndSpan) {}
+    fn run_the_adoption_agency_algorithm(&mut self, _token_and_span: TokenAndSpan) {}
 
     fn reconstruct_the_active_formatting_elements(&mut self) -> PResult<()> {
         Ok(())
@@ -5671,17 +5691,14 @@ where
 
                         ancestor = iter.next();
 
-                        match ancestor {
-                            Some(ancestor) => {
-                                if &*ancestor.tag_name == "template" {
-                                    break;
-                                } else if &*ancestor.tag_name == "table" {
-                                    self.insertion_mode = InsertionMode::InSelectInTable;
+                        if let Some(ancestor) = ancestor {
+                            if &*ancestor.tag_name == "template" {
+                                break;
+                            } else if &*ancestor.tag_name == "table" {
+                                self.insertion_mode = InsertionMode::InSelectInTable;
 
-                                    return;
-                                }
+                                return;
                             }
-                            _ => {}
                         }
                     }
                 }
@@ -5911,7 +5928,7 @@ where
     // Gets the appropriate place to insert the node.
     fn get_appropriate_place_for_inserting_node(
         &mut self,
-        override_target: Option<&Child>,
+        _override_target: Option<&Child>,
     ) -> Target<Document, Element> {
         // If there was an override target specified, then let target be the
         // override target. Otherwise, let target be the current node.
@@ -5927,15 +5944,15 @@ where
 
         // NOTE: Foster parenting happens when content is misnested in tables.
         // TODO fix me
-        let adjusted_insertion_cocation = if self.foster_parenting_enabled {
-            target
-        } else {
-            target
-        };
+        // let adjusted_insertion_cocation = if self.foster_parenting_enabled {
+        //     target
+        // } else {
+        //     target
+        // };
 
         // TODO handle document
 
-        adjusted_insertion_cocation
+        target
     }
 
     fn insert_comment(
@@ -5971,7 +5988,7 @@ where
 
     fn insert_comment_as_last_child_of_document(
         &mut self,
-        token_and_span: TokenAndSpan,
+        _token_and_span: TokenAndSpan,
     ) -> PResult<()> {
         Ok(())
     }
@@ -5993,11 +6010,8 @@ where
         // these steps.
         // NOTE: The DOM will not let Document nodes have Text node children, so
         // they are dropped on the floor.
-        match adjusted_insertion_location {
-            Target::Document(_) => {
-                return Ok(());
-            }
-            _ => {}
+        if let Target::Document(_) = adjusted_insertion_location {
+            return Ok(());
         }
 
         // If there is a Text node immediately before the adjusted insertion l
@@ -6108,31 +6122,24 @@ fn create_element_for_token(
 }
 
 fn create_comment_for_token(token: Token, span: Span) -> Comment {
-    let comment = match token {
-        Token::Comment { data } => Comment {
-            span: Default::default(),
-            data,
-        },
+    match token {
+        Token::Comment { data } => Comment { span, data },
         _ => {
             unreachable!()
         }
-    };
-
-    comment
+    }
 }
 
 fn create_text_for_token(token: Token, span: Span) -> Text {
-    let text = match token {
+    match token {
         Token::Character { value, .. } => Text {
-            span: Default::default(),
+            span,
             value: value.to_string().into(),
         },
         _ => {
             unreachable!()
         }
-    };
-
-    text
+    }
 }
 
 // Inserts a node based at a specific location. It follows similar rules to

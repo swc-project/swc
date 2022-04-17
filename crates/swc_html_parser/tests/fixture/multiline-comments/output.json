@@ -33,8 +33,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 0,
-        "end": 0,
+        "start": 59,
+        "end": 150,
         "ctxt": 0
       },
       "data": "\n<p>Look at this cool image:</p>\n<img border=\"0\" src=\"pic_trulli.jpg\" alt=\"Trulli\">\n"
