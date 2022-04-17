@@ -4,7 +4,7 @@
 #
 # Usage:
 #
-#   ./scripts/bench/instrument typescript
+#   ./scripts/instrument/bench.sh typescript
 
 
 export RUST_LOG=off
