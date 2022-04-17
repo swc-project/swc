@@ -306,6 +306,7 @@ impl Pure<'_> {
                             cur_str_value.push_str(&e.cooked.unwrap());
                         } else {
                             let s = JsWord::from(&*cur_str_value);
+                            cur_str_value.clear();
                             new_tpl.quasis.push(TplElement {
                                 span: DUMMY_SP,
                                 tail: false,
