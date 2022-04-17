@@ -65,7 +65,18 @@ Steps to get started:
 
 ## Getting your development environment set up
 
-After cloning the project there are a few steps required to get the project running. 
+### Optional CLI tools
+
+CLI tools below will help development.
+Note that these tools are optional.
+
+-   [fd](https://github.com/sharkdp/fd)
+
+This is used for performant file operations in git hooks.
+
+---
+
+After cloning the project there are a few steps required to get the project running.
 For running all tests, take the following steps:
 
 1. Fetch submodules to pull ECMAScript test suites.
@@ -76,7 +87,7 @@ For running all tests, take the following steps:
 
 2. Install js dependencies.
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
-    
+
     ```bash
     yarn
     ```
@@ -95,7 +106,7 @@ For running all tests, take the following steps:
 
 5. Add wasm32-wasi target
 
-   `rustup target add wasm32-wasi` 
+    `rustup target add wasm32-wasi`
 
 6. Ensure you're using Node.JS >= 16
 
@@ -106,10 +117,12 @@ For running all tests, take the following steps:
     ```bash
     cargo test --all --no-default-features --features swc_v1
     ```
+
     Or
+
     ```bash
-   cargo test --all --no-default-features --features swc_v2 
-   ```
+    cargo test --all --no-default-features --features swc_v2
+    ```
 
 ## Running tests per package
 
