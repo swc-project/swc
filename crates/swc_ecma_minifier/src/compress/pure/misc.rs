@@ -1,6 +1,7 @@
-use std::num::FpCategory;
+use std::{fmt::Write, num::FpCategory};
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
@@ -21,6 +22,184 @@ impl Pure<'_> {
                 self.remove_invalid(e);
             }
         }
+    }
+
+    pub(super) fn compress_array_join(&mut self, e: &mut Expr) {
+        let call = match e {
+            Expr::Call(e) => e,
+            _ => return,
+        };
+
+        let callee = match &mut call.callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(callee) => &mut **callee,
+        };
+
+        let separator = if call.args.is_empty() {
+            ",".into()
+        } else if call.args.len() == 1 {
+            if call.args[0].spread.is_some() {
+                return;
+            }
+
+            if is_pure_undefined(&call.args[0].expr) {
+                ",".into()
+            } else {
+                match &*call.args[0].expr {
+                    Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                    Expr::Lit(Lit::Null(..)) => js_word!("null"),
+                    _ => return,
+                }
+            }
+        } else {
+            return;
+        };
+
+        let arr = match callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(Ident { sym, .. }),
+                ..
+            }) if *sym == *"join" => {
+                if let Expr::Array(arr) = &mut **obj {
+                    arr
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if arr.elems.iter().any(|elem| {
+            matches!(
+                elem,
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    ..
+                })
+            )
+        }) {
+            return;
+        }
+
+        let cannot_join_as_str_lit = arr
+            .elems
+            .iter()
+            .filter_map(|v| v.as_ref())
+            .any(|v| match &*v.expr {
+                e if is_pure_undefined(e) => false,
+                Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
+                _ => true,
+            });
+
+        if cannot_join_as_str_lit {
+            if let Some(new_expr) =
+                self.compress_array_join_as_tpl(arr.span, &mut arr.elems, &separator)
+            {
+                self.changed = true;
+                *e = new_expr;
+                return;
+            }
+
+            if !self.options.unsafe_passes {
+                return;
+            }
+
+            // TODO: Partial join
+
+            if arr
+                .elems
+                .iter()
+                .filter_map(|v| v.as_ref())
+                .any(|v| match &*v.expr {
+                    e if is_pure_undefined(e) => false,
+                    Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
+                    // This can change behavior if the value is `undefined` or `null`.
+                    Expr::Ident(..) => false,
+                    _ => true,
+                })
+            {
+                return;
+            }
+
+            let sep = Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                raw: None,
+                value: separator,
+            })));
+            let mut res = Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                raw: None,
+                value: js_word!(""),
+            }));
+
+            fn add(to: &mut Expr, right: Box<Expr>) {
+                let lhs = to.take();
+                *to = Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(lhs),
+                    op: op!(bin, "+"),
+                    right,
+                });
+            }
+
+            for (last, elem) in arr.elems.take().into_iter().identify_last() {
+                if let Some(ExprOrSpread { spread: None, expr }) = elem {
+                    match &*expr {
+                        e if is_pure_undefined(e) => {}
+                        Expr::Lit(Lit::Null(..)) => {}
+                        _ => {
+                            add(&mut res, expr);
+                        }
+                    }
+                }
+
+                if !last {
+                    add(&mut res, sep.clone());
+                }
+            }
+
+            *e = res;
+
+            return;
+        }
+
+        let mut res = String::new();
+        for (last, elem) in arr.elems.iter().identify_last() {
+            if let Some(elem) = elem {
+                debug_assert_eq!(elem.spread, None);
+
+                match &*elem.expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        res.push_str(&s.value);
+                    }
+                    Expr::Lit(Lit::Num(n)) => {
+                        write!(res, "{}", n.value).unwrap();
+                    }
+                    e if is_pure_undefined(e) => {}
+                    Expr::Lit(Lit::Null(..)) => {}
+                    _ => {
+                        unreachable!(
+                            "Expression {:#?} cannot be joined and it should be filtered out",
+                            elem.expr
+                        )
+                    }
+                }
+            }
+
+            if !last {
+                res.push_str(&separator);
+            }
+        }
+
+        report_change!("Compressing array.join()");
+
+        self.changed = true;
+        *e = Expr::Lit(Lit::Str(Str {
+            span: call.span,
+            raw: None,
+            value: res.into(),
+        }))
     }
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
@@ -78,6 +257,87 @@ impl Pure<'_> {
         } else {
             false
         }
+    }
+
+    fn compress_array_join_as_tpl(
+        &mut self,
+        span: Span,
+        elems: &mut Vec<Option<ExprOrSpread>>,
+        sep: &str,
+    ) -> Option<Expr> {
+        if !self.options.evaluate {
+            return None;
+        }
+
+        if elems.iter().flatten().any(|elem| match &*elem.expr {
+            Expr::Tpl(t) => t.quasis.iter().any(|q| q.cooked.is_none()),
+            Expr::Lit(Lit::Str(..)) => false,
+            _ => true,
+        }) {
+            return None;
+        }
+
+        self.changed = true;
+        report_change!("Compressing array.join() as template literal");
+
+        let mut new_tpl = Tpl {
+            span,
+            quasis: vec![],
+            exprs: vec![],
+        };
+        let mut cur_str_value = String::new();
+        let mut first = true;
+
+        for elem in elems.take().into_iter().flatten() {
+            if first {
+                first = false;
+            } else {
+                cur_str_value.push_str(sep);
+            }
+
+            match *elem.expr {
+                Expr::Tpl(mut tpl) => {
+                    //
+                    for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
+                        if idx % 2 == 0 {
+                            // quasis
+                            let e = tpl.quasis[idx / 2].take();
+
+                            cur_str_value.push_str(&e.cooked.unwrap());
+                        } else {
+                            let s = JsWord::from(&*cur_str_value);
+                            cur_str_value.clear();
+                            new_tpl.quasis.push(TplElement {
+                                span: DUMMY_SP,
+                                tail: false,
+                                cooked: Some(s.clone()),
+                                raw: s,
+                            });
+
+                            let e = tpl.exprs[idx / 2].take();
+
+                            new_tpl.exprs.push(e);
+                        }
+                    }
+                }
+                Expr::Lit(Lit::Str(s)) => {
+                    cur_str_value.push_str(&s.value);
+                }
+                _ => {
+                    unreachable!()
+                }
+            }
+        }
+
+        let s = JsWord::from(&*cur_str_value);
+        new_tpl.quasis.push(TplElement {
+            span: DUMMY_SP,
+            tail: false,
+            cooked: Some(s.clone()),
+            raw: s,
+        });
+
+        Some(Expr::Tpl(new_tpl))
     }
 
     /// Returns true if something is modified.
