@@ -5945,6 +5945,8 @@ where
         token_and_span: TokenAndSpan,
         position: Option<&mut Element>,
     ) -> PResult<()> {
+        let last_pos = self.input.last_pos()?;
+
         // Let data be the data given in the comment token being processed.
         // If position was specified, then let the adjusted insertion location
         // be position. Otherwise, let adjusted insertion location be the
@@ -5957,11 +5959,16 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let node = create_node(token_and_span, None)?;
+        let node = create_comment_for_token(
+            token_and_span.token,
+            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        );
 
         // Insert the newly created node at the adjusted insertion location.
         // self.insert_node(&node, adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(node.clone());
+        adjusted_insertion_location
+            .children
+            .push(Node::Comment(node));
 
         Ok(())
     }
@@ -5976,6 +5983,8 @@ where
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
     fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+        let last_pos = self.input.last_pos()?;
+
         // Let data be the characters passed to the algorithm, or, if no
         // characters were explicitly specified, the character of the character
         // token being processed.
@@ -5990,7 +5999,7 @@ where
         // same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted
         // insertion location.
-        let node = create_node(token_and_span, None)?;
+        // TODO fix me
 
         // If the adjusted insertion location is in a Document node, then abort
         // these steps.
@@ -6003,8 +6012,13 @@ where
             _ => {}
         }
 
+        let node = create_text_for_token(
+            token_and_span.token,
+            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        );
+
         // self.insert_node(&node, &mut adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(node.clone());
+        adjusted_insertion_location.children.push(Node::Text(node));
 
         Ok(())
     }
@@ -6018,6 +6032,8 @@ where
         token_and_span: TokenAndSpan,
         namespace: Namespace,
     ) -> PResult<Element> {
+        let last_pos = self.input.last_pos()?;
+
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
         let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
@@ -6025,14 +6041,12 @@ where
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
-        let node = create_node(token_and_span, Some(namespace))?;
 
-        let element = match &node {
-            Node::Element(element) => element.clone(),
-            _ => {
-                unreachable!()
-            }
-        };
+        let element = create_element_for_token(
+            token_and_span.token,
+            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+            Some(namespace),
+        )?;
 
         // If it is possible to insert an element at the adjusted insertion
         // location, then insert the newly created element at the adjusted
@@ -6043,7 +6057,9 @@ where
         // floor.
         // self.insert_node(&node.clone(), adjusted_insertion_location)?;
 
-        adjusted_insertion_location.children.push(node);
+        adjusted_insertion_location
+            .children
+            .push(Node::Element(element.clone()));
 
         // Push the element onto the stack of open elements so that it is the
         // new current node.
@@ -6054,10 +6070,12 @@ where
     }
 }
 
-fn create_node(token_and_span: TokenAndSpan, namespace: Option<Namespace>) -> PResult<Node> {
-    // TODO span
-    let TokenAndSpan { span, token } = token_and_span;
-    let node = match token {
+fn create_element_for_token(
+    token: Token,
+    span: Span,
+    namespace: Option<Namespace>,
+) -> PResult<Element> {
+    let element = match token {
         Token::StartTag {
             tag_name,
             attributes,
@@ -6068,8 +6086,8 @@ fn create_node(token_and_span: TokenAndSpan, namespace: Option<Namespace>) -> PR
             attributes,
             ..
         } => {
-            Node::Element(Element {
-                span: Default::default(),
+            Element {
+                span,
                 tag_name,
                 namespace: namespace.unwrap(),
                 // TODO span
@@ -6082,20 +6100,40 @@ fn create_node(token_and_span: TokenAndSpan, namespace: Option<Namespace>) -> PR
                     })
                     .collect(),
                 children: vec![],
-            })
+            }
         }
-        Token::Comment { data } => Node::Comment(Comment {
-            span: Default::default(),
-            data,
-        }),
-        Token::Character { value, .. } => Node::Text(Text {
-            span: Default::default(),
-            value: value.to_string().into(),
-        }),
         _ => {
             unreachable!()
         }
     };
 
-    Ok(node)
+    Ok(element)
+}
+
+fn create_comment_for_token(token: Token, span: Span) -> Comment {
+    let comment = match token {
+        Token::Comment { data } => Comment {
+            span: Default::default(),
+            data,
+        },
+        _ => {
+            unreachable!()
+        }
+    };
+
+    comment
+}
+
+fn create_text_for_token(token: Token, span: Span) -> Text {
+    let text = match token {
+        Token::Character { value, .. } => Text {
+            span: Default::default(),
+            value: value.to_string().into(),
+        },
+        _ => {
+            unreachable!()
+        }
+    };
+
+    text
 }
