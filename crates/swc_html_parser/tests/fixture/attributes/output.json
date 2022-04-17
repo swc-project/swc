@@ -5,534 +5,75 @@
     "end": 271,
     "ctxt": 0
   },
+  "mode": "no-quirks",
   "children": [
     {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
         "start": 0,
-        "end": 75,
+        "end": 0,
         "ctxt": 0
       },
-      "token": {
-        "StartTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "0",
-              "raw_name": "0",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "1",
-              "raw_name": "1",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "2",
-              "raw_name": "2",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "3",
-              "raw_name": "3",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "4",
-              "raw_name": "4",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "5",
-              "raw_name": "5",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "6",
-              "raw_name": "6",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "7",
-              "raw_name": "7",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "8",
-              "raw_name": "8",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "9",
-              "raw_name": "9",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "a",
-              "raw_name": "a",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "b",
-              "raw_name": "b",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "c",
-              "raw_name": "c",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "d",
-              "raw_name": "d",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "e",
-              "raw_name": "e",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "f",
-              "raw_name": "f",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "g",
-              "raw_name": "g",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "h",
-              "raw_name": "h",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "i",
-              "raw_name": "i",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "j",
-              "raw_name": "j",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "k",
-              "raw_name": "k",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "l",
-              "raw_name": "l",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "m",
-              "raw_name": "m",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "n",
-              "raw_name": "n",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "o",
-              "raw_name": "o",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "p",
-              "raw_name": "p",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "q",
-              "raw_name": "q",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "r",
-              "raw_name": "r",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "s",
-              "raw_name": "s",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "t",
-              "raw_name": "t",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "u",
-              "raw_name": "u",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "v",
-              "raw_name": "v",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "w",
-              "raw_name": "w",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "x",
-              "raw_name": "x",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "y",
-              "raw_name": "y",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": "z",
-              "raw_name": "z",
-              "value": null,
-              "raw_value": null
-            }
-          ]
-        }
-      }
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": []
     },
     {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 75,
-        "end": 79,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 79,
-        "end": 80,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 80,
-        "end": 123,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "p",
-          "raw_tag_name": "p",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "title",
-              "raw_name": "title",
-              "value": " <![CDATA[ \\n\\n foobar baz ]]> ",
-              "raw_value": "\" <![CDATA[ \\n\\n foobar baz ]]> \""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 123,
-        "end": 124,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "x",
-          "raw": "x"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 124,
-        "end": 128,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "p",
-          "raw_tag_name": "p",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 128,
-        "end": 129,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
         "start": 129,
         "end": 163,
         "ctxt": 0
       },
-      "token": {
-        "StartTag": {
-          "tag_name": "p",
-          "raw_tag_name": "p",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "title",
-              "raw_name": "title",
-              "value": " <!-- hello world --> ",
-              "raw_value": "\" <!-- hello world --> \""
-            }
-          ]
+      "tagName": "p",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "name": "title",
+          "value": " <!-- hello world --> "
         }
-      }
+      ],
+      "children": []
     },
     {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 163,
-        "end": 164,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "x",
-          "raw": "x"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 164,
-        "end": 168,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "p",
-          "raw_tag_name": "p",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 168,
-        "end": 169,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
         "start": 169,
         "end": 208,
         "ctxt": 0
       },
-      "token": {
-        "StartTag": {
-          "tag_name": "tag",
-          "raw_tag_name": "tag",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "v-ref:vm_pv",
-              "raw_name": "v-ref:vm_pv",
-              "value": null,
-              "raw_value": null
-            },
-            {
-              "name": ":imgs",
-              "raw_name": ":imgs",
-              "value": " objpicsurl_ ",
-              "raw_value": "\" objpicsurl_ \""
-            }
-          ]
+      "tagName": "tag",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "name": "v-ref:vm_pv",
+          "value": null
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "name": ":imgs",
+          "value": " objpicsurl_ "
         }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 208,
-        "end": 214,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "tag",
-          "raw_tag_name": "tag",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 214,
-        "end": 215,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 215,
-        "end": 250,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "a",
-              "raw_name": "a",
-              "value": "\\u00A0",
-              "raw_value": "\\u00A0"
-            },
-            {
-              "name": "b",
-              "raw_name": "b",
-              "value": " ",
-              "raw_value": "\" \""
-            },
-            {
-              "name": "c",
-              "raw_name": "c",
-              "value": "\\u00A0",
-              "raw_value": "\"\\u00A0\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 250,
-        "end": 251,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 251,
-        "end": 271,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "img",
-          "raw_tag_name": "img",
-          "self_closing": true,
-          "attributes": [
-            {
-              "name": "src",
-              "raw_name": "src",
-              "value": "test",
-              "raw_value": "\"test\""
-            }
-          ]
-        }
-      }
+      ],
+      "children": []
     }
   ]
 }

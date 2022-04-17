@@ -8,7 +8,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 pub struct Document {
     pub span: Span,
     pub mode: DocumentMode,
-    pub children: Vec<Node>,
+    pub children: Vec<Child>,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -23,7 +23,7 @@ pub enum DocumentMode {
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-pub enum Node {
+pub enum Child {
     #[tag("DocumentType")]
     DocumentType(DocumentType),
     #[tag("Element")]
@@ -66,7 +66,7 @@ pub struct Element {
     pub tag_name: JsWord,
     pub namespace: Namespace,
     pub attributes: Vec<Attribute>,
-    pub children: Vec<Node>,
+    pub children: Vec<Child>,
 }
 
 #[ast_node("Attribute")]

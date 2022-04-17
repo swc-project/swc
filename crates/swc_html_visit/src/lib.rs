@@ -3,7 +3,7 @@
 
 use swc_atoms::JsWord;
 use swc_common::Span;
-use swc_html_ast::{Node as AstNode, *};
+use swc_html_ast::*;
 use swc_visit::define;
 
 /// Visitable nodes.
@@ -13,7 +13,7 @@ define!({
     pub struct Document {
         pub span: Span,
         pub mode: DocumentMode,
-        pub children: Vec<AstNode>,
+        pub children: Vec<Child>,
     }
 
     pub enum DocumentMode {
@@ -22,7 +22,7 @@ define!({
         Quirks,
     }
 
-    pub enum AstNode {
+    pub enum Child {
         DocumentType(DocumentType),
         Element(Element),
         Text(Text),
@@ -50,7 +50,7 @@ define!({
         pub tag_name: JsWord,
         pub namespace: Namespace,
         pub attributes: Vec<Attribute>,
-        pub children: Vec<AstNode>,
+        pub children: Vec<Child>,
     }
 
     pub struct Attribute {

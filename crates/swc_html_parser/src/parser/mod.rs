@@ -53,6 +53,11 @@ impl Default for InsertionMode {
     }
 }
 
+enum Target<'a, T, U> {
+    Document(&'a mut T),
+    Element(&'a mut U),
+}
+
 struct OpenElementsStack {
     items: Vec<Element>,
     template_element_count: usize,
@@ -621,7 +626,7 @@ where
 
                         // TODO fix me and handle
 
-                        let document_type = Node::DocumentType(DocumentType {
+                        let document_type = Child::DocumentType(DocumentType {
                             span: span!(self, token_and_span.span.lo),
                             name: name.clone(),
                             public_id: public_id.clone(),
@@ -710,7 +715,7 @@ where
                         };
 
                         if let Some(document) = &mut self.document {
-                            document.children.push(Node::Element(element.clone()));
+                            document.children.push(Child::Element(element.clone()));
                         }
 
                         self.open_elements_stack.push(element);
@@ -731,7 +736,7 @@ where
                         };
 
                         if let Some(document) = &mut self.document {
-                            document.children.push(Node::Element(element.clone()));
+                            document.children.push(Child::Element(element.clone()));
                         }
 
                         self.open_elements_stack.push(element);
@@ -763,7 +768,7 @@ where
                         };
 
                         if let Some(document) = &mut self.document {
-                            document.children.push(Node::Element(element.clone()));
+                            document.children.push(Child::Element(element.clone()));
                         }
 
                         self.open_elements_stack.push(element);
@@ -5906,16 +5911,18 @@ where
     // Gets the appropriate place to insert the node.
     fn get_appropriate_place_for_inserting_node(
         &mut self,
-        override_target: Option<&Element>,
-    ) -> &mut Element {
+        override_target: Option<&Child>,
+    ) -> Target<Document, Element> {
         // If there was an override target specified, then let target be the
         // override target. Otherwise, let target be the current node.
-        // TODO fix me
         let target = match self.open_elements_stack.items.last_mut() {
-            Some(element) => element,
-            None => {
-                unreachable!()
-            }
+            Some(element) => Target::Element(element),
+            _ => match &mut self.document {
+                Some(document) => Target::Document(document),
+                _ => {
+                    unreachable!();
+                }
+            },
         };
 
         // NOTE: Foster parenting happens when content is misnested in tables.
@@ -5931,45 +5938,36 @@ where
         adjusted_insertion_cocation
     }
 
-    // Inserts a node based at a specific location. It follows similar rules to
-    // Element's insertAdjacentHTML method.
-    fn insert_node(&self, node: &Node, position: &mut Element) -> PResult<()> {
-        // TODO fix me
-        position.children.push(node.clone());
-
-        Ok(())
-    }
-
     fn insert_comment(
         &mut self,
         token_and_span: TokenAndSpan,
         position: Option<&mut Element>,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-
-        // Let data be the data given in the comment token being processed.
-        // If position was specified, then let the adjusted insertion location
-        // be position. Otherwise, let adjusted insertion location be the
-        // appropriate place for inserting a node.
-        let adjusted_insertion_location = match position {
-            Some(node) => node,
-            None => self.get_appropriate_place_for_inserting_node(None),
-        };
-
-        // Create a Comment node whose data attribute is set to data and whose
-        // node document is the same as that of the node in which the adjusted
-        // insertion location finds itself.
-        let node = create_comment_for_token(
-            token_and_span.token,
-            Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        );
-
-        // Insert the newly created node at the adjusted insertion location.
-        // self.insert_node(&node, adjusted_insertion_location)?;
-        adjusted_insertion_location
-            .children
-            .push(Node::Comment(node));
-
+        // let last_pos = self.input.last_pos()?;
+        //
+        // // Let data be the data given in the comment token being processed.
+        // // If position was specified, then let the adjusted insertion location
+        // // be position. Otherwise, let adjusted insertion location be the
+        // // appropriate place for inserting a node.
+        // let adjusted_insertion_location = match position {
+        //     Some(node) => node,
+        //     None => self.get_appropriate_place_for_inserting_node(None),
+        // };
+        //
+        // // Create a Comment node whose data attribute is set to data and whose
+        // // node document is the same as that of the node in which the adjusted
+        // // insertion location finds itself.
+        // let node = create_comment_for_token(
+        //     token_and_span.token,
+        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        // );
+        //
+        // // Insert the newly created node at the adjusted insertion location.
+        // // self.insert_node(&node, adjusted_insertion_location)?;
+        // adjusted_insertion_location
+        //     .children
+        //     .push(Child::Comment(node));
+        //
         Ok(())
     }
 
@@ -5983,43 +5981,44 @@ where
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
     fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-
-        // Let data be the characters passed to the algorithm, or, if no
-        // characters were explicitly specified, the character of the character
-        // token being processed.
-
-        // Let the adjusted insertion location be the appropriate place for
-        // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
-
-        // If there is a Text node immediately before the adjusted insertion l
-        // ocation, then append data to that Text node's data. Otherwise, create
-        // a new Text node whose data is data and whose node document is the
-        // same as that of the element in which the adjusted insertion location
-        // finds itself, and insert the newly created node at the adjusted
-        // insertion location.
-        // TODO fix me
-
-        // If the adjusted insertion location is in a Document node, then abort
-        // these steps.
-        // NOTE: The DOM will not let Document nodes have Text node children, so
-        // they are dropped on the floor.
-        match adjusted_insertion_location {
-            Element { tag_name, .. } if tag_name == "html" => {
-                return Ok(());
-            }
-            _ => {}
-        }
-
-        let node = create_text_for_token(
-            token_and_span.token,
-            Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        );
-
-        // self.insert_node(&node, &mut adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(Node::Text(node));
-
+        // let last_pos = self.input.last_pos()?;
+        //
+        // // Let data be the characters passed to the algorithm, or, if no
+        // // characters were explicitly specified, the character of the character
+        // // token being processed.
+        //
+        // // Let the adjusted insertion location be the appropriate place for
+        // // inserting a node.
+        // let adjusted_insertion_location =
+        // self.get_appropriate_place_for_inserting_node(None);
+        //
+        // // If there is a Text node immediately before the adjusted insertion l
+        // // ocation, then append data to that Text node's data. Otherwise, create
+        // // a new Text node whose data is data and whose node document is the
+        // // same as that of the element in which the adjusted insertion location
+        // // finds itself, and insert the newly created node at the adjusted
+        // // insertion location.
+        // // TODO fix me
+        //
+        // // If the adjusted insertion location is in a Document node, then abort
+        // // these steps.
+        // // NOTE: The DOM will not let Document nodes have Text node children, so
+        // // they are dropped on the floor.
+        // match adjusted_insertion_location {
+        //     Element { tag_name, .. } if tag_name == "html" => {
+        //         return Ok(());
+        //     }
+        //     _ => {}
+        // }
+        //
+        // let node = create_text_for_token(
+        //     token_and_span.token,
+        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        // );
+        //
+        // // self.insert_node(&node, &mut adjusted_insertion_location)?;
+        // adjusted_insertion_location.children.push(Child::Text(node));
+        //
         Ok(())
     }
 
@@ -6036,12 +6035,12 @@ where
 
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        let adjusted_insertion_location: Target<Document, Element> =
+            self.get_appropriate_place_for_inserting_node(None);
 
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
-
         let element = create_element_for_token(
             token_and_span.token,
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
@@ -6055,18 +6054,20 @@ where
         // elements, e.g. because it's a Document that already has an
         // element child, then the newly created element is dropped on the
         // floor.
-        // self.insert_node(&node.clone(), adjusted_insertion_location)?;
-
-        adjusted_insertion_location
-            .children
-            .push(Node::Element(element.clone()));
+        let cloned_element = element.clone();
+        let node = insert_node(Child::Element(element), adjusted_insertion_location);
 
         // Push the element onto the stack of open elements so that it is the
         // new current node.
-        self.open_elements_stack.push(element.clone());
+        self.open_elements_stack.push(cloned_element);
 
         // Return the newly created element.
-        Ok(element)
+        match node {
+            Child::Element(element) => Ok(element),
+            _ => {
+                unreachable!()
+            }
+        }
     }
 }
 
@@ -6136,4 +6137,20 @@ fn create_text_for_token(token: Token, span: Span) -> Text {
     };
 
     text
+}
+
+// Inserts a node based at a specific location. It follows similar rules to
+// Element's insertAdjacentHTML method.
+fn insert_node(node: Child, position: Target<Document, Element>) -> Child {
+    // TODO fix me
+    match position {
+        Target::Document(document) => {
+            document.children.push(node.clone());
+        }
+        Target::Element(element) => {
+            element.children.push(node.clone());
+        }
+    };
+
+    node
 }

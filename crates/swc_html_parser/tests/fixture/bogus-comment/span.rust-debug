@@ -5,8 +5,14 @@
    : ^^^^^^^^^
    `----
 
-  x Comment { data: Atom(' test' type=inline) }
+  x Child
    ,-[$DIR/tests/fixture/bogus-comment/input.html:1:1]
  1 | <!-- test
-   : ^^^^^^^^^
+   : ^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/bogus-comment/input.html:1:1]
+ 1 | <!-- test
+   : ^
    `----

@@ -8,59 +8,32 @@
  5 | `-> </script>
    `----
 
-  x StartTag { tag_name: Atom('script' type=inline), raw_tag_name: Some(Atom('script' type=inline)), self_closing: false, attributes: [AttributeToken { name: Atom('type' type=static), raw_name:
-  | Some(Atom('type' type=static)), value: Some(Atom('text/javascript' type=dynamic)), raw_value: Some(Atom('"text/javascript"' type=dynamic)) }] }
+  x Child
    ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
  1 | <script type="text/javascript">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
- 1 | <script type="text/javascript">
-   :                                ^
- 2 | //<![CDATA[
-   `----
-
-  x Character { value: '/', raw: Some(Atom('/' type=inline)) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
- 2 | //<![CDATA[
    : ^
    `----
 
-  x Character { value: '/', raw: Some(Atom('/' type=inline)) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
- 2 | //<![CDATA[
-   :  ^
+  x Element
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | <script type="text/javascript">
+   : ^
    `----
 
-  x Comment { data: Atom('[CDATA[
-  | document.write("<");
-  | //]]' type=dynamic) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
- 2 | ,-> //<![CDATA[
+  x Child
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | ,-> <script type="text/javascript">
+ 2 | |   //<![CDATA[
  3 | |   document.write("<");
- 4 | `-> //]]>
+ 4 | |   //]]>
+ 5 | `-> </script>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:4:1]
- 4 | //]]>
-   :      ^
- 5 | </script>
-   `----
-
-  x EndTag { tag_name: Atom('script' type=inline), raw_tag_name: Some(Atom('script' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
- 5 | </script>
-   : ^^^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
- 5 | </script>
-   :          ^
+  x Element
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | ,-> <script type="text/javascript">
+ 2 | |   //<![CDATA[
+ 3 | |   document.write("<");
+ 4 | |   //]]>
+ 5 | `-> </script>
    `----

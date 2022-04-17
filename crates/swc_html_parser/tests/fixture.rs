@@ -77,6 +77,18 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(Document, visit_document);
 
+    mtd!(Child, visit_child);
+
+    mtd!(DocumentType, visit_document_type);
+
+    mtd!(Element, visit_element);
+
+    mtd!(Attribute, visit_attribute);
+
+    mtd!(Text, visit_text);
+
+    mtd!(Comment, visit_comment);
+
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))

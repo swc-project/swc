@@ -5,5 +5,19 @@
     "end": 0,
     "ctxt": 0
   },
-  "children": []
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 0,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": []
+    }
+  ]
 }

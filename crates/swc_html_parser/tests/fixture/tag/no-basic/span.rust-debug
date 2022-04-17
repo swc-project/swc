@@ -6,223 +6,26 @@
  3 | `-> <p>Qed.
    `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, raw_public_keyword: None,
-  | public_quote: None, public_id: None, raw_system_keyword: None, system_quote: None, system_id: None }
+  x Child
    ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x DocumentType
    ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
  1 | <!DOCTYPE html>
-   :                ^
- 2 | <title>Saving money, saving bytes</title>
+   : ^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   : ^^^^^^^
+  x Child
+   ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
    `----
 
-  x Character { value: 'S', raw: Some(Atom('S' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :        ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :         ^
-   `----
-
-  x Character { value: 'v', raw: Some(Atom('v' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :          ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :           ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :            ^
-   `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :             ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :              ^
-   `----
-
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :               ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                 ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                  ^
-   `----
-
-  x Character { value: 'y', raw: Some(Atom('y' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                   ^
-   `----
-
-  x Character { value: ',', raw: Some(Atom(',' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                    ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                     ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                      ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                       ^
-   `----
-
-  x Character { value: 'v', raw: Some(Atom('v' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                        ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                         ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                          ^
-   `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                           ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                            ^
-   `----
-
-  x Character { value: 'b', raw: Some(Atom('b' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                             ^
-   `----
-
-  x Character { value: 'y', raw: Some(Atom('y' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                              ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                               ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                                ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                                 ^
-   `----
-
-  x EndTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                                  ^^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:2:1]
- 2 | <title>Saving money, saving bytes</title>
-   :                                          ^
- 3 | <p>Qed.
-   `----
-
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:3:1]
- 3 | <p>Qed.
-   : ^^^
-   `----
-
-  x Character { value: 'Q', raw: Some(Atom('Q' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:3:1]
- 3 | <p>Qed.
-   :    ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:3:1]
- 3 | <p>Qed.
-   :     ^
-   `----
-
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:3:1]
- 3 | <p>Qed.
-   :      ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/tag/no-basic/input.html:3:1]
- 3 | <p>Qed.
-   :       ^
+  x Element
+   ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
    `----
