@@ -583,7 +583,7 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
 /// Evaluation of strings.
 impl Pure<'_> {
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
-        if !self.options.evaluate || !self.options.unsafe_passes {
+        if !self.options.evaluate {
             return;
         }
 
