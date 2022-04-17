@@ -1,7 +1,7 @@
 use std::{fmt::Write, num::FpCategory};
 
-use swc_atoms::js_word;
-use swc_common::{iter::IdentifyLast, util::take::Take, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
@@ -82,12 +82,6 @@ impl Pure<'_> {
             return;
         }
 
-        if let Some(new_expr) = self.compress_array_join_as_tpl(&mut arr.elems, &separator) {
-            self.changed = true;
-            *e = new_expr;
-            return;
-        }
-
         let cannot_join_as_str_lit = arr
             .elems
             .iter()
@@ -99,6 +93,14 @@ impl Pure<'_> {
             });
 
         if cannot_join_as_str_lit {
+            if let Some(new_expr) =
+                self.compress_array_join_as_tpl(arr.span, &mut arr.elems, &separator)
+            {
+                self.changed = true;
+                *e = new_expr;
+                return;
+            }
+
             if !self.options.unsafe_passes {
                 return;
             }
@@ -259,22 +261,74 @@ impl Pure<'_> {
 
     fn compress_array_join_as_tpl(
         &mut self,
+        span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
         sep: &str,
     ) -> Option<Expr> {
-        if elems.iter().flatten().any(|elem| {
-            !matches!(
-                &*elem.expr,
-                Expr::Tpl(Tpl {
-                    value: Some(..),
-                    ..
-                }) | Expr::Lit(Lit::Str(..))
-            )
+        if !self.options.evaluate {
+            return None;
+        }
+
+        if elems.iter().flatten().any(|elem| match &*elem.expr {
+            Expr::Tpl(t) => t.quasis.iter().any(|q| q.cooked.is_none()),
+            Expr::Lit(Lit::Str(..)) => false,
+            _ => true,
         }) {
             return None;
         }
 
-        None
+        self.changed = true;
+        report_change!("Compressing array.join() as template literal");
+
+        let mut new_tpl = Tpl {
+            span,
+            quasis: vec![],
+            exprs: vec![],
+        };
+        let mut cur_str_value = String::new();
+        let mut first = true;
+
+        for elem in elems.take().into_iter().flatten() {
+            if first {
+                first = false;
+            } else {
+                cur_str_value.push_str(sep);
+            }
+
+            match *elem.expr {
+                Expr::Tpl(mut tpl) => {
+                    //
+                    for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
+                        if idx % 2 == 0 {
+                            // quasis
+                            let e = tpl.quasis[idx / 2].take();
+
+                            cur_str_value.push_str(&e.cooked.unwrap());
+                        } else {
+                            let s = JsWord::from(&*cur_str_value);
+                            new_tpl.quasis.push(TplElement {
+                                span: DUMMY_SP,
+                                tail: false,
+                                cooked: Some(s.clone()),
+                                raw: s,
+                            });
+
+                            let e = tpl.exprs[idx / 2].take();
+
+                            new_tpl.exprs.push(e);
+                        }
+                    }
+                }
+                Expr::Lit(Lit::Str(s)) => {
+                    cur_str_value.push_str(&s.value);
+                }
+                _ => {
+                    unreachable!()
+                }
+            }
+        }
+
+        Some(Expr::Tpl(new_tpl))
     }
 
     /// Returns true if something is modified.
