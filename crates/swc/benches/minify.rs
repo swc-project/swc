@@ -57,7 +57,7 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
 }
 
 fn files_group(c: &mut Criterion) {
-    let mut group = c.benchmark_group("libraries");
+    let mut group = c.benchmark_group("es/full/minify/libraries");
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {

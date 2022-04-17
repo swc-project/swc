@@ -19,12 +19,12 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 }
 
 fn bench_files(c: &mut Criterion) {
-    c.bench_function("colors", |b| {
+    c.bench_function("es/lexer/colors", |b| {
         // Copied from ratel-rust
         bench_module(b, Default::default(), include_str!("../colors.js"))
     });
 
-    c.bench_function("angular", |b| {
+    c.bench_function("es/lexer/angular", |b| {
         bench_module(
             b,
             Default::default(),
@@ -32,7 +32,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("backbone", |b| {
+    c.bench_function("es/lexer/backbone", |b| {
         bench_module(
             b,
             Default::default(),
@@ -40,7 +40,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("jquery", |b| {
+    c.bench_function("es/lexer/jquery", |b| {
         bench_module(
             b,
             Default::default(),
@@ -48,14 +48,14 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("jquery mobile", |b| {
+    c.bench_function("es/lexer/jquery mobile", |b| {
         bench_module(
             b,
             Default::default(),
             include_str!("./files/jquery.mobile-1.4.2.js"),
         )
     });
-    c.bench_function("mootools", |b| {
+    c.bench_function("es/lexer/mootools", |b| {
         bench_module(
             b,
             Default::default(),
@@ -63,7 +63,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("underscore", |b| {
+    c.bench_function("es/lexer/underscore", |b| {
         bench_module(
             b,
             Default::default(),
@@ -71,7 +71,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("three", |b| {
+    c.bench_function("es/lexer/three", |b| {
         bench_module(
             b,
             Default::default(),
@@ -79,7 +79,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("yui", |b| {
+    c.bench_function("es/lexer/yui", |b| {
         bench_module(b, Default::default(), include_str!("./files/yui-3.12.0.js"))
     });
 }

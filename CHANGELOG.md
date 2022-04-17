@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(es)** Rename benchmarks (#4355) ([8309440](https://github.com/swc-project/swc/commit/83094400080bef161b4b106aa3840efc7f2dfecd))
+
+## [1.2.168] - 2022-04-17
+
 ### Bug Fixes
 
 
@@ -9,6 +17,12 @@
 
 
 - **(es/minifier)** Preserve vars in dead branches (#4345) ([5a5e41a](https://github.com/swc-project/swc/commit/5a5e41aaaa3791f76de9c73aa29c714fa097c773))
+
+### Features
+
+
+
+- **(es/minifier)** `const` => `let` (#3654) ([b3b95ac](https://github.com/swc-project/swc/commit/b3b95acc75f765af433b0c7f887821403561378f))
 
 ### Miscellaneous Tasks
 
@@ -19,8 +33,14 @@
 
 - **(es/minifier)** Improve scripts (#4339) ([2563c7f](https://github.com/swc-project/swc/commit/2563c7f8ff5bb86131f642b6cca948955d795820))
 
+
+- **(repo)** Make git commit faster (#4353) ([f7df3d8](https://github.com/swc-project/swc/commit/f7df3d8f24a0571b1766e6187d2305fdf566b08a))- **general**: Fix CI script ([a953455](https://github.com/swc-project/swc/commit/a953455ada2604c65493db7a04dcfbdd2ef5ca78))
+
 ### Performance
 
+
+
+- **(es)** Disable wrong parallelization (#4354) ([da6fa60](https://github.com/swc-project/swc/commit/da6fa602310c0a56825723d83585fb258b88c931))
 
 
 - **(es/minifier)** Split frequently used functions (#4352) ([42e15ae](https://github.com/swc-project/swc/commit/42e15aedc2b7c0ccdd9d6db58cc425a1e781cdd8))

@@ -83,7 +83,7 @@ fn parse_and_babelify(b: &mut Bencher, _name: &str, src: &str) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("babelify_only", babelify_only);
+    c.bench_function("babelify-only", babelify_only);
 
     /// https://esprima.org/test/compare.html
     macro_rules! src_to_babel_ast {

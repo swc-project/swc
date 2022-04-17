@@ -56,10 +56,13 @@ fn resolver_with_hygiene(b: &mut Bencher) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("resolver", resolver);
-    c.bench_function("fixer", fixer);
-    c.bench_function("hygiene", hygiene);
-    c.bench_function("resolver_with_hygiene", resolver_with_hygiene);
+    c.bench_function("es/transforms/base/resolver", resolver);
+    c.bench_function("es/transforms/base/fixer", fixer);
+    c.bench_function("es/transforms/base/hygiene", hygiene);
+    c.bench_function(
+        "es/transforms/base/resolver_with_hygiene",
+        resolver_with_hygiene,
+    );
 }
 
 criterion_group!(benches, bench_cases);
