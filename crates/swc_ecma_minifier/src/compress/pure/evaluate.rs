@@ -3,6 +3,7 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
+use Value::Known;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -582,6 +583,42 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
 
 /// Evaluation of strings.
 impl Pure<'_> {
+    /// This only handles `'foo' + ('bar' + baz) because others are handled by
+    /// expression simplifier.
+    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {
+        let (span, l_l, r_l, r_r) = match e {
+            Expr::Bin(
+                e @ BinExpr {
+                    op: op!(bin, "+"), ..
+                },
+            ) => match &mut *e.right {
+                Expr::Bin(
+                    r @ BinExpr {
+                        op: op!(bin, "+"), ..
+                    },
+                ) => (e.span, &mut *e.left, &mut *r.left, &mut r.right),
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let lls = l_l.as_string();
+        let rls = r_l.as_string();
+
+        if let (Known(lls), Known(rls)) = (lls, rls) {
+            self.changed = true;
+            report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
+
+            let s = lls.into_owned() + &*rls;
+            *e = Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: s.into(),
+                right: r_r.take(),
+            });
+        }
+    }
+
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
         if !self.options.evaluate || !self.options.unsafe_passes {
             return;
@@ -592,13 +629,20 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if tpl.quasis.len() == 2 && tpl.quasis[0].raw.is_empty() && tpl.quasis[1].raw.is_empty() {
+        if tpl.quasis.len() == 2
+            && (tpl.quasis[0].cooked.is_some() || !tpl.quasis[0].raw.contains('\\'))
+            && tpl.quasis[1].raw.is_empty()
+        {
             self.changed = true;
             report_change!("evaluating a template to a string");
             *e = Expr::Bin(BinExpr {
                 span: tpl.span,
                 op: op!(bin, "+"),
-                left: "".into(),
+                left: tpl.quasis[0]
+                    .cooked
+                    .clone()
+                    .unwrap_or_else(|| tpl.quasis[0].raw.clone())
+                    .into(),
                 right: tpl.exprs[0].take(),
             });
         }

@@ -1335,6 +1335,7 @@ template_string/tagged_template_valid_strict_legacy_octal/input.js
 template_string/tagged_template_with_comment/input.js
 template_string/tagged_template_with_ill_formed_unicode_escape/input.js
 template_string/tagged_template_with_invalid_escape/input.js
+template_string/template_concattenating_string/input.js
 template_string/template_ending_with_newline/input.js
 template_string/template_evaluate_undefined/input.js
 template_string/template_literal_plus/input.js
