@@ -14,7 +14,7 @@ echo "Reducing $1"
 ls -al $1
 
 # Build swc minifier
-export MINIFY=$(cargo profile bin-path --release --example minifier)
+export MINIFY=$(cargo profile bin-path --release --example compress)
 
 wd="$(mktemp -d)"
 echo "Using $MINIFY; dir = $wd"
