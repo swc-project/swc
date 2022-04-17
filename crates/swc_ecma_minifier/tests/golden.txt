@@ -1306,6 +1306,7 @@ switch/keep_case/input.js
 switch/keep_default/input.js
 template_string/allow_chained_templates/input.js
 template_string/allow_null_character/input.js
+template_string/array_join/input.js
 template_string/check_escaped_chars/input.js
 template_string/do_not_optimize_tagged_template_1/input.js
 template_string/do_not_optimize_tagged_template_2/input.js
