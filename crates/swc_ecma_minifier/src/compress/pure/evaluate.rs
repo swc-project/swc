@@ -3,6 +3,7 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
+use Value::Known;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -585,7 +586,7 @@ impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
     /// expression simplifier.
     pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {
-        let (l_l, r_l, r_r) = match e {
+        let (span, l_l, r_l, r_r) = match e {
             Expr::Bin(
                 e @ BinExpr {
                     op: op!(bin, "+"), ..
@@ -595,11 +596,30 @@ impl Pure<'_> {
                     r @ BinExpr {
                         op: op!(bin, "+"), ..
                     },
-                ) => (&mut *e.left, &mut *r.left, &mut *r.right),
+                ) => (e.span, &mut *e.left, &mut *r.left, &mut r.right),
                 _ => return,
             },
             _ => return,
         };
+
+        let lls = l_l.as_string();
+        let rls = r_l.as_string();
+
+        match (lls, rls) {
+            (Known(lls), Known(rls)) => {
+                self.changed = true;
+                report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
+
+                let s = lls.into_owned() + &*rls;
+                *e = Expr::Bin(BinExpr {
+                    span,
+                    op: op!(bin, "+"),
+                    left: s.into(),
+                    right: r_r.take(),
+                });
+            }
+            _ => {}
+        }
     }
 
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
