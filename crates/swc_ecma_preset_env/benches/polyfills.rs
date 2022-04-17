@@ -31,7 +31,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("usage_builtin_type", |b| {
+    c.bench_function("es/preset-env/usage/builtin_type", |b| {
         const SOURCE: &str = r#"
         // From a length
         var float32 = new Float32Array(2);
@@ -62,7 +62,7 @@ fn bench_cases(c: &mut Criterion) {
         run(b, SOURCE, Default::default())
     });
 
-    c.bench_function("usage_property", |b| {
+    c.bench_function("es/preset-env/usage/property", |b| {
         const SOURCE: &str = r#"
         const target = { a: 1, b: 2 };
         const source = { b: 4, c: 5 };
