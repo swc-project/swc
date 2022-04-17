@@ -584,7 +584,23 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
 impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
     /// expression simplifier.
-    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {}
+    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {
+        let (l_l, r_l, r_r) = match e {
+            Expr::Bin(
+                e @ BinExpr {
+                    op: op!(bin, "+"), ..
+                },
+            ) => match &mut *e.right {
+                Expr::Bin(
+                    r @ BinExpr {
+                        op: op!(bin, "+"), ..
+                    },
+                ) => (&mut *e.left, &mut *r.left, &mut *r.right),
+                _ => return,
+            },
+            _ => return,
+        };
+    }
 
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
