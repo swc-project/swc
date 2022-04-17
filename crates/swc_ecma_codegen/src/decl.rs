@@ -32,7 +32,11 @@ where
         self.emit_class_decl_inner(node, false)?;
     }
 
-    fn emit_class_decl_inner(&mut self, node: &ClassDecl, skip_decorators: bool) -> Result {
+    pub(super) fn emit_class_decl_inner(
+        &mut self,
+        node: &ClassDecl,
+        skip_decorators: bool,
+    ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(self, node, true);

@@ -162,10 +162,24 @@ where
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
         srcmap!(n, true);
 
-        keyword!("export");
+        match &n.decl {
+            Decl::Class(decl) => {
+                for dec in &decl.class.decorators {
+                    emit!(dec);
+                }
 
-        space!();
-        emit!(n.decl);
+                keyword!("export");
+
+                space!();
+                self.emit_class_decl_inner(decl, true)?;
+            }
+            _ => {
+                keyword!("export");
+
+                space!();
+                emit!(n.decl);
+            }
+        }
 
         srcmap!(n, false);
     }
