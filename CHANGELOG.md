@@ -5,6 +5,40 @@
 
 
 
+- **(es/minifier)** Preserve vars in dead branches (#4345) ([5a5e41a](https://github.com/swc-project/swc/commit/5a5e41aaaa3791f76de9c73aa29c714fa097c773))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Organize scripts (#4347) ([14c74f5](https://github.com/swc-project/swc/commit/14c74f50c0b21d65d9604b58a2ce348baeb1baa3))
+
+## [1.2.167] - 2022-04-17
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Reject optional constructor call (#4340) ([31b3336](https://github.com/swc-project/swc/commit/31b3336cd5881ff8f99d791254ee02ff4fa23fcc))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix wasm publish script ([1900d35](https://github.com/swc-project/swc/commit/1900d3506efb8bc319dece4219789e2509ecf67c))
+
+### Performance
+
+
+
+- **(es/minifier)** Make name mangler faster (#4342) ([66ff7b8](https://github.com/swc-project/swc/commit/66ff7b8a09bc504d3912d12b4a8ebea3a96d4e4b))
+
+## [1.2.166] - 2022-04-15
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Parse legacy `calc`s (#4320) ([81370d1](https://github.com/swc-project/swc/commit/81370d16cb405d43aeb9198e1fce4aa11009045f))
 
 
@@ -44,6 +78,9 @@
 - **(es/parser)** Enable static blocks by default (#4334) ([7599fe7](https://github.com/swc-project/swc/commit/7599fe74317f790cce8f8638e84c320c5ebbc4c2))
 
 
+- **(es/parser)** Make parsing of TS InstantiationExpr more permissive (#4332) ([ea466af](https://github.com/swc-project/swc/commit/ea466afdc8dc6b64be81244a8c0261ac34f22157))
+
+
 - **(node-swc/types)** Add `isTypeOnly` to types (#4303) ([1a48732](https://github.com/swc-project/swc/commit/1a48732e78b9c650f93320f4d6f7be57a9f4a6c4))
 
 ### Features
@@ -79,8 +116,14 @@
 
 - **(es/minifier)** Update terser test references (#4297) ([df0d572](https://github.com/swc-project/swc/commit/df0d572b4ff250be037ca9a04b6bcd95329f9f3b))
 
+
+- **(es/minifier)** Add full benchmark for `.minify()` (#4341) ([ba5f743](https://github.com/swc-project/swc/commit/ba5f7436c18b7e3845bc2935aca6cdb76477b686))
+
 ### Refactor
 
+
+
+- **(bindings)** Rename crates (#4337) ([83a8f48](https://github.com/swc-project/swc/commit/83a8f489ec5b7010a762a75dc31a63b2fb060372))
 
 
 - **(es/minifier)** Clean up logging (#4322) ([2002554](https://github.com/swc-project/swc/commit/2002554fa26c1ebd683f71d87263f26fd95d00f1))

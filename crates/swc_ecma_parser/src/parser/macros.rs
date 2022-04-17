@@ -53,6 +53,13 @@ macro_rules! is {
         }
     }};
 
+    ($p:expr,Regex) => {{
+        match cur!($p, false) {
+            Ok(&Token::Regex { .. }) => true,
+            _ => false,
+        }
+    }};
+
     ($p:expr,BigInt) => {{
         match cur!($p, false) {
             Ok(&Token::BigInt { .. }) => true,

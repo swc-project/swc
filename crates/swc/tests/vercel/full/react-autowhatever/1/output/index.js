@@ -2,20 +2,20 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(f) {
+var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(d) {
     "use strict";
-    c.inherits(b, f);
-    var g = c.createSuper(b);
+    c.inherits(b, d);
+    var f = c.createSuper(b);
     function b() {
         var a;
-        return c.classCallCheck(this, b), a = g.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        return c.classCallCheck(this, b), a = f.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
-    var d = b.prototype;
-    return d.shouldComponentUpdate = function(a) {
+    var a = b.prototype;
+    return a.shouldComponentUpdate = function(a) {
         return !0;
-    }, d.render = function() {
+    }, a.render = function() {
         var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = "function" == typeof g;
         return e.jsx("ul", c.objectSpread({
             role: "listbox"

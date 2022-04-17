@@ -167,6 +167,61 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_core_node"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "backtrace",
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "node_macro_deps",
+ "path-clean",
+ "serde",
+ "serde_json",
+ "swc",
+ "swc_atoms",
+ "swc_bundler",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_lints",
+ "swc_ecma_loader",
+ "swc_ecma_parser",
+ "swc_node_base",
+ "swc_node_bundler",
+ "swc_plugin_runner",
+ "tracing",
+ "tracing-chrome",
+ "tracing-futures",
+ "tracing-subscriber",
+ "wasmer",
+ "wasmer-wasi",
+]
+
+[[package]]
+name = "binding_core_wasm"
+version = "1.2.167"
+dependencies = [
+ "anyhow",
+ "console_error_panic_hook",
+ "js-sys",
+ "once_cell",
+ "parking_lot_core",
+ "path-clean",
+ "serde",
+ "serde_json",
+ "swc",
+ "swc_common",
+ "swc_ecma_lints",
+ "swc_ecmascript",
+ "swc_plugin_runner",
+ "tracing",
+ "wasm-bindgen",
+ "wasmer",
+ "wasmer-wasi",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1591,38 +1646,6 @@ name = "new_debug_unreachable"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e4a24736216ec316047a1fc4252e27dabb04218aa4a3f37c6e7ddbf1f9782b54"
-
-[[package]]
-name = "node"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "backtrace",
- "napi",
- "napi-build",
- "napi-derive",
- "node_macro_deps",
- "path-clean",
- "serde",
- "serde_json",
- "swc",
- "swc_atoms",
- "swc_bundler",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_lints",
- "swc_ecma_loader",
- "swc_ecma_parser",
- "swc_node_base",
- "swc_node_bundler",
- "swc_plugin_runner",
- "tracing",
- "tracing-chrome",
- "tracing-futures",
- "tracing-subscriber",
- "wasmer",
- "wasmer-wasi",
-]
 
 [[package]]
 name = "node_macro_deps"
@@ -3244,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.104.2"
+version = "0.104.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3280,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.0"
+version = "0.102.2"
 dependencies = [
  "criterion",
  "either",
@@ -4454,29 +4477,6 @@ name = "wasi"
 version = "0.10.2+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
-
-[[package]]
-name = "wasm"
-version = "1.2.165"
-dependencies = [
- "anyhow",
- "console_error_panic_hook",
- "js-sys",
- "once_cell",
- "parking_lot_core",
- "path-clean",
- "serde",
- "serde_json",
- "swc",
- "swc_common",
- "swc_ecma_lints",
- "swc_ecmascript",
- "swc_plugin_runner",
- "tracing",
- "wasm-bindgen",
- "wasmer",
- "wasmer-wasi",
-]
 
 [[package]]
 name = "wasm-bindgen"

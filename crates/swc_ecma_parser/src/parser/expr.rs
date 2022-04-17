@@ -511,6 +511,33 @@ impl<'a, I: Tokens> Parser<I> {
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
             return_if_arrow!(self, callee);
 
+            if is_new_expr {
+                match *callee {
+                    Expr::OptChain(OptChainExpr {
+                        question_dot_token, ..
+                    }) => {
+                        syntax_error!(
+                            self,
+                            question_dot_token,
+                            SyntaxError::OptChainCannotFollowConstructorCall
+                        )
+                    }
+                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                        if let Expr::OptChain(OptChainExpr {
+                            question_dot_token, ..
+                        }) = **obj
+                        {
+                            syntax_error!(
+                                self,
+                                question_dot_token,
+                                SyntaxError::OptChainCannotFollowConstructorCall
+                            )
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
@@ -1902,5 +1929,22 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(expr.span(), SyntaxError::TS2406);
             }
         }
+    }
+
+    fn is_start_of_left_hand_side_expr(&mut self) -> PResult<bool> {
+        Ok(is_one_of!(
+            self, "this", "super", "null", "true", "false", Num, BigInt, Str, '`', '(', '[', '{',
+            "function", "class", "new", Regex, IdentRef
+        ) || (is!(self, "import")
+            && (peeked_is!(self, '(') || peeked_is!(self, '<') || peeked_is!(self, '.'))))
+    }
+
+    pub(super) fn is_start_of_expr(&mut self) -> PResult<bool> {
+        Ok(self.is_start_of_left_hand_side_expr()?
+            || is_one_of!(
+                self, '+', '-', '~', '!', "delete", "typeof", "void", "++", "--", '<', "await",
+                "yield"
+            )
+            || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
 }

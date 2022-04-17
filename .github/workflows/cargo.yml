@@ -100,17 +100,16 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
+          - crate: binding_core_node
+            os: ubuntu-latest
+          - crate: binding_core_wasm
+            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
           - crate: jsdoc
             os: ubuntu-latest
-          - crate: node
-            os: ubuntu-latest
-            check: |
-              cargo check --features plugin
-              cargo check --no-default-features --features plugin --features swc_v2
           - crate: node_macro_deps
             os: ubuntu-latest
           - crate: preset_env_base
@@ -162,6 +161,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_css_parser
             os: windows-latest
+          - crate: swc_css_prefixer
+            os: ubuntu-latest
           - crate: swc_css_utils
             os: ubuntu-latest
           - crate: swc_css_visit
@@ -291,6 +292,8 @@ jobs:
             os: windows-latest
           - crate: swc_plugin_macro
             os: ubuntu-latest
+          - crate: swc_plugin_proxy
+            os: ubuntu-latest
           - crate: swc_plugin_runner
             os: ubuntu-latest
           - crate: swc_plugin_runner
@@ -301,8 +304,6 @@ jobs:
             os: ubuntu-latest
           - crate: swc_plugin_testing
             os: windows-latest
-          - crate: swc_css_prefixer
-            os: ubuntu-latest
           - crate: swc_timer
             os: ubuntu-latest
           - crate: swc_trace_macro
@@ -316,8 +317,6 @@ jobs:
           - crate: testing
             os: ubuntu-latest
           - crate: testing_macros
-            os: ubuntu-latest
-          - crate: wasm
             os: ubuntu-latest
 
     steps:

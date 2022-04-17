@@ -3,10 +3,10 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "wasm module for swc"
 edition = "2021"
 license = "Apache-2.0"
-name = "wasm"
+name = "binding_core_wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.165"
+version = "1.2.167"
 
 [lib]
 bench = false

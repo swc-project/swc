@@ -176,6 +176,7 @@ pub enum SyntaxError {
     DuplicateConstructor,
     TsBindingPatCannotBeOptional,
     SuperCallOptional,
+    OptChainCannotFollowConstructorCall,
 
     TrailingCommaInsideImport,
 
@@ -417,6 +418,9 @@ impl SyntaxError {
                 "A required element cannot follow an optional element.".into()
             }
             SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
+            SyntaxError::OptChainCannotFollowConstructorCall => {
+                "Constructor in/after an optional chaining is not allowed.".into()
+            }
             SyntaxError::TsInvalidParamPropPat => {
                 "Typescript parameter property must be an identifier or assignment pattern".into()
             }

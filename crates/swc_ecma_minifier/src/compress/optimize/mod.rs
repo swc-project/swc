@@ -245,18 +245,23 @@ impl Vars {
         N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
     {
         let mut changed = false;
-        n.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.simple_functions,
-            true,
-            MultiReplacerMode::OnlyCallee,
-            &mut changed,
-        ));
-        n.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.vars_for_inlining,
-            false,
-            MultiReplacerMode::Normal,
-            &mut changed,
-        ));
+        if !self.simple_functions.is_empty() {
+            n.visit_mut_with(&mut MultiReplacer::new(
+                &mut self.simple_functions,
+                true,
+                MultiReplacerMode::OnlyCallee,
+                &mut changed,
+            ));
+        }
+
+        if !self.vars_for_inlining.is_empty() {
+            n.visit_mut_with(&mut MultiReplacer::new(
+                &mut self.vars_for_inlining,
+                false,
+                MultiReplacerMode::Normal,
+                &mut changed,
+            ));
+        }
 
         changed
     }

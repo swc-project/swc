@@ -101,7 +101,7 @@ macro_rules! tok {
         crate::token::Token::BinOp(crate::token::BinOpToken::Div)
     };
     ("/=") => {
-        crate::token::Token::AssignOp(DivAssign)
+        crate::token::Token::AssignOp(crate::token::AssignOpToken::DivAssign)
     };
     ('%') => {
         crate::token::Token::BinOp(Mod)

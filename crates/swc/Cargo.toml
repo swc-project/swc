@@ -118,4 +118,8 @@ name = "bugs"
 
 [[bench]]
 harness = false
+name = "minify"
+
+[[bench]]
+harness = false
 name = "typescript"

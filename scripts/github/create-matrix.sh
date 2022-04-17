@@ -13,7 +13,7 @@ crates=$(\
 )
 
 # yq query syntax is weird, so we have to use jq
-json_str="$(yq -o=json tests.yml)"
+json_str="$(yq -o=json $SCRIPT_DIR/tests.yml)"
 
 for crate in $crates
 do

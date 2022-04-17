@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 69,
-    "end": 221,
+    "end": 292,
     "ctxt": 0
   },
   "body": [
@@ -268,6 +268,110 @@
         },
         "value": true
       }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 261,
+        "end": 279,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 267,
+            "end": 279,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 267,
+              "end": 269,
+              "ctxt": 0
+            },
+            "value": "x4",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsInstantiation",
+            "span": {
+              "start": 272,
+              "end": 279,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 272,
+                "end": 273,
+                "ctxt": 0
+              },
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 273,
+                "end": 279,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsLiteralType",
+                  "span": {
+                    "start": 274,
+                    "end": 278,
+                    "ctxt": 0
+                  },
+                  "literal": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 274,
+                      "end": 278,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 280,
+        "end": 292,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 284,
+          "end": 288,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 290,
+          "end": 292,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "alternate": null
     }
   ],
   "interpreter": null

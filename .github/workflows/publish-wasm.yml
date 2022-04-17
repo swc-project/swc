@@ -39,12 +39,12 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: (cd crates/wasm && wasm-pack build  --release --scope=swc --target nodejs)
+        run: (cd crates/binding_core_wasm && wasm-pack build --out-name wasm --release --scope=swc --target nodejs)
 
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd crates/wasm/pkg && npm publish --access public)
+          (cd crates/binding_core_wasm/pkg && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -77,17 +77,12 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: (cd crates/wasm && wasm-pack build  --release --scope=swc --target web)
-
-      - name: Rename
-        run: |
-          sed -i'' -e 's/"name": "@swc\/wasm"/"name": "@swc\/wasm-web"/g' package.json
-        working-directory: crates/wasm/pkg
+        run: (cd crates/binding_core_wasm && wasm-pack build --out-name wasm-web --release --scope=swc --target web)
 
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd crates/wasm/pkg && npm publish --access public)
+          (cd crates/binding_core_wasm/pkg && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

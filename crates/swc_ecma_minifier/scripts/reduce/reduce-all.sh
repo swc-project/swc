@@ -13,7 +13,7 @@ dir="$1"
 
 echo "Reducing javascript files in $dir"
 
-find $dir -type f -name '*.js' -print0 | xargs -0 -P 4 -I {} sh -c './scripts/reduce.sh {}' || true
+find $dir -type f -name '*.js' -print0 | xargs -0 -P 4 -I {} sh -c './scripts/reduce/reduce.sh {}' || true
 
 echo "Removing empty directories in $dir"
 

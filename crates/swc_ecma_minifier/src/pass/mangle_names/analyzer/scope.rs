@@ -1,9 +1,9 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::util::take::Take;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::{pass::mangle_names::rename_map::RenameMap, util::base54};
+use crate::util::base54;
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -64,7 +64,8 @@ impl Scope {
 
     pub(super) fn rename(
         &mut self,
-        to: &mut RenameMap,
+        to: &mut AHashMap<Id, JsWord>,
+        reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) {
@@ -72,8 +73,9 @@ impl Scope {
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
+        let mut cloned_reverse = reverse.clone();
         for (id, cnt) in queue {
-            if cnt == 0 || preserved.contains(&id) {
+            if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
                 continue;
             }
 
@@ -87,8 +89,9 @@ impl Scope {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, to) {
-                    to.insert(id.clone(), sym);
+                if self.can_rename(&id, &sym, &cloned_reverse) {
+                    to.insert(id.clone(), sym.clone());
+                    cloned_reverse.entry(sym).or_default().push(id.clone());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
@@ -98,22 +101,20 @@ impl Scope {
         }
 
         for child in self.children.iter_mut() {
-            child.rename(to, preserved, preserved_symbols);
+            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
         }
     }
 
     #[inline(never)]
-    fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
-        if let Some(lefts) = renamed.get_by_right(symbol) {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
+        // We can optimize this
+        // We only need to check the current scope and parents (ignoring `a` generated
+        // for unrelated scopes)
+        if let Some(lefts) = reverse.get(symbol) {
             for left in lefts {
                 if *left == *id {
                     continue;
                 }
-
-                //
-                // if self.data.usages.contains(left) || self.data.decls.contains(left) {
-                //     return false;
-                // }
 
                 if self.data.all.contains(left) {
                     return false;
