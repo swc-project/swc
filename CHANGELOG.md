@@ -13,6 +13,12 @@
 
 - **(ci)** Fix wasm publish script ([1900d35](https://github.com/swc-project/swc/commit/1900d3506efb8bc319dece4219789e2509ecf67c))
 
+### Performance
+
+
+
+- **(es/minifier)** Make name mangler faster (#4342) ([66ff7b8](https://github.com/swc-project/swc/commit/66ff7b8a09bc504d3912d12b4a8ebea3a96d4e4b))
+
 ## [1.2.166] - 2022-04-15
 
 ### Bug Fixes
