@@ -309,6 +309,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        self.compress_array_join(e);
+
         self.unsafe_optimize_fn_as_arrow(e);
 
         self.eval_opt_chain(e);
