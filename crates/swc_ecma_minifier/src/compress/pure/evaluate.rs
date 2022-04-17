@@ -1,5 +1,5 @@
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
@@ -653,6 +653,50 @@ impl Pure<'_> {
             Expr::Tpl(e) => e,
             _ => return,
         };
+
+        if tpl.exprs.iter().all(|e| match &**e {
+            Expr::Tpl(t) => t
+                .quasis
+                .iter()
+                .all(|q| q.cooked.is_some() || !q.raw.contains('\\')),
+            _ => false,
+        }) {
+            return;
+        }
+
+        let mut new_tpl = Tpl {
+            span: tpl.span,
+            quasis: Default::default(),
+            exprs: Default::default(),
+        };
+        let mut cur_str_value = String::new();
+
+        for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
+            if idx % 2 == 0 {
+                let q = tpl.quasis[idx / 2].take();
+
+                cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+            } else {
+                let s = JsWord::from(&*cur_str_value);
+                new_tpl.quasis.push(TplElement {
+                    span: DUMMY_SP,
+                    tail: false,
+                    cooked: Some(s.clone()),
+                    raw: s,
+                });
+
+                let e = tpl.exprs[idx / 2].take();
+                new_tpl.exprs.push(e);
+            }
+        }
+
+        let s = JsWord::from(&*cur_str_value);
+        new_tpl.quasis.push(TplElement {
+            span: DUMMY_SP,
+            tail: false,
+            cooked: Some(s.clone()),
+            raw: s,
+        });
     }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
