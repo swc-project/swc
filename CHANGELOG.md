@@ -13,6 +13,12 @@
 
 - **(es)** Rename benchmarks (#4355) ([8309440](https://github.com/swc-project/swc/commit/83094400080bef161b4b106aa3840efc7f2dfecd))
 
+### Testing
+
+
+
+- **(es/parser)** Add a test for a fixed issue (#4357) ([bf76175](https://github.com/swc-project/swc/commit/bf761752f1b62635e973da7fb8150ddc323dea9b))
+
 ## [1.2.168] - 2022-04-17
 
 ### Bug Fixes
