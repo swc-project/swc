@@ -290,6 +290,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        self.eval_nested_tpl(e);
+
         self.eval_tpl_as_str(e);
 
         self.eval_str_addition(e);

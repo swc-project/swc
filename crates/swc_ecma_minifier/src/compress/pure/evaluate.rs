@@ -648,6 +648,13 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn eval_nested_tpl(&mut self, e: &mut Expr) {
+        let tpl = match e {
+            Expr::Tpl(e) => e,
+            _ => return,
+        };
+    }
+
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     pub(super) fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
