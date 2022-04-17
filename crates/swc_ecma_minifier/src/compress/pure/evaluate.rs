@@ -605,20 +605,17 @@ impl Pure<'_> {
         let lls = l_l.as_string();
         let rls = r_l.as_string();
 
-        match (lls, rls) {
-            (Known(lls), Known(rls)) => {
-                self.changed = true;
-                report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
+        if let (Known(lls), Known(rls)) = (lls, rls) {
+            self.changed = true;
+            report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
-                let s = lls.into_owned() + &*rls;
-                *e = Expr::Bin(BinExpr {
-                    span,
-                    op: op!(bin, "+"),
-                    left: s.into(),
-                    right: r_r.take(),
-                });
-            }
-            _ => {}
+            let s = lls.into_owned() + &*rls;
+            *e = Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: s.into(),
+                right: r_r.take(),
+            });
         }
     }
 
