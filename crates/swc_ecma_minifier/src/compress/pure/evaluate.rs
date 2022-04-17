@@ -669,7 +669,7 @@ impl Pure<'_> {
 
         self.changed = true;
         report_change!("evaluating nested template literals");
-        dump_change_detail!("eval: {}", dump(&*e, true));
+        dump_change_detail!("eval: {}", dump(&*tpl, true));
 
         let mut new_tpl = Tpl {
             span: tpl.span,
