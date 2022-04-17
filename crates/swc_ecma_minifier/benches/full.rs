@@ -1,5 +1,7 @@
 //! Ported from https://github.com/privatenumber/minification-benchmarks
 
+extern crate swc_node_base;
+
 use std::fs::read_to_string;
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
