@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
+use swc_ecma_utils::{prepend, ExprExt, StmtExt, Type, Value::Known};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -19,16 +19,12 @@ where
     /// Handle switches in the case where we can know which branch will be
     /// taken.
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
-        if !self.options.switches || !self.options.dead_code || self.ctx.stmt_labelled {
+        if !self.options.switches || !self.options.dead_code {
             return;
         }
 
-        let (label, stmt) = match s {
-            Stmt::Switch(s) => (None, s),
-            Stmt::Labeled(l) => match &mut *l.body {
-                Stmt::Switch(s) => (Some(l.label.clone()), s),
-                _ => return,
-            },
+        let stmt = match s {
+            Stmt::Switch(s) => s,
             _ => return,
         };
 
@@ -121,19 +117,6 @@ where
                         found_break = true;
                         false
                     }
-
-                    // TODO: Search recursively.
-                    Stmt::Break(BreakStmt {
-                        label: Some(break_label),
-                        ..
-                    }) => {
-                        if Some(break_label.to_id()) == label.as_ref().map(|label| label.to_id()) {
-                            found_break = true;
-                            false
-                        } else {
-                            !found_break
-                        }
-                    }
                     _ => !found_break,
                 });
 
@@ -185,14 +168,7 @@ where
                 })
             };
 
-            *s = match label {
-                Some(label) => Stmt::Labeled(LabeledStmt {
-                    span: DUMMY_SP,
-                    label,
-                    body: Box::new(inner),
-                }),
-                None => inner,
-            };
+            *s = inner;
         }
     }
 

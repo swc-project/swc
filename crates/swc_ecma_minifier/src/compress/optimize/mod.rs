@@ -133,8 +133,6 @@ struct Ctx {
     /// `true` while handling `expr` of `!expr`
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
-    /// `true` while handling inner statements of a labelled statement.
-    stmt_labelled: bool,
 
     dont_use_negated_iife: bool,
 
@@ -1551,7 +1549,6 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
-            stmt_labelled: false,
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
@@ -1957,13 +1954,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_function(&mut self, n: &mut Function) {
-        {
-            let ctx = Ctx {
-                stmt_labelled: false,
-                ..self.ctx
-            };
-            n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        n.decorators.visit_mut_with(self);
 
         let is_standalone = n.span.has_mark(self.marks.standalone);
 
@@ -1978,7 +1969,6 @@ where
         {
             let ctx = Ctx {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
-                stmt_labelled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
@@ -2044,13 +2034,9 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        let ctx = Ctx {
-            stmt_labelled: true,
-            ..self.ctx
-        };
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        n.visit_mut_children_with(self);
 
         if self.label.is_none() {
             report_change!("Removing label `{}`", n.label);
