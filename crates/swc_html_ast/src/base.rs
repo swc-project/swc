@@ -44,7 +44,7 @@ pub struct DocumentType {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum NamespaceURI {
+pub enum Namespace {
     /// `http://www.w3.org/1999/xhtml`
     HTML,
     /// `http://www.w3.org/1998/Math/MathML`
@@ -64,7 +64,7 @@ pub enum NamespaceURI {
 pub struct Element {
     pub span: Span,
     pub tag_name: JsWord,
-    pub namespace_uri: NamespaceURI,
+    pub namespace: Namespace,
     pub attributes: Vec<Attribute>,
     pub children: Vec<Node>,
 }

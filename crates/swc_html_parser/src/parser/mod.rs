@@ -62,79 +62,77 @@ const IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
     "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
 ];
 
-const SPECIFIC_SCOPE: &[(&str, NamespaceURI)] = &[
-    ("applet", NamespaceURI::HTML),
-    ("caption", NamespaceURI::HTML),
-    ("html", NamespaceURI::HTML),
-    ("marquee", NamespaceURI::HTML),
-    ("object", NamespaceURI::HTML),
-    ("table", NamespaceURI::HTML),
-    ("td", NamespaceURI::HTML),
-    ("template", NamespaceURI::HTML),
-    ("th", NamespaceURI::HTML),
-    ("annotation-xml", NamespaceURI::MATHML),
-    ("mi", NamespaceURI::MATHML),
-    ("mn", NamespaceURI::MATHML),
-    ("mo", NamespaceURI::MATHML),
-    ("ms", NamespaceURI::MATHML),
-    ("mtext", NamespaceURI::MATHML),
-    ("desc", NamespaceURI::SVG),
-    ("foreignObject", NamespaceURI::SVG),
-    ("title", NamespaceURI::SVG),
+const SPECIFIC_SCOPE: &[(&str, Namespace)] = &[
+    ("applet", Namespace::HTML),
+    ("caption", Namespace::HTML),
+    ("html", Namespace::HTML),
+    ("marquee", Namespace::HTML),
+    ("object", Namespace::HTML),
+    ("table", Namespace::HTML),
+    ("td", Namespace::HTML),
+    ("template", Namespace::HTML),
+    ("th", Namespace::HTML),
+    ("annotation-xml", Namespace::MATHML),
+    ("mi", Namespace::MATHML),
+    ("mn", Namespace::MATHML),
+    ("mo", Namespace::MATHML),
+    ("ms", Namespace::MATHML),
+    ("mtext", Namespace::MATHML),
+    ("desc", Namespace::SVG),
+    ("foreignObject", Namespace::SVG),
+    ("title", Namespace::SVG),
 ];
 
-const LIST_ITEM_SCOPE: &[(&str, NamespaceURI)] = &[
-    ("applet", NamespaceURI::HTML),
-    ("caption", NamespaceURI::HTML),
-    ("html", NamespaceURI::HTML),
-    ("marquee", NamespaceURI::HTML),
-    ("object", NamespaceURI::HTML),
-    ("table", NamespaceURI::HTML),
-    ("td", NamespaceURI::HTML),
-    ("template", NamespaceURI::HTML),
-    ("th", NamespaceURI::HTML),
-    ("annotation-xml", NamespaceURI::MATHML),
-    ("mi", NamespaceURI::MATHML),
-    ("mn", NamespaceURI::MATHML),
-    ("mo", NamespaceURI::MATHML),
-    ("ms", NamespaceURI::MATHML),
-    ("mtext", NamespaceURI::MATHML),
-    ("desc", NamespaceURI::SVG),
-    ("foreignObject", NamespaceURI::SVG),
-    ("title", NamespaceURI::SVG),
-    ("ol", NamespaceURI::HTML),
-    ("ul", NamespaceURI::HTML),
+const LIST_ITEM_SCOPE: &[(&str, Namespace)] = &[
+    ("applet", Namespace::HTML),
+    ("caption", Namespace::HTML),
+    ("html", Namespace::HTML),
+    ("marquee", Namespace::HTML),
+    ("object", Namespace::HTML),
+    ("table", Namespace::HTML),
+    ("td", Namespace::HTML),
+    ("template", Namespace::HTML),
+    ("th", Namespace::HTML),
+    ("annotation-xml", Namespace::MATHML),
+    ("mi", Namespace::MATHML),
+    ("mn", Namespace::MATHML),
+    ("mo", Namespace::MATHML),
+    ("ms", Namespace::MATHML),
+    ("mtext", Namespace::MATHML),
+    ("desc", Namespace::SVG),
+    ("foreignObject", Namespace::SVG),
+    ("title", Namespace::SVG),
+    ("ol", Namespace::HTML),
+    ("ul", Namespace::HTML),
 ];
-const BUTTON_SCOPE: &[(&str, NamespaceURI)] = &[
-    ("applet", NamespaceURI::HTML),
-    ("caption", NamespaceURI::HTML),
-    ("html", NamespaceURI::HTML),
-    ("marquee", NamespaceURI::HTML),
-    ("object", NamespaceURI::HTML),
-    ("table", NamespaceURI::HTML),
-    ("td", NamespaceURI::HTML),
-    ("template", NamespaceURI::HTML),
-    ("th", NamespaceURI::HTML),
-    ("annotation-xml", NamespaceURI::MATHML),
-    ("mi", NamespaceURI::MATHML),
-    ("mn", NamespaceURI::MATHML),
-    ("mo", NamespaceURI::MATHML),
-    ("ms", NamespaceURI::MATHML),
-    ("mtext", NamespaceURI::MATHML),
-    ("desc", NamespaceURI::SVG),
-    ("foreignObject", NamespaceURI::SVG),
-    ("title", NamespaceURI::SVG),
-    ("button", NamespaceURI::HTML),
+const BUTTON_SCOPE: &[(&str, Namespace)] = &[
+    ("applet", Namespace::HTML),
+    ("caption", Namespace::HTML),
+    ("html", Namespace::HTML),
+    ("marquee", Namespace::HTML),
+    ("object", Namespace::HTML),
+    ("table", Namespace::HTML),
+    ("td", Namespace::HTML),
+    ("template", Namespace::HTML),
+    ("th", Namespace::HTML),
+    ("annotation-xml", Namespace::MATHML),
+    ("mi", Namespace::MATHML),
+    ("mn", Namespace::MATHML),
+    ("mo", Namespace::MATHML),
+    ("ms", Namespace::MATHML),
+    ("mtext", Namespace::MATHML),
+    ("desc", Namespace::SVG),
+    ("foreignObject", Namespace::SVG),
+    ("title", Namespace::SVG),
+    ("button", Namespace::HTML),
 ];
-const TABLE_SCOPE: &[(&str, NamespaceURI)] = &[
-    ("html", NamespaceURI::HTML),
-    ("table", NamespaceURI::HTML),
-    ("template", NamespaceURI::HTML),
+const TABLE_SCOPE: &[(&str, Namespace)] = &[
+    ("html", Namespace::HTML),
+    ("table", Namespace::HTML),
+    ("template", Namespace::HTML),
 ];
-const SELECT_SCOPE: &[(&str, NamespaceURI)] = &[
-    ("optgroup", NamespaceURI::HTML),
-    ("option", NamespaceURI::HTML),
-];
+const SELECT_SCOPE: &[(&str, Namespace)] =
+    &[("optgroup", Namespace::HTML), ("option", Namespace::HTML)];
 
 impl OpenElementsStack {
     pub fn new() -> Self {
@@ -180,7 +178,7 @@ impl OpenElementsStack {
     fn has_element_target_node_in_specific_scope(
         &self,
         tag_name: &str,
-        list: &[(&str, NamespaceURI)],
+        list: &[(&str, Namespace)],
     ) -> bool {
         let mut iter = self.items.iter().rev();
         // 1. Initialize node to be the current node (the bottommost node of the stack).
@@ -188,15 +186,13 @@ impl OpenElementsStack {
 
         while let Some(element) = node {
             // 2. If node is the target node, terminate in a match state.
-            if &*element.tag_name == tag_name && element.namespace_uri == NamespaceURI::HTML {
+            if &*element.tag_name == tag_name && element.namespace == Namespace::HTML {
                 return true;
             }
             // 3. Otherwise, if node is one of the element types in list, terminate in a
             // failure state.
             for element_and_ns in list {
-                if &*element.tag_name == element_and_ns.0
-                    && element.namespace_uri == element_and_ns.1
-                {
+                if &*element.tag_name == element_and_ns.0 && element.namespace == element_and_ns.1 {
                     return false;
                 }
             }
@@ -677,7 +673,7 @@ where
                         let element = Element {
                             span: span!(self, token_and_span.span.lo),
                             tag_name: tag_name.into(),
-                            namespace_uri: NamespaceURI::HTML,
+                            namespace: Namespace::HTML,
                             children: vec![],
                             attributes: attributes
                                 .into_iter()
@@ -705,7 +701,7 @@ where
                         let element = Element {
                             span: Default::default(),
                             tag_name: "html".into(),
-                            namespace_uri: NamespaceURI::HTML,
+                            namespace: Namespace::HTML,
                             attributes: vec![],
                             children: vec![],
                         };
@@ -737,7 +733,7 @@ where
                         let element = Element {
                             span: Default::default(),
                             tag_name: "html".into(),
-                            namespace_uri: NamespaceURI::HTML,
+                            namespace: Namespace::HTML,
                             attributes: vec![],
                             children: vec![],
                         };
@@ -5516,35 +5512,75 @@ where
         Ok(())
     }
 
+    fn insert_template(&mut self, token_and_span: TokenAndSpan) {}
+
     fn insert_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
-        let element = match token_and_span.token {
-            Token::StartTag {
-                tag_name,
-                attributes,
-                ..
-            } => Element {
-                span: span!(self, token_and_span.span.lo),
-                tag_name,
-                namespace_uri: NamespaceURI::HTML,
-                attributes: attributes
-                    .into_iter()
-                    .map(|attribute| Attribute {
-                        span: Default::default(),
-                        name: attribute.name.clone(),
-                        value: attribute.value,
-                    })
-                    .collect(),
-                children: vec![],
-            },
+        self.insert_foreign_element(token_and_span, Namespace::HTML)
+    }
+
+    fn insert_foreign_element(
+        &mut self,
+        token_and_span: TokenAndSpan,
+        namespace: Namespace,
+    ) -> PResult<Element> {
+        // Let the adjusted insertion location be the appropriate place for
+        // inserting a node.
+        let adjusted_insertion_location = &self.document; // self.get_appropriate_place_for_inserting_node();
+
+        // Create an element for the token in the given namespace, with the
+        // intended parent being the element in which the adjusted insertion
+        // location finds itself.
+        let element = match token_and_span {
+            TokenAndSpan { token, span } => {
+                match token {
+                    Token::StartTag {
+                        tag_name,
+                        attributes,
+                        ..
+                    } => {
+                        Element {
+                            span: span!(self, span.lo),
+                            tag_name,
+                            namespace,
+                            // TODO span
+                            attributes: attributes
+                                .into_iter()
+                                .map(|attribute| Attribute {
+                                    span: Default::default(),
+                                    name: attribute.name.clone(),
+                                    value: attribute.value,
+                                })
+                                .collect(),
+                            children: vec![],
+                        }
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+            }
             _ => {
                 unreachable!();
             }
         };
 
+        // If it is possible to insert an element at the adjusted insertion
+        // location, then insert the newly created element at the adjusted
+        // insertion location.
+        // NOTE: If the adjusted insertion location cannot accept more
+        // elements, e.g. because it's a Document that already has an
+        // element child, then the newly created element is dropped on the
+        // floor.
+        // self.insert_node(element, adjustedInsertionLocation);
+
+        // Push the element onto the stack of open elements so that it is the
+        // new current node.
+        // self.open_elements_stack.push(element);
+        // $context->elementTokenMap->attach($element, $token);
+
+        // Return the newly created element.
         Ok(element)
     }
-
-    fn insert_template(&mut self, token_and_span: TokenAndSpan) {}
 
     fn insert_a_foreign_element(&mut self, token_and_span: TokenAndSpan) {}
 
@@ -5844,7 +5880,7 @@ where
     }
 
     fn is_special_element(&self, element: &Element) -> bool {
-        if element.namespace_uri == NamespaceURI::HTML {
+        if element.namespace == Namespace::HTML {
             return matches!(
                 &*element.tag_name,
                 "address"
@@ -5930,12 +5966,12 @@ where
                     | "wbr"
                     | "xmp"
             );
-        } else if element.namespace_uri == NamespaceURI::MATHML {
+        } else if element.namespace == Namespace::MATHML {
             return matches!(
                 &*element.tag_name,
                 "mi" | "mo" | "mn" | "ms" | "mtext" | "annotation-xml"
             );
-        } else if element.namespace_uri == NamespaceURI::SVG {
+        } else if element.namespace == Namespace::SVG {
             return matches!(&*element.tag_name, "title" | "foreignObject" | "desc");
         }
 
