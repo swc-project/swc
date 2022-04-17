@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Preserve vars in dead branches (#4345) ([5a5e41a](https://github.com/swc-project/swc/commit/5a5e41aaaa3791f76de9c73aa29c714fa097c773))
+
+## [1.2.167] - 2022-04-17
+
+### Bug Fixes
+
+
+
 - **(es/parser)** Reject optional constructor call (#4340) ([31b3336](https://github.com/swc-project/swc/commit/31b3336cd5881ff8f99d791254ee02ff4fa23fcc))
 
 ### Miscellaneous Tasks
