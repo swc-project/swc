@@ -5,7 +5,7 @@ use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use testing::{run_test2, NormalizedOutput};
 
 fn run(input: &Path, minify: bool) {
@@ -27,7 +27,10 @@ fn run(input: &Path, minify: bool) {
 
         let m = parse_file_as_module(
             &fm,
-            Syntax::Typescript(Default::default()),
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
             EsVersion::latest(),
             None,
             &mut vec![],
