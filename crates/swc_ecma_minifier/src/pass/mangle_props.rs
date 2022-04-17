@@ -86,9 +86,8 @@ impl ManglePropertiesState {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                let sym = base54::encode(&mut self.n, true);
+                let mangled_name = base54::encode(&mut self.n, true);
 
-                let mangled_name: JsWord = sym.into();
                 self.cache.insert(name.clone(), mangled_name.clone());
                 Some(mangled_name)
             }
