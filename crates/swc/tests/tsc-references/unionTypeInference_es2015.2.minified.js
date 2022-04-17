@@ -4,8 +4,8 @@ function fun(deepPromised) {
 }
 function _fun() {
     return (_fun = swcHelpers.asyncToGenerator(function*(deepPromised) {
-        for (const value of Object.values(deepPromised)){
-            const awaitedValue = yield value;
+        for (let value of Object.values(deepPromised)){
+            let awaitedValue = yield value;
             awaitedValue && (yield fun(awaitedValue));
         }
     })).apply(this, arguments);

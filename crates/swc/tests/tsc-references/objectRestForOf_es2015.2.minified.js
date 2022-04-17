@@ -10,7 +10,7 @@ let xx;
 for (var _ref1 of array)__ref = _ref1, swcHelpers.objectWithoutProperties(__ref, [
     "x"
 ]), { x: xx  } = __ref;
-for (const norest of array.map((a)=>swcHelpers.objectSpread({}, a, {
+for (let norest of array.map((a)=>swcHelpers.objectSpread({}, a, {
         x: 'a string'
     })
 ))norest.x, norest.y;

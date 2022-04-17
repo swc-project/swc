@@ -1,6 +1,6 @@
 export function strategy(stratName, gen) {
     return function*(state) {
-        for (const next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
+        for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
     };
 }
 export const Nothing1 = strategy("Nothing", function*(state) {

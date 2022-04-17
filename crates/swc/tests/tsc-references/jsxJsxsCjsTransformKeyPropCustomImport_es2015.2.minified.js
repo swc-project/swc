@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const props = {
+let props = {
     answer: 42
 };
 swcHelpers.extends({

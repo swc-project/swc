@@ -1,76 +1,72 @@
-use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{option::CompressOptions, DISABLE_BUGGY_PASSES};
+use crate::option::CompressOptions;
 
 pub fn postcompress_optimizer(options: &CompressOptions) -> impl '_ + VisitMut {
-    PostcompressOptimizer { options }
+    PostcompressOptimizer {
+        options,
+        ctx: Default::default(),
+    }
 }
 
 struct PostcompressOptimizer<'a> {
     options: &'a CompressOptions,
+
+    ctx: Ctx,
 }
 
-impl PostcompressOptimizer<'_> {
-    fn optimize_in_bool_ctx(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-        // This is buggy
-        if DISABLE_BUGGY_PASSES {
-            return;
-        }
-
-        // Note: `||` is not handled because of precedence.
-        if let Expr::Bin(BinExpr {
-            op: op @ op!("&&"),
-            right,
-            left,
-            ..
-        }) = e
-        {
-            if let Expr::Bin(BinExpr { op: op!("&&"), .. }) = &**left {
-                return;
-            }
-
-            match &mut **right {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) if arg.is_ident() => {
-                    let new_op = if *op == op!("&&") {
-                        op!("||")
-                    } else {
-                        op!("&&")
-                    };
-
-                    report_change!(
-                        "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                        *op,
-                        new_op
-                    );
-                    *op = new_op;
-                    *right = arg.take();
-                }
-
-                _ => {}
-            }
-        }
-    }
+#[derive(Default, Clone, Copy)]
+struct Ctx {
+    is_module: bool,
+    is_top_level: bool,
 }
 
 impl VisitMut for PostcompressOptimizer<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
-        e.visit_mut_children_with(self);
-
-        self.optimize_in_bool_ctx(&mut *e.test);
+    fn visit_mut_export_decl(&mut self, export: &mut ExportDecl) {
+        match &mut export.decl {
+            Decl::Var(decl) => {
+                // Don't change constness of exported variables.
+                decl.visit_mut_children_with(self);
+            }
+            _ => {
+                export.decl.visit_mut_with(self);
+            }
+        }
     }
 
-    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
-        s.visit_mut_children_with(self);
+    fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
+        self.ctx.is_module = nodes
+            .iter()
+            .any(|s| matches!(s, ModuleItem::ModuleDecl(..)));
+        self.ctx.is_top_level = true;
 
-        self.optimize_in_bool_ctx(&mut *s.test);
+        nodes.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
+        let old = self.ctx;
+
+        self.ctx.is_top_level = false;
+
+        nodes.visit_mut_children_with(self);
+
+        self.ctx = old;
+    }
+
+    fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
+        v.visit_mut_children_with(self);
+
+        if self.options.const_to_let {
+            if self.ctx.is_module || !self.ctx.is_top_level {
+                // We don't change constness of top-level variables in a script
+
+                if let VarDeclKind::Const = v.kind {
+                    v.kind = VarDeclKind::Let;
+                }
+            }
+        }
     }
 }

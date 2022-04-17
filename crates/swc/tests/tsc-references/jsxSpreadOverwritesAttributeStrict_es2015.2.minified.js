@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 require('react');
-const props = {
+let props = {
     a: 1,
     b: 1
 };

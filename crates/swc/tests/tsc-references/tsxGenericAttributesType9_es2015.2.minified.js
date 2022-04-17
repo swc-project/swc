@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require('react');
+let React = require('react');
 export function makeP(Ctor) {
     return class extends React.PureComponent {
         render() {

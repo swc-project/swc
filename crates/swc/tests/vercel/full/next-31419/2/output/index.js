@@ -15,7 +15,7 @@ Promise.all(assignAll).then(function() {
 export const listOfUser = function(c) {
     var b;
     return new Promise((b = a.asyncToGenerator(function*(b, d) {
-        const a = `Select Distinct id from "TABLE" Where id = '${c}' And user_id IS not null`;
+        let a = `Select Distinct id from "TABLE" Where id = '${c}' And user_id IS not null`;
         postgreSQL.query(a, null, function(a, c) {
             a ? d(a) : b(c.rows);
         });

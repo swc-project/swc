@@ -2,9 +2,9 @@ import * as swcHelpers from "@swc/helpers";
 class AA {
     test() {
         swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA);
-        const func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
+        let func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
         func(), new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
-        const arr = [
+        let arr = [
             1,
             2
         ];

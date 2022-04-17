@@ -1,6 +1,6 @@
-const x = require('./ch').x;
+let x = require('./ch').x;
 x.grey, x.x.grey;
-const x = {
+let x = {
     grey: {}
 };
 export { x };

@@ -1,2 +1,2 @@
 import * as swcHelpers from "@swc/helpers";
-const { naam , age  } = swcHelpers.objectSpread({}, bob, alice);
+let { naam , age  } = swcHelpers.objectSpread({}, bob, alice);

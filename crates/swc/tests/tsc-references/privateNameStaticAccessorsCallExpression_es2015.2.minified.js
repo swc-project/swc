@@ -2,9 +2,9 @@ import * as swcHelpers from "@swc/helpers";
 class A {
     static test() {
         swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A);
-        const func = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
+        let func = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
         func(), new (swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
-        const arr = [
+        let arr = [
             1,
             2
         ];

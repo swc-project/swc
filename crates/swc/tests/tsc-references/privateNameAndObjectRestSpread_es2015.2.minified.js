@@ -2,13 +2,13 @@ import * as swcHelpers from "@swc/helpers";
 var _prop = new WeakMap();
 class C {
     method(other) {
-        const obj = swcHelpers.objectSpread({}, other);
+        let obj = swcHelpers.objectSpread({}, other);
         swcHelpers.classPrivateFieldGet(obj, _prop);
-        const rest = swcHelpers.extends({}, other);
+        let rest = swcHelpers.extends({}, other);
         swcHelpers.classPrivateFieldGet(rest, _prop);
-        const statics = swcHelpers.objectSpread({}, C);
+        let statics = swcHelpers.objectSpread({}, C);
         swcHelpers.classStaticPrivateFieldSpecGet(statics, C, _propStatic);
-        const sRest = swcHelpers.extends({}, C);
+        let sRest = swcHelpers.extends({}, C);
         swcHelpers.classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
     }
     constructor(){

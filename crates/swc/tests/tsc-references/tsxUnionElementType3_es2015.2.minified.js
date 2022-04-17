@@ -1,4 +1,4 @@
-const React = require('react');
+let React = require('react');
 class RC1 extends React.Component {
     render() {
         return null;

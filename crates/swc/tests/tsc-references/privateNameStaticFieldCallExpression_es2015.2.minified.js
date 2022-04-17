@@ -3,9 +3,9 @@ class A {
     test() {
         var ref;
         swcHelpers.classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = swcHelpers.classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) || void 0 === ref || ref.call(A);
-        const func = swcHelpers.classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
+        let func = swcHelpers.classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
         func(), new (swcHelpers.classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
-        const arr = [
+        let arr = [
             1,
             2
         ];

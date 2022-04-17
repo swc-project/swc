@@ -305,6 +305,9 @@ pub struct CompressOptions {
 
     #[serde(default = "true_by_default")]
     pub unused: bool,
+
+    #[serde(default = "true_by_default")]
+    pub const_to_let: bool,
 }
 
 impl CompressOptions {

@@ -95,7 +95,7 @@ jobs:
         if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           git add -A
-          git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
+          git commit --no-verify --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
 
       - uses: webfactory/ssh-agent@v0.5.4
         if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'

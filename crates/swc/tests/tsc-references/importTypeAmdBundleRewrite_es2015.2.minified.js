@@ -1,7 +1,7 @@
-const c = {
+let c = {
     x: 12
 };
-const d = {
+let d = {
     x: 12
 };
 export { c, d };
