@@ -19,6 +19,12 @@
 
 - **(es/minifier)** Improve scripts (#4339) ([2563c7f](https://github.com/swc-project/swc/commit/2563c7f8ff5bb86131f642b6cca948955d795820))
 
+### Performance
+
+
+
+- **(es/minifier)** Split frequently used functions (#4352) ([42e15ae](https://github.com/swc-project/swc/commit/42e15aedc2b7c0ccdd9d6db58cc425a1e781cdd8))
+
 ## [1.2.167] - 2022-04-17
 
 ### Bug Fixes

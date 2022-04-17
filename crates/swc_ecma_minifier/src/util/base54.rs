@@ -1,9 +1,11 @@
+use swc_atoms::JsWord;
+
 static BASE54_DEFAULT_CHARS: &[u8; 64] =
     b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
 /// givin a number, return a base54 encoded string
 /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
-pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
+pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
     if skip_reserved {
         while init.is_reserved()
             || init.is_reserved_in_strict_bind()
@@ -38,10 +40,12 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
         ret.push(c);
     }
 
-    unsafe {
+    let s = unsafe {
         // Safety: We are only using ascii characters
         String::from_utf8_unchecked(ret)
-    }
+    };
+
+    s.into()
 }
 
 #[allow(unused)]
@@ -175,7 +179,7 @@ mod tests {
 
         fn gen(&mut self, expected: &str) {
             let generated = encode(&mut self.n, true);
-            assert_eq!(generated, expected);
+            assert_eq!(&*generated, expected);
         }
     }
 
@@ -342,7 +346,7 @@ mod tests {
         let mut init = RESERVED[0];
         let target = init + 2;
         let gen = encode(&mut init, true);
-        assert_eq!(gen, "dp");
+        assert_eq!(&*gen, "dp");
         assert_eq!(init, target);
     }
 

@@ -30,8 +30,6 @@ impl PrivateNameMangler {
         } else {
             let sym = base54::encode(&mut self.private_n, true);
 
-            let sym: JsWord = sym.into();
-
             self.renamed_private.insert(id.clone(), sym.clone());
 
             sym

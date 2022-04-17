@@ -69,11 +69,29 @@ impl Scope {
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) {
-        let mut n = 0;
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
         let mut cloned_reverse = reverse.clone();
+
+        self.rename_one_scope(to, &mut cloned_reverse, queue, preserved, preserved_symbols);
+
+        for child in self.children.iter_mut() {
+            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
+        }
+    }
+
+    #[inline(never)]
+    fn rename_one_scope(
+        &self,
+        to: &mut AHashMap<Id, JsWord>,
+        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        queue: Vec<(Id, u32)>,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<JsWord>,
+    ) {
+        let mut n = 0;
+
         for (id, cnt) in queue {
             if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
                 continue;
@@ -82,14 +100,12 @@ impl Scope {
             loop {
                 let sym = base54::encode(&mut n, true);
 
-                let sym: JsWord = sym.into();
-
                 // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, &cloned_reverse) {
+                if self.can_rename(&id, &sym, cloned_reverse) {
                     to.insert(id.clone(), sym.clone());
                     cloned_reverse.entry(sym).or_default().push(id.clone());
                     // self.data.decls.remove(&id);
@@ -98,10 +114,6 @@ impl Scope {
                     break;
                 }
             }
-        }
-
-        for child in self.children.iter_mut() {
-            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
         }
     }
 
