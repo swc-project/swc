@@ -582,6 +582,10 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
 
 /// Evaluation of strings.
 impl Pure<'_> {
+    /// This only handles `'foo' + ('bar' + baz) because others are handled by
+    /// expression simplifier.
+    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {}
+
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
