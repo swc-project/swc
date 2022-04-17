@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Implement more evaluation rules (#4356) ([e13b862](https://github.com/swc-project/swc/commit/e13b8625f2f67c98c36ac975f3739b304706201b))
 
+
+- **(es/minifier)** Improve evaluation of template literals (#4359) ([2e095fa](https://github.com/swc-project/swc/commit/2e095face5b6873d50f20babca88a632e5b70d76))
+
 ### Miscellaneous Tasks
 
 
