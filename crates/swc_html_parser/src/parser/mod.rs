@@ -55,85 +55,343 @@ impl Default for InsertionMode {
 
 struct OpenElementsStack {
     items: Vec<Element>,
+    template_element_count: usize,
 }
+
+const IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
+    "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
+];
+
+const SPECIFIC_SCOPE: &[(&str, NamespaceURI)] = &[
+    ("applet", NamespaceURI::HTML),
+    ("caption", NamespaceURI::HTML),
+    ("html", NamespaceURI::HTML),
+    ("marquee", NamespaceURI::HTML),
+    ("object", NamespaceURI::HTML),
+    ("table", NamespaceURI::HTML),
+    ("td", NamespaceURI::HTML),
+    ("template", NamespaceURI::HTML),
+    ("th", NamespaceURI::HTML),
+    ("annotation-xml", NamespaceURI::MATHML),
+    ("mi", NamespaceURI::MATHML),
+    ("mn", NamespaceURI::MATHML),
+    ("mo", NamespaceURI::MATHML),
+    ("ms", NamespaceURI::MATHML),
+    ("mtext", NamespaceURI::MATHML),
+    ("desc", NamespaceURI::SVG),
+    ("foreignObject", NamespaceURI::SVG),
+    ("title", NamespaceURI::SVG),
+];
+
+const LIST_ITEM_SCOPE: &[(&str, NamespaceURI)] = &[
+    ("applet", NamespaceURI::HTML),
+    ("caption", NamespaceURI::HTML),
+    ("html", NamespaceURI::HTML),
+    ("marquee", NamespaceURI::HTML),
+    ("object", NamespaceURI::HTML),
+    ("table", NamespaceURI::HTML),
+    ("td", NamespaceURI::HTML),
+    ("template", NamespaceURI::HTML),
+    ("th", NamespaceURI::HTML),
+    ("annotation-xml", NamespaceURI::MATHML),
+    ("mi", NamespaceURI::MATHML),
+    ("mn", NamespaceURI::MATHML),
+    ("mo", NamespaceURI::MATHML),
+    ("ms", NamespaceURI::MATHML),
+    ("mtext", NamespaceURI::MATHML),
+    ("desc", NamespaceURI::SVG),
+    ("foreignObject", NamespaceURI::SVG),
+    ("title", NamespaceURI::SVG),
+    ("ol", NamespaceURI::HTML),
+    ("ul", NamespaceURI::HTML),
+];
+const BUTTON_SCOPE: &[(&str, NamespaceURI)] = &[
+    ("applet", NamespaceURI::HTML),
+    ("caption", NamespaceURI::HTML),
+    ("html", NamespaceURI::HTML),
+    ("marquee", NamespaceURI::HTML),
+    ("object", NamespaceURI::HTML),
+    ("table", NamespaceURI::HTML),
+    ("td", NamespaceURI::HTML),
+    ("template", NamespaceURI::HTML),
+    ("th", NamespaceURI::HTML),
+    ("annotation-xml", NamespaceURI::MATHML),
+    ("mi", NamespaceURI::MATHML),
+    ("mn", NamespaceURI::MATHML),
+    ("mo", NamespaceURI::MATHML),
+    ("ms", NamespaceURI::MATHML),
+    ("mtext", NamespaceURI::MATHML),
+    ("desc", NamespaceURI::SVG),
+    ("foreignObject", NamespaceURI::SVG),
+    ("title", NamespaceURI::SVG),
+    ("button", NamespaceURI::HTML),
+];
+const TABLE_SCOPE: &[(&str, NamespaceURI)] = &[
+    ("html", NamespaceURI::HTML),
+    ("table", NamespaceURI::HTML),
+    ("template", NamespaceURI::HTML),
+];
+const SELECT_SCOPE: &[(&str, NamespaceURI)] = &[
+    ("optgroup", NamespaceURI::HTML),
+    ("option", NamespaceURI::HTML),
+];
 
 impl OpenElementsStack {
     pub fn new() -> Self {
-        OpenElementsStack { items: vec![] }
+        OpenElementsStack {
+            items: vec![],
+            template_element_count: 0,
+        }
     }
 
     pub fn push(&mut self, element: Element) {
+        if &*element.tag_name == "template" {
+            self.template_element_count += 1;
+        }
+
         self.items.push(element);
     }
 
     pub fn pop(&mut self) -> Option<Element> {
-        self.items.pop()
+        let popped = self.items.pop();
+
+        if let Some(Element { ref tag_name, .. }) = popped {
+            if &*tag_name == "template" {
+                self.template_element_count -= 1;
+            }
+        }
+
+        popped
     }
 
     pub fn remove(&mut self, element: Option<&Element>) {}
-
-    pub fn bottom(&mut self) {}
 
     pub fn contains(&self, element: Option<&Element>) -> bool {
         false
     }
 
-    pub fn current_node_is_root_html_element(&mut self) -> bool {
-        false
-    }
-
-    pub fn get_before_current(&mut self) -> Option<Element> {
-        None
-    }
-
-    pub fn first(&mut self) -> Option<Element> {
-        None
-    }
-
     pub fn contains_template_element(&mut self) -> bool {
+        self.template_element_count > 0
+    }
+
+    // The stack of open elements is said to have an element target node in a
+    // specific scope consisting of a list of element types list when the following
+    // algorithm terminates in a match state:
+    fn has_element_target_node_in_specific_scope(
+        &self,
+        tag_name: &str,
+        list: &[(&str, NamespaceURI)],
+    ) -> bool {
+        let mut iter = self.items.iter().rev();
+        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        let mut node = iter.next();
+
+        while let Some(element) = node {
+            // 2. If node is the target node, terminate in a match state.
+            if &*element.tag_name == tag_name && element.namespace_uri == NamespaceURI::HTML {
+                return true;
+            }
+            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // failure state.
+            for element_and_ns in list {
+                if &*element.tag_name == element_and_ns.0
+                    && element.namespace_uri == element_and_ns.1
+                {
+                    return false;
+                }
+            }
+
+            // 4. Otherwise, set node to the previous entry in the stack of open elements
+            // and return to step 2. (This will never fail, since the loop will always
+            // terminate in the previous step if the top of the stack — an html element — is
+            // reached.)
+            node = iter.next();
+        }
+
         false
     }
 
-    pub fn has_in_button_scope(&self, tag_name: &str) -> bool {
-        true
-    }
-
-    pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
-        false
-    }
-
-    pub fn has_in_table_scope(&self, tag_name: &str) -> bool {
-        false
-    }
-
+    // The stack of open elements is said to have a particular element in scope when
+    // it has that element in the specific scope consisting of the following element
+    // types:
+    //
+    // applet
+    // caption
+    // html
+    // table
+    // td
+    // th
+    // marquee
+    // object
+    // template
+    // MathML mi
+    // MathML mo
+    // MathML mn
+    // MathML ms
+    // MathML mtext
+    // MathML annotation-xml
+    // SVG foreignObject
+    // SVG desc
+    // SVG title
     pub fn has_in_scope(&self, tag_name: &str) -> bool {
-        false
+        self.has_element_target_node_in_specific_scope(tag_name, SPECIFIC_SCOPE)
     }
 
+    // The stack of open elements is said to have a particular element in list item
+    // scope when it has that element in the specific scope consisting of the
+    // following element types:
+    //
+    // All the element types listed above for the has an element in scope algorithm.
+    // ol in the HTML namespace
+    // ul in the HTML namespace
     pub fn has_in_list_item_scope(&self, tag_name: &str) -> bool {
-        false
+        self.has_element_target_node_in_specific_scope(tag_name, LIST_ITEM_SCOPE)
     }
 
-    pub fn clear_back_to_table_context(&mut self) {}
+    // The stack of open elements is said to have a particular element in button
+    // scope when it has that element in the specific scope consisting of the
+    // following element types:
+    //
+    // All the element types listed above for the has an element in scope algorithm.
+    // button in the HTML namespace
+    pub fn has_in_button_scope(&self, tag_name: &str) -> bool {
+        self.has_element_target_node_in_specific_scope(tag_name, BUTTON_SCOPE)
+    }
 
-    pub fn clear_back_to_table_row_context(&mut self) {}
+    // The stack of open elements is said to have a particular element in table
+    // scope when it has that element in the specific scope consisting of the
+    // following element types:
+    //
+    // html in the HTML namespace
+    // table in the HTML namespace
+    // template in the HTML namespace
+    pub fn has_in_table_scope(&self, tag_name: &str) -> bool {
+        self.has_element_target_node_in_specific_scope(tag_name, TABLE_SCOPE)
+    }
 
-    pub fn clear_back_to_table_body_context(&mut self) {}
+    // The stack of open elements is said to have a particular element in select
+    // scope when it has that element in the specific scope consisting of all
+    // element types except the following:
+    //
+    // optgroup in the HTML namespace
+    // option in the HTML namespace
+    pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
+        self.has_element_target_node_in_specific_scope(tag_name, SELECT_SCOPE)
+    }
 
-    pub fn generate_implied_end_tags(&mut self) {}
+    pub fn clear_back_to_table_context(&mut self) {
+        for i in (0..self.items.len()).rev() {
+            let current_element = &self.items[i];
 
-    pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {}
+            if &*current_element.tag_name == "table"
+                || &*current_element.tag_name == "template"
+                || &*current_element.tag_name == "html"
+            {
+                break;
+            }
 
-    pub fn pop_until_tag_name_popped(&mut self, tag_name: &str) {}
+            self.pop();
+        }
+    }
 
-    pub fn pop_until_numbered_header_popped(&mut self) {}
+    pub fn clear_back_to_table_row_context(&mut self) {
+        for i in (0..self.items.len()).rev() {
+            let current_element = &self.items[i];
+
+            if &*current_element.tag_name == "tr"
+                || &*current_element.tag_name == "template"
+                || &*current_element.tag_name == "html"
+            {
+                break;
+            }
+
+            self.pop();
+        }
+    }
+
+    pub fn clear_back_to_table_body_context(&mut self) {
+        for i in (0..self.items.len()).rev() {
+            let current_element = &self.items[i];
+
+            if &*current_element.tag_name == "thead"
+                || &*current_element.tag_name == "tfoot"
+                || &*current_element.tag_name == "tbody"
+                || &*current_element.tag_name == "template"
+                || &*current_element.tag_name == "html"
+            {
+                break;
+            }
+
+            self.pop();
+        }
+    }
+
+    pub fn generate_implied_end_tags(&mut self) {
+        for i in 0..self.items.len() {
+            let element = &self.items[i];
+
+            if IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref()) {
+                break;
+            }
+
+            self.pop();
+        }
+    }
+
+    pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
+        for i in 0..self.items.len() {
+            let element = &self.items[i];
+
+            if tag_name != &*element.tag_name
+                && IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref())
+            {
+                break;
+            }
+
+            self.pop();
+        }
+    }
+
+    pub fn pop_until_tag_name_popped(&mut self, tag_name: &str) {
+        while !self.items.is_empty() {
+            let popped = self.pop();
+
+            match popped {
+                Some(Element {
+                    tag_name: popped_tag_name,
+                    ..
+                }) if &*popped_tag_name == tag_name => {
+                    break;
+                }
+                _ => {}
+            }
+        }
+    }
+
+    pub fn pop_until_numbered_header_popped(&mut self) {
+        while !self.items.is_empty() {
+            let popped = self.pop();
+
+            match popped {
+                Some(Element {
+                    tag_name: popped_tag_name,
+                    ..
+                }) if matches!(&*popped_tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
+                    break;
+                }
+                _ => {}
+            }
+        }
+    }
 }
 
-struct FormattingElementList {}
+struct FormattingElementList {
+    items: Vec<Element>,
+}
 
 impl FormattingElementList {
     pub fn new() -> Self {
-        FormattingElementList {}
+        FormattingElementList { items: vec![] }
     }
 
     pub fn push(&mut self, node: Element) {}
@@ -1207,8 +1465,6 @@ where
                             for attribute in attributes {
                                 let has_attribute = if let Some(element) = &first {
                                     // TODO
-                                    // element.attributes.contains(|first_attribute: Attribute|
-                                    // first_attribute.name == attribute.name)
                                     false
                                 } else {
                                     false
@@ -3247,7 +3503,8 @@ where
                     // If there is once again a pending parsing-blocking script, then repeat these
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                        self.open_elements_stack.bottom();
+                        // TODO
+                        // self.open_elements_stack.bottom();
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
@@ -4459,7 +4716,15 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "optgroup" => {
                         match &self.open_elements_stack.items.last() {
                             Some(Element { tag_name, .. }) if &*tag_name == "option" => {
-                                match self.open_elements_stack.get_before_current() {
+                                match self
+                                    .open_elements_stack
+                                    .items
+                                    // `-1` is `current node`, because `The current node is the
+                                    // bottommost node in this stack of open elements.`
+                                    // `-2` is node immediately before it in the stack of open
+                                    // elements
+                                    .get(self.open_elements_stack.items.len() - 2)
+                                {
                                     Some(Element { tag_name, .. }) if &*tag_name == "optgroup" => {
                                         self.open_elements_stack.pop();
                                     }
@@ -4852,9 +5117,10 @@ where
                     // Insert a comment as the last child of the first element in the stack of open
                     // elements (the html element).
                     Token::Comment { .. } => {
-                        let first_element = self.open_elements_stack.first();
+                        // TODO fix me
+                        // let first = self.open_elements_stack.items.first();
 
-                        self.insert_comment(token_and_span, first_element)?;
+                        // self.insert_comment(token_and_span, first)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4952,7 +5218,17 @@ where
                     // (fragment case), and the current node is no longer a frameset element, then
                     // switch the insertion mode to "after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "frameset" => {
-                        if self.open_elements_stack.current_node_is_root_html_element() {
+                        let is_root_html_document = match self.open_elements_stack.items.last() {
+                            Some(Element { tag_name, .. })
+                                if &*tag_name == "html"
+                                    && self.open_elements_stack.items.len() == 1 =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        };
+
+                        if is_root_html_document {
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -5199,7 +5475,7 @@ where
     fn insert_comment(
         &mut self,
         token_and_span: TokenAndSpan,
-        position: Option<Element>,
+        position: Option<&Element>,
     ) -> PResult<()> {
         Ok(())
     }
