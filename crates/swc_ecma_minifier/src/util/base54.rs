@@ -40,10 +40,12 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
         ret.push(c);
     }
 
-    unsafe {
+    let s = unsafe {
         // Safety: We are only using ascii characters
         String::from_utf8_unchecked(ret)
-    }
+    };
+
+    s.into()
 }
 
 #[allow(unused)]
@@ -177,7 +179,7 @@ mod tests {
 
         fn gen(&mut self, expected: &str) {
             let generated = encode(&mut self.n, true);
-            assert_eq!(generated, expected);
+            assert_eq!(&*generated, expected);
         }
     }
 
@@ -344,7 +346,7 @@ mod tests {
         let mut init = RESERVED[0];
         let target = init + 2;
         let gen = encode(&mut init, true);
-        assert_eq!(gen, "dp");
+        assert_eq!(&*gen, "dp");
         assert_eq!(init, target);
     }
 
