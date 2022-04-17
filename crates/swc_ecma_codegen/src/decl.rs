@@ -29,24 +29,33 @@ where
 
     #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
+        self.emit_class_decl_inner(node, false)?;
+    }
+
+    fn emit_class_decl_inner(&mut self, node: &ClassDecl, skip_decorators: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.declare {
-            keyword!("declare");
-            space!();
+            keyword!(self, "declare");
+            space!(self);
         }
 
-        for dec in &node.class.decorators {
-            emit!(dec);
+        if !skip_decorators {
+            for dec in &node.class.decorators {
+                emit!(self, dec);
+            }
         }
-        keyword!("class");
-        space!();
-        emit!(node.ident);
-        emit!(node.class.type_params);
+
+        keyword!(self, "class");
+        space!(self);
+        emit!(self, node.ident);
+        emit!(self, node.class.type_params);
 
         self.emit_class_trailing(&node.class)?;
+
+        Ok(())
     }
 
     #[emitter]
