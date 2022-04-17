@@ -947,7 +947,7 @@ where
                     //
                     // Follow the generic RCDATA element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "title" => {
-                        self.follow_the_generic_rcdata_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, false)?;
                     }
                     // A start tag whose tag name is "noscript", if the scripting flag is enabled
                     // A start tag whose tag name is one of: "noframes", "style"
@@ -956,12 +956,12 @@ where
                     Token::StartTag { tag_name, .. }
                         if tag_name == "noscript" && self.config.scripting_enabled =>
                     {
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "noframes" | "style") =>
                     {
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     // A start tag whose tag name is "noscript", if the scripting flag is disabled
                     //
@@ -2959,7 +2959,7 @@ where
 
                         self.reconstruct_the_active_formatting_elements()?;
                         self.frameset_ok = false;
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     // A start tag whose tag name is "iframe"
                     //
@@ -2968,7 +2968,7 @@ where
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "iframe" => {
                         self.frameset_ok = false;
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     // A start tag whose tag name is "noembed"
                     //
@@ -2976,12 +2976,12 @@ where
                     //
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "noembed" => {
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     Token::StartTag { tag_name, .. }
                         if tag_name == "noscript" && self.config.scripting_enabled =>
                     {
-                        self.follow_the_generic_raw_text_element_parsing_algorithm();
+                        self.parse_generic_text_element(token_and_span, true)?;
                     }
                     // A start tag whose tag name is "select"
                     //
@@ -5569,9 +5569,35 @@ where
         Ok(())
     }
 
-    fn follow_the_generic_raw_text_element_parsing_algorithm(&mut self) {}
+    // Parsing elements that contain only text
+    // The generic raw text element parsing algorithm and the generic RCDATA element
+    // parsing algorithm consist of the following steps. These algorithms are always
+    // invoked in response to a start tag token.
+    fn parse_generic_text_element(
+        &mut self,
+        token_and_span: TokenAndSpan,
+        is_raw_text_element_algorithm: bool,
+    ) -> PResult<()> {
+        // Insert an HTML element for the token.
+        self.insert_html_element(token_and_span)?;
 
-    fn follow_the_generic_rcdata_element_parsing_algorithm(&mut self) {}
+        // If the algorithm that was invoked is the generic raw text element
+        // parsing algorithm, switch the tokenizer to the RAWTEXT state;
+        // otherwise the algorithm invoked was the generic RCDATA element
+        // parsing algorithm, switch the tokenizer to the RCDATA state.
+        if is_raw_text_element_algorithm {
+            self.input.set_input_state(State::Rawtext);
+        } else {
+            self.input.set_input_state(State::Rcdata);
+        }
+
+        // Let the original insertion mode be the current insertion mode.
+        self.original_insertion_mode = self.insertion_mode.clone();
+        // Then, switch the insertion mode to "text".
+        self.insertion_mode = InsertionMode::Text;
+
+        Ok(())
+    }
 
     fn close_p_element(&mut self) {
         // When the steps above say the user agent is to close a p element, it means
