@@ -592,13 +592,20 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if tpl.quasis.len() == 2 && tpl.quasis[0].cooked.is_some() && tpl.quasis[1].raw.is_empty() {
+        if tpl.quasis.len() == 2
+            && (tpl.quasis[0].cooked.is_some() || !tpl.quasis[0].raw.contains('\\'))
+            && tpl.quasis[1].raw.is_empty()
+        {
             self.changed = true;
             report_change!("evaluating a template to a string");
             *e = Expr::Bin(BinExpr {
                 span: tpl.span,
                 op: op!(bin, "+"),
-                left: tpl.quasis[0].cooked.clone().unwrap().into(),
+                left: tpl.quasis[0]
+                    .cooked
+                    .clone()
+                    .unwrap_or_else(|| tpl.quasis[0].raw.clone())
+                    .into(),
                 right: tpl.exprs[0].take(),
             });
         }
