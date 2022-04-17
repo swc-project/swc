@@ -4,8 +4,8 @@
 yarn lint-staged
 
 # Remove empty directories
-if command -v find &> /dev/null
+if command -v fd &> /dev/null
 then
-    find . -name '.DS_Store' -type f -delete
-    find . -type d -empty -delete
+    fd -H '^\.DS_Store$' -tf -X rm
+    fd -te -td -X rmdir
 fi
