@@ -41,6 +41,18 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----
+
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
     : ^^^

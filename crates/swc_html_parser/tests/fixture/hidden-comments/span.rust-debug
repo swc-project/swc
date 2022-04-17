@@ -39,3 +39,15 @@
  2 | <html>
    : ^^^^^^
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----

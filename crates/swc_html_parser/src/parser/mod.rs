@@ -5943,31 +5943,29 @@ where
         token_and_span: TokenAndSpan,
         position: Option<&mut Element>,
     ) -> PResult<()> {
-        // let last_pos = self.input.last_pos()?;
-        //
-        // // Let data be the data given in the comment token being processed.
-        // // If position was specified, then let the adjusted insertion location
-        // // be position. Otherwise, let adjusted insertion location be the
-        // // appropriate place for inserting a node.
-        // let adjusted_insertion_location = match position {
-        //     Some(node) => node,
-        //     None => self.get_appropriate_place_for_inserting_node(None),
-        // };
-        //
-        // // Create a Comment node whose data attribute is set to data and whose
-        // // node document is the same as that of the node in which the adjusted
-        // // insertion location finds itself.
-        // let node = create_comment_for_token(
-        //     token_and_span.token,
-        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        // );
-        //
-        // // Insert the newly created node at the adjusted insertion location.
-        // // self.insert_node(&node, adjusted_insertion_location)?;
-        // adjusted_insertion_location
-        //     .children
-        //     .push(Child::Comment(node));
-        //
+        let last_pos = self.input.last_pos()?;
+
+        // Let data be the data given in the comment token being processed.
+        // If position was specified, then let the adjusted insertion location
+        // be position. Otherwise, let adjusted insertion location be the
+        // appropriate place for inserting a node.
+        let adjusted_insertion_location = match position {
+            Some(node) => Target::Element(node),
+            None => self.get_appropriate_place_for_inserting_node(None),
+        };
+
+        // Create a Comment node whose data attribute is set to data and whose
+        // node document is the same as that of the node in which the adjusted
+        // insertion location finds itself.
+        let node = create_comment_for_token(
+            token_and_span.token,
+            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        );
+
+        // Insert the newly created node at the adjusted insertion location.
+        // self.insert_node(&node, adjusted_insertion_location)?;
+        insert_node(Child::Comment(node), adjusted_insertion_location);
+
         Ok(())
     }
 
@@ -5981,44 +5979,42 @@ where
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
     fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
-        // let last_pos = self.input.last_pos()?;
-        //
-        // // Let data be the characters passed to the algorithm, or, if no
-        // // characters were explicitly specified, the character of the character
-        // // token being processed.
-        //
-        // // Let the adjusted insertion location be the appropriate place for
-        // // inserting a node.
-        // let adjusted_insertion_location =
-        // self.get_appropriate_place_for_inserting_node(None);
-        //
-        // // If there is a Text node immediately before the adjusted insertion l
-        // // ocation, then append data to that Text node's data. Otherwise, create
-        // // a new Text node whose data is data and whose node document is the
-        // // same as that of the element in which the adjusted insertion location
-        // // finds itself, and insert the newly created node at the adjusted
-        // // insertion location.
-        // // TODO fix me
-        //
-        // // If the adjusted insertion location is in a Document node, then abort
-        // // these steps.
-        // // NOTE: The DOM will not let Document nodes have Text node children, so
-        // // they are dropped on the floor.
-        // match adjusted_insertion_location {
-        //     Element { tag_name, .. } if tag_name == "html" => {
-        //         return Ok(());
-        //     }
-        //     _ => {}
-        // }
-        //
-        // let node = create_text_for_token(
-        //     token_and_span.token,
-        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        // );
-        //
-        // // self.insert_node(&node, &mut adjusted_insertion_location)?;
-        // adjusted_insertion_location.children.push(Child::Text(node));
-        //
+        let last_pos = self.input.last_pos()?;
+
+        // Let data be the characters passed to the algorithm, or, if no
+        // characters were explicitly specified, the character of the character
+        // token being processed.
+
+        // Let the adjusted insertion location be the appropriate place for
+        // inserting a node.
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+
+        // If the adjusted insertion location is in a Document node, then abort
+        // these steps.
+        // NOTE: The DOM will not let Document nodes have Text node children, so
+        // they are dropped on the floor.
+        match adjusted_insertion_location {
+            Target::Document(_) => {
+                return Ok(());
+            }
+            _ => {}
+        }
+
+        // If there is a Text node immediately before the adjusted insertion l
+        // ocation, then append data to that Text node's data. Otherwise, create
+        // a new Text node whose data is data and whose node document is the
+        // same as that of the element in which the adjusted insertion location
+        // finds itself, and insert the newly created node at the adjusted
+        // insertion location.
+        // TODO fix me
+
+        let node = create_text_for_token(
+            token_and_span.token,
+            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        );
+
+        insert_node(Child::Text(node), adjusted_insertion_location);
+
         Ok(())
     }
 
