@@ -3,7 +3,7 @@ var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(
 new class {
     m() {
         var _tmp, _tmp1;
-        const foo = {
+        let foo = {
             bar: 1
         };
         console.log(swcHelpers.classPrivateFieldGet(this, _value)), swcHelpers.classPrivateFieldSet(this, _value, {

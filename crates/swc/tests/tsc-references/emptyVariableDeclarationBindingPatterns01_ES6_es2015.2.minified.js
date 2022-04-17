@@ -1,22 +1,18 @@
 !function() {
     var a, {} = a;
-    let {} = a;
-    const {} = a;
+    let {} = a, {} = a;
     var [] = a;
-    let [] = a;
-    const [] = a;
+    let [] = a, [] = a;
     var {} = a, [] = a;
-    let {} = a, [] = a;
-    const {} = a, [] = a;
+    let {} = a, [] = a, {} = a, [] = a;
     var {} = a;
-    let {} = a;
-    const {} = a;
+    let {} = a, {} = a;
 }(), function() {
-    const ns = [];
+    let ns = [];
     for (var {} of ns);
     for (let {} of ns);
-    for (const {} of ns);
+    for (let {} of ns);
     for (var [] of ns);
     for (let [] of ns);
-    for (const [] of ns);
+    for (let [] of ns);
 }();

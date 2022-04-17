@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
     var _ref;
     return {
         resolve: (_ref = swcHelpers.asyncToGenerator(function*(context, args) {
-            const { objects  } = yield {
+            let { objects  } = yield {
                 objects: 12
             };
             return swcHelpers.objectSpread({}, connectionFromArray(objects, args));

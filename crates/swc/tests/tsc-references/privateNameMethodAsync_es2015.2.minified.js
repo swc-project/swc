@@ -1,10 +1,10 @@
 var _bar, _baz, _qux;
 import * as swcHelpers from "@swc/helpers";
-const C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class {
+let C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class {
     foo() {
         var _this = this;
         return swcHelpers.asyncToGenerator(function*() {
-            const b = yield swcHelpers.classPrivateMethodGet(_this, _bar, bar).call(_this);
+            let b = yield swcHelpers.classPrivateMethodGet(_this, _bar, bar).call(_this);
             return b + (swcHelpers.classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0) + ((yield swcHelpers.classPrivateMethodGet(_this, _qux, qux).call(_this).next()).value || 0);
         })();
     }

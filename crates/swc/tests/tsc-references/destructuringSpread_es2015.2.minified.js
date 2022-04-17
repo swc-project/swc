@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const { x  } = swcHelpers.objectSpread({}, {}, {
+let { x  } = swcHelpers.objectSpread({}, {}, {
     x: 0
 }), { y  } = swcHelpers.objectSpread({
     y: 0

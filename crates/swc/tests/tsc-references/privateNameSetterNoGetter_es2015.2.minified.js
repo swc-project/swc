@@ -1,6 +1,6 @@
 var _x;
 import * as swcHelpers from "@swc/helpers";
-const C = (_x = new WeakMap(), class {
+let C = (_x = new WeakMap(), class {
     m() {
         swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2);
     }

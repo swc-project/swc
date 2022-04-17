@@ -1,4 +1,4 @@
 module.exports = a;
-const a = require('./b');
+let a = require('./b');
 new a.A();
 export { };

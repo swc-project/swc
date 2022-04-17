@@ -7,5 +7,5 @@ Cls.y = "ok";
 export default Cls;
 class C {
 }
-const x = 12;
+let x = 12;
 export { C as default, x as default };

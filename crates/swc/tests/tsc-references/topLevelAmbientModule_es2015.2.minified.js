@@ -1,3 +1,3 @@
-const foo = require("foo");
+let foo = require("foo");
 foo.x;
 export { };

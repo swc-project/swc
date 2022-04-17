@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require('react'), obj1 = {
+let React = require('react'), obj1 = {
     x: 2
 };
 class OverWriteAttr extends React.Component {

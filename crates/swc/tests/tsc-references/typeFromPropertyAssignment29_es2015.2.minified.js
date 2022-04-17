@@ -22,7 +22,7 @@ function ExpandoMerge(n) {
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
 }, (function(n) {
-    const nested = function(m) {
+    let nested = function(m) {
         return n + m;
     };
     return nested.total = n + 1_000_000, nested;

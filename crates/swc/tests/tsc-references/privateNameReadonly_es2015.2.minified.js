@@ -1,6 +1,6 @@
 var _bar;
 import * as swcHelpers from "@swc/helpers";
-const C = (_bar = new WeakSet(), class {
+let C = (_bar = new WeakSet(), class {
     foo() {
         swcHelpers.classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
     }

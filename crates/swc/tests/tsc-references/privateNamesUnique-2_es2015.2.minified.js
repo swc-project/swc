@@ -22,5 +22,5 @@ export class Foo {
         });
     }
 }
-const a = new A(), b = new B();
+let a = new A(), b = new B();
 a.copy(b);

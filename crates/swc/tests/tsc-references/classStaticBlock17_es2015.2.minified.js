@@ -8,7 +8,7 @@ friendA = {
         swcHelpers.classPrivateFieldSet(obj, _x, value);
     }
 };
-const a = new class {
+let a = new class {
     getX() {
         return swcHelpers.classPrivateFieldGet(this, _x);
     }
@@ -21,7 +21,7 @@ const a = new class {
 }(41);
 new class {
     constructor(a1){
-        const x = friendA.getX(a1);
+        let x = friendA.getX(a1);
         friendA.setX(a1, x + 1);
     }
 }(a), a.getX();

@@ -1,7 +1,7 @@
-const React = require('react');
+let React = require('react');
 class MyComponent extends React.Component {
     render() {
-        const { AnyComponent  } = this.props;
+        let { AnyComponent  } = this.props;
         return React.createElement(AnyComponent, null);
     }
 }

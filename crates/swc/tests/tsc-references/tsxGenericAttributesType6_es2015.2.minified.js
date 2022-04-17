@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require('react');
+let React = require('react');
 class B1 extends React.Component {
     render() {
         return React.createElement("div", null, "hi");

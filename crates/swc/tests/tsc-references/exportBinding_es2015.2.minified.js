@@ -1,5 +1,5 @@
 export default x;
-const x = 'x';
+let x = 'x';
 class Y {
 }
 export default y;

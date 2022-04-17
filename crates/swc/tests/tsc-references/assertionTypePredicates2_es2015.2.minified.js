@@ -1,4 +1,4 @@
-const foo = (a)=>{
+let foo = (a)=>{
     if (0 !== a.y) throw TypeError();
 };
 export const main = ()=>{
