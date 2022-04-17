@@ -4,10 +4,7 @@ use swc_ecma_utils::{ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{
-    compress::util::{always_terminates, is_fine_for_if_cons},
-    util::ModuleItemExt,
-};
+use crate::{compress::util::is_fine_for_if_cons, util::ModuleItemExt};
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -204,7 +201,7 @@ impl Pure<'_> {
             .iter()
             .enumerate()
             .find(|(_, stmt)| match stmt.as_stmt() {
-                Some(s) => always_terminates(s),
+                Some(s) => s.terminates(),
                 _ => false,
             });
 

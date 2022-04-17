@@ -350,13 +350,8 @@ pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
 }
 
 pub trait StmtExt {
-    fn into_stmt(self) -> Stmt;
-    fn as_stmt(&self) -> &Stmt;
-
     /// Extracts hoisted variables
-    fn extract_var_ids(&self) -> Vec<Ident> {
-        extract_var_ids(self.as_stmt())
-    }
+    fn extract_var_ids(&self) -> Vec<Ident>;
 
     fn extract_var_ids_as_var(&self) -> Option<VarDecl> {
         let ids = self.extract_var_ids();
@@ -379,29 +374,55 @@ pub trait StmtExt {
                 .collect(),
         })
     }
+
+    /// stmts contain top level return/break/continue/throw
+    fn terminates(&self) -> bool;
 }
 
 impl StmtExt for Stmt {
-    #[inline]
-    fn into_stmt(self) -> Stmt {
-        self
+    fn extract_var_ids(&self) -> Vec<Ident> {
+        extract_var_ids(self)
     }
 
-    #[inline]
-    fn as_stmt(&self) -> &Stmt {
-        self
+    fn terminates(&self) -> bool {
+        match self {
+            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => return true,
+            Stmt::Block(block) if block.stmts.terminates() => return true,
+            Stmt::If(IfStmt {
+                cons,
+                alt: Some(alt),
+                ..
+            }) if cons.terminates() && alt.terminates() => return true,
+            _ => (),
+        }
+
+        false
     }
 }
 
 impl StmtExt for Box<Stmt> {
-    #[inline]
-    fn into_stmt(self) -> Stmt {
-        *self
+    fn extract_var_ids(&self) -> Vec<Ident> {
+        extract_var_ids(&**self)
     }
 
-    #[inline]
-    fn as_stmt(&self) -> &Stmt {
-        &**self
+    fn terminates(&self) -> bool {
+        (&**self).terminates()
+    }
+}
+
+impl StmtExt for Vec<Stmt> {
+    fn extract_var_ids(&self) -> Vec<Ident> {
+        extract_var_ids(self)
+    }
+
+    fn terminates(&self) -> bool {
+        for s in self {
+            if s.terminates() {
+                return true;
+            }
+        }
+
+        false
     }
 }
 

@@ -6,10 +6,7 @@ use swc_ecma_utils::{prepend, ExprExt, StmtExt, Type, Value::Known};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{
-    compress::util::{abort_stmts, is_pure_undefined},
-    mode::Mode,
-};
+use crate::{compress::util::is_pure_undefined, mode::Mode};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -378,9 +375,9 @@ where
                 }
                 [first, second] if first.test.is_none() || second.test.is_none() => {
                     report_change!("switches: Turn two cases switch into if else");
-                    let abort = abort_stmts(&first.cons);
+                    let terminate = first.cons.terminates();
 
-                    if abort {
+                    if terminate {
                         if let Stmt::Break(BreakStmt { label: None, .. }) =
                             first.cons.last().unwrap()
                         {

@@ -1,15 +1,10 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, undefined, StmtLike};
+use swc_ecma_utils::{prepend, undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{
-    compress::util::{always_terminates, is_pure_undefined},
-    debug::dump,
-    mode::Mode,
-    util::ExprOptExt,
-};
+use crate::{compress::util::is_pure_undefined, debug::dump, mode::Mode, util::ExprOptExt};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -587,7 +582,7 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
 fn can_merge_as_if_return(s: &Stmt) -> bool {
     fn cost(s: &Stmt) -> Option<isize> {
         if let Stmt::Block(..) = s {
-            if !always_terminates(s) {
+            if !s.terminates() {
                 return None;
             }
         }

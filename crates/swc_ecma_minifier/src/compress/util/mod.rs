@@ -533,18 +533,6 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
     None
 }
 
-pub(crate) fn always_terminates(s: &Stmt) -> bool {
-    match s {
-        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
-        Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates(cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
-        }
-        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
-
-        _ => false,
-    }
-}
-
 pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
 where
     N: for<'aa> VisitWith<UsageFinder<'aa>>,
@@ -792,30 +780,4 @@ impl Visit for SuperFinder {
     fn visit_super(&mut self, _: &Super) {
         self.found = true;
     }
-}
-
-/// stmts contain top level return/break/continue/throw
-pub(crate) fn abort(stmt: &Stmt) -> bool {
-    match stmt {
-        Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => return true,
-        Stmt::Block(block) if abort_stmts(&block.stmts) => return true,
-        Stmt::If(IfStmt {
-            cons,
-            alt: Some(alt),
-            ..
-        }) if abort(cons) && abort(alt) => return true,
-        _ => (),
-    }
-
-    false
-}
-
-pub(crate) fn abort_stmts(stmts: &[Stmt]) -> bool {
-    for s in stmts {
-        if abort(s) {
-            return true;
-        }
-    }
-
-    false
 }
