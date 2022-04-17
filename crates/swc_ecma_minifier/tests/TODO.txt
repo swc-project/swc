@@ -702,6 +702,8 @@ reduce_vars/unsafe_evaluate_modified/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js
+reduce_vars/var_assign_1/input.js
+reduce_vars/var_assign_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 rename/function_iife_catch/input.js
