@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit decorators before export (#4349) ([4953ce4](https://github.com/swc-project/swc/commit/4953ce466fcb008aa356d88489786b7bff3f2395))
+
+
 - **(es/minifier)** Preserve vars in dead branches (#4345) ([5a5e41a](https://github.com/swc-project/swc/commit/5a5e41aaaa3791f76de9c73aa29c714fa097c773))
 
 ### Miscellaneous Tasks
