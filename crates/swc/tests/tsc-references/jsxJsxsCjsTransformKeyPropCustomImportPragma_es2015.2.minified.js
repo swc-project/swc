@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { createElement as _createElement } from "react";
 import "./preact";
-const props = {
+let props = {
     answer: 42
 };
 swcHelpers.objectSpread({}, props, {
@@ -10,7 +10,7 @@ swcHelpers.objectSpread({}, props, {
 }), swcHelpers.objectSpread({}, props, {
     key: "bar"
 });
-const props2 = {
+let props2 = {
     answer: 42
 };
 swcHelpers.objectSpread({}, props2, {

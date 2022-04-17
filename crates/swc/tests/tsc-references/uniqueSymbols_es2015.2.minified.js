@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const constCall = Symbol();
+let constCall = Symbol();
 Symbol(), Symbol(), Symbol(), constType, constType, constType, constType;
 class C {
     constructor(){

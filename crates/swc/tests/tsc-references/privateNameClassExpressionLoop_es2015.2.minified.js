@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const array = [];
+let array = [];
 for(let i = 0; i < 10; ++i){
     var _myField;
     function get_accessor() {

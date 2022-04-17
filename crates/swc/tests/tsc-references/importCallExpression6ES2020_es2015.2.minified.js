@@ -9,5 +9,5 @@ export function foo() {
 export function backup() {
     return "backup";
 }
-const specify = bar() ? "./0" : void 0;
+let specify = bar() ? "./0" : void 0;
 import(specify), import(void 0), import(bar() ? "./1" : null), import(null);

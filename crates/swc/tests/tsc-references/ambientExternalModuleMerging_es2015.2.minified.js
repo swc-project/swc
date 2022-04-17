@@ -1,3 +1,3 @@
-const M = require("M");
+let M = require("M");
 M.x, M.y;
 export { };

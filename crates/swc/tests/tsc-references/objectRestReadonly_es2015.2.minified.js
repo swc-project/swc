@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const obj = {
+let obj = {
     foo: 'bar',
     baz: 'qux',
     quux: 'quuz'

@@ -1,4 +1,4 @@
 module.exports = items;
-const items = [];
+let items = [];
 module.exports = items;
 export { };

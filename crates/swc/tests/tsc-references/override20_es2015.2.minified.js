@@ -1,4 +1,4 @@
-const Foo = class {
+let Foo = class {
     m1() {}
     m2() {}
 };

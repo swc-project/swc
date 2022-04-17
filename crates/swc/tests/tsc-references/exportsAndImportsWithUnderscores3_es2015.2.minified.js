@@ -4,4 +4,4 @@ export default R = {
     "___hello": 21,
     "_hi": 40
 };
-const { ___ , ___hello , _hi  } = R;
+let { ___ , ___hello , _hi  } = R;

@@ -5,7 +5,7 @@ for (const i of [
     3,
     4
 ])try {
-    for (const j of [
+    for (let j of [
         1,
         2,
         3

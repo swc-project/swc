@@ -9,7 +9,7 @@ module.exports = {
 const { Rectangle  } = require('./rectangle');
 class Render {
     addRectangle() {
-        const obj = new Rectangle();
+        let obj = new Rectangle();
         return this.objects.push(obj), obj;
     }
     constructor(){

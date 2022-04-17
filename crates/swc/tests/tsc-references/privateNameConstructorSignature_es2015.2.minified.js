@@ -3,7 +3,7 @@ var _x = new WeakMap();
 class C {
     static test() {
         swcHelpers.classPrivateFieldSet(new C(), _x, 10);
-        const y = new C(), z = new y();
+        let y = new C(), z = new y();
         z.x = 123;
     }
     constructor(){

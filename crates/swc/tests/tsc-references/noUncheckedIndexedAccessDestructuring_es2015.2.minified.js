@@ -1,19 +1,19 @@
 import * as swcHelpers from "@swc/helpers";
-const [s1] = strArray;
+let [s1] = strArray;
 s1.toString();
-const [...s2] = strArray;
+let [...s2] = strArray;
 s2.push(void 0);
-const [, , ...s3] = strArray;
+let [, , ...s3] = strArray;
 s3.push(void 0);
-const { t1  } = strMap;
+let { t1  } = strMap;
 t1.toString();
-const t2 = swcHelpers.extends({}, strMap);
+let t2 = swcHelpers.extends({}, strMap);
 t2.z.toString();
 {
-    const { x , y , z  } = numMapPoint;
+    let { x , y , z  } = numMapPoint;
     x.toFixed(), y.toFixed(), z.toFixed();
 }{
-    const { x  } = numMapPoint, q = swcHelpers.objectWithoutProperties(numMapPoint, [
+    let { x  } = numMapPoint, q = swcHelpers.objectWithoutProperties(numMapPoint, [
         "x"
     ]);
     x.toFixed(), q.y.toFixed(), q.z.toFixed();

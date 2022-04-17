@@ -4,9 +4,9 @@ class AA {
     test() {
         var _ref, _ref1, _ref2;
         swcHelpers.classPrivateMethodGet(this, _method, method).call(this);
-        const func = swcHelpers.classPrivateMethodGet(this, _method, method);
+        let func = swcHelpers.classPrivateMethodGet(this, _method, method);
         func(), new (swcHelpers.classPrivateMethodGet(this, _method, method))();
-        const arr = [
+        let arr = [
             1,
             2
         ];

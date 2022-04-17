@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require('react');
+let React = require('react');
 swcHelpers.extends({
     a: 10,
     b: "hi"

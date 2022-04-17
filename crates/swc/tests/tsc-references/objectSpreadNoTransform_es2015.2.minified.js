@@ -1,6 +1,6 @@
 var b, _o;
 import * as swcHelpers from "@swc/helpers";
-const o = swcHelpers.objectSpread({
+let o = swcHelpers.objectSpread({
     x: 1
 }, {
     a: 'yes',

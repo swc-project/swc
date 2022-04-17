@@ -4,9 +4,9 @@ class A {
     test() {
         var ref, _ref;
         swcHelpers.classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = swcHelpers.classPrivateFieldGet(this, _fieldFunc)) || void 0 === ref || ref.call(this);
-        const func = swcHelpers.classPrivateFieldGet(this, _fieldFunc);
+        let func = swcHelpers.classPrivateFieldGet(this, _fieldFunc);
         func(), new (swcHelpers.classPrivateFieldGet(this, _fieldFunc))();
-        const arr = [
+        let arr = [
             1,
             2
         ];
