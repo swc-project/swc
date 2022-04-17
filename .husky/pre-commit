@@ -6,6 +6,6 @@ yarn lint-staged
 # Remove empty directories
 if command -v fd &> /dev/null
 then
-    fd -H '^\.DS_Store$' -tf -X rm
-    fd -te -td -X rmdir
+    fd -H '^\.DS_Store$' -tf -X rm || true
+    fd -te -td -X rmdir || true
 fi
