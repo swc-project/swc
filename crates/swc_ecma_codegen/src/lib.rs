@@ -1410,6 +1410,10 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
         srcmap!(n, true);
 
+        for dec in &n.decorators {
+            emit!(dec)
+        }
+
         if n.accessibility != Some(Accessibility::Public) {
             self.emit_accessibility(n.accessibility)?;
         }
