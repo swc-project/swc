@@ -1,3 +1,5 @@
+use dashmap::DashMap;
+use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 
 static BASE54_DEFAULT_CHARS: &[u8; 64] =
@@ -6,6 +8,8 @@ static BASE54_DEFAULT_CHARS: &[u8; 64] =
 /// givin a number, return a base54 encoded string
 /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
 pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
+    static CACHE: Lazy<DashMap<usize, JsWord>> = Lazy::new(Default::default);
+
     if skip_reserved {
         while init.is_reserved()
             || init.is_reserved_in_strict_bind()
@@ -15,9 +19,14 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
         }
     }
 
+    let key = *init;
     let mut n = *init;
 
     *init += 1;
+
+    if let Some(cached) = CACHE.get(&key).as_deref().cloned() {
+        return cached;
+    }
 
     let mut base = 54;
 
@@ -45,7 +54,11 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
         String::from_utf8_unchecked(ret)
     };
 
-    s.into()
+    let s = JsWord::from(s);
+
+    CACHE.entry(key).or_insert_with(|| s.clone());
+
+    s
 }
 
 #[allow(unused)]
