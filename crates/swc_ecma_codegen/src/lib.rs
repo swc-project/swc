@@ -162,10 +162,24 @@ where
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
         srcmap!(n, true);
 
-        keyword!("export");
+        match &n.decl {
+            Decl::Class(decl) => {
+                for dec in &decl.class.decorators {
+                    emit!(dec);
+                }
 
-        space!();
-        emit!(n.decl);
+                keyword!("export");
+
+                space!();
+                self.emit_class_decl_inner(decl, true)?;
+            }
+            _ => {
+                keyword!("export");
+
+                space!();
+                emit!(n.decl);
+            }
+        }
 
         srcmap!(n, false);
     }
@@ -1395,6 +1409,10 @@ where
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
         srcmap!(n, true);
+
+        for dec in &n.decorators {
+            emit!(dec)
+        }
 
         if n.accessibility != Some(Accessibility::Public) {
             self.emit_accessibility(n.accessibility)?;
