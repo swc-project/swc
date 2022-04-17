@@ -7,6 +7,7 @@ pub(crate) type Readonly<T> = std::sync::Arc<T>;
 #[derive(Default)]
 pub(crate) struct Readonly<T>(T);
 
+#[cfg(not(feature = "concurrent"))]
 impl<T> Deref for Readonly<T> {
     type Target = T;
 
@@ -15,6 +16,7 @@ impl<T> Deref for Readonly<T> {
     }
 }
 
+#[cfg(not(feature = "concurrent"))]
 impl<T> From<T> for Readonly<T> {
     fn from(v: T) -> Self {
         Self(v)
