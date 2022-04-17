@@ -262,6 +262,18 @@ impl Pure<'_> {
         elems: &mut Vec<Option<ExprOrSpread>>,
         sep: &str,
     ) -> Option<Expr> {
+        if elems.iter().flatten().any(|elem| {
+            !matches!(
+                &*elem.expr,
+                Expr::Tpl(Tpl {
+                    value: Some(..),
+                    ..
+                }) | Expr::Lit(Lit::Str(..))
+            )
+        }) {
+            return None;
+        }
+
         None
     }
 
