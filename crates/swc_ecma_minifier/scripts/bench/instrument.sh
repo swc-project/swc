@@ -5,3 +5,7 @@
 # Usage:
 #
 #   ./scripts/bench/instrument typescript
+
+
+export RUST_LOG=off
+cargo profile instruments -t time --bench full --release -- $@
