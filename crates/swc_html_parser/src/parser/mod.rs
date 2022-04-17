@@ -62,6 +62,11 @@ const IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
     "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
 ];
 
+const IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&str] = &[
+    "caption", "colgroup", "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
+    "tbody", "td", "tfoot", "th", "thead", "tr",
+];
+
 const SPECIFIC_SCOPE: &[(&str, Namespace)] = &[
     ("applet", Namespace::HTML),
     ("caption", Namespace::HTML),
@@ -162,10 +167,12 @@ impl OpenElementsStack {
         popped
     }
 
-    pub fn remove(&mut self, element: Option<&Element>) {}
+    pub fn remove(&mut self, element: Element) {
+        if &*element.tag_name == "template" {
+            self.template_element_count -= 1;
+        }
 
-    pub fn contains(&self, element: Option<&Element>) -> bool {
-        false
+        self.items.retain(|x| x != &element);
     }
 
     pub fn contains_template_element(&mut self) -> bool {
@@ -189,6 +196,7 @@ impl OpenElementsStack {
             if &*element.tag_name == tag_name && element.namespace == Namespace::HTML {
                 return true;
             }
+
             // 3. Otherwise, if node is one of the element types in list, terminate in a
             // failure state.
             for element_and_ns in list {
@@ -275,89 +283,106 @@ impl OpenElementsStack {
         self.has_element_target_node_in_specific_scope(tag_name, SELECT_SCOPE)
     }
 
+    // When the steps above require the UA to clear the stack back to a table
+    // context, it means that the UA must, while the current node is not a table,
+    // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_context(&mut self) {
-        for i in (0..self.items.len()).rev() {
-            let current_element = &self.items[i];
-
-            if &*current_element.tag_name == "table"
-                || &*current_element.tag_name == "template"
-                || &*current_element.tag_name == "html"
-            {
+        while let Some(element) = self.items.last() {
+            if !matches!(&*element.tag_name, "table" | "template" | "html") {
+                self.pop();
+            } else {
                 break;
             }
-
-            self.pop();
         }
     }
 
+    // When the steps above require the UA to clear the stack back to a table row
+    // context, it means that the UA must, while the current node is not a tr,
+    // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_row_context(&mut self) {
-        for i in (0..self.items.len()).rev() {
-            let current_element = &self.items[i];
-
-            if &*current_element.tag_name == "tr"
-                || &*current_element.tag_name == "template"
-                || &*current_element.tag_name == "html"
-            {
+        while let Some(element) = self.items.last() {
+            if !matches!(&*element.tag_name, "tr" | "template" | "html") {
+                self.pop();
+            } else {
                 break;
             }
-
-            self.pop();
         }
     }
 
+    // When the steps above require the UA to clear the stack back to a table body
+    // context, it means that the UA must, while the current node is not a tbody,
+    // tfoot, thead, template, or html element, pop elements from the stack of open
+    // elements.
     pub fn clear_back_to_table_body_context(&mut self) {
-        for i in (0..self.items.len()).rev() {
-            let current_element = &self.items[i];
-
-            if &*current_element.tag_name == "thead"
-                || &*current_element.tag_name == "tfoot"
-                || &*current_element.tag_name == "tbody"
-                || &*current_element.tag_name == "template"
-                || &*current_element.tag_name == "html"
-            {
+        while let Some(element) = self.items.last() {
+            if !matches!(
+                &*element.tag_name,
+                "thead" | "tfoot" | "tbody" | "template" | "html"
+            ) {
+                self.pop();
+            } else {
                 break;
             }
-
-            self.pop();
         }
     }
 
+    // When the steps below require the UA to generate implied end tags, then, while
+    // the current node is a dd element, a dt element, an li element, an optgroup
+    // element, an option element, a p element, an rb element, an rp element, an rt
+    // element, or an rtc element, the UA must pop the current node off the stack of
+    // open elements.
+    //
+    // If a step requires the UA to generate implied end tags but lists an element
+    // to exclude from the process, then the UA must perform the above steps as if
+    // that element was not in the above list.
     pub fn generate_implied_end_tags(&mut self) {
-        // for i in 0..self.items.len() {
-        //     let element = &self.items[i];
-        //
-        //     if IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref())
-        // {         break;
-        //     }
-        //
-        //     self.pop();
-        // }
+        while let Some(element) = self.items.last() {
+            if IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref()) {
+                self.pop();
+            } else {
+                break;
+            }
+        }
     }
 
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
-        // for i in 0..self.items.len() {
-        //     let element = &self.items[i];
-        //
-        //     if tag_name != &*element.tag_name
-        //         &&
-        // IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref())
-        //     {
-        //         break;
-        //     }
-        //
-        //     self.pop();
-        // }
+        while let Some(element) = self.items.last() {
+            if &*element.tag_name != tag_name {
+                break;
+            }
+
+            if IMPLICIT_END_TAG_REQUIRED.contains(&element.tag_name.as_ref()) {
+                self.pop();
+            } else {
+                break;
+            }
+        }
+    }
+
+    // When the steps below require the UA to generate all implied end tags
+    // thoroughly, then, while the current node is a caption element, a colgroup
+    // element, a dd element, a dt element, an li element, an optgroup element, an
+    // option element, a p element, an rb element, an rp element, an rt element, an
+    // rtc element, a tbody element, a td element, a tfoot element, a th element, a
+    // thead element, or a tr element, the UA must pop the current node off the
+    // stack of open elements.
+    pub fn generate_implied_end_tags_thoroughly(&mut self) {
+        while let Some(element) = self.items.last() {
+            if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&element.tag_name.as_ref()) {
+                self.pop();
+            } else {
+                break;
+            }
+        }
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        while !self.items.is_empty() {
-            let popped = self.pop();
-
-            match popped {
-                Some(Element {
+        while let Some(element) = self.pop() {
+            match element {
+                Element {
                     tag_name: popped_tag_name,
                     ..
-                }) if tag_name.contains(&&*popped_tag_name) => {
+                } if tag_name.contains(&&*popped_tag_name) => {
                     break;
                 }
                 _ => {}
@@ -366,14 +391,12 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_numbered_header_popped(&mut self) {
-        while !self.items.is_empty() {
-            let popped = self.pop();
-
-            match popped {
-                Some(Element {
+        while let Some(element) = self.pop() {
+            match element {
+                Element {
                     tag_name: popped_tag_name,
                     ..
-                }) if matches!(&*popped_tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
+                } if matches!(&*popped_tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
                     break;
                 }
                 _ => {}
@@ -1088,8 +1111,8 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         } else {
-                            // TODO fix me - `Thoroughly`
-                            self.open_elements_stack.generate_implied_end_tags();
+                            self.open_elements_stack
+                                .generate_implied_end_tags_thoroughly();
 
                             match &self.open_elements_stack.items.last() {
                                 Some(Element { tag_name, .. }) if tag_name != "template" => {
@@ -1326,8 +1349,9 @@ where
 
                         self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
 
-                        self.open_elements_stack
-                            .remove(self.head_element_pointer.as_ref());
+                        if let Some(head_element_pointer) = self.head_element_pointer.take() {
+                            self.open_elements_stack.remove(head_element_pointer);
+                        }
                     }
                     // An end tag whose tag name is "template"
                     //
@@ -2313,7 +2337,12 @@ where
 
                             self.form_element_pointer = None;
 
-                            if node.is_none() || !self.open_elements_stack.contains(node.as_ref()) {
+                            if node.is_none()
+                                || !self
+                                    .open_elements_stack
+                                    .items
+                                    .contains(&node.as_ref().unwrap())
+                            {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
@@ -2321,19 +2350,16 @@ where
                             } else {
                                 self.open_elements_stack.generate_implied_end_tags();
 
-                                if self
-                                    .open_elements_stack
-                                    .items
-                                    .last()
-                                    .eq_ignore_span(&node.as_ref())
-                                {
+                                if self.open_elements_stack.items.last() != node.as_ref() {
                                     self.errors.push(Error::new(
                                         token_and_span.span,
                                         ErrorKind::UnexpectedToken,
                                     ));
                                 }
 
-                                self.open_elements_stack.remove(node.as_ref());
+                                if let Some(node) = node {
+                                    self.open_elements_stack.remove(node);
+                                }
                             }
                         } else {
                             if self.open_elements_stack.has_in_scope("form") {
@@ -5483,206 +5509,6 @@ where
         Ok(())
     }
 
-    // Gets the appropriate place to insert the node.
-    fn get_appropriate_place_for_inserting_node(
-        &mut self,
-        override_target: Option<&Element>,
-    ) -> &mut Element {
-        // If there was an override target specified, then let target be the
-        // override target. Otherwise, let target be the current node.
-        // TODO fix me
-        let target = match self.open_elements_stack.items.last_mut() {
-            Some(element) => element,
-            None => {
-                unreachable!()
-            }
-        };
-
-        // NOTE: Foster parenting happens when content is misnested in tables.
-        // TODO fix me
-        let adjusted_insertion_cocation = if self.foster_parenting_enabled {
-            target
-        } else {
-            target
-        };
-
-        // TODO handle document
-
-        adjusted_insertion_cocation
-    }
-
-    fn create_node(
-        &self,
-        token_and_span: TokenAndSpan,
-        namespace: Option<Namespace>,
-    ) -> PResult<Node> {
-        // TODO span
-        let TokenAndSpan { span, token } = token_and_span;
-        let node = match token {
-            Token::StartTag {
-                tag_name,
-                attributes,
-                ..
-            }
-            | Token::EndTag {
-                tag_name,
-                attributes,
-                ..
-            } => {
-                Node::Element(Element {
-                    span: Default::default(),
-                    tag_name,
-                    namespace: namespace.unwrap(),
-                    // TODO span
-                    attributes: attributes
-                        .into_iter()
-                        .map(|attribute| Attribute {
-                            span: Default::default(),
-                            name: attribute.name.clone(),
-                            value: attribute.value,
-                        })
-                        .collect(),
-                    children: vec![],
-                })
-            }
-            Token::Comment { data } => Node::Comment(Comment {
-                span: Default::default(),
-                data,
-            }),
-            Token::Character { value, .. } => Node::Text(Text {
-                span: Default::default(),
-                value: value.to_string().into(),
-            }),
-            _ => {
-                unreachable!()
-            }
-        };
-
-        Ok(node)
-    }
-
-    // Inserts a node based at a specific location. It follows similar rules to
-    // Element's insertAdjacentHTML method.
-    fn insert_node(&self, node: &Node, position: &mut Element) -> PResult<()> {
-        // TODO fix me
-        position.children.push(node.clone());
-
-        Ok(())
-    }
-
-    fn insert_comment(
-        &mut self,
-        token_and_span: TokenAndSpan,
-        position: Option<&mut Element>,
-    ) -> PResult<()> {
-        // Create a Comment node whose data attribute is set to data and whose
-        // node document is the same as that of the node in which the adjusted
-        // insertion location finds itself.
-        let node = self.create_node(token_and_span, None)?;
-
-        // Let data be the data given in the comment token being processed.
-        // If position was specified, then let the adjusted insertion location
-        // be position. Otherwise, let adjusted insertion location be the
-        // appropriate place for inserting a node.
-        let adjusted_insertion_location = match position {
-            Some(node) => node,
-            None => self.get_appropriate_place_for_inserting_node(None),
-        };
-
-        // Insert the newly created node at the adjusted insertion location.
-        // self.insert_node(&node, adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(node.clone());
-
-        Ok(())
-    }
-
-    fn insert_comment_as_last_child_of_document(
-        &mut self,
-        token_and_span: TokenAndSpan,
-    ) -> PResult<()> {
-        Ok(())
-    }
-
-    // Inserts a sequence of characters in to a preexisting text node or creates
-    // a new text node if one does not exist in the expected insertion location.
-    fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
-        // Let data be the characters passed to the algorithm, or, if no
-        // characters were explicitly specified, the character of the character
-        // token being processed.
-
-        // If there is a Text node immediately before the adjusted insertion l
-        // ocation, then append data to that Text node's data. Otherwise, create
-        // a new Text node whose data is data and whose node document is the
-        // same as that of the element in which the adjusted insertion location
-        // finds itself, and insert the newly created node at the adjusted
-        // insertion location.
-        // TODO fix me
-        let node = self.create_node(token_and_span, None)?;
-
-        // Let the adjusted insertion location be the appropriate place for
-        // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
-
-        // If the adjusted insertion location is in a Document node, then abort
-        // these steps.
-        // NOTE: The DOM will not let Document nodes have Text node children, so
-        // they are dropped on the floor.
-        match adjusted_insertion_location {
-            Element { tag_name, .. } if tag_name == "html" => {
-                return Ok(());
-            }
-            _ => {}
-        }
-
-        // self.insert_node(&node, &mut adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(node.clone());
-
-        Ok(())
-    }
-
-    fn insert_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
-        self.insert_foreign_element(token_and_span, Namespace::HTML)
-    }
-
-    fn insert_foreign_element(
-        &mut self,
-        token_and_span: TokenAndSpan,
-        namespace: Namespace,
-    ) -> PResult<Element> {
-        // Create an element for the token in the given namespace, with the
-        // intended parent being the element in which the adjusted insertion
-        // location finds itself.
-        let node = self.create_node(token_and_span, Some(namespace))?;
-
-        let element = match &node {
-            Node::Element(element) => element.clone(),
-            _ => {
-                unreachable!()
-            }
-        };
-
-        // Let the adjusted insertion location be the appropriate place for
-        // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
-
-        // If it is possible to insert an element at the adjusted insertion
-        // location, then insert the newly created element at the adjusted
-        // insertion location.
-        // NOTE: If the adjusted insertion location cannot accept more
-        // elements, e.g. because it's a Document that already has an
-        // element child, then the newly created element is dropped on the
-        // floor.
-        // self.insert_node(&node.clone(), adjusted_insertion_location)?;
-        adjusted_insertion_location.children.push(node);
-
-        // Push the element onto the stack of open elements so that it is the
-        // new current node.
-        self.open_elements_stack.push(element.clone());
-
-        // Return the newly created element.
-        Ok(element)
-    }
-
     fn adjust_math_ml_attributes(&mut self, token_and_span: TokenAndSpan) -> TokenAndSpan {
         token_and_span
     }
@@ -6076,4 +5902,200 @@ where
 
         false
     }
+
+    // Gets the appropriate place to insert the node.
+    fn get_appropriate_place_for_inserting_node(
+        &mut self,
+        override_target: Option<&Element>,
+    ) -> &mut Element {
+        // If there was an override target specified, then let target be the
+        // override target. Otherwise, let target be the current node.
+        // TODO fix me
+        let target = match self.open_elements_stack.items.last_mut() {
+            Some(element) => element,
+            None => {
+                unreachable!()
+            }
+        };
+
+        // NOTE: Foster parenting happens when content is misnested in tables.
+        // TODO fix me
+        let adjusted_insertion_cocation = if self.foster_parenting_enabled {
+            target
+        } else {
+            target
+        };
+
+        // TODO handle document
+
+        adjusted_insertion_cocation
+    }
+
+    // Inserts a node based at a specific location. It follows similar rules to
+    // Element's insertAdjacentHTML method.
+    fn insert_node(&self, node: &Node, position: &mut Element) -> PResult<()> {
+        // TODO fix me
+        position.children.push(node.clone());
+
+        Ok(())
+    }
+
+    fn insert_comment(
+        &mut self,
+        token_and_span: TokenAndSpan,
+        position: Option<&mut Element>,
+    ) -> PResult<()> {
+        // Let data be the data given in the comment token being processed.
+        // If position was specified, then let the adjusted insertion location
+        // be position. Otherwise, let adjusted insertion location be the
+        // appropriate place for inserting a node.
+        let adjusted_insertion_location = match position {
+            Some(node) => node,
+            None => self.get_appropriate_place_for_inserting_node(None),
+        };
+
+        // Create a Comment node whose data attribute is set to data and whose
+        // node document is the same as that of the node in which the adjusted
+        // insertion location finds itself.
+        let node = create_node(token_and_span, None)?;
+
+        // Insert the newly created node at the adjusted insertion location.
+        // self.insert_node(&node, adjusted_insertion_location)?;
+        adjusted_insertion_location.children.push(node.clone());
+
+        Ok(())
+    }
+
+    fn insert_comment_as_last_child_of_document(
+        &mut self,
+        token_and_span: TokenAndSpan,
+    ) -> PResult<()> {
+        Ok(())
+    }
+
+    // Inserts a sequence of characters in to a preexisting text node or creates
+    // a new text node if one does not exist in the expected insertion location.
+    fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+        // Let data be the characters passed to the algorithm, or, if no
+        // characters were explicitly specified, the character of the character
+        // token being processed.
+
+        // Let the adjusted insertion location be the appropriate place for
+        // inserting a node.
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+
+        // If there is a Text node immediately before the adjusted insertion l
+        // ocation, then append data to that Text node's data. Otherwise, create
+        // a new Text node whose data is data and whose node document is the
+        // same as that of the element in which the adjusted insertion location
+        // finds itself, and insert the newly created node at the adjusted
+        // insertion location.
+        let node = create_node(token_and_span, None)?;
+
+        // If the adjusted insertion location is in a Document node, then abort
+        // these steps.
+        // NOTE: The DOM will not let Document nodes have Text node children, so
+        // they are dropped on the floor.
+        match adjusted_insertion_location {
+            Element { tag_name, .. } if tag_name == "html" => {
+                return Ok(());
+            }
+            _ => {}
+        }
+
+        // self.insert_node(&node, &mut adjusted_insertion_location)?;
+        adjusted_insertion_location.children.push(node.clone());
+
+        Ok(())
+    }
+
+    fn insert_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
+        self.insert_foreign_element(token_and_span, Namespace::HTML)
+    }
+
+    fn insert_foreign_element(
+        &mut self,
+        token_and_span: TokenAndSpan,
+        namespace: Namespace,
+    ) -> PResult<Element> {
+        // Let the adjusted insertion location be the appropriate place for
+        // inserting a node.
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+
+        // Create an element for the token in the given namespace, with the
+        // intended parent being the element in which the adjusted insertion
+        // location finds itself.
+        let node = create_node(token_and_span, Some(namespace))?;
+
+        let element = match &node {
+            Node::Element(element) => element.clone(),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        // If it is possible to insert an element at the adjusted insertion
+        // location, then insert the newly created element at the adjusted
+        // insertion location.
+        // NOTE: If the adjusted insertion location cannot accept more
+        // elements, e.g. because it's a Document that already has an
+        // element child, then the newly created element is dropped on the
+        // floor.
+        // self.insert_node(&node.clone(), adjusted_insertion_location)?;
+
+        adjusted_insertion_location.children.push(node);
+
+        // Push the element onto the stack of open elements so that it is the
+        // new current node.
+        self.open_elements_stack.push(element.clone());
+
+        // Return the newly created element.
+        Ok(element)
+    }
+}
+
+fn create_node(token_and_span: TokenAndSpan, namespace: Option<Namespace>) -> PResult<Node> {
+    // TODO span
+    let TokenAndSpan { span, token } = token_and_span;
+    let node = match token {
+        Token::StartTag {
+            tag_name,
+            attributes,
+            ..
+        }
+        | Token::EndTag {
+            tag_name,
+            attributes,
+            ..
+        } => {
+            Node::Element(Element {
+                span: Default::default(),
+                tag_name,
+                namespace: namespace.unwrap(),
+                // TODO span
+                attributes: attributes
+                    .into_iter()
+                    .map(|attribute| Attribute {
+                        span: Default::default(),
+                        name: attribute.name.clone(),
+                        value: attribute.value,
+                    })
+                    .collect(),
+                children: vec![],
+            })
+        }
+        Token::Comment { data } => Node::Comment(Comment {
+            span: Default::default(),
+            data,
+        }),
+        Token::Character { value, .. } => Node::Text(Text {
+            span: Default::default(),
+            value: value.to_string().into(),
+        }),
+        _ => {
+            unreachable!()
+        }
+    };
+
+    Ok(node)
 }
