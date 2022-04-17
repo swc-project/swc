@@ -36,9 +36,19 @@ define!({
         pub system_id: Option<JsWord>,
     }
 
+    pub enum NamespaceURI {
+        HTML,
+        MATHML,
+        SVG,
+        XLINK,
+        XML,
+        XMLNS,
+    }
+
     pub struct Element {
         pub span: Span,
         pub tag_name: JsWord,
+        pub namespace_uri: NamespaceURI,
         pub attributes: Vec<Attribute>,
         pub children: Vec<AstNode>,
     }
