@@ -23,7 +23,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
         let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_all();
+        let document: PResult<Document> = parser.parse_document();
 
         match document {
             Ok(document) => {
@@ -102,7 +102,7 @@ fn span(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
         let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_all();
+        let document: PResult<Document> = parser.parse_document();
 
         match document {
             Ok(document) => {
