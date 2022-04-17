@@ -121,8 +121,12 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("colors", |b| bench_emitter(b, COLORS_JS));
-    c.bench_function("large", |b| bench_emitter(b, LARGE_PARTIAL_JS));
+    c.bench_function("es/codegen/with-parser/colors", |b| {
+        bench_emitter(b, COLORS_JS)
+    });
+    c.bench_function("es/codegen/with-parser/large", |b| {
+        bench_emitter(b, LARGE_PARTIAL_JS)
+    });
 }
 
 criterion_group!(benches, bench_cases);
