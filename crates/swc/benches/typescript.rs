@@ -52,8 +52,11 @@ fn as_es(c: &swc::Compiler) -> Program {
 }
 
 fn base_tr_group(c: &mut Criterion) {
-    c.bench_function("base_tr_fixer", base_tr_fixer);
-    c.bench_function("base_tr_resolver_and_hygiene", base_tr_resolver_and_hygiene);
+    c.bench_function("es/full/base/fixer", base_tr_fixer);
+    c.bench_function(
+        "es/full/base/resolver_and_hygiene",
+        base_tr_resolver_and_hygiene,
+    );
 }
 
 fn base_tr_fixer(b: &mut Bencher) {
@@ -120,20 +123,20 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
 fn codegen_group(c: &mut Criterion) {
     macro_rules! codegen {
         ($name:ident, $target:expr) => {
-            c.bench_function(stringify!($name), |b| {
+            c.bench_function(&format!("es/full/codegen/{}", stringify!($name)), |b| {
                 bench_codegen(b, $target);
             });
         };
     }
 
-    codegen!(codegen_es3, EsVersion::Es3);
-    codegen!(codegen_es5, EsVersion::Es5);
-    codegen!(codegen_es2015, EsVersion::Es2015);
-    codegen!(codegen_es2016, EsVersion::Es2016);
-    codegen!(codegen_es2017, EsVersion::Es2017);
-    codegen!(codegen_es2018, EsVersion::Es2018);
-    codegen!(codegen_es2019, EsVersion::Es2019);
-    codegen!(codegen_es2020, EsVersion::Es2020);
+    codegen!(es3, EsVersion::Es3);
+    codegen!(es5, EsVersion::Es5);
+    codegen!(es2015, EsVersion::Es2015);
+    codegen!(es2016, EsVersion::Es2016);
+    codegen!(es2017, EsVersion::Es2017);
+    codegen!(es2018, EsVersion::Es2018);
+    codegen!(es2019, EsVersion::Es2019);
+    codegen!(es2020, EsVersion::Es2020);
 }
 
 fn bench_full(b: &mut Bencher, opts: &Options) {
@@ -155,7 +158,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
 fn full_group(c: &mut Criterion) {
     macro_rules! compat {
         ($name:ident, $target:expr) => {
-            c.bench_function(stringify!($name), |b| {
+            c.bench_function(&format!("es/full/all/{}", stringify!($name)), |b| {
                 bench_full(
                     b,
                     &Options {
@@ -179,18 +182,18 @@ fn full_group(c: &mut Criterion) {
         };
     }
 
-    compat!(full_es3, EsVersion::Es3);
-    compat!(full_es5, EsVersion::Es5);
-    compat!(full_es2015, EsVersion::Es2015);
-    compat!(full_es2016, EsVersion::Es2016);
-    compat!(full_es2017, EsVersion::Es2017);
-    compat!(full_es2018, EsVersion::Es2018);
-    compat!(full_es2019, EsVersion::Es2019);
-    compat!(full_es2020, EsVersion::Es2020);
+    compat!(es3, EsVersion::Es3);
+    compat!(es5, EsVersion::Es5);
+    compat!(es2015, EsVersion::Es2015);
+    compat!(es2016, EsVersion::Es2016);
+    compat!(es2017, EsVersion::Es2017);
+    compat!(es2018, EsVersion::Es2018);
+    compat!(es2019, EsVersion::Es2019);
+    compat!(es2020, EsVersion::Es2020);
 }
 
 fn parser_group(c: &mut Criterion) {
-    c.bench_function("parser", parser);
+    c.bench_function("es/full/parser", parser);
 }
 
 fn parser(b: &mut Bencher) {

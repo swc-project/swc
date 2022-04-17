@@ -27,9 +27,9 @@ where
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("clone", |b| run(b, |m| m));
+    c.bench_function("es/visitor/compare/clone", |b| run(b, |m| m));
 
-    c.bench_function("visit_mut_span", |b| {
+    c.bench_function("es/visitor/compare/visit_mut_span", |b| {
         struct RespanVisitMut;
 
         impl VisitMut for RespanVisitMut {
@@ -45,7 +45,7 @@ fn bench_cases(c: &mut Criterion) {
         });
     });
 
-    c.bench_function("visit_mut_span_panic", |b| {
+    c.bench_function("es/visitor/compare/visit_mut_span_panic", |b| {
         struct RespanVisitMut;
 
         impl VisitMut for RespanVisitMut {
@@ -65,7 +65,7 @@ fn bench_cases(c: &mut Criterion) {
         });
     });
 
-    c.bench_function("fold_span", |b| {
+    c.bench_function("es/visitor/compare/fold_span", |b| {
         struct RespanFold;
 
         impl Fold for RespanFold {
@@ -77,7 +77,7 @@ fn bench_cases(c: &mut Criterion) {
         run(b, |m| m.fold_with(&mut RespanFold));
     });
 
-    c.bench_function("fold_span_panic", |b| {
+    c.bench_function("es/visitor/compare/fold_span_panic", |b| {
         struct RespanFold;
 
         impl Fold for RespanFold {

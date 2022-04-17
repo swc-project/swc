@@ -129,12 +129,12 @@ fn time_60(b: &mut Bencher) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("time 5", time_5);
-    c.bench_function("time 10", time_10);
-    c.bench_function("time 15", time_15);
-    c.bench_function("time 20", time_20);
-    c.bench_function("time 40", time_40);
-    c.bench_function("time 60", time_60);
+    c.bench_function("misc/visitors/time-complexity/time 5", time_5);
+    c.bench_function("misc/visitors/time-complexity/time 10", time_10);
+    c.bench_function("misc/visitors/time-complexity/time 15", time_15);
+    c.bench_function("misc/visitors/time-complexity/time 20", time_20);
+    c.bench_function("misc/visitors/time-complexity/time 40", time_40);
+    c.bench_function("misc/visitors/time-complexity/time 60", time_60);
 }
 
 criterion_group!(benches, bench_cases);

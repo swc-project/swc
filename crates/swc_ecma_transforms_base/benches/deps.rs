@@ -223,16 +223,31 @@ fn visit_contains_this(b: &mut Bencher) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("module_clone", module_clone);
-    c.bench_function("fold_empty", fold_empty);
-    c.bench_function("fold_noop_impl_all", fold_noop_impl_all);
-    c.bench_function("fold_noop_impl_vec", fold_noop_impl_vec);
-    c.bench_function("boxing_boxed_clone", boxing_boxed_clone);
-    c.bench_function("boxing_unboxed_clone", boxing_unboxed_clone);
-    c.bench_function("boxing_boxed", boxing_boxed);
-    c.bench_function("boxing_unboxed", boxing_unboxed);
-    c.bench_function("visit_empty", visit_empty);
-    c.bench_function("visit_contains_this", visit_contains_this);
+    c.bench_function("es/visitor/base-perf/module_clone", module_clone);
+    c.bench_function("es/visitor/base-perf/fold_empty", fold_empty);
+    c.bench_function(
+        "es/visitor/base-perf/fold_noop_impl_all",
+        fold_noop_impl_all,
+    );
+    c.bench_function(
+        "es/visitor/base-perf/fold_noop_impl_vec",
+        fold_noop_impl_vec,
+    );
+    c.bench_function(
+        "es/visitor/base-perf/boxing_boxed_clone",
+        boxing_boxed_clone,
+    );
+    c.bench_function(
+        "es/visitor/base-perf/boxing_unboxed_clone",
+        boxing_unboxed_clone,
+    );
+    c.bench_function("es/visitor/base-perf/boxing_boxed", boxing_boxed);
+    c.bench_function("es/visitor/base-perf/boxing_unboxed", boxing_unboxed);
+    c.bench_function("es/visitor/base-perf/visit_empty", visit_empty);
+    c.bench_function(
+        "es/visitor/base-perf/visit_contains_this",
+        visit_contains_this,
+    );
 }
 
 criterion_group!(benches, bench_cases);

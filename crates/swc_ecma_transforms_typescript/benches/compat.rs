@@ -47,9 +47,12 @@ where
 }
 
 fn baseline_group(c: &mut Criterion) {
-    c.bench_function("base", base);
-    c.bench_function("common_reserved_word", common_reserved_word);
-    c.bench_function("common_typescript", common_typescript);
+    c.bench_function("es/transform/baseline/base", base);
+    c.bench_function(
+        "es/transform/baseline/common_reserved_word",
+        common_reserved_word,
+    );
+    c.bench_function("es/transform/baseline/common_typescript", common_typescript);
 }
 
 fn base(b: &mut Bencher) {
@@ -90,12 +93,12 @@ fn common_reserved_word(b: &mut Bencher) {
 }
 
 fn version_group(c: &mut Criterion) {
-    c.bench_function("es3", es3);
-    c.bench_function("es2015", es2015);
-    c.bench_function("es2016", es2016);
-    c.bench_function("es2017", es2017);
-    c.bench_function("es2018", es2018);
-    c.bench_function("es2020", es2020);
+    c.bench_function("es/target/es3", es3);
+    c.bench_function("es/target/es2015", es2015);
+    c.bench_function("es/target/es2016", es2016);
+    c.bench_function("es/target/es2017", es2017);
+    c.bench_function("es/target/es2018", es2018);
+    c.bench_function("es/target/es2020", es2020);
 }
 
 fn single_tr_group(c: &mut Criterion) {
@@ -332,9 +335,9 @@ fn full_es2018(b: &mut Bencher) {
 }
 
 fn full_group(c: &mut Criterion) {
-    c.bench_function("es2016", full_es2016);
-    c.bench_function("es2017", full_es2017);
-    c.bench_function("es2018", full_es2018);
+    c.bench_function("es/full-target/es2016", full_es2016);
+    c.bench_function("es/full-target/es2017", full_es2017);
+    c.bench_function("es/full-target/es2018", full_es2018);
 }
 
 criterion_group!(
