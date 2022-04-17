@@ -239,6 +239,9 @@ pub struct TerserCompressorOptions {
 
     #[serde(default)]
     pub module: bool,
+
+    #[serde(default)]
+    pub const_to_let: Option<bool>,
 }
 
 impl Default for TerserCompressorOptions {
@@ -298,6 +301,7 @@ impl Default for TerserCompressorOptions {
             unsafe_undefined: Default::default(),
             unused: Default::default(),
             module: Default::default(),
+            const_to_let: Default::default(),
         }
     }
 }
@@ -438,6 +442,7 @@ impl TerserCompressorOptions {
             unsafe_regexp: self.unsafe_regexp,
             unsafe_undefined: self.unsafe_undefined,
             unused: self.unused.unwrap_or(self.defaults),
+            const_to_let: self.const_to_let.unwrap_or(self.defaults),
         }
     }
 }
