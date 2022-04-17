@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(es)** Rename benchmarks (#4355) ([8309440](https://github.com/swc-project/swc/commit/83094400080bef161b4b106aa3840efc7f2dfecd))
+
+## [1.2.168] - 2022-04-17
+
 ### Bug Fixes
 
 
