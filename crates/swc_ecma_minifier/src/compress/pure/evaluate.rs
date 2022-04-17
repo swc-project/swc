@@ -620,7 +620,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
-        if !self.options.evaluate {
+        if !self.options.evaluate || !self.options.unsafe_passes {
             return;
         }
 
