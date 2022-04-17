@@ -6,7 +6,10 @@ use swc_ecma_visit::VisitMutWith;
 use Value::Known;
 
 use super::Pure;
-use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
+use crate::{
+    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    debug::dump,
+};
 
 impl Pure<'_> {
     pub(super) fn eval_free_iife(&mut self, s: &mut Stmt) {
