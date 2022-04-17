@@ -3,7 +3,7 @@
 
 yarn lint-staged
 
-
+# Remove empty directories
 if command -v find &> /dev/null
 then
     find . -name '.DS_Store' -type f -delete
