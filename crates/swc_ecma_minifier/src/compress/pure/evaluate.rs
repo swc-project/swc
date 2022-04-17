@@ -677,16 +677,50 @@ impl Pure<'_> {
 
                 cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
             } else {
-                let s = JsWord::from(&*cur_str_value);
-                new_tpl.quasis.push(TplElement {
-                    span: DUMMY_SP,
-                    tail: false,
-                    cooked: Some(s.clone()),
-                    raw: s,
-                });
+                let mut e = tpl.exprs[idx / 2].take();
+                self.eval_nested_tpl(&mut *e);
 
-                let e = tpl.exprs[idx / 2].take();
-                new_tpl.exprs.push(e);
+                match *e {
+                    Expr::Tpl(mut e) => {
+                        // We loop again
+                        //
+                        // I think we can merge this code...
+                        for idx in 0..(e.quasis.len() + e.exprs.len()) {
+                            if idx % 2 == 0 {
+                                let q = e.quasis[idx / 2].take();
+
+                                cur_str_value.push_str(q.cooked.as_deref().unwrap_or(&*q.raw));
+                            } else {
+                                let s = JsWord::from(&*cur_str_value);
+                                cur_str_value.clear();
+
+                                new_tpl.quasis.push(TplElement {
+                                    span: DUMMY_SP,
+                                    tail: false,
+                                    cooked: Some(s.clone()),
+                                    raw: s,
+                                });
+
+                                let e = tpl.exprs[idx / 2].take();
+
+                                new_tpl.exprs.push(e);
+                            }
+                        }
+                    }
+                    _ => {
+                        let s = JsWord::from(&*cur_str_value);
+                        cur_str_value.clear();
+
+                        new_tpl.quasis.push(TplElement {
+                            span: DUMMY_SP,
+                            tail: false,
+                            cooked: Some(s.clone()),
+                            raw: s,
+                        });
+
+                        new_tpl.exprs.push(e);
+                    }
+                }
             }
         }
 
