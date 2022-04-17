@@ -583,10 +583,25 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
 /// Evaluation of strings.
 impl Pure<'_> {
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
+        if !self.options.evaluate || !self.options.unsafe_passes {
+            return;
+        }
+
         let tpl = match e {
             Expr::Tpl(e) => e,
             _ => return,
         };
+
+        if tpl.quasis.len() == 2 && tpl.quasis[0].raw.is_empty() && tpl.quasis[1].raw.is_empty() {
+            self.changed = true;
+            report_change!("evaluating a template to a string");
+            *e = Expr::Bin(BinExpr {
+                span: tpl.span,
+                op: op!(bin, "+"),
+                left: "".into(),
+                right: tpl.exprs[0].take(),
+            });
+        }
     }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
