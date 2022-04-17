@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Organize scripts (#4347) ([14c74f5](https://github.com/swc-project/swc/commit/14c74f50c0b21d65d9604b58a2ce348baeb1baa3))
 
+
+- **(es/minifier)** Improve scripts (#4339) ([2563c7f](https://github.com/swc-project/swc/commit/2563c7f8ff5bb86131f642b6cca948955d795820))
+
 ## [1.2.167] - 2022-04-17
 
 ### Bug Fixes
