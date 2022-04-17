@@ -193,7 +193,7 @@ fn full_group(c: &mut Criterion) {
 }
 
 fn parser_group(c: &mut Criterion) {
-    c.bench_function("parser", parser);
+    c.bench_function("es/full/parser", parser);
 }
 
 fn parser(b: &mut Bencher) {
