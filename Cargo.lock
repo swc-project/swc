@@ -3274,6 +3274,7 @@ dependencies = [
  "anyhow",
  "backtrace",
  "criterion",
+ "dashmap",
  "indexmap",
  "once_cell",
  "parking_lot",

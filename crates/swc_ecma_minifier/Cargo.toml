@@ -22,6 +22,7 @@ debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
 [dependencies]
 ahash = "0.7.6"
 backtrace = { version = "0.3.61", optional = true }
+dashmap = "5"
 indexmap = "1.7.0"
 once_cell = "1.10.0"
 parking_lot = "0.12.0"
