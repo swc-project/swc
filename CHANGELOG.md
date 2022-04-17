@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Preserve vars in dead branches (#4345) ([5a5e41a](https://github.com/swc-project/swc/commit/5a5e41aaaa3791f76de9c73aa29c714fa097c773))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Organize scripts (#4347) ([14c74f5](https://github.com/swc-project/swc/commit/14c74f50c0b21d65d9604b58a2ce348baeb1baa3))
+
 ## [1.2.167] - 2022-04-17
 
 ### Bug Fixes
