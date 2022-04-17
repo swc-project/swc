@@ -82,6 +82,12 @@ impl Pure<'_> {
             return;
         }
 
+        if let Some(new_expr) = self.compress_array_join_as_tpl(&mut arr.elems, &separator) {
+            self.changed = true;
+            *e = new_expr;
+            return;
+        }
+
         let cannot_join_as_str_lit = arr
             .elems
             .iter()
@@ -249,6 +255,14 @@ impl Pure<'_> {
         } else {
             false
         }
+    }
+
+    fn compress_array_join_as_tpl(
+        &mut self,
+        elems: &mut Vec<Option<ExprOrSpread>>,
+        sep: &str,
+    ) -> Option<Expr> {
+        None
     }
 
     /// Returns true if something is modified.
