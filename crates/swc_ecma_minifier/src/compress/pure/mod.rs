@@ -290,6 +290,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        self.eval_tpl_as_str(e);
+
         self.eval_trivial_values_in_expr(e);
 
         self.remove_invalid(e);
@@ -308,6 +310,8 @@ impl VisitMut for Pure<'_> {
                 *e = *seq.exprs.take().into_iter().next().unwrap();
             }
         }
+
+        self.compress_array_join(e);
 
         self.unsafe_optimize_fn_as_arrow(e);
 
