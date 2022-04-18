@@ -32,6 +32,10 @@ impl Pure<'_> {
             Known(Type::Str) => {}
             _ => return,
         }
+        match r_l.get_type() {
+            Known(Type::Str) => {}
+            _ => return,
+        }
 
         let lls = l_l.as_string();
         let rls = r_l.as_string();
