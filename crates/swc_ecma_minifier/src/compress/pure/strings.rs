@@ -115,6 +115,10 @@ impl Pure<'_> {
                         rs.value
                     );
 
+                    if let Some(cooked) = &mut l_last.cooked {
+                        *cooked = format!("{}{}", cooked, rs.value.replace('\\', "\\\\")).into()
+                    }
+
                     let new: JsWord =
                         format!("{}{}", l_last.raw, rs.value.replace('\\', "\\\\")).into();
                     l_last.raw = new;
@@ -132,6 +136,10 @@ impl Pure<'_> {
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
+
+                    if let Some(cooked) = &mut r_first.cooked {
+                        *cooked = format!("{}{}", ls.value.replace('\\', "\\\\"), cooked).into()
+                    }
 
                     let new: JsWord =
                         format!("{}{}", ls.value.replace('\\', "\\\\"), r_first.raw).into();
