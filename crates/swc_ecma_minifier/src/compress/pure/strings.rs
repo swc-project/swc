@@ -46,8 +46,16 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
-        if !self.options.evaluate || !self.options.unsafe_passes {
+        if !self.options.evaluate {
             return;
+        }
+
+        fn need_unsafe(e: &Expr) -> bool {
+            match e {
+                Expr::Lit(..) => false,
+                Expr::Bin(e) => need_unsafe(&e.left) || need_unsafe(&e.right),
+                _ => true,
+            }
         }
 
         let tpl = match e {
@@ -59,6 +67,10 @@ impl Pure<'_> {
             && (tpl.quasis[0].cooked.is_some() || !tpl.quasis[0].raw.contains('\\'))
             && tpl.quasis[1].raw.is_empty()
         {
+            if !self.options.unsafe_passes && need_unsafe(&tpl.exprs[0]) {
+                return;
+            }
+
             self.changed = true;
             report_change!("evaluating a template to a string");
             *e = Expr::Bin(BinExpr {
