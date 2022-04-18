@@ -69,18 +69,6 @@
     {
       "type": "Element",
       "span": {
-        "start": 179,
-        "end": 183,
-        "ctxt": 0
-      },
-      "tagName": "ol",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": []
-    },
-    {
-      "type": "Element",
-      "span": {
         "start": 208,
         "end": 212,
         "ctxt": 0

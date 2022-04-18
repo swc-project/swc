@@ -594,7 +594,7 @@ where
             }
             _ => Token::Eof,
         };
-        let token_and_span = TokenAndSpan {
+        let mut token_and_span = TokenAndSpan {
             span: span!(self, span.lo),
             token,
         };
@@ -633,7 +633,7 @@ where
         // Process the token according to the rules given in the section for parsing tokens in
         // foreign content.
         else {
-            self.process_token(token_and_span, None)?
+            self.process_token(&mut token_and_span, None)?
         }
 
         // TODO handle error for void
@@ -643,7 +643,7 @@ where
 
     fn process_token(
         &mut self,
-        token_and_span: TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
         override_insertion_mode: Option<InsertionMode>,
     ) -> PResult<()> {
         let TokenAndSpan { token, .. } = &token_and_span;
@@ -914,7 +914,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = self.insert_html_element(TokenAndSpan {
+                        let element = self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "head".into(),
@@ -947,7 +947,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        let element = self.insert_html_element(TokenAndSpan {
+                        let element = self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "head".into(),
@@ -1452,7 +1452,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "body".into(),
@@ -1485,7 +1485,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "body".into(),
@@ -2483,7 +2483,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                            self.insert_html_element(TokenAndSpan {
+                            self.insert_html_element(&mut TokenAndSpan {
                                 span: Default::default(),
                                 token: Token::StartTag {
                                     tag_name: "p".into(),
@@ -2856,7 +2856,7 @@ where
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
                         self.reconstruct_the_active_formatting_elements()?;
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: tag_name.clone(),
@@ -3024,7 +3024,7 @@ where
                             }
                         }
 
-                        self.process_token(new_token_and_span, None)?;
+                        self.process_token(&mut new_token_and_span, None)?;
                     }
                     // A start tag whose tag name is "textarea"
                     //
@@ -3226,11 +3226,8 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_the_active_formatting_elements()?;
-
-                        let token_and_span = self.adjust_math_ml_attributes(token_and_span);
-                        let token_and_span =
-                            self.adjust_foreign_attributes_for_the_token(token_and_span);
-
+                        self.adjust_math_ml_attributes(token_and_span);
+                        self.adjust_foreign_attributes_for_the_token(token_and_span);
                         self.insert_foreign_element(token_and_span, Namespace::MATHML)?;
 
                         if is_self_closing {
@@ -3260,11 +3257,8 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_the_active_formatting_elements()?;
-
-                        let token_and_span = self.adjust_svg_attributes(token_and_span);
-                        let token_and_span =
-                            self.adjust_foreign_attributes_for_the_token(token_and_span);
-
+                        self.adjust_svg_attributes(token_and_span);
+                        self.adjust_foreign_attributes_for_the_token(token_and_span);
                         self.insert_foreign_element(token_and_span, Namespace::SVG)?;
 
                         if is_self_closing {
@@ -3716,7 +3710,7 @@ where
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "colgroup".into(),
@@ -3753,7 +3747,7 @@ where
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "tbody".into(),
@@ -3989,7 +3983,7 @@ where
                     //
                     // Append the character token to the pending table character tokens list.
                     Token::Character { .. } => {
-                        self.pending_character_tokens.push(token_and_span);
+                        self.pending_character_tokens.push(token_and_span.clone());
                     }
                     // Anything else
                     //
@@ -4028,19 +4022,19 @@ where
                                 ErrorKind::UnexpectedNullCharacter,
                             ));
 
-                            for character_token in take(&mut self.pending_character_tokens) {
+                            for mut character_token in take(&mut self.pending_character_tokens) {
                                 let saved_foster_parenting_state = self.foster_parenting_enabled;
 
                                 self.foster_parenting_enabled = true;
                                 self.process_token_using_rules(
-                                    character_token,
+                                    &mut character_token,
                                     InsertionMode::InBody,
                                 )?;
                                 self.foster_parenting_enabled = saved_foster_parenting_state;
                             }
                         } else {
-                            for character_token in take(&mut self.pending_character_tokens) {
-                                self.insert_character(character_token)?;
+                            for mut character_token in take(&mut self.pending_character_tokens) {
+                                self.insert_character(&mut character_token)?;
                             }
                         }
 
@@ -4360,7 +4354,7 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(TokenAndSpan {
+                        self.insert_html_element(&mut TokenAndSpan {
                             span: Default::default(),
                             token: Token::StartTag {
                                 tag_name: "tr".into(),
@@ -5598,7 +5592,7 @@ where
 
     fn process_token_using_rules(
         &mut self,
-        token_and_span: TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
         insertion_mode: InsertionMode,
     ) -> PResult<()> {
         self.process_token(token_and_span, Some(insertion_mode))?;
@@ -5606,22 +5600,13 @@ where
         Ok(())
     }
 
-    fn adjust_math_ml_attributes(&mut self, token_and_span: TokenAndSpan) -> TokenAndSpan {
-        token_and_span
-    }
+    fn adjust_math_ml_attributes(&mut self, _token_and_span: &mut TokenAndSpan) {}
 
-    fn adjust_svg_attributes(&mut self, token_and_span: TokenAndSpan) -> TokenAndSpan {
-        token_and_span
-    }
+    fn adjust_svg_attributes(&mut self, _token_and_span: &mut TokenAndSpan) {}
 
-    fn adjust_foreign_attributes_for_the_token(
-        &mut self,
-        token_and_span: TokenAndSpan,
-    ) -> TokenAndSpan {
-        token_and_span
-    }
+    fn adjust_foreign_attributes_for_the_token(&mut self, _token_and_span: &mut TokenAndSpan) {}
 
-    fn run_the_adoption_agency_algorithm(&mut self, _token_and_span: TokenAndSpan) {}
+    fn run_the_adoption_agency_algorithm(&mut self, _token_and_span: &mut TokenAndSpan) {}
 
     fn reconstruct_the_active_formatting_elements(&mut self) -> PResult<()> {
         Ok(())
@@ -5633,7 +5618,7 @@ where
     // invoked in response to a start tag token.
     fn parse_generic_text_element(
         &mut self,
-        token_and_span: TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
         is_raw_text_element_algorithm: bool,
     ) -> PResult<()> {
         // Insert an HTML element for the token.
@@ -6029,7 +6014,7 @@ where
 
     fn insert_comment(
         &mut self,
-        token_and_span: TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
         position: Option<&mut Element>,
     ) -> PResult<()> {
         let last_pos = self.input.last_pos()?;
@@ -6047,7 +6032,7 @@ where
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
         let node = create_comment_for_token(
-            token_and_span.token,
+            token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
         );
 
@@ -6060,14 +6045,14 @@ where
 
     fn insert_comment_as_last_child_of_document(
         &mut self,
-        _token_and_span: TokenAndSpan,
+        _token_and_span: &mut TokenAndSpan,
     ) -> PResult<()> {
         Ok(())
     }
 
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
-    fn insert_character(&mut self, token_and_span: TokenAndSpan) -> PResult<()> {
+    fn insert_character(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
         let last_pos = self.input.last_pos()?;
 
         // Let data be the characters passed to the algorithm, or, if no
@@ -6095,7 +6080,7 @@ where
         // TODO fix me
 
         let node = create_text_for_token(
-            token_and_span.token,
+            token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
         );
 
@@ -6104,13 +6089,13 @@ where
         Ok(())
     }
 
-    fn insert_html_element(&mut self, token_and_span: TokenAndSpan) -> PResult<Element> {
+    fn insert_html_element(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<Element> {
         self.insert_foreign_element(token_and_span, Namespace::HTML)
     }
 
     fn insert_foreign_element(
         &mut self,
-        token_and_span: TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
         namespace: Namespace,
     ) -> PResult<Element> {
         let last_pos = self.input.last_pos()?;
@@ -6124,7 +6109,7 @@ where
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
         let element = create_element_for_token(
-            token_and_span.token,
+            token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
             Some(namespace),
         )?;

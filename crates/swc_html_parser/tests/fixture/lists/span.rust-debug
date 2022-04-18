@@ -86,18 +86,6 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/lists/input.html:15:1]
- 15 | <ol>
-    : ^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/lists/input.html:15:1]
- 15 | <ol>
-    : ^^^^
-    `----
-
-  x Child
     ,-[$DIR/tests/fixture/lists/input.html:17:5]
  17 | <li>Tea</li>
     : ^^^^
