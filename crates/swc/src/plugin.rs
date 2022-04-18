@@ -192,6 +192,7 @@ impl RustPlugins {
                             config_json,
                             context_json,
                             should_enable_comments_proxy,
+                            &self.source_map,
                         )?;
                     }
                 }
