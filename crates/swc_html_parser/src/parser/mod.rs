@@ -891,7 +891,7 @@ where
 
                         // Never be `None`
                         if let Some(document) = &self.document {
-                            append(document, element);
+                            self.append_node(document, element);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHead;
@@ -908,7 +908,7 @@ where
 
                         // Never be `None`
                         if let Some(document) = &self.document {
-                            append(document, element);
+                            self.append_node(document, element);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHead;
@@ -936,7 +936,7 @@ where
 
                         // Never be `None`
                         if let Some(document) = &self.document {
-                            append(document, element);
+                            self.append_node(document, element);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHead;
@@ -6315,34 +6315,106 @@ where
         Ok(node)
     }
 
+    fn append_node(&self, parent: &RcNode, child: RcNode) {
+        let previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
+
+        // Invariant: child cannot have existing parent
+        assert!(previous_parent.is_none());
+
+        parent.children.borrow_mut().push(child);
+    }
+
+    fn get_parent_and_index(&self, node: &RcNode) -> Option<(RcNode, usize)> {
+        if let Some(weak) = node.parent.take() {
+            let parent = weak.upgrade().expect("dangling weak pointer");
+
+            node.parent.set(Some(weak));
+
+            let i = match parent
+                .children
+                .borrow()
+                .iter()
+                .enumerate()
+                // TODO span?
+                .find(|&(_, child)| Rc::ptr_eq(&child, &node))
+            {
+                Some((i, _)) => i,
+                None => {
+                    // TODO error - "have parent but couldn't find in parent's children"
+                    unreachable!()
+                }
+            };
+            Some((parent, i))
+        } else {
+            None
+        }
+    }
+
+    fn append_node_before_sibling(&self, parent: &RcNode, child: RcNode) {
+        let (parent, i) = self
+            .get_parent_and_index(&parent)
+            .expect("append_before_sibling called on node without parent");
+
+        let child = match (child, i) {
+            // // No previous node.
+            // (NodeOrText::AppendText(text), 0) => Node::new(NodeData::Text {
+            //     contents: RefCell::new(text),
+            // }),
+            //
+            // // Look for a text node before the insertion point.
+            // (NodeOrText::AppendText(text), i) => {
+            //     let children = parent.children.borrow();
+            //     let prev = &children[i - 1];
+            //     if append_to_existing_text(prev, &text) {
+            //         return;
+            //     }
+            //     Node::new(NodeData::Text {
+            //         contents: RefCell::new(text),
+            //     })
+            // }
+
+            // The tree builder promises we won't have a text node after
+            // the insertion point.
+
+            // Any other kind of node.
+            (node, _) => node,
+        };
+
+        if let Some((parent, i)) = self.get_parent_and_index(&child) {
+            parent.children.borrow_mut().remove(i);
+
+            child.parent.set(None);
+        }
+
+        child.parent.set(Some(Rc::downgrade(&parent)));
+        parent.children.borrow_mut().insert(i, child);
+    }
+
     fn insert_at_position(&mut self, insertion_point: InsertionPosition, node: RcNode) {
         match insertion_point {
             InsertionPosition::LastChild(parent) => {
-                append(&parent, node);
+                self.append_node(&parent, node);
             }
-            InsertionPosition::BeforeSibling(_sibling) => {
-                //self.sink.append_before_sibling(&sibling, child)
+            InsertionPosition::BeforeSibling(sibling) => {
+                self.append_node_before_sibling(&sibling, node)
             }
             InsertionPosition::TableFosterParenting {
-                element: _,
-                prev_element: _,
+                element,
+                prev_element,
             } => {
-                // self
-                //     .sink
-                //     .append_based_on_parent_node(&element, &prev_element,
-                // child)
+                let parent = element.parent.take();
+                let has_parent = parent.is_some();
+
+                element.parent.set(parent);
+
+                if has_parent {
+                    self.append_node_before_sibling(&element, node);
+                } else {
+                    self.append_node(&prev_element, node);
+                }
             }
         }
     }
-}
-
-fn append(parent: &RcNode, child: RcNode) {
-    let previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
-
-    // Invariant: child cannot have existing parent
-    assert!(previous_parent.is_none());
-
-    parent.children.borrow_mut().push(child);
 }
 
 fn create_node_for_element(element: Element) -> RcNode {
