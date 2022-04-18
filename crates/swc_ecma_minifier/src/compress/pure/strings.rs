@@ -28,6 +28,11 @@ impl Pure<'_> {
             _ => return,
         };
 
+        match l_l.get_type() {
+            Known(Type::Str) => {}
+            _ => return,
+        }
+
         let lls = l_l.as_string();
         let rls = r_l.as_string();
 
