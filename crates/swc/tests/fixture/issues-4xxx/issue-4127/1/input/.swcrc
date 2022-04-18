@@ -1,0 +1,46 @@
+{
+    "test": [
+        ".*.ts$",
+        ".*.mts$"
+    ],
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": true,
+            "dynamicImport": true,
+            "topLevelAwait": true
+        },
+        "target": "es2022",
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "baseUrl": "./",
+        "paths": {
+            "~/*": [
+                "src/*"
+            ],
+            "~route": [
+                "src/core/protocol_decorators.ts"
+            ],
+            "~core/*": [
+                "src/core/*"
+            ],
+            "~server/*": [
+                "src/core/server/*"
+            ],
+            "~public/*": [
+                "src/public/*"
+            ],
+            "~vendor/*": [
+                "src/vendor/*"
+            ]
+        }
+    },
+    "module": {
+        "type": "commonjs",
+        "strict": false,
+        "strictMode": true
+    }
+}
