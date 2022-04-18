@@ -32,7 +32,6 @@ var _node = swcHelpers.interopRequireWildcard(require("./BodyNodesBuilder"));
         }
     });
 });
-exports.node = _node;
 const create = ()=>new BodyBuilder()
 ;
 exports.create = create;
@@ -336,3 +335,4 @@ class ArticleSourcesBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
+exports.node = _node;
