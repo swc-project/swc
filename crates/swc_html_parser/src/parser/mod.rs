@@ -1,4 +1,5 @@
 use std::{
+    borrow::BorrowMut,
     cell::{Cell, RefCell},
     mem,
     mem::take,
@@ -301,13 +302,17 @@ impl OpenElementsStack {
         popped
     }
 
-    pub fn remove(&mut self, node: RcNode) {
-        if &*node.element.tag_name == "template" {
-            self.template_element_count -= 1;
-        }
+    pub fn remove(&mut self, node: &RcNode) {
+        let position = self.items.iter().rposition(|x| is_same_node(node, &x));
 
-        // TODO fix me
-        // self.items.retain(|x| x != &element);
+        if let Some(position) = position {
+            if &*node.element.tag_name == "template" {
+                self.template_element_count -= 1;
+            }
+
+            self.items.remove(position);
+            self.pop();
+        }
     }
 
     pub fn contains_template_element(&mut self) -> bool {
@@ -486,7 +491,7 @@ impl OpenElementsStack {
 
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
         while let Some(node) = self.items.last() {
-            if &*node.element.tag_name != tag_name {
+            if &*node.element.tag_name == tag_name {
                 break;
             }
 
@@ -516,22 +521,22 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        // while let Some(node) = self.items.last() {
-        //     match &node.element {
-        //         Element {
-        //             namespace,
-        //             tag_name: popped_tag_name,
-        //             ..
-        //         } if tag_name.contains(&popped_tag_name.as_ref())
-        //             && *namespace == Namespace::HTML =>
-        //         {
-        //             break;
-        //         }
-        //         _ => {
-        //             self.pop();
-        //         }
-        //     }
-        // }
+        while let Some(node) = self.items.last() {
+            match &node.element {
+                Element {
+                    namespace,
+                    tag_name: popped_tag_name,
+                    ..
+                } if tag_name.contains(&popped_tag_name.as_ref())
+                    && *namespace == Namespace::HTML =>
+                {
+                    break;
+                }
+                _ => {
+                    self.pop();
+                }
+            }
+        }
     }
 }
 
@@ -902,13 +907,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = create_node_for_element(Element {
-                            span: Default::default(),
-                            tag_name: "html".into(),
-                            namespace: Namespace::HTML,
-                            attributes: vec![],
-                            children: vec![],
-                        });
+                        let element = self.create_fake_html_element();
 
                         self.open_elements_stack.push(element.clone());
 
@@ -936,13 +935,7 @@ where
                     //
                     // Switch the insertion mode to "before head", then reprocess the token.
                     _ => {
-                        let element = create_node_for_element(Element {
-                            span: Default::default(),
-                            tag_name: "html".into(),
-                            namespace: Namespace::HTML,
-                            attributes: vec![],
-                            children: vec![],
-                        });
+                        let element = self.create_fake_html_element();
 
                         self.open_elements_stack.push(element.clone());
 
@@ -1185,14 +1178,14 @@ where
                     //
                     // Run these steps:
                     //
-                    // Let the adjusted insertion location be the appropriate place for inserting a
-                    // node.
+                    // 1. Let the adjusted insertion location be the appropriate place for inserting
+                    // a node.
                     //
-                    // Create an element for the token in the HTML namespace, with the intended
+                    // 2. Create an element for the token in the HTML namespace, with the intended
                     // parent being the element in which the adjusted insertion location finds
                     // itself.
                     //
-                    // Set the element's parser document to the Document, and unset the element's
+                    // 3. Set the element's parser document to the Document, and unset the element's
                     // "non-blocking" flag.
                     //
                     // This ensures that, if the script is external, any document.write() calls in
@@ -1200,36 +1193,39 @@ where
                     // would happen in most other cases. It also prevents the script from executing
                     // until the end tag is seen.
                     //
-                    // If the parser was created as part of the HTML fragment parsing algorithm,
+                    // 4. If the parser was created as part of the HTML fragment parsing algorithm,
                     // then mark the script element as "already started". (fragment case)
                     //
-                    // If the parser was invoked via the document.write() or document.writeln()
+                    // 5. If the parser was invoked via the document.write() or document.writeln()
                     // methods, then optionally mark the script element as "already started". (For
                     // example, the user agent might use this clause to prevent execution of
                     // cross-origin scripts inserted via document.write() under slow network
                     // conditions, or when the page has already taken a long time to load.)
                     //
-                    // Insert the newly created element at the adjusted insertion location.
+                    // 6. Insert the newly created element at the adjusted insertion location.
                     //
-                    // Push the element onto the stack of open elements so that it is the new
+                    // 7. Push the element onto the stack of open elements so that it is the new
                     // current node.
                     //
-                    // Switch the tokenizer to the script data state.
+                    // 8. Switch the tokenizer to the script data state.
                     //
-                    // Let the original insertion mode be the current insertion mode.
+                    // 9. Let the original insertion mode be the current insertion mode.
                     //
-                    // Switch the insertion mode to "text".
+                    // 10. Switch the insertion mode to "text".
                     Token::StartTag { tag_name, .. } if tag_name == "script" => {
-                        // TODO
-                        // let adjusted_insertion_location =
-                        //     self.get_appropriate_place_for_inserting_node();
-                        // let node = self.create_element_for_token(
-                        //     token_and_span,
-                        //     Namespaces::HTML,
-                        //     $adjustedInsertionLocation[0]
-                        // );
-                        // self.insert_node(node, adjusted_insertion_location);
-                        // self.open_elements_stack.push(node);
+                        let last_pos = self.input.last_pos()?;
+                        let adjusted_insertion_location =
+                            self.get_appropriate_place_for_inserting_node(None);
+                        let node = create_node_for_element(create_element_for_token(
+                            token_and_span.token.clone(),
+                            Span::new(token_and_span.span.lo, last_pos, Default::default()),
+                            Some(Namespace::HTML),
+                        )?);
+
+                        // Skip script handling
+
+                        self.insert_at_position(adjusted_insertion_location, node.clone());
+                        self.open_elements_stack.push(node);
                         self.input.set_input_state(State::ScriptData);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::Text;
@@ -1529,16 +1525,15 @@ where
                         self.errors
                             .push(Error::new(token_and_span.span, ErrorKind::UnexpectedToken));
 
-                        // TODO do we need take?
-                        if let Some(head_element_pointer) = self.head_element_pointer.take() {
-                            self.open_elements_stack.push(head_element_pointer);
-                        }
+                        let head = self
+                            .head_element_pointer
+                            .as_ref()
+                            .expect("no head element")
+                            .clone();
 
+                        self.open_elements_stack.push(head.clone());
                         self.process_token_using_rules(token_and_span, InsertionMode::InHead)?;
-
-                        if let Some(head_element_pointer) = self.head_element_pointer.take() {
-                            self.open_elements_stack.remove(head_element_pointer);
-                        }
+                        self.open_elements_stack.remove(&head);
                     }
                     // An end tag whose tag name is "template"
                     //
@@ -5788,6 +5783,16 @@ where
         Ok(())
     }
 
+    fn create_fake_html_element(&self) -> RcNode {
+        Node::new(Element {
+            span: Default::default(),
+            tag_name: "html".into(),
+            namespace: Namespace::HTML,
+            attributes: vec![],
+            children: vec![],
+        })
+    }
+
     // Parsing elements that contain only text
     // The generic raw text element parsing algorithm and the generic RCDATA element
     // parsing algorithm consist of the following steps. These algorithms are always
@@ -6307,7 +6312,7 @@ where
         // elements, e.g. because it's a Document that already has an
         // element child, then the newly created element is dropped on the
         // floor.
-        self.insert_at(adjusted_insertion_location, node.clone());
+        self.insert_at_position(adjusted_insertion_location, node.clone());
 
         // Push the element onto the stack of open elements so that it is the
         // new current node.
@@ -6317,7 +6322,7 @@ where
         Ok(node)
     }
 
-    fn insert_at(&mut self, insertion_point: InsertionPosition, node: RcNode) {
+    fn insert_at_position(&mut self, insertion_point: InsertionPosition, node: RcNode) {
         match insertion_point {
             InsertionPosition::LastChild(parent) => {
                 append(&parent, node);

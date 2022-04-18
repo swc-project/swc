@@ -51,7 +51,44 @@
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 59,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "tagName": "script",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": []
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 94,
+                    "end": 102,
+                    "ctxt": 0
+                  },
+                  "tagName": "script",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": []
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 164,
+                    "end": 172,
+                    "ctxt": 0
+                  },
+                  "tagName": "script",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": []
+                }
+              ]
             }
           ]
         }

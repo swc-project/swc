@@ -62,60 +62,61 @@
                   "tagName": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 102,
-                    "end": 172,
-                    "ctxt": 0
-                  },
-                  "tagName": "img",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
+                  "children": [
                     {
-                      "type": "Attribute",
+                      "type": "Element",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 102,
+                        "end": 172,
                         "ctxt": 0
                       },
-                      "name": "src",
-                      "value": "w3schools.jpg"
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "name": "alt",
-                      "value": "W3Schools.com"
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "name": "width",
-                      "value": "104"
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "name": "height",
-                      "value": "142"
+                      "tagName": "img",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "src",
+                          "value": "w3schools.jpg"
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "alt",
+                          "value": "W3Schools.com"
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "width",
+                          "value": "104"
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "height",
+                          "value": "142"
+                        }
+                      ],
+                      "children": []
                     }
-                  ],
-                  "children": []
+                  ]
                 }
               ]
             }

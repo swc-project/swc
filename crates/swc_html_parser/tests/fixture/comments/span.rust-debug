@@ -49,3 +49,39 @@
  3 | <!-- foo --><div>baz</div><!-- bar
    :             ^^^^^
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.html:6:1]
+ 6 | <script><!-- alert(1) --></script>
+   : ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/comments/input.html:6:1]
+ 6 | <script><!-- alert(1) --></script>
+   : ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.html:7:1]
+ 7 | <script>alert('<!--')</script>
+   : ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/comments/input.html:7:1]
+ 7 | <script>alert('<!--')</script>
+   : ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.html:9:1]
+ 9 | <script>alert('-->')</script>
+   : ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/comments/input.html:9:1]
+ 9 | <script>alert('-->')</script>
+   : ^^^^^^^^
+   `----
