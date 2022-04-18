@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Value::Known};
 
@@ -151,6 +151,26 @@ where
                         raw: None,
                         value: js_word!("undefined"),
                     }));
+                }
+            }
+
+            Expr::Bin(BinExpr {
+                span,
+                op: op!("/"),
+                left,
+                right,
+            }) => {
+                if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
+                    if l.value == 0.0 && r.value == 0.0 {
+                        *n = Expr::Ident(Ident::new(
+                            js_word!("NaN"),
+                            span.with_ctxt(
+                                SyntaxContext::empty().apply_mark(self.marks.top_level_mark),
+                            ),
+                        ));
+                        self.changed = true;
+                        report_change!("strings: Evaluated 0 / 0 => NaN in string context");
+                    }
                 }
             }
 
