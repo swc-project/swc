@@ -10,3 +10,25 @@ macro_rules! bump {
         $parser.input.bump()?.unwrap().token
     };
 }
+
+macro_rules! get_tag_name {
+    ($node:expr) => {{
+        match &$node.data {
+            Data::Element(Element { tag_name, .. }) => &**tag_name,
+            _ => {
+                unreachable!();
+            }
+        }
+    }};
+}
+
+macro_rules! get_namespace {
+    ($node:expr) => {{
+        match $node.data {
+            Data::Element(Element { namespace, .. }) => namespace,
+            _ => {
+                unreachable!();
+            }
+        }
+    }};
+}
