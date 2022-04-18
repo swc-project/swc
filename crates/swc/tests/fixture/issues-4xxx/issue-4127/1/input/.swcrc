@@ -15,27 +15,6 @@
         "transform": {
             "legacyDecorator": true,
             "decoratorMetadata": true
-        },
-        "baseUrl": "./",
-        "paths": {
-            "~/*": [
-                "src/*"
-            ],
-            "~route": [
-                "src/core/protocol_decorators.ts"
-            ],
-            "~core/*": [
-                "src/core/*"
-            ],
-            "~server/*": [
-                "src/core/server/*"
-            ],
-            "~public/*": [
-                "src/public/*"
-            ],
-            "~vendor/*": [
-                "src/vendor/*"
-            ]
         }
     },
     "module": {
