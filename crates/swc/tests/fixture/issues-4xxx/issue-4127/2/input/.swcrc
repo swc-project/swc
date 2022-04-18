@@ -1,0 +1,20 @@
+{
+    "test": [
+        ".*.ts$",
+        ".*.mts$"
+    ],
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": true,
+            "dynamicImport": true,
+            "topLevelAwait": true
+        },
+        "target": "es2022",
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        }
+    }
+}
