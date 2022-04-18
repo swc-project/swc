@@ -6190,28 +6190,33 @@ where
         InsertionPosition::LastChild(target)
     }
 
-    fn insert_comment(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-
+    // Inserts a comment node in to the document while processing a comment token.
+    fn insert_comment(&mut self, _token_and_span: &mut TokenAndSpan) -> PResult<()> {
+        // TODO uncomment me
         // Let data be the data given in the comment token being processed.
         // If position was specified, then let the adjusted insertion location
         // be position. Otherwise, let adjusted insertion location be the
         // appropriate place for inserting a node.
-        // TODO fix me
         // let adjusted_insertion_location =
         // self.get_appropriate_place_for_inserting_node(None);
 
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        create_comment_for_token(
-            token_and_span.token.clone(),
-            Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        );
+        // let last_pos = self.input.last_pos()?;
+        // let comment = Comment {
+        //     span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        //     data: match token_and_span.token {
+        //         Token::Comment { data } => data.into(),
+        //         _ => {
+        //             unreachable!()
+        //         }
+        //     },
+        // };
+        // let comment = Node::new(comment);
 
         // Insert the newly created node at the adjusted insertion location.
-        // self.insert_node(&node, adjusted_insertion_location)?;
-        // insert_node(Child::Comment(node), adjusted_insertion_location);
+        // self.insert_at_position(adjusted_insertion_location, comment);
 
         Ok(())
     }
@@ -6254,12 +6259,12 @@ where
         // insertion location.
         // TODO fix me
 
-        create_text_for_token(
-            token_and_span.token.clone(),
-            Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        );
+        // let comment = create_text_for_token(
+        //     token_and_span.token.clone(),
+        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        // );
 
-        // insert_node(Child::Text(node), adjusted_insertion_location);
+        // self.append_node(self.document, AppendNode(comment)));
 
         Ok(())
     }
@@ -6273,8 +6278,6 @@ where
         token_and_span: &mut TokenAndSpan,
         namespace: Namespace,
     ) -> PResult<RcNode> {
-        let last_pos = self.input.last_pos()?;
-
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
         let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
@@ -6291,6 +6294,7 @@ where
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
+        let last_pos = self.input.last_pos()?;
         let element = create_element_for_token(
             token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
@@ -6463,27 +6467,6 @@ fn create_element_for_token(
     };
 
     Ok(element)
-}
-
-fn create_comment_for_token(token: Token, span: Span) -> Comment {
-    match token {
-        Token::Comment { data } => Comment { span, data },
-        _ => {
-            unreachable!()
-        }
-    }
-}
-
-fn create_text_for_token(token: Token, span: Span) -> Text {
-    match token {
-        Token::Character { value, .. } => Text {
-            span,
-            value: value.to_string().into(),
-        },
-        _ => {
-            unreachable!()
-        }
-    }
 }
 
 impl<I> Parse<Document> for Parser<I>
