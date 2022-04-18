@@ -16,7 +16,7 @@ use crate::{
     marks::Marks,
     option::CompressOptions,
     util::ModuleItemExt,
-    DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
+    MAX_PAR_DEPTH,
 };
 
 mod arrows;
@@ -156,10 +156,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2
-            || cfg!(target_arch = "wasm32")
-            || DISABLE_BUGGY_PASSES
-        {
+        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 let mut v = Pure {
                     changed: false,
