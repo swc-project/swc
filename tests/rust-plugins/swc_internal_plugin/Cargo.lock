@@ -185,6 +185,12 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
+version = "0.11.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab5ef0d4909ef3724cc8cce6ccc8572c5c817592e9285f5464f8e86f8bd3726e"
+
+[[package]]
+name = "hashbrown"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c21d40587b92fa6a6c6e3c1bdbf87d75511db5672f9c93175574b3a00df1758"
@@ -207,6 +213,16 @@ dependencies = [
  "matches",
  "unicode-bidi",
  "unicode-normalization",
+]
+
+[[package]]
+name = "indexmap"
+version = "1.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0f647032dfaa1f8b6dc29bd3edb7bbef4861b8b8007ebb118d6db284fd59f6ee"
+dependencies = [
+ "autocfg",
+ "hashbrown 0.11.2",
 ]
 
 [[package]]
@@ -480,12 +496,12 @@ dependencies = [
 
 [[package]]
 name = "rkyv"
-version = "0.7.36"
+version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5230ae2981a885590b0dc84e0b24c0ed23ad24f7adc0eb824b26cafa961f7c36"
+checksum = "1f08c8062c1fe1253064043b8fc07bfea1b9702b71b4a86c11ea3588183b12e1"
 dependencies = [
  "bytecheck",
- "hashbrown",
+ "hashbrown 0.12.0",
  "ptr_meta",
  "rend",
  "rkyv_derive",
@@ -494,9 +510,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.7.36"
+version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fc752d5925dbcb324522f3a4c93193d17f107b2e11810913aa3ad352fa01480"
+checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -612,7 +628,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.19"
+version = "0.17.21"
 dependencies = [
  "ahash",
  "anyhow",
@@ -638,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.73.1"
+version = "0.76.0"
 dependencies = [
  "is-macro",
  "num-bigint",
@@ -651,8 +667,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_utils"
+version = "0.81.0"
+dependencies = [
+ "indexmap",
+ "once_cell",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_visit",
+ "tracing",
+]
+
+[[package]]
 name = "swc_ecma_visit"
-version = "0.59.0"
+version = "0.62.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -682,7 +711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -692,23 +721,15 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.41.0"
+version = "0.47.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin_comments",
  "swc_plugin_macro",
-]
-
-[[package]]
-name = "swc_plugin_comments"
-version = "0.1.0"
-dependencies = [
- "better_scoped_tls",
- "rkyv",
- "swc_common",
+ "swc_plugin_proxy",
 ]
 
 [[package]]
@@ -718,6 +739,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "swc_plugin_proxy"
+version = "0.1.2"
+dependencies = [
+ "better_scoped_tls",
+ "rkyv",
+ "swc_common",
 ]
 
 [[package]]
