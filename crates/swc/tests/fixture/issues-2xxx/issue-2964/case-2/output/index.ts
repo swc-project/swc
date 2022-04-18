@@ -13,8 +13,8 @@ var /* istanbul ignore next */ badIstanbul = (test)=>{
     ]);
     console.log('fail');
 };
-exports.badIstanbul = badIstanbul;
 /* istanbul ignore next: UI-5137 */ const downloadDocument = ()=>{
     console.log('fail');
 };
 exports.downloadDocument = downloadDocument;
+exports.badIstanbul = badIstanbul;

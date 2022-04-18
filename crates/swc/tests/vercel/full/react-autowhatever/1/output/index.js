@@ -40,7 +40,7 @@ var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interop
         }));
     }, b;
 }(d.Component);
-exports.default = b, b.propTypes = {
+b.propTypes = {
     items: a.default.array.isRequired,
     itemProps: a.default.oneOfType([
         a.default.object,
@@ -56,4 +56,4 @@ exports.default = b, b.propTypes = {
     keyPrefix: a.default.string.isRequired
 }, b.defaultProps = {
     sectionIndex: null
-}, new b();
+}, new b(), exports.default = b;

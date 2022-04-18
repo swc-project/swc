@@ -151,6 +151,8 @@ impl Fold for CommonJs {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 5);
         let mut extra_stmts = Vec::with_capacity(items.len());
+        // appended after extra_stmts
+        let mut extra_exports = vec![];
 
         if self.config.strict_mode && !has_use_strict(&items) {
             stmts.push(ModuleItem::Stmt(use_strict()));
@@ -677,7 +679,7 @@ impl Fold for CommonJs {
                                                 .unwrap_or_else(|| orig.sym.clone());
                                             init_export!(exported_symbol);
 
-                                            extra_stmts.push(
+                                            extra_exports.push(
                                                 AssignExpr {
                                                     span: DUMMY_SP,
                                                     left: PatOrExpr::Expr(Box::new(
@@ -922,6 +924,7 @@ impl Fold for CommonJs {
         }
 
         stmts.append(&mut extra_stmts);
+        stmts.append(&mut extra_exports);
 
         stmts
     }

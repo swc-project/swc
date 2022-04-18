@@ -42,8 +42,8 @@ var b = require("@swc/helpers"), c = require("react/jsx-runtime"), a = function(
         }));
     }, a;
 }(b.interopRequireWildcard(require("react")).Component);
-exports.default = a, a.propTypes = {
+a.propTypes = {
     items: 500
 }, a.defaultProps = {
     sectionIndex: null
-}, new a();
+}, new a(), exports.default = a;

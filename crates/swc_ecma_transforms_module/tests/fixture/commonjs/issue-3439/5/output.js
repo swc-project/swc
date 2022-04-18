@@ -6,6 +6,6 @@ exports.bar = exports.default = void 0;
 class foo {
 }
 exports.default = foo;
-exports.bar = foo;
 exports.bar = foo = 1;
 exports.bar = foo = 2;
+exports.bar = foo;
