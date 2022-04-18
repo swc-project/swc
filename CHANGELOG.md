@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Improve evaluation of template literals (#4359) ([2e095fa](https://github.com/swc-project/swc/commit/2e095face5b6873d50f20babca88a632e5b70d76))
 
+
+- **(es/minifier)** Implement all template literal evaluation rules (#4360) ([e60ae2a](https://github.com/swc-project/swc/commit/e60ae2a486cdbe4e652f9b7f3a62b4b7dea9c4fb))
+
 ### Miscellaneous Tasks
 
 
