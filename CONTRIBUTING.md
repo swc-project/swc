@@ -51,7 +51,7 @@ Steps to get started:
     compilers.
 -   Please adhere to the code style that you see around the location you are
     working on.
--   [Commit as you go][githelp].
+-   Commit as you go.
 -   Include tests that cover all non-trivial code. The existing tests
     in `tests/` provide templates on how to test SWC's behavior in a
     sandbox-environment. The internal crate `testing` provides a vast amount
