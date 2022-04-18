@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use swc_atoms::JsWord;
 use swc_common::{EqIgnoreSpan, Span};
 use swc_html_ast::*;
 
@@ -59,17 +60,17 @@ enum Target<'a, T, U> {
     Element(&'a mut U),
 }
 
-static LIMITED_QUIRKY_PUBLIC_PREFIXES: &'static [&'static str] = &[
+static LIMITED_QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd xhtml 1.0 frameset//",
     "-//w3c//dtd xhtml 1.0 transitional//",
 ];
 
-static HTML4_PUBLIC_PREFIXES: &'static [&'static str] = &[
+static HTML4_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd html 4.01 frameset//",
     "-//w3c//dtd html 4.01 transitional//",
 ];
 
-static QUIRKY_PUBLIC_PREFIXES: &'static [&'static str] = &[
+static QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//advasoft ltd//dtd html 3.0 aswedit + extensions//",
     "-//as//dtd html 3.0 aswedit + extensions//",
     "-//ietf//dtd html 2.0 level 1//",
@@ -126,25 +127,25 @@ static QUIRKY_PUBLIC_PREFIXES: &'static [&'static str] = &[
     "-//webtechs//dtd mozilla html//",
 ];
 
-static QUIRKY_PUBLIC_MATCHES: &'static [&'static str] = &[
+static QUIRKY_PUBLIC_MATCHES: &[&str] = &[
     "-//w3o//dtd w3 html strict 3.0//en//",
     "-/w3c/dtd html 4.0 transitional/en",
     "html",
 ];
 
-static QUIRKY_SYSTEM_MATCHES: &'static [&'static str] =
+static QUIRKY_SYSTEM_MATCHES: &[&str] =
     &["http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"];
 
-static IMPLICIT_END_TAG_REQUIRED: &'static [&'static str] = &[
+static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
     "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
 ];
 
-static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &'static [&'static str] = &[
+static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&str] = &[
     "caption", "colgroup", "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
     "tbody", "td", "tfoot", "th", "thead", "tr",
 ];
 
-static SPECIFIC_SCOPE: &'static [(&'static str, Namespace)] = &[
+static SPECIFIC_SCOPE: &[(&str, Namespace)] = &[
     ("applet", Namespace::HTML),
     ("caption", Namespace::HTML),
     ("html", Namespace::HTML),
@@ -165,7 +166,7 @@ static SPECIFIC_SCOPE: &'static [(&'static str, Namespace)] = &[
     ("title", Namespace::SVG),
 ];
 
-static LIST_ITEM_SCOPE: &'static [(&'static str, Namespace)] = &[
+static LIST_ITEM_SCOPE: &[(&str, Namespace)] = &[
     ("applet", Namespace::HTML),
     ("caption", Namespace::HTML),
     ("html", Namespace::HTML),
@@ -188,7 +189,7 @@ static LIST_ITEM_SCOPE: &'static [(&'static str, Namespace)] = &[
     ("ul", Namespace::HTML),
 ];
 
-static BUTTON_SCOPE: &'static [(&'static str, Namespace)] = &[
+static BUTTON_SCOPE: &[(&str, Namespace)] = &[
     ("applet", Namespace::HTML),
     ("caption", Namespace::HTML),
     ("html", Namespace::HTML),
@@ -210,13 +211,13 @@ static BUTTON_SCOPE: &'static [(&'static str, Namespace)] = &[
     ("button", Namespace::HTML),
 ];
 
-static TABLE_SCOPE: &'static [(&'static str, Namespace)] = &[
+static TABLE_SCOPE: &[(&str, Namespace)] = &[
     ("html", Namespace::HTML),
     ("table", Namespace::HTML),
     ("template", Namespace::HTML),
 ];
 
-static SELECT_SCOPE: &'static [(&'static str, Namespace)] =
+static SELECT_SCOPE: &[(&str, Namespace)] =
     &[("optgroup", Namespace::HTML), ("option", Namespace::HTML)];
 
 struct OpenElementsStack {
@@ -3008,16 +3009,10 @@ where
 
                         match &mut new_token_and_span {
                             TokenAndSpan {
-                                token:
-                                    Token::StartTag {
-                                        tag_name,
-                                        raw_tag_name,
-                                        ..
-                                    },
+                                token: Token::StartTag { tag_name, .. },
                                 ..
                             } => {
                                 *tag_name = "img".into();
-                                *raw_tag_name = Some("img".into());
                             }
                             _ => {
                                 unreachable!()
@@ -5600,9 +5595,94 @@ where
         Ok(())
     }
 
-    fn adjust_math_ml_attributes(&mut self, _token_and_span: &mut TokenAndSpan) {}
+    fn adjust_attributes<F>(&mut self, token_and_span: &mut TokenAndSpan, mut map: F)
+    where
+        F: FnMut(JsWord) -> Option<JsWord>,
+    {
+        let attributes = match &mut token_and_span.token {
+            Token::StartTag { attributes, .. } => attributes,
+            _ => {
+                unreachable!();
+            }
+        };
 
-    fn adjust_svg_attributes(&mut self, _token_and_span: &mut TokenAndSpan) {}
+        for &mut AttributeToken { ref mut name, .. } in attributes {
+            if let Some(replacement) = map(name.clone()) {
+                *name = replacement;
+            }
+        }
+    }
+
+    fn adjust_math_ml_attributes(&mut self, token_and_span: &mut TokenAndSpan) {
+        self.adjust_attributes(token_and_span, |attribute| match &*attribute {
+            "definitionurl" => Some("definitionURL".into()),
+            _ => None,
+        });
+    }
+
+    fn adjust_svg_attributes(&mut self, token_and_span: &mut TokenAndSpan) {
+        self.adjust_attributes(token_and_span, |attribute| match &*attribute {
+            "attributename" => Some("attributeName".into()),
+            "attributetype" => Some("attributeType".into()),
+            "basefrequency" => Some("baseFrequency".into()),
+            "baseprofile" => Some("baseProfile".into()),
+            "calcmode" => Some("calcMode".into()),
+            "clippathunits" => Some("clipPathUnits".into()),
+            "diffuseconstant" => Some("diffuseConstant".into()),
+            "edgemode" => Some("edgeMode".into()),
+            "filterunits" => Some("filterUnits".into()),
+            "glyphref" => Some("glyphRef".into()),
+            "gradienttransform" => Some("gradientTransform".into()),
+            "gradientunits" => Some("gradientUnits".into()),
+            "kernelmatrix" => Some("kernelMatrix".into()),
+            "kernelunitlength" => Some("kernelUnitLength".into()),
+            "keypoints" => Some("keyPoints".into()),
+            "keysplines" => Some("keySplines".into()),
+            "keytimes" => Some("keyTimes".into()),
+            "lengthadjust" => Some("lengthAdjust".into()),
+            "limitingconeangle" => Some("limitingConeAngle".into()),
+            "markerheight" => Some("markerHeight".into()),
+            "markerunits" => Some("markerUnits".into()),
+            "markerwidth" => Some("markerWidth".into()),
+            "maskcontentunits" => Some("maskContentUnits".into()),
+            "maskunits" => Some("maskUnits".into()),
+            "numoctaves" => Some("numOctaves".into()),
+            "pathlength" => Some("pathLength".into()),
+            "patterncontentunits" => Some("patternContentUnits".into()),
+            "patterntransform" => Some("patternTransform".into()),
+            "patternunits" => Some("patternUnits".into()),
+            "pointsatx" => Some("pointsAtX".into()),
+            "pointsaty" => Some("pointsAtY".into()),
+            "pointsatz" => Some("pointsAtZ".into()),
+            "preservealpha" => Some("preserveAlpha".into()),
+            "preserveaspectratio" => Some("preserveAspectRatio".into()),
+            "primitiveunits" => Some("primitiveUnits".into()),
+            "refx" => Some("refX".into()),
+            "refy" => Some("refY".into()),
+            "repeatcount" => Some("repeatCount".into()),
+            "repeatdur" => Some("repeatDur".into()),
+            "requiredextensions" => Some("requiredExtensions".into()),
+            "requiredfeatures" => Some("requiredFeatures".into()),
+            "specularconstant" => Some("specularConstant".into()),
+            "specularexponent" => Some("specularExponent".into()),
+            "spreadmethod" => Some("spreadMethod".into()),
+            "startoffset" => Some("startOffset".into()),
+            "stddeviation" => Some("stdDeviation".into()),
+            "stitchtiles" => Some("stitchTiles".into()),
+            "surfacescale" => Some("surfaceScale".into()),
+            "systemlanguage" => Some("systemLanguage".into()),
+            "tablevalues" => Some("tableValues".into()),
+            "targetx" => Some("targetX".into()),
+            "targety" => Some("targetY".into()),
+            "textlength" => Some("textLength".into()),
+            "viewbox" => Some("viewBox".into()),
+            "viewtarget" => Some("viewTarget".into()),
+            "xchannelselector" => Some("xChannelSelector".into()),
+            "ychannelselector" => Some("yChannelSelector".into()),
+            "zoomandpan" => Some("zoomAndPan".into()),
+            _ => None,
+        });
+    }
 
     fn adjust_foreign_attributes_for_the_token(&mut self, _token_and_span: &mut TokenAndSpan) {}
 
@@ -6199,10 +6279,10 @@ fn insert_node(node: Child, position: Target<Document, Element>) {
     // TODO fix me
     match position {
         Target::Document(document) => {
-            document.children.push(node.clone());
+            document.children.push(node);
         }
         Target::Element(element) => {
-            element.children.push(node.clone());
+            element.children.push(node);
         }
     };
 }
