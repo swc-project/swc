@@ -657,7 +657,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if tpl.exprs.iter().all(|e| match &**e {
+        if tpl.exprs.iter().any(|e| match &**e {
             Expr::Tpl(t) => t
                 .quasis
                 .iter()
