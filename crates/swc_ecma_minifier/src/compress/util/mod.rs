@@ -381,6 +381,18 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
     }
 }
 
+pub(crate) fn is_primitive(e: &Expr) -> Option<&Expr> {
+    if is_pure_undefined(e) {
+        Some(e)
+    } else {
+        match e {
+            Expr::Lit(Lit::Regex(_)) => None,
+            Expr::Lit(_) => Some(e),
+            _ => None,
+        }
+    }
+}
+
 pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
     if ascii_only {
         if s.chars().any(|c| !c.is_ascii()) {

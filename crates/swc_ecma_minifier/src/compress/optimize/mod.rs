@@ -2526,8 +2526,6 @@ where
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
 
-        self.drop_unreachable_cases(n);
-
         n.cases.visit_mut_with(self);
     }
 
