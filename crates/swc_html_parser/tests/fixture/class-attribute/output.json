@@ -216,55 +216,53 @@
                                               "value": null
                                             }
                                           ],
-                                          "children": [
+                                          "children": []
+                                        },
+                                        {
+                                          "type": "Element",
+                                          "span": {
+                                            "start": 354,
+                                            "end": 437,
+                                            "ctxt": 0
+                                          },
+                                          "tagName": "div",
+                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                          "attributes": [
                                             {
-                                              "type": "Element",
+                                              "type": "Attribute",
                                               "span": {
-                                                "start": 354,
-                                                "end": 437,
+                                                "start": 0,
+                                                "end": 0,
                                                 "ctxt": 0
                                               },
-                                              "tagName": "div",
-                                              "namespace": "http://www.w3.org/1999/xhtml",
-                                              "attributes": [
-                                                {
-                                                  "type": "Attribute",
-                                                  "span": {
-                                                    "start": 0,
-                                                    "end": 0,
-                                                    "ctxt": 0
-                                                  },
-                                                  "name": "class",
-                                                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
-                                                }
-                                              ],
-                                              "children": [
-                                                {
-                                                  "type": "Element",
-                                                  "span": {
-                                                    "start": 444,
-                                                    "end": 517,
-                                                    "ctxt": 0
-                                                  },
-                                                  "tagName": "a",
-                                                  "namespace": "http://www.w3.org/1999/xhtml",
-                                                  "attributes": [
-                                                    {
-                                                      "type": "Attribute",
-                                                      "span": {
-                                                        "start": 0,
-                                                        "end": 0,
-                                                        "ctxt": 0
-                                                      },
-                                                      "name": "class",
-                                                      "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
-                                                    }
-                                                  ],
-                                                  "children": []
-                                                }
-                                              ]
+                                              "name": "class",
+                                              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
                                             }
-                                          ]
+                                          ],
+                                          "children": []
+                                        },
+                                        {
+                                          "type": "Element",
+                                          "span": {
+                                            "start": 444,
+                                            "end": 517,
+                                            "ctxt": 0
+                                          },
+                                          "tagName": "a",
+                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                          "attributes": [
+                                            {
+                                              "type": "Attribute",
+                                              "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                              },
+                                              "name": "class",
+                                              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+                                            }
+                                          ],
+                                          "children": []
                                         }
                                       ]
                                     }

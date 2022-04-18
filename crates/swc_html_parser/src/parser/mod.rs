@@ -1,5 +1,4 @@
 use std::{
-    borrow::BorrowMut,
     cell::{Cell, RefCell},
     mem,
     mem::take,
@@ -80,10 +79,10 @@ impl Node {
 
 impl Drop for Node {
     fn drop(&mut self) {
-        let mut nodes = mem::replace(&mut *self.children.borrow_mut(), vec![]);
+        let mut nodes = mem::take(&mut *self.children.borrow_mut());
 
         while let Some(node) = nodes.pop() {
-            let children = mem::replace(&mut *node.children.borrow_mut(), vec![]);
+            let children = mem::take(&mut *node.children.borrow_mut());
 
             nodes.extend(children.into_iter());
 
@@ -100,6 +99,7 @@ impl Drop for Node {
 type RcNode = Rc<Node>;
 type WeakNode = Weak<Node>;
 
+#[allow(dead_code)]
 enum InsertionPosition {
     LastChild(RcNode),
     BeforeSibling(RcNode),
@@ -109,16 +109,19 @@ enum InsertionPosition {
     },
 }
 
+#[allow(dead_code)]
 static LIMITED_QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd xhtml 1.0 frameset//",
     "-//w3c//dtd xhtml 1.0 transitional//",
 ];
 
+#[allow(dead_code)]
 static HTML4_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd html 4.01 frameset//",
     "-//w3c//dtd html 4.01 transitional//",
 ];
 
+#[allow(dead_code)]
 static QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//advasoft ltd//dtd html 3.0 aswedit + extensions//",
     "-//as//dtd html 3.0 aswedit + extensions//",
@@ -176,12 +179,14 @@ static QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//webtechs//dtd mozilla html//",
 ];
 
+#[allow(dead_code)]
 static QUIRKY_PUBLIC_MATCHES: &[&str] = &[
     "-//w3o//dtd w3 html strict 3.0//en//",
     "-/w3c/dtd html 4.0 transitional/en",
     "html",
 ];
 
+#[allow(dead_code)]
 static QUIRKY_SYSTEM_MATCHES: &[&str] =
     &["http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"];
 
@@ -303,7 +308,7 @@ impl OpenElementsStack {
     }
 
     pub fn remove(&mut self, node: &RcNode) {
-        let position = self.items.iter().rposition(|x| is_same_node(node, &x));
+        let position = self.items.iter().rposition(|x| is_same_node(node, x));
 
         if let Some(position) = position {
             if &*node.element.tag_name == "template" {
@@ -491,6 +496,7 @@ impl OpenElementsStack {
 
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
         while let Some(node) = self.items.last() {
+            // TODO fix me
             if &*node.element.tag_name == tag_name {
                 break;
             }
@@ -521,20 +527,11 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        while let Some(node) = self.items.last() {
-            match &node.element {
-                Element {
-                    namespace,
-                    tag_name: popped_tag_name,
-                    ..
-                } if tag_name.contains(&popped_tag_name.as_ref())
-                    && *namespace == Namespace::HTML =>
-                {
-                    break;
-                }
-                _ => {
-                    self.pop();
-                }
+        while let Some(node) = self.items.pop() {
+            if tag_name.contains(&node.element.tag_name.as_ref())
+                && node.element.namespace == Namespace::HTML
+            {
+                break;
             }
         }
     }
@@ -638,29 +635,27 @@ where
 
         // TODO optimize me
         fn extract(node: &mut RcNode) -> Child {
-            match &node.element {
-                Element {
-                    span,
-                    tag_name,
-                    namespace,
-                    attributes,
-                    children,
-                } => {
-                    let mut new_children = vec![];
+            let Element {
+                span,
+                tag_name,
+                namespace,
+                attributes,
+                ..
+            } = &node.element;
 
-                    for mut node in &mut node.children.borrow_mut().iter_mut() {
-                        new_children.push(extract(node));
-                    }
+            let mut new_children = vec![];
 
-                    Child::Element(Element {
-                        span: *span,
-                        tag_name: tag_name.clone(),
-                        namespace: namespace.clone(),
-                        attributes: attributes.clone(),
-                        children: new_children,
-                    })
-                }
+            for node in &mut node.children.borrow_mut().iter_mut() {
+                new_children.push(extract(node));
             }
+
+            Child::Element(Element {
+                span: *span,
+                tag_name: tag_name.clone(),
+                namespace: *namespace,
+                attributes: attributes.clone(),
+                children: new_children,
+            })
         }
 
         let mut document = Document {
@@ -669,7 +664,7 @@ where
             children: vec![],
         };
 
-        for mut node in &mut self
+        for node in &mut self
             .document
             .as_ref()
             .unwrap()
@@ -801,7 +796,7 @@ where
 
                         // TODO fix me and handle
 
-                        let document_type = Child::DocumentType(DocumentType {
+                        let _document_type = Child::DocumentType(DocumentType {
                             span: span!(self, token_and_span.span.lo),
                             name: name.clone(),
                             public_id: public_id.clone(),
@@ -973,7 +968,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -1075,7 +1070,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -1459,7 +1454,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -1634,7 +1629,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -1668,7 +1663,7 @@ where
 
                         let first = self.open_elements_stack.items.first_mut();
 
-                        for attribute in attributes {
+                        for _attribute in attributes {
                             let has_attribute = if let Some(_element) = &first {
                                 // TODO
                                 false
@@ -2536,9 +2531,9 @@ where
 
                             self.open_elements_stack.generate_implied_end_tags();
 
-                            let current = self.open_elements_stack.items.last().clone();
+                            let current = self.open_elements_stack.items.last();
 
-                            if !is_same_node(&node.unwrap(), &current.unwrap()) {
+                            if !is_same_node(&node.unwrap(), current.unwrap()) {
                                 self.errors.push(Error::new(
                                     token_and_span.span,
                                     ErrorKind::UnexpectedToken,
@@ -3755,7 +3750,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4309,7 +4304,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -4854,7 +4849,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -5400,7 +5395,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -5532,7 +5527,7 @@ where
                     //
                     // Insert a comment.
                     Token::Comment { .. } => {
-                        self.insert_comment(token_and_span, None)?;
+                        self.insert_comment(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -6195,11 +6190,7 @@ where
         InsertionPosition::LastChild(target)
     }
 
-    fn insert_comment(
-        &mut self,
-        token_and_span: &mut TokenAndSpan,
-        position: Option<&mut Element>,
-    ) -> PResult<()> {
+    fn insert_comment(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
         let last_pos = self.input.last_pos()?;
 
         // Let data be the data given in the comment token being processed.
@@ -6207,19 +6198,20 @@ where
         // be position. Otherwise, let adjusted insertion location be the
         // appropriate place for inserting a node.
         // TODO fix me
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        // let adjusted_insertion_location =
+        // self.get_appropriate_place_for_inserting_node(None);
 
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let node = create_comment_for_token(
+        create_comment_for_token(
             token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
         );
 
         // Insert the newly created node at the adjusted insertion location.
         // self.insert_node(&node, adjusted_insertion_location)?;
-        insert_node(Child::Comment(node), adjusted_insertion_location);
+        // insert_node(Child::Comment(node), adjusted_insertion_location);
 
         Ok(())
     }
@@ -6242,7 +6234,8 @@ where
 
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        // let adjusted_insertion_location =
+        // self.get_appropriate_place_for_inserting_node(None);
 
         // If the adjusted insertion location is in a Document node, then abort
         // these steps.
@@ -6261,12 +6254,12 @@ where
         // insertion location.
         // TODO fix me
 
-        let node = create_text_for_token(
+        create_text_for_token(
             token_and_span.token.clone(),
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
         );
 
-        insert_node(Child::Text(node), adjusted_insertion_location);
+        // insert_node(Child::Text(node), adjusted_insertion_location);
 
         Ok(())
     }
@@ -6285,7 +6278,7 @@ where
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
         let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
-        let (node1, node2) = match adjusted_insertion_location {
+        let (_node1, _node2) = match adjusted_insertion_location {
             InsertionPosition::LastChild(ref p) | InsertionPosition::BeforeSibling(ref p) => {
                 (p.clone(), None)
             }
@@ -6327,12 +6320,12 @@ where
             InsertionPosition::LastChild(parent) => {
                 append(&parent, node);
             }
-            InsertionPosition::BeforeSibling(sibling) => {
+            InsertionPosition::BeforeSibling(_sibling) => {
                 //self.sink.append_before_sibling(&sibling, child)
             }
             InsertionPosition::TableFosterParenting {
-                element,
-                prev_element,
+                element: _,
+                prev_element: _,
             } => {
                 // self
                 //     .sink
@@ -6344,7 +6337,8 @@ where
 }
 
 fn append(parent: &RcNode, child: RcNode) {
-    let previous_parent = child.parent.replace(Some(Rc::downgrade(&parent)));
+    let previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
+
     // Invariant: child cannot have existing parent
     assert!(previous_parent.is_none());
 
@@ -6418,20 +6412,6 @@ fn create_text_for_token(token: Token, span: Span) -> Text {
             unreachable!()
         }
     }
-}
-
-// Inserts a node based at a specific location. It follows similar rules to
-// Element's insertAdjacentHTML method.
-fn insert_node(node: Child, position: InsertionPosition) {
-    // TODO fix me
-    // match position {
-    //     Target::Document(document) => {
-    //         document.children.push(node);
-    //     }
-    //     Target::Element(element) => {
-    //         element.children.push(node);
-    //     }
-    // };
 }
 
 impl<I> Parse<Document> for Parser<I>

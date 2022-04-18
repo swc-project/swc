@@ -1,6 +1,6 @@
 
   x Document
-    ,-[$DIR/tests/fixture/svg/input.html:1:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:1:1]
   1 | ,-> <html xmlns="http://www.w3.org/1999/xhtml">
   2 | |   <head>
   3 | |       <title>XTech SVG Demo</title>
@@ -57,345 +57,345 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/svg/input.html:1:1]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:1:1]
  1 | <html xmlns="http://www.w3.org/1999/xhtml">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/svg/input.html:1:1]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:1:1]
  1 | <html xmlns="http://www.w3.org/1999/xhtml">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/svg/input.html:1:1]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:1:1]
  1 | <html xmlns="http://www.w3.org/1999/xhtml">
    : ^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:2:1]
  2 | <head>
    : ^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:2:1]
  2 | <head>
    : ^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/svg/input.html:3:5]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:3:5]
  3 | <title>XTech SVG Demo</title>
    : ^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/svg/input.html:3:5]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:3:5]
  3 | <title>XTech SVG Demo</title>
    : ^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/svg/input.html:4:5]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:4:5]
  4 | <style>
    : ^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/svg/input.html:4:5]
+   ,-[$DIR/tests/fixture/tag/svg/input.html:4:5]
  4 | <style>
    : ^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:11:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:11:5]
  11 | <script>
     : ^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:11:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:11:5]
  11 | <script>
     : ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:17:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:17:1]
  17 | ,-> <body id="body"
  18 | `->       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:17:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:17:1]
  17 | ,-> <body id="body"
  18 | `->       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:19:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:19:1]
  19 | <form>
     : ^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:19:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:19:1]
  19 | <form>
     : ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:20:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:20:5]
  20 | <fieldset>
     : ^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:20:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:20:5]
  20 | <fieldset>
     : ^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:21:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:21:9]
  21 | <legend>HTML Form</legend>
     : ^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:21:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:21:9]
  21 | <legend>HTML Form</legend>
     : ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:22:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
     : ^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:22:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
     : ^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:22:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
     :    ^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:22:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
     :    ^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:23:13]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:23:13]
  23 | <input type="text"/>
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:23:13]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:23:13]
  23 | <input type="text"/>
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:24:13]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:24:13]
  24 | <span id="err">Incorrect value!</span></p>
     : ^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:24:13]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:24:13]
  24 | <span id="err">Incorrect value!</span></p>
     : ^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:25:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:25:9]
  25 | <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     : ^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:25:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:25:9]
  25 | <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     : ^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:25:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:25:9]
  25 | <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:25:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:25:9]
  25 | <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:29:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:29:1]
  29 | ,-> <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 | `->      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:29:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:29:1]
  29 | ,-> <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 | `->      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:32:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:32:5]
  32 | <linearGradient id="gradient">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:32:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:32:5]
  32 | <linearGradient id="gradient">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:33:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:33:9]
  33 | <stop class="begin" offset="0%"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:33:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:33:9]
  33 | <stop class="begin" offset="0%"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:34:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:34:9]
  34 | <stop class="end" offset="100%"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:34:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:34:9]
  34 | <stop class="end" offset="100%"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:36:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:36:5]
  36 | <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:36:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:36:5]
  36 | <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:37:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:37:5]
  37 | <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:37:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:37:5]
  37 | <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:40:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:40:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:41:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:41:5]
  41 | <filter id="noise1" x="0" y="0" width="100%" height="100%">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:41:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:41:5]
  41 | <filter id="noise1" x="0" y="0" width="100%" height="100%">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:42:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:42:9]
  42 | <feTurbulence baseFrequency="0.025" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:42:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:42:9]
  42 | <feTurbulence baseFrequency="0.025" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:44:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:44:5]
  44 | <filter id="noise2" x="0" y="0" width="100%" height="100%">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:44:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:44:5]
  44 | <filter id="noise2" x="0" y="0" width="100%" height="100%">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:45:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:45:9]
  45 | <feTurbulence baseFrequency="0.05" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:45:9]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:45:9]
  45 | <feTurbulence baseFrequency="0.05" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:48:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:48:5]
  48 | <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:48:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:48:5]
  48 | <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/svg/input.html:49:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:49:5]
  49 | <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/svg/input.html:49:5]
+    ,-[$DIR/tests/fixture/tag/svg/input.html:49:5]
  49 | <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----

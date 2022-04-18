@@ -51,20 +51,19 @@
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 59,
-                    "end": 62,
-                    "ctxt": 0
-                  },
-                  "tagName": "p",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 59,
+                "end": 62,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
             }
           ]
         }

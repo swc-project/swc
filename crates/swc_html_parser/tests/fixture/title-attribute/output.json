@@ -62,31 +62,30 @@
                   "value": "I'm a header"
                 }
               ],
-              "children": [
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 82,
+                "end": 107,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
                 {
-                  "type": "Element",
+                  "type": "Attribute",
                   "span": {
-                    "start": 82,
-                    "end": 107,
+                    "start": 0,
+                    "end": 0,
                     "ctxt": 0
                   },
-                  "tagName": "p",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "name": "title",
-                      "value": "I'm a tooltip"
-                    }
-                  ],
-                  "children": []
+                  "name": "title",
+                  "value": "I'm a tooltip"
                 }
-              ]
+              ],
+              "children": []
             }
           ]
         }

@@ -5,7 +5,7 @@
     "end": 778,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
@@ -17,7 +17,366 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 167,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 167,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 167,
+                "ctxt": 0
+              },
+              "tagName": "popup-info",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "img",
+                  "value": "img/alt.png"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "data-text",
+                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
+                }
+              ],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 182,
+                    "end": 213,
+                    "ctxt": 0
+                  },
+                  "tagName": "custom-square",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "l",
+                      "value": "100"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "c",
+                      "value": "red"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 231,
+                        "end": 257,
+                        "ctxt": 0
+                      },
+                      "tagName": "app-drawer",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "open",
+                          "value": null
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "disabled",
+                          "value": null
+                        }
+                      ],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 272,
+                            "end": 287,
+                            "ctxt": 0
+                          },
+                          "tagName": "share-buttons",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Element",
+                              "span": {
+                                "start": 292,
+                                "end": 322,
+                                "ctxt": 0
+                              },
+                              "tagName": "social-button",
+                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "attributes": [
+                                {
+                                  "type": "Attribute",
+                                  "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                  },
+                                  "name": "type",
+                                  "value": "twitter"
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "type": "Element",
+                                  "span": {
+                                    "start": 322,
+                                    "end": 336,
+                                    "ctxt": 0
+                                  },
+                                  "tagName": "a",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [
+                                    {
+                                      "type": "Attribute",
+                                      "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                      },
+                                      "name": "href",
+                                      "value": "..."
+                                    }
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "Element",
+                                      "span": {
+                                        "start": 368,
+                                        "end": 393,
+                                        "ctxt": 0
+                                      },
+                                      "tagName": "social-button",
+                                      "namespace": "http://www.w3.org/1999/xhtml",
+                                      "attributes": [
+                                        {
+                                          "type": "Attribute",
+                                          "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                          },
+                                          "name": "type",
+                                          "value": "fb"
+                                        }
+                                      ],
+                                      "children": [
+                                        {
+                                          "type": "Element",
+                                          "span": {
+                                            "start": 393,
+                                            "end": 407,
+                                            "ctxt": 0
+                                          },
+                                          "tagName": "a",
+                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                          "attributes": [
+                                            {
+                                              "type": "Attribute",
+                                              "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                              },
+                                              "name": "href",
+                                              "value": "..."
+                                            }
+                                          ],
+                                          "children": [
+                                            {
+                                              "type": "Element",
+                                              "span": {
+                                                "start": 440,
+                                                "end": 467,
+                                                "ctxt": 0
+                                              },
+                                              "tagName": "social-button",
+                                              "namespace": "http://www.w3.org/1999/xhtml",
+                                              "attributes": [
+                                                {
+                                                  "type": "Attribute",
+                                                  "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                  },
+                                                  "name": "type",
+                                                  "value": "plus"
+                                                }
+                                              ],
+                                              "children": [
+                                                {
+                                                  "type": "Element",
+                                                  "span": {
+                                                    "start": 467,
+                                                    "end": 481,
+                                                    "ctxt": 0
+                                                  },
+                                                  "tagName": "a",
+                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                  "attributes": [
+                                                    {
+                                                      "type": "Attribute",
+                                                      "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                      },
+                                                      "name": "href",
+                                                      "value": "..."
+                                                    }
+                                                  ],
+                                                  "children": [
+                                                    {
+                                                      "type": "Element",
+                                                      "span": {
+                                                        "start": 522,
+                                                        "end": 541,
+                                                        "ctxt": 0
+                                                      },
+                                                      "tagName": "x-foo-with-markup",
+                                                      "namespace": "http://www.w3.org/1999/xhtml",
+                                                      "attributes": [],
+                                                      "children": [
+                                                        {
+                                                          "type": "Element",
+                                                          "span": {
+                                                            "start": 546,
+                                                            "end": 549,
+                                                            "ctxt": 0
+                                                          },
+                                                          "tagName": "b",
+                                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                                          "attributes": [],
+                                                          "children": [
+                                                            {
+                                                              "type": "Element",
+                                                              "span": {
+                                                                "start": 601,
+                                                                "end": 636,
+                                                                "ctxt": 0
+                                                              },
+                                                              "tagName": "template",
+                                                              "namespace": "http://www.w3.org/1999/xhtml",
+                                                              "attributes": [
+                                                                {
+                                                                  "type": "Attribute",
+                                                                  "span": {
+                                                                    "start": 0,
+                                                                    "end": 0,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "name": "id",
+                                                                  "value": "x-foo-from-template"
+                                                                }
+                                                              ],
+                                                              "children": [
+                                                                {
+                                                                  "type": "Element",
+                                                                  "span": {
+                                                                    "start": 641,
+                                                                    "end": 648,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "tagName": "style",
+                                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                                  "attributes": [],
+                                                                  "children": []
+                                                                },
+                                                                {
+                                                                  "type": "Element",
+                                                                  "span": {
+                                                                    "start": 694,
+                                                                    "end": 697,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "tagName": "p",
+                                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                                  "attributes": [],
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
