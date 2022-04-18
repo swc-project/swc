@@ -6230,9 +6230,8 @@ where
 
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
-    fn insert_character(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
-
+    fn insert_character(&mut self, _token_and_span: &mut TokenAndSpan) -> PResult<()> {
+        // TODO unccoment me
         // Let data be the characters passed to the algorithm, or, if no
         // characters were explicitly specified, the character of the character
         // token being processed.
@@ -6247,9 +6246,6 @@ where
         // NOTE: The DOM will not let Document nodes have Text node children, so
         // they are dropped on the floor.
         // TODO fix me
-        // if let Target::Document(_) = adjusted_insertion_location {
-        //     return Ok(());
-        // }
 
         // If there is a Text node immediately before the adjusted insertion l
         // ocation, then append data to that Text node's data. Otherwise, create
@@ -6257,14 +6253,35 @@ where
         // same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted
         // insertion location.
-        // TODO fix me
+        // match child {
+        //     NodeOrText::AppendText(ref text) => match parent.children.borrow().last()
+        // {         Some(h) => {
+        //             if append_to_existing_text(h, &text) {
+        //                 return;
+        //             }
+        //         },
+        //         _ => (),
+        //     },
+        //     _ => (),
+        // }
 
-        // let comment = create_text_for_token(
-        //     token_and_span.token.clone(),
-        //     Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        // );
-
-        // self.append_node(self.document, AppendNode(comment)));
+        // Otherwise, create a new Text node whose data is data and whose node document
+        // is the same as that of the element in which the adjusted insertion location
+        // finds itself, and insert the newly created node at the adjusted insertion
+        // location.
+        // let last_pos = self.input.last_pos()?;
+        // let text = Text {
+        //     span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+        //     value: match token_and_span.token {
+        //         Token::Character { value, .. } => value.to_string().into(),
+        //         _ => {
+        //             unreachable!()
+        //         }
+        //     },
+        // };
+        // let text = Node::new(text);
+        //
+        // self.insert_at_position(adjusted_insertion_location, text);
 
         Ok(())
     }
