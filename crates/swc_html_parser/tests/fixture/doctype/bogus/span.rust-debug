@@ -8,18 +8,6 @@
   x Child
    ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
  1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DocumentType
-   ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
- 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
- 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
    : ^
    `----
 
@@ -27,4 +15,16 @@
    ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
  1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
    : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
+ 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/doctype/bogus/input.html:1:1]
+ 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

@@ -5,19 +5,8 @@
     "end": 210,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
-    {
-      "type": "DocumentType",
-      "span": {
-        "start": 0,
-        "end": 15,
-        "ctxt": 0
-      },
-      "name": "html",
-      "publicId": null,
-      "systemId": null
-    },
     {
       "type": "Element",
       "span": {
@@ -28,7 +17,105 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 23,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 31,
+                "end": 35,
+                "ctxt": 0
+              },
+              "tagName": "h1",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 58,
+                "end": 62,
+                "ctxt": 0
+              },
+              "tagName": "h2",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 85,
+                "end": 89,
+                "ctxt": 0
+              },
+              "tagName": "h3",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 112,
+                "end": 116,
+                "ctxt": 0
+              },
+              "tagName": "h4",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 139,
+                "end": 143,
+                "ctxt": 0
+              },
+              "tagName": "h5",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 166,
+                "end": 170,
+                "ctxt": 0
+              },
+              "tagName": "h6",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            }
+          ]
+        }
+      ]
     }
   ]
 }

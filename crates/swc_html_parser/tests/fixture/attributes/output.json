@@ -5,7 +5,7 @@
     "end": 271,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
@@ -17,63 +17,553 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 129,
-        "end": 163,
-        "ctxt": 0
-      },
-      "tagName": "p",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [
+      "children": [
         {
-          "type": "Attribute",
+          "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
+            "end": 75,
             "ctxt": 0
           },
-          "name": "title",
-          "value": " <!-- hello world --> "
-        }
-      ],
-      "children": []
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 169,
-        "end": 208,
-        "ctxt": 0
-      },
-      "tagName": "tag",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [
-        {
-          "type": "Attribute",
-          "span": {
-            "start": 0,
-            "end": 0,
-            "ctxt": 0
-          },
-          "name": "v-ref:vm_pv",
-          "value": null
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": []
         },
         {
-          "type": "Attribute",
+          "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
+            "end": 75,
             "ctxt": 0
           },
-          "name": ":imgs",
-          "value": " objpicsurl_ "
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 75,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "0",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "1",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "2",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "3",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "4",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "5",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "6",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "7",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "8",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "9",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "a",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "b",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "c",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "d",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "e",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "f",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "g",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "h",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "i",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "j",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "k",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "l",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "m",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "n",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "o",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "p",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "q",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "r",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "s",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "t",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "u",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "v",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "w",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "x",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "y",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "z",
+                  "value": null
+                }
+              ],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 80,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "tagName": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "title",
+                      "value": " <![CDATA[ \\n\\n foobar baz ]]> "
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 129,
+                    "end": 163,
+                    "ctxt": 0
+                  },
+                  "tagName": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "title",
+                      "value": " <!-- hello world --> "
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 169,
+                    "end": 208,
+                    "ctxt": 0
+                  },
+                  "tagName": "tag",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "v-ref:vm_pv",
+                      "value": null
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": ":imgs",
+                      "value": " objpicsurl_ "
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 215,
+                        "end": 250,
+                        "ctxt": 0
+                      },
+                      "tagName": "br",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "a",
+                          "value": "\\u00A0"
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "b",
+                          "value": " "
+                        },
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "c",
+                          "value": "\\u00A0"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 251,
+                        "end": 271,
+                        "ctxt": 0
+                      },
+                      "tagName": "img",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "src",
+                          "value": "test"
+                        }
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
-      ],
-      "children": []
+      ]
     }
   ]
 }

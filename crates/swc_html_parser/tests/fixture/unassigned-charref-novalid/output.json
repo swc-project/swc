@@ -5,19 +5,8 @@
     "end": 98,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
-    {
-      "type": "DocumentType",
-      "span": {
-        "start": 0,
-        "end": 15,
-        "ctxt": 0
-      },
-      "name": "html",
-      "publicId": null,
-      "systemId": null
-    },
     {
       "type": "Element",
       "span": {
@@ -28,7 +17,81 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 35,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 15,
+                "end": 35,
+                "ctxt": 0
+              },
+              "tagName": "meta",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "charset",
+                  "value": "utf-8"
+                }
+              ],
+              "children": []
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 35,
+                "end": 42,
+                "ctxt": 0
+              },
+              "tagName": "title",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 65,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 62,
+                "end": 65,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            }
+          ]
+        }
+      ]
     }
   ]
 }

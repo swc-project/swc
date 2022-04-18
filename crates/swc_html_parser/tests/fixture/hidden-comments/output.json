@@ -5,19 +5,8 @@
     "end": 183,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
-    {
-      "type": "DocumentType",
-      "span": {
-        "start": 0,
-        "end": 15,
-        "ctxt": 0
-      },
-      "name": "html",
-      "publicId": null,
-      "systemId": null
-    },
     {
       "type": "Element",
       "span": {
@@ -28,16 +17,45 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
-    },
-    {
-      "type": "Comment",
-      "span": {
-        "start": 111,
-        "end": 161,
-        "ctxt": 0
-      },
-      "data": " Comments are not displayed in the browser "
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 23,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 83,
+                "end": 86,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": []
+            }
+          ]
+        }
+      ]
     }
   ]
 }

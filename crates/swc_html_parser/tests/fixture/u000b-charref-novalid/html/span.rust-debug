@@ -8,18 +8,6 @@
   x Child
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
-   : ^^^^^^^^^^^^^^^
-   `----
-
-  x DocumentType
-   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
-   : ^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    : ^
    `----
 
@@ -27,4 +15,70 @@
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                    ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                    ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                               ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                               ^^^
    `----

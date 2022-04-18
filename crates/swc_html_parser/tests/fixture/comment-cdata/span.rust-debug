@@ -31,3 +31,41 @@
  1 | <![CDATA[
    : ^
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | |   ]]>
+ 9 | `-> <div>test</div>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | |   ]]>
+ 9 | `-> <div>test</div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+ 9 | <div>test</div>
+   : ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+ 9 | <div>test</div>
+   : ^^^^^
+   `----

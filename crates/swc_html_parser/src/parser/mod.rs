@@ -516,22 +516,22 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        while let Some(node) = self.items.last() {
-            match &node.element {
-                Element {
-                    namespace,
-                    tag_name: popped_tag_name,
-                    ..
-                } if tag_name.contains(&popped_tag_name.as_ref())
-                    && *namespace == Namespace::HTML =>
-                {
-                    break;
-                }
-                _ => {
-                    self.pop();
-                }
-            }
-        }
+        // while let Some(node) = self.items.last() {
+        //     match &node.element {
+        //         Element {
+        //             namespace,
+        //             tag_name: popped_tag_name,
+        //             ..
+        //         } if tag_name.contains(&popped_tag_name.as_ref())
+        //             && *namespace == Namespace::HTML =>
+        //         {
+        //             break;
+        //         }
+        //         _ => {
+        //             self.pop();
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -629,20 +629,51 @@ where
             self.tree_construction_dispatcher()?;
         }
 
+        let last = self.input.last_pos()?;
+
+        // TODO optimize me
+        fn extract(node: &mut RcNode) -> Child {
+            match &node.element {
+                Element {
+                    span,
+                    tag_name,
+                    namespace,
+                    attributes,
+                    children,
+                } => {
+                    let mut new_children = vec![];
+
+                    for mut node in &mut node.children.borrow_mut().iter_mut() {
+                        new_children.push(extract(node));
+                    }
+
+                    Child::Element(Element {
+                        span: *span,
+                        tag_name: tag_name.clone(),
+                        namespace: namespace.clone(),
+                        attributes: attributes.clone(),
+                        children: new_children,
+                    })
+                }
+            }
+        }
+
         let mut document = Document {
             span: Default::default(),
             mode: DocumentMode::Quirks,
             children: vec![],
         };
 
-        let last = self.input.last_pos()?;
-
-        // let mut document = match self.document.take() {
-        //     Some(document) => document,
-        //     _ => {
-        //         unreachable!();
-        //     }
-        // };
+        for mut node in &mut self
+            .document
+            .as_ref()
+            .unwrap()
+            .children
+            .borrow_mut()
+            .iter_mut()
+        {
+            document.children.push(extract(node));
+        }
 
         document.span = Span::new(start.lo, last, Default::default());
 
@@ -1640,7 +1671,7 @@ where
                             return Ok(());
                         }
 
-                        let mut first = self.open_elements_stack.items.first_mut();
+                        let first = self.open_elements_stack.items.first_mut();
 
                         for attribute in attributes {
                             let has_attribute = if let Some(_element) = &first {
@@ -6141,7 +6172,7 @@ where
     ) -> InsertionPosition {
         // If there was an override target specified, then let target be the
         // override target. Otherwise, let target be the current node.
-        // TODO avoid unwrap
+        // TODO avoid unwrap, i.e. self.open_elems.last().expect("no current element")
         let target = override_target
             .unwrap_or_else(|| self.open_elements_stack.items.last().unwrap().clone());
 

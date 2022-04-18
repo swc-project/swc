@@ -5,7 +5,7 @@
     "end": 521,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
@@ -17,7 +17,272 @@
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": []
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 83,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 83,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 83,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "class",
+                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 88,
+                    "end": 126,
+                    "ctxt": 0
+                  },
+                  "tagName": "a",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "class",
+                      "value": "add sort keys createSorter"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 131,
+                        "end": 170,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "sprite sprite-{{sprite}}"
+                        }
+                      ],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 178,
+                            "end": 217,
+                            "ctxt": 0
+                          },
+                          "tagName": "span",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [
+                            {
+                              "type": "Attribute",
+                              "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                              },
+                              "name": "class",
+                              "value": "{{sprite}}-sprite sprite"
+                            }
+                          ],
+                          "children": [
+                            {
+                              "type": "Element",
+                              "span": {
+                                "start": 225,
+                                "end": 264,
+                                "ctxt": 0
+                              },
+                              "tagName": "span",
+                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "attributes": [
+                                {
+                                  "type": "Attribute",
+                                  "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                  },
+                                  "name": "class",
+                                  "value": "sprite-{{sprite}}-sprite"
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "type": "Element",
+                                  "span": {
+                                    "start": 272,
+                                    "end": 297,
+                                    "ctxt": 0
+                                  },
+                                  "tagName": "span",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [
+                                    {
+                                      "type": "Attribute",
+                                      "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                      },
+                                      "name": "class",
+                                      "value": "{{sprite}}"
+                                    }
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "Element",
+                                      "span": {
+                                        "start": 305,
+                                        "end": 328,
+                                        "ctxt": 0
+                                      },
+                                      "tagName": "span",
+                                      "namespace": "http://www.w3.org/1999/xhtml",
+                                      "attributes": [
+                                        {
+                                          "type": "Attribute",
+                                          "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                          },
+                                          "name": "class",
+                                          "value": "{{sprite}}"
+                                        }
+                                      ],
+                                      "children": [
+                                        {
+                                          "type": "Element",
+                                          "span": {
+                                            "start": 336,
+                                            "end": 347,
+                                            "ctxt": 0
+                                          },
+                                          "tagName": "div",
+                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                          "attributes": [
+                                            {
+                                              "type": "Attribute",
+                                              "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                              },
+                                              "name": "class",
+                                              "value": null
+                                            }
+                                          ],
+                                          "children": [
+                                            {
+                                              "type": "Element",
+                                              "span": {
+                                                "start": 354,
+                                                "end": 437,
+                                                "ctxt": 0
+                                              },
+                                              "tagName": "div",
+                                              "namespace": "http://www.w3.org/1999/xhtml",
+                                              "attributes": [
+                                                {
+                                                  "type": "Attribute",
+                                                  "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                  },
+                                                  "name": "class",
+                                                  "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+                                                }
+                                              ],
+                                              "children": [
+                                                {
+                                                  "type": "Element",
+                                                  "span": {
+                                                    "start": 444,
+                                                    "end": 517,
+                                                    "ctxt": 0
+                                                  },
+                                                  "tagName": "a",
+                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                  "attributes": [
+                                                    {
+                                                      "type": "Attribute",
+                                                      "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                      },
+                                                      "name": "class",
+                                                      "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+                                                    }
+                                                  ],
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
