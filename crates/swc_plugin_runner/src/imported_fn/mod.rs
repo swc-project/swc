@@ -44,6 +44,7 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
+use swc_common::SourceMap;
 use wasmer::{imports, Function, ImportObject, Module};
 
 use crate::{
@@ -71,11 +72,14 @@ mod span;
 use handler::*;
 use hygiene::*;
 
+use self::source_map::{lookup_char_pos_proxy, SourceMapHostEnvironment};
+
 /// Create an ImportObject includes functions to be imported from host to the
 /// plugins.
 pub(crate) fn build_import_object(
     module: &Module,
     transform_result: &Arc<Mutex<Vec<u8>>>,
+    source_map: Arc<SourceMap>,
 ) -> ImportObject {
     let wasmer_store = module.store();
 
@@ -199,6 +203,16 @@ pub(crate) fn build_import_object(
 
     let add_pure_comment_fn_decl = Function::new_native(wasmer_store, add_pure_comment_proxy);
 
+    // source_map
+    let source_map_buffer = Arc::new(Mutex::new(vec![]));
+    let source_map = Arc::new(Mutex::new(source_map));
+
+    let lookup_char_pos_source_map_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        lookup_char_pos_proxy,
+    );
+
     imports! {
         "env" => {
             // transform
@@ -232,6 +246,8 @@ pub(crate) fn build_import_object(
             "__take_trailing_comments_proxy" => take_trailing_comments_fn_decl,
             "__get_trailing_comments_proxy" => get_trailing_comments_fn_decl,
             "__add_pure_comment_proxy" => add_pure_comment_fn_decl,
+            // source_map
+            "__lookup_char_pos_source_map_proxy" =>lookup_char_pos_source_map_fn_decl,
         }
     }
 }

@@ -467,9 +467,11 @@ impl Options {
             }
 
             let comments = comments.cloned();
+            let source_map = cm.clone();
             crate::plugin::plugins(
                 Some(plugin_resolver),
                 comments,
+                source_map,
                 experimental,
                 plugin_context,
             )
@@ -494,7 +496,8 @@ impl Options {
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();
             let comments = comments.cloned();
-            crate::plugin::plugins(None, comments, experimental, plugin_context)
+            let source_map = cm.clone();
+            crate::plugin::plugins(None, comments, source_map, experimental, plugin_context)
         };
 
         #[cfg(not(feature = "plugin"))]
