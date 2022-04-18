@@ -161,6 +161,9 @@ export interface TerserCompressOptions {
   typeofs?: boolean,
 
 
+  unsafe?: boolean,
+
+
   unsafe_passes?: boolean,
 
 
