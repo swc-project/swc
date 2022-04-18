@@ -1314,6 +1314,7 @@ template_string/do_not_optimize_tagged_template_2/input.js
 template_string/equality/input.js
 template_string/es2018_revision_of_template_escapes_1/input.js
 template_string/escape_dollar_curly/input.js
+template_string/evaluate_nested_templates/input.js
 template_string/issue_1856/input.js
 template_string/issue_1856_ascii_only/input.js
 template_string/keep_raw_content_in_tagged_template/input.js
