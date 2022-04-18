@@ -820,15 +820,15 @@ ref = test++, exports.test = test, ref;
 })();
 
 var a = 2;
-exports.a = a;
 exports.a = a = 3;
 var b = 2;
-exports.c = b;
 exports.c = b = 3;
 var d = 3;
+exports.f = exports.e = d = 4;
+exports.a = a;
+exports.c = b;
 exports.e = d;
 exports.f = d;
-exports.f = exports.e = d = 4;
 
 "#
 );
@@ -4008,12 +4008,12 @@ var _foo4 = require("foo4");
 var _foo5 = require("foo5");
 
 var test;
-exports.test = test;
 var test2 = 5;
 exports.test2 = test2;
 _foo4.bar;
 _foo5.foo;
 _foo2.default;
+exports.test = test;
 
 "#
 );
