@@ -6,7 +6,7 @@ use swc_common::{
     plugin::Serialized,
     BytePos,
 };
-use swc_plugin_proxy::{CommentsVecPtr, COMMENTS};
+use swc_plugin_proxy::{AllocatedBytesPtr, COMMENTS};
 use wasmer::{LazyInit, Memory, NativeFunc};
 
 use crate::memory_interop::{copy_bytes_into_host, write_into_memory_view};
@@ -131,7 +131,7 @@ fn allocate_return_values_into_guest(
 
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
-        Serialized::serialize(&CommentsVecPtr(allocated_ptr, allocated_ptr_len))
+        Serialized::serialize(&AllocatedBytesPtr(allocated_ptr, allocated_ptr_len))
             .expect("Should be serializable");
 
     write_into_memory_view(memory, &comment_ptr_serialized, |_| allocated_ret_ptr);

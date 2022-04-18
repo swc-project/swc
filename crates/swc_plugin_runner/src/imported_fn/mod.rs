@@ -14,7 +14,7 @@
 *│  │ │get_leading_comments_proxy()│◀┼───┼────┼──┼─┤get_leading()                   │   │   │
 *│  │ │                            │ │   │    │  │ │                                │   │   │
 *│  │ │                            │ │   │    │  │ │ ┌──────────────────────────┐   │   │   │
-*│  │ │                            │─┼───┼──┬─┼──┼─┼─▶CommentsVecPtr(ptr, len)  │   │   │   │
+*│  │ │                            │─┼───┼──┬─┼──┼─┼─▶AllocatedBytesPtr(p,len)  │   │   │   │
 *│  │ └────────────────────────────┘ │   │  │ │  │ │ │                          │   │   │   │
 *│  │                                │   │  │ │  │ │ └─────────────┬────────────┘   │   │   │
 *│  │                                │   │  │ │  │ │               │                │   │   │
@@ -37,7 +37,7 @@
 * read, deserialize memory host wrote.
 * - In case of `get_leading`, returned value is non-deterministic vec
 * (`Vec<Comments>`) guest cannot preallocate with specific length. Instead,
-* guest passes a fixed size struct (CommentsVecPtr), once host allocates
+* guest passes a fixed size struct (AllocatedBytesPtr), once host allocates
 * actual vec into guest it'll write pointer to the vec into the struct.
 */
 
