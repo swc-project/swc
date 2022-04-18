@@ -713,15 +713,6 @@ impl Pure<'_> {
                                 new_tpl.exprs.push(e);
                             }
                         }
-
-                        let s = JsWord::from(&*cur_str_value);
-                        cur_str_value.clear();
-                        new_tpl.quasis.push(TplElement {
-                            span: DUMMY_SP,
-                            tail: false,
-                            cooked: Some(s.clone()),
-                            raw: s,
-                        });
                     }
                     _ => {
                         let s = JsWord::from(&*cur_str_value);
