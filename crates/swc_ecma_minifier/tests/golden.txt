@@ -1347,6 +1347,7 @@ template_string/template_string_prefixes/input.js
 template_string/template_string_to_normal_string/input.js
 template_string/template_string_with_constant_expression/input.js
 template_string/template_string_with_many_segments/input.js
+template_string/template_string_with_predefined_constants/input.js
 template_string/template_strings/input.js
 template_string/template_strings_ascii_only/input.js
 template_string/template_strings_without_ascii_only/input.js
