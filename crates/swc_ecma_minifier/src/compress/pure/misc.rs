@@ -545,6 +545,26 @@ impl Pure<'_> {
                     }
                 }
 
+                Expr::Tpl(tpl) => {
+                    self.changed = true;
+                    report_change!("Dropping a template literal");
+
+                    for expr in tpl.exprs.iter_mut() {
+                        self.ignore_return_value(&mut *expr, opts);
+                    }
+                    tpl.exprs.retain(|expr| !expr.is_invalid());
+                    if tpl.exprs.is_empty() {
+                        e.take();
+                    } else {
+                        *e = Expr::Seq(SeqExpr {
+                            span: tpl.span,
+                            exprs: tpl.exprs.take(),
+                        });
+                    }
+
+                    return;
+                }
+
                 _ => {}
             }
         }
