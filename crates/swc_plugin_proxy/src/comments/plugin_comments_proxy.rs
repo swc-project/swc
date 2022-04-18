@@ -50,7 +50,8 @@ impl PluginCommentsProxy {
     {
         #[cfg(target_arch = "wasm32")]
         {
-            let serialized = Serialized::serialize(value).expect("Should able to serialize value");
+            let serialized = swc_common::plugin::Serialized::serialize(value)
+                .expect("Should able to serialize value");
             let serialized_comment_ptr_ref = serialized.as_ref();
             unsafe {
                 // We need to copy PluginCommentProxy's param for add_leading (Comment, or
@@ -110,7 +111,7 @@ impl Comments for PluginCommentsProxy {
 
     fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
         #[cfg(target_arch = "wasm32")]
-        return self.read_returned_result_from_host(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __take_leading_comments_proxy(pos.0, serialized_ptr)
         });
 
@@ -120,7 +121,7 @@ impl Comments for PluginCommentsProxy {
 
     fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
         #[cfg(target_arch = "wasm32")]
-        return self.read_returned_result_from_host(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __get_leading_comments_proxy(pos.0, serialized_ptr)
         });
 
@@ -166,7 +167,7 @@ impl Comments for PluginCommentsProxy {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         #[cfg(target_arch = "wasm32")]
-        return self.read_returned_result_from_host(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __take_trailing_comments_proxy(pos.0, serialized_ptr)
         });
 
@@ -176,7 +177,7 @@ impl Comments for PluginCommentsProxy {
 
     fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         #[cfg(target_arch = "wasm32")]
-        return self.read_returned_result_from_host(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __get_trailing_comments_proxy(pos.0, serialized_ptr)
         });
 
