@@ -86,12 +86,12 @@ impl Drop for Node {
 
             nodes.extend(children.into_iter());
 
-            if let Element { ref children, .. } = node.element {
-                // TODO fix me
-                // if let Some(template_contents) = children.borrow_mut().take()
-                // {     nodes.push(template_contents);
-                // }
-            }
+            // TODO fix me
+            // if let Element { ref children, .. } = node.element {
+            //     if let Some(template_contents) = children.borrow_mut().take()
+            //     {     nodes.push(template_contents);
+            //     }
+            // }
         }
     }
 }
@@ -565,7 +565,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document: Option<Document>,
+    document: Option<RcNode>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -614,26 +614,35 @@ where
 
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
-        let document = Document {
-            span: Default::default(),
-            mode: DocumentMode::NoQuirks,
-            children: vec![],
-        };
 
-        self.document = Some(document);
+        // TODO fix me
+        self.document = Some(Node::new(Element {
+            span: Default::default(),
+            // mode: DocumentMode::NoQuirks,
+            tag_name: "html".into(),
+            namespace: Namespace::HTML,
+            attributes: vec![],
+            children: vec![],
+        }));
 
         while !self.stopped {
             self.tree_construction_dispatcher()?;
         }
 
+        let mut document = Document {
+            span: Default::default(),
+            mode: DocumentMode::Quirks,
+            children: vec![],
+        };
+
         let last = self.input.last_pos()?;
 
-        let mut document = match self.document.take() {
-            Some(document) => document,
-            _ => {
-                unreachable!();
-            }
-        };
+        // let mut document = match self.document.take() {
+        //     Some(document) => document,
+        //     _ => {
+        //         unreachable!();
+        //     }
+        // };
 
         document.span = Span::new(start.lo, last, Default::default());
 
@@ -763,9 +772,9 @@ where
                             system_id: system_id.clone(),
                         });
 
-                        if let Some(document) = &mut self.document {
-                            document.children.push(document_type);
-                        }
+                        // if let Some(document) = &mut self.document {
+                        //     document.children.push(document_type);
+                        // }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
                     }
@@ -832,7 +841,7 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = Element {
+                        let element = create_node_for_element(Element {
                             span: span!(self, token_and_span.span.lo),
                             tag_name: tag_name.into(),
                             namespace: Namespace::HTML,
@@ -845,14 +854,15 @@ where
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
-                        };
+                        });
 
-                        if let Some(document) = &mut self.document {
-                            document.children.push(Child::Element(element.clone()));
+                        self.open_elements_stack.push(element.clone());
+
+                        // Never be `None`
+                        if let Some(document) = &self.document {
+                            append(document, element);
                         }
 
-                        self.open_elements_stack
-                            .push(create_node_for_element(element));
                         self.insertion_mode = InsertionMode::BeforeHead;
                     }
                     // An end tag whose tag name is one of: "head", "body", "html", "br"
@@ -861,20 +871,21 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = Element {
+                        let element = create_node_for_element(Element {
                             span: Default::default(),
                             tag_name: "html".into(),
                             namespace: Namespace::HTML,
                             attributes: vec![],
                             children: vec![],
-                        };
+                        });
 
-                        if let Some(document) = &mut self.document {
-                            document.children.push(Child::Element(element.clone()));
+                        self.open_elements_stack.push(element.clone());
+
+                        // Never be `None`
+                        if let Some(document) = &self.document {
+                            append(document, element);
                         }
 
-                        self.open_elements_stack
-                            .push(create_node_for_element(element));
                         self.insertion_mode = InsertionMode::BeforeHead;
                         self.process_token(token_and_span, None)?;
                     }
@@ -894,20 +905,21 @@ where
                     //
                     // Switch the insertion mode to "before head", then reprocess the token.
                     _ => {
-                        let element = Element {
+                        let element = create_node_for_element(Element {
                             span: Default::default(),
                             tag_name: "html".into(),
                             namespace: Namespace::HTML,
                             attributes: vec![],
                             children: vec![],
-                        };
+                        });
 
-                        if let Some(document) = &mut self.document {
-                            document.children.push(Child::Element(element.clone()));
+                        self.open_elements_stack.push(element.clone());
+
+                        // Never be `None`
+                        if let Some(document) = &self.document {
+                            append(document, element);
                         }
 
-                        self.open_elements_stack
-                            .push(create_node_for_element(element));
                         self.insertion_mode = InsertionMode::BeforeHead;
                         self.process_token(token_and_span, None)?;
                     }
@@ -2886,15 +2898,15 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        match &self.document {
-                            Some(Document { mode, .. })
-                                if *mode != DocumentMode::Quirks
-                                    && self.open_elements_stack.has_in_button_scope("p") =>
-                            {
-                                self.close_p_element();
-                            }
-                            _ => {}
-                        }
+                        // match &self.document {
+                        //     Some(node)
+                        //         if *node.mode != DocumentMode::Quirks
+                        //             && self.open_elements_stack.has_in_button_scope("p") =>
+                        //     {
+                        //         self.close_p_element();
+                        //     }
+                        //     _ => {}
+                        // }
 
                         self.insert_html_element(token_and_span)?;
                         self.frameset_ok = false;
@@ -6237,6 +6249,15 @@ where
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
         let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        let (node1, node2) = match adjusted_insertion_location {
+            InsertionPosition::LastChild(ref p) | InsertionPosition::BeforeSibling(ref p) => {
+                (p.clone(), None)
+            }
+            InsertionPosition::TableFosterParenting {
+                ref element,
+                ref prev_element,
+            } => (element.clone(), Some(prev_element.clone())),
+        };
 
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
@@ -6246,6 +6267,7 @@ where
             Span::new(token_and_span.span.lo, last_pos, Default::default()),
             Some(namespace),
         )?;
+        let node = create_node_for_element(element);
 
         // If it is possible to insert an element at the adjusted insertion
         // location, then insert the newly created element at the adjusted
@@ -6254,17 +6276,43 @@ where
         // elements, e.g. because it's a Document that already has an
         // element child, then the newly created element is dropped on the
         // floor.
-        insert_node(Child::Element(element.clone()), adjusted_insertion_location);
+        self.insert_at(adjusted_insertion_location, node.clone());
 
         // Push the element onto the stack of open elements so that it is the
         // new current node.
-        let node = create_node_for_element(element);
-
         self.open_elements_stack.push(node.clone());
 
         // Return the newly created element.
         Ok(node)
     }
+
+    fn insert_at(&mut self, insertion_point: InsertionPosition, node: RcNode) {
+        match insertion_point {
+            InsertionPosition::LastChild(parent) => {
+                append(&parent, node);
+            }
+            InsertionPosition::BeforeSibling(sibling) => {
+                //self.sink.append_before_sibling(&sibling, child)
+            }
+            InsertionPosition::TableFosterParenting {
+                element,
+                prev_element,
+            } => {
+                // self
+                //     .sink
+                //     .append_based_on_parent_node(&element, &prev_element,
+                // child)
+            }
+        }
+    }
+}
+
+fn append(parent: &RcNode, child: RcNode) {
+    let previous_parent = child.parent.replace(Some(Rc::downgrade(&parent)));
+    // Invariant: child cannot have existing parent
+    assert!(previous_parent.is_none());
+
+    parent.children.borrow_mut().push(child);
 }
 
 fn create_node_for_element(element: Element) -> RcNode {
