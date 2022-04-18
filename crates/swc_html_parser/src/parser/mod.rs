@@ -6057,20 +6057,14 @@ where
         // elements, e.g. because it's a Document that already has an
         // element child, then the newly created element is dropped on the
         // floor.
-        let cloned_element = element.clone();
-        let node = insert_node(Child::Element(element), adjusted_insertion_location);
+        insert_node(Child::Element(element.clone()), adjusted_insertion_location);
 
         // Push the element onto the stack of open elements so that it is the
         // new current node.
-        self.open_elements_stack.push(cloned_element);
+        self.open_elements_stack.push(element.clone());
 
         // Return the newly created element.
-        match node {
-            Child::Element(element) => Ok(element),
-            _ => {
-                unreachable!()
-            }
-        }
+        Ok(element)
     }
 }
 
@@ -6137,7 +6131,7 @@ fn create_text_for_token(token: Token, span: Span) -> Text {
 
 // Inserts a node based at a specific location. It follows similar rules to
 // Element's insertAdjacentHTML method.
-fn insert_node(node: Child, position: Target<Document, Element>) -> Child {
+fn insert_node(node: Child, position: Target<Document, Element>) {
     // TODO fix me
     match position {
         Target::Document(document) => {
@@ -6147,8 +6141,6 @@ fn insert_node(node: Child, position: Target<Document, Element>) -> Child {
             element.children.push(node.clone());
         }
     };
-
-    node
 }
 
 impl<I> Parse<Document> for Parser<I>
