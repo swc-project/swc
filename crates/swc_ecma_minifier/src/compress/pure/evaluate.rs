@@ -747,6 +747,8 @@ impl Pure<'_> {
             cooked: Some(s.clone()),
             raw: s,
         });
+
+        *e = Expr::Tpl(new_tpl);
     }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
