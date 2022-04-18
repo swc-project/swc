@@ -20,7 +20,7 @@
 - **(es)** Rename benchmarks (#4355) ([8309440](https://github.com/swc-project/swc/commit/83094400080bef161b4b106aa3840efc7f2dfecd))
 
 
-- **(node/types)** Add `unsafe` to compress options (#4362) ([b63cd53](https://github.com/swc-project/swc/commit/b63cd53ca6cb230f7724a03ffaebe2362c80d35b))
+- **(node/types)** Add `unsafe` to compress options (#4362) ([b63cd53](https://github.com/swc-project/swc/commit/b63cd53ca6cb230f7724a03ffaebe2362c80d35b))- **general**: Remove an incorrect link in `CONTRIBUTING.md` (#4363) ([c661d5f](https://github.com/swc-project/swc/commit/c661d5f6f6b613cfed22545cc7cde7411dbd5747))
 
 ### Testing
 
