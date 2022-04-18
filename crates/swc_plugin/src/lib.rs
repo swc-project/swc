@@ -13,6 +13,7 @@ pub mod comments {
 
 pub mod source_map {
     pub use swc_common::source_map::{CharPos, Loc, MultiByteChar, NonNarrowChar, SourceFile};
+    pub use swc_plugin_proxy::PluginSourceMapProxy;
 }
 
 pub mod utils {
@@ -46,7 +47,7 @@ pub mod environment {
 // We don't set target cfg as it'll block macro expansions
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
 pub use swc_plugin_macro::plugin_transform;
-use swc_plugin_proxy::PluginCommentsProxy;
+use swc_plugin_proxy::{PluginCommentsProxy, PluginSourceMapProxy};
 #[cfg(target_arch = "wasm32")]
 mod allocation;
 #[cfg(target_arch = "wasm32")]
@@ -64,6 +65,10 @@ pub struct TransformPluginProgramMetadata {
     /// This is a proxy to the actual data lives in the host. Only when plugin
     /// attempts to read these it'll ask to the host to get values.
     pub comments: Option<PluginCommentsProxy>,
+    /// Proxy to the sourceMap for the Program passed into plugin.
+    /// This is a proxy to the actual data lives in the host. Only when plugin
+    /// attempts to read these it'll ask to the host to get values.
+    pub source_map: PluginSourceMapProxy,
     /// Stringified JSON value for given plugin's configuration.
     /// This is readonly. Changing value in plugin doesn't affect host's
     /// behavior.

@@ -103,6 +103,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
             let mut metadata = swc_plugin::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
+                source_map: swc_plugin::source_map::PluginSourceMapProxy,
                 plugin_config: config,
                 transform_context: context
             };
