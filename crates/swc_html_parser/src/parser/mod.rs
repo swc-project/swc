@@ -383,29 +383,20 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        while let Some(element) = self.pop() {
+        while let Some(element) = self.items.last() {
             match element {
                 Element {
+                    namespace,
                     tag_name: popped_tag_name,
                     ..
-                } if tag_name.contains(&&*popped_tag_name) => {
+                } if tag_name.contains(&popped_tag_name.as_ref())
+                    && *namespace == Namespace::HTML =>
+                {
                     break;
                 }
-                _ => {}
-            }
-        }
-    }
-
-    pub fn pop_until_numbered_header_popped(&mut self) {
-        while let Some(element) = self.pop() {
-            match element {
-                Element {
-                    tag_name: popped_tag_name,
-                    ..
-                } if matches!(&*popped_tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
-                    break;
+                _ => {
+                    self.pop();
                 }
-                _ => {}
             }
         }
     }
@@ -2545,7 +2536,8 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack.pop_until_numbered_header_popped();
+                            self.open_elements_stack
+                                .pop_until_tag_name_popped(&["h1", "h2", "h3", "h4", "h5", "h6"]);
                         }
                     }
                     // An end tag whose tag name is "sarcasm"
