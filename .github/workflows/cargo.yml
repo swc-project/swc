@@ -385,18 +385,6 @@ jobs:
         run: |
           cargo test --color always -p swc_ecma_transforms --all-features
 
-      - name: Run cargo test (concurrent)
-        if: runner.os != 'Windows'
-        shell: bash
-        run: |
-          ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
-
-      - name: Run cargo test (swc, concurrent)
-        shell: bash
-        if: matrix.settings.crate == 'swc' && runner.os != 'Windows'
-        run: |
-          cargo test --color always -p swc --features concurrent
-
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0
         if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.check
