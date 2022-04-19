@@ -162,45 +162,43 @@ fn run(
 fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
-    {
+    testing::run_test2(false, |cm, handler| {
         let _tracing = span!(Level::ERROR, "compress-only").entered();
 
-        testing::run_test2(false, |cm, handler| {
-            let expected_output = stdout_of(input_src).unwrap();
+        let expected_output = stdout_of(input_src).unwrap();
 
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Expected"),
-                expected_output
-            );
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_output
+        );
 
-            let output = run(cm.clone(), &handler, input_src, Some(config), None);
-            let output = output.expect("Parsing in base test should not fail");
-            let output = print(cm, &[output], false, false);
+        let output = run(cm.clone(), &handler, input_src, Some(config), None);
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[output], false, false);
 
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Optimized code"),
-                output
-            );
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
 
-            let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
-            assert_ne!(actual_output, "");
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
 
-            assert_eq!(
-                DebugUsingDisplay(&actual_output),
-                DebugUsingDisplay(&*expected_output)
-            );
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&*expected_output)
+        );
 
-            Ok(())
-        })
-        .unwrap();
-    }
+        Ok(())
+    })
+    .unwrap();
 
     if !skip_mangle {
-        let _tracing = span!(Level::ERROR, "mangle").entered();
-
         testing::run_test2(false, |cm, handler| {
+            let _tracing = span!(Level::ERROR, "with-mangle").entered();
+
             let output = run(
                 cm.clone(),
                 &handler,
