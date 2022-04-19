@@ -139,6 +139,8 @@ fn run(
         _ => return None,
     };
 
+    let run_hygiene = mangle.is_none();
+
     let mut output = optimize(
         program,
         cm,
@@ -152,7 +154,9 @@ fn run(
         &ExtraOptions { top_level_mark },
     );
 
-    output.visit_mut_with(&mut hygiene());
+    if run_hygiene {
+        output.visit_mut_with(&mut hygiene());
+    }
 
     let output = output.fold_with(&mut fixer(None));
 
