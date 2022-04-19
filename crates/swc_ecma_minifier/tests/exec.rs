@@ -197,6 +197,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
                 None,
                 Some(MangleOptions {
                     keep_fn_names: true,
+                    top_level: true,
                     ..Default::default()
                 }),
             );
@@ -223,6 +224,15 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
         })
         .unwrap();
     }
+}
+
+fn run_default_exec_test(input_src: &str) {
+    let config = r###"{
+        "defaults": true,
+        "toplevel": true
+    }"###;
+
+    run_exec_test(input_src, config, false);
 }
 
 #[test]
@@ -9680,4 +9690,20 @@ fn indirect_eval_1() {
     }"###;
 
     run_exec_test(src, config, false);
+}
+
+#[test]
+fn try_catch_1() {
+    let src = r###"
+    var a = "FAIL";
+    try {
+        throw 1;
+    } catch (args) {
+        a = "PASS";
+    }
+    console.log(a);
+
+    "###;
+
+    run_default_exec_test(src);
 }
