@@ -9737,3 +9737,39 @@ fn try_catch_3() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn try_catch_4() {
+    let src = r###"
+    "aaaaaaaa";
+    var a = 1,
+        b = "FAIL";
+    try {
+        throw 1;
+    } catch (c) {
+        try {
+            throw 0;
+        } catch (a) {
+            if (c) b = "PASS";
+        }
+    }
+    console.log(b);
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_5() {
+    let src = r###"
+    var a = "PASS";
+    try {
+        throw "FAIL1";
+    } catch (a) {
+        var a = "FAIL2";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
+}
