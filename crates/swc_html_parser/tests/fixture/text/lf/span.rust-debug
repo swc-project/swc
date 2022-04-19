@@ -22,11 +22,19 @@
  19 | |   
  20 | |       Text</div>
  21 | |   <div
- 22 | |           test="test"
+ 22 | |   test="test"
  23 | |   >
  24 | |   
  25 | |   </div
- 26 | `-> >
+ 26 | |   >
+ 27 | |   <div
+ 28 | |   test
+ 29 | |   =
+ 30 | |   "test"
+ 31 | |   >
+ 32 | |   
+ 33 | |   </div
+ 34 | `-> >
     `----
 
   x Child
@@ -262,14 +270,14 @@
   x Child
     ,-[$DIR/tests/fixture/text/lf/input.html:21:1]
  21 | ,-> <div
- 22 | |           test="test"
+ 22 | |   test="test"
  23 | `-> >
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/lf/input.html:21:1]
  21 | ,-> <div
- 22 | |           test="test"
+ 22 | |   test="test"
  23 | `-> >
     `----
 
@@ -291,4 +299,50 @@
  23 | ,-> >
  24 | `-> 
  25 |     </div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:26:1]
+ 26 | >
+    :  ^
+ 27 | <div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:26:1]
+ 26 | >
+    :  ^
+ 27 | <div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:27:1]
+ 27 | ,-> <div
+ 28 | |   test
+ 29 | |   =
+ 30 | |   "test"
+ 31 | `-> >
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/lf/input.html:27:1]
+ 27 | ,-> <div
+ 28 | |   test
+ 29 | |   =
+ 30 | |   "test"
+ 31 | `-> >
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:31:1]
+ 31 | ,-> >
+ 32 | `-> 
+ 33 |     </div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:31:1]
+ 31 | ,-> >
+ 32 | `-> 
+ 33 |     </div
     `----

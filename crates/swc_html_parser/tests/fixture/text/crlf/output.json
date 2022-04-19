@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 215,
+    "end": 245,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -55,8 +55,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 173,
-                "end": 175,
+                "start": 207,
+                "end": 209,
                 "ctxt": 0
               },
               "value": "\r\n"
@@ -189,7 +189,7 @@
               "type": "Element",
               "span": {
                 "start": 175,
-                "end": 203,
+                "end": 195,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -220,8 +220,60 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 203,
-                    "end": 207,
+                    "start": 195,
+                    "end": 199,
+                    "ctxt": 0
+                  },
+                  "value": "\r\n\r\n"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 207,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "\r"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 209,
+                "end": 233,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "test\r",
+                  "value": "\r"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "test\r",
+                  "value": null
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 233,
+                    "end": 237,
                     "ctxt": 0
                   },
                   "value": "\r\n\r\n"
