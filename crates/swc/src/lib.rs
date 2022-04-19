@@ -166,6 +166,7 @@ use swc_error_reporters::{
     GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
 };
 pub use swc_node_comments::SwcComments;
+use swc_timer::timer;
 use tracing::instrument;
 
 pub use crate::builder::PassBuilder;
@@ -549,6 +550,8 @@ impl Compiler {
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
+            let _timer = timer!("Compiler.print");
+
             let mut src_map_buf = vec![];
 
             let src = {
@@ -921,6 +924,8 @@ impl Compiler {
         P: 'a + swc_ecma_visit::Fold,
     {
         self.run(move || {
+            let _timer = timer!("Compiler.parse");
+
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -1072,6 +1077,8 @@ impl Compiler {
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
+            let _timer = timer!("Compiler.minify");
+
             let target = opts.ecma.clone().into();
 
             let (source_map, orig) = match &opts.source_map {
@@ -1137,7 +1144,7 @@ impl Compiler {
                 .context("failed to parse input file")?
                 .expect_module();
 
-            let source_map_names = {
+            let source_map_names = if source_map.enabled() {
                 let mut v = IdentCollector {
                     names: Default::default(),
                 };
@@ -1145,6 +1152,8 @@ impl Compiler {
                 module.visit_with(&mut v);
 
                 v.names
+            } else {
+                Default::default()
             };
 
             let top_level_mark = Mark::fresh(Mark::root());
@@ -1218,7 +1227,7 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
-            let source_map_names = {
+            let source_map_names = if config.source_maps.enabled() {
                 let mut v = IdentCollector {
                     names: Default::default(),
                 };
@@ -1226,6 +1235,8 @@ impl Compiler {
                 program.visit_with(&mut v);
 
                 v.names
+            } else {
+                Default::default()
             };
 
             let mut pass = config.pass;

@@ -2883,6 +2883,7 @@ dependencies = [
  "swc_node_comments",
  "swc_plugin_proxy",
  "swc_plugin_runner",
+ "swc_timer",
  "swc_visit",
  "testing",
  "tracing",

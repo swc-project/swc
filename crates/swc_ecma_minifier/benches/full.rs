@@ -6,10 +6,11 @@ use std::fs::read_to_string;
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
+use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
-    option::{ExtraOptions, MangleOptions, MinifyOptions},
+    option::{CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, PureGetterOption},
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
@@ -72,12 +73,74 @@ fn run(src: &str) {
             None,
             None,
             &MinifyOptions {
-                compress: Some(Default::default()),
-                mangle: Some(MangleOptions {
-                    top_level: true,
-                    ..Default::default()
+                rename: false,
+                compress: Some(CompressOptions {
+                    arguments: false,
+                    arrows: true,
+                    bools: true,
+                    bools_as_ints: false,
+                    collapse_vars: true,
+                    comparisons: true,
+                    computed_props: false,
+                    conditionals: true,
+                    dead_code: true,
+                    directives: false,
+                    drop_console: false,
+                    drop_debugger: true,
+                    ecma: EsVersion::Es2015,
+                    evaluate: true,
+                    expr: false,
+                    global_defs: Default::default(),
+                    hoist_fns: false,
+                    hoist_props: true,
+                    hoist_vars: false,
+                    ie8: false,
+                    if_return: true,
+                    inline: 3,
+                    join_vars: true,
+                    keep_classnames: false,
+                    keep_fargs: true,
+                    keep_fnames: false,
+                    keep_infinity: false,
+                    loops: true,
+                    module: false,
+                    negate_iife: true,
+                    passes: 0,
+                    props: true,
+                    pure_getters: PureGetterOption::Strict,
+                    reduce_fns: false,
+                    reduce_vars: false,
+                    sequences: 3,
+                    side_effects: true,
+                    switches: false,
+                    top_retain: Default::default(),
+                    top_level: None,
+                    typeofs: true,
+                    unsafe_passes: false,
+                    unsafe_arrows: false,
+                    unsafe_comps: false,
+                    unsafe_function: false,
+                    unsafe_math: false,
+                    unsafe_symbols: false,
+                    unsafe_methods: false,
+                    unsafe_proto: false,
+                    unsafe_regexp: false,
+                    unsafe_undefined: false,
+                    unused: true,
+                    const_to_let: true,
                 }),
-                ..Default::default()
+                mangle: Some(MangleOptions {
+                    props: None,
+                    top_level: true,
+                    keep_class_names: false,
+                    keep_fn_names: false,
+                    keep_private_props: false,
+                    ie8: false,
+                    safari10: false,
+                    reserved: Default::default(),
+                }),
+                wrap: false,
+                enclose: false,
             },
             &ExtraOptions { top_level_mark },
         );
