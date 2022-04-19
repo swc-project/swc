@@ -37,7 +37,7 @@ export default function n(e) {
             return !i(a) && !k(a);
         }).reduce(function(a, b) {
             return b.getSearchParameters(a);
-        }, G), c = x.getWidgets().filter(function(a) {
+        }, H), c = x.getWidgets().filter(function(a) {
             return Boolean(a.getSearchParameters);
         }).filter(function(a) {
             var b = i(a) && j(a, p), c = k(a) && l(a, p);
@@ -65,7 +65,7 @@ export default function n(e) {
             derivedParameters: e
         };
     }, B = function() {
-        if (!E) {
+        if (!F) {
             var a = s(r.state), b = a.mainParameters, c = a.derivedParameters;
             r.derivedHelpers.slice().forEach(function(a) {
                 a.detach();
@@ -84,7 +84,7 @@ export default function n(e) {
             var f = y.getState(), g = !r.derivedHelpers.length, b = f.results ? f.results : {};
             b = !g && b.getFacetByName ? {} : b, b = g ? e.results : a.objectSpread({}, b, a.defineProperty({}, c, e.results));
             var d = y.getState(), h = d.isSearchStalled;
-            r.hasPendingRequests() || (clearTimeout(F), F = null, h = !1), d.resultsFacetValues;
+            r.hasPendingRequests() || (clearTimeout(G), G = null, h = !1), d.resultsFacetValues;
             var i = a.objectWithoutProperties(d, [
                 "resultsFacetValues"
             ]);
@@ -97,7 +97,7 @@ export default function n(e) {
         };
     }, u = function(d) {
         var e = d.error, b = y.getState(), c = b.isSearchStalled;
-        r.hasPendingRequests() || (clearTimeout(F), c = !1), b.resultsFacetValues;
+        r.hasPendingRequests() || (clearTimeout(G), c = !1), b.resultsFacetValues;
         var f = a.objectWithoutProperties(b, [
             "resultsFacetValues"
         ]);
@@ -172,7 +172,7 @@ export default function n(e) {
         })));
     }, r = b(g, p, a.objectSpread({}, d));
     h(g), r.on("search", function() {
-        F || (F = setTimeout(function() {
+        !G && (G = setTimeout(function() {
             var b = y.getState(), c = (b.resultsFacetValues, a.objectWithoutProperties(b, [
                 "resultsFacetValues"
             ]));
@@ -183,7 +183,7 @@ export default function n(e) {
     }).on("result", t({
         indexId: p
     })).on("error", u);
-    var f, v, w, E = !1, F = null, G = r.state, x = c(function() {
+    var f, E, v, w, F = !1, G = null, H = r.state, x = c(function() {
         var b = A(y.getState().widgets);
         y.setState(a.objectSpread({}, y.getState(), {
             metadata: b,
@@ -307,13 +307,13 @@ export default function n(e) {
             h(a), r.setClient(a), B();
         },
         updateIndex: function(a) {
-            G = G.setIndex(a);
+            H = H.setIndex(a);
         },
         clearCache: function() {
             r.clearCache(), B();
         },
         skipSearch: function() {
-            E = !0;
+            F = !0;
         }
     };
 };

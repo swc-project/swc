@@ -226,7 +226,7 @@ pub struct CompressOptions {
 
     /// If this value is zero, the minifier will repeat work until the ast node
     /// is settled.
-    #[serde(default = "zero_by_default")]
+    #[serde(default = "default_passes")]
     #[serde(alias = "passes")]
     pub passes: usize,
 
@@ -329,8 +329,8 @@ const fn true_by_default() -> bool {
     true
 }
 
-const fn zero_by_default() -> usize {
-    0
+const fn default_passes() -> usize {
+    3
 }
 
 const fn three_by_default() -> u8 {

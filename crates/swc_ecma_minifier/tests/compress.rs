@@ -108,6 +108,9 @@ impl TestMangleOptions {
 struct TestOptions {
     #[serde(default)]
     defaults: bool,
+
+    #[serde(default)]
+    passes: usize,
 }
 
 fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
@@ -118,6 +121,7 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
 
     c.defaults = opts.defaults;
     c.const_to_let = Some(false);
+    c.passes = opts.passes;
 
     (c.module, c.into_config(cm))
 }

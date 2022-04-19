@@ -1,4 +1,5 @@
 {
     "defaults": true,
-    "toplevel": true
+    "toplevel": true,
+    "passes": 0
 }
