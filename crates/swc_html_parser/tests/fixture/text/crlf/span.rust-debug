@@ -55,9 +55,10 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | |   
- 57 | `-> </style>
+ 55 | |       <!-- Test -->
+ 56 | |   }
+ 57 | |   
+ 58 | `-> </style>
     `----
 
   x Child
@@ -111,17 +112,19 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 50 | >
-    :  ^^
- 51 | <style>
+    ,-[$DIR/tests/fixture/text/crlf/input.html:55:5]
+ 55 | ,-> <!-- Test -->
+ 56 | |   }
+ 57 | `-> 
+ 58 |     </style>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 50 | >
-    :  ^^
- 51 | <style>
+    ,-[$DIR/tests/fixture/text/crlf/input.html:55:5]
+ 55 | ,-> <!-- Test -->
+ 56 | |   }
+ 57 | `-> 
+ 58 |     </style>
     `----
 
   x Child
@@ -478,9 +481,7 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | `-> 
- 57 |     </style>
+ 55 | `->     <!-- Test -->
     `----
 
   x Text
@@ -489,7 +490,17 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | `-> 
- 57 |     </style>
+ 55 | `->     <!-- Test -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/crlf/input.html:55:5]
+ 54 | <!-- Test -->
+    :              ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/crlf/input.html:55:5]
+ 54 | <!-- Test -->
+    :              ^
     `----

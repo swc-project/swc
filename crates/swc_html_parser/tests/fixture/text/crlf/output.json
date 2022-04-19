@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 378,
+    "end": 397,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -55,8 +55,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 325,
-                "end": 327,
+                "start": 382,
+                "end": 389,
                 "ctxt": 0
               },
               "value": "\r\n"
@@ -368,12 +368,21 @@
                   "type": "Text",
                   "span": {
                     "start": 334,
-                    "end": 370,
+                    "end": 369,
                     "ctxt": 0
                   },
-                  "value": "\r\n\r\n.color {\r\n    color: red;\r\n}\r\n\r\n"
+                  "value": "\r\n\r\n.color {\r\n    color: red;\r\n    "
                 }
               ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 382,
+                "end": 383,
+                "ctxt": 0
+              },
+              "value": "\r"
             }
           ]
         }

@@ -55,9 +55,10 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | |   
- 57 | `-> </style>
+ 55 | |       <!-- Test -->
+ 56 | |   }
+ 57 | |   
+ 58 | `-> </style>
     `----
 
   x Child
@@ -111,18 +112,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/lf/input.html:6:1]
- 6 | Text
-   : ^^^^^
- 7 | <div>Text</div>
-   `----
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:5]
+ 55 | ,-> <!-- Test -->
+ 56 | |   }
+ 57 | `-> 
+ 58 |     </style>
+    `----
 
   x Text
-   ,-[$DIR/tests/fixture/text/lf/input.html:6:1]
- 6 | Text
-   : ^^^^^
- 7 | <div>Text</div>
-   `----
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:5]
+ 55 | ,-> <!-- Test -->
+ 56 | |   }
+ 57 | `-> 
+ 58 |     </style>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/text/lf/input.html:7:1]
@@ -494,9 +497,7 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | `-> 
- 57 |     </style>
+ 55 | `->     <!-- Test -->
     `----
 
   x Text
@@ -505,7 +506,19 @@
  52 | |   
  53 | |   .color {
  54 | |       color: red;
- 55 | |   }
- 56 | `-> 
- 57 |     </style>
+ 55 | `->     <!-- Test -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:5]
+ 55 | <!-- Test -->
+    :              ^
+ 56 | }
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:5]
+ 55 | <!-- Test -->
+    :              ^
+ 56 | }
     `----
