@@ -1,3 +1,2 @@
 var a = 0;
-a;
-console.log("FAIL");
+if (0 !== a) console.log("FAIL");

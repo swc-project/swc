@@ -1,1 +1,1 @@
-if (a() === a()) console.log(123);
+a() === a() && console.log(123);

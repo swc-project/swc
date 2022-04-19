@@ -73,13 +73,25 @@ where
                 }
             }
             // remove default if there's an exact match
-            cases.retain(|case| case.test.is_some())
+            cases.retain(|case| case.test.is_some());
+
+            if cases.len() == 2 {
+                let last = cases.last_mut().unwrap();
+
+                self.changed = true;
+                // so that following pass could turn it into if else
+                if let Some(test) = last.test.take() {
+                    prepend(&mut last.cons, test.into_stmt())
+                }
+            }
         }
 
         if cases.len() == stmt.cases.len() {
             stmt.cases = cases;
             return;
         }
+
+        self.optimize_switch_cases(&mut cases);
 
         self.changed = true;
 
@@ -93,8 +105,10 @@ where
             })
             .collect();
 
-        // only exact or default match
-        if cases.len() == 1 && !contains_nested_break(&cases[0]) {
+        if cases.len() == 1
+            && (cases[0].test.is_none() || exact.is_some())
+            && !contains_nested_break(&cases[0])
+        {
             report_change!("switches: Removing a constant switch");
 
             let mut stmts = Vec::new();
@@ -123,15 +137,6 @@ where
             })
         } else {
             report_change!("switches: Removing unreachable cases from a constant switch");
-
-            if cases.len() == 2 {
-                let last = cases.last_mut().unwrap();
-                remove_last_break(&mut last.cons);
-                // so that following pass could turn it into if else
-                if let Some(test) = last.test.take() {
-                    prepend(&mut last.cons, test.into_stmt())
-                }
-            }
 
             stmt.cases = cases;
 
@@ -279,6 +284,7 @@ where
         if let Stmt::Switch(sw) = s {
             match &mut *sw.cases {
                 [] => {
+                    self.changed = true;
                     report_change!("switches: Removing empty switch");
                     *s = Stmt::Expr(ExprStmt {
                         span: sw.span,
@@ -286,10 +292,12 @@ where
                     })
                 }
                 [case] => {
-                    report_change!("switches: Turn one case switch into if");
                     if contains_nested_break(case) {
                         return;
                     }
+                    self.changed = true;
+                    report_change!("switches: Turn one case switch into if");
+                    remove_last_break(&mut case.cons);
 
                     let case = case.take();
                     let discriminant = sw.discriminant.take();
@@ -325,15 +333,15 @@ where
                     }
                 }
                 [first, second] if first.test.is_none() || second.test.is_none() => {
+                    if contains_nested_break(first) || contains_nested_break(second) {
+                        return;
+                    }
+                    self.changed = true;
                     report_change!("switches: Turn two cases switch into if else");
                     let terminate = first.cons.terminates();
 
                     if terminate {
-                        if let Stmt::Break(BreakStmt { label: None, .. }) =
-                            first.cons.last().unwrap()
-                        {
-                            first.cons.pop();
-                        }
+                        remove_last_break(&mut first.cons);
                         // they cannot both be default as that's syntax error
                         let (def, case) = if first.test.is_none() {
                             (first, second)
@@ -363,28 +371,32 @@ where
                             ),
                         })
                     } else {
-                        let (def, case) = if first.test.is_none() {
-                            (first, second)
-                        } else {
-                            (second, first)
-                        };
                         let mut stmts = vec![Stmt::If(IfStmt {
                             span: DUMMY_SP,
-                            test: Expr::Bin(BinExpr {
-                                span: DUMMY_SP,
-                                op: op!("==="),
-                                left: sw.discriminant.take(),
-                                right: case.test.take().unwrap(),
+                            test: Expr::Bin(if first.test.is_none() {
+                                BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("!=="),
+                                    left: sw.discriminant.take(),
+                                    right: second.test.take().unwrap(),
+                                }
+                            } else {
+                                BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("==="),
+                                    left: sw.discriminant.take(),
+                                    right: first.test.take().unwrap(),
+                                }
                             })
                             .into(),
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
-                                stmts: case.cons.take(),
+                                stmts: first.cons.take(),
                             })
                             .into(),
                             alt: None,
                         })];
-                        stmts.extend(def.cons.take());
+                        stmts.extend(second.cons.take());
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
                             stmts,
@@ -422,18 +434,6 @@ struct BreakFinder {
     nested_unlabelled_break: bool,
 }
 
-impl BreakFinder {
-    fn visit_nested<S: VisitWith<Self> + ?Sized>(&mut self, s: &S) {
-        if self.top_level {
-            self.top_level = false;
-            s.visit_children_with(self);
-            self.top_level = true;
-        } else {
-            s.visit_children_with(self);
-        }
-    }
-}
-
 impl Visit for BreakFinder {
     noop_visit_type!();
 
@@ -443,12 +443,14 @@ impl Visit for BreakFinder {
         }
     }
 
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        self.visit_nested(stmts)
-    }
-
     fn visit_if_stmt(&mut self, i: &IfStmt) {
-        self.visit_nested(i)
+        if self.top_level {
+            self.top_level = false;
+            i.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            i.visit_children_with(self);
+        }
     }
 
     /// We don't care about breaks in a loop
@@ -465,6 +467,8 @@ impl Visit for BreakFinder {
 
     /// We don't care about breaks in a loop
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
+
+    fn visit_switch_stmt(&mut self, _: &SwitchStmt) {}
 
     fn visit_function(&mut self, _: &Function) {}
 
