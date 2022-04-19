@@ -9,7 +9,7 @@
                 if (!(source instanceof Object)) return source;
                 switch(source.constructor){
                     case Date:
-                        let dateValue = source;
+                        const dateValue = source;
                         return new Date(dateValue.getTime());
                     case Object:
                         void 0 === target && (target = {});
@@ -20,7 +20,7 @@
                     default:
                         return source;
                 }
-                for(let prop in source)source.hasOwnProperty(prop) && '__proto__' !== prop && (target[prop] = deepExtend(target[prop], source[prop]));
+                for(const prop in source)source.hasOwnProperty(prop) && '__proto__' !== prop && (target[prop] = deepExtend(target[prop], source[prop]));
                 return target;
             }
             function getUA() {
@@ -30,7 +30,7 @@
                 return 'undefined' != typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
             function isBrowserExtension() {
-                let runtime = 'object' == typeof chrome ? chrome.runtime : 'object' == typeof browser ? browser.runtime : void 0;
+                const runtime = 'object' == typeof chrome ? chrome.runtime : 'object' == typeof browser ? browser.runtime : void 0;
                 return 'object' == typeof runtime && void 0 !== runtime.id;
             }
             function isReactNative() {
@@ -40,7 +40,7 @@
                 return getUA().indexOf('Electron/') >= 0;
             }
             function isIE() {
-                let ua = getUA();
+                const ua = getUA();
                 return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
             }
             function isUWP() {
@@ -82,28 +82,28 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    let customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : 'Error', fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : 'Error', fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
             function replaceTemplate(template, data) {
                 return template.replace(PATTERN, (_, key)=>{
-                    let value = data[key];
+                    const value = data[key];
                     return null != value ? String(value) : `<${key}?>`;
                 });
             }
-            let PATTERN = /\{\$([^}]+)}/g;
+            const PATTERN = /\{\$([^}]+)}/g;
             function deepEqual(a, b) {
                 if (a === b) return !0;
-                let aKeys = Object.keys(a), bKeys = Object.keys(b);
-                for (let k of aKeys){
+                const aKeys = Object.keys(a), bKeys = Object.keys(b);
+                for (const k of aKeys){
                     if (!bKeys.includes(k)) return !1;
-                    let aProp = a[k], bProp = b[k];
+                    const aProp = a[k], bProp = b[k];
                     if (isObject(aProp) && isObject(bProp)) {
                         if (!deepEqual(aProp, bProp)) return !1;
                     } else if (aProp !== bProp) return !1;
                 }
-                for (let k1 of bKeys)if (!aKeys.includes(k1)) return !1;
+                for (const k1 of bKeys)if (!aKeys.includes(k1)) return !1;
                 return !0;
             }
             function isObject(thing) {
@@ -195,7 +195,7 @@
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
             };
-            let ma = Array.prototype.indexOf ? function(a, b) {
+            const ma = Array.prototype.indexOf ? function(a, b) {
                 return Array.prototype.indexOf.call(a, b, void 0);
             } : function(a, b) {
                 if ("string" == typeof a) return "string" != typeof b || 1 != b.length ? -1 : a.indexOf(b, 0);
@@ -204,16 +204,16 @@
             }, na = Array.prototype.forEach ? function(a, b, c) {
                 Array.prototype.forEach.call(a, b, c);
             } : function(a, b, c) {
-                let d = a.length, e = "string" == typeof a ? a.split("") : a;
+                const d = a.length, e = "string" == typeof a ? a.split("") : a;
                 for(let f = 0; f < d; f++)f in e && b.call(c, e[f], f, a);
             };
             function qa(a) {
                 return Array.prototype.concat.apply([], arguments);
             }
             function ra(a) {
-                let b = a.length;
+                const b = a.length;
                 if (0 < b) {
-                    let c = Array(b);
+                    const c = Array(b);
                     for(let d = 0; d < b; d++)c[d] = a[d];
                     return c;
                 }
@@ -245,11 +245,11 @@
                 x = "";
             }
             function xa(a, b, c) {
-                for(let d in a)b.call(c, a[d], d, a);
+                for(const d in a)b.call(c, a[d], d, a);
             }
             function ya(a) {
-                let b = {};
-                for(let c in a)b[c] = a[c];
+                const b = {};
+                for(const c in a)b[c] = a[c];
                 return b;
             }
             var za = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
@@ -518,7 +518,7 @@
                     this.h = this.g = null;
                 }
                 add(a, b) {
-                    let c = vb.get();
+                    const c = vb.get();
                     c.set(a, b), this.h ? this.h.next = c : this.g = c, this.h = c;
                 }
             };
@@ -550,7 +550,7 @@
                 a.g = Gb(()=>{
                     a.g = null, a.i && (a.i = !1, Hb(a));
                 }, a.j);
-                let b = a.h;
+                const b = a.h;
                 a.h = null, a.m.apply(null, b);
             }
             t(Eb, C), (k = Eb.prototype).da = !1, k.S = null, k.kb = function() {
@@ -637,14 +637,14 @@
                 z.call(this, H.Ma, a);
             }
             function I(a) {
-                let b = Sb();
+                const b = Sb();
                 D(b, new Tb(b, a));
             }
             function Ub(a, b) {
                 z.call(this, H.STAT_EVENT, a), this.stat = b;
             }
             function J(a) {
-                let b = Sb();
+                const b = Sb();
                 D(b, new Ub(b, a));
             }
             function Vb(a, b) {
@@ -807,21 +807,21 @@
                             if (c.U = m[0], m = m[1], 2 == c.G) {
                                 if ("c" == m[0]) {
                                     c.J = m[1], c.la = m[2];
-                                    let r = m[3];
+                                    const r = m[3];
                                     null != r && (c.ma = r, c.h.info("VER=" + c.ma));
-                                    let G = m[4];
+                                    const G = m[4];
                                     null != G && (c.za = G, c.h.info("SVER=" + c.za));
-                                    let Da = m[5];
+                                    const Da = m[5];
                                     null != Da && "number" == typeof Da && 0 < Da && (d = 1.5 * Da, c.K = d, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
-                                    let ca = a.g;
+                                    const ca = a.g;
                                     if (ca) {
-                                        let Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
+                                        const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
                                         if (Ea) {
                                             var f = d.i;
                                             !f.g && (w(Ea, "spdy") || w(Ea, "quic") || w(Ea, "h2")) && (f.j = f.l, f.g = new Set, f.h && (Dc(f, f.h), f.h = null));
                                         }
                                         if (d.D) {
-                                            let xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
+                                            const xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
                                             xb && (d.sa = xb, R(d.F, d.D, xb));
                                         }
                                     }
@@ -895,14 +895,14 @@
                 this.P = a;
             }, k.gb = function(a) {
                 a = a.target;
-                let b = this.L;
+                const b = this.L;
                 b && 3 == O(a) ? b.l() : this.Ia(a);
             }, k.Ia = function(a5) {
                 try {
                     if (a5 == this.g) a: {
-                        let r = O(this.g);
+                        const r = O(this.g);
                         var b3 = this.g.Da();
-                        let G = this.g.ba();
+                        const G = this.g.ba();
                         if (!(3 > r) && (3 != r || Ja || this.g && (this.h.h || this.g.ga() || oc(this.g)))) {
                             this.I || 4 != r || 7 == b3 || (8 == b3 || 0 >= G ? I(3) : I(2)), pc(this);
                             var c4 = this.g.ba();
@@ -960,7 +960,7 @@
                 this.I = !0, P(this);
             }, k.eb = function() {
                 this.B = null;
-                let a6 = Date.now();
+                const a6 = Date.now();
                 0 <= a6 - this.Y ? (function(a, b) {
                     a.info(function() {
                         return "TIMEOUT: " + b;
@@ -1138,7 +1138,7 @@
                 if (null != a.h) return a.i.concat(a.h.D);
                 if (null != a.g && 0 !== a.g.size) {
                     let b = a.i;
-                    for (let c of a.g.values())b = b.concat(c.D);
+                    for (const c of a.g.values())b = b.concat(c.D);
                     return b;
                 }
                 return ra(a.i);
@@ -1148,7 +1148,7 @@
                 this.g = new kd;
             }
             function md(a, b, c) {
-                let d = c || "";
+                const d = c || "";
                 try {
                     Kc(a, function(e, f) {
                         let h = e;
@@ -1172,7 +1172,7 @@
             gd.prototype.cancel = function() {
                 if (this.i = jd(this), this.h) this.h.cancel(), this.h = null;
                 else if (this.g && 0 !== this.g.size) {
-                    for (let a of this.g.values())a.cancel();
+                    for (const a of this.g.values())a.cancel();
                     this.g.clear();
                 }
             }, kd.prototype.stringify = function(a) {
@@ -1200,7 +1200,7 @@
             }, k.send = function(a) {
                 if (1 != this.readyState) throw this.abort(), Error("need to call open() first. ");
                 this.g = !0;
-                let b = {
+                const b = {
                     headers: this.v,
                     method: this.C,
                     credentials: this.m,
@@ -1243,7 +1243,7 @@
                 return this.h && this.h.get(a.toLowerCase()) || "";
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
-                let a = [], b = this.h.entries();
+                const a = [], b = this.h.entries();
                 for(var c = b.next(); !c.done;)c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
                 return a.join("\r\n");
             }, Object.defineProperty(qd.prototype, "withCredentials", {
@@ -1278,7 +1278,7 @@
                     else if (D(a, "readystatechange"), 4 == O(a)) {
                         a.h = !1;
                         try {
-                            let n = a.ba();
+                            const n = a.ba();
                             a: switch(n){
                                 case 200:
                                 case 201:
@@ -1322,7 +1322,7 @@
             function Dd(a, b) {
                 if (a.g) {
                     Ad(a);
-                    let c = a.g, d = a.C[0] ? aa : null;
+                    const c = a.g, d = a.C[0] ? aa : null;
                     a.g = null, a.C = null, b || D(a, "ready");
                     try {
                         c.onreadystatechange = d;
@@ -1392,7 +1392,7 @@
             function Qd(a, b) {
                 var c;
                 c = b ? b.m : a.V++;
-                let d = N(a.F);
+                const d = N(a.F);
                 R(d, "SID", a.J), R(d, "RID", c), R(d, "AID", a.U), Kd(a, d), a.o && a.s && Gd(d, a.o, a.s), c = new M(a, a.h, c, a.C + 1), null === a.o && (c.H = a.s), b && (a.l = b.D.concat(a.l)), b = Pd(a, c, 1E3), c.setTimeout(Math.round(.5 * a.ra) + Math.round(.5 * a.ra * Math.random())), Dc(a.i, c), ic(c, d, b);
             }
             function Kd(a, b) {
@@ -1407,13 +1407,14 @@
                     var e = a.l;
                     let f = -1;
                     for(;;){
-                        let h = [
+                        const h = [
                             "count=" + c
                         ];
                         -1 == f ? 0 < c ? (f = e[0].h, h.push("ofs=" + f)) : f = 0 : h.push("ofs=" + f);
                         let n = !0;
                         for(let u = 0; u < c; u++){
-                            let m = e[u].h, r = e[u].g;
+                            let m = e[u].h;
+                            const r = e[u].g;
                             if (0 > (m -= f)) f = Math.max(0, e[u].h - 100), n = !1;
                             else try {
                                 md(r, h, "req" + m + "_");
@@ -1489,9 +1490,9 @@
                     a9.j && (c9 = null);
                     var d2 = q(a9.jb, a9);
                     c9 || (c9 = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c9, "https"), jc(c9)), function(a, b) {
-                        let c = new Mb;
+                        const c = new Mb;
                         if (l.Image) {
-                            let d = new Image;
+                            const d = new Image;
                             d.onload = ja(od, c, d, "TestLoadImage: loaded", !0, b), d.onerror = ja(od, c, d, "TestLoadImage: error", !1, b), d.onabort = ja(od, c, d, "TestLoadImage: abort", !1, b), d.ontimeout = ja(od, c, d, "TestLoadImage: timeout", !1, b), l.setTimeout(function() {
                                 d.ontimeout && d.ontimeout();
                             }, 1E4), d.src = a;
@@ -1508,7 +1509,7 @@
                 let d4 = (a10 = c) instanceof U ? N(a10) : new U(a10, void 0);
                 if ("" != d4.i) b && Pc(d4, b + "." + d4.i), Qc(d4, d4.m);
                 else {
-                    let e1 = l.location;
+                    const e1 = l.location;
                     d4 = (a11 = e1.protocol, b9 = b ? b + "." + e1.hostname : e1.hostname, c11 = +e1.port, d = c, e2 = new U(null, void 0), a11 && Oc(e2, a11), b9 && Pc(e2, b9), c11 && Qc(e2, c11), d && (e2.l = d), e2);
                 }
                 return a.aa && xa(a.aa, function(e, f) {
@@ -1539,7 +1540,7 @@
                 var b = a.__sm__;
                 if (b) {
                     a: {
-                        for(let c in b){
+                        for(const c in b){
                             a = c;
                             break a;
                         }
@@ -1564,13 +1565,13 @@
                     return;
                 }
                 a13 = c12 || "";
-                let e3 = new S(this.headers);
+                const e3 = new S(this.headers);
                 d5 && Kc(d5, function(f, h) {
                     e3.set(h, f);
                 }), d5 = function(a) {
                     a: {
                         var b = pa;
-                        let c = a.length, d = "string" == typeof a ? a.split("") : a;
+                        const c = a.length, d = "string" == typeof a ? a.split("") : a;
                         for(let e = 0; e < c; e++)if (e in d && b.call(void 0, d[e], e, a)) {
                             b = e;
                             break a;
@@ -1587,7 +1588,8 @@
                         var b = Ga;
                         return Object.prototype.hasOwnProperty.call(b, 9) ? b[9] : b[9] = a(9);
                     }(function() {
-                        let a = 0, b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
+                        let a = 0;
+                        const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
                             var e = b[h] || "", f = c[h] || "";
                             do {
@@ -1650,7 +1652,8 @@
                     if (this.m = null, 1 == this.G) {
                         if (!a) {
                             this.V = Math.floor(1E5 * Math.random()), a = this.V++;
-                            let e = new M(this, this.h, a, void 0), f = this.s;
+                            const e = new M(this, this.h, a, void 0);
+                            let f = this.s;
                             if (this.P && (f ? Aa(f = ya(f), this.P) : f = this.P), null === this.o && (e.H = f), this.ja) a: {
                                 for(var b = 0, c = 0; c < this.l.length; c++){
                                     b: {
@@ -2280,11 +2283,11 @@
                     this.container = container;
                 }
                 getPlatformInfoString() {
-                    let providers = this.container.getProviders();
+                    const providers = this.container.getProviders();
                     return providers.map((provider)=>{
                         if (!isVersionServiceProvider(provider)) return null;
                         {
-                            let service = provider.getImmediate();
+                            const service = provider.getImmediate();
                             return `${service.library}/${service.version}`;
                         }
                     }).filter((logString)=>logString
@@ -2292,10 +2295,10 @@
                 }
             }
             function isVersionServiceProvider(provider) {
-                let component = provider.getComponent();
+                const component = provider.getComponent();
                 return (null == component ? void 0 : component.type) === "VERSION";
             }
-            let name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd('@firebase/app'), PLATFORM_LOG_STRING = {
+            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd('@firebase/app'), PLATFORM_LOG_STRING = {
                 [name$o]: 'fire-core',
                 ["@firebase/app-compat"]: 'fire-core-compat',
                 ["@firebase/analytics"]: 'fire-analytics',
@@ -2331,9 +2334,9 @@
                 }
             }
             function _registerComponent(component) {
-                let componentName = component.name;
+                const componentName = component.name;
                 if (_components.has(componentName)) return logger.debug(`There were multiple attempts to register component ${componentName}.`), !1;
-                for (let app of (_components.set(componentName, component), _apps.values()))_addComponent(app, component);
+                for (const app of (_components.set(componentName, component), _apps.values()))_addComponent(app, component);
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL('app', 'Firebase', {
@@ -2344,14 +2347,14 @@
                 ["invalid-app-argument"]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
                 ["invalid-log-argument"]: 'First argument to `onLog` must be null or a function.'
             });
-            let SDK_VERSION = "9.4.1";
+            const SDK_VERSION = "9.4.1";
             function registerVersion(libraryKeyOrName, version, variant) {
                 var _a;
                 let library = null !== (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) && void 0 !== _a ? _a : libraryKeyOrName;
                 variant && (library += `-${variant}`);
-                let libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
+                const libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
                 if (libraryMismatch || versionMismatch) {
-                    let warning = [
+                    const warning = [
                         `Unable to register library "${library}" with version "${version}":`
                     ];
                     libraryMismatch && warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`), libraryMismatch && versionMismatch && warning.push('and'), versionMismatch && warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`), logger.warn(warning.join(' '));
@@ -2402,7 +2405,7 @@
                     return Logger;
                 }
             }), (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
-            let levelStringToEnum = {
+            const levelStringToEnum = {
                 debug: LogLevel.DEBUG,
                 verbose: LogLevel.VERBOSE,
                 info: LogLevel.INFO,
@@ -2420,7 +2423,7 @@
                 constructor(name){
                     this.name = name, this._logLevel = defaultLogLevel, this._logHandler = (instance, logType, ...args)=>{
                         if (logType < instance.logLevel) return;
-                        let now = new Date().toISOString(), method = ConsoleMethod[logType];
+                        const now = new Date().toISOString(), method = ConsoleMethod[logType];
                         if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
                         else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
                     }, this._userLogHandler = null, [].push(this);

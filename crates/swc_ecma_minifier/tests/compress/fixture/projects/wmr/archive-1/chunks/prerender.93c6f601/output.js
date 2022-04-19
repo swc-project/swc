@@ -5,7 +5,7 @@ function prerender$1(vnode, options) {
     );
 }
 async function prerender(vnode) {
-    let res = await prerender$1(vnode), head = toStatic(), elements = new Set([
+    const res = await prerender$1(vnode), head = toStatic(), elements = new Set([
         ...head.links.map((props)=>({
                 type: "link",
                 props

@@ -1,10 +1,10 @@
 import { a as l, y, m } from "../index.f66dda46.js";
-let json = {
+const json = {
     foo: 42,
     bar: "bar"
 };
 function JSONView() {
-    let [fetched, setFetched, ] = l(null);
+    const [fetched, setFetched, ] = l(null);
     return y(()=>{
         fetch("./pages/foo.json").then((r)=>r.json()
         ).then((r)=>setFetched(r)

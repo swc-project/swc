@@ -1,7 +1,7 @@
 export function treeSubTree(tree, pathObj) {
     let path = pathObj instanceof Path ? pathObj : new Path(pathObj), child = tree, next = pathGetFront(path);
     for(; null !== next;){
-        let childNode = safeGet(child.node.children, next) || {
+        const childNode = safeGet(child.node.children, next) || {
             children: {},
             childCount: 0
         };

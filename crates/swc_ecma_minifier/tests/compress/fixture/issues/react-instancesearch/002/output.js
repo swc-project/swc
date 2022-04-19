@@ -8,7 +8,7 @@ import version from './version';
 function addAlgoliaAgents(searchClient) {
     'function' == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
 }
-let isMultiIndexContext = (widget)=>hasMultipleIndices({
+const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
     })
@@ -16,17 +16,17 @@ let isMultiIndexContext = (widget)=>hasMultipleIndices({
 , isIndexWidget = (widget)=>Boolean(widget.props.indexId)
 , isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId
 , sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
-    let isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
+    const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager({ indexName , initialState ={} , searchClient , resultsState , stalledSearchDelay ,  }) {
     var results1;
-    let helper = algoliasearchHelper(searchClient, indexName, {
+    const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
     addAlgoliaAgents(searchClient), helper.on('search', function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
-            let { resultsFacetValues , ...partialState } = store.getState();
+            const { resultsFacetValues , ...partialState } = store.getState();
             store.setState({
                 ...partialState,
                 isSearchStalled: !0
@@ -35,8 +35,9 @@ export default function createInstantSearchManager({ indexName , initialState ={
     }).on('result', handleSearchSuccess({
         indexId: indexName
     })).on('error', handleSearchError);
-    let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
-        let metadata = getMetadata(store.getState().widgets);
+    let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state;
+    const widgetsManager = createWidgetsManager(function() {
+        const metadata = getMetadata(store.getState().widgets);
         store.setState({
             ...store.getState(),
             metadata,
@@ -47,12 +48,12 @@ export default function createInstantSearchManager({ indexName , initialState ={
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && 'function' == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
                 client._cacheHydrated = !0;
-                let baseMethod = client.search;
+                const baseMethod = client.search;
                 client.search = (requests, ...methodArgs)=>{
-                    let requestsWithSerializedParams = requests.map((request)=>({
+                    const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
                             params: function(parameters) {
-                                let isObjectOrArray = (value)=>'[object Object]' === Object.prototype.toString.call(value) || '[object Array]' === Object.prototype.toString.call(value)
+                                const isObjectOrArray = (value)=>'[object Object]' === Object.prototype.toString.call(value) || '[object Array]' === Object.prototype.toString.call(value)
                                 , encode = (format, ...args)=>{
                                     let i = 0;
                                     return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
@@ -80,7 +81,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    let store = createStore({
+    const store = createStore({
         widgets: initialState,
         metadata: hydrateMetadata(resultsState),
         results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce((acc, result)=>({
@@ -99,20 +100,20 @@ export default function createInstantSearchManager({ indexName , initialState ={
         );
     }
     function getSearchParameters() {
-        let sharedParameters = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)
+        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)
         ).filter((widget)=>!isMultiIndexContext(widget) && !isIndexWidget(widget)
         ).reduce((res, widget)=>widget.getSearchParameters(res)
         , initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)
         ).filter((widget)=>{
-            let targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
+            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res)
         , sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)
         ).filter((widget)=>{
-            let targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
+            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce((indices, widget)=>{
-            let indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
+            const indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
             return {
                 ...indices,
                 [indexId]: widgets.concat(widget)
@@ -130,11 +131,11 @@ export default function createInstantSearchManager({ indexName , initialState ={
     }
     function search() {
         if (!skip) {
-            let { mainParameters , derivedParameters  } = getSearchParameters(helper.state);
+            const { mainParameters , derivedParameters  } = getSearchParameters(helper.state);
             helper.derivedHelpers.slice().forEach((derivedHelper)=>{
                 derivedHelper.detach();
             }), derivedParameters.forEach(({ indexId , parameters  })=>{
-                let derivedHelper = helper.derive(()=>parameters
+                const derivedHelper = helper.derive(()=>parameters
                 );
                 derivedHelper.on('result', handleSearchSuccess({
                     indexId
@@ -144,14 +145,16 @@ export default function createInstantSearchManager({ indexName , initialState ={
     }
     function handleSearchSuccess({ indexId  }) {
         return (event)=>{
-            let state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {};
+            const state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length;
+            let results = state.results ? state.results : {};
             results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : {
                 ...results,
                 [indexId]: event.results
             };
-            let currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
+            const currentState = store.getState();
+            let nextIsSearchStalled = currentState.isSearchStalled;
             helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
-            let { resultsFacetValues , ...partialState } = currentState;
+            const { resultsFacetValues , ...partialState } = currentState;
             store.setState({
                 ...partialState,
                 results,
@@ -162,9 +165,10 @@ export default function createInstantSearchManager({ indexName , initialState ={
         };
     }
     function handleSearchError({ error  }) {
-        let currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
+        const currentState = store.getState();
+        let nextIsSearchStalled = currentState.isSearchStalled;
         helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
-        let { resultsFacetValues , ...partialState } = currentState;
+        const { resultsFacetValues , ...partialState } = currentState;
         store.setState({
             ...partialState,
             isSearchStalled: nextIsSearchStalled,
@@ -190,7 +194,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             });
             return;
         }
-        let key = `/1/indexes/*/queries_body_${JSON.stringify({
+        const key = `/1/indexes/*/queries_body_${JSON.stringify({
             requests: results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                         indexName: request.index,
                         params: request.params
@@ -222,7 +226,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             });
             return;
         }
-        let key = `/1/indexes/*/queries_body_${JSON.stringify({
+        const key = `/1/indexes/*/queries_body_${JSON.stringify({
             requests: results.rawResults.map((request)=>({
                     indexName: request.index,
                     params: request.params
@@ -272,7 +276,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             });
         },
         onExternalStateUpdate: function(nextSearchState) {
-            let metadata = getMetadata(nextSearchState);
+            const metadata = getMetadata(nextSearchState);
             store.setState({
                 ...store.getState(),
                 widgets: nextSearchState,
@@ -281,7 +285,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             }), search();
         },
         transitionState: function(nextSearchState) {
-            let searchState = store.getState().widgets;
+            const searchState = store.getState().widgets;
             return widgetsManager.getWidgets().filter((widget)=>Boolean(widget.transitionState)
             ).reduce((res, widget)=>widget.transitionState(searchState, res)
             , nextSearchState);
