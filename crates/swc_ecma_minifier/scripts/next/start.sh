@@ -39,6 +39,7 @@ echo "----- ⚠️  Removing cache"
 
 echo "----- ⚠️  Replacing swc binary"
 cp packages/next-swc/native/*.node $dir/node_modules/@next/swc-*/
+ls -al $dir/node_modules/@next/swc-*/
 
 # Build and start
 echo "----- ⚠️  Building the app using next"
