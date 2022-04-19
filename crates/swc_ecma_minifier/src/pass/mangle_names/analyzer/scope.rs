@@ -100,7 +100,7 @@ impl Scope {
                 let sym = base54::encode(&mut n, true);
 
                 if self.can_rename(&id, &sym, cloned_reverse) {
-                    if cfg!(debug_assertion) {
+                    if cfg!(debug_assertions) {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 
