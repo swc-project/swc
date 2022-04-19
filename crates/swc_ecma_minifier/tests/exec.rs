@@ -26,6 +26,7 @@ use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
+use tracing::info;
 
 #[derive(Debug, Clone, Deserialize)]
 struct TestOptions {
@@ -59,7 +60,11 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         )
     }
 
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    let stdout = String::from_utf8_lossy(&actual_output.stdout).to_string();
+
+    info!("Stdout: {}", stdout);
+
+    Ok(stdout)
 }
 
 fn print<N: swc_ecma_codegen::Node>(
