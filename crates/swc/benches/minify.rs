@@ -41,10 +41,10 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
                     keep_fnames: Default::default(),
                     module: Default::default(),
                     safari10: Default::default(),
-                    toplevel: Default::default(),
+                    toplevel: true,
                     source_map: Default::default(),
                     output_path: Default::default(),
-                    inline_sources_content: Default::default(),
+                    inline_sources_content: true,
                 },
             )
         })
