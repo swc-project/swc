@@ -632,6 +632,9 @@ where
             self.tree_construction_dispatcher()?;
         }
 
+        // TODO FUCK
+        // unreachable!();
+
         let last = self.input.last_pos()?;
 
         // TODO optimize me
@@ -6351,8 +6354,9 @@ where
 
                         let first_pos = text.span.lo;
                         let last_pos = self.input.last_pos()?;
+                        let index = children.len() - 1;
 
-                        children[0] = Node::new(Child::Text(Text {
+                        children[index] = Node::new(Child::Text(Text {
                             span: swc_common::Span::new(first_pos, last_pos, Default::default()),
                             value: new_value.into(),
                         }));

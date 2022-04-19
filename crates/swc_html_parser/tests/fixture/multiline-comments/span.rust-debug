@@ -67,20 +67,18 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | ,-> <p>This is a paragraph too.</p>
- 11 | |   
- 12 | |   </body>
- 13 | `-> </html>
-    `----
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <p>This is a paragraph.</p>
+   `----
 
   x Text
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | ,-> <p>This is a paragraph too.</p>
- 11 | |   
- 12 | |   </body>
- 13 | `-> </html>
-    `----
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <p>This is a paragraph.</p>
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
@@ -176,12 +174,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                                ^
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                                ^
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
     `----

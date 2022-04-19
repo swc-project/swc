@@ -61,16 +61,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | ,-> </details>
- 26 | `->     <hr>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
+ 1 | ,-> <template id="element-details-template">
+ 2 | `->     <style>
+   `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | ,-> </details>
- 26 | `->     <hr>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
+ 1 | ,-> <template id="element-details-template">
+ 2 | `->     <style>
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
@@ -122,16 +122,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:15:5]
- 15 | </style>
-    :         ^
- 16 |     <details>
+ 15 | ,-> </style>
+ 16 | `->     <details>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/template/input.html:15:5]
- 15 | </style>
-    :         ^
- 16 |     <details>
+ 15 | ,-> </style>
+ 16 | `->     <details>
     `----
 
   x Child
@@ -147,15 +145,15 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | ,-> </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
+ 16 | ,-> <details>
+ 17 | `->         <summary>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | ,-> </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
+ 16 | ,-> <details>
+ 17 | `->         <summary>
     `----
 
   x Child
@@ -268,16 +266,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:20:9]
- 20 | </summary>
-    :           ^
- 21 |         <div class="attributes">
+ 20 | ,-> </summary>
+ 21 | `->         <div class="attributes">
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/template/input.html:20:9]
- 20 | </summary>
-    :           ^
- 21 |         <div class="attributes">
+ 20 | ,-> </summary>
+ 21 | `->         <div class="attributes">
     `----
 
   x Child
@@ -293,15 +289,15 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | ,-> <h4>Attributes</h4>
- 23 | `->             <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
+ 21 | ,-> <div class="attributes">
+ 22 | `->             <h4>Attributes</h4>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | ,-> <h4>Attributes</h4>
- 23 | `->             <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
+ 21 | ,-> <div class="attributes">
+ 22 | `->             <h4>Attributes</h4>
     `----
 
   x Child
@@ -330,16 +326,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
-    :                    ^
- 23 |             <slot name="attributes"><p>None</p></slot>
+ 22 | ,-> <h4>Attributes</h4>
+ 23 | `->             <slot name="attributes"><p>None</p></slot>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
-    :                    ^
- 23 |             <slot name="attributes"><p>None</p></slot>
+ 22 | ,-> <h4>Attributes</h4>
+ 23 | `->             <slot name="attributes"><p>None</p></slot>
     `----
 
   x Child
@@ -356,6 +350,30 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | <slot name="attributes"><p>None</p></slot>
+    :                         ^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | <slot name="attributes"><p>None</p></slot>
+    :                         ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | <slot name="attributes"><p>None</p></slot>
+    :                            ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | <slot name="attributes"><p>None</p></slot>
+    :                            ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
  23 | ,-> <slot name="attributes"><p>None</p></slot>
  24 | `->         </div>
     `----
@@ -367,45 +385,27 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
-    :                                           ^
- 24 |         </div>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
-    :                                           ^
- 24 |         </div>
-    `----
-
-  x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | </div>
-    :       ^
- 25 |     </details>
+ 24 | ,-> </div>
+ 25 | `->     </details>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | </div>
-    :       ^
- 25 |     </details>
+ 24 | ,-> </div>
+ 25 | `->     </details>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | </details>
-    :           ^
- 26 |     <hr>
+ 25 | ,-> </details>
+ 26 | `->     <hr>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | </details>
-    :           ^
- 26 |     <hr>
+ 25 | ,-> </details>
+ 26 | `->     <hr>
     `----
 
   x Child

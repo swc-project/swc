@@ -331,17 +331,27 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | ,-> >
- 27 | `-> 
- 28 |     <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
+ 10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+    :                          ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
+ 10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+    :                          ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
+ 10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+    :                               ^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | ,-> >
- 27 | `-> 
- 28 |     <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
+ 10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+    :                               ^^^^^^^^
     `----
 
   x Child
@@ -390,14 +400,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/basic/input.html:15:1]
- 15 | </div>
-    :       ^
+ 15 | ,-> </div>
+ 16 | `-> 
+ 17 |     <div></div test="a">
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/basic/input.html:15:1]
- 15 | </div>
-    :       ^
+ 15 | ,-> </div>
+ 16 | `-> 
+ 17 |     <div></div test="a">
     `----
 
   x Child
@@ -558,14 +570,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | >
-    :  ^
+ 26 | ,-> >
+ 27 | `-> 
+ 28 |     <div>test</div foo="bar" />
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | >
-    :  ^
+ 26 | ,-> >
+ 27 | `-> 
+ 28 |     <div>test</div foo="bar" />
     `----
 
   x Child

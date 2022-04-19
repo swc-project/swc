@@ -55,11 +55,11 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 198,
-                    "end": 224,
+                    "start": 3,
+                    "end": 25,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "value": " O'er all the hilltops"
                 },
                 {
                   "type": "Element",
@@ -77,10 +77,10 @@
                   "type": "Text",
                   "span": {
                     "start": 29,
-                    "end": 30,
+                    "end": 47,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    Is quiet now,"
                 },
                 {
                   "type": "Element",
@@ -98,10 +98,10 @@
                   "type": "Text",
                   "span": {
                     "start": 51,
-                    "end": 52,
+                    "end": 75,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    In all the treetops"
                 },
                 {
                   "type": "Element",
@@ -119,10 +119,10 @@
                   "type": "Text",
                   "span": {
                     "start": 79,
-                    "end": 80,
+                    "end": 96,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    Hearest thou"
                 },
                 {
                   "type": "Element",
@@ -140,10 +140,10 @@
                   "type": "Text",
                   "span": {
                     "start": 100,
-                    "end": 101,
+                    "end": 121,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    Hardly a breath;"
                 },
                 {
                   "type": "Element",
@@ -161,10 +161,10 @@
                   "type": "Text",
                   "span": {
                     "start": 125,
-                    "end": 126,
+                    "end": 164,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    The birds are asleep in the trees:"
                 },
                 {
                   "type": "Element",
@@ -182,10 +182,10 @@
                   "type": "Text",
                   "span": {
                     "start": 168,
-                    "end": 169,
+                    "end": 194,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    Wait, soon like these"
                 },
                 {
                   "type": "Element",
@@ -203,10 +203,10 @@
                   "type": "Text",
                   "span": {
                     "start": 198,
-                    "end": 199,
+                    "end": 224,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n    Thou too shalt rest.\n"
                 }
               ]
             },

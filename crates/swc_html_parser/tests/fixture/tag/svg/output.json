@@ -43,11 +43,11 @@
             {
               "type": "Text",
               "span": {
-                "start": 317,
-                "end": 322,
+                "start": 50,
+                "end": 55,
                 "ctxt": 0
               },
-              "value": "\n "
+              "value": "\n    "
             },
             {
               "type": "Element",
@@ -75,10 +75,10 @@
               "type": "Text",
               "span": {
                 "start": 84,
-                "end": 85,
+                "end": 89,
                 "ctxt": 0
               },
-              "value": "\n"
+              "value": "\n    "
             },
             {
               "type": "Element",
@@ -106,10 +106,10 @@
               "type": "Text",
               "span": {
                 "start": 317,
-                "end": 318,
+                "end": 322,
                 "ctxt": 0
               },
-              "value": "\n"
+              "value": "\n    "
             },
             {
               "type": "Element",
@@ -208,11 +208,11 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 903,
-                    "end": 913,
+                    "start": 605,
+                    "end": 610,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "value": "\n    "
                 },
                 {
                   "type": "Element",
@@ -248,11 +248,11 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 887,
-                            "end": 892,
+                            "start": 637,
+                            "end": 664,
                             "ctxt": 0
                           },
-                          "value": "\n "
+                          "value": "HTML Form\n        "
                         },
                         {
                           "type": "Element",
@@ -279,11 +279,11 @@
                                 {
                                   "type": "Text",
                                   "span": {
-                                    "start": 750,
-                                    "end": 763,
+                                    "start": 674,
+                                    "end": 730,
                                     "ctxt": 0
                                   },
-                                  "value": "\n "
+                                  "value": "Введите что-нибудь:\n            "
                                 },
                                 {
                                   "type": "Element",
@@ -312,10 +312,10 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 750,
-                                    "end": 751,
+                                    "end": 763,
                                     "ctxt": 0
                                   },
-                                  "value": "\n"
+                                  "value": "\n            "
                                 },
                                 {
                                   "type": "Element",
@@ -358,10 +358,10 @@
                           "type": "Text",
                           "span": {
                             "start": 805,
-                            "end": 806,
+                            "end": 814,
                             "ctxt": 0
                           },
-                          "value": "\n"
+                          "value": "\n        "
                         },
                         {
                           "type": "Element",
@@ -423,10 +423,10 @@
                           "type": "Text",
                           "span": {
                             "start": 887,
-                            "end": 888,
+                            "end": 892,
                             "ctxt": 0
                           },
-                          "value": "\n"
+                          "value": "\n    "
                         }
                       ]
                     }
@@ -436,10 +436,10 @@
                   "type": "Text",
                   "span": {
                     "start": 903,
-                    "end": 904,
+                    "end": 913,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "value": "\n\n\n"
                 },
                 {
                   "type": "Element",

@@ -73,15 +73,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег PLAINTEXT</title>
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:4:1]
+ 4 | ,-> <head>
+ 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег PLAINTEXT</title>
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:4:1]
+ 4 | ,-> <head>
+ 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    `----
 
   x Child
@@ -104,16 +104,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :                                                                    ^
- 6 |     <title>Тег PLAINTEXT</title>
+ 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :                                                                    ^
- 6 |     <title>Тег PLAINTEXT</title>
+ 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
    `----
 
   x Child

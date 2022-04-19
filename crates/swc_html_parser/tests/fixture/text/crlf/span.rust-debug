@@ -112,18 +112,18 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 50 | >
-    :  ^^
- 51 | <style>
-    `----
+   ,-[$DIR/tests/fixture/text/crlf/input.html:6:1]
+ 6 | Text
+   : ^^^^^^
+ 7 | <div>Text</div>
+   `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 50 | >
-    :  ^^
- 51 | <style>
-    `----
+   ,-[$DIR/tests/fixture/text/crlf/input.html:6:1]
+ 6 | Text
+   : ^^^^^^
+ 7 | <div>Text</div>
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/text/crlf/input.html:7:1]
@@ -151,14 +151,16 @@
 
   x Child
    ,-[$DIR/tests/fixture/text/crlf/input.html:7:1]
- 6 | <div>Text</div>
-   :                ^
+ 7 | <div>Text</div>
+   :                ^^
+ 8 | <div>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/text/crlf/input.html:7:1]
- 6 | <div>Text</div>
-   :                ^
+ 7 | <div>Text</div>
+   :                ^^
+ 8 | <div>
    `----
 
   x Child
@@ -188,16 +190,18 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/crlf/input.html:10:1]
- 9 | </div>
-   :       ^
-   `----
+    ,-[$DIR/tests/fixture/text/crlf/input.html:10:1]
+ 10 | </div>
+    :       ^^
+ 11 | <div>
+    `----
 
   x Text
-   ,-[$DIR/tests/fixture/text/crlf/input.html:10:1]
- 9 | </div>
-   :       ^
-   `----
+    ,-[$DIR/tests/fixture/text/crlf/input.html:10:1]
+ 10 | </div>
+    :       ^^
+ 11 | <div>
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:11:1]
@@ -233,14 +237,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:16:1]
- 15 | </div>
-    :       ^
+ 16 | </div>
+    :       ^^
+ 17 | <div>Text
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:16:1]
- 15 | </div>
-    :       ^
+ 16 | </div>
+    :       ^^
+ 17 | <div>Text
     `----
 
   x Child
@@ -273,14 +279,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:20:5]
- 19 | Text</div>
-    :           ^
+ 20 | Text</div>
+    :           ^^
+ 21 | <div
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:20:5]
- 19 | Text</div>
-    :           ^
+ 20 | Text</div>
+    :           ^^
+ 21 | <div
     `----
 
   x Child
@@ -319,14 +327,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:26:1]
- 25 | >
-    :  ^
+ 26 | >
+    :  ^^
+ 27 | <div
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:26:1]
- 25 | >
-    :  ^
+ 26 | >
+    :  ^^
+ 27 | <div
     `----
 
   x Child
@@ -363,14 +373,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:34:1]
- 33 | >
-    :  ^
+ 34 | >
+    :  ^^
+ 35 | <div
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:34:1]
- 33 | >
-    :  ^
+ 34 | >
+    :  ^^
+ 35 | <div
     `----
 
   x Child
@@ -407,14 +419,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:42:1]
- 41 | >
-    :  ^
+ 42 | >
+    :  ^^
+ 43 | <div
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:42:1]
- 41 | >
-    :  ^
+ 42 | >
+    :  ^^
+ 43 | <div
     `----
 
   x Child
@@ -451,14 +465,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 49 | >
-    :  ^
+ 50 | >
+    :  ^^
+ 51 | <style>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:50:1]
- 49 | >
-    :  ^
+ 50 | >
+    :  ^^
+ 51 | <style>
     `----
 
   x Child

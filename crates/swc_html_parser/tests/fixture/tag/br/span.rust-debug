@@ -37,17 +37,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/br/input.html:7:5]
- 7 | ,-> Wait, soon like these<br>
- 8 | `->     Thou too shalt rest.
- 9 |     </p>
+   ,-[$DIR/tests/fixture/tag/br/input.html:1:1]
+ 1 | <p> O'er all the hilltops<br>
+   :    ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/tag/br/input.html:7:5]
- 7 | ,-> Wait, soon like these<br>
- 8 | `->     Thou too shalt rest.
- 9 |     </p>
+   ,-[$DIR/tests/fixture/tag/br/input.html:1:1]
+ 1 | <p> O'er all the hilltops<br>
+   :    ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -64,16 +62,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:1:1]
- 1 | <p> O'er all the hilltops<br>
-   :                              ^
- 2 |     Is quiet now,<br>
+ 1 | ,-> <p> O'er all the hilltops<br>
+ 2 | `->     Is quiet now,<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:1:1]
- 1 | <p> O'er all the hilltops<br>
-   :                              ^
- 2 |     Is quiet now,<br>
+ 1 | ,-> <p> O'er all the hilltops<br>
+ 2 | `->     Is quiet now,<br>
    `----
 
   x Child
@@ -90,16 +86,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:2:5]
- 2 | Is quiet now,<br>
-   :                  ^
- 3 |     In all the treetops<br>
+ 2 | ,-> Is quiet now,<br>
+ 3 | `->     In all the treetops<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:2:5]
- 2 | Is quiet now,<br>
-   :                  ^
- 3 |     In all the treetops<br>
+ 2 | ,-> Is quiet now,<br>
+ 3 | `->     In all the treetops<br>
    `----
 
   x Child
@@ -116,16 +110,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:3:5]
- 3 | In all the treetops<br>
-   :                        ^
- 4 |     Hearest thou<br>
+ 3 | ,-> In all the treetops<br>
+ 4 | `->     Hearest thou<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:3:5]
- 3 | In all the treetops<br>
-   :                        ^
- 4 |     Hearest thou<br>
+ 3 | ,-> In all the treetops<br>
+ 4 | `->     Hearest thou<br>
    `----
 
   x Child
@@ -142,16 +134,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:4:5]
- 4 | Hearest thou<br>
-   :                 ^
- 5 |     Hardly a breath;<br>
+ 4 | ,-> Hearest thou<br>
+ 5 | `->     Hardly a breath;<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:4:5]
- 4 | Hearest thou<br>
-   :                 ^
- 5 |     Hardly a breath;<br>
+ 4 | ,-> Hearest thou<br>
+ 5 | `->     Hardly a breath;<br>
    `----
 
   x Child
@@ -168,16 +158,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:5:5]
- 5 | Hardly a breath;<br>
-   :                     ^
- 6 |     The birds are asleep in the trees:<br>
+ 5 | ,-> Hardly a breath;<br>
+ 6 | `->     The birds are asleep in the trees:<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:5:5]
- 5 | Hardly a breath;<br>
-   :                     ^
- 6 |     The birds are asleep in the trees:<br>
+ 5 | ,-> Hardly a breath;<br>
+ 6 | `->     The birds are asleep in the trees:<br>
    `----
 
   x Child
@@ -194,16 +182,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:6:5]
- 6 | The birds are asleep in the trees:<br>
-   :                                       ^
- 7 |     Wait, soon like these<br>
+ 6 | ,-> The birds are asleep in the trees:<br>
+ 7 | `->     Wait, soon like these<br>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:6:5]
- 6 | The birds are asleep in the trees:<br>
-   :                                       ^
- 7 |     Wait, soon like these<br>
+ 6 | ,-> The birds are asleep in the trees:<br>
+ 7 | `->     Wait, soon like these<br>
    `----
 
   x Child
@@ -220,16 +206,16 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/br/input.html:7:5]
- 7 | Wait, soon like these<br>
-   :                          ^
- 8 |     Thou too shalt rest.
+ 7 | ,-> Wait, soon like these<br>
+ 8 | `->     Thou too shalt rest.
+ 9 |     </p>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/tag/br/input.html:7:5]
- 7 | Wait, soon like these<br>
-   :                          ^
- 8 |     Thou too shalt rest.
+ 7 | ,-> Wait, soon like these<br>
+ 8 | `->     Thou too shalt rest.
+ 9 |     </p>
    `----
 
   x Child

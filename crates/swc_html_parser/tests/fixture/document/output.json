@@ -55,8 +55,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 84,
-                "end": 102,
+                "start": 29,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -87,10 +87,10 @@
               "type": "Text",
               "span": {
                 "start": 56,
-                "end": 57,
+                "end": 58,
                 "ctxt": 0
               },
-              "value": "\n"
+              "value": "\n\n"
             },
             {
               "type": "Element",
@@ -118,10 +118,10 @@
               "type": "Text",
               "span": {
                 "start": 84,
-                "end": 85,
+                "end": 102,
                 "ctxt": 0
               },
-              "value": "\n"
+              "value": "\n\n\n\n"
             }
           ]
         }

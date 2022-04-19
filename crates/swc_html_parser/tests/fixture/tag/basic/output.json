@@ -287,13 +287,26 @@
                               "attributes": [],
                               "children": [
                                 {
-                                  "type": "Text",
+                                  "type": "Element",
                                   "span": {
-                                    "start": 406,
-                                    "end": 408,
+                                    "start": 225,
+                                    "end": 230,
                                     "ctxt": 0
                                   },
-                                  "value": "\n\n"
+                                  "tagName": "div",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [],
+                                  "children": [
+                                    {
+                                      "type": "Text",
+                                      "span": {
+                                        "start": 230,
+                                        "end": 238,
+                                        "ctxt": 0
+                                      },
+                                      "value": "Hello :)"
+                                    }
+                                  ]
                                 },
                                 {
                                   "type": "Text",
@@ -330,10 +343,10 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 264,
-                                    "end": 265,
+                                    "end": 266,
                                     "ctxt": 0
                                   },
-                                  "value": "\n"
+                                  "value": "\n\n"
                                 },
                                 {
                                   "type": "Element",
@@ -510,10 +523,10 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 406,
-                                    "end": 407,
+                                    "end": 408,
                                     "ctxt": 0
                                   },
-                                  "value": "\n"
+                                  "value": "\n\n"
                                 },
                                 {
                                   "type": "Element",

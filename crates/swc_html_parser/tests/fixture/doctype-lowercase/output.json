@@ -30,6 +30,59 @@
       "attributes": [],
       "children": [
         {
+          "type": "Element",
+          "span": {
+            "start": 23,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 29,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 34,
+                "end": 41,
+                "ctxt": 0
+              },
+              "tagName": "title",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 41,
+                    "end": 62,
+                    "ctxt": 0
+                  },
+                  "value": "Title of the document"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 70,
+                "end": 71,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ]
+        },
+        {
           "type": "Text",
           "span": {
             "start": 78,
@@ -37,15 +90,6 @@
             "ctxt": 0
           },
           "value": "\n\n"
-        },
-        {
-          "type": "Text",
-          "span": {
-            "start": 78,
-            "end": 79,
-            "ctxt": 0
-          },
-          "value": "\n"
         },
         {
           "type": "Element",
