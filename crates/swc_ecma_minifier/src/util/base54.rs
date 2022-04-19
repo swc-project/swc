@@ -368,11 +368,4 @@ mod tests {
         t.incr(54 * 64 * 64 * 64 * 64 * 64 * 64 * 64);
         t.gen("_jjjjjjk")
     }
-
-    #[test]
-    fn max_len() {
-        let mut n = 54 * 64 * 64 * 64 * 64 * 64 * 64 * 64 * 64 * 64 - 1;
-
-        assert_eq!(MAX_LEN, encode(&mut n, false).len());
-    }
 }
