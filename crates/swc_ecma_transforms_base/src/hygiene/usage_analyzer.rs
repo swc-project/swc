@@ -405,7 +405,7 @@ impl Visit for UsageAnalyzer<'_> {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
             f.params.visit_with(v);
-            v.is_pat_decl = old;
+            v.is_pat_decl = false;
 
             match &f.body {
                 BlockStmtOrExpr::BlockStmt(body) => {
@@ -416,18 +416,18 @@ impl Visit for UsageAnalyzer<'_> {
                     body.visit_with(v);
                 }
             }
+
+            v.is_pat_decl = old;
         })
     }
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.visit_children_with(self);
 
-        {
-            if self.is_pat_decl {
-                self.add_decl(node.key.to_id());
-            } else {
-                self.add_usage(node.key.to_id());
-            }
+        if self.is_pat_decl {
+            self.add_decl(node.key.to_id());
+        } else {
+            self.add_usage(node.key.to_id());
         }
     }
 
