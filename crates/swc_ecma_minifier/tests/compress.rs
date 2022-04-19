@@ -76,12 +76,32 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
+#[derive(Debug, Default, Clone, Deserialize)]
+struct TopLevelOnly {
+    #[serde(default, alias = "toplevel")]
+    top_level: bool,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 enum TestMangleOptions {
     Bool(bool),
     Normal(MangleOptions),
+}
+
+impl TestMangleOptions {
+    fn parse(s: &str) -> Self {
+        let top_level = serde_json::from_str::<TopLevelOnly>(s).unwrap_or_default();
+
+        let mut data = serde_json::from_str::<Self>(s).expect("failed to deserialize mangle.json");
+
+        if let TestMangleOptions::Normal(v) = &mut data {
+            v.top_level = top_level.top_level;
+        }
+
+        data
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -184,7 +204,10 @@ fn run(
             mangle: mangle.and_then(|v| match v {
                 TestMangleOptions::Bool(v) => {
                     if v {
-                        Some(Default::default())
+                        Some(MangleOptions {
+                            top_level: false,
+                            ..Default::default()
+                        })
                     } else {
                         None
                     }
@@ -338,8 +361,7 @@ fn fixture(input: PathBuf) {
             );
         }
 
-        let mangle: Option<TestMangleOptions> =
-            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+        let mangle: Option<TestMangleOptions> = mangle.map(|s| TestMangleOptions::parse(&s));
 
         let output = run(cm.clone(), &handler, &input, &config, mangle, false);
         let output_module = match output {
