@@ -22,7 +22,9 @@ impl Analyzer {
 
         self.scope.prepare_renaming();
 
-        self.scope.rename(&mut map, &Default::default(), preserved);
+        let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
+        self.scope
+            .rename(&mut map, &Default::default(), preserved, &preserved_symbols);
 
         map
     }
