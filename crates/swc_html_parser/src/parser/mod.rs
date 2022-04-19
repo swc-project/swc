@@ -830,10 +830,7 @@ where
                         system_id,
                         ..
                     } => {
-                        let is_html = match name {
-                            Some(name) if name.as_ref().eq_ignore_ascii_case("html") => true,
-                            _ => false,
-                        };
+                        let is_html = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
                         let is_legacy_compat = match system_id {
                             Some(name)
                                 if name.as_ref().eq_ignore_ascii_case("about:legacy-compat") =>

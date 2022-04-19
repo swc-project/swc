@@ -259,11 +259,8 @@ where
 
         self.start_pos = end;
 
-        match token {
-            Token::StartTag { .. } => {
-                self.last_start_tag_token = Some(token.clone());
-            }
-            _ => {}
+        if let Token::StartTag { .. } = token {
+            self.last_start_tag_token = Some(token.clone());
         }
 
         let token_and_span = TokenAndSpan { span, token };
