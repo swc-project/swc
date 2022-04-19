@@ -166,6 +166,7 @@ use swc_error_reporters::{
     GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
 };
 pub use swc_node_comments::SwcComments;
+use swc_timer::timer;
 use tracing::instrument;
 
 pub use crate::builder::PassBuilder;
@@ -549,6 +550,8 @@ impl Compiler {
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
+            let _timer = timer!("Compiler.print");
+
             let mut src_map_buf = vec![];
 
             let src = {
@@ -921,6 +924,8 @@ impl Compiler {
         P: 'a + swc_ecma_visit::Fold,
     {
         self.run(move || {
+            let _timer = timer!("Compiler.parse");
+
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -1072,6 +1077,8 @@ impl Compiler {
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
+            let _timer = timer!("Compiler.minify");
+
             let target = opts.ecma.clone().into();
 
             let (source_map, orig) = match &opts.source_map {
