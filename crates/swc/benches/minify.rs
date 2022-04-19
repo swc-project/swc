@@ -17,6 +17,8 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
     let c = mk();
 
     b.iter(|| {
+        let _guard = testing::init();
+
         let fm = black_box(
             c.cm.load_file(
                 &PathBuf::from("..")
