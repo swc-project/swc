@@ -126,4 +126,34 @@ impl Serialized {
         let serialized = Serialized::new_for_plugin(raw_ptr_bytes, raw_allocated_ptr_len);
         Serialized::deserialize(&serialized)
     }
+
+    /// Deserialize `Fallible` struct from raw ptr. This is similar to
+    /// `deserialize_from_ptr` but for the struct requires bounds to the
+    /// SharedSerializeRegistry which cannot be Infallible. Internally this does
+    /// not call deserialize with Infallible deserializer, use
+    /// SharedDeserializeMap instead.
+    ///
+    /// # Safety
+    /// This is unsafe by construting bytes slice from raw ptr also deserialize
+    /// it without slice bound check.
+    pub unsafe fn deserialize_from_ptr_fallible<W>(
+        raw_allocated_ptr: *const u8,
+        raw_allocated_ptr_len: i32,
+    ) -> Result<W, Error>
+    where
+        W: rkyv::Archive,
+        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+    {
+        // Create serialized bytes slice from ptr
+        let raw_ptr_bytes = unsafe {
+            std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
+        };
+
+        let serialized = Serialized::new_for_plugin(raw_ptr_bytes, raw_allocated_ptr_len);
+
+        unsafe {
+            rkyv::from_bytes_unchecked(serialized.as_ref())
+                .map_err(|err| Error::msg("Failed to deserialize given ptr"))
+        }
+    }
 }

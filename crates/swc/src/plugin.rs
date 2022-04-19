@@ -45,6 +45,7 @@ pub struct PluginContext {
 pub fn plugins(
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
+    source_map: std::sync::Arc<swc_common::SourceMap>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
 ) -> impl Fold {
@@ -52,6 +53,7 @@ pub fn plugins(
         RustPlugins {
             resolver,
             comments,
+            source_map,
             plugins: config.plugins,
             plugin_context,
         }
@@ -67,6 +69,7 @@ struct RustPlugins {
     resolver: Option<CachingResolver<NodeModulesResolver>>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     plugins: Option<Vec<PluginConfig>>,
+    source_map: std::sync::Arc<swc_common::SourceMap>,
     plugin_context: PluginContext,
 }
 
@@ -141,6 +144,7 @@ impl RustPlugins {
                             config_json,
                             context_json,
                             should_enable_comments_proxy,
+                            &self.source_map,
                         )?;
                         drop(transform_span_guard);
                     }
@@ -188,6 +192,7 @@ impl RustPlugins {
                             config_json,
                             context_json,
                             should_enable_comments_proxy,
+                            &self.source_map,
                         )?;
                     }
                 }

@@ -18,7 +18,7 @@ plugin-mode = []
 
 [dependencies]
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
-rkyv = "0.7.36"
+rkyv = "0.7.37"
 swc_common = { version = "0.17.20", path = "../swc_common", features = [
   "plugin-base",
 ] }

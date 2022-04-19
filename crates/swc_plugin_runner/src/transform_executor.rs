@@ -2,7 +2,10 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
-use swc_common::plugin::{PluginError, Serialized};
+use swc_common::{
+    plugin::{PluginError, Serialized},
+    SourceMap,
+};
 use wasmer::Instance;
 
 use crate::memory_interop::write_into_memory_view;
@@ -24,12 +27,14 @@ pub struct TransformExecutor {
 }
 
 impl TransformExecutor {
-    #[tracing::instrument(level = "info", skip(cache))]
+    #[tracing::instrument(level = "info", skip(cache, source_map))]
     pub fn new(
         path: &std::path::Path,
         cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
+        source_map: &Arc<SourceMap>,
     ) -> Result<TransformExecutor, Error> {
-        let (instance, transform_result) = crate::load_plugin::load_plugin(path, cache)?;
+        let (instance, transform_result) =
+            crate::load_plugin::load_plugin(path, cache, source_map)?;
 
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
