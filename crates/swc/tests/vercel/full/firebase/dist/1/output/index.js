@@ -1,5 +1,5 @@
 "use strict";
-var a, b = require("@firebase/util"), j = require("tslib"), k = require("@firebase/component"), c = require("@firebase/app"), f = require("@firebase/logger"), l = function(a) {
+var j, a, b = require("@firebase/util"), k = require("tslib"), l = require("@firebase/component"), c = require("@firebase/app"), f = require("@firebase/logger"), m = function c(a) {
     if (a && a.__esModule) return a;
     var b = Object.create(null);
     return a && Object.keys(a).forEach(function(c) {
@@ -13,10 +13,10 @@ var a, b = require("@firebase/util"), j = require("tslib"), k = require("@fireba
             });
         }
     }), b.default = a, Object.freeze(b);
-}(c), m = function() {
+}(c), n = function() {
     var a = function(a, b) {
         var d = this;
-        this._delegate = a, this.firebase = b, c._addComponent(a, new k.Component("app-compat", function() {
+        this._delegate = a, this.firebase = b, c._addComponent(a, new l.Component("app-compat", function() {
             return d;
         }, "PUBLIC")), this.container = a.container;
     };
@@ -51,7 +51,7 @@ var a, b = require("@firebase/util"), j = require("tslib"), k = require("@fireba
     }, a.prototype._getService = function(e, b) {
         void 0 === b && (b = c._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
         var d, a = this._delegate.container.getProvider(e);
-        return a.isInitialized() || (null === (d = a.getComponent()) || void 0 === d ? void 0 : d.instantiationMode) !== "EXPLICIT" || a.initialize(), a.getImmediate({
+        return !a.isInitialized() && (null === (d = a.getComponent()) || void 0 === d ? void 0 : d.instantiationMode) === "EXPLICIT" && a.initialize(), a.getImmediate({
             identifier: b
         });
     }, a.prototype._removeServiceInstance = function(b, a) {
@@ -67,40 +67,40 @@ var a, b = require("@firebase/util"), j = require("tslib"), k = require("@fireba
             options: this.options
         };
     }, a;
-}(), g = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), n = new b.ErrorFactory("app-compat", "Firebase", g);
+}(), g = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), o = new b.ErrorFactory("app-compat", "Firebase", g);
 function h() {
-    var e, c, f, a, d = (e = m, c = function(a) {
-        if (a = a || l._DEFAULT_ENTRY_NAME, !b.contains(f, a)) throw n.create("no-app", {
+    var e, c, f, a, d = (e = n, c = function(a) {
+        if (a = a || m._DEFAULT_ENTRY_NAME, !b.contains(f, a)) throw o.create("no-app", {
             appName: a
         });
         return f[a];
-    }, f = {}, (a = {
+    }, f = {}, a = {
         __esModule: !0,
         initializeApp: function(h, d) {
             void 0 === d && (d = {});
-            var c = l.initializeApp(h, d);
+            var c = m.initializeApp(h, d);
             if (b.contains(f, c.name)) return f[c.name];
             var g = new e(c, a);
             return f[c.name] = g, g;
         },
         app: c,
-        registerVersion: l.registerVersion,
-        setLogLevel: l.setLogLevel,
-        onLog: l.onLog,
+        registerVersion: m.registerVersion,
+        setLogLevel: m.setLogLevel,
+        onLog: m.onLog,
         apps: null,
-        SDK_VERSION: l.SDK_VERSION,
+        SDK_VERSION: m.SDK_VERSION,
         INTERNAL: {
             registerComponent: function(d) {
                 var h = d.name, f = h.replace("-compat", "");
-                if (l._registerComponent(d) && "PUBLIC" === d.type) {
+                if (m._registerComponent(d) && "PUBLIC" === d.type) {
                     var g = function(a) {
-                        if (void 0 === a && (a = c()), "function" != typeof a[f]) throw n.create("invalid-app-argument", {
+                        if (void 0 === a && (a = c()), "function" != typeof a[f]) throw o.create("invalid-app-argument", {
                             appName: h
                         });
                         return a[f]();
                     };
                     void 0 !== d.serviceProps && b.deepExtend(g, d.serviceProps), a[f] = g, e.prototype[f] = function() {
-                        for(var b = [], a = 0; a < arguments.length; a++)b[a] = arguments[a];
+                        for(var c, b = [], a = 0; a < arguments.length; a++)b[a] = arguments[a];
                         return this._getService.bind(this, h).apply(this, d.multipleInstances ? b : []);
                     };
                 }
@@ -112,16 +112,16 @@ function h() {
             useAsService: function(b, a) {
                 return "serverAuth" === a ? null : a;
             },
-            modularAPIs: l
+            modularAPIs: m
         }
-    }).default = a, Object.defineProperty(a, "apps", {
+    }, a.default = a, Object.defineProperty(a, "apps", {
         get: function() {
             return Object.keys(f).map(function(a) {
                 return f[a];
             });
         }
     }), c.App = e, a);
-    return d.INTERNAL = j.__assign(j.__assign({}, d.INTERNAL), {
+    return d.INTERNAL = k.__assign(k.__assign({}, d.INTERNAL), {
         createFirebaseNamespace: h,
         extendNamespace: function(a) {
             b.deepExtend(d, a);
