@@ -85,7 +85,7 @@ pub struct CompileOptions {
     files: Vec<PathBuf>,
 
     /// Use a specific extension for the output files
-    #[clap(long, default_value_t= String::from(".js"))]
+    #[clap(long, default_value_t= String::from("js"))]
     out_file_extension: String,
 
     /// Enable experimental trace profiling
