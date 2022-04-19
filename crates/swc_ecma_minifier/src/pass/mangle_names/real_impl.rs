@@ -56,6 +56,17 @@ impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
     /// Only called if `eval` exists
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        if self.contains_eval(n) {
+            n.visit_mut_children_with(self);
+        } else {
+            let map = self.get_map(n);
+
+            n.visit_mut_with(&mut rename(&map));
+        }
+    }
+
+    /// Only called if `eval` exists
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if self.contains_eval(n) {
             n.visit_mut_children_with(self);
