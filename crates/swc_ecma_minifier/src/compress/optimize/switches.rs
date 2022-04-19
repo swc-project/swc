@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, ExprFactory, StmtExt};
+use swc_ecma_utils::{prepend, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -162,18 +162,20 @@ where
     /// This method will
     ///
     /// - drop the empty cases at the end.
+    /// - drop break at last case
+    /// - merge branch with default at the end
     pub(super) fn optimize_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
         if !self.options.switches || !self.options.dead_code {
             return;
         }
 
         // If default is not last, we can't remove empty cases.
-        let has_default = cases.iter().any(|case| case.test.is_none());
+        let default_idx = cases.iter().position(|case| case.test.is_none());
         let all_ends_with_break = cases
             .iter()
             .all(|case| case.cons.is_empty() || case.cons.last().unwrap().is_break_stmt());
         let mut preserve_cases = false;
-        if !all_ends_with_break && has_default {
+        if !all_ends_with_break && default_idx.is_some() {
             if let Some(last) = cases.last() {
                 if last.test.is_some() {
                     preserve_cases = true;
@@ -218,66 +220,63 @@ where
         }
     }
 
-    /// If a case ends with break but content is same with the consecutive case
-    /// except the break statement, we merge them.
+    /// If a case ends with break but content is same with the another case
+    /// without break evaluation order, except the break statement, we merge
+    /// them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
-        let mut stop_pos_opt = cases
+        let boundary: Vec<bool> = cases
             .iter()
-            .position(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))));
+            .enumerate()
+            .map(|(idx, case)| {
+                case.test
+                    .as_deref()
+                    .map(|test| test.may_have_side_effects())
+                    .unwrap_or(false)
+                    || !(case.cons.is_empty() || case.cons.terminates() || idx == cases.len() - 1)
+            })
+            .collect();
 
-        let mut found = None;
-        'l: for (li, l) in cases.iter().enumerate().rev() {
-            if l.cons.is_empty() {
+        let mut i = 0;
+        let len = cases.len();
+
+        while i < len {
+            if cases[i].cons.is_empty() {
+                i += 1;
                 continue;
             }
 
-            if let Some(stop_pos) = stop_pos_opt {
-                if li == stop_pos {
-                    // Look for next stop position
-                    stop_pos_opt = cases
-                        .iter()
-                        .skip(li)
-                        .position(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
-                        .map(|v| v + li);
-                    continue;
+            for j in (i + 1)..len {
+                if boundary[j] {
+                    // TODO: default
+                    break;
+                }
+
+                let found = if j != len - 1 {
+                    cases[i].cons.eq_ignore_span(&cases[j].cons)
+                } else {
+                    if let Some(Stmt::Break(BreakStmt { label: None, .. })) = cases[i].cons.last() {
+                        cases[i].cons[..(cases[i].cons.len() - 1)].eq_ignore_span(&cases[j].cons)
+                    } else {
+                        cases[i].cons.eq_ignore_span(&cases[j].cons)
+                    }
+                };
+
+                if found {
+                    self.changed = true;
+                    report_change!("switches: Merging cases with same cons");
+                    cases[j].cons = cases[i].cons.take();
+                    cases[(i + 1)..=j].rotate_right(1);
+                    i += 1;
                 }
             }
 
-            if let Some(l_last) = l.cons.last() {
-                match l_last {
-                    Stmt::Break(BreakStmt { label: None, .. }) => {}
-                    _ => continue,
-                }
-            }
-
-            for r in cases.iter().skip(li + 1) {
-                if r.cons.is_empty() {
-                    continue;
-                }
-
-                let mut r_cons_slice = r.cons.len();
-
-                if let Some(Stmt::Break(BreakStmt { label: None, .. })) = r.cons.last() {
-                    r_cons_slice -= 1;
-                }
-
-                if l.cons[..l.cons.len() - 1].eq_ignore_span(&r.cons[..r_cons_slice]) {
-                    found = Some(li);
-                    break 'l;
-                }
-            }
-        }
-
-        if let Some(idx) = found {
-            self.changed = true;
-            report_change!("switches: Merging cases with same cons");
-            cases[idx].cons.clear();
+            i += 1;
         }
     }
 
     /// Try turn switch into if and remove empty switch
     pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
-        if !self.options.switches {
+        if !self.options.switches || !self.options.dead_code {
             return;
         }
 
