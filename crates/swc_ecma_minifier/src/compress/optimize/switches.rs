@@ -127,6 +127,7 @@ where
             if cases.len() == 2 {
                 let last = cases.last_mut().unwrap();
                 remove_last_break(&mut last.cons);
+                // so that following pass could turn it into if else
                 if let Some(test) = last.test.take() {
                     prepend(&mut last.cons, test.into_stmt())
                 }
