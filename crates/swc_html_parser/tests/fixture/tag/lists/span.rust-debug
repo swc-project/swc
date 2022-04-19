@@ -26,6 +26,18 @@
     `----
 
   x Child
+   ,-[$DIR/tests/fixture/tag/lists/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/tag/lists/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/tag/lists/input.html:2:1]
  2 | <html>
    : ^^^^^^

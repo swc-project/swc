@@ -4593,7 +4593,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
                         Some('>') => {

@@ -9,6 +9,18 @@
   x Child
    ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
  1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/no-basic/input.html:1:1]
+ 1 | <!DOCTYPE html>
    : ^
    `----
 

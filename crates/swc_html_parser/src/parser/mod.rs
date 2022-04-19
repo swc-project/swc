@@ -637,6 +637,21 @@ where
         // TODO optimize me
         fn extract(node: &mut RcNode) -> Child {
             match &node.data {
+                Child::DocumentType(document_type) => {
+                    let DocumentType {
+                        span,
+                        name,
+                        public_id,
+                        system_id,
+                    } = document_type;
+
+                    Child::DocumentType(DocumentType {
+                        span: *span,
+                        name: name.clone(),
+                        public_id: public_id.clone(),
+                        system_id: system_id.clone(),
+                    })
+                }
                 Child::Element(element) => {
                     let Element {
                         span,
@@ -675,9 +690,6 @@ where
                         span: *span,
                         data: data.clone(),
                     })
-                }
-                _ => {
-                    unreachable!();
                 }
             }
         }
@@ -815,21 +827,42 @@ where
                         system_id,
                         ..
                     } => {
-                        // if &*name.as_ref() != Some("html") || public_id.is_some() ||
-                        // (system_id.is_some() && false) { }
+                        let is_html = match name {
+                            Some(name) if name.as_ref().eq_ignore_ascii_case("html") => true,
+                            _ => false,
+                        };
+                        let is_legacy_compat = match system_id {
+                            Some(name)
+                                if name.as_ref().eq_ignore_ascii_case("about:legacy-compat") =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        };
 
-                        // TODO fix me and handle
+                        if !is_html
+                            || public_id.is_some()
+                            || (system_id.is_some() || !is_legacy_compat)
+                        {
+                            self.errors.push(Error::new(
+                                token_and_span.span,
+                                ErrorKind::NonConformingDoctype,
+                            ));
+                        }
 
-                        let _document_type = Child::DocumentType(DocumentType {
+                        let document_type = Node::new(Child::DocumentType(DocumentType {
                             span: span!(self, token_and_span.span.lo),
                             name: name.clone(),
                             public_id: public_id.clone(),
                             system_id: system_id.clone(),
-                        });
+                        }));
 
-                        // if let Some(document) = &mut self.document {
-                        //     document.children.push(document_type);
-                        // }
+                        // Never be `None`
+                        if let Some(document) = &self.document {
+                            self.append_node(document, document_type);
+                        }
+
+                        // TODO handle - an iframe srcdoc document
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
                     }

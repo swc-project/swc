@@ -13,6 +13,18 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/paragraphs/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/paragraphs/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/paragraphs/input.html:2:1]
  2 | <html>
    : ^^^^^^

@@ -8,6 +8,17 @@
   "mode": "quirks",
   "children": [
     {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 10,
+        "ctxt": 0
+      },
+      "name": "�",
+      "publicId": null,
+      "systemId": null
+    },
+    {
       "type": "Element",
       "span": {
         "start": 11,
