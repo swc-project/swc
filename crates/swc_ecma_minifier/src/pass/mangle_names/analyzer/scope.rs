@@ -88,7 +88,7 @@ impl Scope {
         cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<(Id, u32)>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
+        _preserved_symbols: &FxHashSet<JsWord>,
     ) {
         let mut n = 0;
 
@@ -99,11 +99,6 @@ impl Scope {
 
             loop {
                 let sym = base54::encode(&mut n, true);
-
-                // TODO: Use base54::decode
-                if preserved_symbols.contains(&sym) {
-                    continue;
-                }
 
                 if self.can_rename(&id, &sym, cloned_reverse) {
                     to.insert(id.clone(), sym.clone());
