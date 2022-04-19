@@ -18,12 +18,19 @@ set -eu
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 dir="$1"
+nextJsDir="$(pwd)"
 
 # Ensure that next-swc is up to date
 (cd ./packages/next-swc && yarn build-native)
 
 # Install dependencies
-(cd $dir && yarn)
+if test -f "$dir/yarn.lock"; then
+    echo "Using yarn"
+    (cd $dir && yarn)
+else
+    echo "Using yarn"
+    (cd $dir && npm ci)
+fi
 
 # Remove some packages
 (cd $dir && rm -rf node_modules/react)
