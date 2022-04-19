@@ -12,7 +12,7 @@ use swc_common::{
     FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Module};
-use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
@@ -342,11 +342,16 @@ impl VisitMut for MinifierPass {
     fn visit_mut_module(&mut self, m: &mut Module) {
         if let Some(options) = &self.options {
             let opts = MinifyOptions {
-                compress: options
-                    .compress
-                    .clone()
-                    .into_obj()
-                    .map(|v| v.into_config(self.cm.clone())),
+                compress: options.compress.clone().into_obj().map(|mut v| {
+                    if v.const_to_let.is_none() {
+                        v.const_to_let = Some(true);
+                    }
+                    if v.toplevel.is_none() {
+                        v.toplevel = Some(TerserTopLevelOptions::Bool(true));
+                    }
+
+                    v.into_config(self.cm.clone())
+                }),
                 mangle: options.mangle.clone().into_obj(),
                 ..Default::default()
             };

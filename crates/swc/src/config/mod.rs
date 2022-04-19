@@ -800,7 +800,7 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub safari10: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub toplevel: bool,
 
     #[serde(default)]
