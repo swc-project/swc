@@ -23,7 +23,11 @@ dir="$1"
 (cd ./packages/next-swc && yarn build-native)
 
 # Install dependencies
-(cd $dir && yarn)
+if test -f "$dir/yarn.lock"; then
+    (cd $dir && yarn)
+else
+    (cd $dir && npm ci)
+fi
 
 # Remove some packages
 (cd $dir && rm -rf node_modules/react)
