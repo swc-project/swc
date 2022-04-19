@@ -21,6 +21,7 @@ debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
 
 [dependencies]
 ahash = "0.7.6"
+arrayvec = "0.7.2"
 backtrace = { version = "0.3.61", optional = true }
 indexmap = "1.7.0"
 once_cell = "1.10.0"
