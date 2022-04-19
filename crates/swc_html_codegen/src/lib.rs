@@ -118,7 +118,7 @@ where
 
         start_tag.push('>');
 
-        write_raw!(self, n.span, &start_tag);
+        write_str!(self, n.span, &start_tag);
 
         let no_children = n.namespace == Namespace::HTML
             && matches!(
@@ -147,7 +147,7 @@ where
             return Ok(());
         }
 
-        if n.children.len() > 0 {
+        if !n.children.is_empty() {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
         }
 
@@ -158,7 +158,7 @@ where
         end_tag.push_str(&n.tag_name);
         end_tag.push('>');
 
-        write_raw!(self, n.span, &end_tag);
+        write_str!(self, n.span, &end_tag);
     }
 
     #[emitter]
