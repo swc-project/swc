@@ -52,6 +52,9 @@
 
 - **(es/minifier)** Make `base54` use stack-allocated vector (#4371) ([6300b9c](https://github.com/swc-project/swc/commit/6300b9cdb19150686bc71c08386e11d7899a0764))
 
+
+- **(es/minifier)** Change default value of `passes` to `3` (#4373) ([a8eb00c](https://github.com/swc-project/swc/commit/a8eb00cc540c0bfdfc7d0b922fe34bea2cf8ef45))
+
 ### Testing
 
 
