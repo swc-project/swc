@@ -106,26 +106,107 @@
                   "type": "Text",
                   "span": {
                     "start": 196,
-                    "end": 667,
+                    "end": 212,
                     "ctxt": 0
                   },
-                  "value": "Тег PLAINTEXT</title>\n</head>\n<body>\n<p>Пример программы</p>\n<plaintext>\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
+                  "value": "Тег PLAINTEXT"
                 }
               ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 220,
+                "end": 221,
+                "ctxt": 0
+              },
+              "value": "\n"
             }
           ]
         },
         {
+          "type": "Text",
+          "span": {
+            "start": 228,
+            "end": 229,
+            "ctxt": 0
+          },
+          "value": "\n"
+        },
+        {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 667,
+            "start": 229,
+            "end": 235,
             "ctxt": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 235,
+                "end": 236,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 236,
+                "end": 239,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 239,
+                    "end": 270,
+                    "ctxt": 0
+                  },
+                  "value": "Пример программы"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 274,
+                "end": 275,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 275,
+                "end": 286,
+                "ctxt": 0
+              },
+              "tagName": "plaintext",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 286,
+                    "end": 667,
+                    "ctxt": 0
+                  },
+                  "value": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

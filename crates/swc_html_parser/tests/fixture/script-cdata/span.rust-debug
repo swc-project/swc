@@ -4,8 +4,8 @@
  1 | ,-> <script type="text/javascript">
  2 | |   //<![CDATA[
  3 | |   document.write("<");
- 4 | `-> //]]>
- 5 |     </script>
+ 4 | |   //]]>
+ 5 | `-> </script>
    `----
 
   x Child
@@ -57,12 +57,24 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
+ 5 | </script>
+   :          ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
+ 5 | </script>
+   :          ^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
  1 | ,-> <script type="text/javascript">
  2 | |   //<![CDATA[
  3 | |   document.write("<");
- 4 | `-> //]]>
- 5 |     </script>
+ 4 | |   //]]>
+ 5 | `-> </script>
    `----
 
   x Element
@@ -70,6 +82,6 @@
  1 | ,-> <script type="text/javascript">
  2 | |   //<![CDATA[
  3 | |   document.write("<");
- 4 | `-> //]]>
- 5 |     </script>
+ 4 | |   //]]>
+ 5 | `-> </script>
    `----

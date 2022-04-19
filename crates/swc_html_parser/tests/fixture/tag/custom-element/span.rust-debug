@@ -326,15 +326,15 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:19:1]
- 19 | ,-> <template id="x-foo-from-template">
- 20 | `->     <style>
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:22:5]
+ 22 | ,-> </style>
+ 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:19:1]
- 19 | ,-> <template id="x-foo-from-template">
- 20 | `->     <style>
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:22:5]
+ 22 | ,-> </style>
+ 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     `----
 
   x Child
@@ -353,16 +353,64 @@
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:20:5]
  20 | ,-> <style>
  21 | |           p { color: green; }
- 22 | |       </style>
- 23 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 | `-> </template>
+ 22 | `->     </style>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:20:5]
  20 | ,-> <style>
  21 | |           p { color: green; }
- 22 | |       </style>
- 23 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 | `-> </template>
+ 22 | `->     </style>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:22:5]
+ 22 | </style>
+    :         ^
+ 23 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:22:5]
+ 22 | </style>
+    :         ^
+ 23 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    : ^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    : ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    :                                                                         ^
+ 24 | </template>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:23:5]
+ 23 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+    :                                                                         ^
+ 24 | </template>
     `----

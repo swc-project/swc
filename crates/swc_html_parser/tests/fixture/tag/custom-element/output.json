@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 768,
+    "end": 778,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -408,11 +408,11 @@
                                                                 {
                                                                   "type": "Text",
                                                                   "span": {
-                                                                    "start": 636,
-                                                                    "end": 641,
+                                                                    "start": 689,
+                                                                    "end": 694,
                                                                     "ctxt": 0
                                                                   },
-                                                                  "value": "\n    "
+                                                                  "value": "\n "
                                                                 },
                                                                 {
                                                                   "type": "Element",
@@ -429,12 +429,52 @@
                                                                       "type": "Text",
                                                                       "span": {
                                                                         "start": 648,
-                                                                        "end": 768,
+                                                                        "end": 681,
                                                                         "ctxt": 0
                                                                       },
-                                                                      "value": "\n        p { color: green; }\n    </<p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</"
+                                                                      "value": "\n        p { color: green; }\n    "
                                                                     }
                                                                   ]
+                                                                },
+                                                                {
+                                                                  "type": "Text",
+                                                                  "span": {
+                                                                    "start": 689,
+                                                                    "end": 690,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "\n"
+                                                                },
+                                                                {
+                                                                  "type": "Element",
+                                                                  "span": {
+                                                                    "start": 694,
+                                                                    "end": 697,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "tagName": "p",
+                                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                                  "attributes": [],
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "Text",
+                                                                      "span": {
+                                                                        "start": 697,
+                                                                        "end": 762,
+                                                                        "ctxt": 0
+                                                                      },
+                                                                      "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "Text",
+                                                                  "span": {
+                                                                    "start": 766,
+                                                                    "end": 767,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "\n"
                                                                 }
                                                               ]
                                                             }
