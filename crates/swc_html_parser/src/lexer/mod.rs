@@ -5277,6 +5277,13 @@ where
     }
 }
 
+// By spec '\r` removed before tokenizer, but we keep them to have better AST
+// and don't break logic to ignore characters
+#[inline(always)]
+fn is_spacy(c: char) -> bool {
+    matches!(c, '\x09' | '\x0a' | '\x0d' | '\x0c' | '\x20')
+}
+
 #[inline(always)]
 fn is_control(c: u32) -> bool {
     matches!(c, c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f))

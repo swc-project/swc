@@ -15,7 +15,13 @@
  12 | |   <div>Text
  13 | |   
  14 | |   
- 15 | `->     Text</div>
+ 15 | |       Text</div>
+ 16 | |   <div
+ 17 | |           test="test"
+ 18 | |   >
+ 19 | |   
+ 20 | |   </div
+ 21 | `-> >
     `----
 
   x Child
@@ -46,12 +52,14 @@
     ,-[$DIR/tests/fixture/text/crlf/input.html:15:5]
  15 | Text</div>
     :           ^^
+ 16 | <div
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/crlf/input.html:15:5]
  15 | Text</div>
     :           ^^
+ 16 | <div
     `----
 
   x Child
@@ -210,4 +218,38 @@
     ,-[$DIR/tests/fixture/text/crlf/input.html:15:5]
  14 | Text</div>
     :           ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/crlf/input.html:16:1]
+ 16 | ,-> <div
+ 17 | |           test="test"
+ 18 | `-> >
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/crlf/input.html:16:1]
+ 16 | ,-> <div
+ 17 | |           test="test"
+ 18 | `-> >
+    `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/crlf/input.html:1:1]
+ 1 | Text
+   : ^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/crlf/input.html:18:1]
+ 18 | ,-> >
+ 19 | `-> 
+ 20 |     </div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/crlf/input.html:18:1]
+ 18 | ,-> >
+ 19 | `-> 
+ 20 |     </div
     `----

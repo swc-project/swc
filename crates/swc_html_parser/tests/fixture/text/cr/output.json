@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 103,
+    "end": 130,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -173,6 +173,28 @@
                 "ctxt": 0
               },
               "value": "\r"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 103,
+                "end": 121,
+                "ctxt": 0
+              },
+              "tagName": "div\rtest=\"test\"\r",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 121,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "value": "\r\r"
+                }
+              ]
             }
           ]
         }
