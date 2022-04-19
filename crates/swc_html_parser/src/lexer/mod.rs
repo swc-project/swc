@@ -1902,7 +1902,23 @@ where
                     // If the temporary buffer is the string "script", then switch to the script
                     // data double escaped state. Otherwise, switch to the script data escaped
                     // state. Emit the current input character as a character token.
-                    Some(c @ '\x09' | c @ '\x0a' | c @ '\x0c' | c @ '\x20' | c @ '/' | c @ '>') => {
+                    Some(c) if is_spacy(c) => {
+                        self.skip_next_lf(c);
+
+                        let is_script =
+                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+
+                        if is_script {
+                            self.state = State::ScriptDataDoubleEscaped;
+                        } else {
+                            self.state = State::ScriptDataEscaped;
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                            });
+                        }
+                    }
+                    Some(c @ '/' | c @ '>') => {
                         let is_script =
                             matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
 
@@ -2161,7 +2177,23 @@ where
                     // If the temporary buffer is the string "script", then switch to the script
                     // data escaped state. Otherwise, switch to the script data double escaped
                     // state. Emit the current input character as a character token.
-                    Some(c @ '\x09' | c @ '\x0a' | c @ '\x0c' | c @ '\x20' | c @ '/' | c @ '>') => {
+                    Some(c) if is_spacy(c) => {
+                        self.skip_next_lf(c);
+
+                        let is_script =
+                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+
+                        if is_script {
+                            self.state = State::ScriptDataEscaped;
+                        } else {
+                            self.state = State::ScriptDataDoubleEscaped;
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                            });
+                        }
+                    }
+                    Some(c @ '/' | c @ '>') => {
                         let is_script =
                             matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
 
@@ -5524,7 +5556,6 @@ where
 
 // By spec '\r` removed before tokenizer, but we keep them to have better AST
 // and don't break logic to ignore characters
-// TODO add more tests
 #[inline(always)]
 fn is_spacy(c: char) -> bool {
     matches!(c, '\x09' | '\x0a' | '\x0d' | '\x0c' | '\x20')
