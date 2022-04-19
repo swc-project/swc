@@ -668,8 +668,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
-
+                            self.skip_next_lf(c);
                             self.state = State::BeforeAttributeName;
                         }
                         // U+002F SOLIDUS (/)
@@ -2061,7 +2060,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+002F SOLIDUS (/)
                         // U+003E GREATER-THAN SIGN (>)
@@ -2134,7 +2133,12 @@ where
                         // U+003E GREATER-THAN SIGN (>)
                         // EOF
                         // Reconsume in the after attribute name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20' | '/' | '>') | None => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf(c);
+                            self.state = State::AfterAttributeName;
+                            self.reconsume();
+                        }
+                        Some('/' | '>') | None => {
                             self.state = State::AfterAttributeName;
                             self.reconsume();
                         }
@@ -2250,7 +2254,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+002F SOLIDUS (/)
                         // Switch to the self-closing start tag state.
@@ -2310,7 +2314,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+0022 QUOTATION MARK (")
                         // Switch to the attribute value (double-quoted) state.
@@ -2610,7 +2614,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BeforeAttributeName;
                         }
@@ -2724,7 +2728,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BeforeAttributeName;
                         }
@@ -3373,7 +3377,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE name state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BeforeDoctypeName;
                         }
@@ -3426,7 +3430,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // ASCII upper alpha
                         // Create a new DOCTYPE token. Set the token's name to the lowercase version
@@ -3541,7 +3545,7 @@ where
                         // U+0020 SPACE
                         // Switch to the after DOCTYPE name state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::AfterDoctypeName;
                         }
@@ -3646,7 +3650,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
@@ -3751,7 +3755,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE public identifier state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BeforeDoctypePublicIdentifier;
                         }
@@ -3851,7 +3855,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+0022 QUOTATION MARK (")
                         // Set the current DOCTYPE token's public identifier to the empty string
@@ -4100,7 +4104,7 @@ where
                         // U+0020 SPACE
                         // Switch to the between DOCTYPE public and system identifiers state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                         }
@@ -4192,7 +4196,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
@@ -4276,7 +4280,7 @@ where
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE system identifier state.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
 
                             self.state = State::BeforeDoctypeSystemIdentifier;
                         }
@@ -4376,7 +4380,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+0022 QUOTATION MARK (")
                         // Set the current DOCTYPE token's system identifier to the empty string
@@ -4624,7 +4628,7 @@ where
                         // U+0020 SPACE
                         // Ignore the character.
                         Some(c) if is_spacy(c) => {
-                            self.skip_next_lf();
+                            self.skip_next_lf(c);
                         }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
@@ -5310,9 +5314,8 @@ where
         }
     }
 
-    // TODO improve me and skip only for '\r'
-    fn skip_next_lf(&mut self) {
-        if let Some('\n') = self.input.cur() {
+    fn skip_next_lf(&mut self, c: char) {
+        if c == '\r' && self.input.cur() == Some('\n') {
             self.input.bump();
         }
     }
