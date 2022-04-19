@@ -5383,10 +5383,7 @@ where
                     // Insert a comment as the last child of the first element in the stack of open
                     // elements (the html element).
                     Token::Comment { .. } => {
-                        // TODO fix me
-                        // let first = self.open_elements_stack.items.first();
-
-                        // self.insert_comment(token_and_span, first)?;
+                        self.insert_comment_as_last_child_of_first_element(token_and_span)?;
                     }
                     // A DOCTYPE token
                     //
@@ -6302,6 +6299,28 @@ where
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
+        }
+
+        Ok(())
+    }
+
+    fn insert_comment_as_last_child_of_first_element(
+        &mut self,
+        token_and_span: &mut TokenAndSpan,
+    ) -> PResult<()> {
+        let last_pos = self.input.last_pos()?;
+        let comment = Node::new(Child::Comment(Comment {
+            span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+            data: match &token_and_span.token {
+                Token::Comment { data } => data.into(),
+                _ => {
+                    unreachable!()
+                }
+            },
+        }));
+
+        if let Some(html) = &self.open_elements_stack.items.get(0) {
+            self.append_node(html, comment);
         }
 
         Ok(())

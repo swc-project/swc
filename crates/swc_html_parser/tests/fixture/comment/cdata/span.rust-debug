@@ -1,6 +1,6 @@
 
   x Document
-    ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+    ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
   1 | ,-> <![CDATA[
   2 | |   Within this Character Data block I can
   3 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -21,7 +21,7 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | ,-> <![CDATA[
  2 | |   Within this Character Data block I can
  3 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -33,7 +33,7 @@
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | ,-> <![CDATA[
  2 | |   Within this Character Data block I can
  3 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -45,19 +45,19 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | <![CDATA[
    : ^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | <![CDATA[
    : ^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | ,-> <![CDATA[
  2 | |   Within this Character Data block I can
  3 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -70,7 +70,7 @@
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:1:1]
  1 | ,-> <![CDATA[
  2 | |   Within this Character Data block I can
  3 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -83,45 +83,45 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
  9 | <div>test</div>
    :      ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
  9 | <div>test</div>
    :      ^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
   9 | <div>test</div>
     :                ^
  10 | <![cdata[
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/cdata/input.html:9:1]
   9 | <div>test</div>
     :                ^
  10 | <![cdata[
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/comment-cdata/input.html:10:1]
+    ,-[$DIR/tests/fixture/comment/cdata/input.html:10:1]
  10 | ,-> <![cdata[
  11 | |   Within this Character Data block I can
  12 | |   use double dashes as much as I want (along with <, &, ', and ")
@@ -133,7 +133,7 @@
     `----
 
   x Comment
-    ,-[$DIR/tests/fixture/comment-cdata/input.html:10:1]
+    ,-[$DIR/tests/fixture/comment/cdata/input.html:10:1]
  10 | ,-> <![cdata[
  11 | |   Within this Character Data block I can
  12 | |   use double dashes as much as I want (along with <, &, ', and ")

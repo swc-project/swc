@@ -1,36 +1,36 @@
 
   x Document
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/bogus-comment-1/input.html:1:1]
+   ,-[$DIR/tests/fixture/comment/bogus-1/input.html:1:1]
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
