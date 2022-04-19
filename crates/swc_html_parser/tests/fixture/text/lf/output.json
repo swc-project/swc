@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 276,
+    "end": 322,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -341,6 +341,37 @@
                     "ctxt": 0
                   },
                   "value": "\n\n"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 276,
+                "end": 277,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 277,
+                "end": 284,
+                "ctxt": 0
+              },
+              "tagName": "style",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 284,
+                    "end": 314,
+                    "ctxt": 0
+                  },
+                  "value": "\n\n.color {\n    color: red;\n}\n\n"
                 }
               ]
             }
