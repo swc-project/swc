@@ -116,13 +116,36 @@ where
             }
         }
 
-        // if *n.self_closing {
-        //     start_tag.push('/');
-        // }
-
         start_tag.push('>');
 
         write_str!(self, n.span, &start_tag);
+
+        let no_children = n.namespace == Namespace::HTML
+            && matches!(
+                &*n.tag_name,
+                "area"
+                    | "base"
+                    | "basefont"
+                    | "bgsound"
+                    | "br"
+                    | "col"
+                    | "embed"
+                    | "frame"
+                    | "hr"
+                    | "img"
+                    | "input"
+                    | "keygen"
+                    | "link"
+                    | "meta"
+                    | "param"
+                    | "source"
+                    | "track"
+                    | "wbr"
+            );
+
+        if no_children {
+            return Ok(());
+        }
 
         self.emit_list(&n.children, ListFormat::NotDelimited)?;
 
