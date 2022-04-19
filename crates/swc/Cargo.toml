@@ -123,8 +123,4 @@ name = "minify"
 
 [[bench]]
 harness = false
-name = "minify_full"
-
-[[bench]]
-harness = false
 name = "typescript"
