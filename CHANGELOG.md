@@ -40,6 +40,12 @@
 
 - **(node/types)** Add `unsafe` to compress options (#4362) ([b63cd53](https://github.com/swc-project/swc/commit/b63cd53ca6cb230f7724a03ffaebe2362c80d35b))- **general**: Remove an incorrect link in `CONTRIBUTING.md` (#4363) ([c661d5f](https://github.com/swc-project/swc/commit/c661d5f6f6b613cfed22545cc7cde7411dbd5747))
 
+### Performance
+
+
+
+- **(es/minifier)** Make `base54` use stack-allocated vector (#4371) ([6300b9c](https://github.com/swc-project/swc/commit/6300b9cdb19150686bc71c08386e11d7899a0764))
+
 ### Testing
 
 
