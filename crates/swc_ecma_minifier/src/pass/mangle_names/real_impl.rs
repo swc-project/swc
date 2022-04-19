@@ -73,9 +73,17 @@ macro_rules! unit {
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
+    unit!(visit_mut_arrow_expr, ArrowExpr);
+
+    unit!(visit_mut_setter_prop, SetterProp);
+
+    unit!(visit_mut_getter_prop, GetterProp);
+
     unit!(visit_mut_constructor, Constructor);
 
     unit!(visit_mut_fn_expr, FnExpr);
+
+    unit!(visit_mut_fn_decl, FnDecl);
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = idents_to_preserve(self.options.clone(), &*m);
