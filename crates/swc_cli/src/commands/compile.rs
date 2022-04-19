@@ -85,8 +85,8 @@ pub struct CompileOptions {
     files: Vec<PathBuf>,
 
     /// Use a specific extension for the output files
-    #[clap(long, group = "file_extension")]
-    out_file_extension: Option<String>,
+    #[clap(long, default_value_t= String::from(".js"))]
+    out_file_extension: String,
 
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
@@ -291,14 +291,6 @@ impl CompileOptions {
         Ok(ret)
     }
 
-    fn build_extension(&self, options: &Options) -> anyhow::Result<PathBuf> {
-        let file_extension = match &self.out_file_extension {
-            Some(extension) => PathBuf::from(extension),
-            None => PathBuf::from("js"),
-        };
-        Ok(file_extension)
-    }
-
     /// Create canonical list of inputs to be processed across stdin / single
     /// file / multiple files.
     fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
@@ -320,7 +312,7 @@ impl CompileOptions {
                 },
                 stdin_input,
             );
-            let file_extension = self.build_extension(&options)?;
+
             return Ok(vec![InputContext {
                 options,
                 fm,
@@ -329,7 +321,7 @@ impl CompileOptions {
                     .filename
                     .clone()
                     .unwrap_or_else(|| PathBuf::from("unknown")),
-                file_extension,
+                file_extension: self.out_file_extension.clone().into(),
             }]);
         } else if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
@@ -352,13 +344,12 @@ impl CompileOptions {
                             .cm
                             .load_file(file_path)
                             .context("failed to load file");
-                        let file_extension = self.build_extension(&options)?;
                         fm.map(|fm| InputContext {
                             options,
                             fm,
                             compiler: compiler.clone(),
                             file_path: file_path.to_path_buf(),
-                            file_extension,
+                            file_extension: self.out_file_extension.clone().into(),
                         })
                     })
             })
