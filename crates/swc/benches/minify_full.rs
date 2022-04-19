@@ -48,7 +48,7 @@ criterion_main!(files);
 
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = black_box(cm.new_source_file(FileName::Anon, src.into()));
 
         let top_level_mark = Mark::fresh(Mark::root());
 
@@ -81,7 +81,7 @@ fn run(src: &str) {
             &ExtraOptions { top_level_mark },
         );
 
-        let output = output.fold_with(&mut fixer(None));
+        let output = black_box(output.fold_with(&mut fixer(None)));
 
         let code = print(cm, &[output], true);
 
