@@ -9707,3 +9707,33 @@ fn try_catch_1() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn try_catch_2() {
+    let src = r###"
+    var a = "PASS";
+    try {
+        throw "FAIL1";
+    } catch (a) {
+        var a = "FAIL2";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_3() {
+    let src = r###"
+    var a = "FAIL";
+    try {
+        throw 1;
+    } catch (args) {
+        var a = "PASS";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
+}
