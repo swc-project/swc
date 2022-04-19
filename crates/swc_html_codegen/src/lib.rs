@@ -147,7 +147,9 @@ where
             return Ok(());
         }
 
-        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        if n.children.len() > 0 {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
 
         let mut end_tag = String::new();
 
@@ -471,18 +473,8 @@ where
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => {
-                write_raw!(self, ",");
-                formatting_space!(self);
-            }
             ListFormat::SpaceDelimited => {
                 space!(self)
-            }
-            ListFormat::SemiDelimited => {
-                write_raw!(self, ";")
-            }
-            ListFormat::DotDelimited => {
-                write_raw!(self, ".");
             }
             _ => unreachable!(),
         }
