@@ -37,11 +37,10 @@ fi
 echo "----- ⚠️  Removing cache"
 (cd $dir && rm -rf .next)
 
-# Remove some packages
-(cd $dir && rm -rf node_modules/next)
-(cd $dir && rm -rf node_modules/next)
-(cd $dir && rm -rf node_modules/react-dom)
+echo "----- ⚠️  Replacing swc binary"
+cp packages/next-swc/native/*.node $dir/node_modules/@next/swc-*/
 
 # Build and start
-yarn next build $dir
-yarn next start $dir
+echo "----- ⚠️  Building the app using next"
+(cd $dir && npx next build)
+(cd $dir && npx next start)
