@@ -83,8 +83,6 @@ impl VisitMut for Mangler {
 
     unit!(visit_mut_fn_expr, FnExpr);
 
-    unit!(visit_mut_fn_decl, FnDecl);
-
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = idents_to_preserve(self.options.clone(), &*m);
 
