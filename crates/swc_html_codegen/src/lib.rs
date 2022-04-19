@@ -118,7 +118,7 @@ where
 
         start_tag.push('>');
 
-        write_str!(self, n.span, &start_tag);
+        write_raw!(self, n.span, &start_tag);
 
         let no_children = n.namespace == Namespace::HTML
             && matches!(
@@ -158,7 +158,7 @@ where
         end_tag.push_str(&n.tag_name);
         end_tag.push('>');
 
-        write_str!(self, n.span, &end_tag);
+        write_raw!(self, n.span, &end_tag);
     }
 
     #[emitter]
@@ -374,7 +374,7 @@ where
 
                 start_tag.push('>');
 
-                write_str!(self, span, &start_tag);
+                write_raw!(self, span, &start_tag);
             }
             Token::EndTag {
                 tag_name,
