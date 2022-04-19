@@ -67,17 +67,16 @@ impl Scope {
         to: &mut AHashMap<Id, JsWord>,
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<JsWord>,
     ) {
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
         let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(to, &mut cloned_reverse, queue, preserved, preserved_symbols);
+        self.rename_one_scope(to, &mut cloned_reverse, queue, preserved);
 
         for child in self.children.iter_mut() {
-            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
+            child.rename(to, &cloned_reverse, preserved);
         }
     }
 
@@ -88,7 +87,6 @@ impl Scope {
         cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<(Id, u32)>,
         preserved: &FxHashSet<Id>,
-        _preserved_symbols: &FxHashSet<JsWord>,
     ) {
         let mut n = 0;
 
