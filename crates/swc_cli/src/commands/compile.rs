@@ -84,10 +84,6 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
-    /// Preserve the file extensions of the input files.
-    #[clap(long, group = "file_extension")]
-    keep_file_extension: bool,
-
     /// Use a specific extension for the output files
     #[clap(long, group = "file_extension")]
     out_file_extension: Option<String>,
@@ -296,20 +292,9 @@ impl CompileOptions {
     }
 
     fn build_extension(&self, options: &Options) -> anyhow::Result<PathBuf> {
-        if self.out_file_extension.is_some() && self.keep_file_extension {
-            anyhow::bail!("--out-file-extension cannot be used with --keep-file-extension");
-        };
-
-        let file_extension = if self.keep_file_extension {
-            Path::new(&options.filename)
-                .extension()
-                .ok_or_else(|| anyhow::anyhow!("input file doesn't have an extension"))?
-                .into()
-        } else {
-            match &self.out_file_extension {
-                Some(extension) => PathBuf::from(extension),
-                None => PathBuf::from("js"),
-            }
+        let file_extension = match &self.out_file_extension {
+            Some(extension) => PathBuf::from(extension),
+            None => PathBuf::from("js"),
         };
         Ok(file_extension)
     }
