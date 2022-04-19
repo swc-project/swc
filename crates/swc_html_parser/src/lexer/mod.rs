@@ -667,7 +667,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeAttributeName;
                         }
                         // U+002F SOLIDUS (/)
@@ -5273,6 +5275,12 @@ where
                     }
                 }
             }
+        }
+    }
+
+    fn skip_next_lf(&mut self) {
+        if let Some('\n') = self.input.cur() {
+            self.input.bump();
         }
     }
 }

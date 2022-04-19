@@ -197,6 +197,12 @@
    :                                                                                                        ^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 1 | Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div>
+   : ^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  1 | Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div>
