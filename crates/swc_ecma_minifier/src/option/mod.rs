@@ -43,7 +43,7 @@ pub struct MangleOptions {
     #[serde(default, alias = "properties")]
     pub props: Option<ManglePropertiesOptions>,
 
-    #[serde(default, alias = "toplevel")]
+    #[serde(default = "true_by_default", alias = "toplevel")]
     pub top_level: bool,
 
     #[serde(default, alias = "keep_classnames")]
