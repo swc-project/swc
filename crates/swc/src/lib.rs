@@ -1137,7 +1137,7 @@ impl Compiler {
                 .context("failed to parse input file")?
                 .expect_module();
 
-            let source_map_names = {
+            let source_map_names = if source_map.enabled() {
                 let mut v = IdentCollector {
                     names: Default::default(),
                 };
@@ -1145,6 +1145,8 @@ impl Compiler {
                 module.visit_with(&mut v);
 
                 v.names
+            } else {
+                Default::default()
             };
 
             let top_level_mark = Mark::fresh(Mark::root());
@@ -1218,7 +1220,7 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
-            let source_map_names = {
+            let source_map_names = if config.source_maps.enabled() {
                 let mut v = IdentCollector {
                     names: Default::default(),
                 };
@@ -1226,6 +1228,8 @@ impl Compiler {
                 program.visit_with(&mut v);
 
                 v.names
+            } else {
+                Default::default()
             };
 
             let mut pass = config.pass;
