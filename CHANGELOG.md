@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Implement all template literal evaluation rules (#4360) ([e60ae2a](https://github.com/swc-project/swc/commit/e60ae2a486cdbe4e652f9b7f3a62b4b7dea9c4fb))
 
+
+- **(plugin)** Support `lookup_char_pos` of `SourceMap` (#4364) ([f06c862](https://github.com/swc-project/swc/commit/f06c862a9ff2c6510c3b88b4d5bd4807a11b5bfb))
+
 ### Miscellaneous Tasks
 
 
