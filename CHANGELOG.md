@@ -5,6 +5,9 @@
 
 
 
+- **(es/lexer)** Fix handling of object properties with the name `function` (#4374) ([3bdf5a8](https://github.com/swc-project/swc/commit/3bdf5a89600ecbc81be4eba162c09820a8a6550c))
+
+
 - **(es/minifier)** Fix default values of `toplevel` (#4366) ([128175c](https://github.com/swc-project/swc/commit/128175c3297e036ad38e8faa68aa149a94f5ee29))
 
 
