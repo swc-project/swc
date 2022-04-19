@@ -76,7 +76,7 @@ fn is_ignored(path: &Path) -> bool {
     false
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Default, Clone, Deserialize)]
 struct TopLevelOnly {
     #[serde(default, alias = "toplevel")]
     top_level: bool,
@@ -92,7 +92,7 @@ enum TestMangleOptions {
 
 impl TestMangleOptions {
     fn parse(s: &str) -> Self {
-        let top_level = serde_json::from_str::<TopLevelOnly>(s).unwrap();
+        let top_level = serde_json::from_str::<TopLevelOnly>(s).unwrap_or_default();
 
         let mut data = serde_json::from_str::<Self>(s).expect("failed to deserialize mangle.json");
 
