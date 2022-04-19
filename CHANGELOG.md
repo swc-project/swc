@@ -8,6 +8,9 @@
 - **(es/minifier)** Fix default values of `toplevel` (#4366) ([128175c](https://github.com/swc-project/swc/commit/128175c3297e036ad38e8faa68aa149a94f5ee29))
 
 
+- **(es/minifier)** Apply name mangler as much as we can (#4365) ([a8ed5ba](https://github.com/swc-project/swc/commit/a8ed5ba357d735657245e5bcd266ba9bda341099))
+
+
 - **(es/modules/cjs)** Fix order of statements (#4361) ([5c1ce0b](https://github.com/swc-project/swc/commit/5c1ce0ba051de3320e90b0992d57a965a6c2dd8a))
 
 ### Features
