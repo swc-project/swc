@@ -9,7 +9,7 @@ use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
-    option::{CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, PureGetterOption},
+    option::{CompressOptions, ExtraOptions, MangleOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
