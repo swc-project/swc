@@ -2,6 +2,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_utils::Id;
+use tracing::debug;
 
 use crate::util::base54;
 
@@ -106,6 +107,10 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, cloned_reverse) {
+                    if cfg!(debug_assertions) {
+                        debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
+                    }
+
                     to.insert(id.clone(), sym.clone());
                     cloned_reverse.entry(sym).or_default().push(id.clone());
                     // self.data.decls.remove(&id);

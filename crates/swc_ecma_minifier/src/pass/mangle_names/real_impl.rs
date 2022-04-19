@@ -52,19 +52,36 @@ impl Mangler {
     }
 }
 
+/// Mark a node as a unit of minification.
+///
+/// This is
+macro_rules! unit {
+    ($name:ident, $T:ty) => {
+        /// Only called if `eval` exists
+        fn $name(&mut self, n: &mut $T) {
+            if self.contains_eval(n) {
+                n.visit_mut_children_with(self);
+            } else {
+                let map = self.get_map(n);
+
+                n.visit_mut_with(&mut rename(&map));
+            }
+        }
+    };
+}
+
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
-    /// Only called if `eval` exists
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if self.contains_eval(n) {
-            n.visit_mut_children_with(self);
-        } else {
-            let map = self.get_map(n);
+    unit!(visit_mut_arrow_expr, ArrowExpr);
 
-            n.visit_mut_with(&mut rename(&map));
-        }
-    }
+    unit!(visit_mut_setter_prop, SetterProp);
+
+    unit!(visit_mut_getter_prop, GetterProp);
+
+    unit!(visit_mut_constructor, Constructor);
+
+    unit!(visit_mut_fn_expr, FnExpr);
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = idents_to_preserve(self.options.clone(), &*m);

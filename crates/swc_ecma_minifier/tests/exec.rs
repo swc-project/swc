@@ -26,6 +26,7 @@ use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
+use tracing::{info, span, Level};
 
 #[derive(Debug, Clone, Deserialize)]
 struct TestOptions {
@@ -59,7 +60,11 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         )
     }
 
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    let stdout = String::from_utf8_lossy(&actual_output.stdout).to_string();
+
+    info!("Stdout: {}", stdout);
+
+    Ok(stdout)
 }
 
 fn print<N: swc_ecma_codegen::Node>(
@@ -134,6 +139,8 @@ fn run(
         _ => return None,
     };
 
+    let run_hygiene = mangle.is_none();
+
     let mut output = optimize(
         program,
         cm,
@@ -147,7 +154,9 @@ fn run(
         &ExtraOptions { top_level_mark },
     );
 
-    output.visit_mut_with(&mut hygiene());
+    if run_hygiene {
+        output.visit_mut_with(&mut hygiene());
+    }
 
     let output = output.fold_with(&mut fixer(None));
 
@@ -157,14 +166,16 @@ fn run(
 fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
-    testing::run_test2(false, |cm, handler| {
-        let expected_output = stdout_of(input_src).unwrap();
+    let expected_output = stdout_of(input_src).unwrap();
 
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected_output
-        );
+    eprintln!(
+        "---- {} -----\n{}",
+        Color::Green.paint("Expected"),
+        expected_output
+    );
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-only").entered();
 
         let output = run(cm.clone(), &handler, input_src, Some(config), None);
         let output = output.expect("Parsing in base test should not fail");
@@ -190,6 +201,8 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
 
     if !skip_mangle {
         testing::run_test2(false, |cm, handler| {
+            let _tracing = span!(Level::ERROR, "with-mangle").entered();
+
             let output = run(
                 cm.clone(),
                 &handler,
@@ -197,6 +210,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
                 None,
                 Some(MangleOptions {
                     keep_fn_names: true,
+                    top_level: true,
                     ..Default::default()
                 }),
             );
@@ -210,7 +224,6 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
                 output
             );
 
-            let expected_output = stdout_of(input_src).unwrap();
             let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
             assert_ne!(actual_output, "");
 
@@ -223,6 +236,15 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
         })
         .unwrap();
     }
+}
+
+fn run_default_exec_test(input_src: &str) {
+    let config = r###"{
+        "defaults": true,
+        "toplevel": true
+    }"###;
+
+    run_exec_test(input_src, config, false);
 }
 
 #[test]
@@ -9680,4 +9702,86 @@ fn indirect_eval_1() {
     }"###;
 
     run_exec_test(src, config, false);
+}
+
+#[test]
+fn try_catch_1() {
+    let src = r###"
+    var a = "FAIL";
+    try {
+        throw 1;
+    } catch (args) {
+        a = "PASS";
+    }
+    console.log(a);
+
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_2() {
+    let src = r###"
+    var a = "PASS";
+    try {
+        throw "FAIL1";
+    } catch (a) {
+        var a = "FAIL2";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_3() {
+    let src = r###"
+    var a = "FAIL";
+    try {
+        throw 1;
+    } catch (args) {
+        var a = "PASS";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_4() {
+    let src = r###"
+    "aaaaaaaa";
+    var a = 1,
+        b = "FAIL";
+    try {
+        throw 1;
+    } catch (c) {
+        try {
+            throw 0;
+        } catch (a) {
+            if (c) b = "PASS";
+        }
+    }
+    console.log(b);
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn try_catch_5() {
+    let src = r###"
+    var a = "PASS";
+    try {
+        throw "FAIL1";
+    } catch (a) {
+        var a = "FAIL2";
+    }
+    console.log(a);
+    "###;
+
+    run_default_exec_test(src);
 }
