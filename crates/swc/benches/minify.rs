@@ -51,7 +51,9 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
             })
             .unwrap();
 
-            black_box(res);
+            let res = black_box(res);
+
+            assert_eq!(res.map, None);
         })
     });
 }
