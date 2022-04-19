@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 212,
+    "end": 276,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -14,8 +14,8 @@
         "end": 51,
         "ctxt": 0
       },
-      "name": "\rhtml\rpublic\r\"-//w3c//dtd",
-      "publicId": null,
+      "name": "html",
+      "publicId": "-//W3C//DTD HTML 4.01//EN",
       "systemId": null
     },
     {
@@ -204,16 +204,6 @@
                   },
                   "name": "test",
                   "value": "test"
-                },
-                {
-                  "type": "Attribute",
-                  "span": {
-                    "start": 0,
-                    "end": 0,
-                    "ctxt": 0
-                  },
-                  "name": "\r",
-                  "value": null
                 }
               ],
               "children": [
@@ -241,7 +231,7 @@
               "type": "Element",
               "span": {
                 "start": 183,
-                "end": 203,
+                "end": 205,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -254,16 +244,100 @@
                     "end": 0,
                     "ctxt": 0
                   },
-                  "name": "test\r",
-                  "value": "\rtest\r"
+                  "name": "data-q\r",
+                  "value": "test"
                 }
               ],
               "children": [
                 {
                   "type": "Text",
                   "span": {
-                    "start": 203,
-                    "end": 205,
+                    "start": 205,
+                    "end": 207,
+                    "ctxt": 0
+                  },
+                  "value": "\r\r"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 214,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": "\r"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 215,
+                "end": 237,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "data-q\r",
+                  "value": "test"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 237,
+                    "end": 239,
+                    "ctxt": 0
+                  },
+                  "value": "\r\r"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 246,
+                "end": 247,
+                "ctxt": 0
+              },
+              "value": "\r"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 247,
+                "end": 267,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "data-q\r",
+                  "value": "test"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 267,
+                    "end": 269,
                     "ctxt": 0
                   },
                   "value": "\r\r"

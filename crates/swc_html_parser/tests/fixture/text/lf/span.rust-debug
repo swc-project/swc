@@ -28,13 +28,29 @@
  25 | |   </div
  26 | |   >
  27 | |   <div
- 28 | |   test
+ 28 | |   data-q
  29 | |   =
  30 | |   "test"
  31 | |   >
  32 | |   
  33 | |   </div
- 34 | `-> >
+ 34 | |   >
+ 35 | |   <div
+ 36 | |   data-q
+ 37 | |   =
+ 38 | |   'test'
+ 39 | |   >
+ 40 | |   
+ 41 | |   </div
+ 42 | |   >
+ 43 | |   <div
+ 44 | |   data-q
+ 45 | |   =
+ 46 | |   test
+ 47 | |   >
+ 48 | |   
+ 49 | |   </div
+ 50 | `-> >
     `----
 
   x Child
@@ -318,7 +334,7 @@
   x Child
     ,-[$DIR/tests/fixture/text/lf/input.html:27:1]
  27 | ,-> <div
- 28 | |   test
+ 28 | |   data-q
  29 | |   =
  30 | |   "test"
  31 | `-> >
@@ -327,7 +343,7 @@
   x Element
     ,-[$DIR/tests/fixture/text/lf/input.html:27:1]
  27 | ,-> <div
- 28 | |   test
+ 28 | |   data-q
  29 | |   =
  30 | |   "test"
  31 | `-> >
@@ -345,4 +361,96 @@
  31 | ,-> >
  32 | `-> 
  33 |     </div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:34:1]
+ 34 | >
+    :  ^
+ 35 | <div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:34:1]
+ 34 | >
+    :  ^
+ 35 | <div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:35:1]
+ 35 | ,-> <div
+ 36 | |   data-q
+ 37 | |   =
+ 38 | |   'test'
+ 39 | `-> >
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/lf/input.html:35:1]
+ 35 | ,-> <div
+ 36 | |   data-q
+ 37 | |   =
+ 38 | |   'test'
+ 39 | `-> >
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:39:1]
+ 39 | ,-> >
+ 40 | `-> 
+ 41 |     </div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:39:1]
+ 39 | ,-> >
+ 40 | `-> 
+ 41 |     </div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:42:1]
+ 42 | >
+    :  ^
+ 43 | <div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:42:1]
+ 42 | >
+    :  ^
+ 43 | <div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:43:1]
+ 43 | ,-> <div
+ 44 | |   data-q
+ 45 | |   =
+ 46 | |   test
+ 47 | `-> >
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/lf/input.html:43:1]
+ 43 | ,-> <div
+ 44 | |   data-q
+ 45 | |   =
+ 46 | |   test
+ 47 | `-> >
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:47:1]
+ 47 | ,-> >
+ 48 | `-> 
+ 49 |     </div
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:47:1]
+ 47 | ,-> >
+ 48 | `-> 
+ 49 |     </div
     `----

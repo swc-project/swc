@@ -2060,7 +2060,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+002F SOLIDUS (/)
                         // U+003E GREATER-THAN SIGN (>)
                         // EOF
@@ -2247,7 +2249,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+002F SOLIDUS (/)
                         // Switch to the self-closing start tag state.
                         Some('/') => {
@@ -2305,7 +2309,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+0022 QUOTATION MARK (")
                         // Switch to the attribute value (double-quoted) state.
                         Some('"') => {
@@ -2603,7 +2609,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeAttributeName;
                         }
                         // U+0026 AMPERSAND (&)
@@ -2715,7 +2723,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before attribute name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeAttributeName;
                         }
                         // U+002F SOLIDUS (/)
@@ -3362,7 +3372,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeDoctypeName;
                         }
                         // U+003E GREATER-THAN SIGN (>)
@@ -3413,7 +3425,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // ASCII upper alpha
                         // Create a new DOCTYPE token. Set the token's name to the lowercase version
                         // of the current input character (add 0x0020 to the character's code
@@ -3526,7 +3540,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the after DOCTYPE name state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::AfterDoctypeName;
                         }
                         // U+003E GREATER-THAN SIGN (>)
@@ -3629,7 +3645,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
                         Some('>') => {
@@ -3732,7 +3750,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE public identifier state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeDoctypePublicIdentifier;
                         }
                         // U+0022 QUOTATION MARK (")
@@ -3830,7 +3850,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+0022 QUOTATION MARK (")
                         // Set the current DOCTYPE token's public identifier to the empty string
                         // (not missing), then switch to the DOCTYPE public identifier
@@ -4077,7 +4099,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the between DOCTYPE public and system identifiers state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                         }
                         // U+003E GREATER-THAN SIGN (>)
@@ -4167,7 +4191,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the data state. Emit the current DOCTYPE token.
                         Some('>') => {
@@ -4249,7 +4275,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Switch to the before DOCTYPE system identifier state.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+
                             self.state = State::BeforeDoctypeSystemIdentifier;
                         }
                         // U+0022 QUOTATION MARK (")
@@ -4347,7 +4375,9 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
+                        Some(c) if is_spacy(c) => {
+                            self.skip_next_lf();
+                        }
                         // U+0022 QUOTATION MARK (")
                         // Set the current DOCTYPE token's system identifier to the empty string
                         // (not missing), then switch to the DOCTYPE system identifier
@@ -5280,6 +5310,7 @@ where
         }
     }
 
+    // TODO improve me and skip only for '\r'
     fn skip_next_lf(&mut self) {
         if let Some('\n') = self.input.cur() {
             self.input.bump();
