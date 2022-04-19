@@ -19,29 +19,22 @@
       "attributes": [],
       "children": [
         {
-          "type": "Element",
+          "type": "Text",
           "span": {
-            "start": 23,
-            "end": 29,
+            "start": 78,
+            "end": 80,
             "ctxt": 0
           },
-          "tagName": "head",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [
-            {
-              "type": "Element",
-              "span": {
-                "start": 34,
-                "end": 41,
-                "ctxt": 0
-              },
-              "tagName": "title",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": []
-            }
-          ]
+          "value": "\n\n"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 78,
+            "end": 79,
+            "ctxt": 0
+          },
+          "value": "\n"
         },
         {
           "type": "Element",
@@ -53,7 +46,17 @@
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 86,
+                "end": 138,
+                "ctxt": 0
+              },
+              "value": "\nThe content of the document......\n\n\n\n"
+            }
+          ]
         }
       ]
     }

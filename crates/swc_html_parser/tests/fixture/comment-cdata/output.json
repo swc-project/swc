@@ -51,7 +51,26 @@
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 353,
+                    "end": 357,
+                    "ctxt": 0
+                  },
+                  "value": "test"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 363,
+                "end": 364,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Comment",

@@ -42,6 +42,15 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 29,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 31,
@@ -62,7 +71,17 @@
                   "value": "https://www.w3schools.com"
                 }
               ],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 65,
+                    "end": 101,
+                    "ctxt": 0
+                  },
+                  "value": "This is a link\n\n\n\n"
+                }
+              ]
             }
           ]
         }

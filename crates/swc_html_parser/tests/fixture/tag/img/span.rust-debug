@@ -53,6 +53,22 @@
    `----
 
   x Child
+    ,-[$DIR/tests/fixture/tag/img/input.html:8:1]
+  8 | ,-> <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+  9 | |   
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/img/input.html:8:1]
+  8 | ,-> <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+  9 | |   
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/tag/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
    : ^^^^
@@ -65,6 +81,32 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/tag/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
+   :     ^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
+   :     ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
+   :                     ^
+ 6 | <p>HTML images are defined with the img tag:</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
+   :                     ^
+ 6 | <p>HTML images are defined with the img tag:</p>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    : ^^^
@@ -74,6 +116,30 @@
    ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
+ 6 | <p>HTML images are defined with the img tag:</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
+ 6 | <p>HTML images are defined with the img tag:</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
+ 6 | <p>HTML images are defined with the img tag:</p>
+   :                                                 ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/img/input.html:6:1]
+ 6 | <p>HTML images are defined with the img tag:</p>
+   :                                                 ^
    `----
 
   x Child
@@ -92,4 +158,16 @@
    ,-[$DIR/tests/fixture/tag/img/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                                                       ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                                                       ^
    `----

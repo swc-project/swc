@@ -42,6 +42,15 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 244,
+                "end": 262,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 31,
@@ -62,7 +71,26 @@
                   "value": "test"
                 }
               ],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 52,
+                    "end": 74,
+                    "ctxt": 0
+                  },
+                  "value": "An Unordered HTML List"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 79,
+                "end": 80,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -76,6 +104,15 @@
               "attributes": [],
               "children": [
                 {
+                  "type": "Text",
+                  "span": {
+                    "start": 122,
+                    "end": 127,
+                    "ctxt": 0
+                  },
+                  "value": "\n "
+                },
+                {
                   "type": "Element",
                   "span": {
                     "start": 90,
@@ -85,7 +122,26 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 94,
+                        "end": 100,
+                        "ctxt": 0
+                      },
+                      "value": "Coffee"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 105,
+                    "end": 106,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 },
                 {
                   "type": "Element",
@@ -97,7 +153,26 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 114,
+                        "end": 117,
+                        "ctxt": 0
+                      },
+                      "value": "Tea"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 122,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 },
                 {
                   "type": "Element",
@@ -109,9 +184,37 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 131,
+                        "end": 135,
+                        "ctxt": 0
+                      },
+                      "value": "Milk"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 140,
+                    "end": 141,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 }
               ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 146,
+                "end": 147,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -123,7 +226,26 @@
               "tagName": "h2",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 152,
+                    "end": 172,
+                    "ctxt": 0
+                  },
+                  "value": "An Ordered HTML List"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 177,
+                "end": 178,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -137,6 +259,15 @@
               "attributes": [],
               "children": [
                 {
+                  "type": "Text",
+                  "span": {
+                    "start": 220,
+                    "end": 225,
+                    "ctxt": 0
+                  },
+                  "value": "\n "
+                },
+                {
                   "type": "Element",
                   "span": {
                     "start": 188,
@@ -146,7 +277,26 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 192,
+                        "end": 198,
+                        "ctxt": 0
+                      },
+                      "value": "Coffee"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 203,
+                    "end": 204,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 },
                 {
                   "type": "Element",
@@ -158,7 +308,26 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 212,
+                        "end": 215,
+                        "ctxt": 0
+                      },
+                      "value": "Tea"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 220,
+                    "end": 221,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 },
                 {
                   "type": "Element",
@@ -170,9 +339,37 @@
                   "tagName": "li",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 229,
+                        "end": 233,
+                        "ctxt": 0
+                      },
+                      "value": "Milk"
+                    }
+                  ]
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 238,
+                    "end": 239,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 }
               ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 244,
+                "end": 245,
+                "ctxt": 0
+              },
+              "value": "\n"
             }
           ]
         }

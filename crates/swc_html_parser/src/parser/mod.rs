@@ -488,7 +488,7 @@ impl OpenElementsStack {
     // that element was not in the above list.
     pub fn generate_implied_end_tags(&mut self) {
         while let Some(node) = self.items.last() {
-            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(&node)) {
+            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node)) {
                 self.pop();
             } else {
                 break;
@@ -503,7 +503,7 @@ impl OpenElementsStack {
                 break;
             }
 
-            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(&node)) {
+            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node)) {
                 self.pop();
             } else {
                 break;
@@ -520,7 +520,7 @@ impl OpenElementsStack {
     // stack of open elements.
     pub fn generate_implied_end_tags_thoroughly(&mut self) {
         while let Some(node) = self.items.last() {
-            if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(&node)) {
+            if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(node)) {
                 self.pop();
             } else {
                 break;
@@ -530,7 +530,7 @@ impl OpenElementsStack {
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
         while let Some(node) = self.items.pop() {
-            if tag_name.contains(&get_tag_name!(&node)) && get_namespace!(node) == Namespace::HTML {
+            if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 break;
             }
         }
@@ -614,6 +614,7 @@ where
         take(&mut self.errors)
     }
 
+    // TODO parse_fragment
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
@@ -657,6 +658,14 @@ where
                         namespace: *namespace,
                         attributes: attributes.clone(),
                         children: new_children,
+                    })
+                }
+                Child::Text(text) => {
+                    let Text { span, value } = text;
+
+                    Child::Text(Text {
+                        span: *span,
+                        value: value.clone(),
                     })
                 }
                 Child::Comment(comment) => {
@@ -2220,7 +2229,7 @@ where
                             // div, or p element, then jump to the step labeled done below.
                             // Otherwise, set node to the previous entry in the stack
                             // of open elements and return to the step labeled loop.
-                            if self.is_special_element(&node)
+                            if self.is_special_element(node)
                                 && !match &node.data {
                                     Child::Element(Element { tag_name, .. })
                                         if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
@@ -2348,7 +2357,7 @@ where
                             // div, or p element, then jump to the step labeled done below.
                             // Otherwise, set node to the previous entry in the stack of
                             // open elements and return to the step labeled loop.
-                            if self.is_special_element(&node)
+                            if self.is_special_element(node)
                                 && !match &node.data {
                                     Child::Element(Element { tag_name, .. })
                                         if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
@@ -3456,7 +3465,7 @@ where
                                 //         break 2;
                                 //     }
                                 // }
-                            } else if self.is_special_element(&node) {
+                            } else if self.is_special_element(node) {
                                 // Parse error.
                                 // Ignore the token.
                                 self.errors.push(Error::new(
@@ -6253,16 +6262,14 @@ where
 
     // Inserts a sequence of characters in to a preexisting text node or creates
     // a new text node if one does not exist in the expected insertion location.
-    fn insert_character(&mut self, _token_and_span: &mut TokenAndSpan) -> PResult<()> {
-        // TODO unccoment me
+    fn insert_character(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
         // Let data be the characters passed to the algorithm, or, if no
         // characters were explicitly specified, the character of the character
         // token being processed.
 
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
-        // let adjusted_insertion_location =
-        // self.get_appropriate_place_for_inserting_node(None);
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
 
         // If the adjusted insertion location is in a Document node, then abort
         // these steps.
@@ -6270,41 +6277,69 @@ where
         // they are dropped on the floor.
         // TODO fix me
 
-        // If there is a Text node immediately before the adjusted insertion l
-        // ocation, then append data to that Text node's data. Otherwise, create
+        // If there is a Text node immediately before the adjusted insertion location,
+        // then append data to that Text node's data. Otherwise, create
         // a new Text node whose data is data and whose node document is the
         // same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted
         // insertion location.
-        // match child {
-        //     NodeOrText::AppendText(ref text) => match parent.children.borrow().last()
-        // {         Some(h) => {
-        //             if append_to_existing_text(h, &text) {
-        //                 return;
-        //             }
-        //         },
-        //         _ => (),
-        //     },
-        //     _ => (),
-        // }
+        match &adjusted_insertion_location {
+            InsertionPosition::LastChild(parent) => {
+                let mut children = parent.children.borrow_mut();
+
+                if let Some(last) = children.last() {
+                    if let Child::Text(text) = &last.data {
+                        let mut new_value = String::new();
+
+                        new_value.push_str(&*text.value);
+
+                        match &token_and_span.token {
+                            Token::Character { value, .. } => {
+                                new_value.push(*value);
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
+
+                        let first_pos = text.span.lo;
+                        let last_pos = self.input.last_pos()?;
+
+                        children[0] = Node::new(Child::Text(Text {
+                            span: swc_common::Span::new(first_pos, last_pos, Default::default()),
+                            value: new_value.into(),
+                        }));
+
+                        return Ok(());
+                    }
+                }
+            }
+            InsertionPosition::BeforeSibling(_node) => {
+                // TODO improve me for another, not happens for comments right
+                // now
+            }
+            InsertionPosition::TableFosterParenting { .. } => {
+                // TODO improve me for another, but we don't support foster yet
+            }
+        }
 
         // Otherwise, create a new Text node whose data is data and whose node document
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        // let last_pos = self.input.last_pos()?;
-        // let text = Text {
-        //     span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        //     value: match token_and_span.token {
-        //         Token::Character { value, .. } => value.to_string().into(),
-        //         _ => {
-        //             unreachable!()
-        //         }
-        //     },
-        // };
-        // let text = Node::new(text);
-        //
-        // self.insert_at_position(adjusted_insertion_location, text);
+        let last_pos = self.input.last_pos()?;
+        let text = Text {
+            span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+            value: match &token_and_span.token {
+                Token::Character { value, .. } => value.to_string().into(),
+                _ => {
+                    unreachable!()
+                }
+            },
+        };
+        let text = Node::new(Child::Text(text));
+
+        self.insert_at_position(adjusted_insertion_location, text);
 
         Ok(())
     }
@@ -6380,11 +6415,11 @@ where
                 .iter()
                 .enumerate()
                 // TODO span?
-                .find(|&(_, child)| Rc::ptr_eq(&child, &node))
+                .find(|&(_, child)| Rc::ptr_eq(child, node))
             {
                 Some((i, _)) => i,
                 None => {
-                    // TODO error - "have parent but couldn't find in parent's children"
+                    // TODO error - have parent but couldn't find in parent's children
                     unreachable!();
                 }
             };
@@ -6396,33 +6431,8 @@ where
 
     fn append_node_before_sibling(&self, parent: &RcNode, child: RcNode) {
         let (parent, i) = self
-            .get_parent_and_index(&parent)
-            .expect("append_before_sibling called on node without parent");
-
-        let child = match (child, i) {
-            // // No previous node.
-            // (NodeOrText::AppendText(text), 0) => Node::new(NodeData::Text {
-            //     contents: RefCell::new(text),
-            // }),
-            //
-            // // Look for a text node before the insertion point.
-            // (NodeOrText::AppendText(text), i) => {
-            //     let children = parent.children.borrow();
-            //     let prev = &children[i - 1];
-            //     if append_to_existing_text(prev, &text) {
-            //         return;
-            //     }
-            //     Node::new(NodeData::Text {
-            //         contents: RefCell::new(text),
-            //     })
-            // }
-
-            // The tree builder promises we won't have a text node after
-            // the insertion point.
-
-            // Any other kind of node.
-            (node, _) => node,
-        };
+            .get_parent_and_index(parent)
+            .expect("append_node_before_sibling called on node without parent");
 
         if let Some((parent, i)) = self.get_parent_and_index(&child) {
             parent.children.borrow_mut().remove(i);

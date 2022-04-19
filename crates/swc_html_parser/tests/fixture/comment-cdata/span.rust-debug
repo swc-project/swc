@@ -71,6 +71,32 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+ 9 | <div>test</div>
+   :      ^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+ 9 | <div>test</div>
+   :      ^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+    `----
+
+  x Child
     ,-[$DIR/tests/fixture/comment-cdata/input.html:10:1]
  10 | ,-> <![cdata[
  11 | |   Within this Character Data block I can

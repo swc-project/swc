@@ -42,6 +42,15 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 182,
+                "end": 200,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 31,
@@ -62,7 +71,26 @@
                   "value": "I'm a header"
                 }
               ],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 56,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "value": "The title Attribute"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 80,
+                "end": 81,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -85,7 +113,26 @@
                   "value": "I'm a tooltip"
                 }
               ],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 107,
+                    "end": 178,
+                    "ctxt": 0
+                  },
+                  "value": "Mouse over this paragraph, to display the title attribute as a tooltip."
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 182,
+                "end": 183,
+                "ctxt": 0
+              },
+              "value": "\n"
             }
           ]
         }

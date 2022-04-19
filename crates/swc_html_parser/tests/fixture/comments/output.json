@@ -42,16 +42,13 @@
           "attributes": [],
           "children": [
             {
-              "type": "Element",
+              "type": "Text",
               "span": {
-                "start": 27,
-                "end": 32,
+                "start": 152,
+                "end": 164,
                 "ctxt": 0
               },
-              "tagName": "div",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": []
+              "value": "'\n"
             },
             {
               "type": "Comment",
@@ -61,6 +58,15 @@
                 "ctxt": 0
               },
               "data": " bar\n\nmoo "
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 58,
+                "end": 59,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -75,6 +81,15 @@
               "children": []
             },
             {
+              "type": "Text",
+              "span": {
+                "start": 93,
+                "end": 94,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 94,
@@ -84,7 +99,26 @@
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 102,
+                    "end": 109,
+                    "ctxt": 0
+                  },
+                  "value": "alert('"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 152,
+                "end": 153,
+                "ctxt": 0
+              },
+              "value": "'"
             },
             {
               "type": "Element",
@@ -96,7 +130,17 @@
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 172,
+                    "end": 184,
+                    "ctxt": 0
+                  },
+                  "value": "alert('-->')"
+                }
+              ]
             }
           ]
         }

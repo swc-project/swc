@@ -62,6 +62,18 @@
 
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
+ 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
+ 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
  5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
@@ -79,6 +91,20 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :                                                                    ^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :                                                                    ^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
    : ^^^^^^^
@@ -88,6 +114,46 @@
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
    : ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
+ 6 | <title>Тег PLAINTEXT</title>
+   :        ^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
+ 6 | <title>Тег PLAINTEXT</title>
+   :        ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
+ 6 | <title>Тег PLAINTEXT</title>
+   :                                ^
+ 7 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
+ 6 | <title>Тег PLAINTEXT</title>
+   :                                ^
+ 7 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:7:1]
+ 7 | </head>
+   :        ^
+ 8 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:7:1]
+ 7 | </head>
+   :        ^
+ 8 | <body>
    `----
 
   x Child
@@ -103,6 +169,20 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
+ 8 | <body>
+   :       ^
+ 9 | <p>Пример программы</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
+ 8 | <body>
+   :       ^
+ 9 | <p>Пример программы</p>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
  9 | <p>Пример программы</p>
    : ^^^
@@ -113,6 +193,32 @@
  9 | <p>Пример программы</p>
    : ^^^
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
+ 9 | <p>Пример программы</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
+ 9 | <p>Пример программы</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
+  9 | <p>Пример программы</p>
+    :                                       ^
+ 10 | <plaintext>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
+  9 | <p>Пример программы</p>
+    :                                       ^
+ 10 | <plaintext>
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/plaintext/input.html:10:1]
@@ -128,6 +234,60 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | ,-> <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | ,-> <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
  11 | <h1>Демонстрация метода Подборского</h1>
     : ^^^^
     `----
@@ -136,4 +296,30 @@
     ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
  11 | <h1>Демонстрация метода Подборского</h1>
     : ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | <h1>Демонстрация метода Подборского</h1>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | <h1>Демонстрация метода Подборского</h1>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | <h1>Демонстрация метода Подборского</h1>
+    :                                                                      ^
+ 12 |     while (<>) {
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:11:5]
+ 11 | <h1>Демонстрация метода Подборского</h1>
+    :                                                                      ^
+ 12 |     while (<>) {
     `----

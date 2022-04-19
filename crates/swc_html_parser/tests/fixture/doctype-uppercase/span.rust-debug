@@ -27,27 +27,29 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
- 3 | <head>
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+ 5 | ,-> </head>
+ 6 | `-> 
+ 7 |     <body>
    `----
 
-  x Element
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
- 3 | <head>
-   : ^^^^^^
+  x Text
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+ 5 | ,-> </head>
+ 6 | `-> 
+ 7 |     <body>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+ 5 | </head>
+   :        ^
    `----
 
-  x Element
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   : ^^^^^^^
+  x Text
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+ 5 | </head>
+   :        ^
    `----
 
   x Child
@@ -61,3 +63,21 @@
  7 | <body>
    : ^^^^^^
    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----

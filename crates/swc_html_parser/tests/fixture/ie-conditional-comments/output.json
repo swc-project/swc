@@ -42,6 +42,15 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 245,
+                "end": 263,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Comment",
               "span": {
                 "start": 31,
@@ -49,6 +58,15 @@
                 "ctxt": 0
               },
               "data": "[if IE 5]>This is IE 5<br><![endif]"
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 73,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Comment",
@@ -60,6 +78,15 @@
               "data": "[if IE 6]>This is IE 6<br><![endif]"
             },
             {
+              "type": "Text",
+              "span": {
+                "start": 116,
+                "end": 117,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
               "type": "Comment",
               "span": {
                 "start": 117,
@@ -67,6 +94,15 @@
                 "ctxt": 0
               },
               "data": "[if IE 7]>This is IE 7<br><![endif]"
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 159,
+                "end": 160,
+                "ctxt": 0
+              },
+              "value": "\n"
             },
             {
               "type": "Comment",
@@ -78,6 +114,15 @@
               "data": "[if IE 8]>This is IE 8<br><![endif]"
             },
             {
+              "type": "Text",
+              "span": {
+                "start": 202,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
               "type": "Comment",
               "span": {
                 "start": 203,
@@ -85,6 +130,15 @@
                 "ctxt": 0
               },
               "data": "[if IE 9]>This is IE 9<br><![endif]"
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 245,
+                "end": 246,
+                "ctxt": 0
+              },
+              "value": "\n"
             }
           ]
         }

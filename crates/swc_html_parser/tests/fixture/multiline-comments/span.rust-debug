@@ -55,6 +55,22 @@
    `----
 
   x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    : ^^^
@@ -64,6 +80,32 @@
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
+   :                            ^
+ 6 | <!--
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
+   :                            ^
+ 6 | <!--
    `----
 
   x Child
@@ -83,6 +125,20 @@
    `----
 
   x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:9:1]
+  9 | -->
+    :    ^
+ 10 | <p>This is a paragraph too.</p>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:9:1]
+  9 | -->
+    :    ^
+ 10 | <p>This is a paragraph too.</p>
+    `----
+
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
     : ^^^
@@ -92,4 +148,28 @@
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
     : ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | <p>This is a paragraph too.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | <p>This is a paragraph too.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | <p>This is a paragraph too.</p>
+    :                                ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
+ 10 | <p>This is a paragraph too.</p>
+    :                                ^
     `----
