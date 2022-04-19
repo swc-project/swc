@@ -115,8 +115,12 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
-    fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {
+    // TODO fix me, we should normalize only last text node in document due to
+    // parsing html logic or maybe improve AST to allow developer understand it
+    fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
+
+        n.value = "".into();
     }
 
     fn visit_mut_span(&mut self, n: &mut Span) {
