@@ -83,6 +83,7 @@ swc_error_reporters = { version = "0.1.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.4.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "0.1.1", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "0.52.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_timer = { version = "0.5.0", path = "../swc_timer" }
 swc_visit = { version = "0.3.0", path = "../swc_visit" }
 tracing = "0.1.32"
 
