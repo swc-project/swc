@@ -467,6 +467,12 @@ impl State {
                     false
                 }
 
+                tok!(':') if context.current() == Some(TokenContext::FnExpr) => {
+                    // function keyword is object prop: { function: expr }
+                    context.pop(); // Remove FnExpr
+                    true
+                }
+
                 // for (a of b) {}
                 tok!("of")
                     if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
