@@ -15,6 +15,30 @@
   x Child
    ,-[$DIR/tests/fixture/comments/input.html:1:1]
  1 | <!-- test -->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.html:1:1]
+ 1 | <!-- test -->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.html:3:1]
+ 3 | <!-- foo --><div>baz</div><!-- bar
+   : ^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.html:3:1]
+ 3 | <!-- foo --><div>baz</div><!-- bar
+   : ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.html:1:1]
+ 1 | <!-- test -->
    : ^
    `----
 
@@ -39,17 +63,19 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comments/input.html:8:1]
- 8 | <script>alert('<!-- foo -->')</script>
-   :                            ^^^^^^^^^^^^
- 9 | <script>alert('-->')</script>
+   ,-[$DIR/tests/fixture/comments/input.html:6:1]
+ 6 | ,-> <script><!-- alert(1) --></script>
+ 7 | |   <script>alert('<!--')</script>
+ 8 | |   <script>alert('<!-- foo -->')</script>
+ 9 | `-> <script>alert('-->')</script>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comments/input.html:8:1]
- 8 | <script>alert('<!-- foo -->')</script>
-   :                            ^^^^^^^^^^^^
- 9 | <script>alert('-->')</script>
+   ,-[$DIR/tests/fixture/comments/input.html:6:1]
+ 6 | ,-> <script><!-- alert(1) --></script>
+ 7 | |   <script>alert('<!--')</script>
+ 8 | |   <script>alert('<!-- foo -->')</script>
+ 9 | `-> <script>alert('-->')</script>
    `----
 
   x Child
@@ -94,74 +120,12 @@
 
   x Child
    ,-[$DIR/tests/fixture/comments/input.html:6:1]
- 6 | <script><!-- alert(1) --></script>
-   :                                   ^
- 7 | <script>alert('<!--')</script>
+ 6 | ,-> <script><!-- alert(1) --></script>
+ 7 | `-> <script>alert('<!--')</script>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/comments/input.html:6:1]
- 6 | <script><!-- alert(1) --></script>
-   :                                   ^
- 7 | <script>alert('<!--')</script>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comments/input.html:7:1]
- 7 | <script>alert('<!--')</script>
-   : ^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/comments/input.html:7:1]
- 7 | <script>alert('<!--')</script>
-   : ^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comments/input.html:7:1]
- 7 | <script>alert('<!--')</script>
-   :         ^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/comments/input.html:7:1]
- 7 | <script>alert('<!--')</script>
-   :         ^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comments/input.html:8:1]
- 8 | <script>alert('<!-- foo -->')</script>
-   :                            ^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/comments/input.html:8:1]
- 8 | <script>alert('<!-- foo -->')</script>
-   :                            ^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comments/input.html:9:1]
- 9 | <script>alert('-->')</script>
-   : ^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/comments/input.html:9:1]
- 9 | <script>alert('-->')</script>
-   : ^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comments/input.html:9:1]
- 9 | <script>alert('-->')</script>
-   :         ^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/comments/input.html:9:1]
- 9 | <script>alert('-->')</script>
-   :         ^^^^^^^^^^^^
+ 6 | ,-> <script><!-- alert(1) --></script>
+ 7 | `-> <script>alert('<!--')</script>
    `----

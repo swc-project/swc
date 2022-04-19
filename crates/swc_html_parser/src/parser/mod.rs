@@ -6269,7 +6269,7 @@ where
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
         let last_pos = self.input.last_pos()?;
-        let comment = Comment {
+        let comment = Node::new(Child::Comment(Comment {
             span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
             data: match &token_and_span.token {
                 Token::Comment { data } => data.into(),
@@ -6277,8 +6277,7 @@ where
                     unreachable!()
                 }
             },
-        };
-        let comment = Node::new(Child::Comment(comment));
+        }));
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -6288,8 +6287,23 @@ where
 
     fn insert_comment_as_last_child_of_document(
         &mut self,
-        _token_and_span: &mut TokenAndSpan,
+        token_and_span: &mut TokenAndSpan,
     ) -> PResult<()> {
+        let last_pos = self.input.last_pos()?;
+        let comment = Node::new(Child::Comment(Comment {
+            span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+            data: match &token_and_span.token {
+                Token::Comment { data } => data.into(),
+                _ => {
+                    unreachable!()
+                }
+            },
+        }));
+
+        if let Some(document) = &self.document {
+            self.append_node(document, comment);
+        }
+
         Ok(())
     }
 
@@ -6361,7 +6375,7 @@ where
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
         let last_pos = self.input.last_pos()?;
-        let text = Text {
+        let text = Node::new(Child::Text(Text {
             span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
             value: match &token_and_span.token {
                 Token::Character { value, .. } => value.to_string().into(),
@@ -6369,8 +6383,7 @@ where
                     unreachable!()
                 }
             },
-        };
-        let text = Node::new(Child::Text(text));
+        }));
 
         self.insert_at_position(adjusted_insertion_location, text);
 
