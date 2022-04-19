@@ -84,6 +84,10 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
+    /// Use a specific extension for the output files
+    #[clap(long, default_value_t= String::from("js"))]
+    out_file_extension: String,
+
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
     #[clap(group = "experimental_trace", long)]
@@ -158,7 +162,11 @@ fn get_files_list(
 /// Calculate full, absolute path to the file to emit.
 /// Currently this is quite naive calculation based on assumption input file's
 /// path and output dir are relative to the same directory.
-fn resolve_output_file_path(out_dir: &Path, file_path: &Path) -> anyhow::Result<PathBuf> {
+fn resolve_output_file_path(
+    out_dir: &Path,
+    file_path: &Path,
+    file_extension: PathBuf,
+) -> anyhow::Result<PathBuf> {
     let default = PathBuf::from(".");
     let base = file_path.parent().unwrap_or(&default).display().to_string();
 
@@ -185,7 +193,7 @@ fn resolve_output_file_path(out_dir: &Path, file_path: &Path) -> anyhow::Result<
     let output_path = base.to_logical_path(dist_absolute_path).join(
         // Custom output file extension is not supported yet
         file_path
-            .with_extension("js")
+            .with_extension(file_extension)
             .file_name()
             .expect("Filename should be available"),
     );
@@ -197,9 +205,10 @@ fn emit_output(
     output: &TransformOutput,
     out_dir: &Option<PathBuf>,
     file_path: &Path,
+    file_extension: PathBuf,
 ) -> anyhow::Result<()> {
     if let Some(out_dir) = out_dir {
-        let output_file_path = resolve_output_file_path(out_dir, file_path)?;
+        let output_file_path = resolve_output_file_path(out_dir, file_path, file_extension)?;
         let output_dir = output_file_path
             .parent()
             .expect("Parent should be available");
@@ -249,6 +258,7 @@ struct InputContext {
     fm: Arc<SourceFile>,
     compiler: Arc<Compiler>,
     file_path: PathBuf,
+    file_extension: PathBuf,
 }
 
 #[swc_trace]
@@ -311,6 +321,7 @@ impl CompileOptions {
                     .filename
                     .clone()
                     .unwrap_or_else(|| PathBuf::from("unknown")),
+                file_extension: self.out_file_extension.clone().into(),
             }]);
         } else if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
@@ -338,6 +349,7 @@ impl CompileOptions {
                             fm,
                             compiler: compiler.clone(),
                             file_path: file_path.to_path_buf(),
+                            file_extension: self.out_file_extension.clone().into(),
                         })
                     })
             })
@@ -369,7 +381,7 @@ impl CompileOptions {
                          compiler,
                          fm,
                          options,
-                         file_path: _,
+                         ..
                      }| execute(compiler, fm, options),
                 )
                 .collect();
@@ -394,11 +406,14 @@ impl CompileOptions {
                      fm,
                      options,
                      file_path,
+                     file_extension,
                  }| {
                     let result = execute(compiler, fm, options);
 
                     match result {
-                        Ok(output) => emit_output(&output, &self.out_dir, &file_path),
+                        Ok(output) => {
+                            emit_output(&output, &self.out_dir, &file_path, file_extension)
+                        }
                         Err(e) => Err(e),
                     }
                 },

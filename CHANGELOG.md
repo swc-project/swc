@@ -20,6 +20,9 @@
 
 
 
+- **(cli)** Support configuring output file extension (#4343) ([c4f01c6](https://github.com/swc-project/swc/commit/c4f01c6d6000890f5d3e0bb2e0e9531cff9c8c6b))
+
+
 - **(es/minifier)** Implement more evaluation rules (#4356) ([e13b862](https://github.com/swc-project/swc/commit/e13b8625f2f67c98c36ac975f3739b304706201b))
 
 
