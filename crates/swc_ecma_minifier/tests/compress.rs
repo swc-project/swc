@@ -254,13 +254,25 @@ fn find_config(dir: &Path) -> String {
 
 #[testing::fixture("tests/compress/fixture/**/input.js")]
 #[testing::fixture("tests/single-pass/**/input.js")]
-fn base_fixture(input: PathBuf) {
+fn custom_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = find_config(dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None, false);
+        let mangle = dir.join("mangle.json");
+        let mangle = read_to_string(&mangle).ok();
+        if let Some(mangle) = &mangle {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Mangle config"),
+                mangle
+            );
+        }
+        let mangle: Option<TestMangleOptions> =
+            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+
+        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
