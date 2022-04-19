@@ -3272,6 +3272,7 @@ dependencies = [
  "ahash",
  "ansi_term",
  "anyhow",
+ "arrayvec",
  "backtrace",
  "criterion",
  "indexmap",

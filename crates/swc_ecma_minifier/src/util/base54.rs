@@ -1,3 +1,4 @@
+use arrayvec::ArrayVec;
 use swc_atoms::JsWord;
 
 static BASE54_DEFAULT_CHARS: &[u8; 64] =
@@ -26,7 +27,8 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
         base <<= 6;
     }
 
-    let mut ret = vec![];
+    // Not sure if this is ideal, but it's safe
+    let mut ret: ArrayVec<_, 14> = ArrayVec::new();
 
     base /= 54;
     let mut c = BASE54_DEFAULT_CHARS[n / base];
@@ -42,10 +44,11 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
 
     let s = unsafe {
         // Safety: We are only using ascii characters
-        String::from_utf8_unchecked(ret)
+        // Safety: The stack memory for ret is alive while creating JsWord
+        JsWord::from(std::str::from_utf8_unchecked(&ret))
     };
 
-    s.into()
+    s
 }
 
 #[allow(unused)]
