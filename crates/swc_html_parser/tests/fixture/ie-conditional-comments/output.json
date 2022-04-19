@@ -40,7 +40,53 @@
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [
+            {
+              "type": "Comment",
+              "span": {
+                "start": 31,
+                "end": 73,
+                "ctxt": 0
+              },
+              "data": "[if IE 5]>This is IE 5<br><![endif]"
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 74,
+                "end": 116,
+                "ctxt": 0
+              },
+              "data": "[if IE 6]>This is IE 6<br><![endif]"
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 117,
+                "end": 159,
+                "ctxt": 0
+              },
+              "data": "[if IE 7]>This is IE 7<br><![endif]"
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 160,
+                "end": 202,
+                "ctxt": 0
+              },
+              "data": "[if IE 8]>This is IE 8<br><![endif]"
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 203,
+                "end": 245,
+                "ctxt": 0
+              },
+              "data": "[if IE 9]>This is IE 9<br><![endif]"
+            }
+          ]
         }
       ]
     }

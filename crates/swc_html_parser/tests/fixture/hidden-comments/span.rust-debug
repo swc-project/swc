@@ -55,6 +55,30 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:5:1]
+ 5 | <!--This is a comment-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:5:1]
+ 5 | <!--This is a comment-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:6:1]
+ 6 | <!-- This is a comment -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:6:1]
+ 6 | <!-- This is a comment -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    : ^^^
@@ -64,4 +88,16 @@
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:8:1]
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/hidden-comments/input.html:8:1]
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

@@ -52,3 +52,63 @@
  3 | <body>
    : ^^^^^^
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:5:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:5:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:6:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:6:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:7:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:7:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:8:1]
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:8:1]
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:9:1]
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:9:1]
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

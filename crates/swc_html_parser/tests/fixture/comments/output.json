@@ -54,6 +54,15 @@
               "children": []
             },
             {
+              "type": "Comment",
+              "span": {
+                "start": 41,
+                "end": 58,
+                "ctxt": 0
+              },
+              "data": " bar\n\nmoo "
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 59,

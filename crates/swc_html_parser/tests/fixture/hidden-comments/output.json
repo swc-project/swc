@@ -42,6 +42,24 @@
           "attributes": [],
           "children": [
             {
+              "type": "Comment",
+              "span": {
+                "start": 31,
+                "end": 55,
+                "ctxt": 0
+              },
+              "data": "This is a comment"
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 56,
+                "end": 82,
+                "ctxt": 0
+              },
+              "data": " This is a comment "
+            },
+            {
               "type": "Element",
               "span": {
                 "start": 83,
@@ -52,6 +70,15 @@
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": []
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 111,
+                "end": 161,
+                "ctxt": 0
+              },
+              "data": " Comments are not displayed in the browser "
             }
           ]
         }

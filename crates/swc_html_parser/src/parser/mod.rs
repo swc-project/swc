@@ -659,6 +659,14 @@ where
                         children: new_children,
                     })
                 }
+                Child::Comment(comment) => {
+                    let Comment { span, data } = comment;
+
+                    Child::Comment(Comment {
+                        span: *span,
+                        data: data.clone(),
+                    })
+                }
                 _ => {
                     unreachable!();
                 }
@@ -6208,32 +6216,30 @@ where
     }
 
     // Inserts a comment node in to the document while processing a comment token.
-    fn insert_comment(&mut self, _token_and_span: &mut TokenAndSpan) -> PResult<()> {
-        // TODO uncomment me
+    fn insert_comment(&mut self, token_and_span: &mut TokenAndSpan) -> PResult<()> {
         // Let data be the data given in the comment token being processed.
         // If position was specified, then let the adjusted insertion location
         // be position. Otherwise, let adjusted insertion location be the
         // appropriate place for inserting a node.
-        // let adjusted_insertion_location =
-        // self.get_appropriate_place_for_inserting_node(None);
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
 
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        // let last_pos = self.input.last_pos()?;
-        // let comment = Comment {
-        //     span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
-        //     data: match token_and_span.token {
-        //         Token::Comment { data } => data.into(),
-        //         _ => {
-        //             unreachable!()
-        //         }
-        //     },
-        // };
-        // let comment = Node::new(comment);
+        let last_pos = self.input.last_pos()?;
+        let comment = Comment {
+            span: Span::new(token_and_span.span.lo, last_pos, Default::default()),
+            data: match &token_and_span.token {
+                Token::Comment { data } => data.into(),
+                _ => {
+                    unreachable!()
+                }
+            },
+        };
+        let comment = Node::new(Child::Comment(comment));
 
         // Insert the newly created node at the adjusted insertion location.
-        // self.insert_at_position(adjusted_insertion_location, comment);
+        self.insert_at_position(adjusted_insertion_location, comment);
 
         Ok(())
     }

@@ -52,6 +52,15 @@
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": []
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 364,
+                "end": 711,
+                "ctxt": 0
+              },
+              "data": "[cdata[\nWithin this Character Data block I can\nuse double dashes as much as I want (along with <, &, ', and \")\n*and* %MyParamEntity; will be expanded to the text\n\"Has been expanded\" ... however, I can't use\nthe CEND sequence. If I need to use CEND I must escape one of the\nbrackets or the greater-than sign using concatenated CDATA sections.\n]]"
             }
           ]
         }
