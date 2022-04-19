@@ -28,6 +28,7 @@ where
     // TODO reemit errors in parser
     errors: Vec<Error>,
     in_foreign_node: bool,
+    last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
     character_reference_code: Option<u32>,
@@ -52,6 +53,7 @@ where
             return_state: State::Data,
             errors: vec![],
             in_foreign_node: false,
+            last_start_tag_token: None,
             pending_tokens: vec![],
             cur_token: None,
             character_reference_code: None,
@@ -257,6 +259,13 @@ where
 
         self.start_pos = end;
 
+        match token {
+            Token::StartTag { .. } => {
+                self.last_start_tag_token = Some(token.clone());
+            }
+            _ => {}
+        }
+
         let token_and_span = TokenAndSpan { span, token };
 
         self.pending_tokens.push(token_and_span);
@@ -284,8 +293,24 @@ where
         )
     }
 
+    // An appropriate end tag token is an end tag token whose tag name matches the
+    // tag name of the last start tag to have been emitted from this tokenizer, if
+    // any. If no start tag has been emitted from this tokenizer, then no end tag
+    // token is appropriate.
     fn current_end_tag_token_is_an_appropriate_end_tag_token(&mut self) -> bool {
-        // TODO fix me
+        if let Some(Token::StartTag {
+            tag_name: last_start_tag_name,
+            ..
+        }) = &self.last_start_tag_token
+        {
+            if let Some(Token::EndTag {
+                tag_name: end_tag_name,
+                ..
+            }) = &self.cur_token
+            {
+                return last_start_tag_name == end_tag_name;
+            }
+        }
 
         false
     }
@@ -850,6 +875,17 @@ where
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rcdata;
+                            self.reconsume();
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -859,6 +895,17 @@ where
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rcdata;
+                            self.reconsume();
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -869,6 +916,17 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
                             self.emit_cur_token();
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rcdata;
+                            self.reconsume();
                         }
                     }
                     // ASCII upper alpha
@@ -908,7 +966,7 @@ where
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
-                    Some(c) if is_ascii_upper_alpha(c) => {
+                    Some(c) if is_ascii_lower_alpha(c) => {
                         match &mut self.cur_token {
                             Some(Token::StartTag {
                                 tag_name,
@@ -1032,6 +1090,17 @@ where
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rawtext;
+                            self.reconsume()
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1041,6 +1110,17 @@ where
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rawtext;
+                            self.reconsume()
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1051,6 +1131,17 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
                             self.emit_cur_token();
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::Rawtext;
+                            self.reconsume()
                         }
                     }
                     // ASCII upper alpha
@@ -1228,6 +1319,17 @@ where
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptData;
+                            self.reconsume()
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1237,6 +1339,17 @@ where
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptData;
+                            self.reconsume()
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1247,6 +1360,17 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
                             self.emit_cur_token();
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptData;
+                            self.reconsume()
                         }
                     }
                     // ASCII upper alpha
@@ -1625,6 +1749,17 @@ where
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptDataEscaped;
+                            self.reconsume()
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1634,6 +1769,17 @@ where
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptDataEscaped;
+                            self.reconsume()
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1644,6 +1790,17 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
                             self.emit_cur_token();
+                        } else {
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                            });
+                            self.state = State::ScriptDataEscaped;
+                            self.reconsume()
                         }
                     }
                     // ASCII upper alpha
@@ -2207,8 +2364,29 @@ where
                     // U+003C LESS-THAN SIGN (<)
                     // This is an unexpected-character-in-attribute-name parse error. Treat it
                     // as per the "anything else" entry below.
-                    Some('"') | Some('\'') | Some('<') => {
+                    Some(c @ '"') | Some(c @ '\'') | Some(c @ '<') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInAttributeName);
+
+                        if let Some(ref mut token) = self.cur_token {
+                            match token {
+                                Token::StartTag { attributes, .. }
+                                | Token::EndTag { attributes, .. } => {
+                                    if let Some(attribute) = attributes.last_mut() {
+                                        let mut new_name = String::new();
+                                        let mut raw_new_name = String::new();
+
+                                        new_name.push_str(&attribute.name);
+                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                                        new_name.push(c);
+                                        raw_new_name.push(c);
+
+                                        attribute.name = new_name.into();
+                                        attribute.raw_name = Some(raw_new_name.into());
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
                     }
                     // Anything else
                     // Append the current input character to the current attribute's name.
@@ -2673,8 +2851,38 @@ where
                     // U+0060 GRAVE ACCENT (`)
                     // This is an unexpected-character-in-unquoted-attribute-value parse error.
                     // Treat it as per the "anything else" entry below.
-                    Some('"') | Some('\'') | Some('<') | Some('=') | Some('`') => {
+                    Some(c @ '"') | Some(c @ '\'') | Some(c @ '<') | Some(c @ '=')
+                    | Some(c @ '`') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInUnquotedAttributeValue);
+
+                        if let Some(ref mut token) = self.cur_token {
+                            match token {
+                                Token::StartTag { attributes, .. }
+                                | Token::EndTag { attributes, .. } => {
+                                    if let Some(attribute) = attributes.last_mut() {
+                                        let mut new_value = String::new();
+
+                                        if let Some(value) = &attribute.value {
+                                            new_value.push_str(value);
+                                        }
+
+                                        new_value.push(c);
+
+                                        let mut raw_new_value = String::new();
+
+                                        if let Some(raw_value) = &attribute.raw_value {
+                                            raw_new_value.push_str(raw_value);
+                                        }
+
+                                        raw_new_value.push(c);
+
+                                        attribute.value = Some(new_value.into());
+                                        attribute.raw_value = Some(raw_new_value.into());
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
