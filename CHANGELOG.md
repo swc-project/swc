@@ -11,6 +11,9 @@
 - **(es/minifier)** Apply name mangler as much as we can (#4365) ([a8ed5ba](https://github.com/swc-project/swc/commit/a8ed5ba357d735657245e5bcd266ba9bda341099))
 
 
+- **(es/minifier)** Apply name mangler even more (#4368) ([4b1590e](https://github.com/swc-project/swc/commit/4b1590e72fb2dbae6af135d8c284d4c1a875045a))
+
+
 - **(es/modules/cjs)** Fix order of statements (#4361) ([5c1ce0b](https://github.com/swc-project/swc/commit/5c1ce0ba051de3320e90b0992d57a965a6c2dd8a))
 
 ### Features
