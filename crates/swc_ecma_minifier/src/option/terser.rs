@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
-use super::{true_by_default, CompressOptions, TopLevelOptions};
+use super::{one_by_default, true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -166,7 +166,7 @@ pub struct TerserCompressorOptions {
     #[serde(default)]
     pub negate_iife: Option<bool>,
 
-    #[serde(default)]
+    #[serde(default = "one_by_default")]
     pub passes: usize,
 
     #[serde(default)]
