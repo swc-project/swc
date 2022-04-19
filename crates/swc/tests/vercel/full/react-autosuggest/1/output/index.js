@@ -3,7 +3,7 @@ var swcHelpers = require("@swc/helpers");
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var _react = function _interopRequireWildcard(obj) {
+var _react = function(obj) {
     if (obj && obj.__esModule) return obj;
     if (null === obj || "object" !== _typeof(obj) && "function" != typeof obj) return {
         "default": obj
@@ -61,21 +61,9 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
-}
 function _assertThisInitialized(self) {
     if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     return self;
-}
-function _isNativeReflectConstruct() {
-    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
-    if ("function" == typeof Proxy) return !0;
-    try {
-        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
-    } catch (e) {
-        return !1;
-    }
 }
 function _getPrototypeOf(o1) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
@@ -96,7 +84,7 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 var ItemsList = function(_Component) {
-    !function _inherits(subClass, superClass) {
+    !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -107,16 +95,24 @@ var ItemsList = function(_Component) {
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList1, _Component);
     var Derived, Constructor1, protoProps, staticProps, _super = (Derived = ItemsList1, function() {
-        var result, Super = _getPrototypeOf(Derived);
-        if (_isNativeReflectConstruct()) {
+        var self, call, result, Super = _getPrototypeOf(Derived);
+        if (function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+            } catch (e) {
+                return !1;
+            }
+        }()) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
-        return _possibleConstructorReturn(this, result);
+        return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
     function ItemsList1() {
         var _this;
-        !function _classCallCheck(instance, Constructor) {
+        !function(instance, Constructor) {
             if (!swcHelpers._instanceof(instance, Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, ItemsList1);
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
@@ -145,7 +141,7 @@ var ItemsList = function(_Component) {
                     var isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
                         sectionIndex: sectionIndex,
                         itemIndex: itemIndex
-                    }) : itemProps, allItemProps = function _objectSpread(target) {
+                    }) : itemProps, allItemProps = function(target) {
                         for(var _arguments = arguments, _loop = function(i) {
                             var source = null != _arguments[i] ? _arguments[i] : {};
                             i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
@@ -170,7 +166,7 @@ var ItemsList = function(_Component) {
                 }));
             }
         }
-    ], protoProps && _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
+    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,

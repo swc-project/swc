@@ -1,7 +1,6 @@
 import { defer } from './utils';
 export default function createWidgetsManager(onWidgetsUpdate) {
-    const widgets = [];
-    let scheduled = !1;
+    let widgets = [], scheduled = !1;
     function scheduleUpdate() {
         scheduled || (scheduled = !0, defer(()=>{
             scheduled = !1, onWidgetsUpdate();

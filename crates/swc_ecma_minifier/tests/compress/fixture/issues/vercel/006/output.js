@@ -37,7 +37,7 @@ class LoadScript extends React.PureComponent {
     componentWillUnmount() {
         if (isBrowser) {
             this.cleanup();
-            const timeoutCallback = ()=>{
+            let timeoutCallback = ()=>{
                 this.check.current || (delete window.google, cleaningUp = !1);
             };
             window.setTimeout(timeoutCallback, 1), this.props.onUnmount && this.props.onUnmount();
@@ -61,7 +61,7 @@ class LoadScript extends React.PureComponent {
         }, this.isCleaningUp = async ()=>new Promise(function(resolve) {
                 if (cleaningUp) {
                     if (isBrowser) {
-                        const timer = window.setInterval(function() {
+                        let timer = window.setInterval(function() {
                             cleaningUp || (window.clearInterval(timer), resolve());
                         }, 1);
                     }
@@ -69,7 +69,7 @@ class LoadScript extends React.PureComponent {
             })
         , this.cleanup = ()=>{
             cleaningUp = !0;
-            const script1 = document.getElementById(this.props.id);
+            let script1 = document.getElementById(this.props.id);
             script1 && script1.parentNode && script1.parentNode.removeChild(script1), Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function(script) {
                 return "string" == typeof script.src && script.src.includes("maps.googleapis");
             }).forEach(function(script) {
@@ -85,7 +85,7 @@ class LoadScript extends React.PureComponent {
             });
         }, this.injectScript = ()=>{
             this.props.preventGoogleFontsLoading && preventGoogleFonts(), invariant(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
-            const injectScriptOptions = {
+            let injectScriptOptions = {
                 id: this.props.id,
                 nonce: this.props.nonce,
                 url: makeLoadScriptUrl(this.props)

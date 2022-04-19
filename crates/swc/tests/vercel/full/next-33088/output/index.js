@@ -7,8 +7,8 @@ export default function g() {
         hits: []
     }), 2), j = g[0], k = g[1], h = a.slicedToArray(f.useState("react"), 2), i = h[0], l = h[1];
     return f.useEffect(function() {
-        "" !== i && function a() {
-            return c.apply(this, arguments);
+        "" !== i && function() {
+            c.apply(this, arguments);
         }();
         function c() {
             return (c = a.asyncToGenerator(b.mark(function a() {

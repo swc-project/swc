@@ -1,5 +1,5 @@
 import { s as style, y, m } from "../index.f66dda46.js";
-const styles = {
+let styles = {
     about: "about_migxty"
 };
 function About({ query , title ,  }) {

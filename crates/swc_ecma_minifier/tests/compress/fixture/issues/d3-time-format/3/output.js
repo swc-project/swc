@@ -209,7 +209,7 @@
             };
             var src_utcYear = utcYear;
             function ticker(year, month, week, day, hour, minute) {
-                const tickIntervals = [
+                let tickIntervals = [
                     [
                         src_second,
                         1,
@@ -302,28 +302,28 @@
                     ], 
                 ];
                 function tickInterval(start, stop, count) {
-                    const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step
+                    let target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step
                     ).right(tickIntervals, target);
                     if (i === tickIntervals.length) return year.every((0, src_ticks.ly)(start / 31536000000, stop / 31536000000, count));
                     if (0 === i) return src_millisecond.every(Math.max((0, src_ticks.ly)(start, stop, count), 1));
-                    const [t, step1] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
+                    let [t, step1] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
                     return t.every(step1);
                 }
                 return [
                     function(start, stop, count) {
-                        const reverse = stop < start;
+                        let reverse = stop < start;
                         reverse && ([start, stop] = [
                             stop,
                             start
                         ]);
-                        const interval = count && 'function' == typeof count.range ? count : tickInterval(start, stop, count), ticks = interval ? interval.range(start, +stop + 1) : [];
+                        let interval = count && 'function' == typeof count.range ? count : tickInterval(start, stop, count), ticks = interval ? interval.range(start, +stop + 1) : [];
                         return reverse ? ticks.reverse() : ticks;
                     },
                     tickInterval
                 ];
             }
             utcYear.range;
-            const [utcTicks, utcTickInterval] = ticker(src_utcYear, utcMonth, utcSunday, src_utcDay, utcHour, utcMinute), [timeTicks, timeTickInterval] = ticker(src_year, month1, sunday, src_day, hour1, minute1);
+            let [utcTicks, utcTickInterval] = ticker(src_utcYear, utcMonth, utcSunday, src_utcDay, utcHour, utcMinute), [timeTicks, timeTickInterval] = ticker(src_year, month1, sunday, src_day, hour1, minute1);
             function localDate(d) {
                 if (0 <= d.y && d.y < 100) {
                     var date = new Date(-1, d.m, d.d, d.H, d.M, d.S, d.L);

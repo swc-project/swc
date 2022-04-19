@@ -111,7 +111,7 @@ export function foo(global, env, buffer) {
     var fb = env.___syscall140;
     var gb = env.___syscall146;
     var hb = T1(0);
-    const ib = T1(0);
+    let ib = T1(0);
     function Jb(a) {
         a = a | 0;
         var b = 0;

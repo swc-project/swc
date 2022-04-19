@@ -1,4 +1,4 @@
-import*as a from"react";export default function b(){const[c,d]=a.useState({hits:[]}),[b,e]=a.useState("react");return a.useEffect(()=>{async function a(){const a=await fetch("https://hn.algolia.com/api/v1/search?query="+b),c=await a.json();d(c)}""!==b&&a()},[b]),<>
+import*as a from"react";export default function b(){let[c,d]=a.useState({hits:[]}),[b,e]=a.useState("react");return a.useEffect(()=>{async function a(){let a=await fetch("https://hn.algolia.com/api/v1/search?query="+b),c=await a.json();d(c)}""!==b&&a()},[b]),<>
 
             <input value={b}onChange={a=>e(a.target.value)}/>
 
