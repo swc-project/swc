@@ -5323,6 +5323,7 @@ where
 
 // By spec '\r` removed before tokenizer, but we keep them to have better AST
 // and don't break logic to ignore characters
+// TODO add more tests
 #[inline(always)]
 fn is_spacy(c: char) -> bool {
     matches!(c, '\x09' | '\x0a' | '\x0d' | '\x0c' | '\x20')

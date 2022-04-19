@@ -1,0 +1,228 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html>
+  3 | |   <head>
+  4 | |       <title>
+  5 | |   
+  6 | |           Test
+  7 | |   
+  8 | |       </title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   
+ 12 | |   <p>This is a paragraph.</p>
+ 13 | |   <p>This is another paragraph.</p>
+ 14 | |   
+ 15 | |   </body>
+ 16 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:2:1]
+ 2 | <html>
+   : ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:2:1]
+ 2 | <html>
+   : ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:1]
+ 3 | <head>
+   : ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:1]
+ 3 | <head>
+   : ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
+ 4 | <title>
+   : ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
+ 4 | <title>
+   : ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
+ 4 | ,-> <title>
+ 5 | |   
+ 6 | |           Test
+ 7 | |   
+ 8 | `->     </title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
+ 4 | ,-> <title>
+ 5 | |   
+ 6 | |           Test
+ 7 | |   
+ 8 | `->     </title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:8:5]
+ 8 | </title>
+   :         ^
+ 9 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:8:5]
+ 8 | </title>
+   :         ^
+ 9 | </head>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:9:1]
+  9 | </head>
+    :        ^
+ 10 | <body>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:9:1]
+  9 | </head>
+    :        ^
+ 10 | <body>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:10:1]
+ 10 | <body>
+    : ^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:10:1]
+ 10 | <body>
+    : ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | ,-> <p>This is another paragraph.</p>
+ 14 | |   
+ 15 | |   </body>
+ 16 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | ,-> <p>This is another paragraph.</p>
+ 14 | |   
+ 15 | |   </body>
+ 16 | `-> </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    : ^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    : ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    :                            ^
+ 13 | <p>This is another paragraph.</p>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
+ 12 | <p>This is a paragraph.</p>
+    :                            ^
+ 13 | <p>This is another paragraph.</p>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    : ^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    : ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    :                                  ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
+ 13 | <p>This is another paragraph.</p>
+    :                                  ^
+    `----
