@@ -10307,7 +10307,7 @@
         },
         20386: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            let strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560), isNullOrUndefined = (value)=>null == value
+            const strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560), isNullOrUndefined = (value)=>null == value
             ;
             function validateArrayFormatSeparator(value) {
                 if ('string' != typeof value || 1 !== value.length) throw new TypeError('arrayFormatSeparator must be single character string');
@@ -10324,12 +10324,12 @@
                 ) : input;
             }
             function removeHash(input) {
-                let hashStart = input.indexOf('#');
+                const hashStart = input.indexOf('#');
                 return -1 !== hashStart && (input = input.slice(0, hashStart)), input;
             }
             function extract(input) {
                 input = removeHash(input);
-                let queryStart = input.indexOf('?');
+                const queryStart = input.indexOf('?');
                 return -1 === queryStart ? '' : input.slice(queryStart + 1);
             }
             function parseValue(value, options) {
@@ -10344,7 +10344,7 @@
                     parseNumbers: !1,
                     parseBooleans: !1
                 }, options3)).arrayFormatSeparator);
-                let formatter = function(options) {
+                const formatter = function(options) {
                     let result;
                     switch(options.arrayFormat){
                         case 'index':
@@ -10372,9 +10372,9 @@
                         case 'comma':
                         case 'separator':
                             return (key, value, accumulator)=>{
-                                let isArray = 'string' == typeof value && value.includes(options.arrayFormatSeparator), isEncodedArray = 'string' == typeof value && !isArray && decode(value, options).includes(options.arrayFormatSeparator);
+                                const isArray = 'string' == typeof value && value.includes(options.arrayFormatSeparator), isEncodedArray = 'string' == typeof value && !isArray && decode(value, options).includes(options.arrayFormatSeparator);
                                 value = isEncodedArray ? decode(value, options) : value;
-                                let newValue = isArray || isEncodedArray ? value.split(options.arrayFormatSeparator).map((item)=>decode(item, options)
+                                const newValue = isArray || isEncodedArray ? value.split(options.arrayFormatSeparator).map((item)=>decode(item, options)
                                 ) : null === value ? value : decode(value, options);
                                 accumulator[key] = newValue;
                             };
@@ -10389,7 +10389,7 @@
                     }
                 }(options3), ret = Object.create(null);
                 if ('string' != typeof query || !(query = query.trim().replace(/^[?#&]/, ''))) return ret;
-                for (let param of query.split('&')){
+                for (const param of query.split('&')){
                     if ('' === param) continue;
                     let [key, value] = splitOnFirst(options3.decode ? param.replace(/\+/g, ' ') : param, '=');
                     value = void 0 === value ? null : [
@@ -10397,13 +10397,13 @@
                         'separator'
                     ].includes(options3.arrayFormat) ? value : decode(value, options3), formatter(decode(key, options3), value, ret);
                 }
-                for (let key2 of Object.keys(ret)){
-                    let value = ret[key2];
-                    if ('object' == typeof value && null !== value) for (let k of Object.keys(value))value[k] = parseValue(value[k], options3);
+                for (const key2 of Object.keys(ret)){
+                    const value = ret[key2];
+                    if ('object' == typeof value && null !== value) for (const k of Object.keys(value))value[k] = parseValue(value[k], options3);
                     else ret[key2] = parseValue(value, options3);
                 }
                 return !1 === options3.sort ? ret : (!0 === options3.sort ? Object.keys(ret).sort() : Object.keys(ret).sort(options3.sort)).reduce((result, key)=>{
-                    let value = ret[key];
+                    const value = ret[key];
                     return Boolean(value) && 'object' == typeof value && !Array.isArray(value) ? result[key] = keysSorter(value) : result[key] = value, result;
                 }, Object.create(null));
             }
@@ -10415,12 +10415,12 @@
                     arrayFormat: 'none',
                     arrayFormatSeparator: ','
                 }, options4)).arrayFormatSeparator);
-                let shouldFilter = (key)=>options4.skipNull && isNullOrUndefined(object[key]) || options4.skipEmptyString && '' === object[key]
+                const shouldFilter = (key)=>options4.skipNull && isNullOrUndefined(object[key]) || options4.skipEmptyString && '' === object[key]
                 , formatter = function(options) {
                     switch(options.arrayFormat){
                         case 'index':
                             return (key)=>(result, value)=>{
-                                    let index = result.length;
+                                    const index = result.length;
                                     return void 0 === value || options.skipNull && null === value || options.skipEmptyString && '' === value ? result : null === value ? [
                                         ...result,
                                         [
@@ -10487,10 +10487,10 @@
                             ;
                     }
                 }(options4), objectCopy = {};
-                for (let key3 of Object.keys(object))shouldFilter(key3) || (objectCopy[key3] = object[key3]);
-                let keys = Object.keys(objectCopy);
+                for (const key3 of Object.keys(object))shouldFilter(key3) || (objectCopy[key3] = object[key3]);
+                const keys = Object.keys(objectCopy);
                 return !1 !== options4.sort && keys.sort(options4.sort), keys.map((key)=>{
-                    let value = object[key];
+                    const value = object[key];
                     return void 0 === value ? '' : null === value ? encode(key, options4) : Array.isArray(value) ? value.reduce(formatter(key), []).join('&') : encode(key, options4) + '=' + encode(value, options4);
                 }).filter((x)=>x.length > 0
                 ).join('&');
@@ -10498,7 +10498,7 @@
                 options = Object.assign({
                     decode: !0
                 }, options);
-                let [url_, hash] = splitOnFirst(url, '#');
+                const [url_, hash] = splitOnFirst(url, '#');
                 return Object.assign({
                     url: url_.split('?')[0] || '',
                     query: parse(extract(url), options)
@@ -10510,12 +10510,14 @@
                     encode: !0,
                     strict: !0
                 }, options);
-                let url1 = removeHash(object.url).split('?')[0] || '', queryFromUrl = exports.extract(object.url), parsedQueryFromUrl = exports.parse(queryFromUrl, {
+                const url1 = removeHash(object.url).split('?')[0] || '', queryFromUrl = exports.extract(object.url), parsedQueryFromUrl = exports.parse(queryFromUrl, {
                     sort: !1
-                }), query = Object.assign(parsedQueryFromUrl, object.query), queryString = exports.stringify(query, options);
+                }), query = Object.assign(parsedQueryFromUrl, object.query);
+                let queryString = exports.stringify(query, options);
                 queryString && (queryString = `?${queryString}`);
                 let hash1 = function(url) {
-                    let hash = '', hashStart = url.indexOf('#');
+                    let hash = '';
+                    const hashStart = url.indexOf('#');
                     return -1 !== hashStart && (hash = url.slice(hashStart)), hash;
                 }(object.url);
                 return object.fragmentIdentifier && (hash1 = `#${encode(object.fragmentIdentifier, options)}`), `${url1}${queryString}${hash1}`;
@@ -10523,14 +10525,14 @@
                 options = Object.assign({
                     parseFragmentIdentifier: !0
                 }, options);
-                let { url , query , fragmentIdentifier  } = exports.parseUrl(input, options);
+                const { url , query , fragmentIdentifier  } = exports.parseUrl(input, options);
                 return exports.stringifyUrl({
                     url,
                     query: filterObject(query, filter),
                     fragmentIdentifier
                 }, options);
             }, exports.exclude = (input, filter, options)=>{
-                let exclusionFilter = Array.isArray(filter) ? (key)=>!filter.includes(key)
+                const exclusionFilter = Array.isArray(filter) ? (key)=>!filter.includes(key)
                  : (key, value)=>!filter(key, value)
                 ;
                 return exports.pick(input, exclusionFilter, options);
@@ -17351,7 +17353,7 @@
                 if ('' === separator) return [
                     string
                 ];
-                let separatorIndex = string.indexOf(separator);
+                const separatorIndex = string.indexOf(separator);
                 return -1 === separatorIndex ? [
                     string
                 ] : [
