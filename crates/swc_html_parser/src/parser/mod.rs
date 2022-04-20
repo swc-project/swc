@@ -557,6 +557,21 @@ impl ActiveFormattingElementStack {
         self.items.push(node);
     }
 
+    pub fn remove(&mut self, _node: &RcNode) {
+        // let position = self.items.iter().rposition(|x| is_same_node(node,
+        // x));
+        //
+        // if let Some(position) = position {
+        //     self.items.remove(position);
+        //     self.items().pop();
+        // }
+    }
+
+    pub fn contains(&mut self, _node: &RcNode) -> bool {
+        // TODO
+        false
+    }
+
     pub fn insert_marker(&mut self) {}
 
     pub fn clear_to_last_marker(&mut self) {}
@@ -2839,35 +2854,38 @@ where
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
                     Token::StartTag { tag_name, .. } if tag_name == "a" => {
-                        // TODO
-                        // if !self.active_formatting_elements.is_empty() {
-                        //     let has_anchor_element = false;
-                        //     let element = None;
-                        //
-                        //    for element in self.active_formatting_elements {
-                        //         match element {
-                        //             Element { tag_name, .. } if tag_name = "market" => {
-                        //                 break;
-                        //             }
-                        //            Element { tag_name, .. } if &*tag_name == "a" => {
-                        //                  break;
-                        //              }
-                        //             _ => {}
-                        //          }
-                        //      }
-                        //
-                        //     if has_anchor_element {
-                        //         // Parse error.
-                        //        self.run_the_adoption_agency_algorithm(token_and_info);
-                        //
-                        //        if (element.is_some() &&
-                        // self.activeFormattingElements.contains(element))
-                        //        {
-                        //           self.active_formatting_elements.remove(element);
-                        //           self.open_element_stack.remove($element);
-                        //        }
-                        //     }
-                        // }
+                        if !self.active_formatting_elements.items.is_empty() {
+                            let element = None;
+                            let has_anchor_element = false;
+
+                            // TODO improve me
+                            for _element in &self.active_formatting_elements.items {
+                                // if ($element instanceof Marker) {
+                                //     break;
+                                // } else if element instanceof
+                                // HTMLAnchorElement {
+                                //     element
+                                //
+                                //     break;
+                                // }
+                            }
+
+                            if has_anchor_element {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+
+                                self.run_the_adoption_agency_algorithm(token_and_info);
+
+                                if let Some(element) = &element {
+                                    if self.active_formatting_elements.contains(element) {
+                                        self.active_formatting_elements.remove(element);
+                                        self.open_elements_stack.remove(element);
+                                    }
+                                }
+                            }
+                        }
 
                         self.reconstruct_the_active_formatting_elements()?;
 
