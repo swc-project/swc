@@ -5,6 +5,28 @@
 
 
 
+- **(plugin)** Align deps to fix build (#4377) ([8419b60](https://github.com/swc-project/swc/commit/8419b604300695e57cb6b1191e9daf638c65c828))
+
+## [1.2.170] - 2022-04-20
+
+### Performance
+
+
+
+- **(es/minifier)** Fix default of `TerserCompressorOptions` (#4378) ([203dde9](https://github.com/swc-project/swc/commit/203dde9c6b83390e65444615299829f4212eac9d))
+
+### Testing
+
+
+
+- **(es/minifier)** Organize tests (#4375) ([4a8b1da](https://github.com/swc-project/swc/commit/4a8b1dad1d527cbbdd95a9aabb82423772841f18))
+
+## [1.2.169] - 2022-04-20
+
+### Bug Fixes
+
+
+
 - **(es/lexer)** Fix handling of object properties with the name `function` (#4374) ([3bdf5a8](https://github.com/swc-project/swc/commit/3bdf5a89600ecbc81be4eba162c09820a8a6550c))
 
 

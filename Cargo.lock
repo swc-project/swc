@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.169"
+version = "1.2.170"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2984,7 +2984,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.22"
+version = "0.17.23"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.104.11"
+version = "0.104.12"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3902,7 +3902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.53.0"
+version = "0.53.1"
 dependencies = [
  "anyhow",
  "once_cell",

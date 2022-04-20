@@ -32,8 +32,8 @@ relative-path = "1.6.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {version = "0.169.0", path = "../swc"}
-swc_common = { version = "0.17.20", path = "../swc_common"}
-swc_plugin_runner = {version = "0.53.0", path = "../swc_plugin_runner", default-features = false, optional = true}
+swc_common = { version = "0.17.23", path = "../swc_common"}
+swc_plugin_runner = {version = "0.53.1", path = "../swc_plugin_runner", default-features = false, optional = true}
 swc_trace_macro = {version = "0.1.0", path = "../swc_trace_macro"}
 tracing = "0.1.32"
 tracing-chrome = "0.5.0"

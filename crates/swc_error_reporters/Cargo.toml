@@ -13,6 +13,6 @@ bench = false
 
 [dependencies]
 miette = {version = "4.2.1", features = ["fancy"]}
-swc_common = { version = "0.17.20", path = "../swc_common", features = [
+swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "concurrent",
 ]}
