@@ -230,7 +230,7 @@ where
             .map(|(idx, case)| {
                 case.test
                     .as_deref()
-                    .map(|test| test.may_have_side_effects())
+                    .map(|test| is_primitive(test).is_none())
                     .unwrap_or(false)
                     || !(case.cons.is_empty() || case.cons.terminates() || idx == cases.len() - 1)
             })
@@ -239,6 +239,7 @@ where
         let mut i = 0;
         let len = cases.len();
 
+        // may some smarter person find a better solution
         while i < len {
             if cases[i].cons.is_empty() {
                 i += 1;
@@ -264,8 +265,12 @@ where
                 if found {
                     self.changed = true;
                     report_change!("switches: Merging cases with same cons");
+                    let mut len = 1;
+                    while len < j && cases[j - len].cons.is_empty() {
+                        len += 1;
+                    }
                     cases[j].cons = cases[i].cons.take();
-                    cases[(i + 1)..=j].rotate_right(1);
+                    cases[(i + 1)..=j].rotate_right(len);
                     i += 1;
                 }
             }
