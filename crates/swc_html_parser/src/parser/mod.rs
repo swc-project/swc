@@ -3030,6 +3030,8 @@ where
                         self_closing,
                         ..
                     } if tag_name == "br" => {
+                        let is_self_closing = *self_closing;
+
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
@@ -3046,7 +3048,9 @@ where
                         })?;
                         self.open_elements_stack.pop();
 
-                        // TODO fix me
+                        if is_self_closing {
+                            token_and_info.acknowledged = true;
+                        }
 
                         self.frameset_ok = false;
                     }
