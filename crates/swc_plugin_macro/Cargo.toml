@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 name = "swc_plugin_macro"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.4.0"
+version = "0.4.1"
 
 [lib]
 bench = false
