@@ -161,7 +161,6 @@ pub enum State {
     NumericCharacterReferenceEnd,
 }
 
-// TODO rename
 #[derive(Debug, Clone, Copy)]
 pub struct LexerState {
     pos: BytePos,
