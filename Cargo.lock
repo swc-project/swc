@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.48.1"
+version = "0.48.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3893,7 +3893,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "proc-macro2",
  "quote",

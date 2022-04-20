@@ -10,6 +10,9 @@
 
 - **(plugin)** Align deps to fix build (#4377) ([8419b60](https://github.com/swc-project/swc/commit/8419b604300695e57cb6b1191e9daf638c65c828))
 
+### Miscellaneous Tasks
+- **general**: Fix wasm publish script ([234e380](https://github.com/swc-project/swc/commit/234e38058071f1d91e899ba7d16f37f3e3a69334))
+
 ## [1.2.170] - 2022-04-20
 
 ### Performance
