@@ -21,8 +21,17 @@
  18 | |       <li>Milk</li>
  19 | |   </ol>
  20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 21 | |   <ul>
+ 22 | |       <li>item1
+ 23 | |       <li>item2
+ 24 | |   </ul>
+ 25 | |   
+ 26 | |       <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | |       </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
 
   x Child
@@ -58,8 +67,17 @@
  18 | |       <li>Milk</li>
  19 | |   </ol>
  20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 21 | |   <ul>
+ 22 | |       <li>item1
+ 23 | |       <li>item2
+ 24 | |   </ul>
+ 25 | |   
+ 26 | |       <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | |       </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
 
   x Element
@@ -83,8 +101,17 @@
  18 | |       <li>Milk</li>
  19 | |   </ol>
  20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 21 | |   <ul>
+ 22 | |       <li>item1
+ 23 | |       <li>item2
+ 24 | |   </ul>
+ 25 | |   
+ 26 | |       <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | |       </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
 
   x Child
@@ -121,8 +148,17 @@
  18 | |       <li>Milk</li>
  19 | |   </ol>
  20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 21 | |   <ul>
+ 22 | |       <li>item1
+ 23 | |       <li>item2
+ 24 | |   </ul>
+ 25 | |   
+ 26 | |       <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | |       </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
 
   x Element
@@ -145,8 +181,17 @@
  18 | |       <li>Milk</li>
  19 | |   </ol>
  20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 21 | |   <ul>
+ 22 | |       <li>item1
+ 23 | |       <li>item2
+ 24 | |   </ul>
+ 25 | |   
+ 26 | |       <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | |       </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
 
   x Child
@@ -542,15 +587,201 @@
   x Child
     ,-[$DIR/tests/fixture/tag/lists/input.html:19:1]
  19 | ,-> </ol>
- 20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 20 | `-> 
+ 21 |     <ul>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/lists/input.html:19:1]
  19 | ,-> </ol>
- 20 | |   
- 21 | |   </body>
- 22 | `-> </html>
+ 20 | `-> 
+ 21 |     <ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:21:1]
+ 21 | ,-> <ul>
+ 22 | |       <li>item1
+ 23 | `->     <li>item2
+ 24 |     </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:21:1]
+ 21 | ,-> <ul>
+ 22 | |       <li>item1
+ 23 | `->     <li>item2
+ 24 |     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:21:1]
+ 21 | ,-> <ul>
+ 22 | `->     <li>item1
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:21:1]
+ 21 | ,-> <ul>
+ 22 | `->     <li>item1
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:22:5]
+ 22 | ,-> <li>item1
+ 23 | `->     <li>item2
+ 24 |     </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:22:5]
+ 22 | ,-> <li>item1
+ 23 | `->     <li>item2
+ 24 |     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:22:5]
+ 22 | ,-> <li>item1
+ 23 | `->     <li>item2
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:22:5]
+ 22 | ,-> <li>item1
+ 23 | `->     <li>item2
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:23:5]
+ 23 | <li>item2
+    : ^^^^^^^^^^
+ 24 | </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:23:5]
+ 23 | <li>item2
+    : ^^^^^^^^^^
+ 24 | </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:23:5]
+ 23 | <li>item2
+    :     ^^^^^^
+ 24 | </ul>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:23:5]
+ 23 | <li>item2
+    :     ^^^^^^
+ 24 | </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:24:1]
+ 24 | ,-> </ul>
+ 25 | |   
+ 26 | `->     <ul>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:24:1]
+ 24 | ,-> </ul>
+ 25 | |   
+ 26 | `->     <ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:26:5]
+ 26 | ,-> <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:26:5]
+ 26 | ,-> <ul>
+ 27 | |           <li>item1
+ 28 | |           <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:26:5]
+ 26 | ,-> <ul>
+ 27 | `->         <li>item1
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:26:5]
+ 26 | ,-> <ul>
+ 27 | `->         <li>item1
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:27:9]
+ 27 | ,-> <li>item1
+ 28 | |           <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:27:9]
+ 27 | ,-> <li>item1
+ 28 | |           <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:27:9]
+ 27 | ,-> <li>item1
+ 28 | `->         <li>item2
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:27:9]
+ 27 | ,-> <li>item1
+ 28 | `->         <li>item2
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:28:9]
+ 28 | ,-> <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/lists/input.html:28:9]
+ 28 | ,-> <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:28:9]
+ 28 | ,-> <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:28:9]
+ 28 | ,-> <li>item2
+ 29 | `->     </ul>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/lists/input.html:29:5]
+ 29 | ,-> </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/lists/input.html:29:5]
+ 29 | ,-> </ul>
+ 30 | |   </body>
+ 31 | `-> </html>
     `----
