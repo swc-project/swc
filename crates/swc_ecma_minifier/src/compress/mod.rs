@@ -316,7 +316,7 @@ where
         }
 
         {
-            let _timer = timer!("apply pure optimize");
+            let _timer = timer!("apply pure optimizer");
 
             let mut visitor = pure_optimizer(
                 self.options,
@@ -329,9 +329,11 @@ where
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
-            if cfg!(feature = "debug") && visitor.changed() {
+            if visitor.changed() {
                 n.invoke();
+            }
 
+            if cfg!(feature = "debug") && visitor.changed() {
                 let src = n.dump();
                 debug!("===== After pure =====\n{}\n{}", start, src);
             }
@@ -358,6 +360,11 @@ where
                 !self.dump_for_infinite_loop.is_empty(),
             );
             n.apply(&mut visitor);
+
+            if visitor.changed() {
+                n.invoke();
+            }
+
             self.changed |= visitor.changed();
 
             // let done = dump(&*n);
@@ -375,6 +382,10 @@ where
 
             let mut v = dead_branch_remover();
             n.apply(&mut v);
+
+            if v.changed() {
+                n.invoke();
+            }
 
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();

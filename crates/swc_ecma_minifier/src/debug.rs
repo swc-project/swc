@@ -1,8 +1,12 @@
 #![cfg_attr(not(debug_assertions), allow(unused))]
 
-use std::{env, fmt::Debug, mem::forget, process::Command};
+use std::{
+    fmt::Debug,
+    io::Write,
+    mem::forget,
+    process::{Command, Stdio},
+};
 
-use once_cell::sync::Lazy;
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -11,6 +15,12 @@ use swc_ecma_utils::{drop_span, DropSpan};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::debug;
+
+pub(crate) const SHOULD_CHECK: bool = cfg!(debug_assertions) && option_env!("SWC_CHECK").is_some();
+
+pub(crate) const SHOULD_RUN: bool =
+    cfg!(debug_assertions) && cfg!(feature = "debug") && option_env!("SWC_RUN").is_some();
 
 pub(crate) struct Debugger {}
 
@@ -66,13 +76,11 @@ where
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
 pub(crate) fn invoke(module: &Module) {
-    static ENABLED: Lazy<bool> = Lazy::new(|| env::var("SWC_RUN").unwrap_or_default() == "1");
-
     if cfg!(debug_assertions) {
         module.visit_with(&mut AssertValid);
     }
 
-    if !cfg!(feature = "debug") || !*ENABLED {
+    if !SHOULD_RUN && !SHOULD_CHECK {
         return;
     }
 
@@ -96,27 +104,58 @@ pub(crate) fn invoke(module: &Module) {
         emitter.emit_module(&module).unwrap();
     }
 
+    debug!("Validating with node.js");
+
     let code = String::from_utf8(buf).unwrap();
 
-    let output = Command::new("node")
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .expect("[SWC_RUN] failed to validate code using `node`");
-    if !output.status.success() {
-        panic!(
-            "[SWC_RUN] Failed to validate code:\n{}\n===== ===== ===== ===== =====\n{}\n{}",
-            code,
-            String::from_utf8_lossy(&output.stdout),
-            String::from_utf8_lossy(&output.stderr),
-        );
-    }
+    if SHOULD_CHECK {
+        let mut child = Command::new("node")
+            .arg("-")
+            .arg("--check")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("failed to spawn node");
 
-    tracing::info!(
-        "[SWC_RUN]\n{}\n{}",
-        code,
-        String::from_utf8_lossy(&output.stdout)
-    )
+        {
+            let child_stdin = child.stdin.as_mut().unwrap();
+            child_stdin
+                .write_all(code.as_bytes())
+                .expect("failed to write");
+        }
+
+        let output = child.wait_with_output().expect("failed to check syntax");
+
+        if !output.status.success() {
+            panic!(
+                "[SWC_CHECK] Failed to validate code:\n{}\n===== ===== ===== ===== =====\n{}\n{}",
+                code,
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr),
+            );
+        }
+    } else {
+        let output = Command::new("node")
+            .arg("-e")
+            .arg(&code)
+            .output()
+            .expect("[SWC_RUN] failed to validate code using `node`");
+        if !output.status.success() {
+            panic!(
+                "[SWC_RUN] Failed to validate code:\n{}\n===== ===== ===== ===== =====\n{}\n{}",
+                code,
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr),
+            );
+        }
+
+        tracing::info!(
+            "[SWC_RUN]\n{}\n{}",
+            code,
+            String::from_utf8_lossy(&output.stdout)
+        )
+    }
 }
 
 #[cfg(debug_assertions)]

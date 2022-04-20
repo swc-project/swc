@@ -21,22 +21,30 @@ dir="$1"
 nextJsDir="$(pwd)"
 
 # Ensure that next-swc is up to date
+echo "----- ⚠️  Building next-swc"
 (cd ./packages/next-swc && yarn build-native)
 
 # Install dependencies
-if test -f "$dir/yarn.lock"; then
-    echo "Using yarn"
-    (cd $dir && yarn)
-else
-    echo "Using yarn"
-    (cd $dir && npm ci)
+echo "----- ⚠️  Installing dependencies"
+if [ ! -d "$dir/node_modules" ]; then
+    if test -f "$dir/yarn.lock"; then
+        echo "  Using yarn"
+        # (cd $dir && yarn)
+    else
+        echo "  Using yarn"
+        # (cd $dir && npm ci)
+    fi
 fi
 
-# Remove some packages
-(cd $dir && rm -rf node_modules/react)
-(cd $dir && rm -rf node_modules/next)
-(cd $dir && rm -rf node_modules/react-dom)
+
+echo "----- ⚠️  Removing cache"
+(cd $dir && rm -rf .next)
+
+echo "----- ⚠️  Replacing swc binary"
+cp packages/next-swc/native/*.node $dir/node_modules/@next/swc-*/
+ls -al $dir/node_modules/@next/swc-*/
 
 # Build and start
-yarn next build $dir
-yarn next start $dir
+echo "----- ⚠️  Building the app using next"
+(cd $dir && npx next build)
+(cd $dir && npx next start)
