@@ -18,7 +18,6 @@ env:
   DIFF: 0
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
-  SWC_CHECK: 1
 
 jobs:
   check-license:
