@@ -15,6 +15,7 @@ use swc_ecma_utils::{drop_span, DropSpan};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::debug;
 
 pub(crate) const SHOULD_CHECK: bool = cfg!(debug_assertions) && option_env!("SWC_CHECK").is_some();
 
@@ -102,6 +103,8 @@ pub(crate) fn invoke(module: &Module) {
 
         emitter.emit_module(&module).unwrap();
     }
+
+    debug!("Validating with node.js");
 
     let code = String::from_utf8(buf).unwrap();
 
