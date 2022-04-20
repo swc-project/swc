@@ -1887,35 +1887,30 @@ where
                             .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                         let len = self.open_elements_stack.items.len();
-                        let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(node) if get_tag_name!(node) == "body");
+                        let body = self.open_elements_stack.items.get(1);
+                        let is_second_body =
+                            matches!(body, Some(node) if get_tag_name!(node) == "body");
 
                         if len == 1 || !is_second_body {
-                            // Ignore
-
+                            // Fragment case
+                            // Ignore the token
                             return Ok(());
                         }
 
                         if !self.frameset_ok {
                             // Ignore
-
                             return Ok(());
                         }
 
-                        let _body = self.open_elements_stack.items.get(1);
-                        // TODO remove the second element
-                        let parent: Option<Element> = None;
+                        if let Some(body) = &body {
+                            if let Some((parent, i)) = self.get_parent_and_index(body) {
+                                parent.children.borrow_mut().remove(i);
 
-                        if parent.is_some() {
-                            // $parent->removeChild($body);
+                                body.parent.set(None);
+                            }
                         }
 
-                        let mut i = len - 1;
-
-                        while i > 0 {
-                            self.open_elements_stack.pop();
-                            i -= 1;
-                        }
-
+                        self.open_elements_stack.items.truncate(1);
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InFrameset;
                     }
