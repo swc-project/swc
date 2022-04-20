@@ -166,15 +166,19 @@ where
         let mut text = String::new();
 
         for c in n.value.chars() {
-            let new_value = match c {
-                '&' => String::from("&amp;"),
-                '<' => String::from("&lt;"),
-                '>' => String::from("&gt;"),
-                '\u{00A0}' => String::from("&nbsp;"),
-                _ => c.to_string(),
-            };
-
-            text.push_str(&new_value);
+            match c {
+                '&' => {
+                    text.push_str(&String::from("&amp;"));
+                }
+                '<' => {
+                    text.push_str(&String::from("&lt;"));
+                }
+                '>' => {
+                    text.push_str(&String::from("&gt;"));
+                }
+                '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
+                _ => text.push(c),
+            }
         }
 
         write_str!(self, n.span, &text);
