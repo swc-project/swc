@@ -61,7 +61,8 @@
                   "value": "utf-8"
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Element",
@@ -83,9 +84,11 @@
                   },
                   "value": "&#x110000;"
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Element",
@@ -118,11 +121,14 @@
                   },
                   "value": "There should be an error."
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

@@ -60,7 +60,8 @@
                   },
                   "value": "Saving money, saving bytes"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -71,7 +72,8 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Element",
@@ -104,11 +106,14 @@
                   },
                   "value": "Qed."
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

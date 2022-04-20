@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -92,7 +93,8 @@
                   },
                   "value": "An Unordered HTML List"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -143,7 +145,8 @@
                       },
                       "value": "Coffee"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -174,7 +177,8 @@
                       },
                       "value": "Tea"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -205,7 +209,8 @@
                       },
                       "value": "Milk"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -216,7 +221,8 @@
                   },
                   "value": "\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -247,7 +253,8 @@
                   },
                   "value": "An Ordered HTML List"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -298,7 +305,8 @@
                       },
                       "value": "Coffee"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -329,7 +337,8 @@
                       },
                       "value": "Tea"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -360,7 +369,8 @@
                       },
                       "value": "Milk"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -371,7 +381,8 @@
                   },
                   "value": "\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -382,9 +393,11 @@
               },
               "value": "\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

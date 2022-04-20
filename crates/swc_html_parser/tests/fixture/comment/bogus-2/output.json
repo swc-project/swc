@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -40,9 +41,11 @@
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

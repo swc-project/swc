@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -81,7 +82,8 @@
                   },
                   "value": "This is heading 1"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -112,7 +114,8 @@
                   },
                   "value": "This is heading 2"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -143,7 +146,8 @@
                   },
                   "value": "This is heading 3"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -174,7 +178,8 @@
                   },
                   "value": "This is heading 4"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -205,7 +210,8 @@
                   },
                   "value": "This is heading 5"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -236,7 +242,8 @@
                   },
                   "value": "This is heading 6"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -247,9 +254,11 @@
               },
               "value": "\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -72,7 +73,8 @@
                   "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -114,7 +116,8 @@
                   "value": "red"
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -156,7 +159,8 @@
                   "value": null
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -240,9 +244,11 @@
                           },
                           "value": "Twitter"
                         }
-                      ]
+                      ],
+                      "content": null
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -306,9 +312,11 @@
                           },
                           "value": "Facebook"
                         }
-                      ]
+                      ],
+                      "content": null
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -372,9 +380,11 @@
                           },
                           "value": "G+"
                         }
-                      ]
+                      ],
+                      "content": null
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -385,7 +395,8 @@
                   },
                   "value": "\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -436,9 +447,11 @@
                       },
                       "value": "I'm an x-foo-with-markup!\n"
                     }
-                  ]
+                  ],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -500,7 +513,8 @@
                       },
                       "value": "\n        p { color: green; }\n    "
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -531,7 +545,8 @@
                       },
                       "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -542,11 +557,14 @@
                   },
                   "value": "\n"
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

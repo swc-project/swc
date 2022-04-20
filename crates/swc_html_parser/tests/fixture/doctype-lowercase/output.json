@@ -69,7 +69,8 @@
                   },
                   "value": "Title of the document"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -80,7 +81,8 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Text",
@@ -111,9 +113,11 @@
               },
               "value": "\nThe content of the document......\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

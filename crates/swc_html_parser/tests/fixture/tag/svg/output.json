@@ -69,7 +69,8 @@
                   },
                   "value": "XTech SVG Demo"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -100,7 +101,8 @@
                   },
                   "value": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -131,7 +133,8 @@
                   },
                   "value": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -142,7 +145,8 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Text",
@@ -254,7 +258,8 @@
                           },
                           "value": "HTML Form"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -296,7 +301,8 @@
                               },
                               "value": "Введите что-нибудь:"
                             }
-                          ]
+                          ],
+                          "content": null
                         },
                         {
                           "type": "Text",
@@ -328,7 +334,8 @@
                               "value": "text"
                             }
                           ],
-                          "children": []
+                          "children": [],
+                          "content": null
                         },
                         {
                           "type": "Text",
@@ -370,9 +377,11 @@
                               },
                               "value": "Incorrect value!"
                             }
-                          ]
+                          ],
+                          "content": null
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -435,9 +444,11 @@
                               "value": "signalError();"
                             }
                           ],
-                          "children": []
+                          "children": [],
+                          "content": null
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -448,7 +459,8 @@
                       },
                       "value": "\n    "
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -653,11 +665,14 @@
                                   },
                                   "value": "\n    "
                                 }
-                              ]
+                              ],
+                              "content": null
                             }
-                          ]
+                          ],
+                          "content": null
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -943,9 +958,11 @@
                                           },
                                           "value": "\n    "
                                         }
-                                      ]
+                                      ],
+                                      "content": null
                                     }
-                                  ]
+                                  ],
+                                  "content": null
                                 },
                                 {
                                   "type": "Text",
@@ -1058,9 +1075,11 @@
                                           },
                                           "value": "\n    "
                                         }
-                                      ]
+                                      ],
+                                      "content": null
                                     }
-                                  ]
+                                  ],
+                                  "content": null
                                 },
                                 {
                                   "type": "Text",
@@ -1213,23 +1232,32 @@
                                           },
                                           "value": "\n\n\n\n"
                                         }
-                                      ]
+                                      ],
+                                      "content": null
                                     }
-                                  ]
+                                  ],
+                                  "content": null
                                 }
-                              ]
+                              ],
+                              "content": null
                             }
-                          ]
+                          ],
+                          "content": null
                         }
-                      ]
+                      ],
+                      "content": null
                     }
-                  ]
+                  ],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

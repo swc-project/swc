@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -81,7 +82,8 @@
                   },
                   "value": "HTML Entity Example"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -112,7 +114,8 @@
                   },
                   "value": "A space character: &"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -143,7 +146,8 @@
                   },
                   "value": "A space character: &"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -174,7 +178,8 @@
                   },
                   "value": "A space character: &;"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -205,7 +210,8 @@
                   },
                   "value": "A space character:  "
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -236,7 +242,8 @@
                   },
                   "value": "The less-than sign: <"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -267,7 +274,8 @@
                   },
                   "value": "The greater-than sign: >"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -298,7 +306,8 @@
                   },
                   "value": "The double quote sign: \""
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -329,7 +338,8 @@
                   },
                   "value": "The single quote sign: '"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -360,7 +370,8 @@
                   },
                   "value": "The cent sign: ¢"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -391,7 +402,8 @@
                   },
                   "value": "The pound sign: £"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -422,7 +434,8 @@
                   },
                   "value": "The yen sign: ¥"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -453,7 +466,8 @@
                   },
                   "value": "The euro sign: €"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -484,7 +498,8 @@
                   },
                   "value": "The copyright sign: ©"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -515,7 +530,8 @@
                   },
                   "value": "The registered trade mark sign: ®"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -546,7 +562,8 @@
                   },
                   "value": "®"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -577,7 +594,8 @@
                   },
                   "value": "®"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -608,7 +626,8 @@
                   },
                   "value": "®;"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -639,7 +658,8 @@
                   },
                   "value": "®"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -670,7 +690,8 @@
                   },
                   "value": "reg"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -701,7 +722,8 @@
                   },
                   "value": "∳"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -732,7 +754,8 @@
                   },
                   "value": "&®"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -763,7 +786,8 @@
                   },
                   "value": "An a with a grave accent: à"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -794,7 +818,8 @@
                   },
                   "value": "An a with an acute accent: á"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -825,7 +850,8 @@
                   },
                   "value": "An a with a circumflex accent: â"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -856,7 +882,8 @@
                   },
                   "value": "An a with a tilde: ã"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -887,7 +914,8 @@
                   },
                   "value": "An o with a grave accent: ò"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -918,7 +946,8 @@
                   },
                   "value": "An o with an acute accent: ó"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -949,7 +978,8 @@
                   },
                   "value": "An o with a circumflex accent: ô"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -980,7 +1010,8 @@
                   },
                   "value": "An o with a tilde: õ"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -1011,7 +1042,8 @@
                   },
                   "value": "A space character: &&"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -1042,7 +1074,8 @@
                   },
                   "value": "I'm ∉ I tell you"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -1073,7 +1106,8 @@
                   },
                   "value": "I'm ¬ I tell you"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -1176,7 +1210,8 @@
                           },
                           "value": "✕"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1207,7 +1242,8 @@
                           },
                           "value": "✕"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1238,7 +1274,8 @@
                           },
                           "value": "✕"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1269,7 +1306,8 @@
                           },
                           "value": "$"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1300,7 +1338,8 @@
                           },
                           "value": "$"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1331,7 +1370,8 @@
                           },
                           "value": "$"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1362,7 +1402,8 @@
                           },
                           "value": "&#q;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1393,7 +1434,8 @@
                           },
                           "value": "&#qq;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1424,7 +1466,8 @@
                           },
                           "value": "&#qqq;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1455,7 +1498,8 @@
                           },
                           "value": "$"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1486,7 +1530,8 @@
                           },
                           "value": "$"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1517,7 +1562,8 @@
                           },
                           "value": "&#xq;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1548,7 +1594,8 @@
                           },
                           "value": "&#xqq;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1579,7 +1626,8 @@
                           },
                           "value": "&#xqqq;"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1610,7 +1658,8 @@
                           },
                           "value": "\n€\t0x20AC\tEURO SIGN (€)\n‚\t0x201A\tSINGLE LOW-9 QUOTATION MARK (‚)\nƒ\t0x0192\tLATIN SMALL LETTER F WITH HOOK (ƒ)\n„\t0x201E\tDOUBLE LOW-9 QUOTATION MARK („)\n…\t0x2026\tHORIZONTAL ELLIPSIS (…)\n†\t0x2020\tDAGGER (†)\n‡\t0x2021\tDOUBLE DAGGER (‡)\nˆ\t0x02C6\tMODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)\n‰\t0x2030\tPER MILLE SIGN (‰)\nŠ\t0x0160\tLATIN CAPITAL LETTER S WITH CARON (Š)\n‹\t0x2039\tSINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)\nŒ\t0x0152\tLATIN CAPITAL LIGATURE OE (Œ)\nŽ\t0x017D\tLATIN CAPITAL LETTER Z WITH CARON (Ž)\n‘\t0x2018\tLEFT SINGLE QUOTATION MARK (‘)\n’\t0x2019\tRIGHT SINGLE QUOTATION MARK (’)\n“\t0x201C\tLEFT DOUBLE QUOTATION MARK (“)\n”\t0x201D\tRIGHT DOUBLE QUOTATION MARK (”)\n•\t0x2022\tBULLET (•)\n–\t0x2013\tEN DASH (–)\n—\t0x2014\tEM DASH (—)\n˜\t0x02DC\tSMALL TILDE (˜)\n™\t0x2122\tTRADE MARK SIGN (™)\nš\t0x0161\tLATIN SMALL LETTER S WITH CARON (š)\n›\t0x203A\tSINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)\nœ\t0x0153\tLATIN SMALL LIGATURE OE (œ)\nž\t0x017E\tLATIN SMALL LETTER Z WITH CARON (ž)\nŸ\t0x0178\tLATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)\n"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1641,7 +1690,8 @@
                           },
                           "value": "I'm ∉ I tell you"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1672,7 +1722,8 @@
                           },
                           "value": "I'm ¬it; I tell you"
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -1683,13 +1734,17 @@
                       },
                       "value": "\n\n\n\n\n"
                     }
-                  ]
+                  ],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

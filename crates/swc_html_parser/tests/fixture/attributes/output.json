@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -453,7 +454,8 @@
                       },
                       "value": "x"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -495,7 +497,8 @@
                       },
                       "value": "x"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -537,7 +540,8 @@
                       "value": " objpicsurl_ "
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -589,7 +593,8 @@
                       "value": "\\u00A0"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -621,13 +626,17 @@
                       "value": "test"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

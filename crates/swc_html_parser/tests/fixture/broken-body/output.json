@@ -69,9 +69,11 @@
                   },
                   "value": "Test"
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Text",
@@ -102,9 +104,11 @@
               },
               "value": "\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

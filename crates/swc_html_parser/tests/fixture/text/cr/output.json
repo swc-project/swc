@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -81,7 +82,8 @@
                   },
                   "value": "Text"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -112,7 +114,8 @@
                   },
                   "value": "\r    Text\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -143,7 +146,8 @@
                   },
                   "value": "\r    Text\r\r\r    Text\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -174,7 +178,8 @@
                   },
                   "value": "Text\r\r\r    Text"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -216,7 +221,8 @@
                   },
                   "value": "\r\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -258,7 +264,8 @@
                   },
                   "value": "\r\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -300,7 +307,8 @@
                   },
                   "value": "\r\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -342,7 +350,8 @@
                   },
                   "value": "\r\r"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -373,11 +382,14 @@
                   },
                   "value": "\r\r.color {\r    color: red;\r    <!-- Test -->\r}\r\r"
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

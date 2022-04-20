@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -51,7 +52,8 @@
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -83,9 +85,11 @@
                   "tagName": "div",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -106,7 +110,8 @@
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Element",
@@ -118,7 +123,8 @@
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -139,7 +145,8 @@
               "tagName": "br",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -160,7 +167,8 @@
               "tagName": "br",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -181,7 +189,8 @@
               "tagName": "h:ællæ",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -213,7 +222,8 @@
                   "value": null
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -234,7 +244,8 @@
               "tagName": "some-tag-1",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Element",
@@ -246,7 +257,8 @@
               "tagName": "some-tag-2",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -299,7 +311,8 @@
                       },
                       "value": "hey"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -320,7 +333,8 @@
                   "tagName": "custom-tag",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Element",
@@ -342,7 +356,8 @@
                       },
                       "value": "Hello :)"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -373,7 +388,8 @@
                       },
                       "value": "\n\ntest\n\n"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -394,7 +410,8 @@
                   "tagName": "div",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -426,7 +443,8 @@
                       "value": "a"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -458,7 +476,8 @@
                       "value": "a"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -490,7 +509,8 @@
                       "value": "a"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -522,7 +542,8 @@
                       "value": "a"
                     }
                   ],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -553,7 +574,8 @@
                       },
                       "value": "\nTest\n"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -584,7 +606,8 @@
                       },
                       "value": "test"
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -615,13 +638,17 @@
                       },
                       "value": "test"
                     }
-                  ]
+                  ],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

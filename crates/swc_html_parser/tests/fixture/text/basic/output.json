@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -70,7 +71,8 @@
                   },
                   "value": "Text"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -101,7 +103,8 @@
                   },
                   "value": "\n    Text\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -132,7 +135,8 @@
                   },
                   "value": "\nText\n\n\nText\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -163,7 +167,8 @@
                   },
                   "value": "Text\n\n\nText"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -174,9 +179,11 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

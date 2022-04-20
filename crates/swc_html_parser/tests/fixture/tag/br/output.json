@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -71,7 +72,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -92,7 +94,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -113,7 +116,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -134,7 +138,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -155,7 +160,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -176,7 +182,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -197,7 +204,8 @@
                   "tagName": "br",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -208,7 +216,8 @@
                   },
                   "value": "\n    Thou too shalt rest.\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -219,9 +228,11 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

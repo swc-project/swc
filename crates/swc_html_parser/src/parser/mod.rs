@@ -4514,7 +4514,7 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // row".
-                    Token::EndTag { tag_name, .. } if tag_name == "tr" => {
+                    Token::StartTag { tag_name, .. } if tag_name == "tr" => {
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InRow;

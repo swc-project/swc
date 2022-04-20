@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -92,7 +93,8 @@
                   },
                   "value": "The title Attribute"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -134,7 +136,8 @@
                   },
                   "value": "Mouse over this paragraph, to display the title attribute as a tooltip."
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -145,9 +148,11 @@
               },
               "value": "\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

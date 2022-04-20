@@ -81,7 +81,8 @@
                   "value": "UTF-8"
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -123,7 +124,8 @@
                   "value": "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -165,7 +167,8 @@
                   "value": "ie=edge"
                 }
               ],
-              "children": []
+              "children": [],
+              "content": null
             },
             {
               "type": "Text",
@@ -196,7 +199,8 @@
                   },
                   "value": "Document"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -207,7 +211,8 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Text",
@@ -258,7 +263,8 @@
                   },
                   "value": "TestTest"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -269,9 +275,11 @@
               },
               "value": "\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

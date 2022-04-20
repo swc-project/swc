@@ -28,7 +28,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -124,7 +125,8 @@
                           "value": "sprite sprite-{{sprite}}"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -156,7 +158,8 @@
                           "value": "{{sprite}}-sprite sprite"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -188,7 +191,8 @@
                           "value": "sprite-{{sprite}}-sprite"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -220,7 +224,8 @@
                           "value": "{{sprite}}"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -252,7 +257,8 @@
                           "value": "{{sprite}}"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -284,7 +290,8 @@
                           "value": null
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -316,7 +323,8 @@
                           "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -348,15 +356,20 @@
                           "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
                         }
                       ],
-                      "children": []
+                      "children": [],
+                      "content": null
                     }
-                  ]
+                  ],
+                  "content": null
                 }
-              ]
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

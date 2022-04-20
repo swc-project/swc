@@ -69,7 +69,8 @@
                   },
                   "value": "\r\r        Test\r\r    "
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -80,7 +81,8 @@
               },
               "value": "\r"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Text",
@@ -131,7 +133,8 @@
                   },
                   "value": "This is a paragraph."
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -162,7 +165,8 @@
                   },
                   "value": "This is another paragraph."
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -173,9 +177,11 @@
               },
               "value": "\r\r\r\r"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

@@ -80,7 +80,8 @@
                       },
                       "value": "\n        details {font-family: \"Open Sans Light\", Helvetica, Arial, sans-serif }\n        .name {font-weight: bold; color: #217ac0; font-size: 120% }\n        h4 {\n            margin: 10px 0 -8px 0;\n            background: #217ac0;\n            color: white;\n            padding: 2px 6px;\n            border: 1px solid #cee9f9;\n            border-radius: 4px;\n        }\n        .attributes { margin-left: 22px; font-size: 90% }\n        .attributes p { margin-left: 16px; font-style: italic }\n    "
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -193,7 +194,8 @@
                                   },
                                   "value": "NEED NAME"
                                 }
-                              ]
+                              ],
+                              "content": null
                             },
                             {
                               "type": "Text",
@@ -257,7 +259,8 @@
                                       },
                                       "value": "NEED DESCRIPTION"
                                     }
-                                  ]
+                                  ],
+                                  "content": null
                                 },
                                 {
                                   "type": "Text",
@@ -268,11 +271,14 @@
                                   },
                                   "value": "\n        "
                                 }
-                              ]
+                              ],
+                              "content": null
                             }
-                          ]
+                          ],
+                          "content": null
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -334,7 +340,8 @@
                               },
                               "value": "Attributes"
                             }
-                          ]
+                          ],
+                          "content": null
                         },
                         {
                           "type": "Text",
@@ -387,9 +394,11 @@
                                   },
                                   "value": "None"
                                 }
-                              ]
+                              ],
+                              "content": null
                             }
-                          ]
+                          ],
+                          "content": null
                         },
                         {
                           "type": "Text",
@@ -400,7 +409,8 @@
                           },
                           "value": "\n        "
                         }
-                      ]
+                      ],
+                      "content": null
                     },
                     {
                       "type": "Text",
@@ -411,7 +421,8 @@
                       },
                       "value": "\n    "
                     }
-                  ]
+                  ],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -432,7 +443,8 @@
                   "tagName": "hr",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": []
+                  "children": [],
+                  "content": null
                 },
                 {
                   "type": "Text",
@@ -443,7 +455,8 @@
                   },
                   "value": "\n"
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -454,7 +467,8 @@
               },
               "value": "\n"
             }
-          ]
+          ],
+          "content": null
         },
         {
           "type": "Element",
@@ -466,9 +480,11 @@
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }

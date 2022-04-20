@@ -39,7 +39,8 @@
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": []
+          "children": [],
+          "content": null
         },
         {
           "type": "Element",
@@ -81,7 +82,8 @@
                   },
                   "value": "This is a paragraph."
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -130,7 +132,8 @@
                   },
                   "value": "This is a paragraph too."
                 }
-              ]
+              ],
+              "content": null
             },
             {
               "type": "Text",
@@ -141,9 +144,11 @@
               },
               "value": "\n\n\n\n"
             }
-          ]
+          ],
+          "content": null
         }
-      ]
+      ],
+      "content": null
     }
   ]
 }
