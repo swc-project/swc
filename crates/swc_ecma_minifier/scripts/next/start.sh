@@ -26,7 +26,7 @@ echo "----- ⚠️  Building next-swc"
 
 # Install dependencies
 echo "----- ⚠️  Installing dependencies"
-if [ ! -d "$dir/node_modules"]; then
+if [ ! -d "$dir/node_modules" ]; then
     if test -f "$dir/yarn.lock"; then
         echo "  Using yarn"
         # (cd $dir && yarn)
