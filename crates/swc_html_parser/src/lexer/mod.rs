@@ -1,4 +1,4 @@
-use std::char::REPLACEMENT_CHARACTER;
+use std::{char::REPLACEMENT_CHARACTER, mem::take};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
@@ -25,7 +25,6 @@ where
     last_pos: Option<BytePos>,
     state: State,
     return_state: State,
-    // TODO reemit errors in parser
     errors: Vec<Error>,
     in_foreign_node: bool,
     last_start_tag_token: Option<Token>,
@@ -204,6 +203,10 @@ where
 
     fn set_input_state(&mut self, state: State) {
         self.state = state;
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors)
     }
 }
 

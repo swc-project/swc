@@ -1,10 +1,13 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, mem::take};
 
 use swc_common::{BytePos, Span};
 use swc_html_ast::{Token, TokenAndSpan};
 
 use super::PResult;
-use crate::{error::ErrorKind, lexer::State};
+use crate::{
+    error::{Error, ErrorKind},
+    lexer::State,
+};
 
 pub trait ParserInput {
     type State: Debug;
@@ -18,6 +21,8 @@ pub trait ParserInput {
     fn reset(&mut self, state: &Self::State);
 
     fn set_input_state(&mut self, state: State);
+
+    fn take_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Debug)]
@@ -109,6 +114,10 @@ where
         }
 
         Ok(())
+    }
+
+    pub fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.input.take_errors())
     }
 
     pub(super) fn set_input_state(&mut self, state: State) {

@@ -649,6 +649,13 @@ where
 
             self.tree_construction_dispatcher(&mut token_and_info)?;
 
+            // Re-emit errors from tokenizer
+            for error in self.input.take_errors() {
+                let (span, kind) = *error.into_inner();
+
+                self.errors.push(Error::new(span, kind));
+            }
+
             // When a start tag token is emitted with its self-closing flag set,
             // if the flag is not acknowledged when it is processed by the tree
             // construction stage, that is a parse error.
