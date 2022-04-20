@@ -78,12 +78,12 @@ impl Pure<'_> {
                             let mut cons = bs.take();
                             cons.stmts.remove(0);
 
-                            *s = Stmt::If(IfStmt {
+                            ls.body = Box::new(Stmt::If(IfStmt {
                                 span: ls.span,
                                 test,
                                 cons: Box::new(Stmt::Block(cons)),
                                 alt: None,
-                            });
+                            }));
                             return None;
                         }
                     }
