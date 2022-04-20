@@ -2801,9 +2801,11 @@ where
                     //
                     // Take a deep breath, then act as described in the "any other end tag" entry
                     // below.
-                    Token::EndTag { tag_name, .. } if tag_name == "sarcasm" => {
-                        // TODO
-                    }
+                    //
+                    // Skip, we will be in `Token::EndTag` branch with the same logic
+                    //
+                    //
+                    //
                     // A start tag whose tag name is "a"
                     //
                     // If the list of active formatting elements contains an a element between the
@@ -3005,15 +3007,16 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        // match &self.document {
-                        //     Some(node)
-                        //         if *node.mode != DocumentMode::Quirks
-                        //             && self.open_elements_stack.has_in_button_scope("p") =>
-                        //     {
-                        //         self.close_p_element();
-                        //     }
-                        //     _ => {}
-                        // }
+                        match &self.document {
+                            Some(_)
+                                // TODO fix me
+                                // if *node.mode != DocumentMode::Quirks && 
+                                if self.open_elements_stack.has_in_button_scope("p") =>
+                            {
+                                self.close_p_element();
+                            }
+                            _ => {}
+                        }
 
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
@@ -3498,9 +3501,10 @@ where
                     Token::EndTag { tag_name, .. } => {
                         let mut match_idx = None;
 
+                        // 1., 2., 4. and 5.
                         for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
-                            if get_tag_name!(&node) == tag_name
-                                && get_namespace!(&node) == Namespace::HTML
+                            if get_tag_name!(node) == tag_name
+                                && get_namespace!(node) == Namespace::HTML
                             {
                                 match_idx = Some(i);
 
@@ -3530,14 +3534,17 @@ where
                             Some(x) => x,
                         };
 
+                        // 2. - 1.
                         self.open_elements_stack
                             .generate_implied_end_tags_with_exclusion(tag_name);
 
+                        // 2. - 2.
                         if match_idx != self.open_elements_stack.items.len() - 1 {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         }
 
+                        // 2.- 3.
                         self.open_elements_stack.items.truncate(match_idx);
                     }
                 }
