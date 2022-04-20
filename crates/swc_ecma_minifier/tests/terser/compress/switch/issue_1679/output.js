@@ -3,9 +3,9 @@ function f() {
     switch(--b){
         default:
         case false:
+            break;
         case b--:
             a--;
-            break;
         case a++:
     }
 }

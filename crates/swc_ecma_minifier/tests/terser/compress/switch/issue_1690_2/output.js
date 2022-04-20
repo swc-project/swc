@@ -1,1 +1,2 @@
-console.log("PASS");
+switch(console.log("PASS")){
+}

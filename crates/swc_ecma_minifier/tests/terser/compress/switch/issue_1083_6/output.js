@@ -1,5 +1,5 @@
 function test(definitely_true, maybe_true) {
-    switch (true) {
+    switch(true){
         case definitely_true:
             console.log("definitely");
             break;

@@ -165,58 +165,40 @@ where
     /// - drop break at last case
     /// - merge branch with default at the end
     pub(super) fn optimize_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
-        if !self.options.switches || !self.options.dead_code {
+        if !self.options.switches || !self.options.dead_code || cases.is_empty() {
             return;
-        }
-
-        // If default is not last, we can't remove empty cases.
-        let default_idx = cases.iter().position(|case| case.test.is_none());
-        let all_ends_with_break = cases
-            .iter()
-            .all(|case| case.cons.is_empty() || case.cons.last().unwrap().is_break_stmt());
-        let mut preserve_cases = false;
-        if !all_ends_with_break && default_idx.is_some() {
-            if let Some(last) = cases.last() {
-                if last.test.is_some() {
-                    preserve_cases = true;
-                }
-            }
         }
 
         self.merge_cases_with_same_cons(cases);
 
-        let last_non_empty = cases.iter().rposition(|case| {
-            // We should preserve test cases if the test is not a literal.
-            match case.test.as_deref() {
-                Some(Expr::Lit(..)) | None => {}
-                _ => return true,
-            }
+        // last case with no empty body
+        let mut last = cases.len();
 
-            if case.cons.is_empty() {
-                return false;
-            }
+        for (idx, case) in cases.iter_mut().enumerate().rev() {
+            self.changed |= remove_last_break(&mut case.cons);
 
-            if case.cons.len() == 1 {
-                if let Stmt::Break(BreakStmt { label: None, .. }) = case.cons[0] {
-                    return false;
-                }
-            }
-
-            true
-        });
-
-        if !preserve_cases {
-            if let Some(last_non_empty) = last_non_empty {
-                if last_non_empty + 1 != cases.len() {
-                    report_change!("switches: Removing empty cases at the end");
-                    self.changed = true;
-                    cases.drain(last_non_empty + 1..);
-                }
+            if !case.cons.is_empty() {
+                last = idx + 1;
+                break;
             }
         }
 
-        if let Some(last) = cases.last_mut() {
-            self.changed |= remove_last_break(&mut last.cons);
+        let has_side_effect = cases.iter().skip(last).rposition(|case| {
+            case.test
+                .as_deref()
+                .map(|test| test.may_have_side_effects())
+                .unwrap_or(false)
+        });
+
+        if let Some(has_side_effect) = has_side_effect {
+            last += has_side_effect + 1
+        }
+
+        // if default is before empty cases, we must ensure empty case is preserved
+        if last < cases.len() && !cases.iter().take(last).any(|case| case.test.is_none()) {
+            self.changed = true;
+            report_change!("switches: Removing empty cases at the end");
+            cases.drain(last..);
         }
     }
 
@@ -247,6 +229,9 @@ where
             }
 
             for j in (i + 1)..len {
+                if cases[j].cons.is_empty() {
+                    continue;
+                }
                 if boundary[j] {
                     // TODO: default
                     break;

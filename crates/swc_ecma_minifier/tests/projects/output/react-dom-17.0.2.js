@@ -2380,6 +2380,9 @@
     function findUpdateLane(lanePriority, wipLanes) {
         switch(lanePriority){
             case 0:
+            case 6:
+            case 5:
+                break;
             case 15:
                 return SyncLane;
             case 14:
@@ -2395,9 +2398,6 @@
             case 8:
                 var _lane3 = pickArbitraryLane(3584 & ~wipLanes);
                 return _lane3 === NoLane && (_lane3 = pickArbitraryLane(4186112 & ~wipLanes)) === NoLane && (_lane3 = pickArbitraryLane(3584)), _lane3;
-            case 6:
-            case 5:
-                break;
             case 2:
                 var lane = pickArbitraryLane(805306368 & ~wipLanes);
                 return lane === NoLane && (lane = pickArbitraryLane(805306368)), lane;
@@ -3509,6 +3509,7 @@
                             }
                             switch(domEventName){
                                 case 'paste':
+                                default:
                                     return null;
                                 case 'keypress':
                                     if (!(nativeEvent9 = nativeEvent).ctrlKey && !nativeEvent9.altKey && !nativeEvent9.metaKey || nativeEvent9.ctrlKey && nativeEvent9.altKey) {
@@ -3518,8 +3519,6 @@
                                     return null;
                                 case 'compositionend':
                                     return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
-                                default:
-                                    return null;
                             }
                         }(domEventName10, nativeEvent8))) return null;
                         var chars1, listeners = accumulateTwoPhaseListeners(targetInst, 'onBeforeInput');
@@ -5174,7 +5173,6 @@
                 if (null !== textInstance) return fiber.stateNode = textInstance, !0;
                 return !1;
             case 13:
-                return !1;
             default:
                 return !1;
         }
@@ -6947,6 +6945,7 @@
             case 14:
                 return null;
             case 1:
+            case 17:
                 return isContextProvider(workInProgress.type) && popContext(workInProgress), null;
             case 3:
                 popHostContainer(workInProgress), popTopLevelContextObject(workInProgress), resetWorkInProgressVersions();
@@ -7197,8 +7196,6 @@
                 return popHostContainer(workInProgress), updateHostContainer(workInProgress), null === current && listenToAllSupportedEvents(workInProgress.stateNode.containerInfo), null;
             case 10:
                 return popProvider(workInProgress), null;
-            case 17:
-                return isContextProvider(workInProgress.type) && popContext(workInProgress), null;
             case 19:
                 popSuspenseContext(workInProgress);
                 var renderState = workInProgress.memoizedState;
@@ -7536,6 +7533,10 @@
             case 11:
             case 15:
             case 22:
+            case 5:
+            case 6:
+            case 4:
+            case 17:
                 return;
             case 1:
                 if (256 & finishedWork.flags && null !== current) {
@@ -7547,11 +7548,6 @@
                 return;
             case 3:
                 256 & finishedWork.flags && clearContainer(finishedWork.stateNode.containerInfo);
-                return;
-            case 5:
-            case 6:
-            case 4:
-            case 17:
                 return;
         }
         throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
@@ -7619,8 +7615,13 @@
                 }
                 return;
             case 6:
-                return;
             case 4:
+            case 19:
+            case 17:
+            case 20:
+            case 21:
+            case 23:
+            case 24:
                 return;
             case 12:
                 var _finishedWork$memoize2 = finishedWork1.memoizedProps, onRender = (_finishedWork$memoize2.onCommit, _finishedWork$memoize2.onRender);
@@ -7630,13 +7631,6 @@
                 return;
             case 13:
                 commitSuspenseHydrationCallbacks(finishedRoot, finishedWork1);
-                return;
-            case 19:
-            case 17:
-            case 20:
-            case 21:
-            case 23:
-            case 24:
                 return;
         }
         throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
@@ -7710,9 +7704,7 @@
                 unmountHostComponents(finishedRoot, current);
                 return;
             case 20:
-                return;
             case 18:
-                return;
             case 21:
                 return;
         }
@@ -7815,8 +7807,6 @@
                             currentParent = parentStateNode, currentParentIsContainer = !1;
                             break findParent;
                         case 3:
-                            currentParent = parentStateNode.containerInfo, currentParentIsContainer = !0;
-                            break findParent;
                         case 4:
                             currentParent = parentStateNode.containerInfo, currentParentIsContainer = !0;
                             break findParent;
@@ -7870,6 +7860,8 @@
                 }(3, finishedWork2);
                 return;
             case 1:
+            case 12:
+            case 17:
                 return;
             case 5:
                 var instance = finishedWork2.stateNode;
@@ -7905,15 +7897,11 @@
                 var _root = finishedWork2.stateNode;
                 _root.hydrate && (_root.hydrate = !1, retryIfBlockedOn(_root.containerInfo));
                 return;
-            case 12:
-                return;
             case 13:
                 commitSuspenseComponent(finishedWork2), attachSuspenseRetryListeners(finishedWork2);
                 return;
             case 19:
                 attachSuspenseRetryListeners(finishedWork2);
-                return;
-            case 17:
                 return;
             case 20:
             case 21:
@@ -8087,6 +8075,9 @@
             case 1:
                 throw Error("Root did not complete. This is a bug in React.");
             case 2:
+            case 5:
+                commitRoot(root4);
+                break;
             case 3:
                 if (markRootSuspended$1(root4, lanes5), (62914560 & (lanes3 = lanes5)) === lanes3 && !(actingUpdatesScopeDepth > 0)) {
                     var msUntilTimeout = globalMostRecentFallbackTime + 500 - now();
@@ -8118,9 +8109,6 @@
                         break;
                     }
                 }
-                commitRoot(root4);
-                break;
-            case 5:
                 commitRoot(root4);
                 break;
             default:
@@ -8881,8 +8869,6 @@
                     hostInstances.add(node.stateNode);
                     return;
                 case 4:
-                    hostInstances.add(node.stateNode.containerInfo);
-                    return;
                 case 3:
                     hostInstances.add(node.stateNode.containerInfo);
                     return;

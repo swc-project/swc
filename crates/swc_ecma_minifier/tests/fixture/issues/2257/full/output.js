@@ -12519,6 +12519,7 @@
                             if (ie) return "compositionend" === a || !ae && ge(a, b) ? (a = nd(), md = ld = kd = null, ie = !1, a) : null;
                             switch(a){
                                 case "paste":
+                                default:
                                     return null;
                                 case "keypress":
                                     if (!(b.ctrlKey || b.altKey || b.metaKey) || b.ctrlKey && b.altKey) {
@@ -12528,8 +12529,6 @@
                                     return null;
                                 case "compositionend":
                                     return de && "ko" !== b.locale ? null : b.data;
-                                default:
-                                    return null;
                             }
                         }(a12, c5)) && 0 < (d = oe(d, "onBeforeInput")).length && (e = new Ld("onBeforeInput", "beforeinput", null, c5, e), g.push({
                             event: e,
@@ -13240,7 +13239,6 @@
                     case 6:
                         return null !== (b = "" === a.pendingProps || 3 !== b.nodeType ? null : b) && (a.stateNode = b, !0);
                     case 13:
-                        return !1;
                     default:
                         return !1;
                 }
@@ -14004,6 +14002,7 @@
                     case 14:
                         return null;
                     case 1:
+                    case 17:
                         return Ff(b.type) && Gf(), null;
                     case 3:
                         return fh(), H(N), H(M), uh(), (d = b.stateNode).pendingContext && (d.context = d.pendingContext, d.pendingContext = null), (null === a || null === a.child) && (rh(b) ? b.flags |= 4 : d.hydrate || (b.flags |= 256)), Ci(b), null;
@@ -14163,8 +14162,6 @@
                         return fh(), Ci(b), null === a && cf(b.stateNode.containerInfo), null;
                     case 10:
                         return rg(b), null;
-                    case 17:
-                        return Ff(b.type) && Gf(), null;
                     case 19:
                         if (H(P), null === (d = b.memoizedState)) return null;
                         if (f = 0 != (64 & b.flags), null === (g = d.rendering)) {
@@ -14358,6 +14355,10 @@
                     case 11:
                     case 15:
                     case 22:
+                    case 5:
+                    case 6:
+                    case 4:
+                    case 17:
                         return;
                     case 1:
                         if (256 & b.flags && null !== a) {
@@ -14367,11 +14368,6 @@
                         return;
                     case 3:
                         256 & b.flags && qf(b.stateNode.containerInfo);
-                        return;
-                    case 5:
-                    case 6:
-                    case 4:
-                    case 17:
                         return;
                 }
                 throw Error(y(163));
@@ -14417,20 +14413,17 @@
                         a = c.stateNode, null === b && 4 & c.flags && mf(c.type, c.memoizedProps) && a.focus();
                         return;
                     case 6:
-                        return;
                     case 4:
-                        return;
                     case 12:
-                        return;
-                    case 13:
-                        null === c.memoizedState && null !== (c = c.alternate) && null !== (c = c.memoizedState) && null !== (c = c.dehydrated) && Cc(c);
-                        return;
                     case 19:
                     case 17:
                     case 20:
                     case 21:
                     case 23:
                     case 24:
+                        return;
+                    case 13:
+                        null === c.memoizedState && null !== (c = c.alternate) && null !== (c = c.memoizedState) && null !== (c = c.dehydrated) && Cc(c);
                         return;
                 }
                 throw Error(y(163));
@@ -14565,8 +14558,6 @@
                                     f = !1;
                                     break a;
                                 case 3:
-                                    e = e.containerInfo, f = !0;
-                                    break a;
                                 case 4:
                                     e = e.containerInfo, f = !0;
                                     break a;
@@ -14618,6 +14609,8 @@
                         }
                         return;
                     case 1:
+                    case 12:
+                    case 17:
                         return;
                     case 5:
                         if (null != (c = b.stateNode)) {
@@ -14650,15 +14643,11 @@
                     case 3:
                         (c = b.stateNode).hydrate && (c.hydrate = !1, Cc(c.containerInfo));
                         return;
-                    case 12:
-                        return;
                     case 13:
                         null !== b.memoizedState && (jj = O(), aj(b.child, !0)), kj(b);
                         return;
                     case 19:
                         kj(b);
-                        return;
-                    case 17:
                         return;
                     case 23:
                     case 24:
@@ -14800,6 +14789,9 @@
                         case 1:
                             throw Error(y(345));
                         case 2:
+                        case 5:
+                            Uj(a);
+                            break;
                         case 3:
                             if (Ii(a, c), (62914560 & c) === c && 10 < (d = jj + 500 - O())) {
                                 if (0 !== Uc(a, 0)) break;
@@ -14822,9 +14814,6 @@
                                 a.timeoutHandle = of(Uj.bind(null, a), c);
                                 break;
                             }
-                            Uj(a);
-                            break;
-                        case 5:
                             Uj(a);
                             break;
                         default:
@@ -15586,7 +15575,6 @@
                     case 7:
                         return fi(a23, b, b.pendingProps, c), b.child;
                     case 8:
-                        return fi(a23, b, b.pendingProps.children, c), b.child;
                     case 12:
                         return fi(a23, b, b.pendingProps.children, c), b.child;
                     case 10:
@@ -15640,7 +15628,6 @@
                     case 19:
                         return Ai(a23, b, c);
                     case 23:
-                        return mi(a23, b, c);
                     case 24:
                         return mi(a23, b, c);
                 }
