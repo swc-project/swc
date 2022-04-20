@@ -2445,11 +2445,6 @@
                     switch(cType){
                         case 0:
                         case 1:
-                        case 13:
-                        case 14:
-                        case 16:
-                        case 17:
-                        case 15:
                             lastArabic = !1;
                         case 4:
                         case 3:
@@ -2459,7 +2454,6 @@
                         case 7:
                             return lastArabic = !0, hasUBAT_AL = !0, 1;
                         case 8:
-                        case 18:
                             return 4;
                         case 9:
                             if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
@@ -2485,6 +2479,14 @@
                             return lastArabic = !1, hasUBAT_B = !0, dir;
                         case 6:
                             return hasUBAT_S = !0, 4;
+                        case 13:
+                        case 14:
+                        case 16:
+                        case 17:
+                        case 15:
+                            lastArabic = !1;
+                        case 18:
+                            return 4;
                     }
                 }
                 function _getCharacterType(ch) {

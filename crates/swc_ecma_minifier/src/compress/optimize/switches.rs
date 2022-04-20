@@ -243,18 +243,6 @@ where
     /// without break case order, except the break statement, we merge
     /// them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
-        let boundary: Vec<bool> = cases
-            .iter()
-            .enumerate()
-            .map(|(idx, case)| {
-                case.test
-                    .as_deref()
-                    .map(|test| is_primitive(test).is_none())
-                    .unwrap_or(false)
-                    || !(case.cons.is_empty() || case.cons.terminates() || idx == cases.len() - 1)
-            })
-            .collect();
-
         let mut i = 0;
         let len = cases.len();
 
@@ -264,15 +252,28 @@ where
                 i += 1;
                 continue;
             }
-
-            let mut cannot_cross = false;
+            let mut block_start = i + 1;
+            let mut cannot_cross_block = false;
 
             for j in (i + 1)..len {
-                // TODO: default
-                cannot_cross |= boundary[j];
+                cannot_cross_block |= cases[j]
+                    .test
+                    .as_deref()
+                    .map(|test| is_primitive(test).is_none())
+                    .unwrap_or(false)
+                    || !(cases[j].cons.is_empty()
+                        || cases[j].cons.terminates()
+                        || j == cases.len() - 1);
+
                 if cases[j].cons.is_empty() {
                     continue;
                 }
+
+                if cannot_cross_block && block_start != i + 1 {
+                    break;
+                }
+
+                block_start = j + 1;
 
                 // first case with a body and don't cross non-primitive branch
                 let found = if j != len - 1 {
@@ -295,9 +296,6 @@ where
                     cases[j].cons = cases[i].cons.take();
                     cases[(i + 1)..=j].rotate_right(len);
                     i += len;
-                }
-                if cannot_cross {
-                    break;
                 }
             }
 
