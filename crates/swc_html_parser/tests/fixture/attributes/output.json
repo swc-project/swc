@@ -510,7 +510,7 @@
                   "type": "Element",
                   "span": {
                     "start": 169,
-                    "end": 271,
+                    "end": 208,
                     "ctxt": 0
                   },
                   "tagName": "tag",
@@ -537,92 +537,91 @@
                       "value": " objpicsurl_ "
                     }
                   ],
-                  "children": [
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 214,
+                    "end": 215,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 215,
+                    "end": 250,
+                    "ctxt": 0
+                  },
+                  "tagName": "br",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
                     {
-                      "type": "Text",
+                      "type": "Attribute",
                       "span": {
-                        "start": 214,
-                        "end": 215,
+                        "start": 0,
+                        "end": 0,
                         "ctxt": 0
                       },
-                      "value": "\n"
+                      "name": "a",
+                      "value": "\\u00A0"
                     },
                     {
-                      "type": "Element",
+                      "type": "Attribute",
                       "span": {
-                        "start": 215,
-                        "end": 250,
+                        "start": 0,
+                        "end": 0,
                         "ctxt": 0
                       },
-                      "tagName": "br",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "name": "a",
-                          "value": "\\u00A0"
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "name": "b",
-                          "value": " "
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "name": "c",
-                          "value": "\\u00A0"
-                        }
-                      ],
-                      "children": []
+                      "name": "b",
+                      "value": " "
                     },
                     {
-                      "type": "Text",
+                      "type": "Attribute",
                       "span": {
-                        "start": 250,
-                        "end": 251,
+                        "start": 0,
+                        "end": 0,
                         "ctxt": 0
                       },
-                      "value": "\n"
-                    },
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 251,
-                        "end": 271,
-                        "ctxt": 0
-                      },
-                      "tagName": "img",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "name": "src",
-                          "value": "test"
-                        }
-                      ],
-                      "children": []
+                      "name": "c",
+                      "value": "\\u00A0"
                     }
-                  ]
+                  ],
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 250,
+                    "end": 251,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 251,
+                    "end": 271,
+                    "ctxt": 0
+                  },
+                  "tagName": "img",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "src",
+                      "value": "test"
+                    }
+                  ],
+                  "children": []
                 }
               ]
             }

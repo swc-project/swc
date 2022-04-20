@@ -3482,12 +3482,12 @@ where
                     // then:
                     //
                     //   1. Generate implied end tags, except for HTML elements with the same tag
-                    // name as   the token.
+                    // name as the token.
                     //
                     //   2. If node is not the current node, then this is a parse error.
                     //
                     //   3. Pop all the nodes from the current node up to node, including node, then
-                    // stop   these steps.
+                    // stop these steps.
                     //
                     // 3. Otherwise, if node is in the special category, then this is a parse error;
                     // ignore the token, and return.
@@ -3495,44 +3495,20 @@ where
                     // 4. Set node to the previous entry in the stack of open elements.
                     //
                     // 5. Return to the step labeled loop.
-                    Token::EndTag { tag_name: _, .. } => {
-                        for node in &self.open_elements_stack.items {
-                            // TODO fix me
-                            if false {
-                                // Generate implied end tags, except for HTML
-                                // elements with
-                                // the same tag name as the token.
-                                // self.open_elements_stack.
-                                // generate_implied_end_tags_with_exclusion(tag_name);
+                    Token::EndTag { tag_name, .. } => {
+                        let mut match_idx = None;
 
-                                // If node is not the current node, then this is
-                                // a parse error.
-                                // match &self.open_elements_stack.items.last()
-                                // {
-                                //     Some(Element { tag_name, .. })
-                                //         if !matches!(tag_name.as_ref(), "rtc"
-                                // | "ruby") =>
-                                //     {
-                                //         self.errors.push(Error::new(
-                                //             token_and_info.span,
-                                //             ErrorKind::UnexpectedToken,
-                                //         ));
-                                //     }
-                                //     _ => {}
-                                // }
+                        for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
+                            if get_tag_name!(&node) == tag_name
+                                && get_namespace!(&node) == Namespace::HTML
+                            {
+                                match_idx = Some(i);
 
-                                // Pop all the nodes from the current node up to
-                                // node, including
-                                // node, then stop these steps.
-                                // while (!self.open_elements_stack.is_empty() {
-                                //     if (self.open_elements_stack.pop() ==
-                                // element) {
-                                //         break 2;
-                                //     }
-                                // }
-                            } else if self.is_special_element(node) {
-                                // Parse error.
-                                // Ignore the token.
+                                break;
+                            }
+
+                            // 3.
+                            if self.is_special_element(node) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::UnexpectedToken,
@@ -3541,6 +3517,28 @@ where
                                 return Ok(());
                             }
                         }
+
+                        let match_idx = match match_idx {
+                            None => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedToken,
+                                ));
+
+                                return Ok(());
+                            }
+                            Some(x) => x,
+                        };
+
+                        self.open_elements_stack
+                            .generate_implied_end_tags_with_exclusion(tag_name);
+
+                        if match_idx != self.open_elements_stack.items.len() - 1 {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.open_elements_stack.items.truncate(match_idx);
                     }
                 }
 

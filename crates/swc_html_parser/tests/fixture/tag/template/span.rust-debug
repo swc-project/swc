@@ -352,16 +352,26 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+ 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+ 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
+ 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                                                  ^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
+ 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                                                  ^^^^^^^^^
     `----
 
   x Child
@@ -390,14 +400,26 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+ 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+ 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
+ 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    :                                          ^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
+ 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    :                                          ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -490,14 +512,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | ,-> <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+ 23 | <slot name="attributes"><p>None</p></slot>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | ,-> <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+ 23 | <slot name="attributes"><p>None</p></slot>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

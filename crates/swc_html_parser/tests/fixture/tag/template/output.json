@@ -166,7 +166,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 621,
-                                "end": 764,
+                                "end": 656,
                                 "ctxt": 0
                               },
                               "tagName": "slot",
@@ -188,19 +188,52 @@
                                   "type": "Text",
                                   "span": {
                                     "start": 647,
-                                    "end": 687,
+                                    "end": 656,
                                     "ctxt": 0
                                   },
-                                  "value": "NEED NAME>\n            "
-                                },
+                                  "value": "NEED NAME"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 663,
+                                "end": 687,
+                                "ctxt": 0
+                              },
+                              "value": ">\n            "
+                            },
+                            {
+                              "type": "Element",
+                              "span": {
+                                "start": 687,
+                                "end": 764,
+                                "ctxt": 0
+                              },
+                              "tagName": "i",
+                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "attributes": [
+                                {
+                                  "type": "Attribute",
+                                  "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                  },
+                                  "name": "class",
+                                  "value": "desc"
+                                }
+                              ],
+                              "children": [
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 687,
-                                    "end": 764,
+                                    "start": 703,
+                                    "end": 744,
                                     "ctxt": 0
                                   },
-                                  "tagName": "i",
+                                  "tagName": "slot",
                                   "namespace": "http://www.w3.org/1999/xhtml",
                                   "attributes": [
                                     {
@@ -210,45 +243,30 @@
                                         "end": 0,
                                         "ctxt": 0
                                       },
-                                      "name": "class",
-                                      "value": "desc"
+                                      "name": "name",
+                                      "value": "description"
                                     }
                                   ],
                                   "children": [
                                     {
-                                      "type": "Element",
+                                      "type": "Text",
                                       "span": {
-                                        "start": 703,
-                                        "end": 764,
+                                        "start": 728,
+                                        "end": 744,
                                         "ctxt": 0
                                       },
-                                      "tagName": "slot",
-                                      "namespace": "http://www.w3.org/1999/xhtml",
-                                      "attributes": [
-                                        {
-                                          "type": "Attribute",
-                                          "span": {
-                                            "start": 0,
-                                            "end": 0,
-                                            "ctxt": 0
-                                          },
-                                          "name": "name",
-                                          "value": "description"
-                                        }
-                                      ],
-                                      "children": [
-                                        {
-                                          "type": "Text",
-                                          "span": {
-                                            "start": 728,
-                                            "end": 764,
-                                            "ctxt": 0
-                                          },
-                                          "value": "NEED DESCRIPTION\n        "
-                                        }
-                                      ]
+                                      "value": "NEED DESCRIPTION"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "Text",
+                                  "span": {
+                                    "start": 755,
+                                    "end": 764,
+                                    "ctxt": 0
+                                  },
+                                  "value": "\n        "
                                 }
                               ]
                             }
@@ -331,7 +349,7 @@
                           "type": "Element",
                           "span": {
                             "start": 852,
-                            "end": 903,
+                            "end": 883,
                             "ctxt": 0
                           },
                           "tagName": "slot",
@@ -370,17 +388,17 @@
                                   "value": "None"
                                 }
                               ]
-                            },
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 894,
-                                "end": 903,
-                                "ctxt": 0
-                              },
-                              "value": "\n        "
                             }
                           ]
+                        },
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 894,
+                            "end": 903,
+                            "ctxt": 0
+                          },
+                          "value": "\n        "
                         }
                       ]
                     },

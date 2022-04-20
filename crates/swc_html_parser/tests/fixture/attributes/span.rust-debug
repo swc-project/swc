@@ -150,26 +150,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/attributes/input.html:4:1]
-  4 | ,-> <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
-  5 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
-  6 | |   <img
-  7 | |   src
-  8 | |   =
-  9 | |   "test"
- 10 | `-> />
-    `----
+   ,-[$DIR/tests/fixture/attributes/input.html:4:1]
+ 4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/attributes/input.html:4:1]
-  4 | ,-> <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
-  5 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
-  6 | |   <img
-  7 | |   src
-  8 | |   =
-  9 | |   "test"
- 10 | `-> />
-    `----
+   ,-[$DIR/tests/fixture/attributes/input.html:4:1]
+ 4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/attributes/input.html:4:1]

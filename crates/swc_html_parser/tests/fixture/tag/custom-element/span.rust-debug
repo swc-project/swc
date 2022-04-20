@@ -118,52 +118,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
-  5 | ,-> <custom-square l="100" c="red"></custom-square>
-  6 | |   
-  7 | |   <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
+   ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
+ 5 | <custom-square l="100" c="red"></custom-square>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
-  5 | ,-> <custom-square l="100" c="red"></custom-square>
-  6 | |   
-  7 | |   <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
+   ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
+ 5 | <custom-square l="100" c="red"></custom-square>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/custom-element/input.html:5:1]
@@ -180,48 +144,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
-  7 | ,-> <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
+   ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
+ 7 | <app-drawer open disabled></app-drawer>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
-  7 | ,-> <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
+   ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
+ 7 | <app-drawer open disabled></app-drawer>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/custom-element/input.html:7:1]
@@ -242,19 +174,8 @@
   9 | ,-> <share-buttons>
  10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
  11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
+ 13 |     </share-buttons>
     `----
 
   x Element
@@ -262,19 +183,8 @@
   9 | ,-> <share-buttons>
  10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
  11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
+ 13 |     </share-buttons>
     `----
 
   x Child
@@ -291,78 +201,38 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
- 10 | ,-> <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
- 10 | ,-> <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
- 10 | ,-> <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    :                               ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
- 10 | ,-> <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    :                               ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    :                                             ^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:10:5]
+ 10 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
+    :                                             ^^^^^^^
     `----
 
   x Child
@@ -379,74 +249,38 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
- 11 | ,-> <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
- 11 | ,-> <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
- 11 | ,-> <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    :                          ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
- 11 | ,-> <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    :                          ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    :                                        ^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:11:5]
+ 11 | <social-button type="fb"><a href="...">Facebook</a></social-button>
+    :                                        ^^^^^^^^
     `----
 
   x Child
@@ -463,84 +297,64 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                            ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                            ^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                                          ^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                                          ^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                                                                ^
+ 13 | </share-buttons>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
+ 12 | <social-button type="plus"><a href="...">G+</a></social-button>
+    :                                                                ^
+ 13 | </share-buttons>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:13:1]
+ 13 | ,-> </share-buttons>
  14 | `-> 
  15 |     <x-foo-with-markup>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:12:5]
- 12 | ,-> <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:13:1]
+ 13 | ,-> </share-buttons>
  14 | `-> 
  15 |     <x-foo-with-markup>
     `----
@@ -548,29 +362,15 @@
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:15:1]
  15 | ,-> <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 16 | `->     <b>I'm an x-foo-with-markup!</b>
+ 17 |     </x-foo-with-markup>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:15:1]
  15 | ,-> <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 16 | `->     <b>I'm an x-foo-with-markup!</b>
+ 17 |     </x-foo-with-markup>
     `----
 
   x Child
@@ -587,42 +387,42 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
- 16 | ,-> <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </x-foo-with-markup>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
- 16 | ,-> <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </x-foo-with-markup>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
- 16 | ,-> <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </x-foo-with-markup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </x-foo-with-markup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:17:1]
+ 17 | ,-> </x-foo-with-markup>
  18 | `-> 
  19 |     <template id="x-foo-from-template">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
- 16 | ,-> <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:17:1]
+ 17 | ,-> </x-foo-with-markup>
  18 | `-> 
  19 |     <template id="x-foo-from-template">
     `----
