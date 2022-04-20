@@ -393,34 +393,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | |       </fieldset>
- 27 | |   </form>
- 28 | |   
- 29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
- 30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
- 31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
- 32 | |       <linearGradient id="gradient">
- 33 | |           <stop class="begin" offset="0%"/>
- 34 | |           <stop class="end" offset="100%"/>
- 35 | |       </linearGradient>
- 36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 38 | |   </svg>
- 39 | |   
- 40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
- 41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
- 42 | |           <feTurbulence baseFrequency="0.025" />
- 43 | |       </filter>
- 44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | |           <feTurbulence baseFrequency="0.05" />
- 46 | |       </filter>
- 47 | |   
- 48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
- 50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 26 | `->     </fieldset>
+ 27 |     </form>
     `----
 
   x Element
@@ -434,34 +408,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | |       </fieldset>
- 27 | |   </form>
- 28 | |   
- 29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
- 30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
- 31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
- 32 | |       <linearGradient id="gradient">
- 33 | |           <stop class="begin" offset="0%"/>
- 34 | |           <stop class="end" offset="100%"/>
- 35 | |       </linearGradient>
- 36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 38 | |   </svg>
- 39 | |   
- 40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
- 41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
- 42 | |           <feTurbulence baseFrequency="0.025" />
- 43 | |       </filter>
- 44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | |           <feTurbulence baseFrequency="0.05" />
- 46 | |       </filter>
- 47 | |   
- 48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
- 50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 26 | `->     </fieldset>
+ 27 |     </form>
     `----
 
   x Child
@@ -487,34 +435,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | |       </fieldset>
- 27 | |   </form>
- 28 | |   
- 29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
- 30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
- 31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
- 32 | |       <linearGradient id="gradient">
- 33 | |           <stop class="begin" offset="0%"/>
- 34 | |           <stop class="end" offset="100%"/>
- 35 | |       </linearGradient>
- 36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 38 | |   </svg>
- 39 | |   
- 40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
- 41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
- 42 | |           <feTurbulence baseFrequency="0.025" />
- 43 | |       </filter>
- 44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | |           <feTurbulence baseFrequency="0.05" />
- 46 | |       </filter>
- 47 | |   
- 48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
- 50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 26 | `->     </fieldset>
+ 27 |     </form>
     `----
 
   x Element
@@ -526,34 +448,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | |       </fieldset>
- 27 | |   </form>
- 28 | |   
- 29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
- 30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
- 31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
- 32 | |       <linearGradient id="gradient">
- 33 | |           <stop class="begin" offset="0%"/>
- 34 | |           <stop class="end" offset="100%"/>
- 35 | |       </linearGradient>
- 36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 38 | |   </svg>
- 39 | |   
- 40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
- 41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
- 42 | |           <feTurbulence baseFrequency="0.025" />
- 43 | |       </filter>
- 44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | |           <feTurbulence baseFrequency="0.05" />
- 46 | |       </filter>
- 47 | |   
- 48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
- 50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 26 | `->     </fieldset>
+ 27 |     </form>
     `----
 
   x Child
@@ -786,16 +682,28 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/svg/input.html:26:5]
- 26 | ,-> </fieldset>
- 27 | |   </form>
+ 26 | </fieldset>
+    :            ^
+ 27 | </form>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:26:5]
+ 26 | </fieldset>
+    :            ^
+ 27 | </form>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:27:1]
+ 27 | ,-> </form>
  28 | `-> 
  29 |     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/svg/input.html:26:5]
- 26 | ,-> </fieldset>
- 27 | |   </form>
+    ,-[$DIR/tests/fixture/tag/svg/input.html:27:1]
+ 27 | ,-> </form>
  28 | `-> 
  29 |     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
     `----

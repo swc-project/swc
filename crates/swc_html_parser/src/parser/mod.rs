@@ -399,6 +399,39 @@ impl OpenElementsStack {
         self.has_element_target_node_in_specific_scope(tag_name, SPECIFIC_SCOPE)
     }
 
+    pub fn has_node_in_scope(&self, target: &RcNode) -> bool {
+        //   self.has_element_target_node_in_specific_scope(tag_name, SPECIFIC_SCOPE)
+
+        let mut iter = self.items.iter().rev();
+        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        let mut node = iter.next();
+
+        while let Some(inner_node) = node {
+            // 2. If node is the target node, terminate in a match state.
+            if is_same_node(&target, &inner_node) {
+                return true;
+            }
+
+            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // failure state.
+            for element_and_ns in SPECIFIC_SCOPE {
+                if get_tag_name!(inner_node) == element_and_ns.0
+                    && get_namespace!(inner_node) == element_and_ns.1
+                {
+                    return false;
+                }
+            }
+
+            // 4. Otherwise, set node to the previous entry in the stack of open elements
+            // and return to step 2. (This will never fail, since the loop will always
+            // terminate in the previous step if the top of the stack — an html element — is
+            // reached.)
+            node = iter.next();
+        }
+
+        false
+    }
+
     // The stack of open elements is said to have a particular element in list item
     // scope when it has that element in the specific scope consisting of the
     // following element types:
@@ -505,7 +538,6 @@ impl OpenElementsStack {
 
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
         while let Some(node) = self.items.last() {
-            // TODO fix me
             if get_tag_name!(node) == tag_name {
                 break;
             }
@@ -2593,10 +2625,14 @@ where
                     // 4. Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "form" => {
-                        // TODO check me
                         if !self.open_elements_stack.contains_template_element() {
                             let node = match self.form_element_pointer.take() {
                                 None => {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnexpectedToken,
+                                    ));
+
                                     return Ok(());
                                 }
                                 Some(x) => Some(x),
@@ -2605,9 +2641,9 @@ where
                             self.form_element_pointer = None;
 
                             if node.is_none()
-                            // || !self
-                            //     .open_elements_stack
-                            //     .in_scope(default_scope, |n| is_same_node(&node.unwrap(), &n))
+                                || !self
+                                    .open_elements_stack
+                                    .has_node_in_scope(&node.as_ref().unwrap())
                             {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
@@ -2617,20 +2653,20 @@ where
                                 return Ok(());
                             }
 
+                            let node = node.unwrap();
+
                             self.open_elements_stack.generate_implied_end_tags();
 
                             let current = self.open_elements_stack.items.last();
 
-                            if !is_same_node(&node.unwrap(), current.unwrap()) {
+                            if !is_same_node(&node, current.unwrap()) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::UnexpectedToken,
                                 ));
                             }
 
-                            // if let Some(node) = &node {
-                            //     self.open_elements_stack.remove(node);
-                            // }
+                            self.open_elements_stack.remove(&node);
                         } else {
                             if self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
