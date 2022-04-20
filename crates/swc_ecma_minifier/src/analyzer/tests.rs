@@ -10,7 +10,7 @@ use testing::NormalizedOutput;
 use super::VarUsageInfo;
 use crate::marks::Marks;
 
-#[testing::fixture("tests/compress/fixture/**/input.js")]
+#[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/single-pass/**/input.js")]
 #[testing::fixture("tests/terser/compress/**/input.js")]
 fn snapshot(input: PathBuf) {

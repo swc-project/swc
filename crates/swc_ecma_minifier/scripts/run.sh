@@ -29,4 +29,4 @@ UPDATE=1 ./scripts/base.sh base_fixture
 ./scripts/base.sh base_exec
 
 SKIP_GOLDEN=1 cargo test --test compress --all-features ${1:-fixture_tests__terser__compress__}
-SKIP_GOLDEN=1 UPDATE=1 cargo test --test compress --all-features ${1:-fixture_tests__compress__}
+SKIP_GOLDEN=1 UPDATE=1 cargo test --test compress --all-features ${1:-fixture_tests__fixture__}
