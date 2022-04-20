@@ -316,7 +316,7 @@ where
         }
 
         {
-            let _timer = timer!("apply pure optimize");
+            let _timer = timer!("apply pure optimizer");
 
             let mut visitor = pure_optimizer(
                 self.options,
