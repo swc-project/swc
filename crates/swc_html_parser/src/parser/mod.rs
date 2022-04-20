@@ -6351,19 +6351,17 @@ where
     ) -> InsertionPosition {
         // If there was an override target specified, then let target be the
         // override target. Otherwise, let target be the current node.
-        // TODO avoid unwrap, i.e. self.open_elems.last().expect("no current element")
+        // TODO avoid unwrap and improve foster and document
         let target = override_target
             .unwrap_or_else(|| self.open_elements_stack.items.last().unwrap().clone());
 
         // NOTE: Foster parenting happens when content is misnested in tables.
-        // TODO fix me
-        // let adjusted_insertion_cocation = if self.foster_parenting_enabled {
+        // let adjusted_insertion_location = if self.foster_parenting_enabled {
         //     target
         // } else {
         //     target
         // };
 
-        // TODO handle document
         // let html_elem = self.html_elem();
 
         InsertionPosition::LastChild(target)
