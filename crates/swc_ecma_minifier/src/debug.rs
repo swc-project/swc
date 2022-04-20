@@ -12,6 +12,8 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
+pub(crate) const SHOULD_CHECK: bool = cfg!(debug_assertions) && option_env!("SWC_CHECK").is_some();
+
 pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
