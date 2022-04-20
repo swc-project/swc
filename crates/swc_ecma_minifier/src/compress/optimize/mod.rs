@@ -2053,6 +2053,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.label.is_none() {
+            report_change!("Removing label `{}`", n.label);
             n.label.take();
         }
 
