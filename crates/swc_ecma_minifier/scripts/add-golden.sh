@@ -5,6 +5,7 @@
 set -eu
 
 export SWC_RUN=0
+export SWC_CHECK=0
 
 cargo test --test compress --all-features fixture_tests__terser__compress__ \
   | grep 'fixture_tests__terser__compress__' \
