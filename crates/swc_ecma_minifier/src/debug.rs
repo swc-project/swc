@@ -112,7 +112,8 @@ pub(crate) fn invoke(module: &Module) {
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
-            .spawn()?;
+            .spawn()
+            .expect("failed to spawn node");
 
         {
             let child_stdin = child.stdin.as_mut().unwrap();
