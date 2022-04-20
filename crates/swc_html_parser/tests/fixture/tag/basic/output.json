@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
+        "end": 445,
         "ctxt": 0
       },
       "tagName": "html",
@@ -34,7 +34,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 5,
+            "end": 445,
             "ctxt": 0
           },
           "tagName": "body",
@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 12,
-                "end": 17,
+                "end": 22,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -175,7 +175,7 @@
               "type": "Element",
               "span": {
                 "start": 70,
-                "end": 80,
+                "end": 445,
                 "ctxt": 0
               },
               "tagName": "h:ællæ",
@@ -195,7 +195,7 @@
                   "type": "Element",
                   "span": {
                     "start": 110,
-                    "end": 122,
+                    "end": 445,
                     "ctxt": 0
                   },
                   "tagName": "some-tag-1",
@@ -206,7 +206,7 @@
                       "type": "Element",
                       "span": {
                         "start": 135,
-                        "end": 147,
+                        "end": 445,
                         "ctxt": 0
                       },
                       "tagName": "some-tag-2",
@@ -226,7 +226,7 @@
                           "type": "Element",
                           "span": {
                             "start": 161,
-                            "end": 181,
+                            "end": 445,
                             "ctxt": 0
                           },
                           "tagName": "a",
@@ -248,7 +248,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 181,
-                                "end": 186,
+                                "end": 189,
                                 "ctxt": 0
                               },
                               "tagName": "div",
@@ -279,7 +279,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 200,
-                                "end": 212,
+                                "end": 445,
                                 "ctxt": 0
                               },
                               "tagName": "custom-tag",
@@ -290,7 +290,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 225,
-                                    "end": 230,
+                                    "end": 238,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",
@@ -321,7 +321,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 245,
-                                    "end": 250,
+                                    "end": 258,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",
@@ -501,7 +501,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 387,
-                                    "end": 393,
+                                    "end": 399,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",
@@ -532,7 +532,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 408,
-                                    "end": 413,
+                                    "end": 417,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",
@@ -563,7 +563,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 436,
-                                    "end": 441,
+                                    "end": 445,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",

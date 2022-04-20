@@ -14,16 +14,32 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
- 1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
-   : ^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+  1 | ,-> <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+  2 | |   <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
- 1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
-   : ^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+  1 | ,-> <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+  2 | |   <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
@@ -58,16 +74,30 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
- 2 | <a class="add sort keys createSorter"></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+  2 | ,-> <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
- 2 | <a class="add sort keys createSorter"></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+  2 | ,-> <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
@@ -84,16 +114,28 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
- 3 | <span class="sprite sprite-{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
+  3 | ,-> <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
- 3 | <span class="sprite sprite-{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
+  3 | ,-> <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
@@ -110,16 +152,26 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
- 4 | <span class="{{sprite}}-sprite sprite"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
+  4 | ,-> <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
- 4 | <span class="{{sprite}}-sprite sprite"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
+  4 | ,-> <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
@@ -136,16 +188,24 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
- 5 | <span class="sprite-{{sprite}}-sprite"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
+  5 | ,-> <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
- 5 | <span class="sprite-{{sprite}}-sprite"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
+  5 | ,-> <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
@@ -162,16 +222,22 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
- 6 | <span class="{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
+  6 | ,-> <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
- 6 | <span class="{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
+  6 | ,-> <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
@@ -188,16 +254,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
- 7 | <span class={{sprite}}></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
+  7 | ,-> <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
- 7 | <span class={{sprite}}></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
+  7 | ,-> <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]

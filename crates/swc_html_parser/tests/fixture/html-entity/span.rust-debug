@@ -121,16 +121,220 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/html-entity/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
-   `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:2:1]
+   2 | ,-> <html>
+   3 | |   <body>
+   4 | |   
+   5 | |   <h1>HTML Entity Example</h1>
+   6 | |   
+   7 | |   <div>A space character: &AMP;</div>
+   8 | |   <div>A space character: &amp;</div>
+   9 | |   <div>A space character: &amp;;</div>
+  10 | |   
+  11 | |   <div>A space character: &nbsp;</div>
+  12 | |   <div>The less-than sign: &lt;</div>
+  13 | |   <div>The greater-than sign: &gt;</div>
+  14 | |   <div>The double quote sign: &quot;</div>
+  15 | |   <div>The single quote sign: &apos;</div>
+  16 | |   <div>The cent sign: &cent;</div>
+  17 | |   <div>The pound sign: &pound;</div>
+  18 | |   <div>The yen sign: &yen;</div>
+  19 | |   <div>The euro sign: &euro;</div>
+  20 | |   <div>The copyright sign: &copy;</div>
+  21 | |   <div>The registered trade mark sign: &reg;</div>
+  22 | |   
+  23 | |   <div>&reg;</div>
+  24 | |   <div>&REG;</div>
+  25 | |   <div>&reg;;</div>
+  26 | |   <div>&reg</div>
+  27 | |   <div>reg</div>
+  28 | |   
+  29 | |   <div>&CounterClockwiseContourIntegral;</div>
+  30 | |   <div>&&reg;</div>
+  31 | |   
+  32 | |   <div>An a with a grave accent: a&#768;</div>
+  33 | |   <div>An a with an acute accent: a&#769;</div>
+  34 | |   <div>An a with a circumflex accent: a&#770;</div>
+  35 | |   <div>An a with a tilde: a&#771;</div>
+  36 | |   <div>An o with a grave accent: o&#768;</div>
+  37 | |   <div>An o with an acute accent: o&#769;</div>
+  38 | |   <div>An o with a circumflex accent: o&#770;</div>
+  39 | |   <div>An o with a tilde: o&#771;</div>
+  40 | |   
+  41 | |   <div>A space character: &&</div>
+  42 | |   <div>I'm &notin; I tell you</div>
+  43 | |   <div>I'm &not; I tell you</div>
+  44 | |   
+  45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Element
-   ,-[$DIR/tests/fixture/html-entity/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
-   `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:2:1]
+   2 | ,-> <html>
+   3 | |   <body>
+   4 | |   
+   5 | |   <h1>HTML Entity Example</h1>
+   6 | |   
+   7 | |   <div>A space character: &AMP;</div>
+   8 | |   <div>A space character: &amp;</div>
+   9 | |   <div>A space character: &amp;;</div>
+  10 | |   
+  11 | |   <div>A space character: &nbsp;</div>
+  12 | |   <div>The less-than sign: &lt;</div>
+  13 | |   <div>The greater-than sign: &gt;</div>
+  14 | |   <div>The double quote sign: &quot;</div>
+  15 | |   <div>The single quote sign: &apos;</div>
+  16 | |   <div>The cent sign: &cent;</div>
+  17 | |   <div>The pound sign: &pound;</div>
+  18 | |   <div>The yen sign: &yen;</div>
+  19 | |   <div>The euro sign: &euro;</div>
+  20 | |   <div>The copyright sign: &copy;</div>
+  21 | |   <div>The registered trade mark sign: &reg;</div>
+  22 | |   
+  23 | |   <div>&reg;</div>
+  24 | |   <div>&REG;</div>
+  25 | |   <div>&reg;;</div>
+  26 | |   <div>&reg</div>
+  27 | |   <div>reg</div>
+  28 | |   
+  29 | |   <div>&CounterClockwiseContourIntegral;</div>
+  30 | |   <div>&&reg;</div>
+  31 | |   
+  32 | |   <div>An a with a grave accent: a&#768;</div>
+  33 | |   <div>An a with an acute accent: a&#769;</div>
+  34 | |   <div>An a with a circumflex accent: a&#770;</div>
+  35 | |   <div>An a with a tilde: a&#771;</div>
+  36 | |   <div>An o with a grave accent: o&#768;</div>
+  37 | |   <div>An o with an acute accent: o&#769;</div>
+  38 | |   <div>An o with a circumflex accent: o&#770;</div>
+  39 | |   <div>An o with a tilde: o&#771;</div>
+  40 | |   
+  41 | |   <div>A space character: &&</div>
+  42 | |   <div>I'm &notin; I tell you</div>
+  43 | |   <div>I'm &not; I tell you</div>
+  44 | |   
+  45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:1:1]
@@ -147,16 +351,218 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
- 3 | <body>
-   : ^^^^^^
-   `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
+   3 | ,-> <body>
+   4 | |   
+   5 | |   <h1>HTML Entity Example</h1>
+   6 | |   
+   7 | |   <div>A space character: &AMP;</div>
+   8 | |   <div>A space character: &amp;</div>
+   9 | |   <div>A space character: &amp;;</div>
+  10 | |   
+  11 | |   <div>A space character: &nbsp;</div>
+  12 | |   <div>The less-than sign: &lt;</div>
+  13 | |   <div>The greater-than sign: &gt;</div>
+  14 | |   <div>The double quote sign: &quot;</div>
+  15 | |   <div>The single quote sign: &apos;</div>
+  16 | |   <div>The cent sign: &cent;</div>
+  17 | |   <div>The pound sign: &pound;</div>
+  18 | |   <div>The yen sign: &yen;</div>
+  19 | |   <div>The euro sign: &euro;</div>
+  20 | |   <div>The copyright sign: &copy;</div>
+  21 | |   <div>The registered trade mark sign: &reg;</div>
+  22 | |   
+  23 | |   <div>&reg;</div>
+  24 | |   <div>&REG;</div>
+  25 | |   <div>&reg;;</div>
+  26 | |   <div>&reg</div>
+  27 | |   <div>reg</div>
+  28 | |   
+  29 | |   <div>&CounterClockwiseContourIntegral;</div>
+  30 | |   <div>&&reg;</div>
+  31 | |   
+  32 | |   <div>An a with a grave accent: a&#768;</div>
+  33 | |   <div>An a with an acute accent: a&#769;</div>
+  34 | |   <div>An a with a circumflex accent: a&#770;</div>
+  35 | |   <div>An a with a tilde: a&#771;</div>
+  36 | |   <div>An o with a grave accent: o&#768;</div>
+  37 | |   <div>An o with an acute accent: o&#769;</div>
+  38 | |   <div>An o with a circumflex accent: o&#770;</div>
+  39 | |   <div>An o with a tilde: o&#771;</div>
+  40 | |   
+  41 | |   <div>A space character: &&</div>
+  42 | |   <div>I'm &notin; I tell you</div>
+  43 | |   <div>I'm &not; I tell you</div>
+  44 | |   
+  45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Element
-   ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
- 3 | <body>
-   : ^^^^^^
-   `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
+   3 | ,-> <body>
+   4 | |   
+   5 | |   <h1>HTML Entity Example</h1>
+   6 | |   
+   7 | |   <div>A space character: &AMP;</div>
+   8 | |   <div>A space character: &amp;</div>
+   9 | |   <div>A space character: &amp;;</div>
+  10 | |   
+  11 | |   <div>A space character: &nbsp;</div>
+  12 | |   <div>The less-than sign: &lt;</div>
+  13 | |   <div>The greater-than sign: &gt;</div>
+  14 | |   <div>The double quote sign: &quot;</div>
+  15 | |   <div>The single quote sign: &apos;</div>
+  16 | |   <div>The cent sign: &cent;</div>
+  17 | |   <div>The pound sign: &pound;</div>
+  18 | |   <div>The yen sign: &yen;</div>
+  19 | |   <div>The euro sign: &euro;</div>
+  20 | |   <div>The copyright sign: &copy;</div>
+  21 | |   <div>The registered trade mark sign: &reg;</div>
+  22 | |   
+  23 | |   <div>&reg;</div>
+  24 | |   <div>&REG;</div>
+  25 | |   <div>&reg;;</div>
+  26 | |   <div>&reg</div>
+  27 | |   <div>reg</div>
+  28 | |   
+  29 | |   <div>&CounterClockwiseContourIntegral;</div>
+  30 | |   <div>&&reg;</div>
+  31 | |   
+  32 | |   <div>An a with a grave accent: a&#768;</div>
+  33 | |   <div>An a with an acute accent: a&#769;</div>
+  34 | |   <div>An a with a circumflex accent: a&#770;</div>
+  35 | |   <div>An a with a tilde: a&#771;</div>
+  36 | |   <div>An o with a grave accent: o&#768;</div>
+  37 | |   <div>An o with an acute accent: o&#769;</div>
+  38 | |   <div>An o with a circumflex accent: o&#770;</div>
+  39 | |   <div>An o with a tilde: o&#771;</div>
+  40 | |   
+  41 | |   <div>A space character: &&</div>
+  42 | |   <div>I'm &notin; I tell you</div>
+  43 | |   <div>I'm &not; I tell you</div>
+  44 | |   
+  45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
@@ -175,13 +581,13 @@
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
-   : ^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/html-entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
-   : ^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -213,13 +619,13 @@
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/html-entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -251,13 +657,13 @@
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/html-entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -289,13 +695,13 @@
   x Child
    ,-[$DIR/tests/fixture/html-entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/html-entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -327,13 +733,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -365,13 +771,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -403,13 +809,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -441,13 +847,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -479,13 +885,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -517,13 +923,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -555,13 +961,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -593,13 +999,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -631,13 +1037,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -669,13 +1075,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -707,13 +1113,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -745,13 +1151,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:23:1]
  23 | <div>&reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:23:1]
  23 | <div>&reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -783,13 +1189,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:24:1]
  24 | <div>&REG;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:24:1]
  24 | <div>&REG;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -821,13 +1227,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:25:1]
  25 | <div>&reg;;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:25:1]
  25 | <div>&reg;;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -859,13 +1265,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:26:1]
  26 | <div>&reg</div>
-    : ^^^^^
+    : ^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:26:1]
  26 | <div>&reg</div>
-    : ^^^^^
+    : ^^^^^^^^^
     `----
 
   x Child
@@ -897,13 +1303,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:27:1]
  27 | <div>reg</div>
-    : ^^^^^
+    : ^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:27:1]
  27 | <div>reg</div>
-    : ^^^^^
+    : ^^^^^^^^
     `----
 
   x Child
@@ -935,13 +1341,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:29:1]
  29 | <div>&CounterClockwiseContourIntegral;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:29:1]
  29 | <div>&CounterClockwiseContourIntegral;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -973,13 +1379,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
  30 | <div>&&reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
  30 | <div>&&reg;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1011,13 +1417,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
  32 | <div>An a with a grave accent: a&#768;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
  32 | <div>An a with a grave accent: a&#768;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1049,13 +1455,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
  33 | <div>An a with an acute accent: a&#769;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
  33 | <div>An a with an acute accent: a&#769;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1087,13 +1493,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
  34 | <div>An a with a circumflex accent: a&#770;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
  34 | <div>An a with a circumflex accent: a&#770;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1125,13 +1531,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
  35 | <div>An a with a tilde: a&#771;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
  35 | <div>An a with a tilde: a&#771;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1163,13 +1569,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
  36 | <div>An o with a grave accent: o&#768;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
  36 | <div>An o with a grave accent: o&#768;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1201,13 +1607,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
  37 | <div>An o with an acute accent: o&#769;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
  37 | <div>An o with an acute accent: o&#769;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1239,13 +1645,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
  38 | <div>An o with a circumflex accent: o&#770;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
  38 | <div>An o with a circumflex accent: o&#770;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1277,13 +1683,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
  39 | <div>An o with a tilde: o&#771;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
  39 | <div>An o with a tilde: o&#771;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1315,13 +1721,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
  41 | <div>A space character: &&</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
  41 | <div>A space character: &&</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1353,13 +1759,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
  42 | <div>I'm &notin; I tell you</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
  42 | <div>I'm &notin; I tell you</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1391,13 +1797,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
  43 | <div>I'm &not; I tell you</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
  43 | <div>I'm &not; I tell you</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1427,16 +1833,134 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+  45 | ,-> <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Element
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+  45 | ,-> <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Attribute
    ,-[$DIR/tests/fixture/html-entity/input.html:1:1]
@@ -1459,16 +1983,132 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+  46 | ,-> <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Element
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+  46 | ,-> <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
+     `----
 
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
@@ -1491,13 +2131,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
  50 | <div>&#x2715;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
  50 | <div>&#x2715;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1529,13 +2169,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
  51 | <div>&#10005;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
  51 | <div>&#10005;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1567,13 +2207,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:52:1]
  52 | <div>✕</div>
-    : ^^^^^
+    : ^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:52:1]
  52 | <div>✕</div>
-    : ^^^^^
+    : ^^^^^^^^
     `----
 
   x Child
@@ -1605,13 +2245,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:54:1]
  54 | <div>&#x24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:54:1]
  54 | <div>&#x24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1643,13 +2283,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:55:1]
  55 | <div>&#36;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:55:1]
  55 | <div>&#36;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1681,13 +2321,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:56:1]
  56 | <div>&dollar;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:56:1]
  56 | <div>&dollar;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1719,13 +2359,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
  58 | <div>&#q;</div>
-    : ^^^^^
+    : ^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
  58 | <div>&#q;</div>
-    : ^^^^^
+    : ^^^^^^^^^
     `----
 
   x Child
@@ -1757,13 +2397,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
  59 | <div>&#qq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
  59 | <div>&#qq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1795,13 +2435,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
  60 | <div>&#qqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
  60 | <div>&#qqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1833,13 +2473,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
  62 | <div>&#x24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
  62 | <div>&#x24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1871,13 +2511,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
  63 | <div>&#X24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
  63 | <div>&#X24;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1909,13 +2549,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
  65 | <div>&#xq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
  65 | <div>&#xq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1947,13 +2587,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
  66 | <div>&#xqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
  66 | <div>&#xqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1985,13 +2625,13 @@
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
  67 | <div>&#xqqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
  67 | <div>&#xqqq;</div>
-    : ^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -2024,14 +2664,68 @@
 
   x Child
     ,-[$DIR/tests/fixture/html-entity/input.html:70:1]
- 70 | <div>
-    : ^^^^^
+ 70 | ,-> <div>
+ 71 | |   &#x80	0x20AC	EURO SIGN (€)
+ 72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+ 73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+ 74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+ 75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+ 76 | |   &#x86	0x2020	DAGGER (†)
+ 77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+ 78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+ 79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+ 80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+ 81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+ 82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+ 83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+ 84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+ 85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+ 86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+ 87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+ 88 | |   &#x95	0x2022	BULLET (•)
+ 89 | |   &#x96	0x2013	EN DASH (–)
+ 90 | |   &#x97	0x2014	EM DASH (—)
+ 91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+ 92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+ 93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+ 94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+ 95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+ 96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+ 97 | `-> &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+ 98 |     </div>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/html-entity/input.html:70:1]
- 70 | <div>
-    : ^^^^^
+ 70 | ,-> <div>
+ 71 | |   &#x80	0x20AC	EURO SIGN (€)
+ 72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+ 73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+ 74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+ 75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+ 76 | |   &#x86	0x2020	DAGGER (†)
+ 77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+ 78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+ 79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+ 80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+ 81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+ 82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+ 83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+ 84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+ 85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+ 86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+ 87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+ 88 | |   &#x95	0x2022	BULLET (•)
+ 89 | |   &#x96	0x2013	EN DASH (–)
+ 90 | |   &#x97	0x2014	EM DASH (—)
+ 91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+ 92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+ 93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+ 94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+ 95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+ 96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+ 97 | `-> &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+ 98 |     </div>
     `----
 
   x Child
@@ -2117,13 +2811,13 @@
   x Child
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
  100 | <div>I'm &notin; I tell you</div>
-     : ^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
  100 | <div>I'm &notin; I tell you</div>
-     : ^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -2155,13 +2849,13 @@
   x Child
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
  101 | <div>I'm &notit; I tell you</div>
-     : ^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
  101 | <div>I'm &notit; I tell you</div>
-     : ^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child

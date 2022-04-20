@@ -329,7 +329,7 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn contains_template_element(&mut self) -> bool {
+    pub fn contains_template_element(&self) -> bool {
         self.template_element_count > 0
     }
 
@@ -740,8 +740,17 @@ where
                         new_children.push(extract(node));
                     }
 
+                    let first = span.lo;
+                    let last = match new_children.last() {
+                        Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                        Some(Child::Element(Element { span, .. })) => span.hi,
+                        Some(Child::Comment(Comment { span, .. })) => span.hi,
+                        Some(Child::Text(Text { span, .. })) => span.hi,
+                        _ => span.hi,
+                    };
+
                     Child::Element(Element {
-                        span: *span,
+                        span: Span::new(first, last, Default::default()),
                         tag_name: tag_name.clone(),
                         namespace: *namespace,
                         attributes: attributes.clone(),
@@ -773,15 +782,10 @@ where
             children: vec![],
         };
 
-        for node in &mut self
-            .document
-            .as_ref()
-            .unwrap()
-            .children
-            .borrow_mut()
-            .iter_mut()
-        {
-            document.children.push(extract(node));
+        if let Some(doc) = &mut self.document {
+            for node in doc.children.borrow_mut().iter_mut() {
+                document.children.push(extract(node));
+            }
         }
 
         document.span = Span::new(start.lo, last, Default::default());
@@ -866,6 +870,7 @@ where
                     Token::Comment { .. } => {
                         self.insert_comment_as_last_child_of_document(token_and_info)?;
                     }
+                    // TODO handle - an iframe srcdoc document option for next entries
                     // A DOCTYPE token
                     //
                     // If the DOCTYPE token's name is not "html", or the token's public identifier
@@ -918,8 +923,6 @@ where
                             self.append_node(document, document_type);
                         }
 
-                        // TODO handle - an iframe srcdoc document
-
                         self.insertion_mode = InsertionMode::BeforeHtml;
                     }
                     // Anything else
@@ -931,15 +934,6 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
-                        // TODO fix me for `srcdoc`
-                        // if self.document.is_iframe_srcdoc() {
-                        //     self.errors
-                        //         .push(Error::new(token_and_info.span,
-                        // ErrorKind::UnexpectedToken));
-                        //
-                        //     self.document.mode = DocumentMode::Quirks;
-                        // }
-
                         self.insertion_mode = InsertionMode::BeforeHtml;
                         self.process_token(token_and_info, None)?;
                     }
@@ -1778,27 +1772,7 @@ where
                             return Ok(());
                         }
 
-                        let first = self.open_elements_stack.items.first_mut();
-
-                        for _attribute in attributes {
-                            let has_attribute = if let Some(_element) = &first {
-                                // TODO
-                                false
-                            } else {
-                                false
-                            };
-
-                            if !has_attribute {
-                                // TODO fix me
-                                // if let Some(node) = &mut first {
-                                //     node.data.attributes.push(Attribute {
-                                //         span: Default::default(),
-                                //         name: attribute.name.clone(),
-                                //         value: attribute.value.clone(),
-                                //     });
-                                // }
-                            }
-                        }
+                        self.add_attributes_to_node_if_missing(0, attributes.clone());
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
                     // "meta", "noframes", "script", "style", "template", "title"
@@ -1852,14 +1826,14 @@ where
                             || self.open_elements_stack.items.len() == 1
                             || self.open_elements_stack.contains_template_element()
                         {
+                            // Ignore
+                            // Fragment case
                             return Ok(());
                         }
 
                         self.frameset_ok = false;
 
-                        for _attribute in attributes {
-                            // TODO fix me
-                        }
+                        self.add_attributes_to_node_if_missing(2, attributes.clone());
                     }
                     // A start tag whose tag name is "frameset"
                     //
@@ -2616,10 +2590,10 @@ where
                     // 4. Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "form" => {
+                        // TODO check me
                         if !self.open_elements_stack.contains_template_element() {
                             let node = match self.form_element_pointer.take() {
                                 None => {
-                                    // TODO error?
                                     return Ok(());
                                 }
                                 Some(x) => Some(x),
@@ -2628,7 +2602,6 @@ where
                             self.form_element_pointer = None;
 
                             if node.is_none()
-                            // TODO fix me
                             // || !self
                             //     .open_elements_stack
                             //     .in_scope(default_scope, |n| is_same_node(&node.unwrap(), &n))
@@ -2652,12 +2625,9 @@ where
                                 ));
                             }
 
-                            // TODO fix me
                             // if let Some(node) = &node {
                             //     self.open_elements_stack.remove(node);
                             // }
-
-                            // TODO error?
                         } else {
                             if self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
@@ -5992,6 +5962,44 @@ where
         // NOTE: The stack of open elements cannot have both a td and a th
         // element in table scope at the same time, nor can it have neither
         // when the close the cell algorithm is invoked.
+    }
+
+    fn add_attributes_to_node_if_missing(
+        &mut self,
+        index: usize,
+        _attributes: Vec<AttributeToken>,
+    ) {
+        let target = self.open_elements_stack.items.get_mut(index);
+
+        if let Some(target) = target {
+            match &target.data {
+                Child::Element(_element) => {
+                    // TODO fix me
+                    // for attribute in attributes {
+                    //     let mut has_attribute = false;
+                    //
+                    //     for target_attribute in &element.attributes {
+                    //         if attribute.name == target_attribute.name {
+                    //             has_attribute = true;
+                    //
+                    //             break;
+                    //         }
+                    //     }
+                    //
+                    //     if !has_attribute {
+                    //         element.attributes.push(Attribute {
+                    //             span: Default::default(),
+                    //             name: "test".into(),
+                    //             value: Some("test".into()),
+                    //         })
+                    //     }
+                    // }
+                }
+                _ => {
+                    unreachable!();
+                }
+            }
+        }
     }
 
     fn reset_insertion_mode(&mut self) {

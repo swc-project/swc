@@ -49,27 +49,89 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:3:1]
- 3 | <html>
-   : ^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:3:1]
+  3 | ,-> <html>
+  4 | |   <head>
+  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  6 | |       <title>Тег PLAINTEXT</title>
+  7 | |   </head>
+  8 | |   <body>
+  9 | |   <p>Пример программы</p>
+ 10 | |   <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:3:1]
- 3 | <html>
-   : ^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:3:1]
+  3 | ,-> <html>
+  4 | |   <head>
+  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  6 | |       <title>Тег PLAINTEXT</title>
+  7 | |   </head>
+  8 | |   <body>
+  9 | |   <p>Пример программы</p>
+ 10 | |   <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:4:1]
- 4 | <head>
-   : ^^^^^^
+ 4 | ,-> <head>
+ 5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+ 7 |     </head>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:4:1]
- 4 | <head>
-   : ^^^^^^
+ 4 | ,-> <head>
+ 5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+ 7 |     </head>
    `----
 
   x Child
@@ -117,13 +179,13 @@
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -167,16 +229,64 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
- 8 | <body>
-   : ^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
+  8 | ,-> <body>
+  9 | |   <p>Пример программы</p>
+ 10 | |   <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
- 8 | <body>
-   : ^^^^^^
-   `----
+    ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
+  8 | ,-> <body>
+  9 | |   <p>Пример программы</p>
+ 10 | |   <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:8:1]
@@ -195,13 +305,13 @@
   x Child
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
  9 | <p>Пример программы</p>
-   : ^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/tag/plaintext/input.html:9:1]
  9 | <p>Пример программы</p>
-   : ^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -232,14 +342,58 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/plaintext/input.html:10:1]
- 10 | <plaintext>
-    : ^^^^^^^^^^^
+ 10 | ,-> <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/plaintext/input.html:10:1]
- 10 | <plaintext>
-    : ^^^^^^^^^^^
+ 10 | ,-> <plaintext>
+ 11 | |       <h1>Демонстрация метода Подборского</h1>
+ 12 | |       while (<>) {
+ 13 | |       $org=$_;
+ 14 | |       s/\\["']//g;
+ 15 | |       s/\/\/[^:].*//;
+ 16 | |       s/\/\*.*\*\///g;
+ 17 | |       if ($comment == 1) {
+ 18 | |       if (s/.*\*\///) {
+ 19 | |       $comment = 0;
+ 20 | |       }
+ 21 | |       else {
+ 22 | |       next;
+ 23 | |       }
+ 24 | |       }
+ 25 | |       if (s/\/\*.*//) {
+ 26 | |       $comment = 1;
+ 27 | |       }
+ 28 | |       if (/^\s*#/) {
+ 29 | |       next;
+ 30 | |       }
+ 31 | |       }</plaintext>
+ 32 | |   </body>
+ 33 | `-> </html>
     `----
 
   x Child

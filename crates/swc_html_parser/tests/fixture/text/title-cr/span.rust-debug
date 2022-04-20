@@ -19,26 +19,26 @@
 
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
- 1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                 ^^^^^^
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
- 1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                 ^^^^^^
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                        ^^^^^^
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                        ^^^^^^
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -56,13 +56,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                   ^^^^^^^
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                   ^^^^^^^
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -103,14 +103,14 @@
 
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
- 1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                               ^^^^^^
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
- 1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                               ^^^^^^
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -128,13 +128,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                                       ^^^
+   :                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                                       ^^^
+   :                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -164,13 +164,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                                                                   ^^^
+   :                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  1 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
-   :                                                                                                                   ^^^
+   :                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

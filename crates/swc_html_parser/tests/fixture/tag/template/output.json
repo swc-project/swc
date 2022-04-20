@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
+        "end": 946,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 40,
+            "end": 946,
             "ctxt": 0
           },
           "tagName": "head",
@@ -33,7 +33,7 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 40,
+                "end": 934,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -64,7 +64,7 @@
                   "type": "Element",
                   "span": {
                     "start": 45,
-                    "end": 52,
+                    "end": 545,
                     "ctxt": 0
                   },
                   "tagName": "style",
@@ -95,7 +95,7 @@
                   "type": "Element",
                   "span": {
                     "start": 558,
-                    "end": 567,
+                    "end": 914,
                     "ctxt": 0
                   },
                   "tagName": "details",
@@ -115,7 +115,7 @@
                       "type": "Element",
                       "span": {
                         "start": 576,
-                        "end": 585,
+                        "end": 764,
                         "ctxt": 0
                       },
                       "tagName": "summary",
@@ -135,7 +135,7 @@
                           "type": "Element",
                           "span": {
                             "start": 598,
-                            "end": 617,
+                            "end": 764,
                             "ctxt": 0
                           },
                           "tagName": "code",
@@ -166,7 +166,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 621,
-                                "end": 647,
+                                "end": 764,
                                 "ctxt": 0
                               },
                               "tagName": "slot",
@@ -197,7 +197,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 687,
-                                    "end": 703,
+                                    "end": 764,
                                     "ctxt": 0
                                   },
                                   "tagName": "i",
@@ -219,7 +219,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 703,
-                                        "end": 728,
+                                        "end": 764,
                                         "ctxt": 0
                                       },
                                       "tagName": "slot",
@@ -269,7 +269,7 @@
                       "type": "Element",
                       "span": {
                         "start": 783,
-                        "end": 807,
+                        "end": 903,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -300,7 +300,7 @@
                           "type": "Element",
                           "span": {
                             "start": 820,
-                            "end": 824,
+                            "end": 834,
                             "ctxt": 0
                           },
                           "tagName": "h4",
@@ -331,7 +331,7 @@
                           "type": "Element",
                           "span": {
                             "start": 852,
-                            "end": 876,
+                            "end": 903,
                             "ctxt": 0
                           },
                           "tagName": "slot",
@@ -353,7 +353,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 876,
-                                "end": 879,
+                                "end": 883,
                                 "ctxt": 0
                               },
                               "tagName": "p",
