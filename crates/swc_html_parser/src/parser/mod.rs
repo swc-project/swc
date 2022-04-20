@@ -742,72 +742,36 @@ where
         let last = self.input.last_pos()?;
 
         // TODO optimize me
-        fn node_to_child(node: &mut RcNode) -> Child {
+        fn node_to_child(node: RcNode) -> Child {
             match &node.data {
-                Data::DocumentType(document_type) => {
-                    let DocumentType {
-                        span,
-                        name,
-                        public_id,
-                        system_id,
-                    } = document_type;
-
-                    Child::DocumentType(DocumentType {
-                        span: *span,
-                        name: name.clone(),
-                        public_id: public_id.clone(),
-                        system_id: system_id.clone(),
-                    })
-                }
+                Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
+                    ..document_type.clone()
+                }),
                 Data::Element(element) => {
-                    let Element {
-                        span,
-                        tag_name,
-                        namespace,
-                        attributes,
-                        ..
-                    } = element;
-
                     let mut new_children = vec![];
 
-                    for node in &mut node.children.borrow_mut().iter_mut() {
+                    for node in node.children.take() {
                         new_children.push(node_to_child(node));
                     }
 
-                    let first = span.lo;
+                    let first = element.span.lo;
                     let last = match new_children.last() {
                         Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
                         Some(Child::Element(Element { span, .. })) => span.hi,
                         Some(Child::Comment(Comment { span, .. })) => span.hi,
                         Some(Child::Text(Text { span, .. })) => span.hi,
-                        _ => span.hi,
+                        _ => element.span.hi,
                     };
 
                     Child::Element(Element {
                         span: Span::new(first, last, Default::default()),
-                        namespace: *namespace,
-                        tag_name: tag_name.clone(),
-                        attributes: attributes.clone(),
                         children: new_children,
                         content: None,
+                        ..element.clone()
                     })
                 }
-                Data::Text(text) => {
-                    let Text { span, value } = text;
-
-                    Child::Text(Text {
-                        span: *span,
-                        value: value.clone(),
-                    })
-                }
-                Data::Comment(comment) => {
-                    let Comment { span, data } = comment;
-
-                    Child::Comment(Comment {
-                        span: *span,
-                        data: data.clone(),
-                    })
-                }
+                Data::Text(text) => Child::Text(Text { ..text.clone() }),
+                Data::Comment(comment) => Child::Comment(Comment { ..comment.clone() }),
                 _ => {
                     unreachable!();
                 }
@@ -817,7 +781,7 @@ where
         let original_document = &mut self.document.take().unwrap();
         let mut children = vec![];
 
-        for node in original_document.children.borrow_mut().iter_mut() {
+        for node in original_document.children.take() {
             children.push(node_to_child(node));
         }
 
