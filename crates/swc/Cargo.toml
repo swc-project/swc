@@ -29,6 +29,8 @@ concurrent = [
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
 plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
+# For developers who use the `plugin` feature directly in rust:
+plugin-dev = ["plugin", "swc_plugin_runner/filesystem_cache", "swc_plugin_runner/plugin-dev"]
 
 [dependencies]
 ahash = "0.7.4"
