@@ -11,6 +11,13 @@ pub struct Document {
     pub children: Vec<Child>,
 }
 
+#[ast_node("DocumentFragment")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct DocumentFragment {
+    pub span: Span,
+    pub children: Vec<Child>,
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub enum DocumentMode {
     /// `no-quirks`
@@ -67,6 +74,8 @@ pub struct Element {
     pub namespace: Namespace,
     pub attributes: Vec<Attribute>,
     pub children: Vec<Child>,
+    /// For child nodes in `<template>`
+    pub content: Option<DocumentFragment>,
 }
 
 #[ast_node("Attribute")]

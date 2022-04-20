@@ -16,6 +16,11 @@ define!({
         pub children: Vec<Child>,
     }
 
+    pub struct DocumentFragment {
+        pub span: Span,
+        pub children: Vec<Child>,
+    }
+
     pub enum DocumentMode {
         NoQuirks,
         LimitedQuirks,
@@ -51,6 +56,7 @@ define!({
         pub namespace: Namespace,
         pub attributes: Vec<Attribute>,
         pub children: Vec<Child>,
+        pub content: Option<DocumentFragment>,
     }
 
     pub struct Attribute {

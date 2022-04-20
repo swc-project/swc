@@ -77,6 +77,8 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(Document, visit_document);
 
+    mtd!(DocumentFragment, visit_document_fragment);
+
     mtd!(Child, visit_child);
 
     mtd!(DocumentType, visit_document_type);

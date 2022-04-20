@@ -646,6 +646,7 @@ where
             namespace: Namespace::HTML,
             attributes: vec![],
             children: vec![],
+            content: None,
         })));
 
         while !self.stopped {
@@ -751,10 +752,11 @@ where
 
                     Child::Element(Element {
                         span: Span::new(first, last, Default::default()),
-                        tag_name: tag_name.clone(),
                         namespace: *namespace,
+                        tag_name: tag_name.clone(),
                         attributes: attributes.clone(),
                         children: new_children,
+                        content: None,
                     })
                 }
                 Child::Text(text) => {
@@ -981,9 +983,8 @@ where
                     } if tag_name == "html" => {
                         let element = create_node_for_element(Element {
                             span: span!(self, token_and_info.span.lo),
-                            tag_name: tag_name.into(),
                             namespace: Namespace::HTML,
-                            children: vec![],
+                            tag_name: tag_name.into(),
                             attributes: attributes
                                 .iter()
                                 .map(|attribute| Attribute {
@@ -992,6 +993,8 @@ where
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
+                            children: vec![],
+                            content: None,
                         });
 
                         self.open_elements_stack.push(element.clone());
@@ -5876,6 +5879,7 @@ where
             namespace: Namespace::HTML,
             attributes: vec![],
             children: vec![],
+            content: None,
         }))
     }
 
@@ -6650,6 +6654,7 @@ fn create_element_for_token(
                     })
                     .collect(),
                 children: vec![],
+                content: None,
             }
         }
         _ => {
