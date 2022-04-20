@@ -2838,7 +2838,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.168.3"
+version = "0.169.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2958,7 +2958,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.42.1"
+version = "0.43.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3703,7 +3703,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.88.0"
+version = "0.89.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3902,7 +3902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -3975,7 +3975,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "anyhow",
  "rayon",
