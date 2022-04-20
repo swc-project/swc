@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Ignore extraneous mapping of 1, 0 => 0, 0 (#4381) ([a06c559](https://github.com/swc-project/swc/commit/a06c55930f64a158b289c790ac9f7f71de78838a))
+
+
 - **(es/minifier)** Don't drop labels if required (#4370) ([922299a](https://github.com/swc-project/swc/commit/922299a4907d9ce8082c5db2a9dc435abe507ca6))
 
 
