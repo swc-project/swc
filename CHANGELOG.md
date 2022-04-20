@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Performance
+
+
+
+- **(es/minifier)** Fix default of `TerserCompressorOptions` (#4378) ([203dde9](https://github.com/swc-project/swc/commit/203dde9c6b83390e65444615299829f4212eac9d))
+
 ### Testing
 
 
