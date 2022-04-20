@@ -3619,9 +3619,6 @@
                     case 'urn:mpeg:dash:utc:direct:2012':
                         attributes.method = 'DIRECT', attributes.value = Date.parse(attributes.value);
                         break;
-                    case 'urn:mpeg:dash:utc:http-ntp:2014':
-                    case 'urn:mpeg:dash:utc:ntp:2014':
-                    case 'urn:mpeg:dash:utc:sntp:2014':
                     default:
                         throw new Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
                 }

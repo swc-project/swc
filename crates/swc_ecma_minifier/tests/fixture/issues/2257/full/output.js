@@ -13232,7 +13232,6 @@
                         return null !== (b = 1 !== b.nodeType || c.toLowerCase() !== b.nodeName.toLowerCase() ? null : b) && (a.stateNode = b, !0);
                     case 6:
                         return null !== (b = "" === a.pendingProps || 3 !== b.nodeType ? null : b) && (a.stateNode = b, !0);
-                    case 13:
                     default:
                         return !1;
                 }

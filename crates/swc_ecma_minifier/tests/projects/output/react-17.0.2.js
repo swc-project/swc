@@ -833,7 +833,6 @@
                 case 4:
                     timeout = 10000;
                     break;
-                case 3:
                 default:
                     timeout = 5000;
             }

@@ -337,10 +337,10 @@
             }
         }
     }
-    var _assign = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.assign, REACT_ELEMENT_TYPE = 0xeac7, REACT_PORTAL_TYPE = 0xeaca, REACT_FRAGMENT_TYPE = 0xeacb, REACT_STRICT_MODE_TYPE = 0xeacc, REACT_PROFILER_TYPE = 0xead2, REACT_PROVIDER_TYPE = 0xeacd, REACT_CONTEXT_TYPE = 0xeace, REACT_FORWARD_REF_TYPE = 0xead0, REACT_SUSPENSE_TYPE = 0xead1, REACT_SUSPENSE_LIST_TYPE = 0xead8, REACT_MEMO_TYPE = 0xead3, REACT_LAZY_TYPE = 0xead4, REACT_BLOCK_TYPE = 0xead9, REACT_SCOPE_TYPE = 0xead7, REACT_OPAQUE_ID_TYPE = 0xeae0, REACT_DEBUG_TRACING_MODE_TYPE = 0xeae1, REACT_OFFSCREEN_TYPE = 0xeae2, REACT_LEGACY_HIDDEN_TYPE = 0xeae3;
+    var _assign = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.assign, REACT_ELEMENT_TYPE = 0xeac7, REACT_PORTAL_TYPE = 0xeaca, REACT_FRAGMENT_TYPE = 0xeacb, REACT_STRICT_MODE_TYPE = 0xeacc, REACT_PROFILER_TYPE = 0xead2, REACT_PROVIDER_TYPE = 0xeacd, REACT_CONTEXT_TYPE = 0xeace, REACT_FORWARD_REF_TYPE = 0xead0, REACT_SUSPENSE_TYPE = 0xead1, REACT_SUSPENSE_LIST_TYPE = 0xead8, REACT_MEMO_TYPE = 0xead3, REACT_LAZY_TYPE = 0xead4, REACT_BLOCK_TYPE = 0xead9, REACT_OPAQUE_ID_TYPE = 0xeae0, REACT_DEBUG_TRACING_MODE_TYPE = 0xeae1, REACT_OFFSCREEN_TYPE = 0xeae2, REACT_LEGACY_HIDDEN_TYPE = 0xeae3;
     if ('function' == typeof Symbol && Symbol.for) {
         var symbolFor = Symbol.for;
-        REACT_ELEMENT_TYPE = symbolFor('react.element'), REACT_PORTAL_TYPE = symbolFor('react.portal'), REACT_FRAGMENT_TYPE = symbolFor('react.fragment'), REACT_STRICT_MODE_TYPE = symbolFor('react.strict_mode'), REACT_PROFILER_TYPE = symbolFor('react.profiler'), REACT_PROVIDER_TYPE = symbolFor('react.provider'), REACT_CONTEXT_TYPE = symbolFor('react.context'), REACT_FORWARD_REF_TYPE = symbolFor('react.forward_ref'), REACT_SUSPENSE_TYPE = symbolFor('react.suspense'), REACT_SUSPENSE_LIST_TYPE = symbolFor('react.suspense_list'), REACT_MEMO_TYPE = symbolFor('react.memo'), REACT_LAZY_TYPE = symbolFor('react.lazy'), REACT_BLOCK_TYPE = symbolFor('react.block'), symbolFor('react.server.block'), symbolFor('react.fundamental'), REACT_SCOPE_TYPE = symbolFor('react.scope'), REACT_OPAQUE_ID_TYPE = symbolFor('react.opaque.id'), REACT_DEBUG_TRACING_MODE_TYPE = symbolFor('react.debug_trace_mode'), REACT_OFFSCREEN_TYPE = symbolFor('react.offscreen'), REACT_LEGACY_HIDDEN_TYPE = symbolFor('react.legacy_hidden');
+        REACT_ELEMENT_TYPE = symbolFor('react.element'), REACT_PORTAL_TYPE = symbolFor('react.portal'), REACT_FRAGMENT_TYPE = symbolFor('react.fragment'), REACT_STRICT_MODE_TYPE = symbolFor('react.strict_mode'), REACT_PROFILER_TYPE = symbolFor('react.profiler'), REACT_PROVIDER_TYPE = symbolFor('react.provider'), REACT_CONTEXT_TYPE = symbolFor('react.context'), REACT_FORWARD_REF_TYPE = symbolFor('react.forward_ref'), REACT_SUSPENSE_TYPE = symbolFor('react.suspense'), REACT_SUSPENSE_LIST_TYPE = symbolFor('react.suspense_list'), REACT_MEMO_TYPE = symbolFor('react.memo'), REACT_LAZY_TYPE = symbolFor('react.lazy'), REACT_BLOCK_TYPE = symbolFor('react.block'), symbolFor('react.server.block'), symbolFor('react.fundamental'), symbolFor('react.scope'), REACT_OPAQUE_ID_TYPE = symbolFor('react.opaque.id'), REACT_DEBUG_TRACING_MODE_TYPE = symbolFor('react.debug_trace_mode'), REACT_OFFSCREEN_TYPE = symbolFor('react.offscreen'), REACT_LEGACY_HIDDEN_TYPE = symbolFor('react.legacy_hidden');
     }
     var MAYBE_ITERATOR_SYMBOL = 'function' == typeof Symbol && Symbol.iterator;
     function getIteratorFn(maybeIterable) {
@@ -3247,7 +3247,6 @@
                 case 1:
                     listenerWrapper = dispatchUserBlockingUpdate;
                     break;
-                case 2:
                 default:
                     listenerWrapper = dispatchEvent;
             }
@@ -4900,21 +4899,16 @@
                     return placeSingleChild(function(returnFiber, currentFirstChild, element, lanes) {
                         for(var key = element.key, child = currentFirstChild; null !== child;){
                             if (child.key === key) {
-                                switch(child.tag){
-                                    case 7:
-                                        if (element.type === REACT_FRAGMENT_TYPE) {
-                                            deleteRemainingChildren(returnFiber, child.sibling);
-                                            var existing = useFiber(child, element.props.children);
-                                            return existing.return = returnFiber, existing._debugSource = element._source, existing._debugOwner = element._owner, existing;
-                                        }
-                                        break;
-                                    case 22:
-                                    default:
-                                        if (child.elementType === element.type || isCompatibleFamilyForHotReloading(child, element)) {
-                                            deleteRemainingChildren(returnFiber, child.sibling);
-                                            var _existing3 = useFiber(child, element.props);
-                                            return _existing3.ref = coerceRef(returnFiber, child, element), _existing3.return = returnFiber, _existing3._debugSource = element._source, _existing3._debugOwner = element._owner, _existing3;
-                                        }
+                                if (7 === child.tag) {
+                                    if (element.type === REACT_FRAGMENT_TYPE) {
+                                        deleteRemainingChildren(returnFiber, child.sibling);
+                                        var existing = useFiber(child, element.props.children);
+                                        return existing.return = returnFiber, existing._debugSource = element._source, existing._debugOwner = element._owner, existing;
+                                    }
+                                } else if (child.elementType === element.type || isCompatibleFamilyForHotReloading(child, element)) {
+                                    deleteRemainingChildren(returnFiber, child.sibling);
+                                    var _existing3 = useFiber(child, element.props);
+                                    return _existing3.ref = coerceRef(returnFiber, child, element), _existing3.return = returnFiber, _existing3._debugSource = element._source, _existing3._debugOwner = element._owner, _existing3;
                                 }
                                 deleteRemainingChildren(returnFiber, child);
                                 break;
@@ -5172,7 +5166,6 @@
                 var instance6, text = fiber.pendingProps, textInstance = (instance6 = nextInstance, '' === text || 3 !== instance6.nodeType ? null : instance6);
                 if (null !== textInstance) return fiber.stateNode = textInstance, !0;
                 return !1;
-            case 13:
             default:
                 return !1;
         }
@@ -7745,7 +7738,6 @@
             case 4:
                 parent1 = parentStateNode.containerInfo, isContainer = !0;
                 break;
-            case 20:
             default:
                 throw Error("Invalid host parent fiber. This error is likely caused by a bug in React. Please file an issue.");
         }
@@ -8988,7 +8980,6 @@
                 return createFiberFromOffscreen(pendingProps, mode, lanes, key);
             case REACT_LEGACY_HIDDEN_TYPE:
                 return createFiberFromLegacyHidden(pendingProps, mode, lanes, key);
-            case REACT_SCOPE_TYPE:
             default:
                 if ('object' == typeof type && null !== type) switch(type.$$typeof){
                     case REACT_PROVIDER_TYPE:

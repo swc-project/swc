@@ -194,16 +194,53 @@ where
             last += has_side_effect + 1
         }
 
+        let default = cases.iter().position(|case| case.test.is_none());
+
         // if default is before empty cases, we must ensure empty case is preserved
-        if last < cases.len() && !cases.iter().take(last).any(|case| case.test.is_none()) {
+        if last < cases.len() && default.map(|idx| idx >= last).unwrap_or(true) {
             self.changed = true;
             report_change!("switches: Removing empty cases at the end");
             cases.drain(last..);
         }
+
+        if let Some(default) = default {
+            let end = cases
+                .iter()
+                .skip(default)
+                .position(|case| !case.cons.is_empty())
+                .unwrap_or(0)
+                + default;
+
+            if end != cases.len() - 1 {
+                return;
+            }
+            let start = cases.iter().enumerate().rposition(|(idx, case)| {
+                case.test
+                    .as_deref()
+                    .map(|test| test.may_have_side_effects())
+                    .unwrap_or(false)
+                    || (idx != end && !case.cons.is_empty())
+            });
+
+            let start = start.map(|s| s + 1).unwrap_or(0);
+
+            if start <= default {
+                if start < end {
+                    cases[start].cons = cases[end].cons.take();
+                    cases.drain((start + 1)..);
+                    cases[start].test = None;
+                }
+            } else {
+                if start <= end {
+                    cases[start].cons = cases[end].cons.take();
+                    cases.drain(start..);
+                }
+            }
+        }
     }
 
     /// If a case ends with break but content is same with the another case
-    /// without break evaluation order, except the break statement, we merge
+    /// without break case order, except the break statement, we merge
     /// them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
         let boundary: Vec<bool> = cases
