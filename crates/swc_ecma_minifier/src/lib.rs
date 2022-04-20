@@ -1,5 +1,10 @@
 //! Javascript minifier implemented in rust.
 //!
+//! # Debugging
+//!
+//! In debug build, if you set an environment variable `SWC_CHECK` to `1`, the
+//! minifier will check the validity of the syntax using `node --check`
+//!
 //! # Cargo features
 //!
 //! ## `debug`

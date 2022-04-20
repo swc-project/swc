@@ -489,6 +489,7 @@ keep_names/keep_some_classnames/input.js
 keep_names/keep_some_fnames/input.js
 keep_names/keep_some_fnames_reduce/input.js
 keep_quoted_strict/keep_quoted_strict/input.js
+labels/labels_1/input.js
 labels/labels_4/input.js
 logical_assignment/assign_in_conditional_part/input.js
 logical_assignment/assignment_in_left_part_2/input.js

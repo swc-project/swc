@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-export SWC_RUN=0
+unset SWC_RUN
+unset SWC_CHECK
 
 cargo test --test compress --all-features ${1-'fixture_tests__terser__compress__'} \
   | grep 'fixture_tests__terser__compress__' \
