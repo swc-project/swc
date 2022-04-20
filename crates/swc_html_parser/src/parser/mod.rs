@@ -6,7 +6,7 @@ use std::{
 };
 
 use swc_atoms::JsWord;
-use swc_common::{EqIgnoreSpan, Span};
+use swc_common::Span;
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};
@@ -67,7 +67,13 @@ impl Default for InsertionMode {
     }
 }
 
-type Data = Child;
+pub enum Data {
+    Document(Document),
+    DocumentType(DocumentType),
+    Element(Element),
+    Text(Text),
+    Comment(Comment),
+}
 
 struct Node {
     pub parent: Cell<Option<WeakNode>>,
@@ -408,7 +414,7 @@ impl OpenElementsStack {
 
         while let Some(inner_node) = node {
             // 2. If node is the target node, terminate in a match state.
-            if is_same_node(&target, &inner_node) {
+            if is_same_node(target, inner_node) {
                 return true;
             }
 
@@ -743,7 +749,7 @@ where
         // TODO optimize me
         fn extract(node: &mut RcNode) -> Child {
             match &node.data {
-                Child::DocumentType(document_type) => {
+                Data::DocumentType(document_type) => {
                     let DocumentType {
                         span,
                         name,
@@ -758,7 +764,7 @@ where
                         system_id: system_id.clone(),
                     })
                 }
-                Child::Element(element) => {
+                Data::Element(element) => {
                     let Element {
                         span,
                         tag_name,
@@ -791,7 +797,7 @@ where
                         content: None,
                     })
                 }
-                Child::Text(text) => {
+                Data::Text(text) => {
                     let Text { span, value } = text;
 
                     Child::Text(Text {
@@ -799,13 +805,16 @@ where
                         value: value.clone(),
                     })
                 }
-                Child::Comment(comment) => {
+                Data::Comment(comment) => {
                     let Comment { span, data } = comment;
 
                     Child::Comment(Comment {
                         span: *span,
                         data: data.clone(),
                     })
+                }
+                _ => {
+                    unreachable!();
                 }
             }
         }
@@ -945,7 +954,7 @@ where
                             ));
                         }
 
-                        let document_type = Node::new(Child::DocumentType(DocumentType {
+                        let document_type = Node::new(Data::DocumentType(DocumentType {
                             span: span!(self, token_and_info.span.lo),
                             name: name.clone(),
                             public_id: public_id.clone(),
@@ -1949,7 +1958,7 @@ where
 
                             for node in &self.open_elements_stack.items {
                                 match &node.data {
-                                    Child::Element(Element { tag_name, .. })
+                                    Data::Element(Element { tag_name, .. })
                                         if matches!(
                                             &**tag_name,
                                             "dd" | "dt"
@@ -2011,7 +2020,7 @@ where
 
                             for node in &self.open_elements_stack.items {
                                 match &node.data {
-                                    Child::Element(Element { tag_name, .. })
+                                    Data::Element(Element { tag_name, .. })
                                         if matches!(
                                             &**tag_name,
                                             "dd" | "dt"
@@ -2075,7 +2084,7 @@ where
 
                             for node in &self.open_elements_stack.items {
                                 match &node.data {
-                                    Child::Element(Element { tag_name, .. })
+                                    Data::Element(Element { tag_name, .. })
                                         if matches!(
                                             &**tag_name,
                                             "dd" | "dt"
@@ -2294,7 +2303,7 @@ where
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
                             match &node.data {
-                                Child::Element(Element { tag_name, .. }) if &*tag_name == "li" => {
+                                Data::Element(Element { tag_name, .. }) if &*tag_name == "li" => {
                                     // Generate implied end tags, except for li elements.
                                     self.open_elements_stack
                                         .generate_implied_end_tags_with_exclusion("li");
@@ -2328,7 +2337,7 @@ where
                             // of open elements and return to the step labeled loop.
                             if self.is_special_element(node)
                                 && !match &node.data {
-                                    Child::Element(Element { tag_name, .. })
+                                    Data::Element(Element { tag_name, .. })
                                         if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
                                     {
                                         true
@@ -2399,7 +2408,7 @@ where
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
                             match &node.data {
-                                Child::Element(Element { tag_name, .. }) if &*tag_name == "dd" => {
+                                Data::Element(Element { tag_name, .. }) if &*tag_name == "dd" => {
                                     // Generate implied end tags, except for dd elements.
                                     self.open_elements_stack
                                         .generate_implied_end_tags_with_exclusion("dd");
@@ -2423,7 +2432,7 @@ where
                                     // Jump to the step labeled done below.
                                     break;
                                 }
-                                Child::Element(Element { tag_name, .. }) if &*tag_name == "dt" => {
+                                Data::Element(Element { tag_name, .. }) if &*tag_name == "dt" => {
                                     // Generate implied end tags, except for li elements.
                                     self.open_elements_stack
                                         .generate_implied_end_tags_with_exclusion("dt");
@@ -2456,7 +2465,7 @@ where
                             // open elements and return to the step labeled loop.
                             if self.is_special_element(node)
                                 && !match &node.data {
-                                    Child::Element(Element { tag_name, .. })
+                                    Data::Element(Element { tag_name, .. })
                                         if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
                                     {
                                         true
@@ -2643,7 +2652,7 @@ where
                             if node.is_none()
                                 || !self
                                     .open_elements_stack
-                                    .has_node_in_scope(&node.as_ref().unwrap())
+                                    .has_node_in_scope(node.as_ref().unwrap())
                             {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
@@ -5909,7 +5918,7 @@ where
     }
 
     fn create_fake_html_element(&self) -> RcNode {
-        Node::new(Child::Element(Element {
+        Node::new(Data::Element(Element {
             span: Default::default(),
             tag_name: "html".into(),
             namespace: Namespace::HTML,
@@ -5960,7 +5969,7 @@ where
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if get_tag_name!(node) == "p" => match &node.data {
-                Child::Element(element) => {
+                Data::Element(element) => {
                     self.errors
                         .push(Error::new(element.span, ErrorKind::UnexpectedToken));
                 }
@@ -5985,7 +5994,7 @@ where
         match self.open_elements_stack.items.last() {
             Some(node) if matches!(get_tag_name!(node).as_ref(), "td" | "th") => {
                 match &node.data {
-                    Child::Element(element) => {
+                    Data::Element(element) => {
                         self.errors
                             .push(Error::new(element.span, ErrorKind::UnexpectedToken));
                     }
@@ -6022,7 +6031,7 @@ where
 
         if let Some(target) = target {
             match &target.data {
-                Child::Element(_element) => {
+                Data::Element(_element) => {
                     // TODO fix me
                     // for attribute in attributes {
                     //     let mut has_attribute = false;
@@ -6065,7 +6074,6 @@ where
             // last to true, and, if the parser was created as part of the HTML fragment
             // parsing algorithm (fragment case), set node to the context element passed to
             // that algorithm.
-            // TODO eq with/without span?
             if is_same_node(first.unwrap(), inner_node) {
                 last = true;
 
@@ -6102,7 +6110,7 @@ where
                     while ancestor.is_some() {
                         if let Some(ancestor) = ancestor {
                             if let Some(first) = first {
-                                if ancestor.data.eq_ignore_span(&first.data) {
+                                if is_same_node(ancestor, first) {
                                     break;
                                 }
                             }
@@ -6379,7 +6387,7 @@ where
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
         let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Child::Comment(Comment {
+        let comment = Node::new(Data::Comment(Comment {
             span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
@@ -6400,7 +6408,7 @@ where
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
         let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Child::Comment(Comment {
+        let comment = Node::new(Data::Comment(Comment {
             span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
@@ -6422,7 +6430,7 @@ where
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
         let last_pos = self.input.last_pos()?;
-        let comment = Node::new(Child::Comment(Comment {
+        let comment = Node::new(Data::Comment(Comment {
             span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
@@ -6467,7 +6475,7 @@ where
                 let mut children = parent.children.borrow_mut();
 
                 if let Some(last) = children.last() {
-                    if let Child::Text(text) = &last.data {
+                    if let Data::Text(text) = &last.data {
                         let mut new_value = String::new();
 
                         new_value.push_str(&*text.value);
@@ -6485,7 +6493,7 @@ where
                         let last_pos = self.input.last_pos()?;
                         let index = children.len() - 1;
 
-                        children[index] = Node::new(Child::Text(Text {
+                        children[index] = Node::new(Data::Text(Text {
                             span: swc_common::Span::new(first_pos, last_pos, Default::default()),
                             value: new_value.into(),
                         }));
@@ -6508,7 +6516,7 @@ where
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
         let last_pos = self.input.last_pos()?;
-        let text = Node::new(Child::Text(Text {
+        let text = Node::new(Data::Text(Text {
             span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
             value: match &token_and_info.token {
                 Token::Character { value, .. } => value.to_string().into(),
@@ -6651,9 +6659,10 @@ where
 }
 
 fn create_node_for_element(element: Element) -> RcNode {
-    Node::new(Child::Element(element))
+    Node::new(Data::Element(element))
 }
 
+// TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
 }
