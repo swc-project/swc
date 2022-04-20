@@ -15,4 +15,4 @@ bench = false
 ahash = "0.7.6"
 indexmap = "1.7.0"
 petgraph = "0.6"
-swc_common = { version = "0.17.20", path = "../swc_common"}
+swc_common = { version = "0.17.23", path = "../swc_common"}

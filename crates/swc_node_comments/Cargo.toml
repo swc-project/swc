@@ -17,4 +17,4 @@ bench = false
 [dependencies]
 ahash = "0.7.6"
 dashmap = "5.1.0"
-swc_common = { version = "0.17.20", path = "../swc_common"}
+swc_common = { version = "0.17.23", path = "../swc_common"}

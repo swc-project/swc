@@ -48,7 +48,7 @@ serde_json = "1"
 sourcemap = "6"
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
 swc_cached = { version = "0.1.0", path = "../swc_cached" }
-swc_common = { version = "0.17.20", path = "../swc_common", features = [
+swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "sourcemap",
   "concurrent",
   "parking_lot",
@@ -81,8 +81,8 @@ swc_ecma_visit = { version = "0.62.0", path = "../swc_ecma_visit" }
 swc_ecmascript = { version = "0.147.0", path = "../swc_ecmascript" }
 swc_error_reporters = { version = "0.1.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.4.0", path = "../swc_node_comments" }
-swc_plugin_proxy = { version = "0.2.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "0.53.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_proxy = { version = "0.2.1", path = "../swc_plugin_proxy", optional = true }
+swc_plugin_runner = { version = "0.53.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.5.0", path = "../swc_timer" }
 swc_visit = { version = "0.3.0", path = "../swc_visit" }
 tracing = "0.1.32"

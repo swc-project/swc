@@ -20,14 +20,14 @@ once_cell = "1.10.0"
 rustc-hash = "1.1.0"
 sourcemap = "6"
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
-swc_common = { version = "0.17.20", path = "../swc_common" }
+swc_common = { version = "0.17.23", path = "../swc_common" }
 swc_ecma_ast = { version = "0.76.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "0.7.0", path = "../swc_ecma_codegen_macros" }
 tracing = "0.1.32"
 
 [dev-dependencies]
 criterion = "0.3"
-swc_common = { version = "0.17.20", path = "../swc_common", features = [
+swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_parser = { version = "0.102.0", path = "../swc_ecma_parser" }

@@ -38,7 +38,7 @@ rayon = { version = "1", optional = true }
 relative-path = "1.2"
 retain_mut = "0.1.2"
 swc_atoms = { version = "0.2.4", path = "../swc_atoms" }
-swc_common = { version = "0.17.20", path = "../swc_common" }
+swc_common = { version = "0.17.23", path = "../swc_common" }
 swc_ecma_ast = { version = "0.76.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.105.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.29.0", path = "../swc_ecma_loader" }

@@ -18,7 +18,7 @@ once_cell = "1.10.0"
 pretty_assertions = "1.1"
 regex = "1"
 serde_json = "1.0.71"
-swc_common = { version = "0.17.20", path = "../swc_common", features = [
+swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "tty-emitter",
 ]}
 swc_error_reporters = {version = "0.1.0", path = "../swc_error_reporters"}
