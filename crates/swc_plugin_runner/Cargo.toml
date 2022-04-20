@@ -33,7 +33,7 @@ swc_common = { version = "0.17.20", path = "../swc_common", features = [
 swc_ecma_ast = { version = "0.76.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_plugin_proxy = { version = "0.1.1", path = "../swc_plugin_proxy", features = [
+swc_plugin_proxy = { version = "0.1.3", path = "../swc_plugin_proxy", features = [
   "plugin-rt",
 ] }
 tracing = "0.1.32"
