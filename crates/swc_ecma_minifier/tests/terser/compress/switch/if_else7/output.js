@@ -1,2 +1,1 @@
-if ("bar" === foo);
-else other();
+"bar" === foo || other();

@@ -3477,13 +3477,7 @@
                     if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
                     switch(KIND){
                         case KEYS:
-                            return function() {
-                                return new IteratorConstructor(this, KIND);
-                            };
                         case VALUES:
-                            return function() {
-                                return new IteratorConstructor(this, KIND);
-                            };
                         case ENTRIES:
                             return function() {
                                 return new IteratorConstructor(this, KIND);

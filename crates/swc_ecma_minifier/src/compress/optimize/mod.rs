@@ -2474,6 +2474,30 @@ where
             return;
         }
 
+        let ctx = Ctx { ..self.ctx };
+
+        self.with_ctx(ctx).inject_else(stmts);
+
+        self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        self.with_ctx(ctx).merge_var_decls(stmts);
+
+        drop_invalid_stmts(stmts);
+
+        if stmts.len() == 1 {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                    if s.value == *"use strict" {
+                        stmts.clear();
+                    }
+                }
+            }
+        }
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         if self.options.dead_code {
             // copy from [Remover]
             // TODO: make it better
@@ -2482,9 +2506,7 @@ where
             let mut new_stmts = Vec::with_capacity(stmts.len());
 
             let mut iter = stmts.take().into_iter();
-            while let Some(mut stmt) = iter.next() {
-                stmt.visit_mut_with(self);
-
+            while let Some(stmt) = iter.next() {
                 let stmt = match stmt {
                     // Remove empty statements.
                     Stmt::Empty(..) => continue,
@@ -2547,30 +2569,6 @@ where
             }
 
             *stmts = new_stmts;
-        }
-
-        let ctx = Ctx { ..self.ctx };
-
-        self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
-
-        self.with_ctx(ctx).merge_var_decls(stmts);
-
-        drop_invalid_stmts(stmts);
-
-        if stmts.len() == 1 {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
-                if let Expr::Lit(Lit::Str(s)) = &**expr {
-                    if s.value == *"use strict" {
-                        stmts.clear();
-                    }
-                }
-            }
-        }
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
         }
     }
 

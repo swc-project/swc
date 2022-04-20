@@ -228,15 +228,16 @@ where
                 continue;
             }
 
+            let mut cannot_cross = false;
+
             for j in (i + 1)..len {
+                // TODO: default
+                cannot_cross |= boundary[j];
                 if cases[j].cons.is_empty() {
                     continue;
                 }
-                if boundary[j] {
-                    // TODO: default
-                    break;
-                }
 
+                // first case with a body and don't cross non-primitive branch
                 let found = if j != len - 1 {
                     cases[i].cons.eq_ignore_span(&cases[j].cons)
                 } else {
@@ -256,7 +257,10 @@ where
                     }
                     cases[j].cons = cases[i].cons.take();
                     cases[(i + 1)..=j].rotate_right(len);
-                    i += 1;
+                    i += len;
+                }
+                if cannot_cross {
+                    break;
                 }
             }
 
