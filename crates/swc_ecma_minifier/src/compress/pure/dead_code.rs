@@ -21,7 +21,7 @@ impl Pure<'_> {
             {
                 if label.sym == ls.label.sym {
                     self.changed = true;
-                    report_change!("Dropping instant break");
+                    report_change!("Dropping instant break `{}`", label);
                     s.take();
                 }
             }
@@ -67,7 +67,10 @@ impl Pure<'_> {
                     {
                         if ls.label.sym == label.sym {
                             self.changed = true;
-                            report_change!("Optimizing labeled stmt with a break to if statement");
+                            report_change!(
+                                "Optimizing labeled stmt with a break to if statement: `{}`",
+                                label
+                            );
 
                             self.negate(test, true, false);
                             let test = test.take();
@@ -100,7 +103,8 @@ impl Pure<'_> {
                         if ls.label.sym == label.sym {
                             self.changed = true;
                             report_change!(
-                                "Optimizing labeled stmt with a break in alt to if statement"
+                                "Optimizing labeled stmt with a break in alt to if statement: {}",
+                                ls.label
                             );
 
                             let test = test.take();
