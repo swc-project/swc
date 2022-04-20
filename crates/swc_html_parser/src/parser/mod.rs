@@ -676,15 +676,10 @@ where
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
-        // TODO fix me
-        self.document = Some(Node::new(Data::Element(Element {
+        self.document = Some(Node::new(Data::Document(Document {
             span: Default::default(),
-            // mode: DocumentMode::NoQuirks,
-            tag_name: "html".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
+            mode: DocumentMode::NoQuirks,
             children: vec![],
-            content: None,
         })));
 
         while !self.stopped {
@@ -747,7 +742,7 @@ where
         let last = self.input.last_pos()?;
 
         // TODO optimize me
-        fn extract(node: &mut RcNode) -> Child {
+        fn node_to_child(node: &mut RcNode) -> Child {
             match &node.data {
                 Data::DocumentType(document_type) => {
                     let DocumentType {
@@ -776,7 +771,7 @@ where
                     let mut new_children = vec![];
 
                     for node in &mut node.children.borrow_mut().iter_mut() {
-                        new_children.push(extract(node));
+                        new_children.push(node_to_child(node));
                     }
 
                     let first = span.lo;
@@ -819,21 +814,25 @@ where
             }
         }
 
-        let mut document = Document {
-            span: Default::default(),
-            mode: DocumentMode::Quirks,
-            children: vec![],
-        };
+        let original_document = &mut self.document.take().unwrap();
+        let mut children = vec![];
 
-        if let Some(doc) = &mut self.document {
-            for node in doc.children.borrow_mut().iter_mut() {
-                document.children.push(extract(node));
-            }
+        for node in original_document.children.borrow_mut().iter_mut() {
+            children.push(node_to_child(node));
         }
 
-        document.span = Span::new(start.lo, last, Default::default());
+        let mode = match original_document.data {
+            Data::Document(Document { mode, .. }) => mode,
+            _ => {
+                unreachable!();
+            }
+        };
 
-        Ok(document)
+        Ok(Document {
+            span: Span::new(start.lo, last, Default::default()),
+            mode,
+            children,
+        })
     }
 
     fn tree_construction_dispatcher(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<()> {
@@ -863,7 +862,8 @@ where
         // If the token is an end-of-file token
         //
         // Process the token according to the rules given in the section corresponding
-        // to the current insertion mode in HTML content. TODO
+        // to the current insertion mode in HTML content.
+        // TODO
         if false {
             todo!()
         }

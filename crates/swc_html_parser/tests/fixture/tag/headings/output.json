@@ -5,7 +5,7 @@
     "end": 210,
     "ctxt": 0
   },
-  "mode": "quirks",
+  "mode": "no-quirks",
   "children": [
     {
       "type": "DocumentType",
