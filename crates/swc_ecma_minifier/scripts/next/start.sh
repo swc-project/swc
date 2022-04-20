@@ -26,13 +26,16 @@ echo "----- ⚠️  Building next-swc"
 
 # Install dependencies
 echo "----- ⚠️  Installing dependencies"
-if test -f "$dir/yarn.lock"; then
-    echo "  Using yarn"
-    (cd $dir && yarn)
-else
-    echo "  Using yarn"
-    (cd $dir && npm ci)
+if [ ! -d "$dir/node_modules"]; then
+    if test -f "$dir/yarn.lock"; then
+        echo "  Using yarn"
+        # (cd $dir && yarn)
+    else
+        echo "  Using yarn"
+        # (cd $dir && npm ci)
+    fi
 fi
+
 
 echo "----- ⚠️  Removing cache"
 (cd $dir && rm -rf .next)
