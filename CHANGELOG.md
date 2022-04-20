@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Don't drop labels if required (#4370) ([922299a](https://github.com/swc-project/swc/commit/922299a4907d9ce8082c5db2a9dc435abe507ca6))
+
+
 - **(plugin)** Align deps to fix build (#4377) ([8419b60](https://github.com/swc-project/swc/commit/8419b604300695e57cb6b1191e9daf638c65c828))
 
 ## [1.2.170] - 2022-04-20
