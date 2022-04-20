@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es/minifier)** Organize tests (#4375) ([4a8b1da](https://github.com/swc-project/swc/commit/4a8b1dad1d527cbbdd95a9aabb82423772841f18))
+
+## [1.2.169] - 2022-04-20
+
 ### Bug Fixes
 
 
