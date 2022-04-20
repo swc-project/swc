@@ -1,3 +1,1 @@
-var y;
-if ('a' === y) throw y;
-throw y;
+throw void 0;
