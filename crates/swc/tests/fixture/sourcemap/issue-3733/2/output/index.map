@@ -1,8 +1,6 @@
 {
   "mappings": "CAAC,EAAE,CAAA,KAAK",
-  "names": [
-    "a"
-  ],
+  "names": [],
   "sources": [
     "../../input/index.js"
   ],
