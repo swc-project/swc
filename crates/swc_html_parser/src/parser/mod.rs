@@ -3801,8 +3801,7 @@ where
                     // If there is once again a pending parsing-blocking script, then repeat these
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                        // TODO
-                        // self.open_elements_stack.bottom();
+                        // More things can be implemented to intercept script execution
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
