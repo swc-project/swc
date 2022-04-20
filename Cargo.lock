@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.169"
+version = "1.2.170"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.104.11"
+version = "0.104.12"
 dependencies = [
  "ahash",
  "ansi_term",
