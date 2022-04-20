@@ -21,7 +21,7 @@ rayon = "1.5.1"
 regex = "1"
 serde = { version = "1.0.133", features = ["derive"] }
 swc_atoms = { version = "0.2.9", path = "../swc_atoms" }
-swc_common = { version = "0.17.20", path = "../swc_common", features = [
+swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "0.76.0", path = "../swc_ecma_ast" }
