@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(plugin)** Align deps to fix build (#4377) ([8419b60](https://github.com/swc-project/swc/commit/8419b604300695e57cb6b1191e9daf638c65c828))
+
+## [1.2.170] - 2022-04-20
+
 ### Performance
 
 
