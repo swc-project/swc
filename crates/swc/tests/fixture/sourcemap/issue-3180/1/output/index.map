@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,cAAc,gBAAgB,CAAA;AAC9B,cAAc,uBAAuB,CAAA;AACrC,cAAc,cAAc,CAAA;AAC5B,cAAc,UAAU,CAAA;AACxB,cAAc,cAAc,CAAA",
+  "mappings": "cAAc,gBAAgB,CAAA;AAC9B,cAAc,uBAAuB,CAAA;AACrC,cAAc,cAAc,CAAA;AAC5B,cAAc,UAAU,CAAA;AACxB,cAAc,cAAc,CAAA",
   "names": [],
   "sources": [
     "../../input/index.ts"
