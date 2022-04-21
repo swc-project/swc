@@ -1,0 +1,6 @@
+
+  x '**' cannot be applied to unary/await expression.
+   ,-[$DIR/tests/typescript-errors/await-with-exponentiation/input.ts:1:1]
+ 1 | async () => await a ** b;
+   :                     ^^
+   `----
