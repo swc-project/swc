@@ -67,6 +67,7 @@ impl Default for InsertionMode {
     }
 }
 
+#[derive(Debug, Clone)]
 pub enum Data {
     Document(Document),
     DocumentType(DocumentType),
@@ -124,19 +125,16 @@ enum InsertionPosition {
     },
 }
 
-#[allow(dead_code)]
 static LIMITED_QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd xhtml 1.0 frameset//",
     "-//w3c//dtd xhtml 1.0 transitional//",
 ];
 
-#[allow(dead_code)]
 static HTML4_PUBLIC_PREFIXES: &[&str] = &[
     "-//w3c//dtd html 4.01 frameset//",
     "-//w3c//dtd html 4.01 transitional//",
 ];
 
-#[allow(dead_code)]
 static QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//advasoft ltd//dtd html 3.0 aswedit + extensions//",
     "-//as//dtd html 3.0 aswedit + extensions//",
@@ -194,14 +192,12 @@ static QUIRKY_PUBLIC_PREFIXES: &[&str] = &[
     "-//webtechs//dtd mozilla html//",
 ];
 
-#[allow(dead_code)]
 static QUIRKY_PUBLIC_MATCHES: &[&str] = &[
     "-//w3o//dtd w3 html strict 3.0//en//",
     "-/w3c/dtd html 4.0 transitional/en",
     "html",
 ];
 
-#[allow(dead_code)]
 static QUIRKY_SYSTEM_MATCHES: &[&str] =
     &["http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"];
 
@@ -626,6 +622,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
+    document_mode: Option<DocumentMode>,
     document: Option<RcNode>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
@@ -650,6 +647,7 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
+            document_mode: None,
             document: None,
             head_element_pointer: None,
             form_element_pointer: None,
@@ -783,11 +781,9 @@ where
             children.push(node_to_child(node));
         }
 
-        let mode = match original_document.data {
-            Data::Document(Document { mode, .. }) => mode,
-            _ => {
-                unreachable!();
-            }
+        let mode = match self.document_mode {
+            Some(document_mode) => document_mode,
+            _ => DocumentMode::NoQuirks,
         };
 
         Ok(Document {
@@ -875,7 +871,6 @@ where
                     Token::Comment { .. } => {
                         self.insert_comment_as_last_child_of_document(token_and_info)?;
                     }
-                    // TODO handle - an iframe srcdoc document option for next entries
                     // A DOCTYPE token
                     //
                     // If the DOCTYPE token's name is not "html", or the token's public identifier
@@ -889,11 +884,182 @@ where
                     // the system identifier given in the DOCTYPE token, or the empty string if the
                     // system identifier was missing.
                     //
+                    // Then, if the document is not an iframe srcdoc document, and the parser cannot
+                    // change the mode flag is false, and the DOCTYPE token matches one of the
+                    // conditions in the following list, then set the Document to quirks mode:
+                    //
+                    // The force-quirks flag is set to on.
+                    //
+                    // The name is not "html".
+                    //
+                    // The public identifier is set to: "-//W3O//DTD W3 HTML Strict 3.0//EN//"
+                    //
+                    // The public identifier is set to: "-/W3C/DTD HTML 4.0 Transitional/EN"
+                    //
+                    // The public identifier is set to: "HTML"
+                    //
+                    // The system identifier is set to: "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"
+                    //
+                    // The public identifier starts with: "+//Silmaril//dtd html Pro v0r11
+                    // 19970101//"
+                    //
+                    // The public identifier starts with: "-//AS//DTD HTML 3.0 asWedit +
+                    // extensions//"
+                    //
+                    // The public identifier starts with: "-//AdvaSoft Ltd//DTD HTML 3.0 asWedit +
+                    // extensions//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0 Level 1//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0 Level 2//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0 Strict Level 1//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0 Strict Level 2//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0 Strict//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.0//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 2.1E//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 3.0//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 3.2 Final//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 3.2//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML 3//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Level 0//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Level 1//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Level 2//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Level 3//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Strict Level 0//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Strict Level 1//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Strict Level 2//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Strict Level 3//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML Strict//"
+                    //
+                    // The public identifier starts with: "-//IETF//DTD HTML//"
+                    //
+                    // The public identifier starts with: "-//Metrius//DTD Metrius Presentational//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 2.0
+                    // HTML Strict//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 2.0
+                    // HTML//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 2.0
+                    // Tables//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 3.0
+                    // HTML Strict//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 3.0
+                    // HTML//"
+                    //
+                    // The public identifier starts with: "-//Microsoft//DTD Internet Explorer 3.0
+                    // Tables//"
+                    //
+                    // The public identifier starts with: "-//Netscape Comm. Corp.//DTD HTML//"
+                    //
+                    // The public identifier starts with: "-//Netscape Comm. Corp.//DTD Strict
+                    // HTML//"
+                    //
+                    // The public identifier starts with: "-//O'Reilly and Associates//DTD HTML
+                    // 2.0//"
+                    //
+                    // The public identifier starts with: "-//O'Reilly and Associates//DTD HTML
+                    // Extended 1.0//"
+                    //
+                    // The public identifier starts with: "-//O'Reilly and Associates//DTD HTML
+                    // Extended Relaxed 1.0//"
+                    //
+                    // The public identifier starts with: "-//SQ//DTD HTML 2.0 HoTMetaL +
+                    // extensions//"
+                    //
+                    // The public identifier starts with: "-//SoftQuad Software//DTD HoTMetaL PRO
+                    // 6.0::19990601::extensions to HTML 4.0//"
+                    //
+                    // The public identifier starts with: "-//SoftQuad//DTD HoTMetaL PRO
+                    // 4.0::19971010::extensions to HTML 4.0//"
+                    //
+                    // The public identifier starts with: "-//Spyglass//DTD HTML 2.0 Extended//"
+                    //
+                    // The public identifier starts with: "-//Sun Microsystems Corp.//DTD HotJava
+                    // HTML//"
+                    //
+                    // The public identifier starts with: "-//Sun Microsystems Corp.//DTD HotJava
+                    // Strict HTML//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 3 1995-03-24//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 3.2 Draft//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 3.2 Final//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 3.2//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 3.2S Draft//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 4.0 Frameset//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML 4.0 Transitional//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML Experimental 19960712//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD HTML Experimental 970421//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD W3 HTML//"
+                    //
+                    // The public identifier starts with: "-//W3O//DTD W3 HTML 3.0//"
+                    //
+                    // The public identifier starts with: "-//WebTechs//DTD Mozilla HTML 2.0//"
+                    //
+                    // The public identifier starts with: "-//WebTechs//DTD Mozilla HTML//"
+                    //
+                    // The system identifier is missing and the public identifier starts with:
+                    // "-//W3C//DTD HTML 4.01 Frameset//"
+                    //
+                    // The system identifier is missing and the public identifier starts with:
+                    // "-//W3C//DTD HTML 4.01 Transitional//"
+                    //
+                    // Otherwise, if the document is not an iframe srcdoc document, and the parser
+                    // cannot change the mode flag is false, and the DOCTYPE token matches one of
+                    // the conditions in the following list, then then set the Document to
+                    // limited-quirks mode:
+                    //
+                    // The public identifier starts with: "-//W3C//DTD XHTML 1.0 Frameset//"
+                    //
+                    // The public identifier starts with: "-//W3C//DTD XHTML 1.0 Transitional//"
+                    //
+                    // The system identifier is not missing and the public identifier starts with:
+                    // "-//W3C//DTD HTML 4.01 Frameset//"
+                    //
+                    // The system identifier is not missing and the public identifier starts with:
+                    // "-//W3C//DTD HTML 4.01 Transitional//"
+                    //
+                    // The system identifier and public identifier strings must be compared to the
+                    // values given in the lists above in an ASCII case-insensitive manner. A system
+                    // identifier whose value is the empty string is not considered missing for the
+                    // purposes of the conditions above.
+                    //
                     // Then, switch the insertion mode to "before html".
                     Token::Doctype {
                         name,
                         public_id,
                         system_id,
+                        force_quirks,
                         ..
                     } => {
                         let is_html = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
@@ -908,7 +1074,7 @@ where
 
                         if !is_html
                             || public_id.is_some()
-                            || (system_id.is_some() || !is_legacy_compat)
+                            || (system_id.is_some() && !is_legacy_compat)
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -923,9 +1089,35 @@ where
                             system_id: system_id.clone(),
                         }));
 
-                        // Never be `None`
-                        if let Some(document) = &self.document {
-                            self.append_node(document, document_type);
+                        self.append_node(self.document.as_ref().unwrap(), document_type);
+
+                        // TODO handle - an iframe srcdoc document option for next entries
+                        let is_iframe = false;
+
+                        if !is_iframe {
+                            if *force_quirks
+                                || !is_html
+                                || matches!(public_id, Some(public_id) if QUIRKY_PUBLIC_MATCHES
+                                    .contains(&&*public_id.to_ascii_lowercase()) || QUIRKY_PUBLIC_PREFIXES.contains(&&*public_id.to_ascii_lowercase()))
+                                || matches!(system_id, Some(system_id) if QUIRKY_SYSTEM_MATCHES
+                                .contains(&&*system_id.to_ascii_lowercase()) || HTML4_PUBLIC_PREFIXES.contains(
+                                    &&*system_id.to_ascii_lowercase()
+                                ))
+                            {
+                                self.document_mode = Some(DocumentMode::Quirks);
+                            }
+                        } else if let Some(public_id) = public_id {
+                            if LIMITED_QUIRKY_PUBLIC_PREFIXES
+                                .contains(&&*public_id.as_ref().to_ascii_lowercase())
+                            {
+                                self.document_mode = Some(DocumentMode::Quirks);
+                            }
+                        } else if let Some(system_id) = system_id {
+                            if HTML4_PUBLIC_PREFIXES
+                                .contains(&&*system_id.as_ref().to_ascii_lowercase())
+                            {
+                                self.document_mode = Some(DocumentMode::Quirks);
+                            }
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
