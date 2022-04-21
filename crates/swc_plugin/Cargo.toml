@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 name = "swc_plugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.48.2"
+version = "0.48.3"
 
 [package.metadata.docs.rs]
 all-features = true
