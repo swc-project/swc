@@ -1,0 +1,864 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/tag/math/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html>
+  3 | |   <head>
+  4 | |       <title>MathML in HTML5</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/tag/math/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>MathML in HTML5</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>MathML in HTML5</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/math/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   :        ^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   :        ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   :                               ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:4:5]
+ 4 | <title>MathML in HTML5</title>
+   :                               ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   
+  8 | |   <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   
+  8 | |   <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | `-> 
+ 8 |     <math>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | `-> 
+ 8 |     <math>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:8:1]
+  8 | ,-> <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:8:1]
+  8 | ,-> <math>
+  9 | |       <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | |       </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/math/input.html:8:1]
+ 8 | ,-> <math>
+ 9 | `->     <mrow>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/math/input.html:8:1]
+ 8 | ,-> <math>
+ 9 | `->     <mrow>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:9:5]
+  9 | ,-> <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | `->     </mrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:9:5]
+  9 | ,-> <mrow>
+ 10 | |           <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | |           </mrow>
+ 21 | |           <mo>=</mo>
+ 22 | |           <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | |           </msup>
+ 26 | `->     </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:9:5]
+  9 | ,-> <mrow>
+ 10 | `->         <mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:9:5]
+  9 | ,-> <mrow>
+ 10 | `->         <mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:10:9]
+ 10 | ,-> <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | `->         </mrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:10:9]
+ 10 | ,-> <mrow>
+ 11 | |               <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | |               </msup>
+ 15 | |               <mo>+</mo>
+ 16 | |               <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | |               </msup>
+ 20 | `->         </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:10:9]
+ 10 | ,-> <mrow>
+ 11 | `->             <msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:10:9]
+ 10 | ,-> <mrow>
+ 11 | `->             <msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:11:13]
+ 11 | ,-> <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | `->             </msup>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:11:13]
+ 11 | ,-> <msup>
+ 12 | |                   <mi>a</mi>
+ 13 | |                   <mn>2</mn>
+ 14 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:11:13]
+ 11 | ,-> <msup>
+ 12 | `->                 <mi>a</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:11:13]
+ 11 | ,-> <msup>
+ 12 | `->                 <mi>a</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | <mi>a</mi>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | <mi>a</mi>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | <mi>a</mi>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | <mi>a</mi>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | ,-> <mi>a</mi>
+ 13 | `->                 <mn>2</mn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:12:17]
+ 12 | ,-> <mi>a</mi>
+ 13 | `->                 <mn>2</mn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | ,-> <mn>2</mn>
+ 14 | `->             </msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:13:17]
+ 13 | ,-> <mn>2</mn>
+ 14 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:14:13]
+ 14 | ,-> </msup>
+ 15 | `->             <mo>+</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:14:13]
+ 14 | ,-> </msup>
+ 15 | `->             <mo>+</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | <mo>+</mo>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | <mo>+</mo>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | <mo>+</mo>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | <mo>+</mo>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | ,-> <mo>+</mo>
+ 16 | `->             <msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:15:13]
+ 15 | ,-> <mo>+</mo>
+ 16 | `->             <msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:16:13]
+ 16 | ,-> <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | `->             </msup>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:16:13]
+ 16 | ,-> <msup>
+ 17 | |                   <mi>b</mi>
+ 18 | |                   <mn>2</mn>
+ 19 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:16:13]
+ 16 | ,-> <msup>
+ 17 | `->                 <mi>b</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:16:13]
+ 16 | ,-> <msup>
+ 17 | `->                 <mi>b</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | <mi>b</mi>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | <mi>b</mi>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | <mi>b</mi>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | <mi>b</mi>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | ,-> <mi>b</mi>
+ 18 | `->                 <mn>2</mn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:17:17]
+ 17 | ,-> <mi>b</mi>
+ 18 | `->                 <mn>2</mn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | ,-> <mn>2</mn>
+ 19 | `->             </msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:18:17]
+ 18 | ,-> <mn>2</mn>
+ 19 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:19:13]
+ 19 | ,-> </msup>
+ 20 | `->         </mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:19:13]
+ 19 | ,-> </msup>
+ 20 | `->         </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:20:9]
+ 20 | ,-> </mrow>
+ 21 | `->         <mo>=</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:20:9]
+ 20 | ,-> </mrow>
+ 21 | `->         <mo>=</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | <mo>=</mo>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | <mo>=</mo>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | <mo>=</mo>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | <mo>=</mo>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | ,-> <mo>=</mo>
+ 22 | `->         <msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:21:9]
+ 21 | ,-> <mo>=</mo>
+ 22 | `->         <msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:22:9]
+ 22 | ,-> <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | `->         </msup>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:22:9]
+ 22 | ,-> <msup>
+ 23 | |               <mi>c</mi>
+ 24 | |               <mn>2</mn>
+ 25 | `->         </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:22:9]
+ 22 | ,-> <msup>
+ 23 | `->             <mi>c</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:22:9]
+ 22 | ,-> <msup>
+ 23 | `->             <mi>c</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | <mi>c</mi>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | <mi>c</mi>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | <mi>c</mi>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | <mi>c</mi>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | ,-> <mi>c</mi>
+ 24 | `->             <mn>2</mn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:23:13]
+ 23 | ,-> <mi>c</mi>
+ 24 | `->             <mn>2</mn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | ,-> <mn>2</mn>
+ 25 | `->         </msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:24:13]
+ 24 | ,-> <mn>2</mn>
+ 25 | `->         </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:25:9]
+ 25 | ,-> </msup>
+ 26 | `->     </mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:25:9]
+ 25 | ,-> </msup>
+ 26 | `->     </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:26:5]
+ 26 | ,-> </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:26:5]
+ 26 | ,-> </mrow>
+ 27 | |   </math>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
