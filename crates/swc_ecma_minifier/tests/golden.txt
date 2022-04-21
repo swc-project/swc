@@ -843,7 +843,6 @@ keep_names/keep_fnames/input.js
 keep_names/keep_fnames_and_avoid_collisions/input.js
 keep_names/keep_var_fnames/input.js
 labels/labels_10/input.js
-labels/labels_2/input.js
 labels/labels_3/input.js
 labels/labels_5/input.js
 labels/labels_6/input.js
