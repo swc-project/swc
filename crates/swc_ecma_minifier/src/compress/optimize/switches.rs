@@ -93,8 +93,6 @@ where
 
         self.optimize_switch_cases(&mut cases);
 
-        self.changed = true;
-
         let var_ids: Vec<VarDeclarator> = var_ids
             .into_iter()
             .map(|name| VarDeclarator {
@@ -104,6 +102,8 @@ where
                 definite: Default::default(),
             })
             .collect();
+
+        self.changed = true;
 
         if cases.len() == 1
             && (cases[0].test.is_none() || exact.is_some())
