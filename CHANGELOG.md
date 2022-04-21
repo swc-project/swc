@@ -11,6 +11,9 @@
 - **(es)** Fix CI (#4385) ([805238a](https://github.com/swc-project/swc/commit/805238ae303b9c3e688c729b6863e0d5745f1949))
 
 
+- **(es/codegen)** Allow non-ascii character in more places (#4394) ([139ac24](https://github.com/swc-project/swc/commit/139ac24c4636ff72f37a215a578871ac2f4a9f5d))
+
+
 - **(es/minifier)** Don't drop labels if required (#4370) ([922299a](https://github.com/swc-project/swc/commit/922299a4907d9ce8082c5db2a9dc435abe507ca6))
 
 
