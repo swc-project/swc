@@ -79,6 +79,7 @@ where
                 let last = cases.last_mut().unwrap();
 
                 self.changed = true;
+                report_change!("switches: Turn exact match into default");
                 // so that following pass could turn it into if else
                 if let Some(test) = last.test.take() {
                     prepend(&mut last.cons, test.into_stmt())
