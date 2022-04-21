@@ -29,6 +29,7 @@ fn run(input: &Path, minify: bool) {
             &fm,
             Syntax::Typescript(TsConfig {
                 decorators: true,
+                tsx: true,
                 ..Default::default()
             }),
             EsVersion::latest(),
@@ -67,6 +68,7 @@ fn run(input: &Path, minify: bool) {
 }
 
 #[testing::fixture("tests/fixture/**/input.ts")]
+#[testing::fixture("tests/fixture/**/input.tsx")]
 fn ts(input: PathBuf) {
     run(&input, false);
 }
