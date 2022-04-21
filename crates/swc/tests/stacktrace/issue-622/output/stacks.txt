@@ -4,9 +4,9 @@ $DIR/tests/stacktrace/issue-622/input/index.js:3
 
 ReferenceError: call is not defined
     at null._callee$ ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
-    at null.asyncGeneratorStep ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
-    at null._next ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
-    at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
+    at asyncGeneratorStep ($DIR/tests/stacktrace/issue-622/input/_exec.js:5:28)
+    at _next ($DIR/tests/stacktrace/issue-622/input/_exec.js:23:17)
+    at $DIR/tests/stacktrace/issue-622/input/_exec.js:28:13
     at new Promise (<anonymous>)
-    at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
+    at $DIR/tests/stacktrace/issue-622/input/_exec.js:20:16
     at null._foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:19)

@@ -2984,7 +2984,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.23"
+version = "0.17.24"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.48.1"
+version = "0.48.3"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3893,7 +3893,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "proc-macro2",
  "quote",
