@@ -392,7 +392,7 @@ impl StmtExt for Stmt {
                 cons,
                 alt: Some(alt),
                 ..
-            }) if cons.terminates() && alt.terminates() => return true,
+            }) => return cons.terminates() && alt.terminates(),
             _ => (),
         }
 
