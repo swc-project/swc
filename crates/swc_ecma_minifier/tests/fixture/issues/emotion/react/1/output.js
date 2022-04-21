@@ -156,7 +156,6 @@
                         break;
                     case 92:
                         next1();
-                        break;
                 }
                 return position;
             }
@@ -571,9 +570,6 @@
                             var previousCursor = cursor, result = interpolation(mergedProps);
                             return cursor = previousCursor, handleInterpolation(mergedProps, registered, result);
                         }
-                        break;
-                    case 'string':
-                        break;
                 }
                 if (null == registered) return interpolation;
                 var cached = registered[interpolation];

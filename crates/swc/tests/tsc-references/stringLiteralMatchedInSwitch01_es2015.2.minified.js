@@ -5,5 +5,4 @@ switch(foo){
         break;
     default:
         foo = foo[0];
-        break;
 }

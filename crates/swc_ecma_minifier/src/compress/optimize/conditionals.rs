@@ -3,14 +3,11 @@ use std::mem::swap;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{
-    compress::{
-        optimize::Ctx,
-        util::{always_terminates, negate_cost},
-    },
+    compress::{optimize::Ctx, util::negate_cost},
     mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
@@ -701,7 +698,7 @@ where
                 cons,
                 alt: Some(..),
                 ..
-            })) => always_terminates(cons),
+            })) => cons.terminates(),
             _ => false,
         });
         if !need_work {
@@ -720,7 +717,7 @@ where
                         cons,
                         alt: Some(alt),
                         ..
-                    }) if always_terminates(&cons) => {
+                    }) if cons.terminates() => {
                         new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
                             span,
                             test,

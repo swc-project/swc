@@ -1314,7 +1314,6 @@
                         break;
                     case ATTRIBUTE_NODE:
                         deep = !0;
-                        break;
                 }
                 if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
                 return node2;
@@ -2043,7 +2042,6 @@
                                     errorHandler.warning('attribute "' + value1 + '" missed quot(")!!'), addAttribute(attrName, value1, start);
                                 case 5:
                                     s = 6;
-                                    break;
                             }
                             else switch(s){
                                 case 2:
@@ -2096,25 +2094,21 @@
                 for(var n in source)target[n] = source[n];
             }
             function parseDCC(source, start, domBuilder, errorHandler) {
-                var next = source.charAt(start + 2);
-                switch(next){
-                    case '-':
-                        if ('-' !== source.charAt(start + 3)) return -1;
-                        var end = source.indexOf('-->', start + 4);
-                        if (end > start) return domBuilder.comment(source, start + 4, end - start - 4), end + 3;
-                        return errorHandler.error("Unclosed comment"), -1;
-                    default:
-                        if ('CDATA[' == source.substr(start + 3, 6)) {
-                            var end = source.indexOf(']]>', start + 9);
-                            return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
-                        }
-                        var matchs = split(source, start), len = matchs.length;
-                        if (len > 1 && /!doctype/i.test(matchs[0][0])) {
-                            var name = matchs[1][0], pubid = !1, sysid = !1;
-                            len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
-                            var lastMatch = matchs[len - 1];
-                            return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
-                        }
+                if ('-' === source.charAt(start + 2)) {
+                    if ('-' !== source.charAt(start + 3)) return -1;
+                    var end = source.indexOf('-->', start + 4);
+                    return end > start ? (domBuilder.comment(source, start + 4, end - start - 4), end + 3) : (errorHandler.error("Unclosed comment"), -1);
+                }
+                if ('CDATA[' == source.substr(start + 3, 6)) {
+                    var end = source.indexOf(']]>', start + 9);
+                    return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
+                }
+                var matchs = split(source, start), len = matchs.length;
+                if (len > 1 && /!doctype/i.test(matchs[0][0])) {
+                    var name = matchs[1][0], pubid = !1, sysid = !1;
+                    len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
+                    var lastMatch = matchs[len - 1];
+                    return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
                 }
                 return -1;
             }
@@ -3625,9 +3619,6 @@
                     case 'urn:mpeg:dash:utc:direct:2012':
                         attributes.method = 'DIRECT', attributes.value = Date.parse(attributes.value);
                         break;
-                    case 'urn:mpeg:dash:utc:http-ntp:2014':
-                    case 'urn:mpeg:dash:utc:ntp:2014':
-                    case 'urn:mpeg:dash:utc:sntp:2014':
                     default:
                         throw new Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
                 }
@@ -3948,7 +3939,6 @@
                                     "left",
                                     "right"
                                 ]);
-                                break;
                         }
                     }, /:/, /\s/), cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
                     try {
@@ -4566,7 +4556,6 @@
                         break;
                     case "end":
                         textPos = cue.position - cue.size;
-                        break;
                 }
                 "" === cue.vertical ? this.applyStyles({
                     left: this.formatStyle(textPos, "%"),
@@ -4620,7 +4609,6 @@
                                 "-x",
                                 "+x"
                             ], size = "width";
-                            break;
                     }
                     var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis1[0];
                     Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue2.vertical ? containerBox.height : containerBox.width, axis1 = axis1.reverse()), boxPosition.move(initialAxis, position);
@@ -4632,7 +4620,6 @@
                             break;
                         case "end":
                             linePos -= calculatedPercentage;
-                            break;
                     }
                     switch(cue2.vertical){
                         case "":
@@ -4649,7 +4636,6 @@
                             styleBox.applyStyles({
                                 right: styleBox.formatStyle(linePos, "%")
                             });
-                            break;
                     }
                     axis1 = [
                         "+y",
@@ -4687,7 +4673,6 @@
                         break;
                     case "-y":
                         this.top -= toMove, this.bottom -= toMove;
-                        break;
                 }
             }, BoxPosition.prototype.overlaps = function(b2) {
                 return this.left < b2.right && this.right > b2.left && this.top < b2.bottom && this.bottom > b2.top;
@@ -4774,64 +4759,56 @@
                     }
                     function parseHeader(input3) {
                         input3.match(/X-TIMESTAMP-MAP/) ? parseOptions(input3, function(k1, v1) {
-                            switch(k1){
-                                case "X-TIMESTAMP-MAP":
-                                    var input, settings;
-                                    input = v1, settings = new Settings(), parseOptions(input, function(k, v) {
-                                        switch(k){
-                                            case "MPEGT":
-                                                settings.integer(k + 'S', v);
-                                                break;
-                                            case "LOCA":
-                                                settings.set(k + 'L', parseTimeStamp(v));
-                                                break;
-                                        }
-                                    }, /[^\d]:/, /,/), self.ontimestampmap && self.ontimestampmap({
-                                        MPEGTS: settings.get("MPEGTS"),
-                                        LOCAL: settings.get("LOCAL")
-                                    });
-                                    break;
+                            if ("X-TIMESTAMP-MAP" === k1) {
+                                var input, settings;
+                                input = v1, settings = new Settings(), parseOptions(input, function(k, v) {
+                                    switch(k){
+                                        case "MPEGT":
+                                            settings.integer(k + 'S', v);
+                                            break;
+                                        case "LOCA":
+                                            settings.set(k + 'L', parseTimeStamp(v));
+                                    }
+                                }, /[^\d]:/, /,/), self.ontimestampmap && self.ontimestampmap({
+                                    MPEGTS: settings.get("MPEGTS"),
+                                    LOCAL: settings.get("LOCAL")
+                                });
                             }
                         }, /=/) : parseOptions(input3, function(k2, v2) {
-                            switch(k2){
-                                case "Region":
-                                    !function(input) {
-                                        var settings = new Settings();
-                                        if (parseOptions(input, function(k, v) {
-                                            switch(k){
-                                                case "id":
-                                                    settings.set(k, v);
-                                                    break;
-                                                case "width":
-                                                    settings.percent(k, v);
-                                                    break;
-                                                case "lines":
-                                                    settings.integer(k, v);
-                                                    break;
-                                                case "regionanchor":
-                                                case "viewportanchor":
-                                                    var xy = v.split(',');
-                                                    if (2 !== xy.length) break;
-                                                    var anchor = new Settings();
-                                                    if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
-                                                    settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
-                                                    break;
-                                                case "scroll":
-                                                    settings.alt(k, v, [
-                                                        "up"
-                                                    ]);
-                                                    break;
-                                            }
-                                        }, /=/, /\s/), settings.has("id")) {
-                                            var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
-                                            region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self.onregion && self.onregion(region), self.regionList.push({
-                                                id: settings.get("id"),
-                                                region: region
-                                            });
-                                        }
-                                    }(v2);
-                                    break;
-                            }
+                            "Region" === k2 && function(input) {
+                                var settings = new Settings();
+                                if (parseOptions(input, function(k, v) {
+                                    switch(k){
+                                        case "id":
+                                            settings.set(k, v);
+                                            break;
+                                        case "width":
+                                            settings.percent(k, v);
+                                            break;
+                                        case "lines":
+                                            settings.integer(k, v);
+                                            break;
+                                        case "regionanchor":
+                                        case "viewportanchor":
+                                            var xy = v.split(',');
+                                            if (2 !== xy.length) break;
+                                            var anchor = new Settings();
+                                            if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
+                                            settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
+                                            break;
+                                        case "scroll":
+                                            settings.alt(k, v, [
+                                                "up"
+                                            ]);
+                                    }
+                                }, /=/, /\s/), settings.has("id")) {
+                                    var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
+                                    region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self.onregion && self.onregion(region), self.regionList.push({
+                                        id: settings.get("id"),
+                                        region: region
+                                    });
+                                }
+                            }(v2);
                         }, /:/);
                     }
                     data && (self.buffer += self.decoder.decode(data, {

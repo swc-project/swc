@@ -381,6 +381,18 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
     }
 }
 
+pub(crate) fn is_primitive(e: &Expr) -> Option<&Expr> {
+    if is_pure_undefined(e) {
+        Some(e)
+    } else {
+        match e {
+            Expr::Lit(Lit::Regex(_)) => None,
+            Expr::Lit(_) => Some(e),
+            _ => None,
+        }
+    }
+}
+
 pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
     if ascii_only {
         if s.chars().any(|c| !c.is_ascii()) {
@@ -531,18 +543,6 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
     }
 
     None
-}
-
-pub(crate) fn always_terminates(s: &Stmt) -> bool {
-    match s {
-        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
-        Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates(cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
-        }
-        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
-
-        _ => false,
-    }
 }
 
 pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool

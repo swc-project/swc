@@ -715,7 +715,6 @@
                     break;
                 default:
                     absStack.push(d);
-                    break;
             }
             return "/" + absStack.join("/");
         },
@@ -2515,7 +2514,6 @@
                         case $.mobile.keyCode.DOWN:
                         case $.mobile.keyCode.LEFT:
                             event.preventDefault(), this._keySliding || (this._keySliding = !0, this.handle.addClass("ui-state-active"));
-                            break;
                     }
                     switch(event.keyCode){
                         case $.mobile.keyCode.HOME:
@@ -2533,7 +2531,6 @@
                         case $.mobile.keyCode.DOWN:
                         case $.mobile.keyCode.LEFT:
                             this.refresh(index - this.step);
-                            break;
                     }
                 }
             },
@@ -3203,9 +3200,6 @@
                         break;
                     case 4:
                         isNaN(ar[0]) || (tol.t = ar[0]), isNaN(ar[1]) || (tol.r = ar[1]), isNaN(ar[2]) || (tol.b = ar[2]), isNaN(ar[3]) || (tol.l = ar[3]);
-                        break;
-                    default:
-                        break;
                 }
                 return this._tolerance = tol, this;
             },

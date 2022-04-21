@@ -246,7 +246,6 @@ var Formatting;
                         break;
                     case AuthorTokenKind.atkLBrack:
                         updateStartOffset = node.AuthorNode.Details.Kind == AuthorParseNodeKind.apnkArray;
-                        break;
                 }
                 updateStartOffset && ParseNodeExtensions.SetNodeSpan(node, token.Span.startPosition(), node.AuthorNode.Details.EndOffset);
             }

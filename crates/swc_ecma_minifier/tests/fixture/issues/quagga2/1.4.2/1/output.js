@@ -1537,7 +1537,6 @@
                                             break;
                                         case Rasterizer.CONTOUR_DIR.UNKNOWN_DIR:
                                             ctx.strokeStyle = 'green';
-                                            break;
                                     }
                                     p = q.firstVertex, ctx.beginPath(), ctx.moveTo(p.x, p.y);
                                     do p = p.next, ctx.lineTo(p.x, p.y);
@@ -4380,7 +4379,6 @@
                                                 break;
                                             case this.STOP_CODE:
                                                 done = !0;
-                                                break;
                                         }
                                         break;
                                     case this.CODE_B:
@@ -4397,7 +4395,6 @@
                                                 break;
                                             case this.STOP_CODE:
                                                 done = !0;
-                                                break;
                                         }
                                         break;
                                     case this.CODE_C:
@@ -4411,9 +4408,7 @@
                                                 break;
                                             case this.STOP_CODE:
                                                 done = !0;
-                                                break;
                                         }
-                                        break;
                                 }
                                 else done = !0;
                                 unshift && (codeset = codeset === this.CODE_A ? this.CODE_B : this.CODE_A);
@@ -6867,11 +6862,7 @@
             }
             function readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
                 var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
-                switch(type){
-                    case 3:
-                        if (1 === numValues) return file.getUint16(entryOffset + 8, !bigEnd);
-                }
-                return null;
+                return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
             }
             function getStringFromBuffer(buffer, start, length) {
                 for(var outstr = '', n = start; n < start + length; n++)outstr += String.fromCharCode(buffer.getUint8(n));
@@ -7151,7 +7142,6 @@
                                 break;
                             case 8:
                                 drawAngle = -90 * TO_RADIANS;
-                                break;
                         }
                         return 0 !== drawAngle ? (_ctx.translate(_canvasSize.x / 2, _canvasSize.y / 2), _ctx.rotate(drawAngle), _ctx.drawImage(drawable, -_canvasSize.y / 2, -_canvasSize.x / 2, _canvasSize.y, _canvasSize.x), _ctx.rotate(-drawAngle), _ctx.translate(-_canvasSize.x / 2, -_canvasSize.y / 2)) : _ctx.drawImage(drawable, 0, 0, _canvasSize.x, _canvasSize.y), ctxData = _ctx.getImageData(_sx, _sy, _size.x, _size.y).data, doHalfSample ? Object(cv_utils.e)(ctxData, _size, _data) : Object(cv_utils.c)(ctxData, _data, _streamConfig), !0;
                     }

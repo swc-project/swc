@@ -345,6 +345,16 @@ pub struct SwitchCase {
     pub cons: Vec<Stmt>,
 }
 
+impl Take for SwitchCase {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            test: None,
+            cons: Vec::new(),
+        }
+    }
+}
+
 #[ast_node("CatchClause")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

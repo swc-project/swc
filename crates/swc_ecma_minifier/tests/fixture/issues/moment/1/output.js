@@ -1303,7 +1303,6 @@
                 break;
             case 'second':
                 time = this._d.valueOf(), time += 1000 - (time % (divisor2 = 1000) + divisor2) % divisor2 - 1;
-                break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1394,7 +1393,6 @@
                 break;
             case 'second':
                 time = this._d.valueOf(), time -= (time % (divisor4 = 1000) + divisor4) % divisor4;
-                break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {
@@ -1588,20 +1586,12 @@
         this._config = config, this._dayOfMonthOrdinalParseLenient = new RegExp((this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + '|' + /\d{1,2}/.source);
     }, proto$1.eras = function(m, format) {
         var i, l, date, eras = this._eras || getLocale('en')._eras;
-        for(i = 0, l = eras.length; i < l; ++i){
-            switch(typeof eras[i].since){
-                case 'string':
-                    date = hooks(eras[i].since).startOf('day'), eras[i].since = date.valueOf();
-                    break;
-            }
-            switch(typeof eras[i].until){
-                case 'undefined':
-                    eras[i].until = Infinity;
-                    break;
-                case 'string':
-                    date = hooks(eras[i].until).startOf('day').valueOf(), eras[i].until = date.valueOf();
-                    break;
-            }
+        for(i = 0, l = eras.length; i < l; ++i)switch('string' == typeof eras[i].since && (date = hooks(eras[i].since).startOf('day'), eras[i].since = date.valueOf()), typeof eras[i].until){
+            case 'undefined':
+                eras[i].until = Infinity;
+                break;
+            case 'string':
+                date = hooks(eras[i].until).startOf('day').valueOf(), eras[i].until = date.valueOf();
         }
         return eras;
     }, proto$1.erasParse = function(eraName, format, strict) {
@@ -1617,7 +1607,6 @@
                 break;
             case 'NNNNN':
                 if (narrow === eraName) return eras[i];
-                break;
         }
         else if ([
             name,

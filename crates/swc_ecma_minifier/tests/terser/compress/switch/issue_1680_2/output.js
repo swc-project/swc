@@ -5,7 +5,6 @@ switch (b) {
         break;
     case b:
         var c;
-        break;
     case a:
     case a--:
 }

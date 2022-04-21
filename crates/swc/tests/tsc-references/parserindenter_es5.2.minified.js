@@ -219,7 +219,6 @@ import * as swcHelpers from "@swc/helpers";
                         break;
                     case AuthorTokenKind.atkLBrack:
                         updateStartOffset = node.AuthorNode.Details.Kind == AuthorParseNodeKind.apnkArray;
-                        break;
                 }
                 updateStartOffset && ParseNodeExtensions.SetNodeSpan(node, token.Span.startPosition(), node.AuthorNode.Details.EndOffset);
             }

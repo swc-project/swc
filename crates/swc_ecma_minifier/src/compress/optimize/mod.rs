@@ -12,8 +12,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    extract_var_ids, ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty,
+    ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
@@ -133,8 +133,6 @@ struct Ctx {
     /// `true` while handling `expr` of `!expr`
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
-    /// `true` while handling inner statements of a labelled statement.
-    stmt_labelled: bool,
 
     dont_use_negated_iife: bool,
 
@@ -1551,7 +1549,6 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
-            stmt_labelled: false,
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
@@ -1957,13 +1954,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_function(&mut self, n: &mut Function) {
-        {
-            let ctx = Ctx {
-                stmt_labelled: false,
-                ..self.ctx
-            };
-            n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        n.decorators.visit_mut_with(self);
 
         let is_standalone = n.span.has_mark(self.marks.standalone);
 
@@ -1978,7 +1969,6 @@ where
         {
             let ctx = Ctx {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
-                stmt_labelled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
@@ -2044,13 +2034,9 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        let ctx = Ctx {
-            stmt_labelled: true,
-            ..self.ctx
-        };
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        n.visit_mut_children_with(self);
 
         if self.label.is_none() {
             report_change!("Removing label `{}`", n.label);
@@ -2511,6 +2497,77 @@ where
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
         }
+
+        if self.options.dead_code {
+            // copy from [Remover]
+            // TODO: make it better
+            let orig_len = stmts.len();
+
+            let mut new_stmts = Vec::with_capacity(stmts.len());
+
+            let mut iter = stmts.take().into_iter();
+            while let Some(stmt) = iter.next() {
+                let stmt = match stmt {
+                    // Remove empty statements.
+                    Stmt::Empty(..) => continue,
+
+                    // Control flow
+                    Stmt::Throw(..)
+                    | Stmt::Return { .. }
+                    | Stmt::Continue { .. }
+                    | Stmt::Break { .. } => {
+                        // Hoist function and `var` declarations above return.
+                        let mut decls = vec![];
+                        let mut hoisted_fns = vec![];
+                        for t in iter {
+                            match t.try_into_stmt() {
+                                Ok(Stmt::Decl(Decl::Fn(f))) => {
+                                    hoisted_fns.push(Stmt::Decl(Decl::Fn(f)));
+                                }
+                                Ok(t) => {
+                                    let ids =
+                                        extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
+                                            span: i.span,
+                                            name: i.into(),
+                                            init: None,
+                                            definite: false,
+                                        });
+                                    decls.extend(ids);
+                                }
+                                Err(item) => new_stmts.push(item),
+                            }
+                        }
+
+                        if !decls.is_empty() {
+                            new_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls,
+                                declare: false,
+                            })));
+                        }
+
+                        new_stmts.push(stmt);
+                        new_stmts.extend(hoisted_fns);
+
+                        *stmts = new_stmts;
+                        if stmts.len() != orig_len {
+                            self.changed = true;
+
+                            report_change!("Dropping statements after a control keyword");
+                        }
+
+                        return;
+                    }
+
+                    _ => stmt,
+                };
+
+                new_stmts.push(stmt);
+            }
+
+            *stmts = new_stmts;
+        }
     }
 
     fn visit_mut_str(&mut self, s: &mut Str) {
@@ -2539,8 +2596,6 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         n.discriminant.visit_mut_with(self);
-
-        self.drop_unreachable_cases(n);
 
         n.cases.visit_mut_with(self);
     }
