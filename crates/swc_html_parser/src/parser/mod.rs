@@ -582,8 +582,13 @@ impl OpenElementsStack {
     }
 }
 
+enum ActiveFormattingElement {
+    Element(RcNode, TokenAndInfo),
+    Marker,
+}
+
 struct ActiveFormattingElementStack {
-    items: Vec<RcNode>,
+    items: Vec<ActiveFormattingElement>,
 }
 
 impl ActiveFormattingElementStack {
@@ -591,28 +596,22 @@ impl ActiveFormattingElementStack {
         ActiveFormattingElementStack { items: vec![] }
     }
 
-    pub fn push(&mut self, node: RcNode) {
-        self.items.push(node);
+    pub fn push(&mut self, element: ActiveFormattingElement) {
+        self.items.push(element);
     }
 
-    pub fn remove(&mut self, _node: &RcNode) {
-        // let position = self.items.iter().rposition(|x| is_same_node(node,
-        // x));
-        //
-        // if let Some(position) = position {
-        //     self.items.remove(position);
-        //     self.items().pop();
-        // }
+    pub fn insert_marker(&mut self) {
+        self.items.push(ActiveFormattingElement::Marker);
     }
 
-    pub fn contains(&mut self, _node: &RcNode) -> bool {
-        // TODO
-        false
+    pub fn clear_to_last_marker(&mut self) {
+        loop {
+            match self.items.pop() {
+                None | Some(ActiveFormattingElement::Marker) => break,
+                _ => (),
+            }
+        }
     }
-
-    pub fn insert_marker(&mut self) {}
-
-    pub fn clear_to_last_marker(&mut self) {}
 }
 
 pub struct Parser<I>
@@ -667,7 +666,6 @@ where
         format!("{:?}", self.input.cur())
     }
 
-    /// Take **recovered** errors.
     pub fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
     }
@@ -1729,7 +1727,7 @@ where
                     Token::Character { value, .. }
                         if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
                     {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_character(token_and_info)?;
                     }
                     // Any other character token
@@ -1740,7 +1738,7 @@ where
                     //
                     // Set the frameset-ok flag to "not ok".
                     Token::Character { .. } => {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_character(token_and_info)?;
                         self.frameset_ok = false;
                     }
@@ -2492,7 +2490,7 @@ where
                                 .pop_until_tag_name_popped(&["button"]);
                         }
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
                     }
@@ -2833,11 +2831,11 @@ where
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
                     Token::StartTag { tag_name, .. } if tag_name == "a" => {
+                        // TODO fix me
                         if !self.active_formatting_elements.items.is_empty() {
-                            let element = None;
+                            // let element = None;
                             let has_anchor_element = false;
 
-                            // TODO improve me
                             for _element in &self.active_formatting_elements.items {
                                 // if ($element instanceof Marker) {
                                 //     break;
@@ -2857,20 +2855,27 @@ where
 
                                 self.run_the_adoption_agency_algorithm(token_and_info);
 
-                                if let Some(element) = &element {
-                                    if self.active_formatting_elements.contains(element) {
-                                        self.active_formatting_elements.remove(element);
-                                        self.open_elements_stack.remove(element);
-                                    }
-                                }
+                                // if let Some(element) = &element {
+                                //     if self.active_formatting_elements.
+                                // contains(element) {
+                                //         self.active_formatting_elements.
+                                // remove(element);
+                                //         self.open_elements_stack.
+                                // remove(element);
+                                //     }
+                                // }
                             }
                         }
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(token_and_info)?;
+                        let element = self.insert_html_element(&mut token_and_info.clone())?;
 
-                        self.active_formatting_elements.push(element);
+                        self.active_formatting_elements
+                            .push(ActiveFormattingElement::Element(
+                                element,
+                                token_and_info.clone(),
+                            ));
                     }
                     // A start tag whose tag name is one of: "b", "big", "code", "em", "font", "i",
                     // "s", "small", "strike", "strong", "tt", "u"
@@ -2895,11 +2900,15 @@ where
                                 | "u"
                         ) =>
                     {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(token_and_info)?;
+                        let element = self.insert_html_element(&mut token_and_info.clone())?;
 
-                        self.active_formatting_elements.push(element);
+                        self.active_formatting_elements
+                            .push(ActiveFormattingElement::Element(
+                                element,
+                                token_and_info.clone(),
+                            ));
                     }
                     // A start tag whose tag name is "nobr"
                     //
@@ -2912,18 +2921,22 @@ where
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
                     Token::StartTag { tag_name, .. } if tag_name == "nobr" => {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
 
                         if self.open_elements_stack.has_in_scope("nobr") {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                             self.run_the_adoption_agency_algorithm(token_and_info);
-                            self.reconstruct_the_active_formatting_elements()?;
+                            self.reconstruct_active_formatting_elements()?;
                         } else {
-                            let element = self.insert_html_element(token_and_info)?;
+                            let element = self.insert_html_element(&mut token_and_info.clone())?;
 
-                            self.active_formatting_elements.push(element);
+                            self.active_formatting_elements
+                                .push(ActiveFormattingElement::Element(
+                                    element,
+                                    token_and_info.clone(),
+                                ));
                         }
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
@@ -2962,7 +2975,7 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") =>
                     {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.active_formatting_elements.insert_marker();
                         self.frameset_ok = false;
@@ -3050,7 +3063,7 @@ where
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
                             acknowledged: false,
@@ -3091,7 +3104,7 @@ where
                     {
                         let is_self_closing = *self_closing;
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
 
@@ -3134,7 +3147,7 @@ where
                             _ => false,
                         };
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
 
@@ -3265,7 +3278,7 @@ where
                             self.close_p_element();
                         }
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.frameset_ok = false;
                         self.parse_generic_text_element(token_and_info, true)?;
                     }
@@ -3303,7 +3316,7 @@ where
                     // "in row", or "in cell", then switch the insertion mode to "in select in
                     // table". Otherwise, switch the insertion mode to "in select".
                     Token::StartTag { tag_name, .. } if tag_name == "select" => {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
 
@@ -3338,7 +3351,7 @@ where
                             _ => {}
                         }
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                     }
                     // A start tag whose tag name is one of: "rb", "rtc"
@@ -3415,7 +3428,7 @@ where
                     } if tag_name == "math" => {
                         let is_self_closing = *self_closing;
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.adjust_math_ml_attributes(token_and_info);
                         self.adjust_foreign_attributes_for_the_token(token_and_info);
                         self.insert_foreign_element(token_and_info, Namespace::MATHML)?;
@@ -3445,7 +3458,7 @@ where
                     } if tag_name == "svg" => {
                         let is_self_closing = *self_closing;
 
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.adjust_svg_attributes(token_and_info);
                         self.adjust_foreign_attributes_for_the_token(token_and_info);
                         self.insert_foreign_element(token_and_info, Namespace::SVG)?;
@@ -3484,7 +3497,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { .. } => {
-                        self.reconstruct_the_active_formatting_elements()?;
+                        self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                     }
                     // Any other end tag
@@ -5875,11 +5888,222 @@ where
 
     fn adjust_foreign_attributes_for_the_token(&mut self, _token_and_info: &mut TokenAndInfo) {}
 
-    fn run_the_adoption_agency_algorithm(&mut self, _token_and_info: &mut TokenAndInfo) {}
-
-    fn reconstruct_the_active_formatting_elements(&mut self) -> PResult<()> {
-        Ok(())
+    // The adoption agency algorithm, which takes as its only argument a token token
+    // for which the algorithm is being run, consists of the following steps:
+    //
+    // Let subject be token's tag name.
+    //
+    // If the current node is an HTML element whose tag name is subject, and the
+    // current node is not in the list of active formatting elements, then pop the
+    // current node off the stack of open elements and return.
+    //
+    // Let outer loop counter be 0.
+    //
+    // While true:
+    //
+    // If outer loop counter is greater than or equal to 8, then return.
+    //
+    // Increment outer loop counter by 1.
+    //
+    // Let formatting element be the last element in the list of active formatting
+    // elements that:
+    //
+    // is between the end of the list and the last marker in the list, if any, or
+    // the start of the list otherwise, and has the tag name subject.
+    // If there is no such element, then return and instead act as described in the
+    // "any other end tag" entry above.
+    //
+    // If formatting element is not in the stack of open elements, then this is a
+    // parse error; remove the element from the list, and return.
+    //
+    // If formatting element is in the stack of open elements, but the element is
+    // not in scope, then this is a parse error; return.
+    //
+    // If formatting element is not the current node, this is a parse error. (But do
+    // not return.)
+    //
+    // Let furthest block be the topmost node in the stack of open elements that is
+    // lower in the stack than formatting element, and is an element in the special
+    // category. There might not be one.
+    //
+    // If there is no furthest block, then the UA must first pop all the nodes from
+    // the bottom of the stack of open elements, from the current node up to and
+    // including formatting element, then remove formatting element from the list of
+    // active formatting elements, and finally return.
+    //
+    // Let common ancestor be the element immediately above formatting element in
+    // the stack of open elements.
+    //
+    // Let a bookmark note the position of formatting element in the list of active
+    // formatting elements relative to the elements on either side of it in the
+    // list.
+    //
+    // Let node and last node be furthest block.
+    //
+    // Let inner loop counter be 0.
+    //
+    // While true:
+    //
+    // Increment inner loop counter by 1.
+    //
+    // Let node be the element immediately above node in the stack of open elements,
+    // or if node is no longer in the stack of open elements (e.g. because it got
+    // removed by this algorithm), the element that was immediately above node in
+    // the stack of open elements before node was removed.
+    //
+    // If node is formatting element, then break.
+    //
+    // If inner loop counter is greater than 3 and node is in the list of active
+    // formatting elements, then remove node from the list of active formatting
+    // elements.
+    //
+    // If node is not in the list of active formatting elements, then remove node
+    // from the stack of open elements and continue.
+    //
+    // Create an element for the token for which the element node was created, in
+    // the HTML namespace, with common ancestor as the intended parent; replace the
+    // entry for node in the list of active formatting elements with an entry for
+    // the new element, replace the entry for node in the stack of open elements
+    // with an entry for the new element, and let node be the new element.
+    //
+    // If last node is furthest block, then move the aforementioned bookmark to be
+    // immediately after the new node in the list of active formatting elements.
+    //
+    // Append last node to node.
+    //
+    // Set last node to node.
+    //
+    // Insert whatever last node ended up being in the previous step at the
+    // appropriate place for inserting a node, but using common ancestor as the
+    // override target.
+    //
+    // Create an element for the token for which formatting element was created, in
+    // the HTML namespace, with furthest block as the intended parent.
+    //
+    // Take all of the child nodes of furthest block and append them to the element
+    // created in the last step.
+    //
+    // Append that new element to furthest block.
+    //
+    // Remove formatting element from the list of active formatting elements, and
+    // insert the new element into the list of active formatting elements at the
+    // position of the aforementioned bookmark.
+    //
+    // Remove formatting element from the stack of open elements, and insert the new
+    // element into the stack of open elements immediately below the position of
+    // furthest block in that stack.
+    //
+    // This algorithm's name, the "adoption agency algorithm", comes from the way it
+    // causes elements to change parents, and is in contrast with other possible
+    // algorithms for dealing with misnested content.
+    fn run_the_adoption_agency_algorithm(&mut self, _subject: &mut TokenAndInfo) {
+        // TODO fix me
     }
+
+    // When the steps below require the UA to reconstruct the active formatting
+    // elements, the UA must perform the following steps:
+    //
+    // 1. If there are no entries in the list of active formatting elements, then
+    // there is nothing to reconstruct; stop this algorithm.
+    //
+    // 2. If the last (most recently added) entry in the list of active formatting
+    // elements is a marker, or if it is an element that is in the stack of open
+    // elements, then there is nothing to reconstruct; stop this algorithm.
+    //
+    // 3. Let entry be the last (most recently added) element in the list of active
+    // formatting elements.
+    //
+    // 4. Rewind: If there are no entries before entry in the list of active
+    // formatting elements, then jump to the step labeled create.
+    //
+    // 5. Let entry be the entry one earlier than entry in the list of active
+    // formatting elements.
+    //
+    // 6. If entry is neither a marker nor an element that is also in the stack of
+    // open elements, go to the step labeled rewind.
+    //
+    // 7. Advance: Let entry be the element one later than entry in the list of
+    // active formatting elements.
+    //
+    // 8. Create: Insert an HTML element for the token for which the element entry
+    // was created, to obtain new element.
+    //
+    // 9. Replace the entry for entry in the list with an entry for new element.
+    //
+    // 10. If the entry for new element in the list of active formatting elements is
+    // not the last entry in the list, return to the step labeled advance.
+    //
+    // This has the effect of reopening all the formatting elements that were opened
+    // in the current body, cell, or caption (whichever is youngest) that haven't
+    // been explicitly closed.
+    fn reconstruct_active_formatting_elements(&mut self) -> PResult<()> {
+        // TODO there is bug?
+        Ok(())
+        // {
+        //     let last = match self.active_formatting_elements.items.last() {
+        //         Some(x) => x,
+        //         _ => {
+        //             return Ok(());
+        //         }
+        //     };
+        //
+        //     if self.is_marker_or_open(last) {
+        //         return Ok(());
+        //     }
+        // }
+        //
+        // let mut entry_index = self.active_formatting_elements.items.len() -
+        // 1;
+        //
+        // loop {
+        //     if entry_index == 0 {
+        //         break;
+        //     }
+        //     entry_index -= 1;
+        //
+        //     if self.is_marker_or_open(&self.active_formatting_elements.
+        // items[entry_index]) {         entry_index += 1;
+        //
+        //         break;
+        //     }
+        // }
+        //
+        // loop {
+        //     let token_and_info = match
+        // self.active_formatting_elements.items[entry_index] {
+        //         ActiveFormattingElement::Element(_, ref t) => t.clone(),
+        //         ActiveFormattingElement::Marker => {
+        //             panic!("Found marker during formatting element
+        // reconstruction")         }
+        //     };
+        //
+        //     // TODO Push?
+        //     let new_element = self.insert_html_element(&mut
+        // token_and_info.clone())?;
+        //
+        //     self.active_formatting_elements.items[entry_index] =
+        //         ActiveFormattingElement::Element(new_element,
+        // token_and_info);
+        //
+        //     if entry_index == self.active_formatting_elements.items.len() - 1
+        // {         break Ok(());
+        //     }
+        //
+        //     entry_index += 1;
+        // }
+    }
+
+    // fn is_marker_or_open(&self, entry: &ActiveFormattingElement) -> bool {
+    //     match *entry {
+    //         ActiveFormattingElement::Marker => true,
+    //         ActiveFormattingElement::Element(ref node, _) => self
+    //             .open_elements_stack
+    //             .items
+    //             .iter()
+    //             .rev()
+    //             .any(|n| is_same_node(&n, node)),
+    //     }
+    // }
 
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(Data::Element(Element {
