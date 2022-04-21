@@ -2554,9 +2554,7 @@ where
                         if stmts.len() != orig_len {
                             self.changed = true;
 
-                            if cfg!(feature = "debug") {
-                                debug!("Dropping statements after a control keyword");
-                            }
+                            report_change!("Dropping statements after a control keyword");
                         }
 
                         return;
