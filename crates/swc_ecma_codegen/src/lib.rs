@@ -2225,7 +2225,10 @@ where
                             if snippet.len() < 3 {
                                 false
                             } else {
-                                snippet[..snippet.len() - 1].trim().ends_with(',')
+                                let last_char = snippet.chars().last().unwrap();
+                                snippet[..snippet.len() - last_char.len_utf8()]
+                                    .trim()
+                                    .ends_with(',')
                             }
                         }
                         _ => false,
