@@ -3032,15 +3032,16 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        match &self.document {
-                            Some(_)
-                                // TODO fix me
-                                // if *node.mode != DocumentMode::Quirks && 
-                                if self.open_elements_stack.has_in_button_scope("p") =>
-                            {
-                                self.close_p_element();
+                        if let Some(document) = &self.document {
+                            match document.data {
+                                Data::Document(Document { mode, .. })
+                                    if mode != DocumentMode::Quirks
+                                        && self.open_elements_stack.has_in_button_scope("p") =>
+                                {
+                                    self.close_p_element();
+                                }
+                                _ => {}
                             }
-                            _ => {}
                         }
 
                         self.insert_html_element(token_and_info)?;
