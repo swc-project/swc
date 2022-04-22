@@ -7,6 +7,12 @@
 
 - **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
 
+### Testing
+
+
+
+- **(es)** Add tests for `.swcrc` (#4398) ([5134b4f](https://github.com/swc-project/swc/commit/5134b4f9bee5725bae53876067399aa0528a8add))
+
 ## [1.2.171] - 2022-04-22
 
 ### Bug Fixes
