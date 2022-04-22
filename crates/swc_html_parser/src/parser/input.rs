@@ -1,10 +1,13 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, mem::take};
 
 use swc_common::{BytePos, Span};
 use swc_html_ast::{Token, TokenAndSpan};
 
 use super::PResult;
-use crate::error::ErrorKind;
+use crate::{
+    error::{Error, ErrorKind},
+    lexer::State,
+};
 
 pub trait ParserInput {
     type State: Debug;
@@ -16,6 +19,10 @@ pub trait ParserInput {
     fn state(&mut self) -> Self::State;
 
     fn reset(&mut self, state: &Self::State);
+
+    fn set_input_state(&mut self, state: State);
+
+    fn take_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Debug)]
@@ -65,16 +72,6 @@ where
         Ok(self.cur.as_ref().map(|v| &v.token))
     }
 
-    // pub(super) fn peek(&mut self) -> PResult<Option<&Token>> {
-    //     self.cur()?;
-    //
-    //     if self.peeked.is_none() {
-    //         self.peeked = Some(self.input.next()?);
-    //     }
-    //
-    //     Ok(self.peeked.as_ref().map(|v| &v.token))
-    // }
-
     #[track_caller]
     pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
         debug_assert!(
@@ -119,21 +116,11 @@ where
         Ok(())
     }
 
-    // pub(super) fn state(&mut self) -> WrappedState<I::State> {
-    //     WrappedState {
-    //         cur: self.cur.clone(),
-    //         inner: self.input.state(),
-    //     }
-    // }
+    pub fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.input.take_errors())
+    }
 
-    // pub(super) fn reset(&mut self, state: &WrappedState<I::State>) {
-    //     self.cur = state.cur.clone();
-    //     self.input.reset(&state.inner);
-    // }
+    pub(super) fn set_input_state(&mut self, state: State) {
+        self.input.set_input_state(state);
+    }
 }
-
-// #[derive(Debug, Clone)]
-// pub(super) struct WrappedState<S> {
-//     cur: Option<TokenAndSpan>,
-//     inner: S,
-// }

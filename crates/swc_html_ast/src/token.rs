@@ -1,15 +1,16 @@
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("TokenAndSpan")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct TokenAndSpan {
     pub span: Span,
     pub token: Token,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Attribute {
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+pub struct AttributeToken {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
@@ -17,7 +18,7 @@ pub struct Attribute {
     pub raw_value: Option<JsWord>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 pub enum Token {
     // TODO raw for bogus doctype
     Doctype {
@@ -49,13 +50,13 @@ pub enum Token {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
         self_closing: bool,
-        attributes: Vec<Attribute>,
+        attributes: Vec<AttributeToken>,
     },
     EndTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
         self_closing: bool,
-        attributes: Vec<Attribute>,
+        attributes: Vec<AttributeToken>,
     },
     Comment {
         data: JsWord,

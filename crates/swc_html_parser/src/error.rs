@@ -137,6 +137,7 @@ impl Error {
             ErrorKind::EofInElementThatCanContainOnlyText => {
                 "Eof in element that can contain only text".into()
             }
+            ErrorKind::UnexpectedToken => "Unexpected token".into(),
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -145,6 +146,7 @@ impl Error {
 #[derive(Debug, Clone, PartialEq)]
 #[non_exhaustive]
 pub enum ErrorKind {
+    // Lexer errors
     Eof,
     ControlCharacterInInputStream,
     NoncharacterInInputStream,
@@ -206,4 +208,7 @@ pub enum ErrorKind {
     MisplacedStartTagForHeadElement,
     NestedNoscriptInHead,
     EofInElementThatCanContainOnlyText,
+
+    // Parser errors
+    UnexpectedToken,
 }

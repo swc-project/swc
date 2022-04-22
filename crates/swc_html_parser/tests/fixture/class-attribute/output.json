@@ -5,522 +5,371 @@
     "end": 521,
     "ctxt": 0
   },
+  "mode": "no-quirks",
   "children": [
     {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
         "start": 0,
-        "end": 83,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z",
-              "raw_value": "\"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 83,
-        "end": 87,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 87,
-        "end": 88,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 88,
-        "end": 126,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "add sort keys createSorter",
-              "raw_value": "\"add sort keys createSorter\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 126,
-        "end": 130,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 130,
-        "end": 131,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 131,
-        "end": 170,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "sprite sprite-{{sprite}}",
-              "raw_value": "\"sprite sprite-{{sprite}}\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 170,
-        "end": 177,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 177,
-        "end": 178,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 178,
-        "end": 217,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "{{sprite}}-sprite sprite",
-              "raw_value": "\"{{sprite}}-sprite sprite\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 217,
-        "end": 224,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 224,
-        "end": 225,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 225,
-        "end": 264,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "sprite-{{sprite}}-sprite",
-              "raw_value": "\"sprite-{{sprite}}-sprite\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 264,
-        "end": 271,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 271,
-        "end": 272,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 272,
-        "end": 297,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "{{sprite}}",
-              "raw_value": "\"{{sprite}}\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 297,
-        "end": 304,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 304,
-        "end": 305,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 305,
-        "end": 328,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "{{sprite}}",
-              "raw_value": "{{sprite}}"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 328,
-        "end": 335,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "span",
-          "raw_tag_name": "span",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 335,
-        "end": 336,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 336,
-        "end": 347,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": null,
-              "raw_value": null
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 347,
-        "end": 353,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 353,
-        "end": 354,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 354,
-        "end": 437,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "class",
-              "raw_name": "class",
-              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar",
-              "raw_value": "\"nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 437,
-        "end": 443,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 443,
-        "end": 444,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 444,
         "end": 517,
         "ctxt": 0
       },
-      "token": {
-        "StartTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": [
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 83,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 517,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
             {
-              "name": "class",
-              "raw_name": "class",
-              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz",
-              "raw_value": "\"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz\""
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 517,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "name": "class",
+                  "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 87,
+                    "end": 88,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 88,
+                    "end": 517,
+                    "ctxt": 0
+                  },
+                  "tagName": "a",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "name": "class",
+                      "value": "add sort keys createSorter"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 130,
+                        "end": 131,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 131,
+                        "end": 170,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "sprite sprite-{{sprite}}"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 177,
+                        "end": 178,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 178,
+                        "end": 217,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "{{sprite}}-sprite sprite"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 224,
+                        "end": 225,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 225,
+                        "end": 264,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "sprite-{{sprite}}-sprite"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 271,
+                        "end": 272,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 272,
+                        "end": 297,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "{{sprite}}"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 304,
+                        "end": 305,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 305,
+                        "end": 328,
+                        "ctxt": 0
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "{{sprite}}"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 335,
+                        "end": 336,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 336,
+                        "end": 347,
+                        "ctxt": 0
+                      },
+                      "tagName": "div",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": null
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 353,
+                        "end": 354,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 354,
+                        "end": 437,
+                        "ctxt": 0
+                      },
+                      "tagName": "div",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 443,
+                        "end": 444,
+                        "ctxt": 0
+                      },
+                      "value": "\n"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 444,
+                        "end": 517,
+                        "ctxt": 0
+                      },
+                      "tagName": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "name": "class",
+                          "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+                        }
+                      ],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
             }
-          ]
+          ],
+          "content": null
         }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 517,
-        "end": 521,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
+      ],
+      "content": null
     }
   ]
 }

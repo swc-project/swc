@@ -13,207 +13,296 @@
  10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name: Some(Atom('class'
-  | type=static)), value: Some(Atom('0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z' type=dynamic)), raw_value: Some(Atom('"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o
-  | p q r s t u v w x y z"' type=dynamic)) }] }
+  x Child
+    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+  1 | ,-> <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+  2 | |   <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+  1 | ,-> <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+  2 | |   <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
  1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
  1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
-   :                                                                                    ^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Attribute
+   ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+ 1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+   : ^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
  1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
    :                                                                                        ^
  2 | <a class="add sort keys createSorter"></a>
    `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name: Some(Atom('class'
-  | type=static)), value: Some(Atom('add sort keys createSorter' type=dynamic)), raw_value: Some(Atom('"add sort keys createSorter"' type=dynamic)) }] }
-   ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:1:1]
+ 1 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+   :                                                                                        ^
  2 | <a class="add sort keys createSorter"></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
- 2 | <a class="add sort keys createSorter"></a>
-   :                                       ^^^^
-   `----
+  x Child
+    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+  2 | ,-> <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Element
+    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+  2 | ,-> <a class="add sort keys createSorter"></a>
+  3 | |   <span class="sprite sprite-{{sprite}}"></span>
+  4 | |   <span class="{{sprite}}-sprite sprite"></span>
+  5 | |   <span class="sprite-{{sprite}}-sprite"></span>
+  6 | |   <span class="{{sprite}}"></span>
+  7 | |   <span class={{sprite}}></span>
+  8 | |   <div class></div>
+  9 | |   <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+ 10 | `-> <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
  2 | <a class="add sort keys createSorter"></a>
    :                                           ^
  3 | <span class="sprite sprite-{{sprite}}"></span>
    `----
 
-  x StartTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('sprite sprite-{{sprite}}' type=dynamic)), raw_value: Some(Atom('"sprite sprite-{{sprite}}"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:2:1]
+ 2 | <a class="add sort keys createSorter"></a>
+   :                                           ^
+ 3 | <span class="sprite sprite-{{sprite}}"></span>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
  3 | <span class="sprite sprite-{{sprite}}"></span>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
  3 | <span class="sprite sprite-{{sprite}}"></span>
-   :                                        ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
  3 | <span class="sprite sprite-{{sprite}}"></span>
    :                                               ^
  4 | <span class="{{sprite}}-sprite sprite"></span>
    `----
 
-  x StartTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('{{sprite}}-sprite sprite' type=dynamic)), raw_value: Some(Atom('"{{sprite}}-sprite sprite"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:3:1]
+ 3 | <span class="sprite sprite-{{sprite}}"></span>
+   :                                               ^
+ 4 | <span class="{{sprite}}-sprite sprite"></span>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
  4 | <span class="{{sprite}}-sprite sprite"></span>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
  4 | <span class="{{sprite}}-sprite sprite"></span>
-   :                                        ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
  4 | <span class="{{sprite}}-sprite sprite"></span>
    :                                               ^
  5 | <span class="sprite-{{sprite}}-sprite"></span>
    `----
 
-  x StartTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('sprite-{{sprite}}-sprite' type=dynamic)), raw_value: Some(Atom('"sprite-{{sprite}}-sprite"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:4:1]
+ 4 | <span class="{{sprite}}-sprite sprite"></span>
+   :                                               ^
+ 5 | <span class="sprite-{{sprite}}-sprite"></span>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
  5 | <span class="sprite-{{sprite}}-sprite"></span>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
  5 | <span class="sprite-{{sprite}}-sprite"></span>
-   :                                        ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
  5 | <span class="sprite-{{sprite}}-sprite"></span>
    :                                               ^
  6 | <span class="{{sprite}}"></span>
    `----
 
-  x StartTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('{{sprite}}' type=dynamic)), raw_value: Some(Atom('"{{sprite}}"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:5:1]
+ 5 | <span class="sprite-{{sprite}}-sprite"></span>
+   :                                               ^
+ 6 | <span class="{{sprite}}"></span>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
  6 | <span class="{{sprite}}"></span>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
  6 | <span class="{{sprite}}"></span>
-   :                          ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
  6 | <span class="{{sprite}}"></span>
    :                                 ^
  7 | <span class={{sprite}}></span>
    `----
 
-  x StartTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('{{sprite}}' type=dynamic)), raw_value: Some(Atom('{{sprite}}' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:6:1]
+ 6 | <span class="{{sprite}}"></span>
+   :                                 ^
+ 7 | <span class={{sprite}}></span>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
  7 | <span class={{sprite}}></span>
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('span' type=inline), raw_tag_name: Some(Atom('span' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
  7 | <span class={{sprite}}></span>
-   :                        ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
  7 | <span class={{sprite}}></span>
    :                               ^
  8 | <div class></div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: None, raw_value: None }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:7:1]
+ 7 | <span class={{sprite}}></span>
+   :                               ^
+ 8 | <div class></div>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:8:1]
  8 | <div class></div>
    : ^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:8:1]
  8 | <div class></div>
-   :            ^^^^^^
+   : ^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:8:1]
  8 | <div class></div>
    :                  ^
  9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name:
-  | Some(Atom('class' type=static)), value: Some(Atom('nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar' type=dynamic)), raw_value: Some(Atom('"nav_sv_fo_v_column <#=(j === 0) ?
-  | 'nav_sv_fo_v_first' : '' #> foo_bar"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/class-attribute/input.html:8:1]
+ 8 | <div class></div>
+   :                  ^
+ 9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/class-attribute/input.html:9:1]
  9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/class-attribute/input.html:9:1]
  9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
-   :                                                                                    ^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
     ,-[$DIR/tests/fixture/class-attribute/input.html:9:1]
   9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
     :                                                                                          ^
  10 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), raw_name: Some(Atom('class'
-  | type=static)), value: Some(Atom('moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz' type=dynamic)), raw_value: Some(Atom('"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo
-  | baz"' type=dynamic)) }] }
+  x Text
+    ,-[$DIR/tests/fixture/class-attribute/input.html:9:1]
+  9 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+    :                                                                                          ^
+ 10 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    `----
+
+  x Child
     ,-[$DIR/tests/fixture/class-attribute/input.html:10:1]
  10 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
+  x Element
     ,-[$DIR/tests/fixture/class-attribute/input.html:10:1]
  10 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
-    :                                                                          ^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----

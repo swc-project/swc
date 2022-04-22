@@ -13,143 +13,204 @@
  10 | `-> />
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('0' type=inline), raw_name: Some(Atom('0'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('1' type=inline), raw_name: Some(Atom('1' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('2'
-  | type=inline), raw_name: Some(Atom('2' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('3' type=inline), raw_name: Some(Atom('3' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('4' type=inline), raw_name: Some(Atom('4' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('5' type=inline), raw_name: Some(Atom('5'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('6' type=inline), raw_name: Some(Atom('6' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('7'
-  | type=inline), raw_name: Some(Atom('7' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('8' type=inline), raw_name: Some(Atom('8' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('9' type=inline), raw_name: Some(Atom('9' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('a' type=inline), raw_name: Some(Atom('a'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('b' type=inline), raw_name: Some(Atom('b' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('c'
-  | type=inline), raw_name: Some(Atom('c' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('d' type=inline), raw_name: Some(Atom('d' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('e' type=inline), raw_name: Some(Atom('e' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('f' type=inline), raw_name: Some(Atom('f'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('g' type=inline), raw_name: Some(Atom('g' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('h'
-  | type=inline), raw_name: Some(Atom('h' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('i' type=inline), raw_name: Some(Atom('i' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('j' type=inline), raw_name: Some(Atom('j' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('k' type=inline), raw_name: Some(Atom('k'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('l' type=inline), raw_name: Some(Atom('l' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('m'
-  | type=inline), raw_name: Some(Atom('m' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('n' type=inline), raw_name: Some(Atom('n' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('o' type=inline), raw_name: Some(Atom('o' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('p' type=inline), raw_name: Some(Atom('p'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('q' type=inline), raw_name: Some(Atom('q' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('r'
-  | type=inline), raw_name: Some(Atom('r' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('s' type=inline), raw_name: Some(Atom('s' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('t' type=inline), raw_name: Some(Atom('t' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('u' type=inline), raw_name: Some(Atom('u'
-  | type=inline)), value: None, raw_value: None }, Attribute { name: Atom('v' type=inline), raw_name: Some(Atom('v' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('w'
-  | type=inline), raw_name: Some(Atom('w' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('x' type=inline), raw_name: Some(Atom('x' type=inline)), value: None, raw_value:
-  | None }, Attribute { name: Atom('y' type=inline), raw_name: Some(Atom('y' type=inline)), value: None, raw_value: None }, Attribute { name: Atom('z' type=inline), raw_name: Some(Atom('z'
-  | type=inline)), value: None, raw_value: None }] }
+  x Child
+    ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+  1 | ,-> <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  2 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+  3 | |   <p title=" <!-- hello world --> ">x</p>
+  4 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+  5 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+  6 | |   <img
+  7 | |   src
+  8 | |   =
+  9 | |   "test"
+ 10 | `-> />
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+  1 | ,-> <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  2 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+  3 | |   <p title=" <!-- hello world --> ">x</p>
+  4 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+  5 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+  6 | |   <img
+  7 | |   src
+  8 | |   =
+  9 | |   "test"
+ 10 | `-> />
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:1:1]
  1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/attributes/input.html:1:1]
  1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
-   :                                                                            ^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Attribute
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   : ^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:1:1]
  1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                                ^
  2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('title' type=inline), raw_name: Some(Atom('title'
-  | type=inline)), value: Some(Atom(' <![CDATA[ \n\n foobar baz ]]> ' type=dynamic)), raw_value: Some(Atom('" <![CDATA[ \n\n foobar baz ]]> "' type=dynamic)) }] }
-   ,-[$DIR/tests/fixture/attributes/input.html:2:1]
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                                ^
  2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'x', raw: Some(Atom('x' type=inline)) }
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.html:2:1]
+ 2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.html:2:1]
+ 2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:2:1]
  2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    :                                            ^
    `----
 
-  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
+  x Text
    ,-[$DIR/tests/fixture/attributes/input.html:2:1]
  2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
-   :                                             ^^^^
+   :                                            ^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:2:1]
  2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    :                                                 ^
  3 | <p title=" <!-- hello world --> ">x</p>
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('title' type=inline), raw_name: Some(Atom('title'
-  | type=inline)), value: Some(Atom(' <!-- hello world --> ' type=dynamic)), raw_value: Some(Atom('" <!-- hello world --> "' type=dynamic)) }] }
-   ,-[$DIR/tests/fixture/attributes/input.html:3:1]
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.html:2:1]
+ 2 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   :                                                 ^
  3 | <p title=" <!-- hello world --> ">x</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'x', raw: Some(Atom('x' type=inline)) }
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.html:3:1]
+ 3 | <p title=" <!-- hello world --> ">x</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.html:3:1]
+ 3 | <p title=" <!-- hello world --> ">x</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:3:1]
  3 | <p title=" <!-- hello world --> ">x</p>
    :                                   ^
    `----
 
-  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
+  x Text
    ,-[$DIR/tests/fixture/attributes/input.html:3:1]
  3 | <p title=" <!-- hello world --> ">x</p>
-   :                                    ^^^^
+   :                                   ^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:3:1]
  3 | <p title=" <!-- hello world --> ">x</p>
    :                                        ^
  4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
    `----
 
-  x StartTag { tag_name: Atom('tag' type=inline), raw_tag_name: Some(Atom('tag' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('v-ref:vm_pv' type=dynamic), raw_name:
-  | Some(Atom('v-ref:vm_pv' type=dynamic)), value: None, raw_value: None }, Attribute { name: Atom(':imgs' type=inline), raw_name: Some(Atom(':imgs' type=inline)), value: Some(Atom(' objpicsurl_ '
-  | type=dynamic)), raw_value: Some(Atom('" objpicsurl_ "' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.html:3:1]
+ 3 | <p title=" <!-- hello world --> ">x</p>
+   :                                        ^
+ 4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:4:1]
  4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('tag' type=inline), raw_tag_name: Some(Atom('tag' type=inline)), self_closing: false, attributes: [] }
+  x Element
    ,-[$DIR/tests/fixture/attributes/input.html:4:1]
  4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
-   :                                        ^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:4:1]
  4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
    :                                              ^
  5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
    `----
 
-  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('a' type=inline), raw_name: Some(Atom('a'
-  | type=inline)), value: Some(Atom('\u00A0' type=inline)), raw_value: Some(Atom('\u00A0' type=inline)) }, Attribute { name: Atom('b' type=inline), raw_name: Some(Atom('b' type=inline)), value:
-  | Some(Atom(' ' type=inline)), raw_value: Some(Atom('" "' type=inline)) }, Attribute { name: Atom('c' type=inline), raw_name: Some(Atom('c' type=inline)), value: Some(Atom('\u00A0' type=inline)),
-  | raw_value: Some(Atom('"\u00A0"' type=dynamic)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.html:4:1]
+ 4 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+   :                                              ^
+ 5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:5:1]
  5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.html:5:1]
+ 5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/attributes/input.html:5:1]
  5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
    :                                    ^
  6 | <img
    `----
 
-  x StartTag { tag_name: Atom('img' type=inline), raw_tag_name: Some(Atom('img' type=inline)), self_closing: true, attributes: [Attribute { name: Atom('src' type=inline), raw_name: Some(Atom('src'
-  | type=inline)), value: Some(Atom('test' type=inline)), raw_value: Some(Atom('"test"' type=inline)) }] }
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.html:5:1]
+ 5 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+   :                                    ^
+ 6 | <img
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attributes/input.html:6:1]
+  6 | ,-> <img
+  7 | |   src
+  8 | |   =
+  9 | |   "test"
+ 10 | `-> />
+    `----
+
+  x Element
     ,-[$DIR/tests/fixture/attributes/input.html:6:1]
   6 | ,-> <img
   7 | |   src

@@ -13,343 +13,170 @@
  10 | `-> </html>
     `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, raw_public_keyword: None,
-  | public_quote: None, public_id: None, raw_system_keyword: None, system_quote: None, system_id: None }
+  x Child
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x DocumentType
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
-   :                ^
- 2 | <html>
+   : ^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:2:1]
- 2 | <html>
-   :       ^
- 3 | <body>
-   `----
-
-  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
- 3 | <body>
-   : ^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
- 3 | <body>
-   :       ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:4:1]
- 4 | 
-   : ^
- 5 | <h1>My First Heading</h1>
-   `----
-
-  x StartTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   : ^^^^
-   `----
-
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :     ^
-   `----
-
-  x Character { value: 'y', raw: Some(Atom('y' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :      ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :       ^
-   `----
-
-  x Character { value: 'F', raw: Some(Atom('F' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :        ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :         ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :          ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :           ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :            ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :             ^
-   `----
-
-  x Character { value: 'H', raw: Some(Atom('H' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :              ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :               ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                ^
-   `----
-
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                 ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                  ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                   ^
-   `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                    ^
-   `----
-
-  x EndTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                     ^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:5:1]
- 5 | <h1>My First Heading</h1>
-   :                          ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:6:1]
- 6 | 
-   : ^
- 7 | <p>My first paragraph.</p>
-   `----
-
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   : ^^^
-   `----
-
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :    ^
-   `----
-
-  x Character { value: 'y', raw: Some(Atom('y' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :     ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :      ^
-   `----
-
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :       ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :        ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :         ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :          ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :           ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :            ^
-   `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :             ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :              ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :               ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                ^
-   `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                 ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                  ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                   ^
-   `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                    ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                     ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                      ^
-   `----
-
-  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                       ^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:7:1]
- 7 | <p>My first paragraph.</p>
-   :                           ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/document/input.html:8:1]
- 8 | 
-   : ^
- 9 | </body>
-   `----
-
-  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/document/input.html:9:1]
- 9 | </body>
-   : ^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/document/input.html:9:1]
-  9 | </body>
-    :        ^
- 10 | </html>
+  x Child
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/document/input.html:10:1]
- 10 | </html>
-    : ^^^^^^^
+  x Element
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
     `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/document/input.html:10:1]
- 10 | </html>
-    :        ^
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/document/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <h1>My First Heading</h1>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/document/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <h1>My First Heading</h1>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | <h1>My First Heading</h1>
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | <h1>My First Heading</h1>
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | <h1>My First Heading</h1>
+   :     ^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | <h1>My First Heading</h1>
+   :     ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | ,-> <h1>My First Heading</h1>
+ 6 | `-> 
+ 7 |     <p>My first paragraph.</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 5 | ,-> <h1>My First Heading</h1>
+ 6 | `-> 
+ 7 |     <p>My first paragraph.</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:7:1]
+ 7 | <p>My first paragraph.</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/document/input.html:7:1]
+ 7 | <p>My first paragraph.</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document/input.html:7:1]
+ 7 | <p>My first paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/document/input.html:7:1]
+ 7 | <p>My first paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/document/input.html:7:1]
+  7 | ,-> <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/document/input.html:7:1]
+  7 | ,-> <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
     `----

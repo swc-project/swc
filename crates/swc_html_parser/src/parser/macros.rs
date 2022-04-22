@@ -1,20 +1,34 @@
-macro_rules! is {
-    ($parser:expr, EOF) => {{
-        $parser.input.cur()?.is_none()
+macro_rules! span {
+    ($parser:expr, $start:expr) => {{
+        let last_pos = $parser.input.last_pos()?;
+        swc_common::Span::new($start, last_pos, Default::default())
     }};
+}
 
-    ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
-            Some(tok_pat!($tt)) => true,
-            _ => false,
+macro_rules! bump {
+    ($parser:expr) => {
+        $parser.input.bump()?.unwrap().token
+    };
+}
+
+macro_rules! get_tag_name {
+    ($node:expr) => {{
+        match &$node.data {
+            crate::parser::Data::Element(Element { tag_name, .. }) => tag_name.as_ref(),
+            _ => {
+                unreachable!();
+            }
         }
     }};
 }
 
-macro_rules! is_one_of {
-    ($parser:expr, $($tt:tt),+) => {
-        $(
-            is!($parser, $tt)
-        )||*
-    };
+macro_rules! get_namespace {
+    ($node:expr) => {{
+        match $node.data {
+            crate::parser::Data::Element(Element { namespace, .. }) => namespace,
+            _ => {
+                unreachable!();
+            }
+        }
+    }};
 }

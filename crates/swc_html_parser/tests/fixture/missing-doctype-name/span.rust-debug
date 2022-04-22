@@ -11,184 +11,122 @@
  8 | `-> </html>
    `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('�' type=inline)), raw_name: None, force_quirks: true, raw_public_keyword: None, public_quote: None, public_id: None,
-  | raw_system_keyword: None, system_quote: None, system_id: None }
+  x Child
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
  1 | <!DOCTYPE>
    : ^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x DocumentType
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
  1 | <!DOCTYPE>
-   :           ^
- 2 | <html>
+   : ^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
+  x Child
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
+ 2 | ,-> <html>
+ 3 | |   <body>
+ 4 | |   
+ 5 | |   <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Element
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:2:1]
- 2 | <html>
-   :       ^
- 3 | <body>
+ 2 | ,-> <html>
+ 3 | |   <body>
+ 4 | |   
+ 5 | |   <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
+  x Child
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
+ 1 | ,-> <!DOCTYPE>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
+ 1 | ,-> <!DOCTYPE>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:3:1]
- 3 | <body>
-   : ^^^^^^
+ 3 | ,-> <body>
+ 4 | |   
+ 5 | |   <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Element
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:3:1]
- 3 | <body>
-   :       ^
+ 3 | ,-> <body>
+ 4 | |   
+ 5 | |   <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:4:1]
- 4 | 
+  x Child
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <a href=https://www.w3schools.com>This is a link</a>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:3:1]
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <a href=https://www.w3schools.com>This is a link</a>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
+ 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
+ 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
+ 1 | <!DOCTYPE>
    : ^
- 5 | <a href=https://www.w3schools.com>This is a link</a>
    `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
-  | type=inline)), value: Some(Atom('https://www.w3schools.com' type=dynamic)), raw_value: Some(Atom('https://www.w3schools.com' type=dynamic)) }] }
+  x Child
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
+  x Text
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                   ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                    ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                     ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                      ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                       ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                        ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                         ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                          ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                           ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                            ^
-   `----
-
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                             ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                              ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                               ^
-   `----
-
-  x Character { value: 'k', raw: Some(Atom('k' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                                ^
-   `----
-
-  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                                 ^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | <a href=https://www.w3schools.com>This is a link</a>
-   :                                                     ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:6:1]
- 6 | 
-   : ^
- 7 | </body>
-   `----
-
-  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:7:1]
- 7 | </body>
-   : ^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:7:1]
- 7 | </body>
-   :        ^
- 8 | </html>
-   `----
-
-  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:8:1]
- 8 | </html>
-   : ^^^^^^^
+ 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
+ 6 | |   
+ 7 | `-> </body>
+ 8 |     </html>
    `----
