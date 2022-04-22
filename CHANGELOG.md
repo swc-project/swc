@@ -11,6 +11,9 @@
 - **(es)** Fix CI (#4385) ([805238a](https://github.com/swc-project/swc/commit/805238ae303b9c3e688c729b6863e0d5745f1949))
 
 
+- **(es/codegen)** Allow non-ascii character in more places (#4394) ([139ac24](https://github.com/swc-project/swc/commit/139ac24c4636ff72f37a215a578871ac2f4a9f5d))
+
+
 - **(es/minifier)** Don't drop labels if required (#4370) ([922299a](https://github.com/swc-project/swc/commit/922299a4907d9ce8082c5db2a9dc435abe507ca6))
 
 
@@ -21,6 +24,12 @@
 
 
 - **(plugin)** Align deps for the plugin (#4384) ([46e88a3](https://github.com/swc-project/swc/commit/46e88a303fd62378139c112839006364bcc8726c))
+
+### Features
+
+
+
+- **(es/minifier)** Improve handling of switches (#4260) ([8cf3ddd](https://github.com/swc-project/swc/commit/8cf3ddda6cd41d9dd0eddab9bd6e869753e1f0f8))
 
 ### Miscellaneous Tasks
 - **general**: Fix wasm publish script ([234e380](https://github.com/swc-project/swc/commit/234e38058071f1d91e899ba7d16f37f3e3a69334))- **general**: Fix CI ([11012d0](https://github.com/swc-project/swc/commit/11012d07e56895369f016eb7e6c7cc9261398250))- **general**: Fix CI, really ([000e31b](https://github.com/swc-project/swc/commit/000e31b3cdd44430e6fc9957bb496577294ac218))
