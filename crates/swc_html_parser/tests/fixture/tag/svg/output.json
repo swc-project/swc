@@ -519,7 +519,7 @@
                 "end": 0,
                 "ctxt": 0
               },
-              "namespace": null,
+              "namespace": "http://www.w3.org/2000/xmlns/",
               "prefix": null,
               "name": "xmlns",
               "value": "http://www.w3.org/2000/svg"
@@ -915,7 +915,7 @@
                             "end": 0,
                             "ctxt": 0
                           },
-                          "namespace": null,
+                          "namespace": "http://www.w3.org/2000/xmlns/",
                           "prefix": null,
                           "name": "xmlns",
                           "value": "http://www.w3.org/2000/svg"
@@ -1380,7 +1380,7 @@
                                         "end": 0,
                                         "ctxt": 0
                                       },
-                                      "namespace": null,
+                                      "namespace": "http://www.w3.org/2000/xmlns/",
                                       "prefix": null,
                                       "name": "xmlns",
                                       "value": "http://www.w3.org/2000/svg"
@@ -1470,7 +1470,7 @@
                                             "end": 0,
                                             "ctxt": 0
                                           },
-                                          "namespace": null,
+                                          "namespace": "http://www.w3.org/2000/xmlns/",
                                           "prefix": null,
                                           "name": "xmlns",
                                           "value": "http://www.w3.org/2000/svg"
@@ -1482,9 +1482,9 @@
                                             "end": 0,
                                             "ctxt": 0
                                           },
-                                          "namespace": null,
-                                          "prefix": null,
-                                          "name": "xmlns:xlink",
+                                          "namespace": "http://www.w3.org/2000/xmlns/",
+                                          "prefix": "xmlns",
+                                          "name": "xlink",
                                           "value": "http://www.w3.org/1999/xlink"
                                         },
                                         {
@@ -1646,7 +1646,7 @@
                                                 "end": 0,
                                                 "ctxt": 0
                                               },
-                                              "namespace": null,
+                                              "namespace": "http://www.w3.org/2000/xmlns/",
                                               "prefix": null,
                                               "name": "xmlns",
                                               "value": "http://www.w3.org/2000/svg"
@@ -1805,7 +1805,7 @@
                                                     "end": 0,
                                                     "ctxt": 0
                                                   },
-                                                  "namespace": null,
+                                                  "namespace": "http://www.w3.org/2000/xmlns/",
                                                   "prefix": null,
                                                   "name": "xmlns",
                                                   "value": "http://www.w3.org/2000/svg"

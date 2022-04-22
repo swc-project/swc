@@ -4,7 +4,6 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -28,6 +27,11 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
     pub scripting_enabled: bool,
+}
+
+enum AdjustAttributes {
+    MathML,
+    Svg,
 }
 
 #[derive(Debug, Clone)]
@@ -646,7 +650,7 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = create_node_for_element(Element {
+                        let element = Node::new(Data::Element(Element {
                             span: span!(self, token_and_info.span.lo),
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
@@ -662,7 +666,7 @@ where
                                 .collect(),
                             children: vec![],
                             content: None,
-                        });
+                        }));
 
                         self.open_elements_stack.push(element.clone());
 
@@ -990,11 +994,12 @@ where
                         let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None);
-                        let node = create_node_for_element(create_element_for_token(
+                        let node = Node::new(Data::Element(self.create_element_for_token(
                             token_and_info.token.clone(),
                             Span::new(token_and_info.span.lo, last_pos, Default::default()),
                             Some(Namespace::HTML),
-                        )?);
+                            None,
+                        )));
 
                         // Skip script handling
 
@@ -3094,9 +3099,11 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.adjust_math_ml_attributes(token_and_info);
-                        self.adjust_foreign_attributes_for_the_token(token_and_info);
-                        self.insert_foreign_element(token_and_info, Namespace::MATHML)?;
+                        self.insert_foreign_element(
+                            token_and_info,
+                            Namespace::SVG,
+                            Some(AdjustAttributes::MathML),
+                        )?;
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3124,9 +3131,11 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.adjust_svg_attributes(token_and_info);
-                        self.adjust_foreign_attributes_for_the_token(token_and_info);
-                        self.insert_foreign_element(token_and_info, Namespace::SVG)?;
+                        self.insert_foreign_element(
+                            token_and_info,
+                            Namespace::SVG,
+                            Some(AdjustAttributes::Svg),
+                        )?;
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -5462,32 +5471,13 @@ where
         Ok(())
     }
 
-    fn adjust_attributes<F>(&mut self, token_and_info: &mut TokenAndInfo, mut map: F)
-    where
-        F: FnMut(JsWord) -> Option<JsWord>,
-    {
-        let attributes = match &mut token_and_info.token {
-            Token::StartTag { attributes, .. } => attributes,
-            _ => {
-                unreachable!();
-            }
-        };
-
-        for &mut AttributeToken { ref mut name, .. } in attributes {
-            if let Some(replacement) = map(name.clone()) {
-                *name = replacement;
-            }
-        }
-    }
-
     // When the steps below require the user agent to adjust MathML attributes for a
     // token, then, if the token has an attribute named definitionurl, change its
     // name to definitionURL (note the case difference).
-    fn adjust_math_ml_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
-        self.adjust_attributes(token_and_info, |attribute| match &*attribute {
-            "definitionurl" => Some("definitionURL".into()),
-            _ => None,
-        });
+    fn adjust_math_ml_attribute(&self, attribute: &mut Attribute) {
+        if &*attribute.name == "definitionurl" {
+            attribute.name = "definitionURL".into();
+        }
     }
 
     // When the steps below require the user agent to adjust SVG attributes for a
@@ -5555,68 +5545,70 @@ where
     // xchannelselector	        xChannelSelector
     // ychannelselector	        yChannelSelector
     // zoomandpan	            zoomAndPan
-    fn adjust_svg_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
-        self.adjust_attributes(token_and_info, |attribute| match &*attribute {
-            "attributename" => Some("attributeName".into()),
-            "attributetype" => Some("attributeType".into()),
-            "basefrequency" => Some("baseFrequency".into()),
-            "baseprofile" => Some("baseProfile".into()),
-            "calcmode" => Some("calcMode".into()),
-            "clippathunits" => Some("clipPathUnits".into()),
-            "diffuseconstant" => Some("diffuseConstant".into()),
-            "edgemode" => Some("edgeMode".into()),
-            "filterunits" => Some("filterUnits".into()),
-            "glyphref" => Some("glyphRef".into()),
-            "gradienttransform" => Some("gradientTransform".into()),
-            "gradientunits" => Some("gradientUnits".into()),
-            "kernelmatrix" => Some("kernelMatrix".into()),
-            "kernelunitlength" => Some("kernelUnitLength".into()),
-            "keypoints" => Some("keyPoints".into()),
-            "keysplines" => Some("keySplines".into()),
-            "keytimes" => Some("keyTimes".into()),
-            "lengthadjust" => Some("lengthAdjust".into()),
-            "limitingconeangle" => Some("limitingConeAngle".into()),
-            "markerheight" => Some("markerHeight".into()),
-            "markerunits" => Some("markerUnits".into()),
-            "markerwidth" => Some("markerWidth".into()),
-            "maskcontentunits" => Some("maskContentUnits".into()),
-            "maskunits" => Some("maskUnits".into()),
-            "numoctaves" => Some("numOctaves".into()),
-            "pathlength" => Some("pathLength".into()),
-            "patterncontentunits" => Some("patternContentUnits".into()),
-            "patterntransform" => Some("patternTransform".into()),
-            "patternunits" => Some("patternUnits".into()),
-            "pointsatx" => Some("pointsAtX".into()),
-            "pointsaty" => Some("pointsAtY".into()),
-            "pointsatz" => Some("pointsAtZ".into()),
-            "preservealpha" => Some("preserveAlpha".into()),
-            "preserveaspectratio" => Some("preserveAspectRatio".into()),
-            "primitiveunits" => Some("primitiveUnits".into()),
-            "refx" => Some("refX".into()),
-            "refy" => Some("refY".into()),
-            "repeatcount" => Some("repeatCount".into()),
-            "repeatdur" => Some("repeatDur".into()),
-            "requiredextensions" => Some("requiredExtensions".into()),
-            "requiredfeatures" => Some("requiredFeatures".into()),
-            "specularconstant" => Some("specularConstant".into()),
-            "specularexponent" => Some("specularExponent".into()),
-            "spreadmethod" => Some("spreadMethod".into()),
-            "startoffset" => Some("startOffset".into()),
-            "stddeviation" => Some("stdDeviation".into()),
-            "stitchtiles" => Some("stitchTiles".into()),
-            "surfacescale" => Some("surfaceScale".into()),
-            "systemlanguage" => Some("systemLanguage".into()),
-            "tablevalues" => Some("tableValues".into()),
-            "targetx" => Some("targetX".into()),
-            "targety" => Some("targetY".into()),
-            "textlength" => Some("textLength".into()),
-            "viewbox" => Some("viewBox".into()),
-            "viewtarget" => Some("viewTarget".into()),
-            "xchannelselector" => Some("xChannelSelector".into()),
-            "ychannelselector" => Some("yChannelSelector".into()),
-            "zoomandpan" => Some("zoomAndPan".into()),
-            _ => None,
-        });
+    fn adjust_svg_attribute(&self, attribute: &mut Attribute) {
+        match &*attribute.name {
+            "attributename" => {
+                attribute.name = "attributeName".into();
+            }
+            "attributetype" => attribute.name = "attributeType".into(),
+            "basefrequency" => attribute.name = "baseFrequency".into(),
+            "baseprofile" => attribute.name = "baseProfile".into(),
+            "calcmode" => attribute.name = "calcMode".into(),
+            "clippathunits" => attribute.name = "clipPathUnits".into(),
+            "diffuseconstant" => attribute.name = "diffuseConstant".into(),
+            "edgemode" => attribute.name = "edgeMode".into(),
+            "filterunits" => attribute.name = "filterUnits".into(),
+            "glyphref" => attribute.name = "glyphRef".into(),
+            "gradienttransform" => attribute.name = "gradientTransform".into(),
+            "gradientunits" => attribute.name = "gradientUnits".into(),
+            "kernelmatrix" => attribute.name = "kernelMatrix".into(),
+            "kernelunitlength" => attribute.name = "kernelUnitLength".into(),
+            "keypoints" => attribute.name = "keyPoints".into(),
+            "keysplines" => attribute.name = "keySplines".into(),
+            "keytimes" => attribute.name = "keyTimes".into(),
+            "lengthadjust" => attribute.name = "lengthAdjust".into(),
+            "limitingconeangle" => attribute.name = "limitingConeAngle".into(),
+            "markerheight" => attribute.name = "markerHeight".into(),
+            "markerunits" => attribute.name = "markerUnits".into(),
+            "markerwidth" => attribute.name = "markerWidth".into(),
+            "maskcontentunits" => attribute.name = "maskContentUnits".into(),
+            "maskunits" => attribute.name = "maskUnits".into(),
+            "numoctaves" => attribute.name = "numOctaves".into(),
+            "pathlength" => attribute.name = "pathLength".into(),
+            "patterncontentunits" => attribute.name = "patternContentUnits".into(),
+            "patterntransform" => attribute.name = "patternTransform".into(),
+            "patternunits" => attribute.name = "patternUnits".into(),
+            "pointsatx" => attribute.name = "pointsAtX".into(),
+            "pointsaty" => attribute.name = "pointsAtY".into(),
+            "pointsatz" => attribute.name = "pointsAtZ".into(),
+            "preservealpha" => attribute.name = "preserveAlpha".into(),
+            "preserveaspectratio" => attribute.name = "preserveAspectRatio".into(),
+            "primitiveunits" => attribute.name = "primitiveUnits".into(),
+            "refx" => attribute.name = "refX".into(),
+            "refy" => attribute.name = "refY".into(),
+            "repeatcount" => attribute.name = "repeatCount".into(),
+            "repeatdur" => attribute.name = "repeatDur".into(),
+            "requiredextensions" => attribute.name = "requiredExtensions".into(),
+            "requiredfeatures" => attribute.name = "requiredFeatures".into(),
+            "specularconstant" => attribute.name = "specularConstant".into(),
+            "specularexponent" => attribute.name = "specularExponent".into(),
+            "spreadmethod" => attribute.name = "spreadMethod".into(),
+            "startoffset" => attribute.name = "startOffset".into(),
+            "stddeviation" => attribute.name = "stdDeviation".into(),
+            "stitchtiles" => attribute.name = "stitchTiles".into(),
+            "surfacescale" => attribute.name = "surfaceScale".into(),
+            "systemlanguage" => attribute.name = "systemLanguage".into(),
+            "tablevalues" => attribute.name = "tableValues".into(),
+            "targetx" => attribute.name = "targetX".into(),
+            "targety" => attribute.name = "targetY".into(),
+            "textlength" => attribute.name = "textLength".into(),
+            "viewbox" => attribute.name = "viewBox".into(),
+            "viewtarget" => attribute.name = "viewTarget".into(),
+            "xchannelselector" => attribute.name = "xChannelSelector".into(),
+            "ychannelselector" => attribute.name = "yChannelSelector".into(),
+            "zoomandpan" => attribute.name = "zoomAndPan".into(),
+            _ => {}
+        }
     }
 
     // When the steps below require the user agent to adjust foreign attributes for
@@ -5642,37 +5634,126 @@ where
     // xml:space	    xml	    space	    XML namespace
     // xmlns	        (none)	xmlns	    XMLNS namespace
     // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
-    fn adjust_foreign_attributes_for_the_token(&mut self, token_and_info: &mut TokenAndInfo) {
-        let attributes = match &mut token_and_info.token {
-            Token::StartTag { attributes, .. } => attributes,
+    fn adjust_foreign_attribute(&self, attribute: &mut Attribute) {
+        match &*attribute.name {
+            "xlink:actuate" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "actuate".into();
+            }
+            "xlink:arcrole" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "arcrole".into();
+            }
+            "xlink:href" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "href".into();
+            }
+            "xlink:role" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "role".into();
+            }
+            "xlink:show" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "show".into();
+            }
+            "xlink:title" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "title".into();
+            }
+            "xlink:type" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "type".into();
+            }
+            "xml:lang" => {
+                attribute.namespace = Some(Namespace::XML);
+                attribute.prefix = Some("xml".into());
+                attribute.name = "lang".into();
+            }
+            "xml:space" => {
+                attribute.namespace = Some(Namespace::XML);
+                attribute.prefix = Some("xml".into());
+                attribute.name = "space".into();
+            }
+            "xmlns" => {
+                attribute.namespace = Some(Namespace::XMLNS);
+                attribute.prefix = None;
+                attribute.name = "xmlns".into();
+            }
+            "xmlns:xlink" => {
+                attribute.namespace = Some(Namespace::XMLNS);
+                attribute.prefix = Some("xmlns".into());
+                attribute.name = "xlink".into();
+            }
+            _ => {}
+        }
+    }
+
+    fn create_element_for_token(
+        &self,
+        token: Token,
+        span: Span,
+        namespace: Option<Namespace>,
+        adjust_attributes: Option<AdjustAttributes>,
+    ) -> Element {
+        match token {
+            Token::StartTag {
+                tag_name,
+                attributes,
+                ..
+            }
+            | Token::EndTag {
+                tag_name,
+                attributes,
+                ..
+            } => {
+                // TODO span
+                let attributes = attributes
+                    .into_iter()
+                    .map(|attribute_token| {
+                        let mut attribute = Attribute {
+                            span: Default::default(),
+                            namespace: None,
+                            prefix: None,
+                            name: attribute_token.name.clone(),
+                            value: attribute_token.value,
+                        };
+
+                        match adjust_attributes {
+                            Some(AdjustAttributes::MathML) => {
+                                self.adjust_math_ml_attribute(&mut attribute);
+                                self.adjust_foreign_attribute(&mut attribute);
+                            }
+                            Some(AdjustAttributes::Svg) => {
+                                self.adjust_svg_attribute(&mut attribute);
+                                self.adjust_foreign_attribute(&mut attribute);
+                            }
+                            None => {}
+                        }
+
+                        attribute
+                    })
+                    .collect();
+
+                Element {
+                    span,
+                    tag_name,
+                    namespace: namespace.unwrap(),
+                    attributes,
+                    children: vec![],
+                    content: None,
+                }
+            }
             _ => {
                 unreachable!();
             }
-        };
-
-        // for &mut AttributeToken { name, .. } in &mut attributes.into_iter() {
-        //     // match name {
-        //     // "xlink:actuate" => { Some((Some("xlink".into(),
-        // "actuate".into(),     // Namespace::XLINK)) },
-        // "xlink:arcrole" =>     // {Some((Some("xlink".into(),
-        // "arcrole".into(), Namespace::XLINK))     // }, "xlink:href"
-        // => { Some((Some("xlink".into(),     // "href".into(),
-        // Namespace::XLINK)) }, "xlink:role" =>     // { Some((Some("
-        // xlink".into(), "role".into(), Namespace::XLINK)) },     // "xlink:
-        // show" => { Some((Some("xlink".into(), "show".into(),     //
-        // Namespace: :XLINK)) }, "xlink:title" => {     //
-        // Some((Some("xlink". into(), "title".into(),
-        // Namespace::XLINK))     // }, "xlink: type" => {
-        // Some((Some("xlink".into(),"type".into(),     // Namespace:
-        // :XLINK)) }, "xml:lang" => { Some((Some("xml".into(),     // "lang"
-        // .into(), Namespace::XML)) }, "xml:space" => {     // Some((Some("
-        // xml".into(), "space".into(), Namespace::XML)) },     // "xmlns"
-        // => { Some((None, "xmlns".into(), Namespace::XMLNS)) },     //
-        // "xmlns:xlink" => { Some(Some("xmlns".into(), "xlink".into(),
-        //     // Namespace::XMLNS)) },
-        //     //    _ => {}
-        //     // }
-        // }
+        }
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -6507,13 +6588,14 @@ where
     }
 
     fn insert_html_element(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<RcNode> {
-        self.insert_foreign_element(token_and_info, Namespace::HTML)
+        self.insert_foreign_element(token_and_info, Namespace::HTML, None)
     }
 
     fn insert_foreign_element(
         &mut self,
         token_and_info: &mut TokenAndInfo,
         namespace: Namespace,
+        adjust_attributes: Option<AdjustAttributes>,
     ) -> PResult<RcNode> {
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
@@ -6532,12 +6614,13 @@ where
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
         let last_pos = self.input.last_pos()?;
-        let element = create_element_for_token(
+        let element = self.create_element_for_token(
             token_and_info.token.clone(),
             Span::new(token_and_info.span.lo, last_pos, Default::default()),
             Some(namespace),
-        )?;
-        let node = create_node_for_element(element);
+            adjust_attributes,
+        );
+        let node = Node::new(Data::Element(element));
 
         // If it is possible to insert an element at the adjusted insertion
         // location, then insert the newly created element at the adjusted
@@ -6633,56 +6716,9 @@ where
     }
 }
 
-fn create_node_for_element(element: Element) -> RcNode {
-    Node::new(Data::Element(element))
-}
-
 // TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
-}
-
-fn create_element_for_token(
-    token: Token,
-    span: Span,
-    namespace: Option<Namespace>,
-) -> PResult<Element> {
-    let element = match token {
-        Token::StartTag {
-            tag_name,
-            attributes,
-            ..
-        }
-        | Token::EndTag {
-            tag_name,
-            attributes,
-            ..
-        } => {
-            Element {
-                span,
-                tag_name,
-                namespace: namespace.unwrap(),
-                // TODO span
-                attributes: attributes
-                    .into_iter()
-                    .map(|attribute| Attribute {
-                        span: Default::default(),
-                        namespace: None,
-                        prefix: None,
-                        name: attribute.name.clone(),
-                        value: attribute.value,
-                    })
-                    .collect(),
-                children: vec![],
-                content: None,
-            }
-        }
-        _ => {
-            unreachable!();
-        }
-    };
-
-    Ok(element)
 }
 
 impl<I> Parse<Document> for Parser<I>
