@@ -154,7 +154,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
         match *left {
             // This is invalid syntax.
-            Expr::Unary { .. } if op == op!("**") => {
+            Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
                 // Correct implementation would be returning Ok(left) and
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.

@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.170"
+version = "1.2.171"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3152,7 +3152,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.76.0"
+version = "0.76.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3168,7 +3168,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.105.2"
+version = "0.105.3"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3305,7 +3305,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.3"
+version = "0.102.4"
 dependencies = [
  "criterion",
  "either",

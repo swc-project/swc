@@ -320,7 +320,9 @@ impl SyntaxError {
             SyntaxError::IllegalLanguageModeDirective => {
                 "Illegal 'use strict' directive in function with non-simple parameter list.".into()
             }
-            SyntaxError::UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
+            SyntaxError::UnaryInExp { .. } => {
+                "'**' cannot be applied to unary/await expression.".into()
+            }
             SyntaxError::Hash => "Unexpected token '#'".into(),
             SyntaxError::LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             SyntaxError::LineBreakBeforeArrow => {
