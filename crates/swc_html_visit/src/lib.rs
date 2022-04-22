@@ -61,6 +61,8 @@ define!({
 
     pub struct Attribute {
         pub span: Span,
+        pub namespace: Option<Namespace>,
+        pub prefix: Option<JsWord>,
         pub name: JsWord,
         pub value: Option<JsWord>,
     }

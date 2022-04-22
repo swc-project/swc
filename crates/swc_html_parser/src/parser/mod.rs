@@ -654,6 +654,8 @@ where
                                 .iter()
                                 .map(|attribute| Attribute {
                                     span: Default::default(),
+                                    namespace: None,
+                                    prefix: None,
                                     name: attribute.name.clone(),
                                     value: attribute.value.clone(),
                                 })
@@ -5478,6 +5480,9 @@ where
         }
     }
 
+    // When the steps below require the user agent to adjust MathML attributes for a
+    // token, then, if the token has an attribute named definitionurl, change its
+    // name to definitionURL (note the case difference).
     fn adjust_math_ml_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
         self.adjust_attributes(token_and_info, |attribute| match &*attribute {
             "definitionurl" => Some("definitionURL".into()),
@@ -5485,6 +5490,71 @@ where
         });
     }
 
+    // When the steps below require the user agent to adjust SVG attributes for a
+    // token, then, for each attribute on the token whose attribute name is one of
+    // the ones in the first column of the following table, change the attribute's
+    // name to the name given in the corresponding cell in the second column. (This
+    // fixes the case of SVG attributes that are not all lowercase.)
+    //
+    // Attribute name on token	Attribute name on element
+    // attributename	        attributeName
+    // attributetype	        attributeType
+    // basefrequency	        baseFrequency
+    // baseprofile	            baseProfile
+    // calcmode	                calcMode
+    // clippathunits	        clipPathUnits
+    // diffuseconstant	        diffuseConstant
+    // edgemode	                edgeMode
+    // filterunits	            filterUnits
+    // glyphref	                glyphRef
+    // gradienttransform	    gradientTransform
+    // gradientunits	        gradientUnits
+    // kernelmatrix	            kernelMatrix
+    // kernelunitlength	        kernelUnitLength
+    // keypoints	            keyPoints
+    // keysplines	            keySplines
+    // keytimes	                keyTimes
+    // lengthadjust	            lengthAdjust
+    // limitingconeangle	    limitingConeAngle
+    // markerheight	            markerHeight
+    // markerunits	            markerUnits
+    // markerwidth	            markerWidth
+    // maskcontentunits	        maskContentUnits
+    // maskunits	            maskUnits
+    // numoctaves	            numOctaves
+    // pathlength	            pathLength
+    // patterncontentunits	    patternContentUnits
+    // patterntransform	        patternTransform
+    // patternunits	            patternUnits
+    // pointsatx	            pointsAtX
+    // pointsaty	            pointsAtY
+    // pointsatz	            pointsAtZ
+    // preservealpha	        preserveAlpha
+    // preserveaspectratio	    preserveAspectRatio
+    // primitiveunits	        primitiveUnits
+    // refx	                    refX
+    // refy	                    refY
+    // repeatcount	            repeatCount
+    // repeatdur	            repeatDur
+    // requiredextensions	    requiredExtensions
+    // requiredfeatures	        requiredFeatures
+    // specularconstant	        specularConstant
+    // specularexponent	        specularExponent
+    // spreadmethod	            spreadMethod
+    // startoffset	            startOffset
+    // stddeviation	            stdDeviation
+    // stitchtiles	            stitchTiles
+    // surfacescale	            surfaceScale
+    // systemlanguage	        systemLanguage
+    // tablevalues	            tableValues
+    // targetx	                targetX
+    // targety	                targetY
+    // textlength	            textLength
+    // viewbox	                viewBox
+    // viewtarget	            viewTarget
+    // xchannelselector	        xChannelSelector
+    // ychannelselector	        yChannelSelector
+    // zoomandpan	            zoomAndPan
     fn adjust_svg_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
         self.adjust_attributes(token_and_info, |attribute| match &*attribute {
             "attributename" => Some("attributeName".into()),
@@ -5549,7 +5619,61 @@ where
         });
     }
 
-    fn adjust_foreign_attributes_for_the_token(&mut self, _token_and_info: &mut TokenAndInfo) {}
+    // When the steps below require the user agent to adjust foreign attributes for
+    // a token, then, if any of the attributes on the token match the strings given
+    // in the first column of the following table, let the attribute be a namespaced
+    // attribute, with the prefix being the string given in the corresponding cell
+    // in the second column, the local name being the string given in the
+    // corresponding cell in the third column, and the namespace being the namespace
+    // given in the corresponding cell in the fourth column. (This fixes the use of
+    // namespaced attributes, in particular lang attributes in the XML namespace.)
+    //
+    //
+    // Attribute name	Prefix	Local name	Namespace
+    //
+    // xlink:actuate	xlink	actuate	    XLink namespace
+    // xlink:arcrole	xlink	arcrole	    XLink namespace
+    // xlink:href	    xlink	href	    XLink namespace
+    // xlink:role	    xlink	role	    XLink namespace
+    // xlink:show	    xlink	show	    XLink namespace
+    // xlink:title	    xlink	title	    XLink namespace
+    // xlink:type	    xlink	type	    XLink namespace
+    // xml:lang	        xml	    lang	    XML namespace
+    // xml:space	    xml	    space	    XML namespace
+    // xmlns	        (none)	xmlns	    XMLNS namespace
+    // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
+    fn adjust_foreign_attributes_for_the_token(&mut self, token_and_info: &mut TokenAndInfo) {
+        let attributes = match &mut token_and_info.token {
+            Token::StartTag { attributes, .. } => attributes,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // for &mut AttributeToken { name, .. } in &mut attributes.into_iter() {
+        //     // match name {
+        //     // "xlink:actuate" => { Some((Some("xlink".into(),
+        // "actuate".into(),     // Namespace::XLINK)) },
+        // "xlink:arcrole" =>     // {Some((Some("xlink".into(),
+        // "arcrole".into(), Namespace::XLINK))     // }, "xlink:href"
+        // => { Some((Some("xlink".into(),     // "href".into(),
+        // Namespace::XLINK)) }, "xlink:role" =>     // { Some((Some("
+        // xlink".into(), "role".into(), Namespace::XLINK)) },     // "xlink:
+        // show" => { Some((Some("xlink".into(), "show".into(),     //
+        // Namespace: :XLINK)) }, "xlink:title" => {     //
+        // Some((Some("xlink". into(), "title".into(),
+        // Namespace::XLINK))     // }, "xlink: type" => {
+        // Some((Some("xlink".into(),"type".into(),     // Namespace:
+        // :XLINK)) }, "xml:lang" => { Some((Some("xml".into(),     // "lang"
+        // .into(), Namespace::XML)) }, "xml:space" => {     // Some((Some("
+        // xml".into(), "space".into(), Namespace::XML)) },     // "xmlns"
+        // => { Some((None, "xmlns".into(), Namespace::XMLNS)) },     //
+        // "xmlns:xlink" => { Some(Some("xmlns".into(), "xlink".into(),
+        //     // Namespace::XMLNS)) },
+        //     //    _ => {}
+        //     // }
+        // }
+    }
 
     // The adoption agency algorithm, which takes as its only argument a token token
     // for which the algorithm is being run, consists of the following steps:
@@ -6543,6 +6667,8 @@ fn create_element_for_token(
                     .into_iter()
                     .map(|attribute| Attribute {
                         span: Default::default(),
+                        namespace: None,
+                        prefix: None,
                         name: attribute.name.clone(),
                         value: attribute.value,
                     })

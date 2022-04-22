@@ -79,6 +79,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "title",
                   "value": "I'm a header"
                 }
@@ -122,6 +124,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "title",
                   "value": "I'm a tooltip"
                 }

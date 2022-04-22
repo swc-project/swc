@@ -35,6 +35,8 @@
             "end": 0,
             "ctxt": 0
           },
+          "namespace": null,
+          "prefix": null,
           "name": "lang",
           "value": "en"
         }
@@ -77,6 +79,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "charset",
                   "value": "UTF-8"
                 }
@@ -110,6 +114,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "name",
                   "value": "viewport"
                 },
@@ -120,6 +126,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "content",
                   "value": "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
                 }
@@ -153,6 +161,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "http-equiv",
                   "value": "X-UA-Compatible"
                 },
@@ -163,6 +173,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "content",
                   "value": "ie=edge"
                 }

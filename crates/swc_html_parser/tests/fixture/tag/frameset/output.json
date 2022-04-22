@@ -66,6 +66,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "http-equiv",
                   "value": "Content-Type"
                 },
@@ -76,6 +78,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "content",
                   "value": "text/html; charset=utf-8"
                 }
@@ -153,6 +157,8 @@
                 "end": 0,
                 "ctxt": 0
               },
+              "namespace": null,
+              "prefix": null,
               "name": "rows",
               "value": "80,*"
             },
@@ -163,6 +169,8 @@
                 "end": 0,
                 "ctxt": 0
               },
+              "namespace": null,
+              "prefix": null,
               "name": "cols",
               "value": "*"
             }
@@ -194,6 +202,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "src",
                   "value": "top.html"
                 },
@@ -204,6 +214,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "name",
                   "value": "topFrame"
                 },
@@ -214,6 +226,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "scrolling",
                   "value": "no"
                 },
@@ -224,6 +238,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "noresize",
                   "value": null
                 }
@@ -257,6 +273,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "cols",
                   "value": "80,*"
                 }
@@ -288,6 +306,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "src",
                       "value": "left.html"
                     },
@@ -298,6 +318,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "name",
                       "value": "leftFrame"
                     },
@@ -308,6 +330,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "scrolling",
                       "value": "no"
                     },
@@ -318,6 +342,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "noresize",
                       "value": null
                     }
@@ -351,6 +377,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "src",
                       "value": "main.html"
                     },
@@ -361,6 +389,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "name",
                       "value": "mainFrame"
                     }
