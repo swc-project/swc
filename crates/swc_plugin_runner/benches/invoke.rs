@@ -10,7 +10,7 @@ use swc_common::{plugin::Serialized, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
 
-static SOURCE: &str = include_str!("./assets/input.js   ");
+static SOURCE: &str = include_str!("./assets/input.js");
 
 fn plugin_group(c: &mut Criterion) {
     let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
