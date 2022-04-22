@@ -1,14 +1,11 @@
 use std::{env, path::PathBuf, process::Command, sync::Arc};
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::{try_with_handler, HandlerOpts};
 use swc_common::{errors::ColorConfig, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::EsVersion;
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-
-    swc::Compiler::new(cm)
 }
 
 fn plugin_group(c: &mut Criterion) {

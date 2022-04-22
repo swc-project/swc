@@ -3914,6 +3914,7 @@ name = "swc_plugin_runner"
 version = "0.53.1"
 dependencies = [
  "anyhow",
+ "criterion",
  "once_cell",
  "parking_lot",
  "serde",
