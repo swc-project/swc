@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
+
+## [1.2.171] - 2022-04-22
+
 ### Bug Fixes
 
 
