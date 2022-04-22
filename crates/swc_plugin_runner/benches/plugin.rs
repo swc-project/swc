@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{env, path::PathBuf, process::Command, sync::Arc};
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::{try_with_handler, HandlerOpts};
@@ -12,6 +12,25 @@ fn mk() -> swc::Compiler {
 }
 
 fn plugin_group(c: &mut Criterion) {
+    {
+        let mut cmd = Command::new("cargo");
+        let path = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
+
+        cmd.current_dir(
+            path.join("..")
+                .join("..")
+                .join("tests")
+                .join("rust-plugins")
+                .join("swc_internal_plugin"),
+        );
+        cmd.arg("build")
+            .arg("--release")
+            .arg("--target=wasm32-unknown-unknown");
+
+        let status = cmd.status().unwrap();
+        assert!(status.success());
+    }
+
     c.bench_function("es/plugin/with-transform/1/cached", |b| {
         bench_transform(b, true)
     });
@@ -36,7 +55,7 @@ fn bench_transform(b: &mut Bencher, use_cache: bool) {
                 skip_filename: true,
             },
             |handler| {
-                c.process_js_file(
+                let output = c.process_js_file(
                     fm.clone(),
                     handler,
                     &swc::config::Options {
@@ -44,7 +63,9 @@ fn bench_transform(b: &mut Bencher, use_cache: bool) {
                             jsc: swc::config::JscConfig {
                                 target: Some(EsVersion::latest()),
                                 experimental: swc::config::JscExperimental {
-                                    plugins: Some(from_json(r###"[["internal_plugin", {}]]"###)),
+                                    plugins: Some(from_json(
+                                        r###"[["fuck_internal_plugin", {}]]"###,
+                                    )),
                                     cache_root: if use_cache { Some(".swc".into()) } else { None },
                                     ..Default::default()
                                 },
@@ -54,7 +75,11 @@ fn bench_transform(b: &mut Bencher, use_cache: bool) {
                         },
                         ..Default::default()
                     },
-                )
+                )?;
+
+                dbg!(&output);
+
+                Ok(output)
             },
         )
         .unwrap();
