@@ -1,3 +1,5 @@
+extern crate swc_node_base;
+
 use std::{
     env,
     path::{Path, PathBuf},
