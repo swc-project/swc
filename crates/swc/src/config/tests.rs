@@ -1,16 +1,15 @@
 use serde_json;
 
-use super::Rc;
-use crate::Options;
+use crate::{parse_swcrc, Options};
 
 #[test]
 fn object() {
-    let _: Rc = serde_json::from_str(include_str!("object.json")).expect("failed to parse");
+    let _ = parse_swcrc(include_str!("object.json")).expect("failed to parse");
 }
 
 #[test]
 fn array() {
-    let _: Rc = serde_json::from_str(include_str!("array.json")).expect("failed to parse");
+    let _ = parse_swcrc(include_str!("array.json")).expect("failed to parse");
 }
 
 #[test]
