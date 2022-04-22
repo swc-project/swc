@@ -6,9 +6,11 @@ use std::{
 };
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use once_cell::sync::Lazy;
 use swc_common::{plugin::Serialized, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
+use swc_plugin_runner::cache::PluginModuleCache;
 
 static SOURCE: &str = include_str!("./assets/input.js");
 
@@ -32,15 +34,12 @@ fn plugin_group(c: &mut Criterion) {
         assert!(status.success());
     }
 
-    c.bench_function("es/plugin/with-transform/1/cached", |b| {
-        bench_transform(b, &plugin_dir, true)
-    });
-    c.bench_function("es/plugin/with-transform/1/no-cache", |b| {
-        bench_transform(b, &plugin_dir, false)
-    });
+    c.bench_function("es/plugin/invoke/1", |b| bench_transform(b, &plugin_dir));
 }
 
-fn bench_transform(b: &mut Bencher, plugin_dir: &Path, use_cache: bool) {
+fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
+    let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+
     b.iter(|| {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -64,7 +63,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path, use_cache: bool) {
                 .join("wasm32-unknown-unknown")
                 .join("release")
                 .join("swc_internal_plugin.wasm"),
-            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+            &cache,
             program_ser,
             Serialized::serialize(&String::from("{}")).unwrap(),
             Serialized::serialize(&String::from("{}")).unwrap(),
