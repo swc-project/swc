@@ -1,25 +1,29 @@
-use std::{env, path::PathBuf, process::Command, sync::Arc};
+use std::{
+    env,
+    path::{Path, PathBuf},
+    process::Command,
+    sync::Arc,
+};
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{errors::ColorConfig, FileName, FilePathMapping, SourceMap};
+use swc_common::{plugin::Serialized, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::parse_file_as_program;
 
-fn mk() -> swc::Compiler {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-}
+static SOURCE: &str = include_str!("./assets/input.js   ");
 
 fn plugin_group(c: &mut Criterion) {
+    let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+        .join("..")
+        .join("..")
+        .join("tests")
+        .join("rust-plugins")
+        .join("swc_internal_plugin");
+
     {
         let mut cmd = Command::new("cargo");
-        let path = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
 
-        cmd.current_dir(
-            path.join("..")
-                .join("..")
-                .join("tests")
-                .join("rust-plugins")
-                .join("swc_internal_plugin"),
-        );
+        cmd.current_dir(&plugin_dir);
         cmd.arg("build")
             .arg("--release")
             .arg("--target=wasm32-unknown-unknown");
@@ -29,55 +33,43 @@ fn plugin_group(c: &mut Criterion) {
     }
 
     c.bench_function("es/plugin/with-transform/1/cached", |b| {
-        bench_transform(b, true)
+        bench_transform(b, &plugin_dir, true)
     });
     c.bench_function("es/plugin/with-transform/1/no-cache", |b| {
-        bench_transform(b, false)
+        bench_transform(b, &plugin_dir, false)
     });
 }
 
-fn bench_transform(b: &mut Bencher, use_cache: bool) {
-    static SOURCE: &str = include_str!("assets/Observable.ts");
-
+fn bench_transform(b: &mut Bencher, plugin_dir: &Path, use_cache: bool) {
     b.iter(|| {
-        let c = mk();
+        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-        let fm =
-            c.cm.new_source_file(FileName::Real("src/test.ts".into()), SOURCE.to_string());
+        let fm = cm.new_source_file(FileName::Real("src/test.ts".into()), SOURCE.to_string());
 
-        let res = try_with_handler(
-            c.cm.clone(),
-            HandlerOpts {
-                color: ColorConfig::Never,
-                skip_filename: true,
-            },
-            |handler| {
-                let output = c.process_js_file(
-                    fm.clone(),
-                    handler,
-                    &swc::config::Options {
-                        config: swc::config::Config {
-                            jsc: swc::config::JscConfig {
-                                target: Some(EsVersion::latest()),
-                                experimental: swc::config::JscExperimental {
-                                    plugins: Some(from_json(
-                                        r###"[["fuck_internal_plugin", {}]]"###,
-                                    )),
-                                    cache_root: if use_cache { Some(".swc".into()) } else { None },
-                                    ..Default::default()
-                                },
-                                ..Default::default()
-                            },
-                            ..Default::default()
-                        },
-                        ..Default::default()
-                    },
-                )?;
+        let program = parse_file_as_program(
+            &fm,
+            Default::default(),
+            EsVersion::latest(),
+            None,
+            &mut vec![],
+        )
+        .unwrap();
 
-                dbg!(&output);
+        let program_ser = Serialized::serialize(&program).unwrap();
 
-                Ok(output)
-            },
+        let res = swc_plugin_runner::apply_transform_plugin(
+            "test",
+            &plugin_dir
+                .join("target")
+                .join("wasm32-unknown-unknown")
+                .join("release")
+                .join("swc_internal_plugin.wasm"),
+            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+            program_ser,
+            Serialized::serialize(&String::from("{}")).unwrap(),
+            Serialized::serialize(&String::from("{}")).unwrap(),
+            true,
+            &cm,
         )
         .unwrap();
 
@@ -87,10 +79,3 @@ fn bench_transform(b: &mut Bencher, use_cache: bool) {
 
 criterion_group!(benches, plugin_group);
 criterion_main!(benches);
-
-fn from_json<T>(json: &str) -> T
-where
-    T: serde::de::DeserializeOwned,
-{
-    serde_json::from_str(json).unwrap()
-}
