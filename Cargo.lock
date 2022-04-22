@@ -3752,7 +3752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3762,7 +3762,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3773,7 +3773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3799,7 +3799,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3815,7 +3815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
+
 ### Miscellaneous Tasks
 
 
