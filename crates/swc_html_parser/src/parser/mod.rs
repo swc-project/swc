@@ -1577,50 +1577,54 @@ where
                                 token_and_info,
                                 InsertionMode::InTemplate,
                             )?;
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.stopped = true;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.stopped = true;
                     }
                     // An end tag whose tag name is "body"
                     //
@@ -1639,50 +1643,54 @@ where
                         if !self.open_elements_stack.has_in_scope("body") {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.insertion_mode = InsertionMode::AfterBody;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.insertion_mode = InsertionMode::AfterBody;
                     }
                     // An end tag whose tag name is "html"
                     //
@@ -1703,51 +1711,55 @@ where
                         if !self.open_elements_stack.has_in_scope("body") {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.insertion_mode = InsertionMode::AfterBody;
-                            self.process_token(token_and_info, None)?;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.insertion_mode = InsertionMode::AfterBody;
+                        self.process_token(token_and_info, None)?;
                     }
                     // A start tag whose tag name is one of: "address", "article", "aside",
                     // "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset",
