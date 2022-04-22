@@ -20,6 +20,9 @@
 - **(es/minifier)** Preserve more labels (#4380) ([87859e3](https://github.com/swc-project/swc/commit/87859e373dd42857a52e5552a49e063c649b4607))
 
 
+- **(es/minifier)** Disable `conditionals` by default (#4391) ([375cc59](https://github.com/swc-project/swc/commit/375cc5975afffae27a9a7d5f1403ffd1328fdda1))
+
+
 - **(plugin)** Align deps to fix build (#4377) ([8419b60](https://github.com/swc-project/swc/commit/8419b604300695e57cb6b1191e9daf638c65c828))
 
 
