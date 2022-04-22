@@ -69,7 +69,7 @@
         var removeData, orig2, uuid = 0, runiqueId = /^ui-id-\d+$/;
         function focusable(element, isTabIndexNotNaN) {
             var map, mapName, img, nodeName = element.nodeName.toLowerCase();
-            return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName && element.href || isTabIndexNotNaN) && visible(element);
+            return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName ? element.href || isTabIndexNotNaN : isTabIndexNotNaN) && visible(element);
         }
         function visible(element) {
             return $.expr.filters.visible(element) && !$(element).parents().addBack().filter(function() {
@@ -336,7 +336,7 @@
                 }, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
             };
         }), constructor.prototype = $2.widget.extend(basePrototype, {
-            widgetEventPrefix: existingConstructor && basePrototype.widgetEventPrefix || name
+            widgetEventPrefix: existingConstructor ? basePrototype.widgetEventPrefix || name : name
         }, proxiedPrototype, {
             constructor: constructor,
             namespace: namespace,
@@ -1586,7 +1586,7 @@
                 ]);
                 return;
             }
-            if (!(!this._triggerPageBeforeChange(toPage, triggerData, settings) || (beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
+            if (this._triggerPageBeforeChange(toPage, triggerData, settings) && !((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
                 if (isPageTransitioning = !0, toPage[0] !== $15.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $15.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, url = settings.dataUrl && $15.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), pageUrl = url, $15.mobile.path.getFilePath(url), active = $15.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $15.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
                     isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $15.mobile.navigate.history.direct({
                         url: url
@@ -1679,7 +1679,10 @@
                     if ($lastVClicked = $(target), $.data(target, "mobile-button")) {
                         if (!getAjaxFormData($(target).closest("form"), !0)) return;
                         target.parentNode && (target = target.parentNode);
-                    } else if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash) || !$(target).jqmHijackable().length) return;
+                    } else {
+                        if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash)) return;
+                        if (!$(target).jqmHijackable().length) return;
+                    }
                     ~target.className.indexOf("ui-link-inherit") ? target.parentNode && (btnEls = $.data(target.parentNode, "buttonElements")) : btnEls = $.data(target, "buttonElements"), btnEls ? target = btnEls.outer : needClosest = !0, $btn = $(target), needClosest && ($btn = $btn.closest(".ui-btn")), $btn.length > 0 && !$btn.hasClass("ui-state-disabled") && ($.mobile.removeActiveLinkClass(!0), $.mobile.activeClickedLink = $btn, $.mobile.activeClickedLink.addClass($.mobile.activeBtnClass));
                 }
             }), $.mobile.document.bind("click", function(event) {

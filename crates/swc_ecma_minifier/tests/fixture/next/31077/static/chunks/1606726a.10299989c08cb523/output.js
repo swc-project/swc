@@ -57,7 +57,8 @@
                         if (1 != parent.nodeType || hasBlockDesc(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
                         off = domIndex(node) + (dir < 0 ? 0 : 1), node = parent;
                     } else {
-                        if (1 != node.nodeType || "false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
+                        if (1 != node.nodeType) return !1;
+                        if ("false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
                         off = dir < 0 ? nodeSize(node) : 0;
                     }
                 }
@@ -1264,7 +1265,8 @@
             }
             function selectVertically(view, dir, mods) {
                 var sel = view.state.selection;
-                if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1 || result1.mac && mods.indexOf("m") > -1) return !1;
+                if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1) return !1;
+                if (result1.mac && mods.indexOf("m") > -1) return !1;
                 var $from = sel.$from, $to = sel.$to;
                 if (!$from.parent.inlineContent || view.endOfTextblock(dir < 0 ? "up" : "down")) {
                     var next = moveSelectionBlock(view.state, dir);
@@ -1598,7 +1600,8 @@
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
                 if (added.indexOf(mut.target) > -1) return null;
                 var desc = this.view.docView.nearestDesc(mut.target);
-                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
+                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style"))) return null;
+                if (!desc || desc.ignoreMutation(mut)) return null;
                 if ("childList" == mut.type) {
                     for(var i = 0; i < mut.addedNodes.length; i++)added.push(mut.addedNodes[i]);
                     if (desc.contentDOM && desc.contentDOM != desc.dom && !desc.contentDOM.contains(mut.target)) return {
@@ -2640,7 +2643,8 @@
                     var pos, elt1 = (view10.root.elementFromPoint ? view10.root : doc).elementFromPoint(coords3.left, coords3.top + 1);
                     if (!elt1 || !view10.dom.contains(1 != elt1.nodeType ? elt1.parentNode : elt1)) {
                         var box = view10.dom.getBoundingClientRect();
-                        if (!inRect(coords3, box) || !(elt1 = elementFromPoint(view10.dom, coords3, box))) return null;
+                        if (!inRect(coords3, box)) return null;
+                        if (!(elt1 = elementFromPoint(view10.dom, coords3, box))) return null;
                     }
                     if (result1.safari) for(var p = elt1; node1 && p; p = parentNode(p))p.draggable && (node1 = offset1 = null);
                     if (elt1 = (dom = elt1, coords1 = coords3, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node1) {

@@ -219,8 +219,10 @@
             X.T = -1;
             class it {
                 constructor(t, e){
-                    if (this.seconds = t, this.nanoseconds = e, e < 0 || e >= 1e9) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
-                    if (t < -62135596800 || t >= 253402300800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
+                    if (this.seconds = t, this.nanoseconds = e, e < 0) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
+                    if (e >= 1e9) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
+                    if (t < -62135596800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
+                    if (t >= 253402300800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
                 }
                 static now() {
                     return it.fromMillis(Date.now());
@@ -882,7 +884,8 @@
             }
             function zt(t, e) {
                 var n, s;
-                if (t.limit !== e.limit || t.orderBy.length !== e.orderBy.length) return !1;
+                if (t.limit !== e.limit) return !1;
+                if (t.orderBy.length !== e.orderBy.length) return !1;
                 for(let n5 = 0; n5 < t.orderBy.length; n5++)if (!ue(t.orderBy[n5], e.orderBy[n5])) return !1;
                 if (t.filters.length !== e.filters.length) return !1;
                 for(let i = 0; i < t.filters.length; i++)if (n = t.filters[i], s = e.filters[i], n.op !== s.op || !n.field.isEqual(s.field) || !Vt(n.value, s.value)) return !1;
@@ -1037,7 +1040,8 @@
             }
             function le(t, e) {
                 if (null === t) return null === e;
-                if (null === e || t.before !== e.before || t.position.length !== e.position.length) return !1;
+                if (null === e) return !1;
+                if (t.before !== e.before || t.position.length !== e.position.length) return !1;
                 for(let n = 0; n < t.position.length; n++)if (!Vt(t.position[n], e.position[n])) return !1;
                 return !0;
             }
@@ -1120,7 +1124,7 @@
                 }(t34, e16) && function(t, e) {
                     for (const n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
-                }(t34, e16) && (t33 = t34, e15 = e16, !(t33.startAt && !he(t33.startAt, Te(t33), e15) || t33.endAt && he(t33.endAt, Te(t33), e15)));
+                }(t34, e16) && (t33 = t34, e15 = e16, (!t33.startAt || !!he(t33.startAt, Te(t33), e15)) && !(t33.endAt && he(t33.endAt, Te(t33), e15)));
             }
             function ve(t35) {
                 return (e, n)=>{
@@ -1592,7 +1596,8 @@
                     return Math.pow(2, t) <= this.size + 1;
                 }
                 check() {
-                    if (this.isRed() && this.left.isRed() || this.right.isRed()) throw L();
+                    if (this.isRed() && this.left.isRed()) throw L();
+                    if (this.right.isRed()) throw L();
                     const t = this.left.check();
                     if (t !== this.right.check()) throw L();
                     return t + (this.isRed() ? 0 : 1);
@@ -1712,7 +1717,8 @@
                     }), e;
                 }
                 isEqual(t) {
-                    if (!(t instanceof gn) || this.size !== t.size) return !1;
+                    if (!(t instanceof gn)) return !1;
+                    if (this.size !== t.size) return !1;
                     const e = this.data.getIterator(), n = t.data.getIterator();
                     for(; e.hasNext();){
                         const t = e.getNext().key, s = n.getNext().key;
@@ -4805,7 +4811,8 @@
                     return e ? this.copy(this.keyedMap.remove(t), this.sortedSet.remove(e)) : this;
                 }
                 isEqual(t) {
-                    if (!(t instanceof $o) || this.size !== t.size) return !1;
+                    if (!(t instanceof $o)) return !1;
+                    if (this.size !== t.size) return !1;
                     const e = this.sortedSet.getIterator(), n = t.sortedSet.getIterator();
                     for(; e.hasNext();){
                         const t = e.getNext().key, s = n.getNext().key;
@@ -5178,7 +5185,7 @@
                                 if (a.approximateByteSize() > 0) {
                                     var t212, e118, n42;
                                     const u = c.withResumeToken(a, s19).withSequenceNumber(t213.currentSequenceNumber);
-                                    i = i.insert(r, u), t212 = c, e118 = u, n42 = e, B(e118.resumeToken.approximateByteSize() > 0), (0 === t212.resumeToken.approximateByteSize() || e118.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 || n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0) && o4.push(n43.ze.updateTargetData(t213, u));
+                                    i = i.insert(r, u), t212 = c, e118 = u, n42 = e, ((B(e118.resumeToken.approximateByteSize() > 0), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e118.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
                                 }
                             });
                             let c2 = pn, r7;

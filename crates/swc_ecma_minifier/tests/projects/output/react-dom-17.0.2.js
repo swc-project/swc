@@ -56,7 +56,8 @@
         }
     }
     function shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag) {
-        if (null == value || shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
+        if (null == value) return !0;
+        if (shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
         if (isCustomComponentTag) return !1;
         if (null !== propertyInfo) switch(propertyInfo.type){
             case 3:
@@ -3637,7 +3638,7 @@
     }
     function getPossibleStandardName(propName) {
         var lowerCasedName = propName.toLowerCase();
-        return possibleStandardNames.hasOwnProperty(lowerCasedName) && possibleStandardNames[lowerCasedName] || null;
+        return possibleStandardNames.hasOwnProperty(lowerCasedName) ? possibleStandardNames[lowerCasedName] || null : null;
     }
     function warnForUnmatchedText(textNode, text) {
         warnForTextDifference(textNode.nodeValue, text);
@@ -3652,7 +3653,7 @@
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching <%s> in <%s>.', tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        '' === text || didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase()));
+        '' !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ('string' == typeof markup ? markup : '' + markup).replace(NORMALIZE_NEWLINES_REGEX, '\n').replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, '');
@@ -7749,7 +7750,11 @@
                     if (null === node.return || isHostParent(node.return)) return null;
                     node = node.return;
                 }
-                for(node.sibling.return = node.return, node = node.sibling; 5 !== node.tag && 6 !== node.tag && 18 !== node.tag;)if (node.flags & Placement || null === node.child || 4 === node.tag) continue siblings;
+                for(node.sibling.return = node.return, node = node.sibling; 5 !== node.tag && 6 !== node.tag && 18 !== node.tag;){
+                    if (node.flags & Placement) continue siblings;
+                    if (null === node.child || 4 === node.tag) continue siblings;
+                    node.child.return = node, node = node.child;
+                }
                 if (!(node.flags & Placement)) return node.stateNode;
             }
         }(finishedWork);

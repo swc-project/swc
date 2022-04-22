@@ -3359,7 +3359,8 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
-            if (!isArray(array) || !sortPredicate) return array;
+            if (!isArray(array)) return array;
+            if (!sortPredicate) return array;
             sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
