@@ -3301,6 +3301,7 @@ dependencies = [
  "testing",
  "tracing",
  "unicode-id",
+ "walkdir",
 ]
 
 [[package]]

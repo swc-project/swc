@@ -2,8 +2,10 @@
 
 extern crate swc_node_base;
 
-use std::{env::args, fs, path::Path};
+use std::{env, fs, path::PathBuf};
 
+use anyhow::Result;
+use rayon::prelude::*;
 use swc_common::{sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -13,55 +15,83 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_visit::FoldWith;
+use walkdir::WalkDir;
 
 fn main() {
-    let file = args().nth(1).expect("should provide a path to file");
-
-    eprintln!("File: {}", file);
+    let dirs = env::args().skip(1).collect::<Vec<_>>();
+    let files = expand_dirs(dirs);
 
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(Path::new(&file)).expect("failed to load file");
+        files
+            .into_par_iter()
+            .map(|path| -> Result<_> {
+                let fm = cm.load_file(&path).expect("failed to load file");
 
-        let top_level_mark = Mark::fresh(Mark::root());
+                let top_level_mark = Mark::fresh(Mark::root());
 
-        let program = parse_file_as_module(
-            &fm,
-            Default::default(),
-            Default::default(),
-            None,
-            &mut vec![],
-        )
-        .map_err(|err| {
-            err.into_diagnostic(&handler).emit();
-        })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
-        .unwrap();
+                let program = parse_file_as_module(
+                    &fm,
+                    Default::default(),
+                    Default::default(),
+                    None,
+                    &mut vec![],
+                )
+                .map_err(|err| {
+                    err.into_diagnostic(&handler).emit();
+                })
+                .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
+                .unwrap();
 
-        let output = optimize(
-            program,
-            cm.clone(),
-            None,
-            None,
-            &MinifyOptions {
-                compress: Some(Default::default()),
-                mangle: Some(MangleOptions {
-                    top_level: true,
-                    ..Default::default()
-                }),
-                ..Default::default()
-            },
-            &ExtraOptions { top_level_mark },
-        );
+                let output = optimize(
+                    program,
+                    cm.clone(),
+                    None,
+                    None,
+                    &MinifyOptions {
+                        compress: Some(Default::default()),
+                        mangle: Some(MangleOptions {
+                            top_level: true,
+                            ..Default::default()
+                        }),
+                        ..Default::default()
+                    },
+                    &ExtraOptions { top_level_mark },
+                );
 
-        let output = output.fold_with(&mut fixer(None));
+                let output = output.fold_with(&mut fixer(None));
 
-        let code = print(cm, &[output], true);
+                let code = print(cm.clone(), &[output], true);
 
-        fs::write("output.js", code.as_bytes()).expect("failed to write output");
+                fs::write("output.js", code.as_bytes()).expect("failed to write output");
+
+                Ok(())
+            })
+            .collect::<Vec<_>>();
 
         Ok(())
     })
     .unwrap();
+}
+
+/// Return the whole input files as abolute path.
+fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
+    dirs.into_par_iter()
+        .map(PathBuf::from)
+        .map(|dir| dir.canonicalize().unwrap())
+        .flat_map(|dir| {
+            WalkDir::new(dir)
+                .into_iter()
+                .filter_map(Result::ok)
+                .filter_map(|entry| {
+                    if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
+                        Some(entry.into_path())
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>()
+        })
+        .collect()
 }
 
 fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
