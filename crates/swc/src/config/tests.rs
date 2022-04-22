@@ -4,17 +4,21 @@ use crate::{parse_swcrc, Options};
 
 #[test]
 fn object() {
-    let _ = parse_swcrc(include_str!("object.json")).expect("failed to parse");
+    let rc = parse_swcrc(include_str!("object.json")).expect("failed to parse");
+    dbg!(&rc);
 }
 
 #[test]
 fn array() {
-    let _ = parse_swcrc(include_str!("array.json")).expect("failed to parse");
+    let rc = parse_swcrc(include_str!("array.json")).expect("failed to parse");
+
+    dbg!(&rc);
 }
 
 #[test]
 fn issue_4390() {
-    let _ = parse_swcrc(include_str!("issue-4390.json")).expect("failed to parse");
+    let rc = parse_swcrc(include_str!("issue-4390.json")).expect("failed to parse");
+    dbg!(&rc);
 }
 
 #[test]
