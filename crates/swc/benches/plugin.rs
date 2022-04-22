@@ -3,6 +3,7 @@ use std::sync::Arc;
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::{try_with_handler, HandlerOpts};
 use swc_common::{errors::ColorConfig, FileName, FilePathMapping, SourceMap};
+use swc_ecma_ast::EsVersion;
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -41,6 +42,7 @@ fn bench_transform(b: &mut Bencher, use_cache: bool) {
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: swc::config::JscConfig {
+                                target: Some(EsVersion::latest()),
                                 experimental: swc::config::JscExperimental {
                                     plugins: Some(from_json(r###"[["internal_plugin", {}]]"###)),
                                     cache_root: if use_cache { Some(".swc".into()) } else { None },
