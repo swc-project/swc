@@ -96,10 +96,11 @@ where
 
     #[emitter]
     fn emit_element(&mut self, n: &Element) -> Result {
-        let mut start_tag = String::new();
+        write_raw!(self, "<");
+        write_raw!(self, &n.tag_name);
 
-        start_tag.push('<');
-        start_tag.push_str(&n.tag_name);
+        if !n.attributes.is_empty() {
+            space!(self);
 
         for attribute in &n.attributes {
             start_tag.push(' ');
@@ -120,11 +121,10 @@ where
                 start_tag.push_str(value);
                 start_tag.push(quote);
             }
+            self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
         }
 
-        start_tag.push('>');
-
-        write_str!(self, n.span, &start_tag);
+        write_raw!(self, ">");
 
         let no_children = n.namespace == Namespace::HTML
             && matches!(
@@ -157,14 +157,35 @@ where
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
         }
 
-        let mut end_tag = String::new();
+        write_raw!(self, "<");
+        write_raw!(self, "/");
+        write_raw!(self, &n.tag_name);
+        write_raw!(self, ">");
+    }
 
-        end_tag.push('<');
-        end_tag.push('/');
-        end_tag.push_str(&n.tag_name);
-        end_tag.push('>');
+    #[emitter]
+    fn emit_attribute(&mut self, n: &Attribute) -> Result {
+        let mut attribute = String::new();
 
-        write_str!(self, n.span, &end_tag);
+        attribute.push_str(&n.name);
+
+        if let Some(value) = &n.value {
+            attribute.push('=');
+
+            if self.config.minify {
+                let minifier = minify_attribute_value(value);
+
+                attribute.push_str(&minifier);
+            } else {
+                let quote = if value.contains('"') { '\'' } else { '"' };
+
+                attribute.push(quote);
+                attribute.push_str(value);
+                attribute.push(quote);
+            }
+        }
+
+        write_str!(self, n.span, &attribute);
     }
 
     #[emitter]
@@ -490,5 +511,50 @@ where
         }
 
         Ok(())
+    }
+}
+
+fn minify_attribute_value(value: &str) -> String {
+    if value.is_empty() {
+        return "\"\"".to_string();
+    }
+
+    let mut minified = String::new();
+
+    let mut unquoted = true;
+    let mut dq = 0;
+    let mut sq = 0;
+
+    for c in value.chars() {
+        match c {
+            c if c.is_ascii_whitespace() => {
+                unquoted = false;
+            }
+            '`' | '=' | '<' | '>' => {
+                unquoted = false;
+            }
+            '"' => {
+                unquoted = false;
+                dq += 1;
+            }
+            '\'' => {
+                unquoted = false;
+                sq += 1;
+            }
+
+            _ => {}
+        };
+
+        minified.push(c);
+    }
+
+    if unquoted {
+        return minified;
+    }
+
+    if dq > sq {
+        format!("'{}'", minified)
+    } else {
+        format!("\"{}\"", minified)
     }
 }
