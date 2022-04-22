@@ -1,7 +1,8 @@
 use std::{mem::take, rc::Rc};
 
+use active_formatting_element::*;
 use doctypes::*;
-use node::{Data, Node, RcNode};
+use node::*;
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_html_ast::*;
@@ -15,6 +16,7 @@ use crate::{
 
 #[macro_use]
 mod macros;
+mod active_formatting_element;
 mod doctypes;
 pub mod input;
 mod node;
@@ -27,7 +29,7 @@ pub struct ParserConfig {
 }
 
 #[derive(Debug, Clone)]
-struct TokenAndInfo {
+pub struct TokenAndInfo {
     pub span: Span,
     pub acknowledged: bool,
     pub token: Token,
@@ -448,38 +450,6 @@ impl OpenElementsStack {
         while let Some(node) = self.items.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 break;
-            }
-        }
-    }
-}
-
-enum ActiveFormattingElement {
-    Element(RcNode, TokenAndInfo),
-    Marker,
-}
-
-struct ActiveFormattingElementStack {
-    items: Vec<ActiveFormattingElement>,
-}
-
-impl ActiveFormattingElementStack {
-    pub fn new() -> Self {
-        ActiveFormattingElementStack { items: vec![] }
-    }
-
-    pub fn push(&mut self, element: ActiveFormattingElement) {
-        self.items.push(element);
-    }
-
-    pub fn insert_marker(&mut self) {
-        self.items.push(ActiveFormattingElement::Marker);
-    }
-
-    pub fn clear_to_last_marker(&mut self) {
-        loop {
-            match self.items.pop() {
-                None | Some(ActiveFormattingElement::Marker) => break,
-                _ => (),
             }
         }
     }
