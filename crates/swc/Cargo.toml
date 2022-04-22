@@ -123,4 +123,8 @@ name = "minify"
 
 [[bench]]
 harness = false
+name = "plugin"
+
+[[bench]]
+harness = false
 name = "typescript"
