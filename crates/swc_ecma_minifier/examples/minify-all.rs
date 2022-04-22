@@ -6,7 +6,7 @@ use std::{env, fs, path::PathBuf};
 
 use anyhow::Result;
 use rayon::prelude::*;
-use swc_common::{sync::Lrc, Mark, SourceMap};
+use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -22,53 +22,57 @@ fn main() {
     let files = expand_dirs(dirs);
 
     testing::run_test2(false, |cm, handler| {
-        files
-            .into_par_iter()
-            .map(|path| -> Result<_> {
-                let fm = cm.load_file(&path).expect("failed to load file");
+        GLOBALS.with(|globals| {
+            files
+                .into_par_iter()
+                .map(|path| -> Result<_> {
+                    GLOBALS.set(globals, || {
+                        let fm = cm.load_file(&path).expect("failed to load file");
 
-                let top_level_mark = Mark::fresh(Mark::root());
+                        let top_level_mark = Mark::fresh(Mark::root());
 
-                let program = parse_file_as_module(
-                    &fm,
-                    Default::default(),
-                    Default::default(),
-                    None,
-                    &mut vec![],
-                )
-                .map_err(|err| {
-                    err.into_diagnostic(&handler).emit();
+                        let program = parse_file_as_module(
+                            &fm,
+                            Default::default(),
+                            Default::default(),
+                            None,
+                            &mut vec![],
+                        )
+                        .map_err(|err| {
+                            err.into_diagnostic(&handler).emit();
+                        })
+                        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
+                        .unwrap();
+
+                        let output = optimize(
+                            program,
+                            cm.clone(),
+                            None,
+                            None,
+                            &MinifyOptions {
+                                compress: Some(Default::default()),
+                                mangle: Some(MangleOptions {
+                                    top_level: true,
+                                    ..Default::default()
+                                }),
+                                ..Default::default()
+                            },
+                            &ExtraOptions { top_level_mark },
+                        );
+
+                        let output = output.fold_with(&mut fixer(None));
+
+                        let code = print(cm.clone(), &[output], true);
+
+                        fs::write("output.js", code.as_bytes()).expect("failed to write output");
+
+                        Ok(())
+                    })
                 })
-                .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
-                .unwrap();
+                .collect::<Vec<_>>();
 
-                let output = optimize(
-                    program,
-                    cm.clone(),
-                    None,
-                    None,
-                    &MinifyOptions {
-                        compress: Some(Default::default()),
-                        mangle: Some(MangleOptions {
-                            top_level: true,
-                            ..Default::default()
-                        }),
-                        ..Default::default()
-                    },
-                    &ExtraOptions { top_level_mark },
-                );
-
-                let output = output.fold_with(&mut fixer(None));
-
-                let code = print(cm.clone(), &[output], true);
-
-                fs::write("output.js", code.as_bytes()).expect("failed to write output");
-
-                Ok(())
-            })
-            .collect::<Vec<_>>();
-
-        Ok(())
+            Ok(())
+        })
     })
     .unwrap();
 }
@@ -89,6 +93,7 @@ fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
                         None
                     }
                 })
+                .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
                 .collect::<Vec<_>>()
         })
         .collect()
