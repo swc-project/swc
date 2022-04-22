@@ -3914,6 +3914,7 @@ name = "swc_plugin_runner"
 version = "0.53.1"
 dependencies = [
  "anyhow",
+ "criterion",
  "once_cell",
  "parking_lot",
  "serde",
@@ -3924,6 +3925,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_node_base",
  "swc_plugin_proxy",
  "testing",
  "tracing",
