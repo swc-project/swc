@@ -1282,6 +1282,11 @@ impl<'a, I: Tokens> Parser<I> {
             in_async: is_async,
             in_generator: is_generator,
             in_arrow_function: is_arrow_function,
+            inside_non_arrow_function_scope: if is_arrow_function {
+                self.ctx().inside_non_arrow_function_scope
+            } else {
+                true
+            },
             in_function: true,
             is_break_allowed: false,
             is_continue_allowed: false,

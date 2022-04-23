@@ -518,9 +518,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }));
 
                     let ctx = self.ctx();
-                    if (!ctx.in_function || ctx.in_function && ctx.in_arrow_function)
-                        && !ctx.in_parameters
-                        && !ctx.in_class
+                    if (!ctx.inside_non_arrow_function_scope) && !ctx.in_parameters && !ctx.in_class
                     {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }

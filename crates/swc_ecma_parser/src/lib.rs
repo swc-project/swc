@@ -352,6 +352,9 @@ pub struct Context {
 
     in_arrow_function: bool,
     is_direct_child_of_braceless_arrow_function: bool,
+    /// This indicates current scope or the scope out of arrow function is
+    /// function declaration or function expression or not.
+    inside_non_arrow_function_scope: bool,
 
     in_parameters: bool,
 
