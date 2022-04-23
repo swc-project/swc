@@ -6,7 +6,7 @@ set -eu
 clear
 echo "Checking if we can postpone $1"
 
-dur="${1/\/input.js/}"
+dir="${1/\/input.js/}"
 output="${1/input.js/output.js}"
 terser_output="${1/input.js/output.terser.js}"
 
