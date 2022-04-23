@@ -59,6 +59,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "img",
                   "value": "img/alt.png"
                 },
@@ -69,6 +71,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "data-text",
                   "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
                 }
@@ -102,6 +106,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "l",
                   "value": "100"
                 },
@@ -112,6 +118,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "c",
                   "value": "red"
                 }
@@ -145,6 +153,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "open",
                   "value": null
                 },
@@ -155,6 +165,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "disabled",
                   "value": null
                 }
@@ -208,6 +220,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "type",
                       "value": "twitter"
                     }
@@ -230,6 +244,8 @@
                             "end": 0,
                             "ctxt": 0
                           },
+                          "namespace": null,
+                          "prefix": null,
                           "name": "href",
                           "value": "..."
                         }
@@ -276,6 +292,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "type",
                       "value": "fb"
                     }
@@ -298,6 +316,8 @@
                             "end": 0,
                             "ctxt": 0
                           },
+                          "namespace": null,
+                          "prefix": null,
                           "name": "href",
                           "value": "..."
                         }
@@ -344,6 +364,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "type",
                       "value": "plus"
                     }
@@ -366,6 +388,8 @@
                             "end": 0,
                             "ctxt": 0
                           },
+                          "namespace": null,
+                          "prefix": null,
                           "name": "href",
                           "value": "..."
                         }
@@ -479,6 +503,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "id",
                   "value": "x-foo-from-template"
                 }

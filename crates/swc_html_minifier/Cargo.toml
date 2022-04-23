@@ -1,0 +1,24 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Alexander Akait <sheo13666q@gmail.com>"]
+description = "HTML minifier"
+documentation = "https://rustdoc.swc.rs/swc_html_minifier/"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0"
+name = "swc_html_minifier"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.2.0"
+
+[lib]
+bench = false
+
+[dependencies]
+swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
+swc_common = { version = "0.17.23", path = "../swc_common"}
+swc_html_ast = {version = "0.5.0", path = "../swc_html_ast"}
+swc_html_visit = {version = "0.5.0", path = "../swc_html_visit"}
+
+[dev-dependencies]
+swc_html_codegen = {version = "0.5.0", path = "../swc_html_codegen"}
+swc_html_parser = {version = "0.5.0", path = "../swc_html_parser"}
+testing = {version = "0.19.0", path = "../testing"}

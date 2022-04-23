@@ -1135,6 +1135,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "href",
                   "value": "http://lmgtfy.com/?l=1&q=rick+roll"
                 }
@@ -1166,6 +1168,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "href",
                       "value": "#"
                     },
@@ -1176,6 +1180,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "onclick",
                       "value": "window.location='?l=1&q=rick+roll';return false"
                     }

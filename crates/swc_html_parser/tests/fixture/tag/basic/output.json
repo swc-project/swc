@@ -218,6 +218,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "⚡",
                   "value": null
                 }
@@ -286,6 +288,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "href",
                   "value": "test.html"
                 }
@@ -439,6 +443,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "data-test",
                       "value": "a"
                     }
@@ -472,6 +478,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "data-test",
                       "value": "a"
                     }
@@ -505,6 +513,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "data-test",
                       "value": "a"
                     }
@@ -538,6 +548,8 @@
                         "end": 0,
                         "ctxt": 0
                       },
+                      "namespace": null,
+                      "prefix": null,
                       "name": "data-test",
                       "value": "a"
                     }

@@ -4,7 +4,6 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -28,6 +27,11 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
     pub scripting_enabled: bool,
+}
+
+enum AdjustAttributes {
+    MathML,
+    Svg,
 }
 
 #[derive(Debug, Clone)]
@@ -646,7 +650,7 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = create_node_for_element(Element {
+                        let element = Node::new(Data::Element(Element {
                             span: span!(self, token_and_info.span.lo),
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
@@ -654,13 +658,15 @@ where
                                 .iter()
                                 .map(|attribute| Attribute {
                                     span: Default::default(),
+                                    namespace: None,
+                                    prefix: None,
                                     name: attribute.name.clone(),
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
                             children: vec![],
                             content: None,
-                        });
+                        }));
 
                         self.open_elements_stack.push(element.clone());
 
@@ -988,11 +994,12 @@ where
                         let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None);
-                        let node = create_node_for_element(create_element_for_token(
+                        let node = Node::new(Data::Element(self.create_element_for_token(
                             token_and_info.token.clone(),
                             Span::new(token_and_info.span.lo, last_pos, Default::default()),
                             Some(Namespace::HTML),
-                        )?);
+                            None,
+                        )));
 
                         // Skip script handling
 
@@ -1577,50 +1584,54 @@ where
                                 token_and_info,
                                 InsertionMode::InTemplate,
                             )?;
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.stopped = true;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.stopped = true;
                     }
                     // An end tag whose tag name is "body"
                     //
@@ -1639,50 +1650,54 @@ where
                         if !self.open_elements_stack.has_in_scope("body") {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.insertion_mode = InsertionMode::AfterBody;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.insertion_mode = InsertionMode::AfterBody;
                     }
                     // An end tag whose tag name is "html"
                     //
@@ -1703,51 +1718,55 @@ where
                         if !self.open_elements_stack.has_in_scope("body") {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        } else {
-                            let mut errored = false;
 
-                            for node in &self.open_elements_stack.items {
-                                match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(
-                                            &**tag_name,
-                                            "dd" | "dt"
-                                                | "li"
-                                                | "optgroup"
-                                                | "option"
-                                                | "p"
-                                                | "rb"
-                                                | "rp"
-                                                | "rt"
-                                                | "rtc"
-                                                | "tbody"
-                                                | "td"
-                                                | "tfoot"
-                                                | "th"
-                                                | "thead"
-                                                | "tr"
-                                                | "body"
-                                                | "html"
-                                        ) =>
-                                    {
-                                        errored = true;
-
-                                        break;
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            if errored {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-                            }
-
-                            self.insertion_mode = InsertionMode::AfterBody;
-                            self.process_token(token_and_info, None)?;
+                            return Ok(());
                         }
+
+                        let mut errored = false;
+
+                        for node in &self.open_elements_stack.items {
+                            let is_required_element = match &node.data {
+                                Data::Element(Element { tag_name, .. })
+                                    if matches!(
+                                        &**tag_name,
+                                        "dd" | "dt"
+                                            | "li"
+                                            | "optgroup"
+                                            | "option"
+                                            | "p"
+                                            | "rb"
+                                            | "rp"
+                                            | "rt"
+                                            | "rtc"
+                                            | "tbody"
+                                            | "td"
+                                            | "tfoot"
+                                            | "th"
+                                            | "thead"
+                                            | "tr"
+                                            | "body"
+                                            | "html"
+                                    ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            };
+
+                            if !is_required_element {
+                                errored = true;
+
+                                break;
+                            }
+                        }
+
+                        if errored {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+
+                        self.insertion_mode = InsertionMode::AfterBody;
+                        self.process_token(token_and_info, None)?;
                     }
                     // A start tag whose tag name is one of: "address", "article", "aside",
                     // "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset",
@@ -3092,9 +3111,11 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.adjust_math_ml_attributes(token_and_info);
-                        self.adjust_foreign_attributes_for_the_token(token_and_info);
-                        self.insert_foreign_element(token_and_info, Namespace::MATHML)?;
+                        self.insert_foreign_element(
+                            token_and_info,
+                            Namespace::SVG,
+                            Some(AdjustAttributes::MathML),
+                        )?;
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3122,9 +3143,11 @@ where
                         let is_self_closing = *self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.adjust_svg_attributes(token_and_info);
-                        self.adjust_foreign_attributes_for_the_token(token_and_info);
-                        self.insert_foreign_element(token_and_info, Namespace::SVG)?;
+                        self.insert_foreign_element(
+                            token_and_info,
+                            Namespace::SVG,
+                            Some(AdjustAttributes::Svg),
+                        )?;
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -5460,96 +5483,290 @@ where
         Ok(())
     }
 
-    fn adjust_attributes<F>(&mut self, token_and_info: &mut TokenAndInfo, mut map: F)
-    where
-        F: FnMut(JsWord) -> Option<JsWord>,
-    {
-        let attributes = match &mut token_and_info.token {
-            Token::StartTag { attributes, .. } => attributes,
-            _ => {
-                unreachable!();
-            }
-        };
-
-        for &mut AttributeToken { ref mut name, .. } in attributes {
-            if let Some(replacement) = map(name.clone()) {
-                *name = replacement;
-            }
+    // When the steps below require the user agent to adjust MathML attributes for a
+    // token, then, if the token has an attribute named definitionurl, change its
+    // name to definitionURL (note the case difference).
+    fn adjust_math_ml_attribute(&self, attribute: &mut Attribute) {
+        if &*attribute.name == "definitionurl" {
+            attribute.name = "definitionURL".into();
         }
     }
 
-    fn adjust_math_ml_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
-        self.adjust_attributes(token_and_info, |attribute| match &*attribute {
-            "definitionurl" => Some("definitionURL".into()),
-            _ => None,
-        });
+    // When the steps below require the user agent to adjust SVG attributes for a
+    // token, then, for each attribute on the token whose attribute name is one of
+    // the ones in the first column of the following table, change the attribute's
+    // name to the name given in the corresponding cell in the second column. (This
+    // fixes the case of SVG attributes that are not all lowercase.)
+    //
+    // Attribute name on token	Attribute name on element
+    // attributename	        attributeName
+    // attributetype	        attributeType
+    // basefrequency	        baseFrequency
+    // baseprofile	            baseProfile
+    // calcmode	                calcMode
+    // clippathunits	        clipPathUnits
+    // diffuseconstant	        diffuseConstant
+    // edgemode	                edgeMode
+    // filterunits	            filterUnits
+    // glyphref	                glyphRef
+    // gradienttransform	    gradientTransform
+    // gradientunits	        gradientUnits
+    // kernelmatrix	            kernelMatrix
+    // kernelunitlength	        kernelUnitLength
+    // keypoints	            keyPoints
+    // keysplines	            keySplines
+    // keytimes	                keyTimes
+    // lengthadjust	            lengthAdjust
+    // limitingconeangle	    limitingConeAngle
+    // markerheight	            markerHeight
+    // markerunits	            markerUnits
+    // markerwidth	            markerWidth
+    // maskcontentunits	        maskContentUnits
+    // maskunits	            maskUnits
+    // numoctaves	            numOctaves
+    // pathlength	            pathLength
+    // patterncontentunits	    patternContentUnits
+    // patterntransform	        patternTransform
+    // patternunits	            patternUnits
+    // pointsatx	            pointsAtX
+    // pointsaty	            pointsAtY
+    // pointsatz	            pointsAtZ
+    // preservealpha	        preserveAlpha
+    // preserveaspectratio	    preserveAspectRatio
+    // primitiveunits	        primitiveUnits
+    // refx	                    refX
+    // refy	                    refY
+    // repeatcount	            repeatCount
+    // repeatdur	            repeatDur
+    // requiredextensions	    requiredExtensions
+    // requiredfeatures	        requiredFeatures
+    // specularconstant	        specularConstant
+    // specularexponent	        specularExponent
+    // spreadmethod	            spreadMethod
+    // startoffset	            startOffset
+    // stddeviation	            stdDeviation
+    // stitchtiles	            stitchTiles
+    // surfacescale	            surfaceScale
+    // systemlanguage	        systemLanguage
+    // tablevalues	            tableValues
+    // targetx	                targetX
+    // targety	                targetY
+    // textlength	            textLength
+    // viewbox	                viewBox
+    // viewtarget	            viewTarget
+    // xchannelselector	        xChannelSelector
+    // ychannelselector	        yChannelSelector
+    // zoomandpan	            zoomAndPan
+    fn adjust_svg_attribute(&self, attribute: &mut Attribute) {
+        match &*attribute.name {
+            "attributename" => {
+                attribute.name = "attributeName".into();
+            }
+            "attributetype" => attribute.name = "attributeType".into(),
+            "basefrequency" => attribute.name = "baseFrequency".into(),
+            "baseprofile" => attribute.name = "baseProfile".into(),
+            "calcmode" => attribute.name = "calcMode".into(),
+            "clippathunits" => attribute.name = "clipPathUnits".into(),
+            "diffuseconstant" => attribute.name = "diffuseConstant".into(),
+            "edgemode" => attribute.name = "edgeMode".into(),
+            "filterunits" => attribute.name = "filterUnits".into(),
+            "glyphref" => attribute.name = "glyphRef".into(),
+            "gradienttransform" => attribute.name = "gradientTransform".into(),
+            "gradientunits" => attribute.name = "gradientUnits".into(),
+            "kernelmatrix" => attribute.name = "kernelMatrix".into(),
+            "kernelunitlength" => attribute.name = "kernelUnitLength".into(),
+            "keypoints" => attribute.name = "keyPoints".into(),
+            "keysplines" => attribute.name = "keySplines".into(),
+            "keytimes" => attribute.name = "keyTimes".into(),
+            "lengthadjust" => attribute.name = "lengthAdjust".into(),
+            "limitingconeangle" => attribute.name = "limitingConeAngle".into(),
+            "markerheight" => attribute.name = "markerHeight".into(),
+            "markerunits" => attribute.name = "markerUnits".into(),
+            "markerwidth" => attribute.name = "markerWidth".into(),
+            "maskcontentunits" => attribute.name = "maskContentUnits".into(),
+            "maskunits" => attribute.name = "maskUnits".into(),
+            "numoctaves" => attribute.name = "numOctaves".into(),
+            "pathlength" => attribute.name = "pathLength".into(),
+            "patterncontentunits" => attribute.name = "patternContentUnits".into(),
+            "patterntransform" => attribute.name = "patternTransform".into(),
+            "patternunits" => attribute.name = "patternUnits".into(),
+            "pointsatx" => attribute.name = "pointsAtX".into(),
+            "pointsaty" => attribute.name = "pointsAtY".into(),
+            "pointsatz" => attribute.name = "pointsAtZ".into(),
+            "preservealpha" => attribute.name = "preserveAlpha".into(),
+            "preserveaspectratio" => attribute.name = "preserveAspectRatio".into(),
+            "primitiveunits" => attribute.name = "primitiveUnits".into(),
+            "refx" => attribute.name = "refX".into(),
+            "refy" => attribute.name = "refY".into(),
+            "repeatcount" => attribute.name = "repeatCount".into(),
+            "repeatdur" => attribute.name = "repeatDur".into(),
+            "requiredextensions" => attribute.name = "requiredExtensions".into(),
+            "requiredfeatures" => attribute.name = "requiredFeatures".into(),
+            "specularconstant" => attribute.name = "specularConstant".into(),
+            "specularexponent" => attribute.name = "specularExponent".into(),
+            "spreadmethod" => attribute.name = "spreadMethod".into(),
+            "startoffset" => attribute.name = "startOffset".into(),
+            "stddeviation" => attribute.name = "stdDeviation".into(),
+            "stitchtiles" => attribute.name = "stitchTiles".into(),
+            "surfacescale" => attribute.name = "surfaceScale".into(),
+            "systemlanguage" => attribute.name = "systemLanguage".into(),
+            "tablevalues" => attribute.name = "tableValues".into(),
+            "targetx" => attribute.name = "targetX".into(),
+            "targety" => attribute.name = "targetY".into(),
+            "textlength" => attribute.name = "textLength".into(),
+            "viewbox" => attribute.name = "viewBox".into(),
+            "viewtarget" => attribute.name = "viewTarget".into(),
+            "xchannelselector" => attribute.name = "xChannelSelector".into(),
+            "ychannelselector" => attribute.name = "yChannelSelector".into(),
+            "zoomandpan" => attribute.name = "zoomAndPan".into(),
+            _ => {}
+        }
     }
 
-    fn adjust_svg_attributes(&mut self, token_and_info: &mut TokenAndInfo) {
-        self.adjust_attributes(token_and_info, |attribute| match &*attribute {
-            "attributename" => Some("attributeName".into()),
-            "attributetype" => Some("attributeType".into()),
-            "basefrequency" => Some("baseFrequency".into()),
-            "baseprofile" => Some("baseProfile".into()),
-            "calcmode" => Some("calcMode".into()),
-            "clippathunits" => Some("clipPathUnits".into()),
-            "diffuseconstant" => Some("diffuseConstant".into()),
-            "edgemode" => Some("edgeMode".into()),
-            "filterunits" => Some("filterUnits".into()),
-            "glyphref" => Some("glyphRef".into()),
-            "gradienttransform" => Some("gradientTransform".into()),
-            "gradientunits" => Some("gradientUnits".into()),
-            "kernelmatrix" => Some("kernelMatrix".into()),
-            "kernelunitlength" => Some("kernelUnitLength".into()),
-            "keypoints" => Some("keyPoints".into()),
-            "keysplines" => Some("keySplines".into()),
-            "keytimes" => Some("keyTimes".into()),
-            "lengthadjust" => Some("lengthAdjust".into()),
-            "limitingconeangle" => Some("limitingConeAngle".into()),
-            "markerheight" => Some("markerHeight".into()),
-            "markerunits" => Some("markerUnits".into()),
-            "markerwidth" => Some("markerWidth".into()),
-            "maskcontentunits" => Some("maskContentUnits".into()),
-            "maskunits" => Some("maskUnits".into()),
-            "numoctaves" => Some("numOctaves".into()),
-            "pathlength" => Some("pathLength".into()),
-            "patterncontentunits" => Some("patternContentUnits".into()),
-            "patterntransform" => Some("patternTransform".into()),
-            "patternunits" => Some("patternUnits".into()),
-            "pointsatx" => Some("pointsAtX".into()),
-            "pointsaty" => Some("pointsAtY".into()),
-            "pointsatz" => Some("pointsAtZ".into()),
-            "preservealpha" => Some("preserveAlpha".into()),
-            "preserveaspectratio" => Some("preserveAspectRatio".into()),
-            "primitiveunits" => Some("primitiveUnits".into()),
-            "refx" => Some("refX".into()),
-            "refy" => Some("refY".into()),
-            "repeatcount" => Some("repeatCount".into()),
-            "repeatdur" => Some("repeatDur".into()),
-            "requiredextensions" => Some("requiredExtensions".into()),
-            "requiredfeatures" => Some("requiredFeatures".into()),
-            "specularconstant" => Some("specularConstant".into()),
-            "specularexponent" => Some("specularExponent".into()),
-            "spreadmethod" => Some("spreadMethod".into()),
-            "startoffset" => Some("startOffset".into()),
-            "stddeviation" => Some("stdDeviation".into()),
-            "stitchtiles" => Some("stitchTiles".into()),
-            "surfacescale" => Some("surfaceScale".into()),
-            "systemlanguage" => Some("systemLanguage".into()),
-            "tablevalues" => Some("tableValues".into()),
-            "targetx" => Some("targetX".into()),
-            "targety" => Some("targetY".into()),
-            "textlength" => Some("textLength".into()),
-            "viewbox" => Some("viewBox".into()),
-            "viewtarget" => Some("viewTarget".into()),
-            "xchannelselector" => Some("xChannelSelector".into()),
-            "ychannelselector" => Some("yChannelSelector".into()),
-            "zoomandpan" => Some("zoomAndPan".into()),
-            _ => None,
-        });
+    // When the steps below require the user agent to adjust foreign attributes for
+    // a token, then, if any of the attributes on the token match the strings given
+    // in the first column of the following table, let the attribute be a namespaced
+    // attribute, with the prefix being the string given in the corresponding cell
+    // in the second column, the local name being the string given in the
+    // corresponding cell in the third column, and the namespace being the namespace
+    // given in the corresponding cell in the fourth column. (This fixes the use of
+    // namespaced attributes, in particular lang attributes in the XML namespace.)
+    //
+    //
+    // Attribute name	Prefix	Local name	Namespace
+    //
+    // xlink:actuate	xlink	actuate	    XLink namespace
+    // xlink:arcrole	xlink	arcrole	    XLink namespace
+    // xlink:href	    xlink	href	    XLink namespace
+    // xlink:role	    xlink	role	    XLink namespace
+    // xlink:show	    xlink	show	    XLink namespace
+    // xlink:title	    xlink	title	    XLink namespace
+    // xlink:type	    xlink	type	    XLink namespace
+    // xml:lang	        xml	    lang	    XML namespace
+    // xml:space	    xml	    space	    XML namespace
+    // xmlns	        (none)	xmlns	    XMLNS namespace
+    // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
+    fn adjust_foreign_attribute(&self, attribute: &mut Attribute) {
+        match &*attribute.name {
+            "xlink:actuate" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "actuate".into();
+            }
+            "xlink:arcrole" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "arcrole".into();
+            }
+            "xlink:href" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "href".into();
+            }
+            "xlink:role" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "role".into();
+            }
+            "xlink:show" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "show".into();
+            }
+            "xlink:title" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "title".into();
+            }
+            "xlink:type" => {
+                attribute.namespace = Some(Namespace::XLINK);
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "type".into();
+            }
+            "xml:lang" => {
+                attribute.namespace = Some(Namespace::XML);
+                attribute.prefix = Some("xml".into());
+                attribute.name = "lang".into();
+            }
+            "xml:space" => {
+                attribute.namespace = Some(Namespace::XML);
+                attribute.prefix = Some("xml".into());
+                attribute.name = "space".into();
+            }
+            "xmlns" => {
+                attribute.namespace = Some(Namespace::XMLNS);
+                attribute.prefix = None;
+                attribute.name = "xmlns".into();
+            }
+            "xmlns:xlink" => {
+                attribute.namespace = Some(Namespace::XMLNS);
+                attribute.prefix = Some("xmlns".into());
+                attribute.name = "xlink".into();
+            }
+            _ => {}
+        }
     }
 
-    fn adjust_foreign_attributes_for_the_token(&mut self, _token_and_info: &mut TokenAndInfo) {}
+    fn create_element_for_token(
+        &self,
+        token: Token,
+        span: Span,
+        namespace: Option<Namespace>,
+        adjust_attributes: Option<AdjustAttributes>,
+    ) -> Element {
+        match token {
+            Token::StartTag {
+                tag_name,
+                attributes,
+                ..
+            }
+            | Token::EndTag {
+                tag_name,
+                attributes,
+                ..
+            } => {
+                // TODO span
+                let attributes = attributes
+                    .into_iter()
+                    .map(|attribute_token| {
+                        let mut attribute = Attribute {
+                            span: Default::default(),
+                            namespace: None,
+                            prefix: None,
+                            name: attribute_token.name.clone(),
+                            value: attribute_token.value,
+                        };
+
+                        match adjust_attributes {
+                            Some(AdjustAttributes::MathML) => {
+                                self.adjust_math_ml_attribute(&mut attribute);
+                                self.adjust_foreign_attribute(&mut attribute);
+                            }
+                            Some(AdjustAttributes::Svg) => {
+                                self.adjust_svg_attribute(&mut attribute);
+                                self.adjust_foreign_attribute(&mut attribute);
+                            }
+                            None => {}
+                        }
+
+                        attribute
+                    })
+                    .collect();
+
+                Element {
+                    span,
+                    tag_name,
+                    namespace: namespace.unwrap(),
+                    attributes,
+                    children: vec![],
+                    content: None,
+                }
+            }
+            _ => {
+                unreachable!();
+            }
+        }
+    }
 
     // The adoption agency algorithm, which takes as its only argument a token token
     // for which the algorithm is being run, consists of the following steps:
@@ -5819,7 +6036,7 @@ where
 
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if get_tag_name!(node) == "p" => match &node.data {
+            Some(node) if get_tag_name!(node) != "p" => match &node.data {
                 Data::Element(element) => {
                     self.errors
                         .push(Error::new(element.span, ErrorKind::UnexpectedToken));
@@ -6383,13 +6600,14 @@ where
     }
 
     fn insert_html_element(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<RcNode> {
-        self.insert_foreign_element(token_and_info, Namespace::HTML)
+        self.insert_foreign_element(token_and_info, Namespace::HTML, None)
     }
 
     fn insert_foreign_element(
         &mut self,
         token_and_info: &mut TokenAndInfo,
         namespace: Namespace,
+        adjust_attributes: Option<AdjustAttributes>,
     ) -> PResult<RcNode> {
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
@@ -6408,12 +6626,13 @@ where
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
         let last_pos = self.input.last_pos()?;
-        let element = create_element_for_token(
+        let element = self.create_element_for_token(
             token_and_info.token.clone(),
             Span::new(token_and_info.span.lo, last_pos, Default::default()),
             Some(namespace),
-        )?;
-        let node = create_node_for_element(element);
+            adjust_attributes,
+        );
+        let node = Node::new(Data::Element(element));
 
         // If it is possible to insert an element at the adjusted insertion
         // location, then insert the newly created element at the adjusted
@@ -6509,54 +6728,9 @@ where
     }
 }
 
-fn create_node_for_element(element: Element) -> RcNode {
-    Node::new(Data::Element(element))
-}
-
 // TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
-}
-
-fn create_element_for_token(
-    token: Token,
-    span: Span,
-    namespace: Option<Namespace>,
-) -> PResult<Element> {
-    let element = match token {
-        Token::StartTag {
-            tag_name,
-            attributes,
-            ..
-        }
-        | Token::EndTag {
-            tag_name,
-            attributes,
-            ..
-        } => {
-            Element {
-                span,
-                tag_name,
-                namespace: namespace.unwrap(),
-                // TODO span
-                attributes: attributes
-                    .into_iter()
-                    .map(|attribute| Attribute {
-                        span: Default::default(),
-                        name: attribute.name.clone(),
-                        value: attribute.value,
-                    })
-                    .collect(),
-                children: vec![],
-                content: None,
-            }
-        }
-        _ => {
-            unreachable!();
-        }
-    };
-
-    Ok(element)
 }
 
 impl<I> Parse<Document> for Parser<I>
