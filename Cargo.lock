@@ -231,6 +231,7 @@ dependencies = [
  "napi-derive",
  "node_macro_deps",
  "serde",
+ "swc_common",
  "swc_node_base",
  "tracing",
  "tracing-chrome",

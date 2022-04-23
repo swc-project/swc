@@ -44,8 +44,8 @@ impl Task for MinifyTask {
     type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(|handler| {
-            let fm = input.to_file(self.c.cm.clone());
+        try_with(|cm, handler| {
+            let fm = cm.load_file();
 
             self.c.minify(fm, handler, &options)
         })

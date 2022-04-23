@@ -1,4 +1,7 @@
 use anyhow::{anyhow, Error};
+use napi::Status;
+use swc_common::{errors::Handler, sync::Lrc, SourceMap};
+use tracing_subscriber::EnvFilter;
 
 /// Trying to initialize default subscriber if global dispatch is not set.
 /// This can be called multiple time, however subsequent calls will be ignored
@@ -13,10 +16,9 @@ pub fn init_default_trace_subscriber() {
         .try_init();
 }
 
-#[instrument(level = "trace", skip_all)]
 pub fn try_with<F, Ret>(op: F) -> Result<Ret, Error>
 where
-    F: FnOnce() -> Result<Ret, Error>,
+    F: FnOnce(&Lrc<SourceMap>, &Handler) -> Result<Ret, Error>,
 {
     try_with_handler(
         cm,
@@ -43,3 +45,12 @@ where
         },
     )
 }
+
+pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
+    fn convert_err(self) -> napi::Result<T> {
+        self.into()
+            .map_err(|err| napi::Error::new(Status::GenericFailure, format!("{:?}", err)))
+    }
+}
+
+impl<T> MapErr<T> for Result<T, anyhow::Error> {}
