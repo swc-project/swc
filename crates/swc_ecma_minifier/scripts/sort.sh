@@ -4,12 +4,23 @@ set -eu
 # Fix sorting differences between Linux and Mac
 export LC_ALL=C
 
-cat tests/golden.txt | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/golden_sorted.txt
-mv tests/golden_sorted.txt tests/golden.txt
+function sortOne() {
+    cat $1 | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/sorted.txt
+    mv tests/sorted.txt $1
+}
 
-cat tests/TODO.txt | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/ignored_sorted.txt
-mv tests/ignored_sorted.txt tests/TODO.txt
+sortOne tests/golden.txt
+sortOne tests/TODO.txt
+sortOne tests/postponed.txt
+
+# Don't mark postponed test as todo
+comm -23 tests/TODO.txt tests/postponed.txt > tests/nodup.txt
+mv tests/nodup.txt tests/TODO.txt
 
 # Don't mark ignored test as golden
 comm -23 tests/golden.txt tests/TODO.txt > tests/nodup.txt
 mv tests/nodup.txt tests/golden.txt
+
+# Don't mark passing test as postponed
+comm -23 tests/postponed.txt tests/golden.txt > tests/nodup.txt
+mv tests/nodup.txt tests/postponed.txt

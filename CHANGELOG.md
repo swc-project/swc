@@ -14,6 +14,9 @@
 - **(es/parser)** Reject invalid regex flags (#4404) ([c96e322](https://github.com/swc-project/swc/commit/c96e32243c549d0f7db26a8e76d69a5646b4865c))
 
 
+- **(es/parser)** Reject invalid `new.target` (#4406) ([da02c9d](https://github.com/swc-project/swc/commit/da02c9dc509f97d58f565223c81e7b123b0301c5))
+
+
 - **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
 
 
@@ -39,6 +42,9 @@
 
 
 - **(es)** Add tests for `.swcrc` (#4398) ([5134b4f](https://github.com/swc-project/swc/commit/5134b4f9bee5725bae53876067399aa0528a8add))
+
+
+- **(es/minifier)** Split tests into improvement and stabilization (#4409) ([ab88637](https://github.com/swc-project/swc/commit/ab886379377726bd32f9221da494eb00d9b6fa94))
 
 ## [1.2.171] - 2022-04-22
 
