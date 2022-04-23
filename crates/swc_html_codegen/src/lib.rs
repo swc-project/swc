@@ -102,25 +102,6 @@ where
         if !n.attributes.is_empty() {
             space!(self);
 
-        for attribute in &n.attributes {
-            start_tag.push(' ');
-
-            if let Some(prefix) = &attribute.prefix {
-                start_tag.push_str(prefix);
-                start_tag.push(':');
-            }
-
-            start_tag.push_str(&attribute.name);
-
-            if let Some(value) = &attribute.value {
-                start_tag.push('=');
-
-                let quote = if value.contains('"') { '\'' } else { '"' };
-
-                start_tag.push(quote);
-                start_tag.push_str(value);
-                start_tag.push(quote);
-            }
             self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
         }
 
@@ -166,6 +147,11 @@ where
     #[emitter]
     fn emit_attribute(&mut self, n: &Attribute) -> Result {
         let mut attribute = String::new();
+
+        if let Some(prefix) = &n.prefix {
+            attribute.push_str(prefix);
+            attribute.push(':');
+        }
 
         attribute.push_str(&n.name);
 
