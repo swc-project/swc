@@ -339,10 +339,10 @@ impl<'a, I: Tokens> Parser<I> {
                             },
                         );
                         if flags_count.remove(&'\u{0000}').is_some() {
-                            syntax_error!(self, span, SyntaxError::UnknownRegExpFlags);
+                            self.emit_err(span, SyntaxError::UnknownRegExpFlags);
                         }
                         if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
-                            syntax_error!(self, span, SyntaxError::DuplicatedRegExpFlags(*flag));
+                            self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
                         }
                         return Ok(Box::new(Expr::Lit(Lit::Regex(Regex { span, exp, flags }))));
                     }
