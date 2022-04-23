@@ -1,5 +1,8 @@
-use anyhow::{anyhow, Error};
+use std::any::type_name;
+
+use anyhow::{anyhow, Context, Error};
 use napi::Status;
+use serde::de::DeserializeOwned;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use tracing_subscriber::EnvFilter;
 
@@ -54,3 +57,33 @@ pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
 }
 
 impl<T> MapErr<T> for Result<T, anyhow::Error> {}
+
+pub(crate) fn get_deserialized<T, B>(buffer: B) -> napi::Result<T>
+where
+    T: DeserializeOwned,
+    B: AsRef<[u8]>,
+{
+    let mut deserializer = serde_json::Deserializer::from_slice(buffer.as_ref());
+    deserializer.disable_recursion_limit();
+
+    let v = T::deserialize(&mut deserializer)
+        .with_context(|| {
+            format!(
+                "Failed to deserialize buffer as {}\nJSON: {}",
+                type_name::<T>(),
+                String::from_utf8_lossy(buffer.as_ref())
+            )
+        })
+        .convert_err()?;
+
+    Ok(v)
+}
+
+pub(crate) fn deserialize_json<T>(json: &str) -> Result<T, serde_json::Error>
+where
+    T: DeserializeOwned,
+{
+    let mut deserializer = serde_json::Deserializer::from_str(json);
+
+    T::deserialize(&mut deserializer)
+}

@@ -28,7 +28,12 @@ napi-derive = { version = "2", default-features = false, features = [
 ] }
 node_macro_deps = { path = "../node_macro_deps" }
 serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 swc_common = { path = "../swc_common", features = ["perf"] }
+swc_css_ast = { path = "../swc_css_ast" }
+swc_css_codegen = { path = "../swc_css_codegen" }
+swc_css_minifier = { path = "../swc_css_minifier" }
+swc_css_parser = { path = "../swc_css_parser" }
 swc_node_base = { path = "../swc_node_base" }
 tracing = { version = "0.1.32", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"

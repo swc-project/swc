@@ -11,9 +11,11 @@ mod util;
 use std::{backtrace::Backtrace, env, panic::set_hook};
 
 use napi::{bindgen_prelude::*, Task};
-use serde::Serialize;
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use swc_common::FileName;
+use util::deserialize_json;
 
-use crate::util::try_with;
+use crate::util::{get_deserialized, try_with, MapErr};
 
 #[napi::module_init]
 fn init() {
@@ -38,6 +40,12 @@ struct MinifyTask {
     options: String,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct MinifyOptions {
+    #[serde(default)]
+    filename: Option<String>,
+}
+
 #[napi]
 impl Task for MinifyTask {
     type JsValue = TransformOutput;
@@ -45,9 +53,13 @@ impl Task for MinifyTask {
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         try_with(|cm, handler| {
-            let fm = cm.load_file();
+            let opts: MinifyOptions = deserialize_json(&self.options)?;
+            let filename = match opts.filename {
+                Some(v) => FileName::Real(v.into()),
+                None => FileName::Anon,
+            };
 
-            self.c.minify(fm, handler, &options)
+            let fm = cm.new_source_file(filename, "input.js");
         })
         .convert_err()
     }
@@ -63,9 +75,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
-    let c = get_compiler();
-
-    let task = MinifyTask { c, code, options };
+    let task = MinifyTask { code, options };
 
     AsyncTask::with_optional_signal(task, signal)
 }
@@ -73,7 +83,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code: MinifyTarget = get_deserialized(code)?;
+    let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let opts = get_deserialized(opts)?;
 
     let c = get_compiler();
