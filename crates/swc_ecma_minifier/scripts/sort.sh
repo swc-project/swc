@@ -5,8 +5,8 @@ set -eu
 export LC_ALL=C
 
 function sortOne() {
-    cat $file | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/sorted.txt
-    mv tests/sorted.txt $file
+    cat $1 | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/sorted.txt
+    mv tests/sorted.txt $1
 }
 
 sortOne tests/golden.txt
