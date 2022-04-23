@@ -28,6 +28,12 @@
 
 - **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
 
+### Performance
+
+
+
+- **(es/minifier)** Add some fast-path to the `MultiReplacer` (#4408) ([4c9e5c0](https://github.com/swc-project/swc/commit/4c9e5c01ef91d01c95a6e928daa9e99839eabedf))
+
 ### Testing
 
 
