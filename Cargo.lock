@@ -253,8 +253,6 @@ dependencies = [
  "swc_css_parser",
  "swc_error_reporters",
  "tracing",
- "tracing-chrome",
- "tracing-futures",
  "tracing-subscriber",
 ]
 
