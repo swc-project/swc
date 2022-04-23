@@ -51,6 +51,8 @@ pub enum SyntaxError {
     InvalidSuper,
     InvalidSuperPrivateName,
 
+    InvalidNewTarget,
+
     InvalidImport,
 
     ArrowNotAllowed,
@@ -486,6 +488,9 @@ impl SyntaxError {
             SyntaxError::InvalidSuperPrivateName => {
                 "Index super with private name is not allowed".into()
             }
+            SyntaxError::InvalidNewTarget => "'new.target' is only allowed in the body of a \
+                                              function declaration, function expression, or class."
+                .into(),
             SyntaxError::InvalidImport => "Import is not allowed here".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
             SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),

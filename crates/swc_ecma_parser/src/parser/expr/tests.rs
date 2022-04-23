@@ -438,7 +438,7 @@ fn issue_380() {
 
 #[test]
 fn issue_675() {
-    expr("Object.setPrototypeOf(this, new.target.prototype)");
+    expr("fn = function () { Object.setPrototypeOf(this, new.target.prototype); }");
 }
 
 #[test]
