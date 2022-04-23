@@ -250,7 +250,14 @@ impl VisitMut for MultiReplacer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if self.vars.is_empty() {
+            return;
+        }
         e.visit_mut_children_with(self);
+
+        if self.vars.is_empty() {
+            return;
+        }
 
         if matches!(self.mode, MultiReplacerMode::Normal) {
             if let Expr::Ident(i) = e {
