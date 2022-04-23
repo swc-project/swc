@@ -1,0 +1,207 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 190,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 16,
+        "end": 190,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 29,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 23,
+            "end": 190,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 29,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 31,
+                "end": 46,
+                "ctxt": 0
+              },
+              "tagName": "h2",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 35,
+                    "end": 46,
+                    "ctxt": 0
+                  },
+                  "value": "HTML Images"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 51,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 52,
+                "end": 96,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 55,
+                    "end": 96,
+                    "ctxt": 0
+                  },
+                  "value": "HTML images are defined with the img tag:"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 100,
+                "end": 102,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 102,
+                "end": 172,
+                "ctxt": 0
+              },
+              "tagName": "img",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "src",
+                  "value": "w3schools.jpg"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "alt",
+                  "value": "W3Schools.com"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "width",
+                  "value": "104"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "height",
+                  "value": "142"
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 172,
+                "end": 190,
+                "ctxt": 0
+              },
+              "value": "\n\n\n\n"
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

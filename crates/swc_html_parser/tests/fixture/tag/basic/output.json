@@ -2,1502 +2,665 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 452,
+    "end": 450,
     "ctxt": 0
   },
+  "mode": "no-quirks",
   "children": [
     {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
         "start": 0,
-        "end": 5,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 5,
-        "end": 11,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 11,
-        "end": 12,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 12,
-        "end": 17,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 17,
-        "end": 22,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 22,
-        "end": 28,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 28,
-        "end": 34,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 34,
-        "end": 35,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 35,
-        "end": 40,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 40,
-        "end": 46,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 46,
-        "end": 51,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 51,
-        "end": 57,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 57,
-        "end": 58,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 58,
-        "end": 62,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 62,
-        "end": 63,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 63,
-        "end": 69,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": true,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 69,
-        "end": 70,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 70,
-        "end": 80,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "h:ællæ",
-          "raw_tag_name": "h:ællæ",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 80,
-        "end": 91,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "h:ællæ",
-          "raw_tag_name": "h:ællæ",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 91,
-        "end": 92,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 92,
-        "end": 102,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "html",
-          "raw_tag_name": "html",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "⚡",
-              "raw_name": "⚡",
-              "value": null,
-              "raw_value": null
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 102,
-        "end": 109,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "html",
-          "raw_tag_name": "html",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 109,
-        "end": 110,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 110,
-        "end": 122,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "some-tag-1",
-          "raw_tag_name": "some-tag-1",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 122,
-        "end": 135,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "some-tag-1",
-          "raw_tag_name": "some-tag-1",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 135,
-        "end": 147,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "some-tag-2",
-          "raw_tag_name": "some-tag-2",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 147,
-        "end": 160,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "some-tag-2",
-          "raw_tag_name": "some-tag-2",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 160,
-        "end": 161,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 161,
-        "end": 181,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "href",
-              "raw_name": "href",
-              "value": "test.html",
-              "raw_value": "\"test.html\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 181,
-        "end": 186,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 186,
-        "end": 187,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "h",
-          "raw": "h"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 187,
-        "end": 188,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 188,
-        "end": 189,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "y",
-          "raw": "y"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 189,
-        "end": 195,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 195,
-        "end": 199,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "a",
-          "raw_tag_name": "a",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 199,
-        "end": 200,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 200,
-        "end": 212,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "custom-tag",
-          "raw_tag_name": "CUSTOM-TAG",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 212,
-        "end": 225,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "custom-tag",
-          "raw_tag_name": "CUSTOM-TAG",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 225,
-        "end": 230,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 230,
-        "end": 231,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "H",
-          "raw": "H"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 231,
-        "end": 232,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 232,
-        "end": 233,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "l",
-          "raw": "l"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 233,
-        "end": 234,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "l",
-          "raw": "l"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 234,
-        "end": 235,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "o",
-          "raw": "o"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 235,
-        "end": 236,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": " ",
-          "raw": " "
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 236,
-        "end": 237,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": ":",
-          "raw": ":"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 237,
-        "end": 238,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": ")",
-          "raw": ")"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 238,
-        "end": 244,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 244,
-        "end": 245,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 245,
-        "end": 250,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 250,
-        "end": 251,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 251,
-        "end": 252,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 252,
-        "end": 253,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 253,
-        "end": 254,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 254,
-        "end": 255,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "s",
-          "raw": "s"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 255,
-        "end": 256,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 256,
-        "end": 257,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 257,
-        "end": 258,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 258,
-        "end": 264,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 264,
-        "end": 265,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 265,
-        "end": 266,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 266,
-        "end": 271,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 271,
-        "end": 286,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "test",
-              "raw_name": "test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 286,
-        "end": 287,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 287,
-        "end": 306,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "data-test",
-              "raw_name": "data-test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 306,
-        "end": 326,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "data-test",
-              "raw_name": "data-test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 326,
-        "end": 327,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 327,
-        "end": 347,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": true,
-          "attributes": [
-            {
-              "name": "data-test",
-              "raw_name": "data-test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 347,
-        "end": 348,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 348,
-        "end": 367,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "data-test",
-              "raw_name": "data-test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 367,
-        "end": 368,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 368,
-        "end": 386,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "br",
-          "raw_tag_name": "br",
-          "self_closing": false,
-          "attributes": [
-            {
-              "name": "data-test",
-              "raw_name": "data-test",
-              "value": "a",
-              "raw_value": "\"a\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 386,
-        "end": 387,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 387,
-        "end": 393,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 393,
-        "end": 394,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 394,
-        "end": 395,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "T",
-          "raw": "T"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 395,
-        "end": 396,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 396,
-        "end": 397,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "s",
-          "raw": "s"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 397,
-        "end": 398,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 398,
-        "end": 399,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 399,
-        "end": 406,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 406,
-        "end": 407,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 407,
-        "end": 408,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 408,
-        "end": 413,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 413,
-        "end": 414,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 414,
-        "end": 415,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 415,
-        "end": 416,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "s",
-          "raw": "s"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 416,
-        "end": 417,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 417,
-        "end": 435,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": true,
-          "attributes": [
-            {
-              "name": "foo",
-              "raw_name": "foo",
-              "value": "bar",
-              "raw_value": "\"bar\""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 435,
-        "end": 436,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 436,
-        "end": 441,
-        "ctxt": 0
-      },
-      "token": {
-        "StartTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": false,
-          "attributes": []
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 441,
-        "end": 442,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 442,
         "end": 443,
         "ctxt": 0
       },
-      "token": {
-        "Character": {
-          "value": "e",
-          "raw": "e"
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 5,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 443,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 5,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 11,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 12,
+                "end": 22,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 17,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 34,
+                "end": 35,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 35,
+                "end": 40,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 46,
+                "end": 51,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 58,
+                "end": 62,
+                "ctxt": 0
+              },
+              "tagName": "br",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 62,
+                "end": 63,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 63,
+                "end": 69,
+                "ctxt": 0
+              },
+              "tagName": "br",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 69,
+                "end": 70,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 70,
+                "end": 80,
+                "ctxt": 0
+              },
+              "tagName": "h:ællæ",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 91,
+                "end": 92,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 92,
+                "end": 101,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "⚡",
+                  "value": null
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 107,
+                "end": 108,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 108,
+                "end": 120,
+                "ctxt": 0
+              },
+              "tagName": "some-tag-1",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 133,
+                "end": 145,
+                "ctxt": 0
+              },
+              "tagName": "some-tag-2",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 158,
+                "end": 159,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 159,
+                "end": 443,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "href",
+                  "value": "test.html"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 179,
+                    "end": 187,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 184,
+                        "end": 187,
+                        "ctxt": 0
+                      },
+                      "value": "hey"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 197,
+                    "end": 198,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 198,
+                    "end": 210,
+                    "ctxt": 0
+                  },
+                  "tagName": "custom-tag",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 223,
+                    "end": 236,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 228,
+                        "end": 236,
+                        "ctxt": 0
+                      },
+                      "value": "Hello :)"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 242,
+                    "end": 243,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 243,
+                    "end": 256,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 248,
+                        "end": 256,
+                        "ctxt": 0
+                      },
+                      "value": "\n\ntest\n\n"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 262,
+                    "end": 264,
+                    "ctxt": 0
+                  },
+                  "value": "\n\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 264,
+                    "end": 269,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 284,
+                    "end": 285,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 285,
+                    "end": 304,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "data-test",
+                      "value": "a"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 324,
+                    "end": 325,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 325,
+                    "end": 345,
+                    "ctxt": 0
+                  },
+                  "tagName": "br",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "data-test",
+                      "value": "a"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 345,
+                    "end": 346,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 346,
+                    "end": 365,
+                    "ctxt": 0
+                  },
+                  "tagName": "br",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "data-test",
+                      "value": "a"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 365,
+                    "end": 366,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 366,
+                    "end": 384,
+                    "ctxt": 0
+                  },
+                  "tagName": "br",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "data-test",
+                      "value": "a"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 384,
+                    "end": 385,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 385,
+                    "end": 397,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 391,
+                        "end": 397,
+                        "ctxt": 0
+                      },
+                      "value": "\nTest\n"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 404,
+                    "end": 406,
+                    "ctxt": 0
+                  },
+                  "value": "\n\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 406,
+                    "end": 415,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 411,
+                        "end": 415,
+                        "ctxt": 0
+                      },
+                      "value": "test"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 433,
+                    "end": 434,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 434,
+                    "end": 443,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 439,
+                        "end": 443,
+                        "ctxt": 0
+                      },
+                      "value": "test"
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
         }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 443,
-        "end": 444,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "s",
-          "raw": "s"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 444,
-        "end": 445,
-        "ctxt": 0
-      },
-      "token": {
-        "Character": {
-          "value": "t",
-          "raw": "t"
-        }
-      }
-    },
-    {
-      "type": "TokenAndSpan",
-      "span": {
-        "start": 445,
-        "end": 452,
-        "ctxt": 0
-      },
-      "token": {
-        "EndTag": {
-          "tag_name": "div",
-          "raw_tag_name": "div",
-          "self_closing": true,
-          "attributes": []
-        }
-      }
+      ],
+      "content": null
     }
   ]
 }

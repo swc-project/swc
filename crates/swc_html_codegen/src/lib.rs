@@ -44,6 +44,164 @@ where
     }
 
     #[emitter]
+    fn emit_child(&mut self, n: &Child) -> Result {
+        match n {
+            Child::DocumentType(n) => emit!(self, n),
+            Child::Element(n) => emit!(self, n),
+            Child::Text(n) => emit!(self, n),
+            Child::Comment(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_document_doctype(&mut self, n: &DocumentType) -> Result {
+        let mut doctype = String::new();
+
+        doctype.push('<');
+        doctype.push('!');
+        doctype.push_str("DOCTYPE");
+
+        if let Some(name) = &n.name {
+            doctype.push(' ');
+            doctype.push_str(name);
+        }
+
+        if let Some(public_id) = &n.public_id {
+            doctype.push(' ');
+            doctype.push_str("PUBLIC");
+            doctype.push(' ');
+            doctype.push('"');
+            doctype.push_str(public_id);
+            doctype.push('"');
+
+            if let Some(system_id) = &n.system_id {
+                doctype.push(' ');
+                doctype.push('"');
+                doctype.push_str(system_id);
+                doctype.push('"');
+            }
+        } else if let Some(system_id) = &n.system_id {
+            doctype.push(' ');
+            doctype.push_str("SYSTEM");
+            doctype.push(' ');
+            doctype.push('"');
+            doctype.push_str(system_id);
+            doctype.push('"');
+        }
+
+        doctype.push('>');
+
+        write_raw!(self, n.span, &doctype);
+    }
+
+    #[emitter]
+    fn emit_element(&mut self, n: &Element) -> Result {
+        let mut start_tag = String::new();
+
+        start_tag.push('<');
+        start_tag.push_str(&n.tag_name);
+
+        for attribute in &n.attributes {
+            start_tag.push(' ');
+
+            if let Some(prefix) = &attribute.prefix {
+                start_tag.push_str(prefix);
+                start_tag.push(':');
+            }
+
+            start_tag.push_str(&attribute.name);
+
+            if let Some(value) = &attribute.value {
+                start_tag.push('=');
+
+                let quote = if value.contains('"') { '\'' } else { '"' };
+
+                start_tag.push(quote);
+                start_tag.push_str(value);
+                start_tag.push(quote);
+            }
+        }
+
+        start_tag.push('>');
+
+        write_str!(self, n.span, &start_tag);
+
+        let no_children = n.namespace == Namespace::HTML
+            && matches!(
+                &*n.tag_name,
+                "area"
+                    | "base"
+                    | "basefont"
+                    | "bgsound"
+                    | "br"
+                    | "col"
+                    | "embed"
+                    | "frame"
+                    | "hr"
+                    | "img"
+                    | "input"
+                    | "keygen"
+                    | "link"
+                    | "meta"
+                    | "param"
+                    | "source"
+                    | "track"
+                    | "wbr"
+            );
+
+        if no_children {
+            return Ok(());
+        }
+
+        if !n.children.is_empty() {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
+
+        let mut end_tag = String::new();
+
+        end_tag.push('<');
+        end_tag.push('/');
+        end_tag.push_str(&n.tag_name);
+        end_tag.push('>');
+
+        write_str!(self, n.span, &end_tag);
+    }
+
+    #[emitter]
+    fn emit_text(&mut self, n: &Text) -> Result {
+        let mut text = String::new();
+
+        for c in n.value.chars() {
+            match c {
+                '&' => {
+                    text.push_str(&String::from("&amp;"));
+                }
+                '<' => {
+                    text.push_str(&String::from("&lt;"));
+                }
+                '>' => {
+                    text.push_str(&String::from("&gt;"));
+                }
+                '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
+                _ => text.push(c),
+            }
+        }
+
+        write_str!(self, n.span, &text);
+    }
+
+    #[emitter]
+    fn emit_comment(&mut self, n: &Comment) -> Result {
+        let mut comment = String::new();
+
+        comment.push_str("<!--");
+        comment.push_str(&n.data);
+        comment.push_str("-->");
+
+        write_str!(self, n.span, &comment);
+    }
+
+    #[emitter]
     fn emit_token_and_span(&mut self, n: &TokenAndSpan) -> Result {
         let span = n.span;
 
@@ -226,7 +384,7 @@ where
 
                 start_tag.push('>');
 
-                write_str!(self, span, &start_tag);
+                write_raw!(self, span, &start_tag);
             }
             Token::EndTag {
                 tag_name,
@@ -325,18 +483,8 @@ where
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => {
-                write_raw!(self, ",");
-                formatting_space!(self);
-            }
             ListFormat::SpaceDelimited => {
                 space!(self)
-            }
-            ListFormat::SemiDelimited => {
-                write_raw!(self, ";")
-            }
-            ListFormat::DotDelimited => {
-                write_raw!(self, ".");
             }
             _ => unreachable!(),
         }

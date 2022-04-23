@@ -14,490 +14,156 @@
  11 | `-> </html>
     `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, raw_public_keyword: None,
-  | public_quote: None, public_id: None, raw_system_keyword: None, system_quote: None, system_id: None }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x DocumentType
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:1:1]
  1 | <!DOCTYPE html>
-   :                ^
- 2 | <html>
+   : ^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
-   `----
+  x Child
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>Title of the document</title>
+  5 | |   </head>
+  6 | |   
+  7 | |   <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:2:1]
- 2 | <html>
-   :       ^
- 3 | <head>
-   `----
+  x Element
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>Title of the document</title>
+  5 | |   </head>
+  6 | |   
+  7 | |   <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
 
-  x StartTag { tag_name: Atom('head' type=inline), raw_tag_name: Some(Atom('head' type=inline)), self_closing: false, attributes: [] }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
- 3 | <head>
-   : ^^^^^^
+ 3 | ,-> <head>
+ 4 | `->     <title>Title of the document</title>
+ 5 |     </head>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Element
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
- 3 | <head>
-   :       ^
- 4 |     <title>Title of the document</title>
+ 3 | ,-> <head>
+ 4 | `->     <title>Title of the document</title>
+ 5 |     </head>
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:1]
- 4 |     <title>Title of the document</title>
-   : ^
+  x Child
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Title of the document</title>
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:2]
- 4 |    <title>Title of the document</title>
-   : ^
+  x Text
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Title of the document</title>
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:3]
- 4 |   <title>Title of the document</title>
-   : ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:4]
- 4 |  <title>Title of the document</title>
-   : ^
-   `----
-
-  x StartTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
+  x Element
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   :        ^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   :         ^
+   :        ^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
+  x Text
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   :          ^
+   :        ^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :           ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :            ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :             ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :              ^
-   `----
-
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :               ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                 ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                  ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                   ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                    ^
-   `----
-
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                     ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                      ^
-   `----
-
-  x Character { value: 'c', raw: Some(Atom('c' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                       ^
-   `----
-
-  x Character { value: 'u', raw: Some(Atom('u' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                        ^
-   `----
-
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                         ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                          ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                           ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                            ^
-   `----
-
-  x EndTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                             ^^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
  4 | <title>Title of the document</title>
    :                                     ^
  5 | </head>
    `----
 
-  x EndTag { tag_name: Atom('head' type=inline), raw_tag_name: Some(Atom('head' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+  x Text
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:4:5]
+ 4 | <title>Title of the document</title>
+   :                                     ^
  5 | </head>
-   : ^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
- 5 | </head>
-   :        ^
+ 5 | ,-> </head>
+ 6 | `-> 
+ 7 |     <body>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:6:1]
- 6 | 
-   : ^
- 7 | <body>
+  x Text
+   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:5:1]
+ 5 | ,-> </head>
+ 6 | `-> 
+ 7 |     <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
- 7 | <body>
-   : ^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
- 7 | <body>
-   :       ^
- 8 | The content of the document......
-   `----
-
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   : ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :  ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :   ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :    ^
-   `----
-
-  x Character { value: 'c', raw: Some(Atom('c' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :     ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :      ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :       ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :        ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :         ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :          ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :           ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :            ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :             ^
-   `----
-
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :              ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :               ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                 ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                  ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                   ^
-   `----
-
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                    ^
-   `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                     ^
-   `----
-
-  x Character { value: 'c', raw: Some(Atom('c' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                      ^
-   `----
-
-  x Character { value: 'u', raw: Some(Atom('u' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                       ^
-   `----
-
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                        ^
-   `----
-
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                         ^
-   `----
-
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                          ^
-   `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                           ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                            ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                             ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                              ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                               ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                                ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                                 ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:8:1]
- 8 | The content of the document......
-   :                                  ^
- 9 | </body>
-   `----
-
-  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:9:1]
- 9 | </body>
-   : ^^^^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/doctype-uppercase/input.html:9:1]
- 9 | </body>
-   :        ^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:10:1]
- 10 | 
-    : ^
- 11 | </html>
+  x Child
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:11:1]
- 11 | </html>
-    : ^^^^^^^
+  x Element
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
     `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:11:1]
- 11 | </html>
-    :        ^
+  x Child
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/doctype-uppercase/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
     `----

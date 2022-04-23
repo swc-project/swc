@@ -16,200 +16,147 @@
  13 | `-> </html>
     `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, raw_public_keyword: None,
-  | public_quote: None, public_id: None, raw_system_keyword: None, system_quote: None, system_id: None }
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x DocumentType
    ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
  1 | <!DOCTYPE html>
-   :                ^
- 2 | <html>
+   : ^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:2:1]
- 2 | <html>
-   : ^^^^^^
+  x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <p>This is a paragraph.</p>
+  6 | |   <!--
+  7 | |   <p>Look at this cool image:</p>
+  8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | |   -->
+ 10 | |   <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <p>This is a paragraph.</p>
+  6 | |   <!--
+  7 | |   <p>Look at this cool image:</p>
+  8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | |   -->
+ 10 | |   <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:2:1]
- 2 | <html>
-   :       ^
- 3 | <body>
+  x Element
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
+  x Child
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <p>This is a paragraph.</p>
+  6 | |   <!--
+  7 | |   <p>Look at this cool image:</p>
+  8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | |   -->
+ 10 | |   <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <p>This is a paragraph.</p>
+  6 | |   <!--
+  7 | |   <p>Look at this cool image:</p>
+  8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | |   -->
+ 10 | |   <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
- 3 | <body>
-   : ^^^^^^
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <p>This is a paragraph.</p>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Text
    ,-[$DIR/tests/fixture/multiline-comments/input.html:3:1]
- 3 | <body>
-   :       ^
+ 3 | ,-> <body>
+ 4 | `-> 
+ 5 |     <p>This is a paragraph.</p>
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:4:1]
- 4 | 
-   : ^
- 5 | <p>This is a paragraph.</p>
-   `----
-
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   : ^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
+  x Element
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   :    ^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   :     ^
+   :    ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
+  x Text
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
-   :      ^
+   :    ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :       ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :        ^
-   `----
-
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :         ^
-   `----
-
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :          ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :           ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :            ^
-   `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :             ^
-   `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :              ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :               ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                 ^
-   `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                  ^
-   `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                   ^
-   `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                    ^
-   `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                     ^
-   `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                      ^
-   `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                       ^
-   `----
-
-  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
- 5 | <p>This is a paragraph.</p>
-   :                        ^^^^
-   `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <!--
    `----
 
-  x Comment { data: Atom('
-  | <p>Look at this cool image:</p>
-  | <img border="0" src="pic_trulli.jpg" alt="Trulli">
-  | ' type=dynamic) }
+  x Text
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
+   :                            ^
+ 6 | <!--
+   `----
+
+  x Child
    ,-[$DIR/tests/fixture/multiline-comments/input.html:6:1]
  6 | ,-> <!--
  7 | |   <p>Look at this cool image:</p>
@@ -217,208 +164,64 @@
  9 | `-> -->
    `----
 
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
+  x Comment
+   ,-[$DIR/tests/fixture/multiline-comments/input.html:6:1]
+ 6 | ,-> <!--
+ 7 | |   <p>Look at this cool image:</p>
+ 8 | |   <img border="0" src="pic_trulli.jpg" alt="Trulli">
+ 9 | `-> -->
+   `----
+
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:9:1]
   9 | -->
     :    ^
  10 | <p>This is a paragraph too.</p>
     `----
 
-  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    : ^^^
-    `----
-
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
+  x Text
+    ,-[$DIR/tests/fixture/multiline-comments/input.html:9:1]
+  9 | -->
     :    ^
+ 10 | <p>This is a paragraph too.</p>
     `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    :     ^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
+  x Element
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    :      ^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    :       ^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
+  x Text
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
  10 | <p>This is a paragraph too.</p>
-    :        ^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
+  x Child
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :         ^
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
+  x Text
     ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :          ^
-    `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :           ^
-    `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :            ^
-    `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :             ^
-    `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :              ^
-    `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :               ^
-    `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                ^
-    `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                 ^
-    `----
-
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                  ^
-    `----
-
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                   ^
-    `----
-
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                    ^
-    `----
-
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                     ^
-    `----
-
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                      ^
-    `----
-
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                       ^
-    `----
-
-  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                        ^
-    `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                         ^
-    `----
-
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                          ^
-    `----
-
-  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                           ^
-    `----
-
-  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                            ^^^^
-    `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:10:1]
- 10 | <p>This is a paragraph too.</p>
-    :                                ^
-    `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:11:1]
- 11 | 
-    : ^
- 12 | </body>
-    `----
-
-  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:12:1]
- 12 | </body>
-    : ^^^^^^^
-    `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:12:1]
- 12 | </body>
-    :        ^
- 13 | </html>
-    `----
-
-  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:13:1]
- 13 | </html>
-    : ^^^^^^^
-    `----
-
-  x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)) }
-    ,-[$DIR/tests/fixture/multiline-comments/input.html:13:1]
- 13 | </html>
-    :        ^
+ 10 | ,-> <p>This is a paragraph too.</p>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
     `----

@@ -36,14 +36,6 @@ macro_rules! space {
     }};
 }
 
-macro_rules! formatting_space {
-    ($g:expr) => {{
-        if !$g.config.minify {
-            $g.wr.write_space()?;
-        }
-    }};
-}
-
 // macro_rules! increase_indent {
 //     ($g:expr) => {{
 //         if !$g.config.minify {

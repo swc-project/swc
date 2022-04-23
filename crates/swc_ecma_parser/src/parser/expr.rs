@@ -1,6 +1,6 @@
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{ast_node, util::take::Take, Spanned};
+use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{
@@ -325,11 +325,26 @@ impl<'a, I: Tokens> Parser<I> {
                 // Regexp
                 Token::Regex(..) => match bump!(self) {
                     Token::Regex(exp, flags) => {
-                        return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
-                            span: span!(self, start),
-                            exp,
-                            flags,
-                        }))));
+                        let span = span!(self, start);
+
+                        let mut flags_count = flags.chars().fold(
+                            AHashMap::<char, usize>::default(),
+                            |mut map, flag| {
+                                let key = match flag {
+                                    'g' | 'i' | 'm' | 's' | 'u' | 'y' => flag,
+                                    _ => '\u{0000}', // special marker for unknown flags
+                                };
+                                map.entry(key).and_modify(|count| *count += 1).or_insert(1);
+                                map
+                            },
+                        );
+                        if flags_count.remove(&'\u{0000}').is_some() {
+                            self.emit_err(span, SyntaxError::UnknownRegExpFlags);
+                        }
+                        if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
+                            self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
+                        }
+                        return Ok(Box::new(Expr::Lit(Lit::Regex(Regex { span, exp, flags }))));
                     }
                     _ => unreachable!(),
                 },

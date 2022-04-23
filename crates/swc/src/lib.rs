@@ -1269,6 +1269,12 @@ impl Compiler {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
+    let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
+
+    parse_swcrc(&content)
+}
+
+fn parse_swcrc(s: &str) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
         let line = e.line();
         let column = e.column();
@@ -1285,15 +1291,13 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
         ))
     }
 
-    let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
-
     if let Ok(v) = serde_json::from_reader(StripComments::new(
-        content.trim_start_matches('\u{feff}').as_bytes(),
+        s.trim_start_matches('\u{feff}').as_bytes(),
     )) {
         return Ok(v);
     }
 
-    serde_json::from_reader::<StripComments<&[u8]>, Config>(StripComments::new(content.as_bytes()))
+    serde_json::from_reader::<StripComments<&[u8]>, Config>(StripComments::new(s.as_bytes()))
         .map(Rc::Single)
         .map_err(convert_json_err)
 }

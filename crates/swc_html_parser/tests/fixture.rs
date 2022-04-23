@@ -23,7 +23,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
         let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_all();
+        let document: PResult<Document> = parser.parse_document();
 
         match document {
             Ok(document) => {
@@ -77,6 +77,20 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(Document, visit_document);
 
+    mtd!(DocumentFragment, visit_document_fragment);
+
+    mtd!(Child, visit_child);
+
+    mtd!(DocumentType, visit_document_type);
+
+    mtd!(Element, visit_element);
+
+    mtd!(Attribute, visit_attribute);
+
+    mtd!(Text, visit_text);
+
+    mtd!(Comment, visit_comment);
+
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))
@@ -102,7 +116,7 @@ fn span(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
         let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_all();
+        let document: PResult<Document> = parser.parse_document();
 
         match document {
             Ok(document) => {

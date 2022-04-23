@@ -200,7 +200,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.170"
+version = "1.2.171"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2838,7 +2838,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.170.0"
+version = "0.170.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.1"
+version = "0.105.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3301,11 +3301,12 @@ dependencies = [
  "testing",
  "tracing",
  "unicode-id",
+ "walkdir",
 ]
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.4"
+version = "0.102.5"
 dependencies = [
  "criterion",
  "either",
@@ -3751,17 +3752,18 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.3.0"
+version = "0.5.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
+ "swc_html_minifier",
  "swc_html_parser",
  "swc_html_visit",
 ]
 
 [[package]]
 name = "swc_html_ast"
-version = "0.3.0"
+version = "0.5.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3772,7 +3774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.3.0"
+version = "0.5.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3797,8 +3799,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_html_minifier"
+version = "0.2.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_html_codegen",
+ "swc_html_parser",
+ "swc_html_visit",
+ "testing",
+]
+
+[[package]]
 name = "swc_html_parser"
-version = "0.3.0"
+version = "0.5.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3814,7 +3829,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.3.0"
+version = "0.5.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3914,6 +3929,7 @@ name = "swc_plugin_runner"
 version = "0.53.1"
 dependencies = [
  "anyhow",
+ "criterion",
  "once_cell",
  "parking_lot",
  "serde",
@@ -3924,6 +3940,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_node_base",
  "swc_plugin_proxy",
  "testing",
  "tracing",

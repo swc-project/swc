@@ -5,42 +5,58 @@
     "end": 98,
     "ctxt": 0
   },
+  "mode": "quirks",
   "children": [
     {
-      "type": "TokenAndSpan",
+      "type": "DocumentType",
       "span": {
         "start": 0,
         "end": 97,
         "ctxt": 0
       },
-      "token": {
-        "Doctype": {
-          "raw_keyword": "DOCTYPE",
-          "name": "html",
-          "raw_name": "HTML",
-          "force_quirks": true,
-          "raw_public_keyword": "PUBLIC",
-          "public_quote": "\"",
-          "public_id": "-//W3C//DTD HTML 4.01//EN",
-          "raw_system_keyword": null,
-          "system_quote": null,
-          "system_id": null
-        }
-      }
+      "name": "html",
+      "publicId": "-//W3C//DTD HTML 4.01//EN",
+      "systemId": null
     },
     {
-      "type": "TokenAndSpan",
+      "type": "Element",
       "span": {
-        "start": 97,
+        "start": 0,
         "end": 98,
         "ctxt": 0
       },
-      "token": {
-        "Character": {
-          "value": "\n",
-          "raw": "\n"
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 98,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 98,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
         }
-      }
+      ],
+      "content": null
     }
   ]
 }

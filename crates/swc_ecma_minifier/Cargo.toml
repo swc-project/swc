@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0"
 name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.105.1"
+version = "0.105.3"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -54,6 +54,7 @@ criterion = "0.3.5"
 pretty_assertions = "1.1"
 swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
 testing = { version = "0.19.0", path = "../testing" }
+walkdir = "2"
 
 [[bench]]
 harness = false

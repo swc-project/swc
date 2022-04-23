@@ -628,7 +628,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.21"
+version = "0.17.24"
 dependencies = [
  "ahash",
  "anyhow",
@@ -668,7 +668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.81.0"
+version = "0.82.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -721,7 +721,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.47.0"
+version = "0.49.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -734,7 +734,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -743,7 +743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.1.2"
+version = "0.2.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",

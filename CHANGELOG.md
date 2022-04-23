@@ -5,6 +5,47 @@
 
 
 
+- **(html/parser)** Parse foreign attributes (#4400) ([cf3be64](https://github.com/swc-project/swc/commit/cf3be649bb327feda8bce4e7ab7eca92d248c2da))
+
+### Features
+
+
+
+- **(es/parser)** Reject invalid regex flags (#4404) ([c96e322](https://github.com/swc-project/swc/commit/c96e32243c549d0f7db26a8e76d69a5646b4865c))
+
+
+- **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
+
+
+- **(html/minifier)** Initialize crate (#4403) ([63a6280](https://github.com/swc-project/swc/commit/63a6280e8f691f93db246db02ce2479b08874220))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Add a script to instrument real-world inputs (#4399) ([efdf93d](https://github.com/swc-project/swc/commit/efdf93d91099bab79f04a58635b418b7160a0b75))
+
+
+- **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
+
+### Performance
+
+
+
+- **(es/minifier)** Add some fast-path to the `MultiReplacer` (#4408) ([4c9e5c0](https://github.com/swc-project/swc/commit/4c9e5c01ef91d01c95a6e928daa9e99839eabedf))
+
+### Testing
+
+
+
+- **(es)** Add tests for `.swcrc` (#4398) ([5134b4f](https://github.com/swc-project/swc/commit/5134b4f9bee5725bae53876067399aa0528a8add))
+
+## [1.2.171] - 2022-04-22
+
+### Bug Fixes
+
+
+
 - **(common)** Ignore extraneous mapping of 1, 0 => 0, 0 (#4381) ([a06c559](https://github.com/swc-project/swc/commit/a06c55930f64a158b289c790ac9f7f71de78838a))
 
 
