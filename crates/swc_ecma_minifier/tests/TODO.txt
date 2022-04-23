@@ -1,4 +1,3 @@
-arrow/call_args_drop_param/input.js
 asm/asm_mixed/input.js
 async/async_function_declaration/input.js
 classes/pure_prop_assignment_for_classes/input.js
@@ -6,7 +5,6 @@ collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_statement/input.js
 collapse_vars/cascade_switch/input.js
-collapse_vars/collapse_vars_arguments/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
@@ -130,7 +128,6 @@ harmony/default_assign/input.js
 harmony/expansion/input.js
 harmony/fat_arrow_as_param/input.js
 harmony/import_statement_mangling/input.js
-harmony/inline_arrow_using_arguments/input.js
 harmony/issue_1613/input.js
 harmony/issue_1753/input.js
 harmony/issue_1753_disable/input.js
@@ -141,11 +138,9 @@ harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
 hoist_props/issue_851_hoist_to_conflicting_name/input.js
-if_return/if_return_4/input.js
 if_return/if_return_same_value/input.js
 if_return/if_var_return/input.js
 if_return/issue_2747/input.js
-if_return/issue_512/input.js
 inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
@@ -238,8 +233,6 @@ numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
 object/getter_setter_mangler/input.js
-parameters/default_arguments/input.js
-parameters/destructuring_arguments_3/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dot_properties/input.js
@@ -267,7 +260,6 @@ properties/new_this/input.js
 properties/skip_undeclared_properties_by_default/input.js
 properties/unsafe_methods_regex/input.js
 pure_funcs/arithmetic/input.js
-pure_funcs/array/input.js
 pure_funcs/babel/input.js
 pure_funcs/boolean_and/input.js
 pure_funcs/boolean_or/input.js
@@ -303,7 +295,6 @@ pure_getters/set_immutable_5/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-reduce_vars/array_forin_1/input.js
 reduce_vars/conditional_chain_certain_part/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
@@ -322,15 +313,10 @@ reduce_vars/obj_var_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 return_undefined/return_undefined/input.js
-sequences/cascade_assignment_in_return/input.js
 sequences/for_sequences/input.js
-sequences/hoist_decl/input.js
 sequences/issue_1758/input.js
-sequences/lift_sequences_2/input.js
 sequences/lift_sequences_5/input.js
 sequences/side_effects_cascade_3/input.js
-switch/if_switch_typeof/input.js
 template_string/special_chars_in_string/input.js
 transform/if_else_empty/input.js
 transform/if_return/input.js
-transform/label_if_break/input.js
