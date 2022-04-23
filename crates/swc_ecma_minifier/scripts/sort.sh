@@ -20,3 +20,7 @@ mv tests/nodup.txt tests/TODO.txt
 # Don't mark ignored test as golden
 comm -23 tests/golden.txt tests/TODO.txt > tests/nodup.txt
 mv tests/nodup.txt tests/golden.txt
+
+# Don't mark ignored test as golden
+comm -23 tests/postponed.txt tests/golden.txt > tests/nodup.txt
+mv tests/nodup.txt tests/postponed.txt
