@@ -89,7 +89,7 @@ fn minify_inner(code: &str, opts: MinifyOptions) -> anyhow::Result<TransformOutp
             &mut errors,
         );
 
-        let ss = match ss {
+        let mut ss = match ss {
             Ok(v) => v,
             Err(err) => {
                 err.to_diagnostics(handler).emit();
@@ -150,6 +150,7 @@ fn minify_inner(code: &str, opts: MinifyOptions) -> anyhow::Result<TransformOutp
     })
 }
 
+#[allow(unused)]
 #[napi]
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
     binding_commons::init_default_trace_subscriber();
@@ -161,6 +162,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
     AsyncTask::with_optional_signal(task, signal)
 }
 
+#[allow(unused)]
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     binding_commons::init_default_trace_subscriber();

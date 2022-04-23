@@ -113,26 +113,17 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
-    env, fmt,
     fs::{read_to_string, File},
-    io::Write,
-    mem::take,
     path::{Path, PathBuf},
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{
-    collections::AHashMap,
-    comments::SingleThreadedComments,
-    errors::{ColorConfig, HANDLER},
-    Span,
-};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, Span};
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
-use parking_lot::Mutex;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -163,12 +154,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
-use swc_error_reporters::{
-    GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
-};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
-use tracing::instrument;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{

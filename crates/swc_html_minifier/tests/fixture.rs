@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 use std::path::PathBuf;
 
 use swc_html_ast::Document;
@@ -24,7 +26,7 @@ fn minify_fixtures(input: PathBuf) {
         let res: Result<Document, _> = parse_file(&fm, Default::default(), &mut errors);
 
         for err in errors {
-            err.to_diagnostics(&handler).emit();
+            err.to_diagnostics(handler).emit();
         }
 
         if handler.has_errors() {

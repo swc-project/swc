@@ -1,24 +1,22 @@
-use std::any::type_name;
-
-use anyhow::{anyhow, Context, Error};
-use napi::Status;
-use serde::de::DeserializeOwned;
-use swc_common::{errors::Handler, sync::Lrc, SourceMap};
-use tracing_subscriber::EnvFilter;
+use anyhow::{anyhow, Error};
+use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
+use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 
 pub fn try_with<F, Ret>(op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Lrc<SourceMap>, &Handler) -> Result<Ret, Error>,
 {
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     try_with_handler(
-        cm,
-        swc::HandlerOpts {
-            skip_filename,
+        cm.clone(),
+        HandlerOpts {
+            skip_filename: false,
             ..Default::default()
         },
         |handler| {
             //
-            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| op(handler)));
+            let result =
+                std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| op(&cm, handler)));
 
             let p = match result {
                 Ok(v) => return v,
