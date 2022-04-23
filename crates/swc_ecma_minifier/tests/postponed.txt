@@ -64,8 +64,13 @@ conditionals/issue_1154/input.js
 conditionals/issue_2994/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
+dead_code/dead_code_const_annotation/input.js
+dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/global_fns/input.js
+dead_code/issue_2860_2/input.js
+dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
+dead_code/unsafe_builtin/input.js
 destructuring/anon_func_with_destructuring_args/input.js
 destructuring/arrow_func_with_destructuring_args/input.js
 destructuring/issue_3205_2/input.js

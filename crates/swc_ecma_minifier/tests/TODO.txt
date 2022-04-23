@@ -47,12 +47,7 @@ collapse_vars/unused_orig/input.js
 conditionals/equality_conditionals_false/input.js
 conditionals/ifs_5/input.js
 conditionals/issue_2535_1/input.js
-dead_code/dead_code_const_annotation/input.js
-dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/issue_2749/input.js
-dead_code/issue_2860_2/input.js
-dead_code/issue_718/input.js
-dead_code/unsafe_builtin/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
 drop_unused/drop_toplevel_keep_assign/input.js
