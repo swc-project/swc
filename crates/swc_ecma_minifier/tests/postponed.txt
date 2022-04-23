@@ -25,7 +25,11 @@ class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
+collapse_vars/cascade_call/input.js
+collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
+collapse_vars/cascade_statement/input.js
+collapse_vars/cascade_switch/input.js
 collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
@@ -34,9 +38,12 @@ collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
 collapse_vars/inner_lvalues/input.js
+collapse_vars/issue_1605_2/input.js
 collapse_vars/issue_2187_2/input.js
 collapse_vars/issue_2203_2/input.js
 collapse_vars/issue_2203_4/input.js
+collapse_vars/issue_2250_1/input.js
+collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2298/input.js
 collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js

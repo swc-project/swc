@@ -1,10 +1,6 @@
 asm/asm_mixed/input.js
 async/async_function_declaration/input.js
 classes/pure_prop_assignment_for_classes/input.js
-collapse_vars/cascade_call/input.js
-collapse_vars/cascade_conditional/input.js
-collapse_vars/cascade_statement/input.js
-collapse_vars/cascade_switch/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
@@ -24,13 +20,10 @@ collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
 collapse_vars/double_def_1/input.js
 collapse_vars/double_def_2/input.js
-collapse_vars/issue_1605_2/input.js
 collapse_vars/issue_1631_1/input.js
 collapse_vars/issue_1631_2/input.js
 collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_1858/input.js
-collapse_vars/issue_2250_1/input.js
-collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
