@@ -225,10 +225,12 @@ dependencies = [
 name = "binding_css_node"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "napi",
  "napi-build",
  "napi-derive",
  "node_macro_deps",
+ "serde",
  "swc_node_base",
  "tracing",
  "tracing-chrome",
