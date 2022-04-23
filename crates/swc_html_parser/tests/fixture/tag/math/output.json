@@ -121,7 +121,7 @@
                 "ctxt": 0
               },
               "tagName": "math",
-              "namespace": "http://www.w3.org/1998/Math/MathML",
+              "namespace": "http://www.w3.org/2000/svg",
               "attributes": [],
               "children": [
                 {

@@ -35,6 +35,8 @@
             "end": 0,
             "ctxt": 0
           },
+          "namespace": null,
+          "prefix": null,
           "name": "lang",
           "value": "en"
         }
@@ -141,6 +143,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "type",
                   "value": "image/svg+xml"
                 },
@@ -151,6 +155,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "data",
                   "value": "image.svg"
                 }
