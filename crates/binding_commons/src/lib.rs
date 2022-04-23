@@ -1,6 +1,13 @@
+#![deny(warnings)]
+
 /// Explicit extern crate to use allocator.
 extern crate swc_node_base;
 
+use std::any::type_name;
+
+use anyhow::Context;
+use napi::Status;
+use serde::de::DeserializeOwned;
 use tracing_subscriber::EnvFilter;
 
 /// Trying to initialize default subscriber if global dispatch is not set.
@@ -25,7 +32,7 @@ pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
 
 impl<T> MapErr<T> for Result<T, anyhow::Error> {}
 
-pub(crate) fn get_deserialized<T, B>(buffer: B) -> napi::Result<T>
+pub fn get_deserialized<T, B>(buffer: B) -> napi::Result<T>
 where
     T: DeserializeOwned,
     B: AsRef<[u8]>,
@@ -46,7 +53,7 @@ where
     Ok(v)
 }
 
-pub(crate) fn deserialize_json<T>(json: &str) -> Result<T, serde_json::Error>
+pub fn deserialize_json<T>(json: &str) -> Result<T, serde_json::Error>
 where
     T: DeserializeOwned,
 {

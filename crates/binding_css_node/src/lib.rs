@@ -8,6 +8,7 @@ mod util;
 use std::{backtrace::Backtrace, env, panic::set_hook};
 
 use anyhow::{bail, Context};
+use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{bindgen_prelude::*, Task};
 use serde::{Deserialize, Serialize};
 use swc_common::FileName;
@@ -15,9 +16,8 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
 };
-use util::deserialize_json;
 
-use crate::util::{get_deserialized, try_with, MapErr};
+use crate::util::try_with;
 
 #[napi::module_init]
 fn init() {
@@ -152,7 +152,7 @@ fn minify_inner(code: &str, opts: MinifyOptions) -> anyhow::Result<TransformOutp
 
 #[napi]
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
@@ -163,7 +163,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let opts = get_deserialized(opts)?;
 
