@@ -107,7 +107,8 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/callSignaturesWithParameterInitializers")
         || file_name.contains("tsc/jsdocDisallowedInTypescript")
         || file_name.contains("tsc/errorSuperCalls")
-        || file_name.contains("tsc/restElementMustBeLast");
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3");
 
     // Postponed
     let ignore = ignore
