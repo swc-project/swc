@@ -3752,7 +3752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
