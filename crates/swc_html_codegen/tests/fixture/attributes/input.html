@@ -67,5 +67,33 @@
 <div data-foo="test"></div>
 <div data-foo='test'></div>
 
+<div data-test=foo class='bar'>test</div>
+<div data-test='foo' class='bar'>test</div>
+<div data-test="foo" class='bar'>test</div>
+
+<div data-test="foo bar" class=bar>test</div>
+<div data-test='foo &#34; bar' class=bar>test</div>
+<div data-test='foo &#39; bar' class=bar>test</div>
+<div data-test="foo &#34; bar" class=bar>test</div>
+<div data-test="foo &#39; bar" class=bar>test</div>
+
+<div data-test="foo &#34;&#34;&#34; bar" class=bar>test</div>
+<div data-test="foo &#39;&#39;&#39; bar" class=bar>test</div>
+
+<div data-test='&#34;foo&#34;' class='bar'>test</div>
+<div data-test=&#34;foo&#34; class='bar'>test</div>
+<div data-test='&#34;   foo   &#34;' class='bar'>test</div>
+<div data-test="&#34;foo&#34;" class='bar'>test</div>
+<div data-test=&#34;foo&#34; class='bar'>test</div>
+<div data-test="&#34;   foo   &#34;" class='bar'>test</div>
+<div data-test='&#39;foo&#39;' class='bar'>test</div>
+<div data-test="&#39;foo&#39;" class='bar'>test</div>
+<div data-test='
+foo
+' class='bar'>test</div>
+
+<div data-test='\foo' class='bar'>test</div>
+<div data-test='\\foo' class='bar'>test</div>
+
 </body>
 </html>

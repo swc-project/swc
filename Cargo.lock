@@ -3306,7 +3306,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.5"
+version = "0.102.6"
 dependencies = [
  "criterion",
  "either",
@@ -3774,7 +3774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "auto_impl",
  "bitflags",
