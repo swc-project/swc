@@ -20,6 +20,9 @@
 - **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
 
 
+- **(html/codegen)** Print unquoted value when it is possible (#4402) ([c15dc4f](https://github.com/swc-project/swc/commit/c15dc4f2b7e97eae939a82113ff5ab15a2553d78))
+
+
 - **(html/minifier)** Initialize crate (#4403) ([63a6280](https://github.com/swc-project/swc/commit/63a6280e8f691f93db246db02ce2479b08874220))
 
 ### Miscellaneous Tasks
