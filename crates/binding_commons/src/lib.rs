@@ -1,6 +1,8 @@
 /// Explicit extern crate to use allocator.
 extern crate swc_node_base;
 
+use tracing_subscriber::EnvFilter;
+
 /// Trying to initialize default subscriber if global dispatch is not set.
 /// This can be called multiple time, however subsequent calls will be ignored
 /// as tracing_subscriber only allows single global dispatch.

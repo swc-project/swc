@@ -170,7 +170,12 @@ dependencies = [
 name = "binding_commons"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "napi",
+ "serde",
  "swc_node_base",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
