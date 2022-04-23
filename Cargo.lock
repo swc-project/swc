@@ -181,13 +181,13 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_atoms",
+ "swc_binding_utils",
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_lints",
  "swc_ecma_loader",
  "swc_ecma_parser",
- "swc_node_base",
  "swc_node_bundler",
  "swc_plugin_runner",
  "tracing",
@@ -232,12 +232,12 @@ dependencies = [
  "node_macro_deps",
  "serde",
  "serde_json",
+ "swc_binding_utils",
  "swc_common",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_minifier",
  "swc_css_parser",
- "swc_node_base",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -2919,6 +2919,13 @@ version = "0.2.11"
 dependencies = [
  "string_cache",
  "string_cache_codegen",
+]
+
+[[package]]
+name = "swc_binding_utils"
+version = "0.1.0"
+dependencies = [
+ "swc_node_base",
 ]
 
 [[package]]
