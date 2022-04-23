@@ -28,7 +28,7 @@ use testing::{NormalizedOutput, Tester};
         "privateNameStaticAccessorsDerivedClasses.ts",
         "privateNameErrorsOnNotUseDefineForClassFieldsInEsNext.ts",
         "enumConstantMembers.ts",
-        "jsDeclarationsDocCommentsOnConsts.ts"
+        "jsDeclarationsDocCommentsOnConsts.ts",
         "jsDeclarationsReexportedCjsAlias.ts",
     )
 )]
