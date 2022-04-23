@@ -70,6 +70,19 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+
+        if n.tag_name.eq_str_ignore_ascii_case("script") {
+            n.attributes.retain(|attribute| {
+                !(attribute.namespace.is_none()
+                    && attribute.prefix.is_none()
+                    && attribute.name.eq_str_ignore_ascii_case("type")
+                    && attribute
+                        .value
+                        .as_ref()
+                        .map(|v| v.eq_str_ignore_ascii_case("text/javascript"))
+                        .unwrap_or_default())
+            })
+        }
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
