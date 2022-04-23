@@ -45,7 +45,6 @@ collapse_vars/toplevel_single_reference/input.js
 collapse_vars/undeclared/input.js
 collapse_vars/unused_orig/input.js
 conditionals/equality_conditionals_false/input.js
-conditionals/hoist_decl/input.js
 conditionals/ifs_5/input.js
 conditionals/issue_2535_1/input.js
 dead_code/dead_code_const_annotation/input.js

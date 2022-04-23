@@ -57,6 +57,7 @@ collapse_vars/may_throw_2/input.js
 collapse_vars/reduce_vars_assign/input.js
 collapse_vars/var_defs/input.js
 collapse_vars/var_side_effects_2/input.js
+conditionals/hoist_decl/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
