@@ -52,7 +52,7 @@
                 "ctxt": 0
               },
               "pattern": "regexp",
-              "flags": "i"
+              "flags": "a"
             },
             "property": {
               "type": "Identifier",

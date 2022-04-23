@@ -1,1 +1,1 @@
-if (1) /regexp/i.foo();
+if (1) /regexp/a.foo();
