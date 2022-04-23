@@ -29,6 +29,7 @@ napi-build = {version = "1"}
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
+binding_commons = {path = "../binding_commons"}
 napi = {version = "2", default-features = false, features = [
   "napi3",
   "serde-json",
@@ -42,7 +43,6 @@ serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {path = "../swc", features = ["node"]}
 swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
-swc_binding_utils = {path = "../swc_binding_utils"}
 swc_bundler = {path = "../swc_bundler"}
 swc_common = {path = "../swc_common", features = ["sourcemap", "perf"]}
 swc_ecma_ast = {path = "../swc_ecma_ast"}

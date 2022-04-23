@@ -3,9 +3,6 @@
 #[macro_use]
 extern crate napi_derive;
 
-/// Explicit extern crate to use allocator.
-extern crate swc_node_base;
-
 mod util;
 
 use std::{backtrace::Backtrace, env, panic::set_hook};
