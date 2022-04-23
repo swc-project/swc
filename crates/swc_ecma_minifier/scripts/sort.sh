@@ -13,6 +13,10 @@ sortOne tests/golden.txt
 sortOne tests/TODO.txt
 sortOne tests/postponed.txt
 
+# Don't mark postponed test as todo
+comm -23 tests/TODO.txt tests/postponed.txt > tests/nodup.txt
+mv tests/nodup.txt tests/TODO.txt
+
 # Don't mark ignored test as golden
 comm -23 tests/golden.txt tests/TODO.txt > tests/nodup.txt
 mv tests/nodup.txt tests/golden.txt
