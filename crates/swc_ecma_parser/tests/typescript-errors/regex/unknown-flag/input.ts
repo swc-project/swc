@@ -1,0 +1,1 @@
+/shamiko/z;
