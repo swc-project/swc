@@ -35,6 +35,8 @@
             "end": 0,
             "ctxt": 0
           },
+          "namespace": null,
+          "prefix": null,
           "name": "lang",
           "value": "en"
         }
@@ -141,6 +143,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "type",
                   "value": "vide/webm"
                 },
@@ -151,6 +155,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "src",
                   "value": "/media/examples/flower.mp4"
                 },
@@ -161,6 +167,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "width",
                   "value": "200"
                 },
@@ -171,6 +179,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "height",
                   "value": "200"
                 }

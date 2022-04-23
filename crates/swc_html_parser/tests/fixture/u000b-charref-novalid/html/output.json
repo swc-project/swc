@@ -57,6 +57,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "charset",
                   "value": "utf-8"
                 }

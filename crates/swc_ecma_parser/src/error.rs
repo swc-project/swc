@@ -191,6 +191,9 @@ pub enum SyntaxError {
 
     ConstDeclarationsRequireInitialization,
 
+    DuplicatedRegExpFlags(char),
+    UnknownRegExpFlags,
+
     TS1003,
     TS1005,
     TS1009,
@@ -509,6 +512,11 @@ impl SyntaxError {
             SyntaxError::ConstDeclarationsRequireInitialization => {
                 "'const' declarations must be initialized".into()
             }
+
+            SyntaxError::DuplicatedRegExpFlags(flag) => {
+                format!("Duplicated regular expression flag '{}'.", flag).into()
+            }
+            SyntaxError::UnknownRegExpFlags => "Unknown regular expression flags.".into(),
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),

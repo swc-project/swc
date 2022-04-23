@@ -267,6 +267,8 @@ jobs:
             os: windows-latest
           - crate: swc_html_codegen_macros
             os: ubuntu-latest
+          - crate: swc_html_minifier
+            os: ubuntu-latest
           - crate: swc_html_parser
             os: ubuntu-latest
           - crate: swc_html_parser

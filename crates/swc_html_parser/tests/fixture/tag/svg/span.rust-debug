@@ -52,8 +52,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | |   </body>
- 53 | `-> </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | |   </body>
+ 76 | `-> </html>
     `----
 
   x Child
@@ -109,8 +132,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -166,8 +212,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Attribute
@@ -733,8 +802,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -762,8 +854,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
@@ -886,8 +1001,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -908,8 +1046,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
@@ -941,8 +1102,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -962,8 +1146,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
@@ -996,8 +1203,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -1014,8 +1244,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
@@ -1162,8 +1415,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -1172,8 +1448,31 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
@@ -1193,8 +1492,31 @@
  49 | ,-> <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Element
@@ -1202,24 +1524,521 @@
  49 | ,-> <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
  51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/svg/input.html:49:5]
  49 | ,-> <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 51 | `-> 
+ 52 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/svg/input.html:49:5]
  49 | ,-> <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | |   </svg>
- 51 | |   
- 52 | `-> </body>
- 53 |     </html>
+ 51 | `-> 
+ 52 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:52:1]
+ 52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:52:1]
+ 52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | |       <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | |   
+ 56 | |   <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:52:1]
+ 52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | `->     <text xml:lang="en-US">This is some English text</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:52:1]
+ 52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 | `->     <text xml:lang="en-US">This is some English text</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | <text xml:lang="en-US">This is some English text</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | <text xml:lang="en-US">This is some English text</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | <text xml:lang="en-US">This is some English text</text>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | <text xml:lang="en-US">This is some English text</text>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | ,-> <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | `-> 
+ 56 |     <svg version="1.1"
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:53:5]
+ 53 | ,-> <text xml:lang="en-US">This is some English text</text>
+ 54 | |   </svg>
+ 55 | `-> 
+ 56 |     <svg version="1.1"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:56:1]
+ 56 | ,-> <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:56:1]
+ 56 | ,-> <svg version="1.1"
+ 57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ 58 | |        width="200" height="200">
+ 59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | |   
+ 63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:58:6]
+ 58 | ,-> width="200" height="200">
+ 59 | `->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:58:6]
+ 58 | ,-> width="200" height="200">
+ 59 | `->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:59:5]
+ 59 | ,-> <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | `->            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:59:5]
+ 59 | ,-> <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 | `->            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:60:12]
+ 60 | ,-> xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | `-> 
+ 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:60:12]
+ 60 | ,-> xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+ 61 | |   </svg>
+ 62 | `-> 
+ 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:63:1]
+ 63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:63:1]
+ 63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | |   
+ 68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:63:1]
+ 63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | `->     <text y="20" xml:space="default">Default   spacing</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:63:1]
+ 63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | `->     <text y="20" xml:space="default">Default   spacing</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | ,-> <text y="20" xml:space="default">Default   spacing</text>
+ 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:64:5]
+ 64 | ,-> <text y="20" xml:space="default">Default   spacing</text>
+ 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | ,-> <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | `-> 
+ 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:65:5]
+ 65 | ,-> <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 | |   </svg>
+ 67 | `-> 
+ 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:68:1]
+ 68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:68:1]
+ 68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | |       <text xml:lang="en-US">This is some English text</text>
+ 70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:68:1]
+ 68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | `->     <text xml:lang="en-US">This is some English text</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:68:1]
+ 68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | `->     <text xml:lang="en-US">This is some English text</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | <text xml:lang="en-US">This is some English text</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | <text xml:lang="en-US">This is some English text</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | <text xml:lang="en-US">This is some English text</text>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | <text xml:lang="en-US">This is some English text</text>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | ,-> <text xml:lang="en-US">This is some English text</text>
+ 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:69:5]
+ 69 | ,-> <text xml:lang="en-US">This is some English text</text>
+ 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:70:5]
+ 70 | ,-> <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:70:5]
+ 70 | ,-> <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | |           <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:70:5]
+ 70 | ,-> <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | `->         <text x="10" y="25" >An example link.</text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:70:5]
+ 70 | ,-> <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 | `->         <text x="10" y="25" >An example link.</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | <text x="10" y="25" >An example link.</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | <text x="10" y="25" >An example link.</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | <text x="10" y="25" >An example link.</text>
+    :                      ^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | <text x="10" y="25" >An example link.</text>
+    :                      ^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | ,-> <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/svg/input.html:71:9]
+ 71 | ,-> <text x="10" y="25" >An example link.</text>
+ 72 | |       </a>
+ 73 | |   </svg>
+ 74 | |   
+ 75 | `-> </body>
+ 76 |     </html>
     `----

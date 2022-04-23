@@ -66,6 +66,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "http-equiv",
                   "value": "Content-Type"
                 },
@@ -76,6 +78,8 @@
                     "end": 0,
                     "ctxt": 0
                   },
+                  "namespace": null,
+                  "prefix": null,
                   "name": "content",
                   "value": "text/html; charset=utf-8"
                 }

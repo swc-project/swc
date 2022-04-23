@@ -103,6 +103,12 @@ where
 
         for attribute in &n.attributes {
             start_tag.push(' ');
+
+            if let Some(prefix) = &attribute.prefix {
+                start_tag.push_str(prefix);
+                start_tag.push(':');
+            }
+
             start_tag.push_str(&attribute.name);
 
             if let Some(value) = &attribute.value {
