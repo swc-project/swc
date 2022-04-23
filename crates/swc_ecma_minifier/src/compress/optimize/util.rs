@@ -286,19 +286,21 @@ impl VisitMut for MultiReplacer<'_> {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.var(&i.to_id()) {
-                debug!("multi-replacer: Replaced `{}` as shorthand", i);
-                *self.worked = true;
-                self.changed = true;
+        if matches!(self.mode, MultiReplacerMode::Normal) {
+            if let Prop::Shorthand(i) = p {
+                if let Some(value) = self.var(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                    *self.worked = true;
+                    self.changed = true;
 
-                *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(Ident::new(
-                        i.sym.clone(),
-                        i.span.with_ctxt(Default::default()),
-                    )),
-                    value,
-                });
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(
+                            i.sym.clone(),
+                            i.span.with_ctxt(Default::default()),
+                        )),
+                        value,
+                    });
+                }
             }
         }
     }
