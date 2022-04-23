@@ -251,6 +251,7 @@ dependencies = [
  "swc_css_codegen",
  "swc_css_minifier",
  "swc_css_parser",
+ "swc_error_reporters",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -3723,7 +3724,10 @@ dependencies = [
 name = "swc_error_reporters"
 version = "0.1.1"
 dependencies = [
+ "anyhow",
  "miette",
+ "once_cell",
+ "parking_lot",
  "swc_common",
 ]
 
