@@ -1,0 +1,63 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 32,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 13,
+          "end": 32,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 19,
+              "end": 30,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "MetaProperty",
+              "span": {
+                "start": 19,
+                "end": 29,
+                "ctxt": 0
+              },
+              "kind": "new.target"
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

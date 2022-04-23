@@ -195,8 +195,12 @@ impl<'a, I: Tokens> Parser<I> {
     where
         T: OutputType,
     {
-        let (ident, mut class) =
-            self.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
+        let (ident, mut class) = self
+            .with_ctx(Context {
+                in_class: true,
+                ..self.ctx()
+            })
+            .parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
 
         if is_abstract {
             class.is_abstract = true

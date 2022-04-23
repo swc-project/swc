@@ -511,10 +511,18 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, "new") {
             if eat!(self, '.') {
                 if eat!(self, "target") {
+                    let span = span!(self, start);
                     let expr = Box::new(Expr::MetaProp(MetaPropExpr {
-                        span: span!(self, start),
+                        span,
                         kind: MetaPropKind::NewTarget,
                     }));
+
+                    let ctx = self.ctx();
+                    if (!ctx.in_function || ctx.in_function && ctx.in_arrow_function)
+                        && !ctx.in_class
+                    {
+                        self.emit_err(span, SyntaxError::InvalidNewTarget);
+                    }
 
                     return self.parse_subscripts(Callee::Expr(expr), true, false);
                 }

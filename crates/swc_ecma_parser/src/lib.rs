@@ -346,6 +346,8 @@ pub struct Context {
     in_cond_expr: bool,
     is_direct_child_of_cond: bool,
 
+    in_class: bool,
+
     in_function: bool,
 
     in_arrow_function: bool,
