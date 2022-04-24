@@ -38,6 +38,8 @@ collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
+collapse_vars/double_def_1/input.js
+collapse_vars/double_def_2/input.js
 collapse_vars/inner_lvalues/input.js
 collapse_vars/issue_1605_2/input.js
 collapse_vars/issue_2187_2/input.js
