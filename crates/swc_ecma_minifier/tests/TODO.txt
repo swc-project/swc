@@ -11,7 +11,6 @@ collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
 collapse_vars/collapse_vars_object/input.js
-collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
@@ -267,7 +266,6 @@ pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_526_1/input.js
 pure_funcs/relational/input.js
-pure_funcs/side_effects/input.js
 pure_funcs/unary/input.js
 pure_funcs/unused/input.js
 pure_getters/collapse_vars_1_true/input.js

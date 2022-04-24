@@ -34,6 +34,7 @@ collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
 collapse_vars/collapse_vars_arguments/input.js
+collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
@@ -335,6 +336,7 @@ properties/sub_properties/input.js
 pure_funcs/array/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
+pure_funcs/side_effects/input.js
 pure_getters/impure_getter_2/input.js
 pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
