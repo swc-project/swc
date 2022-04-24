@@ -58,6 +58,9 @@
 
 - **(es/minifier)** Use `_` instead of `-` for terser tests (#4411) ([4e11303](https://github.com/swc-project/swc/commit/4e113037e5142ca24bb4f28c316f58bbd28d3f9b))
 
+
+- **(es/minifier)** Execute terser tests if possible (#4418) ([f787f8c](https://github.com/swc-project/swc/commit/f787f8c81943b022078a53575486094d5d2b1eca))
+
 ## [1.2.171] - 2022-04-22
 
 ### Bug Fixes
