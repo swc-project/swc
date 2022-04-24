@@ -44,7 +44,7 @@ fn terser_exec(input: PathBuf) {
             eprintln!("This test does not have `output.terser.js`");
         })?;
         let expected_stdout =
-            stdout_of(&expected_src, Some(Duration::from_millis(500))).map_err(|_| {
+            stdout_of(&expected_src, Duration::from_millis(500)).map_err(|_| {
                 eprintln!("This test is not executable test");
             })?;
 
@@ -55,7 +55,7 @@ fn terser_exec(input: PathBuf) {
         };
 
         let actual = print(cm, &[output_module], false, false);
-        let actual_stdout = stdout_of(&actual, None).unwrap();
+        let actual_stdout = stdout_of(&actual, Duration::from_secs(5)).unwrap();
 
         eprintln!(
             "---- {} -----\n{}",
@@ -174,37 +174,19 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
     Some(output)
 }
 
-fn stdout_of(code: &str, timeout: Option<Duration>) -> Result<String, Error> {
-    if let Some(timeout) = timeout {
-        let mut child = Command::new("node")
-            .arg("-e")
-            .arg(&code)
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn()?;
-
-        let mut stdout = BufReader::new(child.stdout.take().unwrap());
-        let mut output = String::new();
-        stdout.read_to_string(&mut output)?;
-        child.wait_timeout(timeout)?;
-        return Ok(output);
-    }
-
-    let actual_output = Command::new("node")
+fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
+    let mut child = Command::new("node")
         .arg("-e")
         .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()?;
 
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}",
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    let mut stdout = BufReader::new(child.stdout.take().unwrap());
+    let mut output = String::new();
+    stdout.read_to_string(&mut output)?;
+    child.wait_timeout(timeout)?;
+    return Ok(output);
 }
 
 fn print<N: swc_ecma_codegen::Node>(
