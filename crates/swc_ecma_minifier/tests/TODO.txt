@@ -46,7 +46,6 @@ conditionals/ifs_5/input.js
 conditionals/issue_2535_1/input.js
 dead_code/issue_2749/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
-destructuring/export_unreferenced_declarations_2/input.js
 drop_unused/issue_2163/input.js
 drop_unused/issue_2418_2/input.js
 drop_unused/issue_2418_3/input.js
@@ -61,10 +60,6 @@ evaluate/call_args_drop_param/input.js
 evaluate/issue_2535_1/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
-export/export_default_named_async_function/input.js
-export/export_default_named_generator/input.js
-export/module_mangle_export_default_class/input.js
-export/module_mangle_export_default_function/input.js
 functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/inline_true/input.js
 functions/inner_ref/input.js
@@ -131,10 +126,6 @@ issue_1750/case_1/input.js
 issue_1750/case_2/input.js
 issue_1833/iife_do/input.js
 issue_1833/label_while/input.js
-issue_2001/export_class_2/input.js
-issue_2001/export_default_class_2/input.js
-issue_2001/export_default_func_2/input.js
-issue_2001/export_func_2/input.js
 issue_203/compress_new_function/input.js
 issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js

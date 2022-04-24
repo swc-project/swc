@@ -76,6 +76,7 @@ dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
 destructuring/anon_func_with_destructuring_args/input.js
 destructuring/arrow_func_with_destructuring_args/input.js
+destructuring/export_unreferenced_declarations_2/input.js
 destructuring/issue_3205_2/input.js
 destructuring/issue_3205_3/input.js
 destructuring/issue_3205_4/input.js
@@ -155,7 +156,11 @@ evaluate/unsafe_object/input.js
 evaluate/unsafe_object_complex/input.js
 evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
+export/export_default_named_async_function/input.js
+export/export_default_named_generator/input.js
 export/issue_2126/input.js
+export/module_mangle_export_default_class/input.js
+export/module_mangle_export_default_function/input.js
 export/name_cache_do_not_mangle_export_class_name/input.js
 export/name_cache_do_not_mangle_export_const_name/input.js
 export/name_cache_do_not_mangle_export_destructuring_name/input.js
@@ -301,6 +306,10 @@ issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
+issue_2001/export_class_2/input.js
+issue_2001/export_default_class_2/input.js
+issue_2001/export_default_func_2/input.js
+issue_2001/export_func_2/input.js
 issue_747/dont_reuse_prop/input.js
 issue_747/unmangleable_props_should_always_be_reserved/input.js
 issue_892/dont_mangle_arguments/input.js
