@@ -3,8 +3,9 @@ extern crate swc_node_base;
 use std::{
     fmt::Debug,
     fs::read_to_string,
+    io::{BufReader, Read},
     path::{Path, PathBuf},
-    process::Command,
+    process::{Command, Stdio},
     time::{Duration, Instant},
 };
 
@@ -28,6 +29,7 @@ use swc_ecma_parser::{
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::assert_eq;
+use wait_timeout::ChildExt;
 
 #[testing::fixture("tests/terser/compress/**/input.js")]
 fn terser_exec(input: PathBuf) {
@@ -173,6 +175,21 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 }
 
 fn stdout_of(code: &str, timeout: Option<Duration>) -> Result<String, Error> {
+    if let Some(timeout) = timeout {
+        let mut child = Command::new("node")
+            .arg("-e")
+            .arg(&code)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()?;
+
+        let mut stdout = BufReader::new(child.stdout.take().unwrap());
+        let mut output = String::new();
+        stdout.read_to_string(&mut output)?;
+        child.wait_timeout(timeout)?;
+        return Ok(output);
+    }
+
     let actual_output = Command::new("node")
         .arg("-e")
         .arg(&code)
