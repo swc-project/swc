@@ -123,6 +123,14 @@ fn terser_exec(input: PathBuf) {
 
         eprintln!(
             "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Actual"), actual);
+
+        eprintln!(
+            "---- {} -----\n{}",
             Color::Green.paint("Expected stdout"),
             expected_stdout
         );
