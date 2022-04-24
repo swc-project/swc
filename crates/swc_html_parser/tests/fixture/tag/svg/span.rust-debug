@@ -103,8 +103,31 @@
  100 | |       </foreignObject>
  101 | |   </svg>
  102 | |   
- 103 | |   </body>
- 104 | `-> </html>
+ 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | |       </g>
+ 124 | |   </svg>
+ 125 | |   
+ 126 | |   </body>
+ 127 | `-> </html>
      `----
 
   x Child
@@ -211,8 +234,31 @@
  100 | |       </foreignObject>
  101 | |   </svg>
  102 | |   
- 103 | `-> </body>
- 104 |     </html>
+ 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | |       </g>
+ 124 | |   </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
      `----
 
   x Element
@@ -319,8 +365,31 @@
  100 | |       </foreignObject>
  101 | |   </svg>
  102 | |   
- 103 | `-> </body>
- 104 |     </html>
+ 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | |       </g>
+ 124 | |   </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
      `----
 
   x Attribute
@@ -2040,15 +2109,615 @@
   x Child
      ,-[$DIR/tests/fixture/tag/svg/input.html:101:1]
  101 | ,-> </svg>
- 102 | |   
- 103 | `-> </body>
- 104 |     </html>
+ 102 | `-> 
+ 103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/svg/input.html:101:1]
  101 | ,-> </svg>
- 102 | |   
- 103 | `-> </body>
- 104 |     </html>
+ 102 | `-> 
+ 103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:103:1]
+ 103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | `->     </g>
+ 124 |     </svg>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:103:1]
+ 103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | `->     </g>
+ 124 |     </svg>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:103:1]
+ 103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | `->     <g transform="translate(10,80)">
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:103:1]
+ 103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | `->     <g transform="translate(10,80)">
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:104:5]
+ 104 | ,-> <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | `->     </g>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:104:5]
+ 104 | ,-> <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | `->     </g>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:104:5]
+ 104 | ,-> <g transform="translate(10,80)">
+ 105 | `->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:104:5]
+ 104 | ,-> <g transform="translate(10,80)">
+ 105 | `->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:105:9]
+ 105 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | `->               fill="none" stroke="black"></path>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:105:9]
+ 105 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | `->               fill="none" stroke="black"></path>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:107:15]
+ 107 | ,-> fill="none" stroke="black"></path>
+ 108 | `->         <text transform="translate(10,20)">1</text>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:107:15]
+ 107 | ,-> fill="none" stroke="black"></path>
+ 108 | `->         <text transform="translate(10,20)">1</text>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | <text transform="translate(10,20)">1</text>
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | <text transform="translate(10,20)">1</text>
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | <text transform="translate(10,20)">1</text>
+     :                                    ^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | <text transform="translate(10,20)">1</text>
+     :                                    ^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | ,-> <text transform="translate(10,20)">1</text>
+ 109 | `->         <switch transform="translate(35,-40)">
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:108:9]
+ 108 | ,-> <text transform="translate(10,20)">1</text>
+ 109 | `->         <switch transform="translate(35,-40)">
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:109:9]
+ 109 | ,-> <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | `->         </switch>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:109:9]
+ 109 | ,-> <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | `->         </switch>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:109:9]
+ 109 | ,-> <switch transform="translate(35,-40)">
+ 110 | `->             <foreignObject width="200" height="50"
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:109:9]
+ 109 | ,-> <switch transform="translate(35,-40)">
+ 110 | `->             <foreignObject width="200" height="50"
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:110:13]
+ 110 | ,-> <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | `->             </foreignObject>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:110:13]
+ 110 | ,-> <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | `->             </foreignObject>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:111:28]
+ 111 | ,-> requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | `->                 <math>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:111:28]
+ 111 | ,-> requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | `->                 <math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:112:17]
+ 112 | ,-> <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | `->                 </math>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:112:17]
+ 112 | ,-> <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | `->                 </math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:112:17]
+ 112 | ,-> <math>
+ 113 | `->                     <msqrt>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:112:17]
+ 112 | ,-> <math>
+ 113 | `->                     <msqrt>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:113:21]
+ 113 | ,-> <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | `->                     </msqrt>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:113:21]
+ 113 | ,-> <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | `->                     </msqrt>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:113:21]
+ 113 | ,-> <msqrt>
+ 114 | `->                         <mn>2</mn>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:113:21]
+ 113 | ,-> <msqrt>
+ 114 | `->                         <mn>2</mn>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | <mn>2</mn>
+     : ^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | <mn>2</mn>
+     : ^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | <mn>2</mn>
+     :     ^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | <mn>2</mn>
+     :     ^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | ,-> <mn>2</mn>
+ 115 | `->                         <mi>r</mi>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:114:25]
+ 114 | ,-> <mn>2</mn>
+ 115 | `->                         <mi>r</mi>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | <mi>r</mi>
+     : ^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | <mi>r</mi>
+     : ^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | <mi>r</mi>
+     :     ^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | <mi>r</mi>
+     :     ^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | ,-> <mi>r</mi>
+ 116 | `->                         <mo>−</mo>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:115:25]
+ 115 | ,-> <mi>r</mi>
+ 116 | `->                         <mo>−</mo>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | <mo>−</mo>
+     : ^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | <mo>−</mo>
+     : ^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | <mo>−</mo>
+     :     ^^^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | <mo>−</mo>
+     :     ^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | ,-> <mo>−</mo>
+ 117 | `->                         <mn>1</mn>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:116:25]
+ 116 | ,-> <mo>−</mo>
+ 117 | `->                         <mn>1</mn>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | <mn>1</mn>
+     : ^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | <mn>1</mn>
+     : ^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | <mn>1</mn>
+     :     ^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | <mn>1</mn>
+     :     ^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | ,-> <mn>1</mn>
+ 118 | `->                     </msqrt>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:117:25]
+ 117 | ,-> <mn>1</mn>
+ 118 | `->                     </msqrt>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:118:21]
+ 118 | ,-> </msqrt>
+ 119 | `->                 </math>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:118:21]
+ 118 | ,-> </msqrt>
+ 119 | `->                 </math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:119:17]
+ 119 | ,-> </math>
+ 120 | `->             </foreignObject>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:119:17]
+ 119 | ,-> </math>
+ 120 | `->             </foreignObject>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:120:13]
+ 120 | ,-> </foreignObject>
+ 121 | `->             <text>\sqrt{2r - 1}</text>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:120:13]
+ 120 | ,-> </foreignObject>
+ 121 | `->             <text>\sqrt{2r - 1}</text>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | <text>\sqrt{2r - 1}</text>
+     : ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | <text>\sqrt{2r - 1}</text>
+     : ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | <text>\sqrt{2r - 1}</text>
+     :       ^^^^^^^^^^^^^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | <text>\sqrt{2r - 1}</text>
+     :       ^^^^^^^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | ,-> <text>\sqrt{2r - 1}</text>
+ 122 | `->         </switch>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:121:13]
+ 121 | ,-> <text>\sqrt{2r - 1}</text>
+ 122 | `->         </switch>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:122:9]
+ 122 | ,-> </switch>
+ 123 | `->     </g>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:122:9]
+ 122 | ,-> </switch>
+ 123 | `->     </g>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:123:5]
+ 123 | </g>
+     :     ^
+ 124 | </svg>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:123:5]
+ 123 | </g>
+     :     ^
+ 124 | </svg>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/svg/input.html:124:1]
+ 124 | ,-> </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/svg/input.html:124:1]
+ 124 | ,-> </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
      `----

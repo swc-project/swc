@@ -305,7 +305,7 @@ where
                 && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name != "mglyph" &&  &*tag_name != "malignmark"))
             || (is_mathml_text_integration_point(adjusted_current_node)
                 && matches!(&token_and_info.token, Token::Character { .. }))
-            || (self.is_mathml_annotation_xml(adjusted_current_node)
+            || (is_mathml_annotation_xml(adjusted_current_node)
                 && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name == "svg"))
             || (is_html_integration_point(adjusted_current_node)
                 && matches!(&token_and_info.token, Token::StartTag { .. }))
@@ -335,24 +335,6 @@ where
         }
 
         self.open_elements_stack.items.last()
-    }
-
-    fn is_mathml_annotation_xml(&self, node: Option<&RcNode>) -> bool {
-        if let Some(node) = node {
-            match &node.data {
-                Data::Element(element)
-                    if element.namespace == Namespace::MATHML
-                        && &*element.tag_name == "annotation-xml" =>
-                {
-                    return true;
-                }
-                _ => {
-                    return false;
-                }
-            }
-        }
-
-        false
     }
 
     fn process_token_in_foreign_content(
@@ -7246,6 +7228,24 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
             Data::Element(element)
                 if element.namespace == Namespace::MATHML
                     && matches!(&*element.tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+            {
+                return true;
+            }
+            _ => {
+                return false;
+            }
+        }
+    }
+
+    false
+}
+
+fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
+    if let Some(node) = node {
+        match &node.data {
+            Data::Element(element)
+                if element.namespace == Namespace::MATHML
+                    && &*element.tag_name == "annotation-xml" =>
             {
                 return true;
             }
