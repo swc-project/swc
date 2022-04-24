@@ -97,6 +97,25 @@ impl VisitMut for Minifier {
                         .unwrap_or_default())
             })
         }
+        n.attributes.retain(|attribute| match &*attribute.name {
+            "type"
+                if n.namespace == Namespace::HTML
+                    && matches!(n.tag_name.as_ref(), "style" | "link")
+                    && (attribute.value.is_some()
+                        && matches!(
+                            attribute
+                                .value
+                                .as_ref()
+                                .unwrap()
+                                .to_ascii_lowercase()
+                                .trim(),
+                            "text/css"
+                        )) =>
+            {
+                false
+            }
+            _ => true,
+        });
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
