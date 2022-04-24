@@ -11,7 +11,7 @@ use std::{
 };
 
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::{anyhow, bail, Context, Error};
 use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::*;
@@ -181,7 +181,9 @@ fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
 
     let code = code.to_string();
     let (sender, receiver) = mpsc::channel();
-    let t = thread::spawn(move || {
+    let timer_sender = sender.clone();
+
+    let _t = thread::spawn(move || {
         let res = (|| {
             let actual_output = Command::new("node")
                 .arg("-e")
@@ -203,18 +205,12 @@ fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
         let _ = sender.send(res);
     });
 
-    thread::sleep(timeout);
+    let _timer = thread::spawn(move || {
+        thread::sleep(timeout);
+        let _ = timer_sender.send(Err(anyhow!("node timed out")));
+    });
 
-    match receiver.try_recv() {
-        Ok(Ok(v)) => Ok(v),
-        Ok(Err(err)) => Err(err),
-        Err(mpsc::TryRecvError::Empty) => {
-            drop(receiver);
-            drop(t);
-            bail!("node timed out")
-        }
-        Err(mpsc::TryRecvError::Disconnected) => unreachable!(),
-    }
+    receiver.recv().unwrap()
 }
 
 fn print<N: swc_ecma_codegen::Node>(
