@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Remove the last break in the last `BlockStmt` (#4413) ([83244ad](https://github.com/swc-project/swc/commit/83244add338c3dd1a1a84fec94b73d1931699cdb))
+
+
 - **(html/parser)** Parse foreign attributes (#4400) ([cf3be64](https://github.com/swc-project/swc/commit/cf3be649bb327feda8bce4e7ab7eca92d248c2da))
 
 ### Features
@@ -15,6 +18,9 @@
 
 
 - **(es/parser)** Reject invalid `new.target` (#4406) ([da02c9d](https://github.com/swc-project/swc/commit/da02c9dc509f97d58f565223c81e7b123b0301c5))
+
+
+- **(es/parser)** Reject `'use strict'` with non-simple params list in TS (#4416) ([6dc64c9](https://github.com/swc-project/swc/commit/6dc64c9ca0bccf27b325d3298f4ed7f07eaaa076))
 
 
 - **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
@@ -48,6 +54,9 @@
 
 
 - **(es/minifier)** Split tests into improvement and stabilization (#4409) ([ab88637](https://github.com/swc-project/swc/commit/ab886379377726bd32f9221da494eb00d9b6fa94))
+
+
+- **(es/minifier)** Use `_` instead of `-` for terser tests (#4411) ([4e11303](https://github.com/swc-project/swc/commit/4e113037e5142ca24bb4f28c316f58bbd28d3f9b))
 
 ## [1.2.171] - 2022-04-22
 
