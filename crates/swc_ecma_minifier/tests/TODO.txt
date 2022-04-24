@@ -154,7 +154,6 @@ issue_1431/level_two/input.js
 issue_1431/level_zero/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
-issue_1446/undefined_redefined_mangle/input.js
 issue_1569/inner_reference/input.js
 issue_1673/side_effects_else/input.js
 issue_1733/function_catch_catch/input.js
@@ -218,7 +217,6 @@ numbers/evaluate_3/input.js
 numbers/evaluate_4/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
-object/dont_join_repeat_object_keys/input.js
 object/getter_setter_mangler/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js

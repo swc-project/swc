@@ -247,6 +247,7 @@ issue_1321/issue_1321_debug/input.js
 issue_1321/issue_1321_no_debug/input.js
 issue_1321/issue_1321_with_quoted/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
+issue_1446/undefined_redefined_mangle/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
 issue_1466/different_variable_in_multiple_forIn/input.js
 issue_1466/different_variable_in_multiple_forOf/input.js
@@ -292,6 +293,7 @@ loops/issue_2740_6/input.js
 loops/issue_2740_7/input.js
 loops/issue_2740_8/input.js
 negate_iife/issue_1254_negate_iife_true/input.js
+object/dont_join_repeat_object_keys/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
