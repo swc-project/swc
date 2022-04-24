@@ -36,6 +36,49 @@ use testing::assert_eq;
     exclude(
         "ie8",
         // Temporary
+        "blocks/issue_1672_for/",
+        "collapse_vars/collapse_vars_do_while/",
+        "collapse_vars/collapse_vars_lvalues/",
+        "collapse_vars/issue_1631_1/",
+        "collapse_vars/issue_1631_2/",
+        "collapse_vars/issue_1631_3/",
+        "dead_code/issue_2749/",
+        "dead_code/try_catch_finally/",
+        "destructuring/unused_destructuring_getter_side_effect_2/",
+        "drop_unused/drop_toplevel_keep_assign/",
+        "drop_unused/drop_toplevel_retain_regex/",
+        "drop_unused/issue_1715_1/",
+        "drop_unused/issue_1715_2/",
+        "drop_unused/issue_1715_3/",
+        "drop_unused/issue_1830_1/",
+        "drop_unused/issue_1830_2/",
+        "drop_unused/keep_assign/",
+        "drop_unused/var_catch_toplevel/",
+        "evaluate/issue_1760_1/",
+        "evaluate/prop_function/",
+        "functions/hoist_funs_strict/",
+        "functions/issue_2114_1/",
+        "functions/issue_2114_2/",
+        "functions/issue_2620_4/",
+        "functions/issue_3016_3/",
+        "functions/issue_3076/",
+        "harmony/array_literal_with_spread_4a/",
+        "harmony/array_literal_with_spread_4b/",
+        "harmony/class_extends/",
+        "hoist_props/contains_this_2/",
+        "hoist_props/issue_2508_5/",
+        "hoist_props/issue_2508_6/",
+        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
+        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
+        "issue_1733/function_catch_catch/",
+        "issue_1750/case_1/",
+        "keep_names/keep_some_fnames_reduce/",
+        "properties/issue_3188_3/",
+        "properties/join_object_assignments_1/",
+        "properties/mangle_properties_which_matches_pattern/",
+        "properties/unsafe_methods_regex/",
+        "pure_funcs/issue_3065_3/",
+        "pure_funcs/issue_3065_4/",
         "reduce_vars/unsafe_evaluate_modified/",
         "rename/function_catch_catch/",
         "sequences/delete_seq_4/",
@@ -55,7 +98,7 @@ fn terser_exec(input: PathBuf) {
             eprintln!("WTF?");
         })?;
         // This can change the output
-        if input_src.contains("/*#__PURE__*/") {
+        if input_src.contains("/*#/PURE/*/") {
             return Ok(());
         }
 
