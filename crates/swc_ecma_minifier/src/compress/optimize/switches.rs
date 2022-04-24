@@ -439,12 +439,14 @@ where
 }
 
 fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
-    if let Some(Stmt::Break(BreakStmt { label: None, .. })) = stmt.last() {
-        report_change!("switches: Removing `break` at the end");
-        stmt.pop();
-        true
-    } else {
-        false
+    match stmt.last_mut() {
+        Some(Stmt::Break(BreakStmt { label: None, .. })) => {
+            report_change!("switches: Removing `break` at the end");
+            stmt.pop();
+            true
+        }
+        Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),
+        _ => false,
     }
 }
 
