@@ -11,7 +11,7 @@ var A, Point = function() {
         };
     }, Point;
 }();
-!function(A1) {
+Point || (Point = {}), function(A1) {
     var Point = function() {
         "use strict";
         function Point(x, y) {
@@ -24,5 +24,5 @@ var A, Point = function() {
             };
         }, Point;
     }();
-    A1.Point = Point;
+    A1.Point = Point, Point = A1.Point || (A1.Point = {});
 }(A || (A = {}));

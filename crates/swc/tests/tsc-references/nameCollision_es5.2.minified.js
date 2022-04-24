@@ -1,13 +1,14 @@
-var B, X, Y, D;
+var A, B, X, Y, D;
 import * as swcHelpers from "@swc/helpers";
-!function(B) {
+A || (A = {}), B || (B = {}), function(B) {
     var B1 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, B1);
     };
 }(B || (B = {})), function(X1) {
-    X1.Y || (X1.Y = {});
-}(X || (X = {})), function(Y2) {
-    var Y1, _$Y;
-    (_$Y = (Y1 = Y2.Y || (Y2.Y = {})).Y || (Y1.Y = {}))[_$Y.Red = 0] = "Red", _$Y[_$Y.Blue = 1] = "Blue";
+    var Y1;
+    (Y1 = X1.Y || (X1.Y = {})).Z || (Y1.Z = {});
+}(X || (X = {})), function(Y3) {
+    var Y2, _$Y;
+    (_$Y = (Y2 = Y3.Y || (Y3.Y = {})).Y || (Y2.Y = {}))[_$Y.Red = 0] = "Red", _$Y[_$Y.Blue = 1] = "Blue";
 }(Y || (Y = {})), (D || (D = {})).E = "hello";

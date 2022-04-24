@@ -8,7 +8,7 @@ function f2(a) {}
 function f3(y, x) {
     return y(null);
 }
-f2({
+new Derived(), new Derived2(), f2({
     x: new Derived(),
     y: new Derived2()
 }), f2({

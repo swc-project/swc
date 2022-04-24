@@ -1,6 +1,6 @@
-var A, X;
+var A, B, X, Z;
 (A || (A = {})).Point = {
     x: 0,
     y: 0
-}, (X || (X = {})).Y = class {
-};
+}, B || (B = {}), (X || (X = {})).Y = class {
+}, Z || (Z = {});

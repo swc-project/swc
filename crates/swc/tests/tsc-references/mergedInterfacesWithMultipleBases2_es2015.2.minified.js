@@ -1,1 +1,2 @@
-(void 0).a;
+var M;
+(void 0).a, M || (M = {});
