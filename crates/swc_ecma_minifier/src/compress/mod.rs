@@ -202,7 +202,7 @@ where
         }
 
         loop {
-            n.invoke();
+            n.invoke_for_debugging();
 
             self.changed = false;
             self.optimize_unit(n);
@@ -282,10 +282,11 @@ where
 
             let mut visitor = expr_simplifier(ExprSimplifierConfig {});
             n.apply(&mut visitor);
+
+            n.invoke_for_debugging();
+
             self.changed |= visitor.changed();
             if visitor.changed() {
-                n.invoke();
-
                 debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
                     debug!("===== Simplified =====\n{}", dump(&*n, false));
@@ -327,11 +328,10 @@ where
                 self.pass >= 20,
             );
             n.apply(&mut visitor);
-            self.changed |= visitor.changed();
 
-            if visitor.changed() {
-                n.invoke();
-            }
+            n.invoke_for_debugging();
+
+            self.changed |= visitor.changed();
 
             if cfg!(feature = "debug") && visitor.changed() {
                 let src = n.dump();
@@ -361,9 +361,7 @@ where
             );
             n.apply(&mut visitor);
 
-            if visitor.changed() {
-                n.invoke();
-            }
+            n.invoke_for_debugging();
 
             self.changed |= visitor.changed();
 
@@ -383,9 +381,7 @@ where
             let mut v = dead_branch_remover();
             n.apply(&mut v);
 
-            if v.changed() {
-                n.invoke();
-            }
+            n.invoke_for_debugging();
 
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
