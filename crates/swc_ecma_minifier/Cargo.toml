@@ -18,6 +18,7 @@ bench = false
 
 [features]
 debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
+trace-ast = []
 
 [dependencies]
 ahash = "0.7.6"

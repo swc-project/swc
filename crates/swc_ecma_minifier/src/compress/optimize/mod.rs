@@ -1718,7 +1718,7 @@ where
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        #[cfg(feature = "debug")]
+        #[cfg(feature = "trace-ast")]
         let _tracing = {
             let s = dump(&*e, true);
             tracing::span!(
@@ -1797,7 +1797,7 @@ where
             _ => {}
         }
 
-        #[cfg(feature = "debug")]
+        #[cfg(feature = "trace-ast")]
         debug!("Output: {}", dump(e, true));
     }
 
