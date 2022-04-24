@@ -48,6 +48,8 @@ fn terser_exec(input: PathBuf) {
                 eprintln!("This test is not executable test");
             })?;
 
+        eprintln!("Optimizing");
+
         let output = run(cm.clone(), &handler, &input, &config);
         let output_module = match output {
             Some(v) => v,
@@ -175,6 +177,8 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 }
 
 fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
+    eprintln!("Executing node with timeout: {:?}", timeout);
+
     let mut child = Command::new("node")
         .arg("-e")
         .arg(&code)
