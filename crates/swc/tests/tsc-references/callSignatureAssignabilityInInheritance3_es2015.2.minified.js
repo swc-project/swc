@@ -1,0 +1,2 @@
+var Errors;
+Errors || (Errors = {});
