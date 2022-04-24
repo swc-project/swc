@@ -1527,7 +1527,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
             };
             let result = self.with_ctx(ctx).parse_block(false);
             result.map(|block_stmt| {
-                if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                if !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {
                         self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                     }
@@ -1558,7 +1558,7 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
         }
         let block = self.include_in_expr(true).parse_block(true);
         block.map(|block_stmt| {
-            if !self.input.syntax().typescript() && !is_simple_parameter_list {
+            if !is_simple_parameter_list {
                 if let Some(span) = has_use_strict(&block_stmt) {
                     self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                 }
