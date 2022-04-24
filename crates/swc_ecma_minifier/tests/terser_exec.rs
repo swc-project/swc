@@ -154,17 +154,17 @@ struct TestOptions {
     passes: usize,
 }
 
-fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
+fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> Result<(bool, CompressOptions), Error> {
     let opts: TestOptions =
-        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+        serde_json::from_str(s).context("failed to deserialize value into a compressor config")?;
     let mut c: TerserCompressorOptions =
-        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+        serde_json::from_str(s).context("failed to deserialize value into a compressor config")?;
 
     c.defaults = opts.defaults;
     c.const_to_let = Some(false);
     c.passes = opts.passes;
 
-    (c.module, c.into_config(cm))
+    Ok((c.module, c.into_config(cm)))
 }
 
 fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Option<Module> {
@@ -172,7 +172,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
-    let (_module, config) = parse_compressor_config(cm.clone(), config);
+    let (_module, config) = parse_compressor_config(cm.clone(), config).ok()?;
     if config.ie8 {
         return None;
     }
