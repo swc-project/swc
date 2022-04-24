@@ -10,7 +10,7 @@ use std::{
 };
 
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::*;
@@ -186,7 +186,7 @@ fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
     let mut output = String::new();
     stdout.read_to_string(&mut output)?;
     child.wait_timeout(timeout)?;
-    return Ok(output);
+    Ok(output)
 }
 
 fn print<N: swc_ecma_codegen::Node>(
