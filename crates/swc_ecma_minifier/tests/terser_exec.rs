@@ -1,12 +1,11 @@
 extern crate swc_node_base;
 
 use std::{
-    env,
     fmt::Debug,
     fs::read_to_string,
     path::{Path, PathBuf},
     process::Command,
-    time::Instant,
+    time::{Duration, Instant},
 };
 
 use ansi_term::Color;
@@ -42,9 +41,10 @@ fn terser_exec(input: PathBuf) {
         let expected_src = read_to_string(&dir.join("output.terser.js")).map_err(|_| {
             eprintln!("This test does not have `output.terser.js`");
         })?;
-        let expected_stdout = stdout_of(&expected_src).map_err(|_| {
-            eprintln!("This test is not executable test");
-        })?;
+        let expected_stdout =
+            stdout_of(&expected_src, Some(Duration::from_millis(500))).map_err(|_| {
+                eprintln!("This test is not executable test");
+            })?;
 
         let output = run(cm.clone(), &handler, &input, &config);
         let output_module = match output {
@@ -53,7 +53,7 @@ fn terser_exec(input: PathBuf) {
         };
 
         let actual = print(cm, &[output_module], false, false);
-        let actual_stdout = stdout_of(&actual).unwrap();
+        let actual_stdout = stdout_of(&actual, None).unwrap();
 
         eprintln!(
             "---- {} -----\n{}",
@@ -107,26 +107,6 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
     let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
-
-    if env::var("SWC_RUN").unwrap_or_default() == "1" {
-        let stdout = stdout_of(&fm.src);
-        match stdout {
-            Ok(stdout) => {
-                eprintln!(
-                    "---- {} -----\n{}",
-                    Color::Green.paint("Stdout (expected)"),
-                    stdout
-                );
-            }
-            Err(err) => {
-                eprintln!(
-                    "---- {} -----\n{:?}",
-                    Color::Green.paint("Error (of original source code)"),
-                    err
-                );
-            }
-        }
-    }
 
     let top_level_mark = Mark::fresh(Mark::root());
 
@@ -192,7 +172,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
     Some(output)
 }
 
-fn stdout_of(code: &str) -> Result<String, Error> {
+fn stdout_of(code: &str, timeout: Option<Duration>) -> Result<String, Error> {
     let actual_output = Command::new("node")
         .arg("-e")
         .arg(&code)
