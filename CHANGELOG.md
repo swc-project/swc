@@ -43,6 +43,9 @@
 
 - **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
 
+
+- **(repo)** Make `git commit` faster (#4421) ([65e00aa](https://github.com/swc-project/swc/commit/65e00aafc3b27bc896178fc9b3164fef0777cd9f))
+
 ### Performance
 
 
