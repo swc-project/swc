@@ -47,6 +47,16 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+static EXECUTABLE_SCRIPTS_MIME_TYPES: &[&str] = &[
+    "text/javascript",
+    "text/ecmascript",
+    "text/jscript",
+    "application/javascript",
+    "application/x-javascript",
+    "application/ecmascript",
+    "module",
+];
+
 struct Minifier {}
 
 impl Minifier {
@@ -79,7 +89,11 @@ impl VisitMut for Minifier {
                     && attribute
                         .value
                         .as_ref()
-                        .map(|v| v.eq_str_ignore_ascii_case("text/javascript"))
+                        .map(|v| {
+                            EXECUTABLE_SCRIPTS_MIME_TYPES
+                                .iter()
+                                .any(|mime| v.eq_str_ignore_ascii_case(mime))
+                        })
                         .unwrap_or_default())
             })
         }
