@@ -58,7 +58,6 @@ use testing::assert_eq;
         "harmony/class_extends/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
-        "issue_1733/function_catch_catch/",
         "issue_1750/case_1/",
         "properties/issue_3188_3/",
         "reduce_vars/unsafe_evaluate_modified/",
