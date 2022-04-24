@@ -61,6 +61,9 @@
 
 - **(es/minifier)** Execute terser tests if possible (#4418) ([f787f8c](https://github.com/swc-project/swc/commit/f787f8c81943b022078a53575486094d5d2b1eca))
 
+
+- **(es/minifier)** Categorize tests (#4410) ([9b34ecf](https://github.com/swc-project/swc/commit/9b34ecfd2e292ed557b4e357ea61a0cda4533445))
+
 ## [1.2.171] - 2022-04-22
 
 ### Bug Fixes
