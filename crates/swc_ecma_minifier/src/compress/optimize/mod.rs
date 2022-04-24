@@ -1847,9 +1847,17 @@ where
                     }
                 }
             }
+
+            #[cfg(feature = "debug")]
+            let start = dump(&n.expr, true);
+
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
                 report_change!("visit_mut_expr_stmt: Dropped an expression statement");
+
+                #[cfg(feature = "debug")]
+                dump_change_detail!("Removed {}", start);
+
                 undefined(DUMMY_SP)
             });
         } else {
