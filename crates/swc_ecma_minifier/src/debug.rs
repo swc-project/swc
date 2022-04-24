@@ -104,9 +104,9 @@ pub(crate) fn invoke(module: &Module) {
         emitter.emit_module(&module).unwrap();
     }
 
-    debug!("Validating with node.js");
-
     let code = String::from_utf8(buf).unwrap();
+
+    debug!("Validating with node.js:\n{}", code);
 
     if SHOULD_CHECK {
         let mut child = Command::new("node")

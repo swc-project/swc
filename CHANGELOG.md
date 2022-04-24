@@ -8,6 +8,9 @@
 - **(es/minifier)** Remove the last break in the last `BlockStmt` (#4413) ([83244ad](https://github.com/swc-project/swc/commit/83244add338c3dd1a1a84fec94b73d1931699cdb))
 
 
+- **(es/minifier)** Don't drop arguments to an IIFE without body (#4419) ([aa19b65](https://github.com/swc-project/swc/commit/aa19b65f9cb1170c36991649348e064406523699))
+
+
 - **(html/parser)** Parse foreign attributes (#4400) ([cf3be64](https://github.com/swc-project/swc/commit/cf3be649bb327feda8bce4e7ab7eca92d248c2da))
 
 ### Features

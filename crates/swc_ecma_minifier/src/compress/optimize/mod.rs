@@ -779,6 +779,9 @@ where
                     if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
                             if !usage.reassigned() && usage.pure_fn {
+                                self.changed = true;
+                                report_change!("Reducing funcion call to a variable");
+
                                 let args = args
                                     .take()
                                     .into_iter()
@@ -910,7 +913,13 @@ where
                                 PropName::BigInt(_) => {}
                             },
 
-                            Prop::Shorthand(_) | Prop::Assign(..) => {}
+                            Prop::Assign(mut prop) => {
+                                exprs.extend(
+                                    self.ignore_return_value(&mut prop.value).map(Box::new),
+                                );
+                            }
+
+                            Prop::Shorthand(_) => {}
                         },
                     }
                 }
@@ -1708,14 +1717,33 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        #[cfg(feature = "trace-ast")]
+        let _tracing = {
+            let s = dump(&*e, true);
+            tracing::span!(
+                tracing::Level::ERROR,
+                "visit_mut_expr",
+                src = tracing::field::display(&s)
+            )
+            .entered()
+        };
         let ctx = Ctx {
             is_exported: false,
             is_callee: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        #[cfg(feature = "trace-ast")]
+        let _tracing = {
+            let s = dump(&*e, true);
+            tracing::span!(
+                tracing::Level::ERROR,
+                "visit_mut_expr_after_children",
+                src = tracing::field::display(&s)
+            )
+            .entered()
+        };
 
         match e {
             Expr::Seq(seq) if seq.exprs.len() == 1 => {
@@ -1778,6 +1806,9 @@ where
             }
             _ => {}
         }
+
+        #[cfg(feature = "trace-ast")]
+        debug!("Output: {}", dump(e, true));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1838,9 +1869,17 @@ where
                     }
                 }
             }
+
+            #[cfg(feature = "debug")]
+            let start = dump(&n.expr, true);
+
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
                 report_change!("visit_mut_expr_stmt: Dropped an expression statement");
+
+                #[cfg(feature = "debug")]
+                dump_change_detail!("Removed {}", start);
+
                 undefined(DUMMY_SP)
             });
         } else {

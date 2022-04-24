@@ -9,4 +9,6 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, Bar);
     }, S.Bar = Bar;
-}(M || (M = {})), M || (M = {}), S.Bar, S.Bar;
+}(M || (M = {})), function(M2) {
+    M2.S || (M2.S = {});
+}(M || (M = {})), M || (M = {}), S.Bar, S.Bar, M || (M = {});

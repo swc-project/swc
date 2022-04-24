@@ -1,5 +1,5 @@
-var ObjectTypes;
-!function(ObjectTypes) {
+var SimpleTypes, ObjectTypes;
+SimpleTypes || (SimpleTypes = {}), function(ObjectTypes) {
     var t, t2, b, a2 = {
         foo: a2
     }, b2 = {
