@@ -1717,8 +1717,17 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        #[cfg(feature = "debug")]
+        let _tracing = {
+            let s = dump(&*e, true);
+            tracing::span!(
+                tracing::Level::ERROR,
+                "visit_mut_expr",
+                src = tracing::field::display(&s)
+            )
+            .entered()
+        };
         let ctx = Ctx {
             is_exported: false,
             is_callee: false,
@@ -1787,6 +1796,9 @@ where
             }
             _ => {}
         }
+
+        #[cfg(feature = "debug")]
+        debug!("Output: {}", dump(e, true));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
