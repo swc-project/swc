@@ -166,6 +166,9 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         .build_global();
 
     let (_module, config) = parse_compressor_config(cm.clone(), config);
+    if config.ie8 {
+        return None;
+    }
 
     let fm = cm.load_file(input).expect("failed to load input.js");
     let comments = SingleThreadedComments::default();
