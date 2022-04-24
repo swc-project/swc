@@ -47,12 +47,7 @@ conditionals/issue_2535_1/input.js
 dead_code/issue_2749/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
-drop_unused/drop_toplevel_keep_assign/input.js
-drop_unused/issue_1715_3/input.js
-drop_unused/issue_2105_1/input.js
-drop_unused/issue_2105_2/input.js
 drop_unused/issue_2163/input.js
-drop_unused/issue_2288/input.js
 drop_unused/issue_2418_2/input.js
 drop_unused/issue_2418_3/input.js
 drop_unused/issue_2418_4/input.js
@@ -60,8 +55,6 @@ drop_unused/issue_2418_5/input.js
 drop_unused/issue_2768/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
-drop_unused/unused_funarg_1/input.js
-drop_unused/unused_funarg_2/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/call_args_drop_param/input.js
