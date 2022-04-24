@@ -1734,6 +1734,16 @@ where
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        #[cfg(feature = "trace-ast")]
+        let _tracing = {
+            let s = dump(&*e, true);
+            tracing::span!(
+                tracing::Level::ERROR,
+                "visit_mut_expr_after_children",
+                src = tracing::field::display(&s)
+            )
+            .entered()
+        };
 
         match e {
             Expr::Seq(seq) if seq.exprs.len() == 1 => {
