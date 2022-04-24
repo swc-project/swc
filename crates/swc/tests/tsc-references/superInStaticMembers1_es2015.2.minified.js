@@ -2,6 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 export class Reflect {
 }
 export var Baz;
+!function(Baz) {}(Baz || (Baz = {}));
 class _class {
 }
 class C extends B {

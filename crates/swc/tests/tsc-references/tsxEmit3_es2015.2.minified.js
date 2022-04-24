@@ -4,4 +4,6 @@ var M;
         constructor(){}
     }, (M1.S || (M1.S = {})).Bar = class {
     };
-}(M || (M = {})), M || (M = {}), S.Bar, S.Bar;
+}(M || (M = {})), function(M2) {
+    M2.S || (M2.S = {});
+}(M || (M = {})), M || (M = {}), S.Bar, S.Bar, M || (M = {});

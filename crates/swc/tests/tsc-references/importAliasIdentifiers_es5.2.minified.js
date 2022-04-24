@@ -10,3 +10,10 @@ var moduleA, clodule = function() {
     "use strict";
     swcHelpers.classCallCheck(this, clodule);
 };
+function fundule() {
+    return {
+        x: 0,
+        y: 0
+    };
+}
+clodule || (clodule = {}), fundule || (fundule = {});

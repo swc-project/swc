@@ -527,7 +527,6 @@ functions/drop_lone_use_strict/input.js
 functions/drop_lone_use_strict_arrows_1/input.js
 functions/drop_lone_use_strict_arrows_2/input.js
 functions/duplicate_argnames/input.js
-functions/empty_body/input.js
 functions/function_returning_constant_literal/input.js
 functions/iifes_returning_constants_keep_fargs_false/input.js
 functions/iifes_returning_constants_keep_fargs_true/input.js

@@ -35,7 +35,6 @@ use testing::assert_eq;
     "tests/terser/compress/**/input.js",
     exclude(
         "ie8",
-        // Temporary
         "blocks/issue_1672_for/",
         "collapse_vars/collapse_vars_do_while/",
         "collapse_vars/collapse_vars_lvalues/",
@@ -44,7 +43,6 @@ use testing::assert_eq;
         "collapse_vars/issue_1631_3/",
         "dead_code/issue_2749/",
         "dead_code/try_catch_finally/",
-        "destructuring/unused_destructuring_getter_side_effect_2/",
         "drop_unused/drop_toplevel_keep_assign/",
         "drop_unused/drop_toplevel_retain_regex/",
         "drop_unused/issue_1715_1/",
@@ -57,33 +55,24 @@ use testing::assert_eq;
         "evaluate/issue_1760_1/",
         "evaluate/prop_function/",
         "functions/hoist_funs_strict/",
-        "functions/issue_2114_1/",
-        "functions/issue_2114_2/",
         "functions/issue_2620_4/",
         "functions/issue_3016_3/",
         "functions/issue_3076/",
         "harmony/array_literal_with_spread_4a/",
         "harmony/array_literal_with_spread_4b/",
         "harmony/class_extends/",
-        "hoist_props/contains_this_2/",
-        "hoist_props/issue_2508_5/",
-        "hoist_props/issue_2508_6/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
         "issue_1733/function_catch_catch/",
         "issue_1750/case_1/",
         "keep_names/keep_some_fnames_reduce/",
         "properties/issue_3188_3/",
-        "properties/join_object_assignments_1/",
-        "properties/mangle_properties_which_matches_pattern/",
         "properties/unsafe_methods_regex/",
-        "pure_funcs/issue_3065_3/",
-        "pure_funcs/issue_3065_4/",
         "reduce_vars/unsafe_evaluate_modified/",
         "rename/function_catch_catch/",
         "sequences/delete_seq_4/",
         "sequences/delete_seq_5/",
-        "yield/issue_2689/"
+        "yield/issue_2689/",
     )
 )]
 fn terser_exec(input: PathBuf) {
@@ -102,6 +91,10 @@ fn terser_exec(input: PathBuf) {
             return Ok(());
         }
 
+        let input_stdout = stdout_of(&input_src, Duration::from_millis(500)).map_err(|_| {
+            eprintln!("This test is not executable test");
+        })?;
+
         let expected_src = read_to_string(&dir.join("output.terser.js")).map_err(|_| {
             eprintln!("This test does not have `output.terser.js`");
         })?;
@@ -110,6 +103,11 @@ fn terser_exec(input: PathBuf) {
             stdout_of(&expected_src, Duration::from_millis(500)).map_err(|_| {
                 eprintln!("This test is not executable test");
             })?;
+
+        if input_stdout != expected_stdout {
+            eprintln!("This test is not for execution");
+            return Err(());
+        }
 
         eprintln!("Optimizing");
 
@@ -121,6 +119,14 @@ fn terser_exec(input: PathBuf) {
 
         let actual = print(cm, &[output_module], false, false);
         let actual_stdout = stdout_of(&actual, Duration::from_secs(5)).unwrap();
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Actual"), actual);
 
         eprintln!(
             "---- {} -----\n{}",
@@ -169,6 +175,9 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         .build_global();
 
     let (_module, config) = parse_compressor_config(cm.clone(), config);
+    if config.ie8 {
+        return None;
+    }
 
     let fm = cm.load_file(input).expect("failed to load input.js");
     let comments = SingleThreadedComments::default();
