@@ -36,8 +36,6 @@ use testing::assert_eq;
     exclude(
         "ie8",
         "blocks/issue_1672_for/",
-        "collapse_vars/collapse_vars_do_while/",
-        "collapse_vars/collapse_vars_lvalues/",
         "collapse_vars/issue_1631_1/",
         "collapse_vars/issue_1631_2/",
         "collapse_vars/issue_1631_3/",
