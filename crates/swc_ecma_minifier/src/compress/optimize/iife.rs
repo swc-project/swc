@@ -232,6 +232,10 @@ where
                     }
                 }
             }
+            if vars.is_empty() {
+                log_abort!("vars is empty");
+                return;
+            }
 
             let ctx = Ctx {
                 in_fn_like: true,
