@@ -281,11 +281,8 @@
  23 | |               <mi>c</mi>
  24 | |               <mn>2</mn>
  25 | |           </msup>
- 26 | |       </mrow>
- 27 | |   </math>
- 28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 26 | `->     </mrow>
+ 27 |     </math>
     `----
 
   x Element
@@ -308,11 +305,8 @@
  23 | |               <mi>c</mi>
  24 | |               <mn>2</mn>
  25 | |           </msup>
- 26 | |       </mrow>
- 27 | |   </math>
- 28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 26 | `->     </mrow>
+ 27 |     </math>
     `----
 
   x Child
@@ -847,17 +841,29 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/math/input.html:26:5]
- 26 | ,-> </mrow>
- 27 | |   </math>
+ 26 | </mrow>
+    :        ^
+ 27 | </math>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:26:5]
+ 26 | </mrow>
+    :        ^
+ 27 | </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:27:1]
+ 27 | ,-> </math>
  28 | |   
  29 | |   </body>
  30 | `-> </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:26:5]
- 26 | ,-> </mrow>
- 27 | |   </math>
+    ,-[$DIR/tests/fixture/tag/math/input.html:27:1]
+ 27 | ,-> </math>
  28 | |   
  29 | |   </body>
  30 | `-> </html>

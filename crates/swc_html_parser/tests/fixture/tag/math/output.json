@@ -117,11 +117,11 @@
               "type": "Element",
               "span": {
                 "start": 81,
-                "end": 472,
+                "end": 447,
                 "ctxt": 0
               },
               "tagName": "math",
-              "namespace": "http://www.w3.org/2000/svg",
+              "namespace": "http://www.w3.org/1998/Math/MathML",
               "attributes": [],
               "children": [
                 {
@@ -141,7 +141,7 @@
                     "ctxt": 0
                   },
                   "tagName": "mrow",
-                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "namespace": "http://www.w3.org/1998/Math/MathML",
                   "attributes": [],
                   "children": [
                     {
@@ -161,7 +161,7 @@
                         "ctxt": 0
                       },
                       "tagName": "mrow",
-                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "namespace": "http://www.w3.org/1998/Math/MathML",
                       "attributes": [],
                       "children": [
                         {
@@ -181,7 +181,7 @@
                             "ctxt": 0
                           },
                           "tagName": "msup",
-                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [
                             {
@@ -201,7 +201,7 @@
                                 "ctxt": 0
                               },
                               "tagName": "mi",
-                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [
                                 {
@@ -233,7 +233,7 @@
                                 "ctxt": 0
                               },
                               "tagName": "mn",
-                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [
                                 {
@@ -277,7 +277,7 @@
                             "ctxt": 0
                           },
                           "tagName": "mo",
-                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [
                             {
@@ -309,7 +309,7 @@
                             "ctxt": 0
                           },
                           "tagName": "msup",
-                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [
                             {
@@ -329,7 +329,7 @@
                                 "ctxt": 0
                               },
                               "tagName": "mi",
-                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [
                                 {
@@ -361,7 +361,7 @@
                                 "ctxt": 0
                               },
                               "tagName": "mn",
-                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [
                                 {
@@ -417,7 +417,7 @@
                         "ctxt": 0
                       },
                       "tagName": "mo",
-                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "namespace": "http://www.w3.org/1998/Math/MathML",
                       "attributes": [],
                       "children": [
                         {
@@ -449,7 +449,7 @@
                         "ctxt": 0
                       },
                       "tagName": "msup",
-                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "namespace": "http://www.w3.org/1998/Math/MathML",
                       "attributes": [],
                       "children": [
                         {
@@ -469,7 +469,7 @@
                             "ctxt": 0
                           },
                           "tagName": "mi",
-                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [
                             {
@@ -501,7 +501,7 @@
                             "ctxt": 0
                           },
                           "tagName": "mn",
-                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [
                             {
@@ -544,13 +544,22 @@
                   "type": "Text",
                   "span": {
                     "start": 446,
-                    "end": 472,
+                    "end": 447,
                     "ctxt": 0
                   },
-                  "value": "\n\n\n\n\n"
+                  "value": "\n"
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 454,
+                "end": 472,
+                "ctxt": 0
+              },
+              "value": "\n\n\n\n"
             }
           ],
           "content": null
