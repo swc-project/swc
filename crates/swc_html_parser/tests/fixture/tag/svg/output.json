@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 2925,
+    "end": 3839,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 2918,
+        "end": 3832,
         "ctxt": 0
       },
       "tagName": "html",
@@ -2051,7 +2051,293 @@
           "type": "Text",
           "span": {
             "start": 2908,
-            "end": 2918,
+            "end": 2910,
+            "ctxt": 0
+          },
+          "value": "\n\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 2910,
+            "end": 3816,
+            "ctxt": 0
+          },
+          "tagName": "svg",
+          "namespace": "http://www.w3.org/2000/svg",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "viewBox",
+              "value": "0 0 200 200"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": "http://www.w3.org/2000/xmlns/",
+              "prefix": null,
+              "name": "xmlns",
+              "value": "http://www.w3.org/2000/svg"
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 2972,
+                "end": 2977,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 2977,
+                "end": 3123,
+                "ctxt": 0
+              },
+              "tagName": "style",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 2984,
+                    "end": 3123,
+                    "ctxt": 0
+                  },
+                  "value": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 3131,
+                "end": 3137,
+                "ctxt": 0
+              },
+              "value": "\n\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 3137,
+                "end": 3183,
+                "ctxt": 0
+              },
+              "tagName": "polygon",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "points",
+                  "value": "5,5 195,10 185,185 10,195"
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 3183,
+                "end": 3189,
+                "ctxt": 0
+              },
+              "value": "\n\n    "
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 3189,
+                "end": 3239,
+                "ctxt": 0
+              },
+              "data": " Common use case: embed HTML text into SVG "
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 3239,
+                "end": 3244,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 3244,
+                "end": 3799,
+                "ctxt": 0
+              },
+              "tagName": "foreignObject",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "x",
+                  "value": "20"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "y",
+                  "value": "20"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "width",
+                  "value": "160"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "height",
+                  "value": "160"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 3298,
+                    "end": 3307,
+                    "ctxt": 0
+                  },
+                  "value": "\n        "
+                },
+                {
+                  "type": "Comment",
+                  "span": {
+                    "start": 3307,
+                    "end": 3497,
+                    "ctxt": 0
+                  },
+                  "data": "\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        "
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 3497,
+                    "end": 3506,
+                    "ctxt": 0
+                  },
+                  "value": "\n        "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 3506,
+                    "end": 3788,
+                    "ctxt": 0
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "xmlns",
+                      "value": "http://www.w3.org/1999/xhtml"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 3548,
+                        "end": 3788,
+                        "ctxt": 0
+                      },
+                      "value": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 3794,
+                    "end": 3799,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 3815,
+                "end": 3816,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ],
+          "content": null
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 3822,
+            "end": 3832,
             "ctxt": 0
           },
           "value": "\n\n\n"
