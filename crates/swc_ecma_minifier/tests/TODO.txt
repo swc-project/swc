@@ -282,11 +282,8 @@ pure_getters/set_immutable_5/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-reduce_vars/conditional_chain_certain_part/input.js
-reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_reference/input.js
-reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js

@@ -343,13 +343,16 @@ pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
+reduce_vars/conditional_chain_certain_part/input.js
 reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
+reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
+reduce_vars/defun_var_1/input.js
 reduce_vars/delay_def/input.js
 reduce_vars/duplicate_lambda_defun_name_1/input.js
 reduce_vars/escape_expansion/input.js
