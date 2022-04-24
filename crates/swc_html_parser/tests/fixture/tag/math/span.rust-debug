@@ -29,8 +29,73 @@
  26 | |       </mrow>
  27 | |   </math>
  28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 29 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | |       </matrix>
+ 41 | |   </math>
+ 42 | |   
+ 43 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | |       <infinity/>
+ 45 | |   </math>
+ 46 | |   
+ 47 | |   <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | |       </semantics>
+ 92 | |   </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
 
   x Child
@@ -74,8 +139,73 @@
  26 | |       </mrow>
  27 | |   </math>
  28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 29 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | |       </matrix>
+ 41 | |   </math>
+ 42 | |   
+ 43 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | |       <infinity/>
+ 45 | |   </math>
+ 46 | |   
+ 47 | |   <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | |       </semantics>
+ 92 | |   </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
 
   x Element
@@ -107,8 +237,73 @@
  26 | |       </mrow>
  27 | |   </math>
  28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 29 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | |       </matrix>
+ 41 | |   </math>
+ 42 | |   
+ 43 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | |       <infinity/>
+ 45 | |   </math>
+ 46 | |   
+ 47 | |   <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | |       </semantics>
+ 92 | |   </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
 
   x Child
@@ -214,8 +409,73 @@
  26 | |       </mrow>
  27 | |   </math>
  28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 29 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | |       </matrix>
+ 41 | |   </math>
+ 42 | |   
+ 43 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | |       <infinity/>
+ 45 | |   </math>
+ 46 | |   
+ 47 | |   <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | |       </semantics>
+ 92 | |   </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
 
   x Element
@@ -243,8 +503,73 @@
  26 | |       </mrow>
  27 | |   </math>
  28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 29 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | |       </matrix>
+ 41 | |   </math>
+ 42 | |   
+ 43 | |   <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | |       <infinity/>
+ 45 | |   </math>
+ 46 | |   
+ 47 | |   <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | |       </semantics>
+ 92 | |   </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
 
   x Child
@@ -856,15 +1181,1747 @@
   x Child
     ,-[$DIR/tests/fixture/tag/math/input.html:27:1]
  27 | ,-> </math>
- 28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 28 | `-> 
+ 29 |     <math xmlns="http://www.w3.org/1998/Math/MathML">
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/math/input.html:27:1]
  27 | ,-> </math>
- 28 | |   
- 29 | |   </body>
- 30 | `-> </html>
+ 28 | `-> 
+ 29 |     <math xmlns="http://www.w3.org/1998/Math/MathML">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:29:1]
+ 29 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | `->     </matrix>
+ 41 |     </math>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:29:1]
+ 29 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | |       <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | `->     </matrix>
+ 41 |     </math>
+    `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/tag/math/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:29:1]
+ 29 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | `->     <matrix>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:29:1]
+ 29 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 30 | `->     <matrix>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:30:5]
+ 30 | ,-> <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | `->     </matrix>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:30:5]
+ 30 | ,-> <matrix>
+ 31 | |           <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | |           </matrixrow>
+ 34 | |           <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | |           </matrixrow>
+ 37 | |           <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | |           </matrixrow>
+ 40 | `->     </matrix>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:30:5]
+ 30 | ,-> <matrix>
+ 31 | `->         <matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:30:5]
+ 30 | ,-> <matrix>
+ 31 | `->         <matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:31:9]
+ 31 | ,-> <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | `->         </matrixrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:31:9]
+ 31 | ,-> <matrixrow>
+ 32 | |               <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:31:9]
+ 31 | ,-> <matrixrow>
+ 32 | `->             <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:31:9]
+ 31 | ,-> <matrixrow>
+ 32 | `->             <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    : ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    : ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :     ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :     ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                  ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                  ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                          ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                          ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                               ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+    :                               ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | ,-> <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | `->         </matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:32:13]
+ 32 | ,-> <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+ 33 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:33:9]
+ 33 | ,-> </matrixrow>
+ 34 | `->         <matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:33:9]
+ 33 | ,-> </matrixrow>
+ 34 | `->         <matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:34:9]
+ 34 | ,-> <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | `->         </matrixrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:34:9]
+ 34 | ,-> <matrixrow>
+ 35 | |               <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:34:9]
+ 34 | ,-> <matrixrow>
+ 35 | `->             <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:34:9]
+ 34 | ,-> <matrixrow>
+ 35 | `->             <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    : ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    : ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :     ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :     ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                  ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                  ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                          ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                          ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                               ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+    :                               ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | ,-> <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | `->         </matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:35:13]
+ 35 | ,-> <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+ 36 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:36:9]
+ 36 | ,-> </matrixrow>
+ 37 | `->         <matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:36:9]
+ 36 | ,-> </matrixrow>
+ 37 | `->         <matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:37:9]
+ 37 | ,-> <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | `->         </matrixrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:37:9]
+ 37 | ,-> <matrixrow>
+ 38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:37:9]
+ 37 | ,-> <matrixrow>
+ 38 | `->             <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:37:9]
+ 37 | ,-> <matrixrow>
+ 38 | `->             <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    : ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    : ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :     ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :     ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :             ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :             ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :              ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                  ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                  ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                          ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                          ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                           ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                               ^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+    :                               ^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | ,-> <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | `->         </matrixrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:38:13]
+ 38 | ,-> <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+ 39 | `->         </matrixrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:39:9]
+ 39 | ,-> </matrixrow>
+ 40 | `->     </matrix>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:39:9]
+ 39 | ,-> </matrixrow>
+ 40 | `->     </matrix>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:40:5]
+ 40 | </matrix>
+    :          ^
+ 41 | </math>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:40:5]
+ 40 | </matrix>
+    :          ^
+ 41 | </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:41:1]
+ 41 | ,-> </math>
+ 42 | `-> 
+ 43 |     <math xmlns="http://www.w3.org/1998/Math/MathML">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:41:1]
+ 41 | ,-> </math>
+ 42 | `-> 
+ 43 |     <math xmlns="http://www.w3.org/1998/Math/MathML">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:43:1]
+ 43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | `->     <infinity/>
+ 45 |     </math>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:43:1]
+ 43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | `->     <infinity/>
+ 45 |     </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:43:1]
+ 43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | `->     <infinity/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:43:1]
+ 43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
+ 44 | `->     <infinity/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:44:5]
+ 44 | <infinity/>
+    : ^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:44:5]
+ 44 | <infinity/>
+    : ^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:44:5]
+ 44 | <infinity/>
+    :            ^
+ 45 | </math>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:44:5]
+ 44 | <infinity/>
+    :            ^
+ 45 | </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:45:1]
+ 45 | ,-> </math>
+ 46 | `-> 
+ 47 |     <math>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:45:1]
+ 45 | ,-> </math>
+ 46 | `-> 
+ 47 |     <math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:47:1]
+ 47 | ,-> <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+ 92 |     </math>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:47:1]
+ 47 | ,-> <math>
+ 48 | |       <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+ 92 |     </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:47:1]
+ 47 | ,-> <math>
+ 48 | `->     <semantics>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:47:1]
+ 47 | ,-> <math>
+ 48 | `->     <semantics>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:48:5]
+ 48 | ,-> <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:48:5]
+ 48 | ,-> <semantics>
+ 49 | |   
+ 50 | |           <!-- Presentation MathML -->
+ 51 | |           <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | |           </mrow>
+ 59 | |   
+ 60 | |           <!-- Content MathML -->
+ 61 | |           <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | |           </annotation-xml>
+ 72 | |   
+ 73 | |           <!-- Content HTML -->
+ 74 | |           <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | |           </annotation-xml>
+ 82 | |   
+ 83 | |           <!-- annotate an image -->
+ 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | |           <!-- annotate TeX -->
+ 87 | |           <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | |           </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:48:5]
+ 48 | ,-> <semantics>
+ 49 | |   
+ 50 | `->         <!-- Presentation MathML -->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:48:5]
+ 48 | ,-> <semantics>
+ 49 | |   
+ 50 | `->         <!-- Presentation MathML -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:50:9]
+ 50 | <!-- Presentation MathML -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/tag/math/input.html:50:9]
+ 50 | <!-- Presentation MathML -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:50:9]
+ 50 | ,-> <!-- Presentation MathML -->
+ 51 | `->         <mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:50:9]
+ 50 | ,-> <!-- Presentation MathML -->
+ 51 | `->         <mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:51:9]
+ 51 | ,-> <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | `->         </mrow>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:51:9]
+ 51 | ,-> <mrow>
+ 52 | |               <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | |               </msup>
+ 56 | |               <mo>+</mo>
+ 57 | |               <mi>y</mi>
+ 58 | `->         </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:51:9]
+ 51 | ,-> <mrow>
+ 52 | `->             <msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:51:9]
+ 51 | ,-> <mrow>
+ 52 | `->             <msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:52:13]
+ 52 | ,-> <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | `->             </msup>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:52:13]
+ 52 | ,-> <msup>
+ 53 | |                   <mi>x</mi>
+ 54 | |                   <mn>2</mn>
+ 55 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:52:13]
+ 52 | ,-> <msup>
+ 53 | `->                 <mi>x</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:52:13]
+ 52 | ,-> <msup>
+ 53 | `->                 <mi>x</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | <mi>x</mi>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | <mi>x</mi>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | <mi>x</mi>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | <mi>x</mi>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | ,-> <mi>x</mi>
+ 54 | `->                 <mn>2</mn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:53:17]
+ 53 | ,-> <mi>x</mi>
+ 54 | `->                 <mn>2</mn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | <mn>2</mn>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | <mn>2</mn>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | ,-> <mn>2</mn>
+ 55 | `->             </msup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:54:17]
+ 54 | ,-> <mn>2</mn>
+ 55 | `->             </msup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:55:13]
+ 55 | ,-> </msup>
+ 56 | `->             <mo>+</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:55:13]
+ 55 | ,-> </msup>
+ 56 | `->             <mo>+</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | <mo>+</mo>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | <mo>+</mo>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | <mo>+</mo>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | <mo>+</mo>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | ,-> <mo>+</mo>
+ 57 | `->             <mi>y</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:56:13]
+ 56 | ,-> <mo>+</mo>
+ 57 | `->             <mi>y</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | <mi>y</mi>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | <mi>y</mi>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | <mi>y</mi>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | <mi>y</mi>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | ,-> <mi>y</mi>
+ 58 | `->         </mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:57:13]
+ 57 | ,-> <mi>y</mi>
+ 58 | `->         </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:58:9]
+ 58 | ,-> </mrow>
+ 59 | |   
+ 60 | `->         <!-- Content MathML -->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:58:9]
+ 58 | ,-> </mrow>
+ 59 | |   
+ 60 | `->         <!-- Content MathML -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:60:9]
+ 60 | <!-- Content MathML -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/tag/math/input.html:60:9]
+ 60 | <!-- Content MathML -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:60:9]
+ 60 | ,-> <!-- Content MathML -->
+ 61 | `->         <annotation-xml encoding="MathML-Content">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:60:9]
+ 60 | ,-> <!-- Content MathML -->
+ 61 | `->         <annotation-xml encoding="MathML-Content">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:61:9]
+ 61 | ,-> <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | `->         </annotation-xml>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:61:9]
+ 61 | ,-> <annotation-xml encoding="MathML-Content">
+ 62 | |               <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | |               </apply>
+ 71 | `->         </annotation-xml>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:61:9]
+ 61 | ,-> <annotation-xml encoding="MathML-Content">
+ 62 | `->             <apply>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:61:9]
+ 61 | ,-> <annotation-xml encoding="MathML-Content">
+ 62 | `->             <apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:62:13]
+ 62 | ,-> <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | `->             </apply>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:62:13]
+ 62 | ,-> <apply>
+ 63 | |                   <plus/>
+ 64 | |                   <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | |                   </apply>
+ 69 | |                   <ci>y</ci>
+ 70 | `->             </apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:62:13]
+ 62 | ,-> <apply>
+ 63 | `->                 <plus/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:62:13]
+ 62 | ,-> <apply>
+ 63 | `->                 <plus/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:63:17]
+ 63 | <plus/>
+    : ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:63:17]
+ 63 | <plus/>
+    : ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:63:17]
+ 63 | ,-> <plus/>
+ 64 | `->                 <apply>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:63:17]
+ 63 | ,-> <plus/>
+ 64 | `->                 <apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:64:17]
+ 64 | ,-> <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | `->                 </apply>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:64:17]
+ 64 | ,-> <apply>
+ 65 | |                       <power/>
+ 66 | |                       <ci>x</ci>
+ 67 | |                       <cn type="integer">2</cn>
+ 68 | `->                 </apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:64:17]
+ 64 | ,-> <apply>
+ 65 | `->                     <power/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:64:17]
+ 64 | ,-> <apply>
+ 65 | `->                     <power/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:65:21]
+ 65 | <power/>
+    : ^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:65:21]
+ 65 | <power/>
+    : ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:65:21]
+ 65 | ,-> <power/>
+ 66 | `->                     <ci>x</ci>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:65:21]
+ 65 | ,-> <power/>
+ 66 | `->                     <ci>x</ci>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | <ci>x</ci>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | <ci>x</ci>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | <ci>x</ci>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | <ci>x</ci>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | ,-> <ci>x</ci>
+ 67 | `->                     <cn type="integer">2</cn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:66:21]
+ 66 | ,-> <ci>x</ci>
+ 67 | `->                     <cn type="integer">2</cn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | <cn type="integer">2</cn>
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | <cn type="integer">2</cn>
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | <cn type="integer">2</cn>
+    :                    ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | <cn type="integer">2</cn>
+    :                    ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | ,-> <cn type="integer">2</cn>
+ 68 | `->                 </apply>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:67:21]
+ 67 | ,-> <cn type="integer">2</cn>
+ 68 | `->                 </apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:68:17]
+ 68 | ,-> </apply>
+ 69 | `->                 <ci>y</ci>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:68:17]
+ 68 | ,-> </apply>
+ 69 | `->                 <ci>y</ci>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | <ci>y</ci>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | <ci>y</ci>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | <ci>y</ci>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | <ci>y</ci>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | ,-> <ci>y</ci>
+ 70 | `->             </apply>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:69:17]
+ 69 | ,-> <ci>y</ci>
+ 70 | `->             </apply>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:70:13]
+ 70 | ,-> </apply>
+ 71 | `->         </annotation-xml>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:70:13]
+ 70 | ,-> </apply>
+ 71 | `->         </annotation-xml>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:71:9]
+ 71 | ,-> </annotation-xml>
+ 72 | |   
+ 73 | `->         <!-- Content HTML -->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:71:9]
+ 71 | ,-> </annotation-xml>
+ 72 | |   
+ 73 | `->         <!-- Content HTML -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | <!-- Content HTML -->
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | <!-- Content HTML -->
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | ,-> <!-- Content HTML -->
+ 74 | `->         <annotation-xml encoding="application/xhtml+xml">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | ,-> <!-- Content HTML -->
+ 74 | `->         <annotation-xml encoding="application/xhtml+xml">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | `->         </annotation-xml>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | |               <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | `->         </annotation-xml>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | `->             <head><title>INNER HTML TITLE</title></head>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
+ 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
+ 76 | `->             <head><title>INNER HTML TITLE</title></head>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | <head><title>INNER HTML TITLE</title></head>
+    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | <head><title>INNER HTML TITLE</title></head>
+    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | <head><title>INNER HTML TITLE</title></head>
+    :              ^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | <head><title>INNER HTML TITLE</title></head>
+    :              ^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | ,-> <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
+ 76 | ,-> <head><title>INNER HTML TITLE</title></head>
+ 77 | |               <body>
+ 78 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | `->         </annotation-xml>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
+ 78 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 79 | |               </body>
+ 80 | |               </html>
+ 81 | `->         </annotation-xml>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:81:9]
+ 81 | ,-> </annotation-xml>
+ 82 | |   
+ 83 | `->         <!-- annotate an image -->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:81:9]
+ 81 | ,-> </annotation-xml>
+ 82 | |   
+ 83 | `->         <!-- annotate an image -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
+ 83 | <!-- annotate an image -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
+ 83 | <!-- annotate an image -->
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
+ 83 | ,-> <!-- annotate an image -->
+ 84 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
+ 83 | ,-> <!-- annotate an image -->
+ 84 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
+ 84 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
+ 84 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
+ 84 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | `->         <!-- annotate TeX -->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
+ 84 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+ 85 | |   
+ 86 | `->         <!-- annotate TeX -->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | <!-- annotate TeX -->
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | <!-- annotate TeX -->
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <!-- annotate TeX -->
+ 87 | `->         <annotation encoding="application/x-tex">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <!-- annotate TeX -->
+ 87 | `->         <annotation encoding="application/x-tex">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
+ 87 | ,-> <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | `->         </annotation>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
+ 87 | ,-> <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | `->         </annotation>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
+ 87 | ,-> <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | `->         </annotation>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
+ 87 | ,-> <annotation encoding="application/x-tex">
+ 88 | |               x^{2} + y
+ 89 | `->         </annotation>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:9]
+ 89 | ,-> </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:9]
+ 89 | ,-> </annotation>
+ 90 | |   
+ 91 | `->     </semantics>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:5]
+ 91 | </semantics>
+    :             ^
+ 92 | </math>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:5]
+ 91 | </semantics>
+    :             ^
+ 92 | </math>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:1]
+ 92 | ,-> </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:1]
+ 92 | ,-> </math>
+ 93 | |   
+ 94 | |   </body>
+ 95 | `-> </html>
     `----
