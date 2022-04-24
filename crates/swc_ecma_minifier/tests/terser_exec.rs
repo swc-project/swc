@@ -56,8 +56,6 @@ use testing::assert_eq;
         "evaluate/issue_1760_1/",
         "evaluate/prop_function/",
         "functions/hoist_funs_strict/",
-        "functions/issue_2114_1/",
-        "functions/issue_2114_2/",
         "functions/issue_2620_4/",
         "functions/issue_3016_3/",
         "functions/issue_3076/",
