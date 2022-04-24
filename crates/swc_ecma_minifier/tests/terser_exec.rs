@@ -36,9 +36,11 @@ use testing::assert_eq;
     exclude(
         "ie8",
         // Temporary
-        "sequences/delete_seq_4",
-        "sequences/delete_seq_5",
-        "yield/issue_2689"
+        "reduce_vars/unsafe_evaluate_modified/",
+        "rename/function_catch_catch/",
+        "sequences/delete_seq_4/",
+        "sequences/delete_seq_5/",
+        "yield/issue_2689/"
     )
 )]
 fn terser_exec(input: PathBuf) {
