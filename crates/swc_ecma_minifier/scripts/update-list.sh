@@ -35,6 +35,7 @@ sortFile tests/golden.txt
 # Don't mark passing tests as postponed
 comm -23 tests/postponed.tmp.txt tests/golden.txt > tests/nodup.txt
 mv tests/nodup.txt tests/postponed.txt
+rm tests/postponed.tmp.txt
 
 sortFile tests/postponed.txt
 
