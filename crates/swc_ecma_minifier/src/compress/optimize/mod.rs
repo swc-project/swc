@@ -913,7 +913,13 @@ where
                                 PropName::BigInt(_) => {}
                             },
 
-                            Prop::Shorthand(_) | Prop::Assign(..) => {}
+                            Prop::Assign(mut prop) => {
+                                exprs.extend(
+                                    self.ignore_return_value(&mut prop.value).map(Box::new),
+                                );
+                            }
+
+                            Prop::Shorthand(_) => {}
                         },
                     }
                 }
