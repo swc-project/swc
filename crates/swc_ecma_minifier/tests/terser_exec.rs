@@ -3,14 +3,15 @@ extern crate swc_node_base;
 use std::{
     fmt::Debug,
     fs::read_to_string,
-    io::{BufReader, Read},
     path::{Path, PathBuf},
-    process::{Command, Stdio},
+    process::Command,
+    sync::mpsc,
+    thread,
     time::{Duration, Instant},
 };
 
 use ansi_term::Color;
-use anyhow::Error;
+use anyhow::{bail, Context, Error};
 use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::*;
@@ -29,7 +30,6 @@ use swc_ecma_parser::{
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::assert_eq;
-use wait_timeout::ChildExt;
 
 #[testing::fixture("tests/terser/compress/**/input.js")]
 fn terser_exec(input: PathBuf) {
@@ -179,18 +179,42 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
     eprintln!("Executing node with timeout: {:?}", timeout);
 
-    let mut child = Command::new("node")
-        .arg("-e")
-        .arg(&code)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()?;
+    let code = code.to_string();
+    let (sender, receiver) = mpsc::channel();
+    let t = thread::spawn(move || {
+        let res = (|| {
+            let actual_output = Command::new("node")
+                .arg("-e")
+                .arg(&code)
+                .output()
+                .context("failed to execute output of minifier")?;
 
-    let mut stdout = BufReader::new(child.stdout.take().unwrap());
-    let mut output = String::new();
-    stdout.read_to_string(&mut output)?;
-    child.wait_timeout(timeout)?;
-    Ok(output)
+            if !actual_output.status.success() {
+                bail!(
+                    "failed to execute:\n{}\n{}",
+                    String::from_utf8_lossy(&actual_output.stdout),
+                    String::from_utf8_lossy(&actual_output.stderr)
+                )
+            }
+
+            Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+        })();
+
+        let _ = sender.send(res);
+    });
+
+    thread::sleep(timeout);
+
+    match receiver.try_recv() {
+        Ok(Ok(v)) => Ok(v),
+        Ok(Err(err)) => Err(err),
+        Err(mpsc::TryRecvError::Empty) => {
+            drop(receiver);
+            drop(t);
+            bail!("node timed out")
+        }
+        Err(mpsc::TryRecvError::Disconnected) => unreachable!(),
+    }
 }
 
 fn print<N: swc_ecma_codegen::Node>(
