@@ -127,6 +127,9 @@ drop_unused/issue_2665/input.js
 drop_unused/issue_2846/input.js
 drop_unused/issue_t161_top_retain_15/input.js
 drop_unused/issue_t183/input.js
+drop_unused/unused_circular_references_1/input.js
+drop_unused/unused_circular_references_2/input.js
+drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_null_conditional_chain/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_399/input.js

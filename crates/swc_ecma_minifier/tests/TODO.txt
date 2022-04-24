@@ -60,9 +60,6 @@ drop_unused/issue_2418_5/input.js
 drop_unused/issue_2768/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
-drop_unused/unused_circular_references_1/input.js
-drop_unused/unused_circular_references_2/input.js
-drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_funarg_1/input.js
 drop_unused/unused_funarg_2/input.js
 drop_unused/var_catch_toplevel/input.js
