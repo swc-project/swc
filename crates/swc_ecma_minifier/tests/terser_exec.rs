@@ -33,7 +33,13 @@ use testing::assert_eq;
 
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
-    exclude("sequences/delete_seq_4", "sequences/delete_seq_5", "yield/issue_2689")
+    exclude(
+        "ie8",
+        // Temporary
+        "sequences/delete_seq_4",
+        "sequences/delete_seq_5",
+        "yield/issue_2689"
+    )
 )]
 fn terser_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
