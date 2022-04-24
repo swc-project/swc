@@ -14,6 +14,7 @@ function sortFile() {
 
 # Clean the ignore list
 echo '' > tests/TODO.txt
+echo '' > tests/golden.txt
 mv tests/postponed.txt tests/postponed.tmp.txt
 echo '' > tests/postponed.txt
 
