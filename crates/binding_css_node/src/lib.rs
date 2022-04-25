@@ -80,11 +80,10 @@ fn minify_inner(code: &str, opts: MinifyOptions) -> anyhow::Result<TransformOutp
         let fm = cm.new_source_file(filename, code.into());
 
         let mut errors = vec![];
-        // TODO
         let ss = swc_css_parser::parse_file::<swc_css_ast::Stylesheet>(
             &fm,
             swc_css_parser::parser::ParserConfig {
-                allow_wrong_line_comments: true,
+                allow_wrong_line_comments: false,
             },
             &mut errors,
         );
