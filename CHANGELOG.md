@@ -14,6 +14,9 @@
 - **(es/minifier)** Preserve more side effects (#4420) ([8ab12fd](https://github.com/swc-project/swc/commit/8ab12fd97b035e4131775676cdd33daaf31587b8))
 
 
+- **(es/minifier)** Fix analysis of update expressions (#4428) ([9733917](https://github.com/swc-project/swc/commit/9733917cc718ad4800697ffc9203ad96d5dd3f3f))
+
+
 - **(html/lexer)** Fix lexing of html entity (#4423) ([9b26dbd](https://github.com/swc-project/swc/commit/9b26dbd45763fbf48dd81a1652608cc90736fe4f))
 
 
