@@ -12,8 +12,12 @@
   9 | |           <h1>Alternative content</h1>
  10 | |       </noembed>
  11 | |       </embed>
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | |       <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | |              height="200">
+ 16 | |   </body>
+ 17 | `-> </html>
     `----
 
   x Child
@@ -40,8 +44,12 @@
   9 | |           <h1>Alternative content</h1>
  10 | |       </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | |       <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | |              height="200">
+ 16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Element
@@ -56,8 +64,12 @@
   9 | |           <h1>Alternative content</h1>
  10 | |       </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | |       <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | |              height="200">
+ 16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Attribute
@@ -152,8 +164,12 @@
   9 | |           <h1>Alternative content</h1>
  10 | |       </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | |       <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | |              height="200">
+ 16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Element
@@ -164,8 +180,12 @@
   9 | |           <h1>Alternative content</h1>
  10 | |       </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | |       <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | |              height="200">
+ 16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Child
@@ -236,14 +256,42 @@
     ,-[$DIR/tests/fixture/tag/embed/input.html:10:5]
  10 | ,-> </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | `->     <embed type="video/webm"
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/embed/input.html:10:5]
  10 | ,-> </noembed>
  11 | |       </embed>
- 12 | `-> </body>
- 13 |     </html>
+ 12 | `->     <embed type="video/webm"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/embed/input.html:12:5]
+ 12 | ,-> <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | `->            height="200">
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/embed/input.html:12:5]
+ 12 | ,-> <embed type="video/webm"
+ 13 | |              src="/media/cc0-videos/flower.mp4"
+ 14 | |              width="250"
+ 15 | `->            height="200">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/embed/input.html:15:12]
+ 15 | ,-> height="200">
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/embed/input.html:15:12]
+ 15 | ,-> height="200">
+ 16 | `-> </body>
+ 17 |     </html>
     `----

@@ -131,13 +131,25 @@
   x Child
    ,-[$DIR/tests/fixture/comment/basic/input.html:6:1]
  6 | <script><!-- alert(1) --></script>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/comment/basic/input.html:6:1]
  6 | <script><!-- alert(1) --></script>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comment/basic/input.html:6:1]
+ 6 | <script><!-- alert(1) --></script>
+   :         ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comment/basic/input.html:6:1]
+ 6 | <script><!-- alert(1) --></script>
+   :         ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
