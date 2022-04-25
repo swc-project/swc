@@ -3800,7 +3800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
