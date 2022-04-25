@@ -1,4 +1,4 @@
-name: SWC Bot
+name: Bot
 
 on:
   push:
