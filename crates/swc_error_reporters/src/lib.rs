@@ -13,6 +13,8 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span,
 };
 
+pub mod handler;
+
 pub struct PrettyEmitter {
     cm: Lrc<SourceMap>,
 
