@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;

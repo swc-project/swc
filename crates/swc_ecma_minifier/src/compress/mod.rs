@@ -66,7 +66,7 @@ where
         as_folder(compressor),
         Optional {
             enabled: options.evaluate || options.side_effects,
-            visitor: expr_simplifier(ExprSimplifierConfig {})
+            visitor: expr_simplifier(marks.top_level_mark, ExprSimplifierConfig {})
         }
     )
 }
