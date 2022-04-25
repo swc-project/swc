@@ -1234,8 +1234,6 @@ sequences/call/input.js
 sequences/delete_seq_1/input.js
 sequences/delete_seq_2/input.js
 sequences/delete_seq_3/input.js
-sequences/delete_seq_4/input.js
-sequences/delete_seq_5/input.js
 sequences/delete_seq_6/input.js
 sequences/forin/input.js
 sequences/func_def_2/input.js

@@ -259,12 +259,7 @@ impl Pure<'_> {
 
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
         match &mut *n {
-            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. })
-            | Expr::Unary(
-                e @ UnaryExpr {
-                    op: op!("delete"), ..
-                },
-            ) => {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
                 if let Expr::Seq(SeqExpr { exprs, .. }) = &mut *e.arg {
                     if exprs.is_empty() {
                         return;
@@ -280,6 +275,11 @@ impl Pure<'_> {
 
                     *n = *e.arg.take();
                 }
+            }
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => {
+                // TODO
             }
             _ => {}
         }

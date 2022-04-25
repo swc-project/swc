@@ -241,6 +241,8 @@ reduce_vars/obj_var_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 return_undefined/return_undefined/input.js
+sequences/delete_seq_4/input.js
+sequences/delete_seq_5/input.js
 sequences/for_sequences/input.js
 sequences/issue_1758/input.js
 sequences/lift_sequences_5/input.js
