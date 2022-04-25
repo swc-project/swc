@@ -1,621 +1,813 @@
 
   x Document
     ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
-  1 | ,-> <template id="element-details-template">
-  2 | |       <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | |       </style>
- 16 | |       <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | |       </details>
- 26 | |       <hr>
- 27 | `-> </template>
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | |       </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
-  1 | ,-> <template id="element-details-template">
-  2 | |       <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | |       </style>
- 16 | |       <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | |       </details>
- 26 | |       <hr>
- 27 | `-> </template>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
 
-  x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
-  1 | ,-> <template id="element-details-template">
-  2 | |       <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | |       </style>
- 16 | |       <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | |       </details>
- 26 | |       <hr>
- 27 | `-> </template>
-    `----
+  x DocumentType
+   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
-  1 | ,-> <template id="element-details-template">
-  2 | |       <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | |       </style>
- 16 | |       <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | |       </details>
- 26 | `->     <hr>
- 27 |     </template>
+    ,-[$DIR/tests/fixture/tag/template/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | |       </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
-  1 | ,-> <template id="element-details-template">
-  2 | |       <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | |       </style>
- 16 | |       <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | |       </details>
- 26 | `->     <hr>
- 27 |     </template>
+    ,-[$DIR/tests/fixture/tag/template/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | |       </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Attribute
    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
- 1 | <template id="element-details-template">
+ 1 | <!doctype html>
    : ^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
- 1 | ,-> <template id="element-details-template">
- 2 | `->     <style>
+   ,-[$DIR/tests/fixture/tag/template/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/template/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/template/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
- 1 | ,-> <template id="element-details-template">
- 2 | `->     <style>
+   ,-[$DIR/tests/fixture/tag/template/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
-  2 | ,-> <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | `->     </style>
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/template/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/template/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/template/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:6:1]
+  6 | ,-> <body>
+  7 | |       <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | |       </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
-  2 | ,-> <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | `->     </style>
+    ,-[$DIR/tests/fixture/tag/template/input.html:6:1]
+  6 | ,-> <body>
+  7 | |       <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | |       </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
-  2 | ,-> <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | `->     </style>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | `->     <template id="element-details-template">
+   `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
-  2 | ,-> <style>
-  3 | |           details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
-  4 | |           .name {font-weight: bold; color: #217ac0; font-size: 120% }
-  5 | |           h4 {
-  6 | |               margin: 10px 0 -8px 0;
-  7 | |               background: #217ac0;
-  8 | |               color: white;
-  9 | |               padding: 2px 6px;
- 10 | |               border: 1px solid #cee9f9;
- 11 | |               border-radius: 4px;
- 12 | |           }
- 13 | |           .attributes { margin-left: 22px; font-size: 90% }
- 14 | |           .attributes p { margin-left: 16px; font-style: italic }
- 15 | `->     </style>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | `->     <template id="element-details-template">
+   `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:15:5]
- 15 | ,-> </style>
- 16 | `->     <details>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:15:5]
- 15 | ,-> </style>
- 16 | `->     <details>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
- 16 | ,-> <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:7:5]
+  7 | ,-> <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | `->     </template>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
- 16 | ,-> <details>
- 17 | |           <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | |           </summary>
- 21 | |           <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | |           </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:7:5]
+  7 | ,-> <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | `->     </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
- 16 | ,-> <details>
- 17 | `->         <summary>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:7:5]
+ 7 | ,-> <template id="element-details-template">
+ 8 | `->         <style>
+   `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
- 16 | ,-> <details>
- 17 | `->         <summary>
-    `----
+   ,-[$DIR/tests/fixture/tag/template/input.html:7:5]
+ 7 | ,-> <template id="element-details-template">
+ 8 | `->         <style>
+   `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:17:9]
- 17 | ,-> <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:8:9]
+  8 | ,-> <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | `->         </style>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:17:9]
- 17 | ,-> <summary>
- 18 | |               <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:8:9]
+  8 | ,-> <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | `->         </style>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:17:9]
- 17 | ,-> <summary>
- 18 | `->             <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:8:9]
+  8 | ,-> <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | `->         </style>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:17:9]
- 17 | ,-> <summary>
- 18 | `->             <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:8:9]
+  8 | ,-> <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | `->         </style>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
+ 21 | ,-> </style>
+ 22 | `->         <details>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
+ 21 | ,-> </style>
+ 22 | `->         <details>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:22:9]
+ 22 | ,-> <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | `->         </details>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | |               <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:22:9]
+ 22 | ,-> <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | `->         </details>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:22:9]
+ 22 | ,-> <details>
+ 23 | `->             <summary>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:22:9]
+ 22 | ,-> <details>
+ 23 | `->             <summary>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | ,-> <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | ,-> <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | ,-> <summary>
+ 24 | `->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
+ 23 | ,-> <summary>
+ 24 | `->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                    ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                    ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                  ^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                  ^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | `->             <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | `->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
- 18 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 19 | `->             <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | `->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                          ^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                          ^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
- 19 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 20 | `->         </summary>
+    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
+ 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | `->             </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:20:9]
- 20 | ,-> </summary>
- 21 | `->         <div class="attributes">
+    ,-[$DIR/tests/fixture/tag/template/input.html:26:13]
+ 26 | ,-> </summary>
+ 27 | `->             <div class="attributes">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:20:9]
- 20 | ,-> </summary>
- 21 | `->         <div class="attributes">
+    ,-[$DIR/tests/fixture/tag/template/input.html:26:13]
+ 26 | ,-> </summary>
+ 27 | `->             <div class="attributes">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
- 21 | ,-> <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+    ,-[$DIR/tests/fixture/tag/template/input.html:27:13]
+ 27 | ,-> <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | `->             </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
- 21 | ,-> <div class="attributes">
- 22 | |               <h4>Attributes</h4>
- 23 | |               <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+    ,-[$DIR/tests/fixture/tag/template/input.html:27:13]
+ 27 | ,-> <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | `->             </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
- 21 | ,-> <div class="attributes">
- 22 | `->             <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:27:13]
+ 27 | ,-> <div class="attributes">
+ 28 | `->                 <h4>Attributes</h4>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
- 21 | ,-> <div class="attributes">
- 22 | `->             <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:27:13]
+ 27 | ,-> <div class="attributes">
+ 28 | `->                 <h4>Attributes</h4>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | <h4>Attributes</h4>
     : ^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | <h4>Attributes</h4>
     : ^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | <h4>Attributes</h4>
     :     ^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | <h4>Attributes</h4>
     :     ^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | ,-> <h4>Attributes</h4>
- 23 | `->             <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | ,-> <h4>Attributes</h4>
+ 29 | `->                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
- 22 | ,-> <h4>Attributes</h4>
- 23 | `->             <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:28:17]
+ 28 | ,-> <h4>Attributes</h4>
+ 29 | `->                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     :                         ^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     :                         ^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     :                            ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | <slot name="attributes"><p>None</p></slot>
     :                            ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | ,-> <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | ,-> <slot name="attributes"><p>None</p></slot>
+ 30 | `->             </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
- 23 | ,-> <slot name="attributes"><p>None</p></slot>
- 24 | `->         </div>
+    ,-[$DIR/tests/fixture/tag/template/input.html:29:17]
+ 29 | ,-> <slot name="attributes"><p>None</p></slot>
+ 30 | `->             </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | ,-> </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:30:13]
+ 30 | ,-> </div>
+ 31 | `->         </details>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
- 24 | ,-> </div>
- 25 | `->     </details>
+    ,-[$DIR/tests/fixture/tag/template/input.html:30:13]
+ 30 | ,-> </div>
+ 31 | `->         </details>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | ,-> </details>
- 26 | `->     <hr>
+    ,-[$DIR/tests/fixture/tag/template/input.html:31:9]
+ 31 | ,-> </details>
+ 32 | `->         <hr>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
- 25 | ,-> </details>
- 26 | `->     <hr>
+    ,-[$DIR/tests/fixture/tag/template/input.html:31:9]
+ 31 | ,-> </details>
+ 32 | `->         <hr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:26:5]
- 26 | <hr>
+    ,-[$DIR/tests/fixture/tag/template/input.html:32:9]
+ 32 | <hr>
     : ^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:26:5]
- 26 | <hr>
+    ,-[$DIR/tests/fixture/tag/template/input.html:32:9]
+ 32 | <hr>
     : ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:26:5]
- 26 | <hr>
-    :     ^
- 27 | </template>
+    ,-[$DIR/tests/fixture/tag/template/input.html:32:9]
+ 32 | ,-> <hr>
+ 33 | `->     </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:26:5]
- 26 | <hr>
-    :     ^
- 27 | </template>
+    ,-[$DIR/tests/fixture/tag/template/input.html:32:9]
+ 32 | ,-> <hr>
+ 33 | `->     </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:27:1]
- 27 | </template>
-    :            ^
+    ,-[$DIR/tests/fixture/tag/template/input.html:33:5]
+ 33 | ,-> </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/template/input.html:27:1]
- 27 | </template>
-    :            ^
+    ,-[$DIR/tests/fixture/tag/template/input.html:33:5]
+ 33 | ,-> </template>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
