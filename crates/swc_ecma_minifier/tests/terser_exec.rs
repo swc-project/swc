@@ -59,8 +59,6 @@ use testing::assert_eq;
         "issue_1750/case_1/",
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
-        "sequences/delete_seq_4/",
-        "sequences/delete_seq_5/",
         "yield/issue_2689/",
     )
 )]
