@@ -414,7 +414,10 @@ impl Options {
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
-            Optional::new(simplifier(Default::default()), enable_simplifier),
+            Optional::new(
+                simplifier(top_level_mark, Default::default()),
+                enable_simplifier
+            ),
             json_parse_pass
         );
 

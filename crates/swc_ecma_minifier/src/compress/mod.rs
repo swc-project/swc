@@ -66,7 +66,7 @@ where
         as_folder(compressor),
         Optional {
             enabled: options.evaluate || options.side_effects,
-            visitor: expr_simplifier(ExprSimplifierConfig {})
+            visitor: expr_simplifier(marks.top_level_mark, ExprSimplifierConfig {})
         }
     )
 }
@@ -278,7 +278,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier(ExprSimplifierConfig {});
+            let mut visitor = expr_simplifier(self.marks.top_level_mark, ExprSimplifierConfig {});
             n.apply(&mut visitor);
 
             self.changed |= visitor.changed();
@@ -370,7 +370,7 @@ where
 
             let start_time = now();
 
-            let mut v = dead_branch_remover();
+            let mut v = dead_branch_remover(self.marks.top_level_mark);
             n.apply(&mut v);
 
             if let Some(start_time) = start_time {
