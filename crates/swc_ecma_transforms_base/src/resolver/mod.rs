@@ -69,27 +69,27 @@ pub fn resolver() -> impl 'static + Fold + VisitMut {
 /// 5. Found usage of `a` (last line), and determines that it's a
 /// reference to top-level `a`, and change syntax context of `a` on last line to
 /// top-level syntax context.
-pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold + VisitMut {
+pub fn resolver_with_mark(unresolved_mark: Mark) -> impl 'static + Fold + VisitMut {
     assert_ne!(
-        top_level_mark,
+        unresolved_mark,
         Mark::root(),
         "Marker provided to resolver should not be the root mark"
     );
     as_folder(Resolver::new(
-        Scope::new(ScopeKind::Fn, top_level_mark, None),
+        Scope::new(ScopeKind::Fn, unresolved_mark, None),
         false,
     ))
 }
 
 /// [resolver_with_mark] with typescript support enabled.
-pub fn ts_resolver(top_level_mark: Mark) -> impl 'static + Fold + VisitMut {
+pub fn ts_resolver(unresolved_mark: Mark) -> impl 'static + Fold + VisitMut {
     assert_ne!(
-        top_level_mark,
+        unresolved_mark,
         Mark::root(),
         "Marker provided to resolver should not be the root mark"
     );
     as_folder(Resolver::new(
-        Scope::new(ScopeKind::Fn, top_level_mark, None),
+        Scope::new(ScopeKind::Fn, unresolved_mark, None),
         true,
     ))
 }
