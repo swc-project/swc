@@ -857,25 +857,7 @@ impl<'a> VisitMut for Resolver<'a> {
                         debug!("\t -> Unresolved");
                     }
 
-                    let mark = {
-                        let mut mark = self.current.mark;
-                        let mut cur = Some(&self.current);
-                        while let Some(scope) = cur {
-                            cur = scope.parent;
-
-                            if cur.is_none() {
-                                break;
-                            }
-
-                            if let Some(cur) = &cur {
-                                mark = cur.mark;
-                            }
-                        }
-
-                        mark
-                    };
-
-                    let span = span.apply_mark(mark);
+                    let span = span.apply_mark(self.config.unresolved_mark);
 
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> {:?}", span.ctxt());
