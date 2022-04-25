@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![deny(unused)]
 
 pub use self::{
     const_modules::const_modules,

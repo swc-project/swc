@@ -1,5 +1,5 @@
 //! Ported from closure compiler.
-use swc_common::{chain, pass::Repeat, Mark, SyntaxContext};
+use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
 
 pub use self::{
