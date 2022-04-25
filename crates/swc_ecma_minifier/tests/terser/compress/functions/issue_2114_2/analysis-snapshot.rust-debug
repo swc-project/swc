@@ -168,7 +168,7 @@ TestSnapshot {
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
                 assign_count: 3,
-                mutation_by_call_count: 4,
+                mutation_by_call_count: 2,
                 usage_count: 4,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
