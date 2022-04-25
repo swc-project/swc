@@ -128,6 +128,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let expr = self.parse_await_expr()?;
+            let expr = self
+                .include_in_expr(true)
+                .parse_bin_op_recursively(expr, 0)?;
             eat!(self, ';');
 
             let span = span!(self, start);

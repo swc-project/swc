@@ -1,0 +1,295 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 98,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 11,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 0,
+          "end": 11,
+          "ctxt": 0
+        },
+        "operator": "+",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 0,
+            "end": 7,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 10,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 12,
+        "end": 23,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 12,
+          "end": 23,
+          "ctxt": 0
+        },
+        "operator": "*",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 12,
+            "end": 19,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 22,
+            "end": 23,
+            "ctxt": 0
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 24,
+        "end": 36,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 24,
+          "end": 36,
+          "ctxt": 0
+        },
+        "operator": "||",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 24,
+            "end": 31,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 30,
+              "end": 31,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 35,
+            "end": 36,
+            "ctxt": 0
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 37,
+        "end": 52,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 37,
+          "end": 52,
+          "ctxt": 0
+        },
+        "operator": "??",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 37,
+            "end": 47,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NullLiteral",
+            "span": {
+              "start": 43,
+              "end": 47,
+              "ctxt": 0
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 51,
+            "end": 52,
+            "ctxt": 0
+          },
+          "value": 3.0,
+          "raw": "3"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 53,
+        "end": 79,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 53,
+          "end": 79,
+          "ctxt": 0
+        },
+        "operator": "instanceof",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 53,
+            "end": 60,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 59,
+              "end": 60,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 72,
+            "end": 79,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 78,
+              "end": 79,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 80,
+        "end": 98,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 80,
+          "end": 98,
+          "ctxt": 0
+        },
+        "operator": "in",
+        "left": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 80,
+            "end": 87,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 86,
+              "end": 87,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "AwaitExpression",
+          "span": {
+            "start": 91,
+            "end": 98,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 97,
+              "end": 98,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
