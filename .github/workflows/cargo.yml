@@ -355,7 +355,7 @@ jobs:
         shell: bash
         run: |
           yarn
-          yarn global add jest mocha
+          yarn global add jest@27 mocha
 
       - name: Configure path (windows)
         shell: bash
