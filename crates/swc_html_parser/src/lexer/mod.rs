@@ -5073,13 +5073,12 @@ where
 
                         if let Some(found_entity) = found_entity {
                             cur_pos = Some(self.input.cur_pos());
-
                             entity = Some(found_entity);
                         }
 
                         // We stop when:
                         // - not ascii alphabetic
-                        // - we consume more characters them the longest entity
+                        // - we consume more characters than the longest entity
                         if !c.is_ascii_alphabetic() || temporary_buffer.len() > 33 {
                             if let Some(cur_pos) = cur_pos {
                                 self.input.reset_to(cur_pos);
@@ -5138,7 +5137,7 @@ where
                         // Flush code points consumed as a character reference. Switch to the
                         // return state.
                         else {
-                            if is_last_semicolon {
+                            if !is_last_semicolon {
                                 self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
                             }
 

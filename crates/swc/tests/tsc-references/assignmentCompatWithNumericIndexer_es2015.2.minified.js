@@ -1,0 +1,2 @@
+var Generics;
+Generics || (Generics = {});

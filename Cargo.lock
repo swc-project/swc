@@ -3268,7 +3268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.4"
+version = "0.105.5"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3412,7 +3412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3800,7 +3800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3813,7 +3813,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "bitflags",
  "lexical",

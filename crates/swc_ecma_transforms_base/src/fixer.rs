@@ -356,7 +356,8 @@ impl VisitMut for Fixer<'_> {
                     || e.is_await_expr()
                     || e.is_bin()
                     || e.is_assign()
-                    || e.is_cond() =>
+                    || e.is_cond()
+                    || e.is_unary() =>
             {
                 self.wrap(&mut **e)
             }
