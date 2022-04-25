@@ -232,6 +232,10 @@ where
                     }
                 }
             }
+            if vars.is_empty() {
+                log_abort!("vars is empty");
+                return;
+            }
 
             let ctx = Ctx {
                 in_fn_like: true,
@@ -506,7 +510,9 @@ where
                 }
 
                 let body = f.function.body.as_mut().unwrap();
-                if body.stmts.is_empty() {
+                if body.stmts.is_empty() && call.args.is_empty() {
+                    self.changed = true;
+                    report_change!("iife: Inlining an empty function call as `undefined`");
                     *e = *undefined(f.function.span);
                     return;
                 }

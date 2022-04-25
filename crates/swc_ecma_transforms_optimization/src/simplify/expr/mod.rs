@@ -187,7 +187,9 @@ impl SimplifyExpr {
 
                         (before, e, after)
                     } else {
-                        (vec![], None, vec![])
+                        let before = elems.take();
+
+                        (before, None, vec![])
                     };
 
                     let v = match e {

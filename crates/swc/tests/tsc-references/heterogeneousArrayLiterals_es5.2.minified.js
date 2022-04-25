@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var Base = function() {
+var WithContextualType, Base = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);
 }, Derived = function(Base1) {
@@ -19,3 +19,4 @@ var Base = function() {
     }
     return Derived2;
 }(Base);
+Derived || (Derived = {}), WithContextualType || (WithContextualType = {});

@@ -5,7 +5,28 @@
 
 
 
+- **(es/minifier)** Remove the last break in the last `BlockStmt` (#4413) ([83244ad](https://github.com/swc-project/swc/commit/83244add338c3dd1a1a84fec94b73d1931699cdb))
+
+
+- **(es/minifier)** Don't drop arguments to an IIFE without body (#4419) ([aa19b65](https://github.com/swc-project/swc/commit/aa19b65f9cb1170c36991649348e064406523699))
+
+
+- **(es/minifier)** Preserve more side effects (#4420) ([8ab12fd](https://github.com/swc-project/swc/commit/8ab12fd97b035e4131775676cdd33daaf31587b8))
+
+
+- **(es/minifier)** Fix analysis of update expressions (#4428) ([9733917](https://github.com/swc-project/swc/commit/9733917cc718ad4800697ffc9203ad96d5dd3f3f))
+
+
+- **(es/minifier)** Remove wrong logic for optimizing `delete`s (#4429) ([8118569](https://github.com/swc-project/swc/commit/8118569045135e06fcaadc61255b9ca09ef120ea))
+
+
+- **(html/lexer)** Fix lexing of html entity (#4423) ([9b26dbd](https://github.com/swc-project/swc/commit/9b26dbd45763fbf48dd81a1652608cc90736fe4f))
+
+
 - **(html/parser)** Parse foreign attributes (#4400) ([cf3be64](https://github.com/swc-project/swc/commit/cf3be649bb327feda8bce4e7ab7eca92d248c2da))
+
+
+- **(html/parser)** Fix parsing of foreign elements (#4422) ([4ccbdf2](https://github.com/swc-project/swc/commit/4ccbdf2a7d6419552db6b34586a32fef52b200bd))
 
 ### Features
 
@@ -14,19 +35,43 @@
 - **(es/parser)** Reject invalid regex flags (#4404) ([c96e322](https://github.com/swc-project/swc/commit/c96e32243c549d0f7db26a8e76d69a5646b4865c))
 
 
+- **(es/parser)** Reject invalid `new.target` (#4406) ([da02c9d](https://github.com/swc-project/swc/commit/da02c9dc509f97d58f565223c81e7b123b0301c5))
+
+
+- **(es/parser)** Reject `'use strict'` with non-simple params list in TS (#4416) ([6dc64c9](https://github.com/swc-project/swc/commit/6dc64c9ca0bccf27b325d3298f4ed7f07eaaa076))
+
+
 - **(html)** Prepare processing system (#4358) ([7332dce](https://github.com/swc-project/swc/commit/7332dce4f801546f0c5f29b6919feaaebebc435a))
+
+
+- **(html/codegen)** Print unquoted value when it is possible (#4402) ([c15dc4f](https://github.com/swc-project/swc/commit/c15dc4f2b7e97eae939a82113ff5ab15a2553d78))
 
 
 - **(html/minifier)** Initialize crate (#4403) ([63a6280](https://github.com/swc-project/swc/commit/63a6280e8f691f93db246db02ce2479b08874220))
 
+
+- **(html/minifier)** Remove `script` `type` attribute (#4407) ([fec0f2e](https://github.com/swc-project/swc/commit/fec0f2e417b8da2e0391f594f28d32e93b03673e))
+
+
+- **(html/minifier)** Compress `type` for `style` and `link` tags (#4424) ([25a87f0](https://github.com/swc-project/swc/commit/25a87f000048facf4daa78fb6605af3b1e50e81e))
+
 ### Miscellaneous Tasks
 
+
+
+- **(ci)** Improve bot script (#4430) ([c216a03](https://github.com/swc-project/swc/commit/c216a03673ca12e16d3650161eb890e6236054b1))
+
+
+- **(ci)** Use `yarn` instead of `npm` (#4432) ([b3fb0e9](https://github.com/swc-project/swc/commit/b3fb0e9ceb45b6d2b1c45499680a7d519f6d2f25))
 
 
 - **(es/minifier)** Add a script to instrument real-world inputs (#4399) ([efdf93d](https://github.com/swc-project/swc/commit/efdf93d91099bab79f04a58635b418b7160a0b75))
 
 
 - **(plugin)** Add a benchmark (#4397) ([60efb7e](https://github.com/swc-project/swc/commit/60efb7e9c75445fdffccf936964785424f421a7e))
+
+
+- **(repo)** Make `git commit` faster (#4421) ([65e00aa](https://github.com/swc-project/swc/commit/65e00aafc3b27bc896178fc9b3164fef0777cd9f))
 
 ### Performance
 
@@ -39,6 +84,18 @@
 
 
 - **(es)** Add tests for `.swcrc` (#4398) ([5134b4f](https://github.com/swc-project/swc/commit/5134b4f9bee5725bae53876067399aa0528a8add))
+
+
+- **(es/minifier)** Split tests into improvement and stabilization (#4409) ([ab88637](https://github.com/swc-project/swc/commit/ab886379377726bd32f9221da494eb00d9b6fa94))
+
+
+- **(es/minifier)** Use `_` instead of `-` for terser tests (#4411) ([4e11303](https://github.com/swc-project/swc/commit/4e113037e5142ca24bb4f28c316f58bbd28d3f9b))
+
+
+- **(es/minifier)** Execute terser tests if possible (#4418) ([f787f8c](https://github.com/swc-project/swc/commit/f787f8c81943b022078a53575486094d5d2b1eca))
+
+
+- **(es/minifier)** Categorize tests (#4410) ([9b34ecf](https://github.com/swc-project/swc/commit/9b34ecfd2e292ed557b4e357ea61a0cda4533445))
 
 ## [1.2.171] - 2022-04-22
 

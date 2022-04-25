@@ -1,6 +1,8 @@
 use swc_html_ast::*;
 
-use crate::parser::{is_same_node, RcNode};
+use crate::parser::{
+    is_html_integration_point, is_mathml_text_integration_point, is_same_node, Data, RcNode,
+};
 
 static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
     "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
@@ -371,9 +373,36 @@ impl OpenElementsStack {
     }
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
-        while let Some(node) = self.items.pop() {
+        while let Some(node) = self.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 break;
+            }
+        }
+    }
+
+    pub fn pop_until_node(&mut self, until_to_node: &RcNode) {
+        while let Some(node) = &self.pop() {
+            if is_same_node(node, until_to_node) {
+                break;
+            }
+        }
+    }
+
+    // While the current node is not a MathML text integration point, an HTML
+    // integration point, or an element in the HTML namespace, pop elements from
+    // the stack of open elements.
+    pub fn pop_until_in_foreign(&mut self) {
+        while let Some(node) = self.pop() {
+            match &node.data {
+                Data::Element(Element { namespace, .. }) if *namespace == Namespace::HTML => {
+                    break;
+                }
+                _ if is_mathml_text_integration_point(Some(&node))
+                    || is_html_integration_point(Some(&node)) =>
+                {
+                    break;
+                }
+                _ => {}
             }
         }
     }

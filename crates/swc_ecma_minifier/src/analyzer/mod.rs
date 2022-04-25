@@ -693,6 +693,7 @@ where
 
         let ctx = Ctx {
             skip_standalone: self.ctx.skip_standalone || is_standalone,
+            in_update_arg: false,
             ..self.ctx
         };
 
@@ -859,7 +860,8 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
-            in_update_arg: false,
+            is_exact_arg: false,
+            is_exact_reassignment: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));

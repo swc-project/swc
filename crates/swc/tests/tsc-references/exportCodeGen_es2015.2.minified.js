@@ -1,5 +1,5 @@
-var A, D, E, F;
-(A || (A = {})).x = 12, (D || (D = {})).yes = function() {
+var A, B, C, D, E, F;
+(A || (A = {})).x = 12, B || (B = {}), C || (C = {}), (D || (D = {})).yes = function() {
     return !0;
 }, function(E1) {
     var Color;
@@ -9,4 +9,6 @@ var A, D, E, F;
     var Color;
     let Color1;
     (Color = Color1 || (Color1 = {}))[Color.Red = 0] = "Red";
+    let M;
+    M || (M = {});
 }(F || (F = {}));

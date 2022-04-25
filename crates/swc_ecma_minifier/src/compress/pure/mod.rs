@@ -156,7 +156,10 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
+        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2
+            || cfg!(target_arch = "wasm32")
+            || cfg!(feature = "debug")
+        {
             for node in nodes {
                 let mut v = Pure {
                     changed: false,

@@ -527,7 +527,6 @@ functions/drop_lone_use_strict/input.js
 functions/drop_lone_use_strict_arrows_1/input.js
 functions/drop_lone_use_strict_arrows_2/input.js
 functions/duplicate_argnames/input.js
-functions/empty_body/input.js
 functions/function_returning_constant_literal/input.js
 functions/iifes_returning_constants_keep_fargs_false/input.js
 functions/iifes_returning_constants_keep_fargs_true/input.js
@@ -850,7 +849,6 @@ labels/labels_7/input.js
 labels/labels_8/input.js
 labels/labels_9/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
-logical_assignment/assignment_in_left_part/input.js
 logical_assignment/logical_assignment_not_always_happens/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
@@ -1236,8 +1234,6 @@ sequences/call/input.js
 sequences/delete_seq_1/input.js
 sequences/delete_seq_2/input.js
 sequences/delete_seq_3/input.js
-sequences/delete_seq_4/input.js
-sequences/delete_seq_5/input.js
 sequences/delete_seq_6/input.js
 sequences/forin/input.js
 sequences/func_def_2/input.js

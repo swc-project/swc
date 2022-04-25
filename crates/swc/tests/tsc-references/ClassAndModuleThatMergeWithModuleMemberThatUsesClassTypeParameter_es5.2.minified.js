@@ -2,7 +2,9 @@ import * as swcHelpers from "@swc/helpers";
 var clodule1 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, clodule1);
-}, clodule2 = function() {
+};
+clodule1 || (clodule1 = {});
+var clodule2 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, clodule2);
 };

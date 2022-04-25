@@ -1,0 +1,2 @@
+var test;
+test || (test = {});

@@ -195,8 +195,12 @@ impl<'a, I: Tokens> Parser<I> {
     where
         T: OutputType,
     {
-        let (ident, mut class) =
-            self.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
+        let (ident, mut class) = self
+            .with_ctx(Context {
+                in_class: true,
+                ..self.ctx()
+            })
+            .parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
 
         if is_abstract {
             class.is_abstract = true
@@ -1278,6 +1282,11 @@ impl<'a, I: Tokens> Parser<I> {
             in_async: is_async,
             in_generator: is_generator,
             in_arrow_function: is_arrow_function,
+            inside_non_arrow_function_scope: if is_arrow_function {
+                self.ctx().inside_non_arrow_function_scope
+            } else {
+                true
+            },
             in_function: true,
             is_break_allowed: false,
             is_continue_allowed: false,
@@ -1518,7 +1527,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
             };
             let result = self.with_ctx(ctx).parse_block(false);
             result.map(|block_stmt| {
-                if !self.input.syntax().typescript() && !is_simple_parameter_list {
+                if !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {
                         self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                     }
@@ -1549,7 +1558,7 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
         }
         let block = self.include_in_expr(true).parse_block(true);
         block.map(|block_stmt| {
-            if !self.input.syntax().typescript() && !is_simple_parameter_list {
+            if !is_simple_parameter_list {
                 if let Some(span) = has_use_strict(&block_stmt) {
                     self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                 }
