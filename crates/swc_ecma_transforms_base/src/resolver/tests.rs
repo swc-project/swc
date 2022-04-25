@@ -1,7 +1,7 @@
 use swc_ecma_parser::Syntax;
 use swc_ecma_visit::Fold;
 
-use super::*;
+use super::{InnerConfig, *};
 use crate::hygiene::Config;
 
 // struct TsHygiene {
@@ -62,23 +62,38 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(Scope::new(ScopeKind::Block, mark1, None), true);
+        let folder1 = Resolver::new(
+            Scope::new(ScopeKind::Block, mark1, None),
+            InnerConfig {
+                handle_types: true,
+                unresolved_mark: Mark::fresh(Mark::root()),
+            },
+        );
         let mut folder2 = Resolver::new(
             Scope::new(ScopeKind::Block, mark2, Some(&folder1.current)),
-            true,
+            InnerConfig {
+                handle_types: true,
+                unresolved_mark: Mark::fresh(Mark::root()),
+            },
         );
         folder2.current.declared_symbols.insert("foo".into());
 
         let mut folder3 = Resolver::new(
             Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
-            true,
+            InnerConfig {
+                handle_types: true,
+                unresolved_mark: Mark::fresh(Mark::root()),
+            },
         );
         folder3.current.declared_symbols.insert("bar".into());
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
 
         let mut folder4 = Resolver::new(
             Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
-            true,
+            InnerConfig {
+                handle_types: true,
+                unresolved_mark: Mark::fresh(Mark::root()),
+            },
         );
         folder4.current.declared_symbols.insert("foo".into());
 

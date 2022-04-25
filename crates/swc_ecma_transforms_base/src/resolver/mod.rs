@@ -77,7 +77,7 @@ pub fn resolver_with_mark(unresolved_mark: Mark) -> impl 'static + Fold + VisitM
     );
     as_folder(Resolver::new(
         Scope::new(ScopeKind::Fn, Mark::fresh(Mark::root()), None),
-        Config {
+        InnerConfig {
             handle_types: false,
             unresolved_mark,
         },
@@ -93,7 +93,7 @@ pub fn ts_resolver(unresolved_mark: Mark) -> impl 'static + Fold + VisitMut {
     );
     as_folder(Resolver::new(
         Scope::new(ScopeKind::Fn, Mark::fresh(Mark::root()), None),
-        Config {
+        InnerConfig {
             handle_types: true,
             unresolved_mark,
         },
@@ -152,17 +152,17 @@ struct Resolver<'a> {
     in_type: bool,
     in_ts_module: bool,
 
-    config: Config,
+    config: InnerConfig,
 }
 
 #[derive(Debug, Clone, Copy)]
-struct Config {
+struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
 }
 
 impl<'a> Resolver<'a> {
-    fn new(current: Scope<'a>, config: Config) -> Self {
+    fn new(current: Scope<'a>, config: InnerConfig) -> Self {
         Resolver {
             hoist: false,
             current,
