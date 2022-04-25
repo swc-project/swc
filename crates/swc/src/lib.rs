@@ -113,26 +113,17 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
-    env, fmt,
     fs::{read_to_string, File},
-    io::Write,
-    mem::take,
     path::{Path, PathBuf},
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{
-    collections::AHashMap,
-    comments::SingleThreadedComments,
-    errors::{ColorConfig, HANDLER},
-    Span,
-};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, Span};
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
-use parking_lot::Mutex;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -162,12 +153,9 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
-use swc_error_reporters::{
-    GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
-};
+pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
-use tracing::instrument;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -215,113 +203,6 @@ pub mod resolver {
             40,
             NodeModulesResolver::new(target_env, alias, preserve_symlinks),
         )
-    }
-}
-
-#[derive(Clone, Default)]
-struct LockedWriter(Arc<Mutex<Vec<u8>>>);
-
-impl Write for LockedWriter {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        let mut lock = self.0.lock();
-
-        lock.extend_from_slice(buf);
-
-        Ok(buf.len())
-    }
-
-    fn flush(&mut self) -> std::io::Result<()> {
-        Ok(())
-    }
-}
-
-impl fmt::Write for LockedWriter {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
-
-        Ok(())
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct HandlerOpts {
-    /// [ColorConfig::Auto] is the default, and it will print colors unless the
-    /// environment variable `NO_COLOR` is not 1.
-    pub color: ColorConfig,
-
-    /// Defaults to `false`.
-    pub skip_filename: bool,
-}
-
-impl Default for HandlerOpts {
-    fn default() -> Self {
-        Self {
-            color: ColorConfig::Auto,
-            skip_filename: false,
-        }
-    }
-}
-
-fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
-    match color {
-        ColorConfig::Auto => {
-            if cfg!(target_arch = "wasm32") {
-                return to_miette_reporter(ColorConfig::Always);
-            }
-
-            static ENABLE: Lazy<bool> =
-                Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
-
-            if *ENABLE {
-                to_miette_reporter(ColorConfig::Always)
-            } else {
-                to_miette_reporter(ColorConfig::Never)
-            }
-        }
-        ColorConfig::Always => GraphicalReportHandler::default(),
-        ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
-    }
-}
-
-/// Try operation with a [Handler] and prints the errors as a [String] wrapped
-/// by [Err].
-#[instrument(level = "trace", skip_all)]
-pub fn try_with_handler<F, Ret>(
-    cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-) -> Result<Ret, Error>
-where
-    F: FnOnce(&Handler) -> Result<Ret, Error>,
-{
-    let wr = Box::new(LockedWriter::default());
-
-    let emitter = PrettyEmitter::new(
-        cm,
-        wr.clone(),
-        to_miette_reporter(config.color),
-        PrettyEmitterConfig {
-            skip_filename: config.skip_filename,
-        },
-    );
-    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
-    // true).skip_filename(skip_filename);
-    let handler = Handler::with_emitter(true, false, Box::new(emitter));
-
-    let ret = HANDLER.set(&handler, || op(&handler));
-
-    if handler.has_errors() {
-        let mut lock = wr.0.lock();
-        let error = take(&mut *lock);
-
-        let msg = String::from_utf8(error).expect("error string should be utf8");
-
-        match ret {
-            Ok(_) => Err(anyhow::anyhow!(msg)),
-            Err(err) => Err(err.context(msg)),
-        }
-    } else {
-        ret
     }
 }
 
