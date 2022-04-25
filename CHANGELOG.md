@@ -17,6 +17,9 @@
 - **(es/minifier)** Fix analysis of update expressions (#4428) ([9733917](https://github.com/swc-project/swc/commit/9733917cc718ad4800697ffc9203ad96d5dd3f3f))
 
 
+- **(es/minifier)** Remove wrong logic for optimizing `delete`s (#4429) ([8118569](https://github.com/swc-project/swc/commit/8118569045135e06fcaadc61255b9ca09ef120ea))
+
+
 - **(html/lexer)** Fix lexing of html entity (#4423) ([9b26dbd](https://github.com/swc-project/swc/commit/9b26dbd45763fbf48dd81a1652608cc90736fe4f))
 
 
@@ -48,6 +51,15 @@
 
 
 - **(html/minifier)** Remove `script` `type` attribute (#4407) ([fec0f2e](https://github.com/swc-project/swc/commit/fec0f2e417b8da2e0391f594f28d32e93b03673e))
+
+
+- **(html/minifier)** Compress `type` for `style` and `link` tags (#4424) ([25a87f0](https://github.com/swc-project/swc/commit/25a87f000048facf4daa78fb6605af3b1e50e81e))
+
+
+- **(html/minifier)** Compress doctype (#4425) ([6fc70f3](https://github.com/swc-project/swc/commit/6fc70f3866e4d60867a3ae38ae40c8f46065153c))
+
+
+- **(node/css)** Add css bindings crate (#4346) ([6a19ff1](https://github.com/swc-project/swc/commit/6a19ff1a152b67b15714c0290eb21ede878692e5))
 
 ### Miscellaneous Tasks
 

@@ -59,7 +59,12 @@ where
 
         doctype.push('<');
         doctype.push('!');
-        doctype.push_str("DOCTYPE");
+
+        if self.config.minify {
+            doctype.push_str("doctype");
+        } else {
+            doctype.push_str("DOCTYPE");
+        }
 
         if let Some(name) = &n.name {
             doctype.push(' ');
@@ -68,7 +73,13 @@ where
 
         if let Some(public_id) = &n.public_id {
             doctype.push(' ');
-            doctype.push_str("PUBLIC");
+
+            if self.config.minify {
+                doctype.push_str("public");
+            } else {
+                doctype.push_str("PUBLIC");
+            }
+
             doctype.push(' ');
             doctype.push('"');
             doctype.push_str(public_id);
@@ -82,7 +93,13 @@ where
             }
         } else if let Some(system_id) = &n.system_id {
             doctype.push(' ');
-            doctype.push_str("SYSTEM");
+
+            if self.config.minify {
+                doctype.push_str("system");
+            } else {
+                doctype.push_str("SYSTEM");
+            }
+
             doctype.push(' ');
             doctype.push('"');
             doctype.push_str(system_id);

@@ -1,0 +1,25 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Common code for SWC bindings"
+documentation = "https://rustdoc.swc.rs/swc_binding_utils/"
+edition = "2021"
+license = "Apache-2.0"
+name = "binding_commons"
+publish = false
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+
+[dependencies]
+anyhow = "1"
+napi = { version = "2", default-features = false, features = [
+  "napi3",
+  "serde-json",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+swc_node_base = { path = "../swc_node_base" }
+tracing = { version = "0.1.32", features = ["release_max_level_info"] }
+tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }

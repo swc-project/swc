@@ -167,11 +167,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_commons"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "napi",
+ "serde",
+ "serde_json",
+ "swc_node_base",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "binding_core_node"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
+ "binding_commons",
  "napi",
  "napi-build",
  "napi-derive",
@@ -187,7 +201,6 @@ dependencies = [
  "swc_ecma_lints",
  "swc_ecma_loader",
  "swc_ecma_parser",
- "swc_node_base",
  "swc_node_bundler",
  "swc_plugin_runner",
  "tracing",
@@ -219,6 +232,28 @@ dependencies = [
  "wasm-bindgen",
  "wasmer",
  "wasmer-wasi",
+]
+
+[[package]]
+name = "binding_css_node"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "binding_commons",
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "node_macro_deps",
+ "serde",
+ "serde_json",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_minifier",
+ "swc_css_parser",
+ "swc_error_reporters",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -2838,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.170.1"
+version = "0.170.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3268,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.6"
+version = "0.105.7"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3687,7 +3722,10 @@ dependencies = [
 name = "swc_error_reporters"
 version = "0.1.1"
 dependencies = [
+ "anyhow",
  "miette",
+ "once_cell",
+ "parking_lot",
  "swc_common",
 ]
 
@@ -3800,7 +3838,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3813,7 +3851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "bitflags",
  "lexical",
