@@ -40,6 +40,17 @@ function sleep(ms: number) {
 
     for (const pr of autoMergePrs) {
         try {
+            const baseBranch = await octokit.rest.repos.getBranch({
+                owner,
+                repo,
+                branch: pr.base.ref
+            });
+            if (baseBranch.data.commit.sha === pr.base.sha) {
+                console.error(`PR #${pr.number} is already up-to-date`);
+                continue
+            }
+
+
             await octokit.rest.pulls.updateBranch({
                 owner,
                 repo,
