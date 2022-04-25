@@ -22,7 +22,14 @@ use swc_ecma_transforms_typescript::strip;
 fn test(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), simplifier(Default::default())),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                simplifier(top_level_mark, Default::default())
+            )
+        },
         src,
         expected,
         true,
@@ -651,10 +658,17 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| chain!(
-        resolver(),
-        Repeat::new(chain!(inlining(Default::default()), dead_branch_remover()))
-    ),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            resolver_with_mark(top_level_mark),
+            Repeat::new(chain!(
+                inlining(Default::default()),
+                dead_branch_remover(top_level_mark)
+            ))
+        )
+    },
     issue_4173,
     "
 function emit(type) {

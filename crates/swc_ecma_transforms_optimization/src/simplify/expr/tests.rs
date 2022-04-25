@@ -1,4 +1,4 @@
-use swc_common::{chain, Mark, SyntaxContext};
+use swc_common::{chain, Mark};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_transform;
 

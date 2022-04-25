@@ -278,7 +278,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier(ExprSimplifierConfig {});
+            let mut visitor = expr_simplifier(self.marks.top_level_mark, ExprSimplifierConfig {});
             n.apply(&mut visitor);
 
             self.changed |= visitor.changed();
