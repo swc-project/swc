@@ -72,17 +72,6 @@ jobs:
         run: |
           yarn
 
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/
-            target
-            Cargo.lock
-          key: cargo-dev--${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            cargo-dev--${{ runner.os }}
-
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
