@@ -4,7 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
@@ -36,7 +36,7 @@ pub struct Config {}
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
 pub fn expr_simplifier(
-    top_level_ctxt: SyntaxContext,
+    top_level_mark: Mark,
     config: Config,
 ) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(SimplifyExpr {
@@ -46,7 +46,7 @@ pub fn expr_simplifier(
         is_arg_of_update: false,
         is_modifying: false,
         in_callee: false,
-        top_level_ctxt,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
     })
 }
 

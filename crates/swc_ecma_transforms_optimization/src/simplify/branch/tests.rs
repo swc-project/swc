@@ -9,12 +9,11 @@ macro_rules! test_stmt {
             ::swc_ecma_parser::Syntax::default(),
             |_| {
                 let top_level_mark = Mark::fresh(Mark::root());
-                let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
                 chain!(
                     resolver_with_mark(top_level_mark),
-                    expr_simplifier(top_level_ctxt, Default::default()),
-                    dead_branch_remover(top_level_ctxt)
+                    expr_simplifier(top_level_mark, Default::default()),
+                    dead_branch_remover(top_level_mark)
                 )
             },
             $l,
