@@ -105,13 +105,23 @@
               "type": "Element",
               "span": {
                 "start": 59,
-                "end": 67,
+                "end": 84,
                 "ctxt": 0
               },
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 67,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "value": "<!-- alert(1) -->"
+                }
+              ],
               "content": null
             },
             {
