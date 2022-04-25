@@ -354,12 +354,8 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
-          # This does not have any effect on windows.
-          npm config set prefix $HOME/npm
           yarn
           yarn global add jest mocha
-          echo $HOME
-          echo $HOME/npm/bin >> $GITHUB_PATH
 
       - name: Configure path (windows)
         shell: bash
