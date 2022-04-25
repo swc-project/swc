@@ -1,9 +1,11 @@
-name: SWC Bot
+name: Bot
 
 on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 */1 * * *"
 
 env:
   GIT_COMMITTER_NAME: "SWC Bot"
@@ -40,6 +42,7 @@ jobs:
     name: Create cargo bump commit
     runs-on: ubuntu-latest
     concurrency: swc-bot-cargo-bump
+    if: ${{ github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v2
         with:
