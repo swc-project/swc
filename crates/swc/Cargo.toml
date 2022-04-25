@@ -20,12 +20,6 @@ default = ["es3"]
 # You can disable this feature to reduce binary size.
 es3 = []
 
-concurrent = [
-  "swc_ecma_utils/concurrent",
-  "swc_ecma_transforms_base/concurrent",
-  "swc_ecma_transforms_compat/concurrent",
-  "swc_ecma_transforms_optimization/concurrent",
-]
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
 plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
