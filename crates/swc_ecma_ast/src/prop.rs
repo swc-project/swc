@@ -104,7 +104,7 @@ pub enum PropName {
     Num(Number),
     #[tag("Computed")]
     Computed(ComputedPropName),
-    #[tag("BigInt")]
+    #[tag("BigIntLiteral")]
     BigInt(BigInt),
 }
 
