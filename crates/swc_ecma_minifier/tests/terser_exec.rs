@@ -36,21 +36,16 @@ use testing::assert_eq;
     exclude(
         "ie8",
         "blocks/issue_1672_for/",
-        "collapse_vars/collapse_vars_do_while/",
-        "collapse_vars/collapse_vars_lvalues/",
         "collapse_vars/issue_1631_1/",
         "collapse_vars/issue_1631_2/",
         "collapse_vars/issue_1631_3/",
         "dead_code/issue_2749/",
         "dead_code/try_catch_finally/",
-        "drop_unused/drop_toplevel_keep_assign/",
-        "drop_unused/drop_toplevel_retain_regex/",
         "drop_unused/issue_1715_1/",
         "drop_unused/issue_1715_2/",
         "drop_unused/issue_1715_3/",
         "drop_unused/issue_1830_1/",
         "drop_unused/issue_1830_2/",
-        "drop_unused/keep_assign/",
         "drop_unused/var_catch_toplevel/",
         "evaluate/issue_1760_1/",
         "evaluate/prop_function/",
@@ -58,20 +53,12 @@ use testing::assert_eq;
         "functions/issue_2620_4/",
         "functions/issue_3016_3/",
         "functions/issue_3076/",
-        "harmony/array_literal_with_spread_4a/",
-        "harmony/array_literal_with_spread_4b/",
-        "harmony/class_extends/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
         "issue_1733/function_catch_catch/",
         "issue_1750/case_1/",
-        "keep_names/keep_some_fnames_reduce/",
         "properties/issue_3188_3/",
-        "properties/unsafe_methods_regex/",
-        "reduce_vars/unsafe_evaluate_modified/",
         "rename/function_catch_catch/",
-        "sequences/delete_seq_4/",
-        "sequences/delete_seq_5/",
         "yield/issue_2689/",
     )
 )]
@@ -156,17 +143,17 @@ struct TestOptions {
     passes: usize,
 }
 
-fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
+fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> Result<(bool, CompressOptions), Error> {
     let opts: TestOptions =
-        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+        serde_json::from_str(s).context("failed to deserialize value into a compressor config")?;
     let mut c: TerserCompressorOptions =
-        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+        serde_json::from_str(s).context("failed to deserialize value into a compressor config")?;
 
     c.defaults = opts.defaults;
     c.const_to_let = Some(false);
     c.passes = opts.passes;
 
-    (c.module, c.into_config(cm))
+    Ok((c.module, c.into_config(cm)))
 }
 
 fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Option<Module> {
@@ -174,7 +161,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
-    let (_module, config) = parse_compressor_config(cm.clone(), config);
+    let (_module, config) = parse_compressor_config(cm.clone(), config).ok()?;
     if config.ie8 {
         return None;
     }

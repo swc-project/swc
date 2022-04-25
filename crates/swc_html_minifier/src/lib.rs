@@ -47,6 +47,16 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+static EXECUTABLE_SCRIPTS_MIME_TYPES: &[&str] = &[
+    "text/javascript",
+    "text/ecmascript",
+    "text/jscript",
+    "application/javascript",
+    "application/x-javascript",
+    "application/ecmascript",
+    "module",
+];
+
 struct Minifier {}
 
 impl Minifier {
@@ -70,6 +80,41 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+        n.attributes.retain(|attribute| match &*attribute.name {
+            "type"
+                if n.namespace == Namespace::HTML
+                    && matches!(n.tag_name.as_ref(), "script")
+                    && (attribute.value.is_some()
+                        && attribute
+                            .value
+                            .as_ref()
+                            .map(|v| {
+                                EXECUTABLE_SCRIPTS_MIME_TYPES
+                                    .iter()
+                                    .any(|mime| v.eq_str_ignore_ascii_case(mime))
+                            })
+                            .unwrap_or_default()) =>
+            {
+                false
+            }
+            "type"
+                if n.namespace == Namespace::HTML
+                    && matches!(n.tag_name.as_ref(), "style" | "link")
+                    && (attribute.value.is_some()
+                        && matches!(
+                            attribute
+                                .value
+                                .as_ref()
+                                .unwrap()
+                                .to_ascii_lowercase()
+                                .trim(),
+                            "text/css"
+                        )) =>
+            {
+                false
+            }
+            _ => true,
+        });
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
