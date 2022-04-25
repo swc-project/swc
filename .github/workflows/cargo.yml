@@ -357,7 +357,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           yarn
-          npm i -g jest mocha
+          yarn global add jest mocha
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH
 
