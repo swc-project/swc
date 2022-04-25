@@ -998,19 +998,39 @@ where
                         ..
                     } => {
                         let is_html = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
-                        let is_legacy_compat = match system_id {
-                            Some(name)
-                                if name.as_ref().eq_ignore_ascii_case("about:legacy-compat") =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        };
+                        let is_valid_doctype = matches!(
+                            (
+                                name.as_ref().map(|value| &**value),
+                                public_id.as_ref().map(|value| &**value),
+                                system_id.as_ref().map(|value| &**value),
+                            ),
+                            (Some("html"), None, None)
+                                | (Some("html"), None, Some("about:legacy-compat"))
+                                | (Some("html"), Some("-//W3C//DTD HTML 4.0//EN"), None)
+                                | (
+                                    Some("html"),
+                                    Some("-//W3C//DTD HTML 4.0//EN"),
+                                    Some("http://www.w3.org/TR/REC-html40/strict.dtd"),
+                                )
+                                | (Some("html"), Some("-//W3C//DTD HTML 4.01//EN"), None)
+                                | (
+                                    Some("html"),
+                                    Some("-//W3C//DTD HTML 4.01//EN"),
+                                    Some("http://www.w3.org/TR/html4/strict.dtd"),
+                                )
+                                | (
+                                    Some("html"),
+                                    Some("-//W3C//DTD XHTML 1.0 Strict//EN"),
+                                    Some("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"),
+                                )
+                                | (
+                                    Some("html"),
+                                    Some("-//W3C//DTD XHTML 1.1//EN"),
+                                    Some("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"),
+                                )
+                        );
 
-                        if !is_html
-                            || public_id.is_some()
-                            || (system_id.is_some() && !is_legacy_compat)
-                        {
+                        if !is_valid_doctype {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NonConformingDoctype,

@@ -122,13 +122,22 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 }
 
 #[testing::fixture("tests/exec/**/exec.js")]
+#[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
 fn run_fixture_test(entry: PathBuf) {
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);
     let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
-    let expected_stdout = stdout_of(&input_code).expect("failed to get stdout");
+    let expected_stdout = stdout_of(
+        &input_code,
+        if entry.extension().unwrap() == "mjs" {
+            NodeModuleType::Module
+        } else {
+            NodeModuleType::CommonJs
+        },
+    )
+    .expect("failed to get stdout");
 
     eprintln!(
         "----- {} -----\n{}\n-----",
@@ -205,7 +214,14 @@ fn test_file_with_opts(
                 res.code
             );
 
-            let actual_stdout = stdout_of(&res.code)?;
+            let actual_stdout = stdout_of(
+                &res.code,
+                if entry.extension().unwrap() == "mjs" {
+                    NodeModuleType::Module
+                } else {
+                    NodeModuleType::CommonJs
+                },
+            )?;
 
             assert_eq!(
                 expected_stdout,
@@ -223,8 +239,18 @@ fn test_file_with_opts(
     .with_context(|| format!("failed to compile with opts: {:#?}", opts))
 }
 
-fn stdout_of(code: &str) -> Result<String, Error> {
+enum NodeModuleType {
+    CommonJs,
+    Module,
+}
+
+fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
+    let module_type = match module_type {
+        NodeModuleType::CommonJs => "--input-type=commonjs",
+        NodeModuleType::Module => "--input-type=module",
+    };
     let actual_output = Command::new("node")
+        .arg(module_type)
         .arg("-e")
         .arg(&code)
         .output()

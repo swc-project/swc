@@ -20,6 +20,9 @@
 - **(es/minifier)** Remove wrong logic for optimizing `delete`s (#4429) ([8118569](https://github.com/swc-project/swc/commit/8118569045135e06fcaadc61255b9ca09ef120ea))
 
 
+- **(es/parser)** Fix top-level await with binary expr (#4426) ([465cc2f](https://github.com/swc-project/swc/commit/465cc2f92907ebd4ad4a659eca18b6ca2bc426a7))
+
+
 - **(html/lexer)** Fix lexing of html entity (#4423) ([9b26dbd](https://github.com/swc-project/swc/commit/9b26dbd45763fbf48dd81a1652608cc90736fe4f))
 
 
@@ -30,6 +33,9 @@
 
 ### Features
 
+
+
+- **(es/optimization)** Accept top level mark from simplifiers (#4434) ([8048597](https://github.com/swc-project/swc/commit/8048597c9ec10fb956de06e6b2de28e621262dd9))
 
 
 - **(es/parser)** Reject invalid regex flags (#4404) ([c96e322](https://github.com/swc-project/swc/commit/c96e32243c549d0f7db26a8e76d69a5646b4865c))
@@ -54,6 +60,9 @@
 
 
 - **(html/minifier)** Compress `type` for `style` and `link` tags (#4424) ([25a87f0](https://github.com/swc-project/swc/commit/25a87f000048facf4daa78fb6605af3b1e50e81e))
+
+
+- **(html/minifier)** Compress doctype (#4425) ([6fc70f3](https://github.com/swc-project/swc/commit/6fc70f3866e4d60867a3ae38ae40c8f46065153c))
 
 
 - **(node/css)** Add css bindings crate (#4346) ([6a19ff1](https://github.com/swc-project/swc/commit/6a19ff1a152b67b15714c0290eb21ede878692e5))

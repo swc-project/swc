@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.170.2"
+version = "0.171.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.138.0"
+version = "0.139.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2993,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.44.0"
+version = "0.45.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3303,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.105.7"
+version = "0.106.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.7"
+version = "0.102.8"
 dependencies = [
  "criterion",
  "either",
@@ -3366,7 +3366,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.121.0"
+version = "0.122.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.146.0"
+version = "0.147.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3547,7 +3547,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.116.0"
+version = "0.117.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3695,7 +3695,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.148.0"
+version = "0.149.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3742,7 +3742,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.90.0"
+version = "0.91.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3851,7 +3851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "bitflags",
  "lexical",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.88.0"
+version = "0.89.0"
 dependencies = [
  "anyhow",
  "rayon",

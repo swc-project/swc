@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![deny(unused)]
 
 pub use self::{
     const_modules::const_modules,
@@ -11,4 +12,3 @@ mod const_modules;
 mod inline_globals;
 mod json_parse;
 pub mod simplify;
-mod util;
