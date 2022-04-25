@@ -361,7 +361,7 @@ jobs:
         shell: bash
         if: runner.os == 'Windows'
         run: |
-          echo 'C:\\npm\\prefix' >> $GITHUB_PATH
+          echo $(yarn global bin) >> $GITHUB_PATH
 
       - name: Verify dependencies
         shell: bash
