@@ -20,6 +20,9 @@
 - **(es/minifier)** Remove wrong logic for optimizing `delete`s (#4429) ([8118569](https://github.com/swc-project/swc/commit/8118569045135e06fcaadc61255b9ca09ef120ea))
 
 
+- **(es/parser)** Fix top-level await with binary expr (#4426) ([465cc2f](https://github.com/swc-project/swc/commit/465cc2f92907ebd4ad4a659eca18b6ca2bc426a7))
+
+
 - **(html/lexer)** Fix lexing of html entity (#4423) ([9b26dbd](https://github.com/swc-project/swc/commit/9b26dbd45763fbf48dd81a1652608cc90736fe4f))
 
 
@@ -27,6 +30,9 @@
 
 
 - **(html/parser)** Fix parsing of foreign elements (#4422) ([4ccbdf2](https://github.com/swc-project/swc/commit/4ccbdf2a7d6419552db6b34586a32fef52b200bd))
+
+
+- **(html/parser)** Fix span (#4437) ([3293060](https://github.com/swc-project/swc/commit/329306007018d733bc9d348cd4a5dc839768b3e8))
 
 ### Features
 
