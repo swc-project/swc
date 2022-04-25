@@ -31,6 +31,9 @@
 
 - **(html/parser)** Fix parsing of foreign elements (#4422) ([4ccbdf2](https://github.com/swc-project/swc/commit/4ccbdf2a7d6419552db6b34586a32fef52b200bd))
 
+
+- **(html/parser)** Fix span (#4437) ([3293060](https://github.com/swc-project/swc/commit/329306007018d733bc9d348cd4a5dc839768b3e8))
+
 ### Features
 
 
