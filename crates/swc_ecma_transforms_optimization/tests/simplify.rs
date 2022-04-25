@@ -604,7 +604,11 @@ _foo.default.bar = true;
 
 test!(
     Syntax::default(),
-    |_| expr_simplifier(Default::default()),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        expr_simplifier(top_level_mark, Default::default())
+    },
     issue_1619_1,
     r#"
     "use strict";
@@ -621,7 +625,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| dead_branch_remover(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        dead_branch_remover(top_level_mark)
+    },
     issue_2466_1,
     "
     const X = {

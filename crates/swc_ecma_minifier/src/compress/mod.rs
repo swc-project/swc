@@ -370,7 +370,7 @@ where
 
             let start_time = now();
 
-            let mut v = dead_branch_remover();
+            let mut v = dead_branch_remover(self.marks.top_level_mark);
             n.apply(&mut v);
 
             if let Some(start_time) = start_time {
