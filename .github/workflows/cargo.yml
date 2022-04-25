@@ -344,7 +344,15 @@ jobs:
         shell: bash
         run: |
           yarn
-          yarn global add jest@27 mocha
+          # I don't want to think deeply about this
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
+          yarn global add jest@27 mocha || true
 
       - name: Configure path (windows)
         shell: bash
