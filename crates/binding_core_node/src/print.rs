@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
@@ -10,10 +11,7 @@ use swc::{
 };
 use swc_ecma_ast::{EsVersion, Program};
 
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, MapErr},
-};
+use crate::get_compiler;
 
 // ----- Printing -----
 
@@ -62,7 +60,7 @@ pub fn print(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<PrintTask>> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(&options).to_string();
@@ -79,7 +77,7 @@ pub fn print(
 
 #[napi]
 pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
 

@@ -4,6 +4,7 @@ use std::{
 };
 
 use anyhow::{bail, Error};
+use binding_commons::{get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Status, Task,
@@ -23,10 +24,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 
-use crate::{
-    get_compiler,
-    util::{get_deserialized, MapErr},
-};
+use crate::get_compiler;
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -186,7 +184,7 @@ pub(crate) fn bundle(
     conf_items: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<BundleTask>> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c: Arc<Compiler> = get_compiler();
 

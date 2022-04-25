@@ -4,6 +4,7 @@ use std::{
 };
 
 use anyhow::Context as _;
+use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, JsBuffer, JsBufferValue, Ref, Task,
@@ -14,10 +15,7 @@ use swc_common::FileName;
 use swc_ecma_ast::Program;
 use tracing::instrument;
 
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
-};
+use crate::{get_compiler, util::try_with};
 
 /// Input to transform
 #[derive(Debug)]
@@ -101,7 +99,7 @@ pub fn transform(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -122,7 +120,7 @@ pub fn transform(
 #[napi]
 #[instrument(level = "trace", skip_all)]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -162,7 +160,7 @@ pub fn transform_file(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -181,7 +179,7 @@ pub fn transform_file_sync(
     is_module: bool,
     opts: Buffer,
 ) -> napi::Result<TransformOutput> {
-    crate::util::init_default_trace_subscriber();
+    binding_commons::init_default_trace_subscriber();
 
     let c = get_compiler();
 
