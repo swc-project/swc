@@ -64,6 +64,86 @@ impl Minifier {
         BOOLEAN_ATTRIBUTES.contains(&name)
     }
 
+    fn is_default_attribute_value(
+        &self,
+        namespace: Namespace,
+        tag_name: &str,
+        attribute_name: &str,
+        attribute_value: &str,
+    ) -> bool {
+        matches!(
+            (
+                namespace,
+                tag_name,
+                attribute_name,
+                attribute_value.to_ascii_lowercase().trim()
+            ),
+            (Namespace::HTML, "iframe", "height", "150")
+                | (Namespace::HTML, "iframe", "width", "300")
+                | (Namespace::HTML, "iframe", "frameborder", "1")
+                | (Namespace::HTML, "iframe", "loading", "eager")
+                | (Namespace::HTML, "iframe", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "iframe",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (
+                    Namespace::HTML,
+                    "a",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "a", "target", "_self")
+                | (Namespace::HTML, "area", "target", "_self")
+                | (Namespace::HTML, "area", "shape", "rect")
+                | (
+                    Namespace::HTML,
+                    "area",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "form", "method", "get")
+                | (Namespace::HTML, "form", "target", "_self")
+                | (Namespace::HTML, "input", "type", "text")
+                | (Namespace::HTML, "input", "size", "20")
+                | (Namespace::HTML, "track", "kind", "subtitles")
+                | (Namespace::HTML, "textarea", "cols", "20")
+                | (Namespace::HTML, "textarea", "rows", "2")
+                | (Namespace::HTML, "textarea", "wrap", "sort")
+                | (Namespace::HTML, "progress", "max", "1")
+                | (Namespace::HTML, "meter", "min", "0")
+                | (Namespace::HTML, "img", "decoding", "auto")
+                | (Namespace::HTML, "img", "fetchpriority", "auto")
+                | (Namespace::HTML, "img", "loading", "eager")
+                | (
+                    Namespace::HTML,
+                    "img",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "link", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "link",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "script", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "script",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "ol", "type", "1")
+                | (Namespace::HTML, "base", "target", "_self")
+                | (Namespace::HTML, "canvas", "height", "150")
+                | (Namespace::HTML, "canvas", "width", "300")
+        )
+    }
+
     fn is_conditional_comment(&self, data: &str) -> bool {
         let trimmed = data.trim();
 
@@ -110,6 +190,13 @@ impl VisitMut for Minifier {
                                 .trim(),
                             "text/css"
                         )) =>
+            _ if attribute.value.is_some()
+                && self.is_default_attribute_value(
+                    n.namespace,
+                    &n.tag_name,
+                    &attribute.name,
+                    attribute.value.as_ref().unwrap(),
+                ) =>
             {
                 false
             }
