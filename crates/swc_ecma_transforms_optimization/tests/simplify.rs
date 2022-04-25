@@ -44,7 +44,14 @@ macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), simplifier(Default::default())),
+            |_| {
+                let top_level_mark = Mark::fresh(Mark::root());
+
+                chain!(
+                    resolver_with_mark(top_level_mark),
+                    simplifier(top_level_mark, Default::default())
+                )
+            },
             $name,
             $src,
             $expected
@@ -556,14 +563,14 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             decorators(Default::default()),
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver_with_mark(top_level_mark),
+            strip(top_level_mark),
             class_properties(Some(t.comments.clone()), Default::default()),
-            simplifier(Default::default()),
+            simplifier(top_level_mark, Default::default()),
             es2018(Default::default()),
             es2017(Default::default()),
             es2016(),
@@ -640,7 +647,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| dead_branch_remover(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        dead_branch_remover(top_level_mark)
+    },
     issue_4272,
     "
     function oe() {
