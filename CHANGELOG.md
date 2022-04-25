@@ -32,6 +32,9 @@
 
 
 
+- **(es/optimization)** Accept top level mark from simplifiers (#4434) ([8048597](https://github.com/swc-project/swc/commit/8048597c9ec10fb956de06e6b2de28e621262dd9))
+
+
 - **(es/parser)** Reject invalid regex flags (#4404) ([c96e322](https://github.com/swc-project/swc/commit/c96e32243c549d0f7db26a8e76d69a5646b4865c))
 
 
