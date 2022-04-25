@@ -19,6 +19,9 @@
 
 - **(html/parser)** Parse foreign attributes (#4400) ([cf3be64](https://github.com/swc-project/swc/commit/cf3be649bb327feda8bce4e7ab7eca92d248c2da))
 
+
+- **(html/parser)** Fix parsing of foreign elements (#4422) ([4ccbdf2](https://github.com/swc-project/swc/commit/4ccbdf2a7d6419552db6b34586a32fef52b200bd))
+
 ### Features
 
 
