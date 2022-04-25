@@ -47,6 +47,7 @@ use testing::assert_eq;
         "drop_unused/issue_1830_1/",
         "drop_unused/issue_1830_2/",
         "drop_unused/var_catch_toplevel/",
+        "evaluate/issue_1760_1/",
         "functions/issue_2620_4/",
         "functions/issue_3016_3/",
         "functions/issue_3076/",
