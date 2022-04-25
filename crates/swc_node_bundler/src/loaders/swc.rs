@@ -13,7 +13,7 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
     sync::Lrc,
-    FileName, DUMMY_SP,
+    FileName, Mark, DUMMY_SP,
 };
 use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::{parse_file_as_module, Syntax};
@@ -24,8 +24,9 @@ use swc_ecma_transforms::{
         simplify::{dead_branch_remover, expr_simplifier},
     },
     pass::noop,
+    resolver_with_mark,
 };
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 use crate::loaders::json::load_json_as_module;
 
@@ -164,14 +165,17 @@ impl SwcLoader {
 
             helpers::HELPERS.set(&helpers, || {
                 HANDLER.set(handler, || {
-                    let program = program.fold_with(&mut inline_globals(
+                    let mut program = program.fold_with(&mut inline_globals(
                         self.env_map(),
                         Default::default(),
                         Default::default(),
                     ));
-                    let program = program.fold_with(&mut expr_simplifier(Default::default()));
+                    let top_level_mark = Mark::fresh(Mark::root());
+                    program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+                    let program =
+                        program.fold_with(&mut expr_simplifier(top_level_mark, Default::default()));
 
-                    program.fold_with(&mut dead_branch_remover())
+                    program.fold_with(&mut dead_branch_remover(top_level_mark))
                 })
             })
         } else {
@@ -235,13 +239,16 @@ impl SwcLoader {
 
                 helpers::HELPERS.set(&helpers, || {
                     HANDLER.set(handler, || {
-                        let program = program.fold_with(&mut inline_globals(
+                        let mut program = program.fold_with(&mut inline_globals(
                             self.env_map(),
                             Default::default(),
                             Default::default(),
                         ));
-                        let program = program.fold_with(&mut expr_simplifier(Default::default()));
-                        let program = program.fold_with(&mut dead_branch_remover());
+                        let top_level_mark = Mark::fresh(Mark::root());
+                        program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+                        let program = program
+                            .fold_with(&mut expr_simplifier(top_level_mark, Default::default()));
+                        let program = program.fold_with(&mut dead_branch_remover(top_level_mark));
 
                         program.fold_with(&mut pass)
                     })
