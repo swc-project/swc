@@ -194,7 +194,7 @@ impl<'a> Resolver<'a> {
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
-        if self.config && self.in_type {
+        if self.config.handle_types && self.in_type {
             let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
 
@@ -353,7 +353,7 @@ impl<'a> Resolver<'a> {
 macro_rules! typed {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
-            if self.handle_types {
+            if self.config.handle_types {
                 node.visit_mut_children_with(self)
             }
         }
@@ -363,7 +363,7 @@ macro_rules! typed {
 macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
-            if self.handle_types {
+            if self.config.handle_types {
                 node.visit_mut_children_with(self);
             }
         }
@@ -373,7 +373,7 @@ macro_rules! typed_ref {
 macro_rules! typed_ref_init {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
-            if self.handle_types {
+            if self.config.handle_types {
                 let in_type = self.in_type;
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
@@ -387,7 +387,7 @@ macro_rules! typed_ref_init {
 macro_rules! typed_decl {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
-            if self.handle_types {
+            if self.config.handle_types {
                 let in_type = self.in_type;
                 self.ident_type = IdentType::Binding;
                 self.in_type = true;
@@ -1053,7 +1053,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
-        if self.config {
+        if self.config.handle_types {
             n.type_ann.visit_mut_with(self);
         }
 
@@ -1061,7 +1061,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1080,7 +1080,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_construct_signature_decl(&mut self, decl: &mut TsConstructSignatureDecl) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
         let child_mark = Mark::fresh(Mark::root());
@@ -1099,7 +1099,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_constructor_type(&mut self, ty: &mut TsConstructorType) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1138,7 +1138,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_fn_type(&mut self, ty: &mut TsFnType) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1176,7 +1176,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.in_type = true;
         self.modify(&mut n.id, None);
 
-        if !self.config {
+        if !self.config.handle_types {
             self.in_type = old_in_type;
             return;
         }
@@ -1196,7 +1196,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1210,7 +1210,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1262,7 +1262,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
 
@@ -1298,7 +1298,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
         self.ident_type = IdentType::Ref;
@@ -1311,7 +1311,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.in_type = true;
         self.modify(&mut n.id, None);
 
-        if !self.config {
+        if !self.config.handle_types {
             self.in_type = old_in_type;
             return;
         }
@@ -1330,7 +1330,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
-        if self.config {
+        if self.config.handle_types {
             n.type_ann.visit_mut_with(self);
         }
 
@@ -1338,7 +1338,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {
-        if !self.config {
+        if !self.config.handle_types {
             return;
         }
         param.name.visit_mut_with(self);
@@ -1440,7 +1440,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
-        if self.resolver.config {
+        if self.resolver.config.handle_types {
             match decl {
                 Decl::TsInterface(i) => {
                     let in_type = self.resolver.in_type;
