@@ -47,16 +47,6 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
-static EXECUTABLE_SCRIPTS_MIME_TYPES: &[&str] = &[
-    "text/javascript",
-    "text/ecmascript",
-    "text/jscript",
-    "application/javascript",
-    "application/x-javascript",
-    "application/ecmascript",
-    "module",
-];
-
 struct Minifier {}
 
 impl Minifier {
@@ -123,6 +113,7 @@ impl Minifier {
                     "referrerpolicy",
                     "strict-origin-when-cross-origin"
                 )
+                | (Namespace::HTML, "link", "type", "text/css")
                 | (Namespace::HTML, "link", "fetchpriority", "auto")
                 | (
                     Namespace::HTML,
@@ -130,6 +121,18 @@ impl Minifier {
                     "referrerpolicy",
                     "strict-origin-when-cross-origin"
                 )
+                | (Namespace::HTML, "style", "type", "text/css")
+                | (Namespace::HTML, "script", "type", "text/javascript")
+                | (Namespace::HTML, "script", "type", "text/ecmascript")
+                | (Namespace::HTML, "script", "type", "text/jscript")
+                | (Namespace::HTML, "script", "type", "application/javascript")
+                | (
+                    Namespace::HTML,
+                    "script",
+                    "type",
+                    "application/x-javascript"
+                )
+                | (Namespace::HTML, "script", "type", "application/ecmascript")
                 | (Namespace::HTML, "script", "fetchpriority", "auto")
                 | (
                     Namespace::HTML,
@@ -160,47 +163,23 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
-        n.attributes.retain(|attribute| match &*attribute.name {
-            "type"
-                if n.namespace == Namespace::HTML
-                    && matches!(n.tag_name.as_ref(), "script")
-                    && (attribute.value.is_some()
-                        && attribute
-                            .value
-                            .as_ref()
-                            .map(|v| {
-                                EXECUTABLE_SCRIPTS_MIME_TYPES
-                                    .iter()
-                                    .any(|mime| v.eq_str_ignore_ascii_case(mime))
-                            })
-                            .unwrap_or_default()) =>
-            {
-                false
+        n.attributes.retain(|attribute| {
+            if attribute.value.is_none() {
+                return true;
             }
-            "type"
-                if n.namespace == Namespace::HTML
-                    && matches!(n.tag_name.as_ref(), "style" | "link")
-                    && (attribute.value.is_some()
-                        && matches!(
-                            attribute
-                                .value
-                                .as_ref()
-                                .unwrap()
-                                .to_ascii_lowercase()
-                                .trim(),
-                            "text/css"
-                        )) =>
-            _ if attribute.value.is_some()
-                && self.is_default_attribute_value(
+
+            match &*attribute.name {
+                _ if self.is_default_attribute_value(
                     n.namespace,
                     &n.tag_name,
                     &attribute.name,
                     attribute.value.as_ref().unwrap(),
                 ) =>
-            {
-                false
+                {
+                    false
+                }
+                _ => true,
             }
-            _ => true,
         });
     }
 
