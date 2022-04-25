@@ -93,6 +93,7 @@ where
     input: Buffer<I>,
     stopped: bool,
     is_fragment_case: bool,
+    context_element: Option<RcNode>,
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
@@ -118,6 +119,7 @@ where
             input: Buffer::new(input),
             stopped: false,
             is_fragment_case: false,
+            context_element: None,
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
@@ -295,15 +297,474 @@ where
         //
         // Process the token according to the rules given in the section corresponding
         // to the current insertion mode in HTML content.
-        // TODO
-        if false {
-            todo!()
+        let adjusted_current_node = self.get_adjusted_current_node();
+
+        if self.open_elements_stack.items.is_empty()
+            || is_element_in_html_namespace(adjusted_current_node)
+            || (is_mathml_text_integration_point(adjusted_current_node)
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name != "mglyph" &&  &*tag_name != "malignmark"))
+            || (is_mathml_text_integration_point(adjusted_current_node)
+                && matches!(&token_and_info.token, Token::Character { .. }))
+            || (is_mathml_annotation_xml(adjusted_current_node)
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name == "svg"))
+            || (is_html_integration_point(adjusted_current_node)
+                && matches!(&token_and_info.token, Token::StartTag { .. }))
+            || (is_html_integration_point(adjusted_current_node)
+                && matches!(&token_and_info.token, Token::Character { .. }))
+            || matches!(&token_and_info.token, Token::Eof)
+        {
+            self.process_token(token_and_info, None)?;
         }
         // Otherwise
         // Process the token according to the rules given in the section for parsing tokens in
         // foreign content.
         else {
-            self.process_token(token_and_info, None)?
+            self.process_token_in_foreign_content(token_and_info)?;
+        }
+
+        Ok(())
+    }
+
+    // The adjusted current node is the context element if the parser was created as
+    // part of the HTML fragment parsing algorithm and the stack of open elements
+    // has only one element in it (fragment case); otherwise, the adjusted current
+    // node is the current node.
+    fn get_adjusted_current_node(&self) -> Option<&RcNode> {
+        if self.is_fragment_case && self.open_elements_stack.items.len() == 1 {
+            self.context_element.as_ref();
+        }
+
+        self.open_elements_stack.items.last()
+    }
+
+    fn process_token_in_foreign_content(
+        &mut self,
+        token_and_info: &mut TokenAndInfo,
+    ) -> PResult<()> {
+        let TokenAndInfo { token, .. } = &token_and_info;
+
+        match token {
+            // A character token that is U+0000 NULL
+            //
+            // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
+            Token::Character { value, raw } if *value == '\x00' => {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+                token_and_info.token = Token::Character {
+                    value: '\u{FFFD}',
+                    raw: raw.clone(),
+                };
+
+                self.insert_character(token_and_info)?;
+            }
+            // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE FEED (LF),
+            // U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
+            //
+            // Insert the token's character.
+            Token::Character { value, .. }
+                if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
+            {
+                self.insert_character(token_and_info)?;
+            }
+            // Any other character token
+            //
+            // Insert the token's character.
+            //
+            // Set the frameset-ok flag to "not ok".
+            Token::Character { .. } => {
+                self.insert_character(token_and_info)?;
+
+                self.frameset_ok = false;
+            }
+            // A comment token
+            //
+            // Insert a comment.
+            Token::Comment { .. } => {
+                self.insert_comment(token_and_info)?;
+            }
+            // A DOCTYPE token
+            // Parse error. Ignore the token.
+            Token::Doctype { .. } => {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+            }
+            // A start tag whose tag name is one of: "b", "big", "blockquote", "body", "br",
+            // "center", "code", "dd", "div", "dl", "dt", "em", "embed", "h1", "h2", "h3", "h4",
+            // "h5", "h6", "head", "hr", "i", "img", "li", "listing", "menu", "meta", "nobr", "ol",
+            // "p", "pre", "ruby", "s", "small", "span", "strong", "strike", "sub", "sup", "table",
+            // "tt", "u", "ul", "var"
+            //
+            // A start tag whose tag name is "font", if the token has any attributes named "color",
+            // "face", or "size"
+            //
+            // An end tag whose tag name is "br", "p"
+            //
+            // Parse error.
+            //
+            // While the current node is not a MathML text integration point, an HTML integration
+            // point, or an element in the HTML namespace, pop elements from the stack of open
+            // elements.
+            //
+            // Reprocess the token according to the rules given in the section corresponding to the
+            // current insertion mode in HTML content.
+            Token::StartTag { tag_name, .. }
+                if matches!(
+                    &**tag_name,
+                    "b" | "big"
+                        | "blockquote"
+                        | "body"
+                        | "br"
+                        | "center"
+                        | "code"
+                        | "dd"
+                        | "div"
+                        | "dl"
+                        | "dt"
+                        | "em"
+                        | "embed"
+                        | "h1"
+                        | "h2"
+                        | "h3"
+                        | "h4"
+                        | "h5"
+                        | "h6"
+                        | "head"
+                        | "hr"
+                        | "i"
+                        | "img"
+                        | "li"
+                        | "listing"
+                        | "menu"
+                        | "meta"
+                        | "nobr"
+                        | "ol"
+                        | "p"
+                        | "pre"
+                        | "ruby"
+                        | "s"
+                        | "small"
+                        | "span"
+                        | "strong"
+                        | "strike"
+                        | "sub"
+                        | "sup"
+                        | "table"
+                        | "tt"
+                        | "u"
+                        | "ul"
+                        | "var"
+                ) =>
+            {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.open_elements_stack.pop_until_in_foreign();
+                self.process_token(token_and_info, None)?;
+            }
+            Token::StartTag {
+                tag_name,
+                attributes,
+                ..
+            } if tag_name == "font"
+                && attributes
+                    .iter()
+                    .any(|attribute| matches!(&*attribute.name, "color" | "face" | "size")) =>
+            {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.open_elements_stack.pop_until_in_foreign();
+                self.process_token(token_and_info, None)?;
+            }
+            Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "br" | "p") => {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.open_elements_stack.pop_until_in_foreign();
+                self.process_token(token_and_info, None)?;
+            }
+            // Any other start tag
+            //
+            // If the adjusted current node is an element in the MathML namespace, adjust MathML
+            // attributes for the token. (This fixes the case of MathML attributes that are not all
+            // lowercase.)
+            //
+            // If the adjusted current node is an element in the SVG namespace, and the token's tag
+            // name is one of the ones in the first column of the following table, change the tag
+            // name to the name given in the corresponding cell in the second column. (This fixes
+            // the case of SVG elements that are not all lowercase.)
+            //
+            // Tag name	            Element name
+            // altglyph	            altGlyph
+            // altglyphdef	        altGlyphDef
+            // altglyphitem	        altGlyphItem
+            // animatecolor	        animateColor
+            // animatemotion	    animateMotion
+            // animatetransform	    animateTransform
+            // clippath	            clipPath
+            // feblend	            feBlend
+            // fecolormatrix	    feColorMatrix
+            // fecomponenttransfer	feComponentTransfer
+            // fecomposite	        feComposite
+            // feconvolvematrix	    feConvolveMatrix
+            // fediffuselighting	feDiffuseLighting
+            // fedisplacementmap	feDisplacementMap
+            // fedistantlight	    feDistantLight
+            // fedropshadow	        feDropShadow
+            // feflood	            feFlood
+            // fefunca	            feFuncA
+            // fefuncb	            feFuncB
+            // fefuncg	            feFuncG
+            // fefuncr	            feFuncR
+            // fegaussianblur	    feGaussianBlur
+            // feimage	            feImage
+            // femerge	            feMerge
+            // femergenode	        feMergeNode
+            // femorphology	        feMorphology
+            // feoffset	            feOffset
+            // fepointlight	        fePointLight
+            // fespecularlighting	feSpecularLighting
+            // fespotlight	        feSpotLight
+            // fetile	            feTile
+            // feturbulence	        feTurbulence
+            // foreignobject	    foreignObject
+            // glyphref	            glyphRef
+            // lineargradient	    linearGradient
+            // radialgradient	    radialGradient
+            // textpath	            textPath
+            //
+            // If the adjusted current node is an element in the SVG namespace, adjust SVG
+            // attributes for the token. (This fixes the case of SVG attributes that are not all
+            // lowercase.)
+            //
+            // Adjust foreign attributes for the token. (This fixes the use of namespaced
+            // attributes, in particular XLink in SVG.)
+            //
+            // Insert a foreign element for the token, in the same namespace as the adjusted current
+            // node.
+            //
+            // If the token has its self-closing flag set, then run the appropriate steps from the
+            // following list:
+            //
+            //      If the token's tag name is "script", and the new current node is in the SVG
+            //      namespace
+            //
+            //      Acknowledge the token's self-closing flag, and then act as
+            //      described in the steps for      a "script" end tag below.
+            //
+            // Otherwise
+            //      Pop the current node off the stack of open elements and acknowledge the token's
+            //      self-closing flag.
+            Token::StartTag {
+                tag_name,
+                raw_tag_name,
+                self_closing,
+                attributes,
+            } => {
+                let is_self_closing = *self_closing;
+                let is_script = tag_name == "script";
+                let adjusted_current_node = self.get_adjusted_current_node();
+                let namespace = match adjusted_current_node {
+                    Some(node) => match &node.data {
+                        Data::Element(element) => element.namespace,
+                        _ => {
+                            unreachable!();
+                        }
+                    },
+                    _ => {
+                        unreachable!();
+                    }
+                };
+                let adjust_attributes = match namespace {
+                    Namespace::MATHML => Some(AdjustAttributes::MathML),
+                    Namespace::SVG => Some(AdjustAttributes::Svg),
+                    _ => None,
+                };
+
+                if namespace == Namespace::SVG {
+                    let new_tag_name = match &**tag_name {
+                        "altglyph" => Some("altGlyph"),
+                        "altglyphdef" => Some("altGlyphDef"),
+                        "altglyphitem" => Some("altGlyphItem"),
+                        "animatecolor" => Some("animateColor"),
+                        "animatemotion" => Some("animateMotion"),
+                        "animatetransform" => Some("animateTransform"),
+                        "clippath" => Some("clipPath"),
+                        "feblend" => Some("feBlend"),
+                        "fecolormatrix" => Some("feColorMatrix"),
+                        "fecomponenttransfer" => Some("feComponentTransfer"),
+                        "fecomposite" => Some("feComposite"),
+                        "feconvolvematrix" => Some("feConvolveMatrix"),
+                        "fediffuselighting" => Some("feDiffuseLighting"),
+                        "fedisplacementmap" => Some("feDisplacementMap"),
+                        "fedistantlight" => Some("feDistantLight"),
+                        "fedropshadow" => Some("feDropShadow"),
+                        "feflood" => Some("feFlood"),
+                        "fefunca" => Some("feFuncA"),
+                        "fefuncb" => Some("feFuncB"),
+                        "fefuncg" => Some("feFuncG"),
+                        "fefuncr" => Some("feFuncR"),
+                        "fegaussianblur" => Some("feGaussianBlur"),
+                        "feimage" => Some("feImage"),
+                        "femerge" => Some("feMerge"),
+                        "femergenode" => Some("feMergeNode"),
+                        "femorphology" => Some("feMorphology"),
+                        "feoffset" => Some("feOffset"),
+                        "fepointlight" => Some("fePointLight"),
+                        "fespecularlighting" => Some("feSpecularLighting"),
+                        "fespotlight" => Some("feSpotLight"),
+                        "fetile" => Some("feTile"),
+                        "feturbulence" => Some("feTurbulence"),
+                        "foreignobject" => Some("foreignObject"),
+                        "glyphref" => Some("glyphRef"),
+                        "lineargradient" => Some("linearGradient"),
+                        "radialgradient" => Some("radialGradient"),
+                        "textpath" => Some("textPath"),
+                        _ => None,
+                    };
+
+                    if let Some(new_tag_name) = new_tag_name {
+                        token_and_info.token = Token::StartTag {
+                            tag_name: new_tag_name.into(),
+                            raw_tag_name: raw_tag_name.clone(),
+                            self_closing: *self_closing,
+                            attributes: attributes.clone(),
+                        }
+                    }
+                }
+
+                self.insert_foreign_element(token_and_info, namespace, adjust_attributes)?;
+
+                if is_self_closing {
+                    if is_script
+                        && match self.open_elements_stack.items.last() {
+                            Some(node) => match &node.data {
+                                Data::Element(element) if element.namespace == Namespace::SVG => {
+                                    true
+                                }
+                                _ => false,
+                            },
+                            _ => false,
+                        }
+                    {
+                        token_and_info.acknowledged = true;
+
+                        self.open_elements_stack.pop();
+                    } else {
+                        self.open_elements_stack.pop();
+
+                        token_and_info.acknowledged = true;
+                    }
+                }
+            }
+            // An end tag whose tag name is "script", if the current node is an SVG script element
+            //
+            // Pop the current node off the stack of open elements.
+            //
+            // Let the old insertion point have the same value as the current insertion point. Let
+            // the insertion point be just before the next input character.
+            //
+            // Increment the parser's script nesting level by one. Set the parser pause flag to
+            // true.
+            //
+            // If the active speculative HTML parser is null and the user agent supports SVG, then
+            // Process the SVG script element according to the SVG rules. [SVG]
+            //
+            // Even if this causes new characters to be inserted into the tokenizer, the parser will
+            // not be executed reentrantly, since the parser pause flag is true.
+            //
+            // Decrement the parser's script nesting level by one. If the parser's script nesting
+            // level is zero, then set the parser pause flag to false.
+            //
+            // Let the insertion point have the value of the old insertion point. (In other words,
+            // restore the insertion point to its previous value. This value might be the
+            // "undefined" value.)
+            Token::EndTag { tag_name, .. } if tag_name == "script" => {
+                self.open_elements_stack.pop();
+
+                // No need to handle other steps
+            }
+            // Any other end tag
+            //
+            // Run these steps:
+            //
+            // Initialize node to be the current node (the bottommost node of the stack).
+            //
+            // If node's tag name, converted to ASCII lowercase, is not the same as the tag name of
+            // the token, then this is a parse error.
+            //
+            // Loop: If node is the topmost element in the stack of open elements, then return.
+            // (fragment case)
+            //
+            // If node's tag name, converted to ASCII lowercase, is the same as the tag name of the
+            // token, pop elements from the stack of open elements until node has been popped from
+            // the stack, and then return.
+            //
+            // Set node to the previous entry in the stack of open elements.
+            //
+            // If node is not an element in the HTML namespace, return to the step labeled loop.
+            //
+            // Otherwise, process the token according to the rules given in the section
+            // corresponding to the current insertion mode in HTML content.
+            Token::EndTag { tag_name, .. } => {
+                let mut node = self.open_elements_stack.items.last();
+
+                if let Some(node) = node {
+                    match &node.data {
+                        Data::Element(element)
+                            if &*element.tag_name.to_ascii_lowercase() != tag_name =>
+                        {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        }
+                        _ => {}
+                    }
+                }
+
+                let mut stack_idx = self.open_elements_stack.items.len() - 1;
+
+                loop {
+                    if stack_idx == 0 || node.is_none() {
+                        break;
+                    }
+
+                    let inner_node = node.unwrap();
+                    let first = self.open_elements_stack.items.first();
+
+                    if let Some(first) = first {
+                        if is_same_node(inner_node, first) {
+                            return Ok(());
+                        }
+                    }
+
+                    match &inner_node.data {
+                        Data::Element(element)
+                            if &*element.tag_name.to_ascii_lowercase() == tag_name =>
+                        {
+                            let clone = inner_node.clone();
+
+                            self.open_elements_stack.pop_until_node(&clone);
+
+                            return Ok(());
+                        }
+                        _ => {}
+                    }
+
+                    stack_idx -= 1;
+                    node = self.open_elements_stack.items.get(stack_idx);
+
+                    if let Some(node) = node {
+                        if matches!(&node.data, Data::Element(element) if element.namespace == Namespace::HTML)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                self.process_token(token_and_info, None)?;
+            }
+            // EOF token is not reachable here
+            _ => {
+                unreachable!();
+            }
         }
 
         Ok(())
@@ -3113,11 +3574,13 @@ where
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_foreign_element(
                             token_and_info,
-                            Namespace::SVG,
+                            Namespace::MATHML,
                             Some(AdjustAttributes::MathML),
                         )?;
 
                         if is_self_closing {
+                            self.open_elements_stack.pop();
+
                             token_and_info.acknowledged = true;
                         }
                     }
@@ -3150,6 +3613,8 @@ where
                         )?;
 
                         if is_self_closing {
+                            self.open_elements_stack.pop();
+
                             token_and_info.acknowledged = true;
                         }
                     }
@@ -6731,6 +7196,117 @@ where
 // TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
+}
+
+// The HTML namespace is "http://www.w3.org/1999/xhtml".
+fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
+    if let Some(node) = node {
+        match &node.data {
+            Data::Element(element) if element.namespace == Namespace::HTML => {
+                return true;
+            }
+            _ => {
+                return false;
+            }
+        }
+    }
+
+    false
+}
+
+// A node is a MathML text integration point if it is one of the following
+// elements:
+//
+// A MathML mi element
+// A MathML mo element
+// A MathML mn element
+// A MathML ms element
+// A MathML mtext element
+fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
+    if let Some(node) = node {
+        match &node.data {
+            Data::Element(element)
+                if element.namespace == Namespace::MATHML
+                    && matches!(&*element.tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+            {
+                return true;
+            }
+            _ => {
+                return false;
+            }
+        }
+    }
+
+    false
+}
+
+fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
+    if let Some(node) = node {
+        match &node.data {
+            Data::Element(element)
+                if element.namespace == Namespace::MATHML
+                    && &*element.tag_name == "annotation-xml" =>
+            {
+                return true;
+            }
+            _ => {
+                return false;
+            }
+        }
+    }
+
+    false
+}
+
+// A node is an HTML integration point if it is one of the following elements:
+//
+// A MathML annotation-xml element whose start tag token had an attribute with
+// the name "encoding" whose value was an ASCII case-insensitive match for the
+// string "text/html" A MathML annotation-xml element whose start tag token
+// had an attribute with the name "encoding" whose value was an ASCII
+// case-insensitive match for the string "application/xhtml+xml"
+// An SVG foreignObject element
+// An SVG desc element
+// An SVG title element
+fn is_html_integration_point(node: Option<&RcNode>) -> bool {
+    if let Some(node) = node {
+        match &node.data {
+            Data::Element(Element {
+                namespace,
+                tag_name,
+                attributes,
+                ..
+            }) if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
+                for attribute in attributes {
+                    if &*attribute.name == "encoding"
+                        && (attribute.value.is_some()
+                            && matches!(
+                                &*attribute.value.as_ref().unwrap().to_ascii_lowercase(),
+                                "text/html" | "application/xhtml+xml"
+                            ))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            Data::Element(Element {
+                namespace,
+                tag_name,
+                ..
+            }) if *namespace == Namespace::SVG
+                && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
+            {
+                return true;
+            }
+            _ => {
+                return false;
+            }
+        }
+    }
+
+    false
 }
 
 impl<I> Parse<Document> for Parser<I>
