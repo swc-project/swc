@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 */1 * * *"
+    - cron: "0 * * * *"
 
 env:
   GIT_COMMITTER_NAME: "SWC Bot"

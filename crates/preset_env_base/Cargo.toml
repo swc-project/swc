@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/preset_env_base/"
 edition = "2021"
 license = "Apache-2.0"
 name = "preset_env_base"
-version = "0.2.1"
+version = "0.2.2"
 
 [lib]
 bench = false
@@ -13,7 +13,7 @@ bench = false
 [dependencies]
 ahash = "0.7.4"
 anyhow = "1"
-browserslist-rs = "=0.9.0"
+browserslist-rs = "=0.10.0"
 dashmap = "5.1.0"
 from_variant = {version = "0.1.3", path = "../from_variant"}
 once_cell = "1.10.0"
