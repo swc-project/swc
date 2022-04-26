@@ -14,7 +14,7 @@ use crate::scope::{IdentType, ScopeKind};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false && cfg!(debug_assertions);
+const LOG: bool = true && cfg!(debug_assertions);
 
 /// See [Ident] for know how does swc manages identifiers.
 ///
@@ -690,6 +690,21 @@ impl<'a> VisitMut for Resolver<'a> {
                 c.class.visit_mut_with(self)
             }
             _ => e.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
+        node.expr.visit_mut_with(self);
+
+        if self.config.handle_types {
+            if let Expr::Ident(i) = &mut *node.expr {
+                if i.span.ctxt.outer() == self.config.unresolved_mark {
+                    i.span.ctxt = SyntaxContext::empty()
+                }
+
+                self.in_type = true;
+                node.expr.visit_mut_with(self);
+            }
         }
     }
 
