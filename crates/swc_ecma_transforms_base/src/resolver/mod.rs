@@ -64,6 +64,23 @@ const LOG: bool = true && cfg!(debug_assertions);
 /// 5. Found usage of `a` (last line), and determines that it's a
 /// reference to top-level `a`, and change syntax context of `a` on last line to
 /// top-level syntax context.
+///
+///
+/// # Parameters
+///
+/// ## `unresolved_mark`
+///
+/// [Mark] applied to unresolved references
+///
+/// ## `top_level_mark`
+///
+/// [Mark] applied to top-level bindings
+///
+///
+/// ## `typescript`
+///
+/// Enable this only if you are going to strip types or apply type-aware passes
+/// like decorators pass.
 pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
