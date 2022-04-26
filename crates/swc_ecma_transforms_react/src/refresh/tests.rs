@@ -1,15 +1,16 @@
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 use super::*;
 
 fn tr(t: &mut Tester) -> impl Fold {
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     chain!(
-        resolver_with_mark(top_level_mark),
+        resolver(unresolved_mark, top_level_mark, false),
         refresh(
             true,
             Some(RefreshOptions {
@@ -1113,9 +1114,11 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver(),
+            resolver(unresolved_mark, top_level_mark, false),
             refresh(
                 true,
                 Some(RefreshOptions {
@@ -1125,8 +1128,7 @@ test!(
                 t.cm.clone(),
                 Some(t.comments.clone())
             ),
-            resolver_with_mark(mark),
-            common_js(mark, Default::default(), None)
+            common_js(unresolved_mark, Default::default(), None)
         )
     },
     include_hook_signature_in_commonjs,
@@ -1367,8 +1369,11 @@ test!(
         ..Default::default()
     }),
     |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver(),
+            resolver(unresolved_mark, top_level_mark, false),
             refresh(
                 true,
                 Some(RefreshOptions {

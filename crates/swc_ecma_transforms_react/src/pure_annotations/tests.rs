@@ -63,11 +63,12 @@ fn emit(
 
 fn run_test(input: &str, expected: &str) {
     Tester::run(|tester| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
         let actual = actual
-            .fold_with(&mut resolver())
+            .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
             .fold_with(&mut crate::react(
                 actual_sm.clone(),
                 Some(&actual_comments),
