@@ -1,6 +1,6 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{function_name, object_super, shorthand};
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
@@ -10,9 +10,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        resolver_with_mark(top_level_mark),
+        resolver(unresolved_mark, top_level_mark, false),
         object_super(),
         shorthand(),
         function_name(),

@@ -1,6 +1,6 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{
@@ -18,7 +18,10 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    chain!(resolver(), destructuring(Config { loose: true }))
+    chain!(
+        resolver(Mark::new(), Mark::new(), false),
+        destructuring(Config { loose: true })
+    )
 }
 
 test!(
