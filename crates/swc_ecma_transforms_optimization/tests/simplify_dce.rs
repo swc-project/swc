@@ -498,7 +498,12 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), tr()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(resolver(unresolved_mark, top_level_mark, false), tr())
+    },
     issue_1150_1,
     "
 class A {
@@ -546,10 +551,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -595,10 +602,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -670,8 +679,14 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
-        chain!(resolver(mark), strip(mark), tr(),)
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
+            tr(),
+        )
     },
     issue_1156_3,
     "
@@ -706,10 +721,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
