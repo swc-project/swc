@@ -1,11 +1,9 @@
 #![allow(clippy::needless_update)]
 
-use std::sync::Arc;
-
 use rayon::prelude::*;
-use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, undefined};
+use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
 
@@ -57,7 +55,6 @@ pub(crate) fn pure_optimizer<'a>(
         changed: Default::default(),
         enable_everything,
         debug_infinite_loop,
-        bindings: Default::default(),
     }
 }
 
@@ -71,8 +68,6 @@ struct Pure<'a> {
     enable_everything: bool,
 
     debug_infinite_loop: bool,
-
-    bindings: Option<Arc<AHashSet<Id>>>,
 }
 
 impl Repeated for Pure<'_> {
@@ -81,7 +76,6 @@ impl Repeated for Pure<'_> {
     }
 
     fn reset(&mut self) {
-        self.bindings = None;
         self.ctx = Default::default();
         self.changed = false;
     }
@@ -163,7 +157,6 @@ impl Pure<'_> {
             for node in nodes {
                 let mut v = Pure {
                     changed: false,
-                    bindings: self.bindings.clone(),
                     ..*self
                 };
                 node.visit_mut_with(&mut v);
@@ -182,7 +175,6 @@ impl Pure<'_> {
                                     ..self.ctx
                                 },
                                 changed: false,
-                                bindings: self.bindings.clone(),
                                 ..*self
                             };
                             node.visit_mut_with(&mut v);
@@ -460,8 +452,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        self.bindings = Some(Arc::new(collect_decls(items)));
-
         let ctx = Ctx {
             top_level: true,
             ..self.ctx

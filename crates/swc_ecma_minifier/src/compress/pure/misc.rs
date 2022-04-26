@@ -580,14 +580,12 @@ impl Pure<'_> {
                 }
 
                 Expr::Ident(i) => {
-                    if let Some(bindings) = self.bindings.as_deref() {
-                        if bindings.contains(&i.to_id()) {
-                            report_change!("Dropping an identifier as it's declared");
+                    if i.span.ctxt.outer() != self.marks.unresolved_mark {
+                        report_change!("Dropping an identifier as it's declared");
 
-                            self.changed = true;
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                            return;
-                        }
+                        self.changed = true;
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
                     }
                 }
 
@@ -737,13 +735,10 @@ impl Pure<'_> {
         if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
             if let Expr::Ident(obj) = &**obj {
                 if obj.span.ctxt.outer() == self.marks.unresolved_mark {
-                    if let Some(bindings) = self.bindings.as_deref() {
-                        if !bindings.contains(&obj.to_id()) {
-                            if is_pure_member_access(obj, prop) {
-                                self.changed = true;
-                                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                            }
-                        }
+                    if is_pure_member_access(obj, prop) {
+                        self.changed = true;
+                        report_change!("Remving pure member access to global var");
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     }
                 }
             }
