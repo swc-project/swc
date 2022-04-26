@@ -1480,17 +1480,24 @@ impl VisitMut for Hoister<'_, '_> {
         if self.resolver.config.handle_types {
             match decl {
                 Decl::TsInterface(i) => {
-                    let in_type = self.resolver.in_type;
+                    let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, None);
-                    self.resolver.in_type = in_type;
+                    self.resolver.in_type = old_in_type;
                 }
 
                 Decl::TsTypeAlias(a) => {
-                    let in_type = self.resolver.in_type;
+                    let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut a.id, None);
-                    self.resolver.in_type = in_type;
+                    self.resolver.in_type = old_in_type;
+                }
+
+                Decl::TsEnum(e) => {
+                    let old_in_type = self.resolver.in_type;
+                    self.resolver.in_type = false;
+                    self.resolver.modify(&mut e.id, None);
+                    self.resolver.in_type = old_in_type;
                 }
                 _ => {}
             }
