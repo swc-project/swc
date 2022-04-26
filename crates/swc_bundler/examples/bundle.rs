@@ -134,7 +134,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                                 ..Default::default()
                             },
                             &ExtraOptions {
-                                top_level_mark: Mark::fresh(Mark::root()),
+                                unresolved_mark: Mark::new(),
                             },
                         );
                         b.module.visit_mut_with(&mut fixer(None));

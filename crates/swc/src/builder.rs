@@ -31,8 +31,12 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     handler: &'b Handler,
     env: Option<swc_ecma_preset_env::Config>,
     pass: P,
-    /// [Mark] for top level bindings and unresolved identifier references.
+    /// [Mark] for top level bindings .
     top_level_mark: Mark,
+
+    /// [Mark] for unresolved refernces.
+    unresolved_mark: Mark,
+
     target: EsVersion,
     loose: bool,
     assumptions: Assumptions,
@@ -50,6 +54,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         loose: bool,
         assumptions: Assumptions,
         top_level_mark: Mark,
+        unresolved_mark: Mark,
         pass: P,
     ) -> Self {
         PassBuilder {
@@ -58,6 +63,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: None,
             pass,
             top_level_mark,
+            unresolved_mark,
             target: EsVersion::Es5,
             loose,
             assumptions,
@@ -80,6 +86,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: self.env,
             pass,
             top_level_mark: self.top_level_mark,
+            unresolved_mark: self.unresolved_mark,
             target: self.target,
             loose: self.loose,
             assumptions: self.assumptions,
@@ -318,7 +325,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments: comments.cloned(),
-                top_level_mark: self.top_level_mark,
+                unresolved_mark: self.unresolved_mark,
             }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
@@ -333,7 +340,7 @@ struct MinifierPass {
     options: Option<JsMinifyOptions>,
     cm: Lrc<SourceMap>,
     comments: Option<SingleThreadedComments>,
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
 }
 
 impl VisitMut for MinifierPass {
@@ -368,7 +375,7 @@ impl VisitMut for MinifierPass {
                     None,
                     &opts,
                     &swc_ecma_minifier::option::ExtraOptions {
-                        top_level_mark: self.top_level_mark,
+                        unresolved_mark: self.unresolved_mark,
                     },
                 )
             })

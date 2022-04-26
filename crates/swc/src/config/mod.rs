@@ -421,26 +421,34 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(cm, handler, loose, assumptions, top_level_mark, pass)
-            .target(es_version)
-            .skip_helper_injection(self.skip_helper_injection)
-            .minify(js_minify)
-            .hygiene(if self.disable_hygiene {
-                None
-            } else {
-                Some(hygiene::Config { keep_class_names })
-            })
-            .fixer(!self.disable_fixer)
-            .preset_env(config.env)
-            .regenerator(regenerator)
-            .finalize(
-                base_url,
-                paths.into_iter().collect(),
-                base,
-                syntax,
-                config.module,
-                comments,
-            );
+        let pass = PassBuilder::new(
+            cm,
+            handler,
+            loose,
+            assumptions,
+            top_level_mark,
+            unresolved_mark,
+            pass,
+        )
+        .target(es_version)
+        .skip_helper_injection(self.skip_helper_injection)
+        .minify(js_minify)
+        .hygiene(if self.disable_hygiene {
+            None
+        } else {
+            Some(hygiene::Config { keep_class_names })
+        })
+        .fixer(!self.disable_fixer)
+        .preset_env(config.env)
+        .regenerator(regenerator)
+        .finalize(
+            base_url,
+            paths.into_iter().collect(),
+            base,
+            syntax,
+            config.module,
+            comments,
+        );
 
         let keep_import_assertions = experimental.keep_import_assertions;
 

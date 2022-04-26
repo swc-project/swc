@@ -60,7 +60,7 @@ fn main() {
                                 }),
                                 ..Default::default()
                             },
-                            &ExtraOptions { top_level_mark },
+                            &ExtraOptions { unresolved_mark },
                         );
 
                         let output = output.fold_with(&mut fixer(None));

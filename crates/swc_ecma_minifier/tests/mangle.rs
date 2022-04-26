@@ -61,9 +61,11 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 #[testing::fixture("tests/fixture/**/output.js")]
 fn compressed(compressed_file: PathBuf) {
     testing::run_test2(false, |cm, handler| {
-        let m = parse(&handler, cm.clone(), &compressed_file)?;
+        let mut m = parse(&handler, cm.clone(), &compressed_file)?;
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let m = optimize(
             m,
@@ -88,7 +90,7 @@ fn compressed(compressed_file: PathBuf) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { top_level_mark },
+            &ExtraOptions { unresolved_mark },
         );
 
         let mangled = print(cm.clone(), &m, false);
@@ -125,7 +127,7 @@ fn fixture(input: PathBuf) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { top_level_mark },
+            &ExtraOptions { unresolved_mark },
         );
 
         let mangled = print(cm, &m, false);
@@ -145,7 +147,7 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
 
         let m = parse_fm(&handler, fm)?;
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
 
         let m = optimize(
             m,
@@ -157,7 +159,7 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { top_level_mark },
+            &ExtraOptions { unresolved_mark },
         );
 
         let mangled = print(cm, &m, false);
