@@ -388,28 +388,38 @@
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
  16 | <b>I'm an x-foo-with-markup!</b>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | </x-foo-with-markup>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
  16 | <b>I'm an x-foo-with-markup!</b>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | </x-foo-with-markup>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
  16 | <b>I'm an x-foo-with-markup!</b>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
+ 16 | <b>I'm an x-foo-with-markup!</b>
+    :                                 ^
  17 | </x-foo-with-markup>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/custom-element/input.html:16:5]
  16 | <b>I'm an x-foo-with-markup!</b>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                 ^
  17 | </x-foo-with-markup>
     `----
 

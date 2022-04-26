@@ -455,7 +455,7 @@
                   "type": "Element",
                   "span": {
                     "start": 546,
-                    "end": 579,
+                    "end": 574,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -466,13 +466,22 @@
                       "type": "Text",
                       "span": {
                         "start": 549,
-                        "end": 579,
+                        "end": 574,
                         "ctxt": 0
                       },
-                      "value": "I'm an x-foo-with-markup!\n"
+                      "value": "I'm an x-foo-with-markup!"
                     }
                   ],
                   "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 578,
+                    "end": 579,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 }
               ],
               "content": null
