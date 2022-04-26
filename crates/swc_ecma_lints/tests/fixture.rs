@@ -8,7 +8,7 @@ use swc_ecma_lints::{
     rules::{all, LintParams},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
-use swc_ecma_transforms_base::resolver::{resolver_with_mark, ts_resolver};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::VisitMutWith;
 
@@ -42,14 +42,14 @@ fn pass(input: PathBuf) {
         let mut parser = Parser::new_from(lexer);
 
         let mut program = parser.parse_program().unwrap();
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
-        if input.extension().unwrap() == "ts" || input.extension().unwrap() == "tsx" {
-            program.visit_mut_with(&mut ts_resolver(top_level_mark));
-        } else {
-            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
-        }
+        let need_ts = input.extension().unwrap() == "ts" || input.extension().unwrap() == "tsx";
 
+        program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, need_ts));
+
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let config = LintConfig::default();
@@ -57,6 +57,7 @@ fn pass(input: PathBuf) {
         let mut rules = all(LintParams {
             program: &program,
             lint_config: &config,
+            unresolved_ctxt,
             top_level_ctxt,
             es_version,
             source_map: cm,

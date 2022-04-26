@@ -30,6 +30,7 @@ fn main() {
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
+            let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
             let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
             program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
@@ -37,6 +38,7 @@ fn main() {
             let mut rules = swc_ecma_lints::rules::all(LintParams {
                 program: &program,
                 lint_config: &Default::default(),
+                unresolved_ctxt,
                 top_level_ctxt,
                 es_version: EsVersion::latest(),
                 source_map: cm.clone(),
