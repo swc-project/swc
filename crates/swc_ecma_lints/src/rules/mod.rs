@@ -154,8 +154,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_obj_calls::no_obj_calls(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.no_obj_calls,
         ));
     }
