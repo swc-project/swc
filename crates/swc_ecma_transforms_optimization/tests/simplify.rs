@@ -489,10 +489,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -564,11 +566,13 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             decorators(Default::default()),
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
             class_properties(Some(t.comments.clone()), Default::default()),
             simplifier(unresolved_mark, Default::default()),
@@ -576,7 +580,7 @@ test!(
             es2017(Default::default()),
             es2016(),
             es2015(
-                Mark::fresh(Mark::root()),
+                unresolved_mark,
                 Some(t.comments.clone()),
                 Default::default()
             ),
@@ -679,13 +683,14 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             Repeat::new(chain!(
                 inlining(Default::default()),
-                dead_branch_remover(top_level_mark)
+                dead_branch_remover(unresolved_mark)
             ))
         )
     },
