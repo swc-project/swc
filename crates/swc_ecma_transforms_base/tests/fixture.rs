@@ -4,10 +4,7 @@ use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    fixer::fixer,
-    resolver::{resolver_with_mark, ts_resolver},
-};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::{
     as_folder, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
 };
@@ -77,11 +74,11 @@ fn test_resolver(input: PathBuf) {
         }),
         &input,
         || {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::fresh(Mark::root());
 
             chain!(
-                resolver_with_mark(top_level_mark),
-                as_folder(TsHygiene { top_level_mark }),
+                resolver(unresolved_mark, Mark::new(), false),
+                as_folder(TsHygiene { unresolved_mark }),
                 fixer(None)
             )
         },
@@ -97,11 +94,11 @@ fn test_ts_resolver(input: PathBuf) {
         }),
         &input,
         || {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::fresh(Mark::root());
 
             chain!(
-                ts_resolver(top_level_mark),
-                as_folder(TsHygiene { top_level_mark }),
+                resolver(unresolved_mark, Mark::new(), true),
+                as_folder(TsHygiene { unresolved_mark }),
                 fixer(None)
             )
         },
@@ -109,15 +106,15 @@ fn test_ts_resolver(input: PathBuf) {
 }
 
 struct TsHygiene {
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
 }
 
 impl VisitMut for TsHygiene {
     visit_mut_obj_and_computed!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
-            println!("ts_hygiene: {} is top-level", i.sym);
+        if SyntaxContext::empty().apply_mark(self.unresolved_mark) == i.span.ctxt {
+            println!("ts_hygiene: {} is unresolved", i.sym);
             return;
         }
 

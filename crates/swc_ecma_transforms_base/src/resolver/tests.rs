@@ -129,7 +129,7 @@ fn issue_1279_1() {
 fn issue_1279_2() {
     run_test_with_config(
         Default::default(),
-        resolver,
+        || resolver(Mark::new(), Mark::new(), false),
         "class Foo {
             static f = 1;
             static g = Foo.f;
@@ -162,7 +162,7 @@ fn issue_1279_2() {
 fn issue_2516() {
     run_test_with_config(
         Default::default(),
-        resolver,
+        || resolver(Mark::new(), Mark::new(), false),
         "class A {
             static A = class {}
           }",
