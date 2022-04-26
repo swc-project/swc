@@ -93,22 +93,15 @@ fn is_default_attribute_value(
 }
 
 pub fn remove_default_attributes(element: &mut Element) {
-    element.attributes.retain(|attribute| {
-        if attribute.value.is_none() {
-            return true;
-        }
-
-        match &*attribute.name {
-            _ if is_default_attribute_value(
+    element
+        .attributes
+        .retain(|attribute| match &attribute.value {
+            Some(value) => is_default_attribute_value(
                 element.namespace,
                 &element.tag_name,
                 &attribute.name,
-                attribute.value.as_ref().unwrap(),
-            ) =>
-            {
-                false
-            }
-            _ => true,
-        }
-    });
+                value,
+            ),
+            None => true,
+        });
 }
