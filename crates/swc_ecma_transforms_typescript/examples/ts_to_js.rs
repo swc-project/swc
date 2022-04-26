@@ -13,7 +13,7 @@ use swc_common::{
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
@@ -59,13 +59,14 @@ fn main() {
 
     let globals = Globals::default();
     GLOBALS.set(&globals, || {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         // Optionally transforms decorators here before the resolver pass
         // as it might produce runtime declarations.
 
         // Conduct identifier scope analysis
-        let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+        let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, true));
 
         // Remove typescript types
         let module = module.fold_with(&mut strip(top_level_mark));
