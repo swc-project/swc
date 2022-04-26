@@ -5,7 +5,6 @@ use swc_common::{
     Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -44,7 +43,6 @@ pub struct RadixConfig {
 }
 
 pub fn radix(
-    program: &Program,
     unresolved_ctxt: SyntaxContext,
     config: &RuleConfig<RadixConfig>,
 ) -> Option<Box<dyn Rule>> {
@@ -180,11 +178,7 @@ impl Radix {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.span.ctxt != self.top_level_ctxt {
-            return false;
-        }
-
-        if self.top_level_declared_vars.contains(&ident.to_id()) {
+        if ident.span.ctxt != self.unresolved_ctxt {
             return false;
         }
 
