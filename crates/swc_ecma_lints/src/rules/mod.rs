@@ -82,7 +82,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_alert::no_alert(
             &lint_config.no_alert,
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ));
 
