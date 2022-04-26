@@ -162,11 +162,7 @@ impl VisitMut for InfoMarker<'_> {
                 )
             })
         {
-            if is_standalone(
-                &mut n.function,
-                self.top_level_mark,
-                &self.top_level_bindings,
-            ) {
+            if is_standalone(&mut n.function, self.unresolved_mark) {
                 // self.state.is_bundle = true;
 
                 // n.function.span =
@@ -180,15 +176,6 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        self.top_level_bindings = {
-            let mut v = TopLevelBindingCollector {
-                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
-                bindings: Default::default(),
-            };
-            m.visit_with(&mut v);
-            v.bindings
-        };
-
         m.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -253,11 +240,11 @@ impl Visit for TopLevelBindingCollector {
     }
 }
 
-fn is_standalone<N>(n: &mut N, top_level_mark: Mark, external_bindings: &[Id]) -> bool
+fn is_standalone<N>(n: &mut N, unresolved_mark: Mark) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
-    let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
 
     let bindings = {
         let mut v = IdentCollector {
@@ -289,17 +276,7 @@ where
             _ => {}
         }
 
-        if external_bindings.contains(used_id) {
-            trace_op!(
-                "bundle: Due to {}{:?} (top-level), it's not a bundle",
-                used_id.0,
-                used_id.1
-            );
-
-            return false;
-        }
-
-        if used_id.1 == top_level_ctxt {
+        if used_id.1 == unresolved_ctxt {
             // if cfg!(feature = "debug") {
             //     debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
             // used_id.1); }

@@ -28,7 +28,7 @@
 
 use compress::pure_optimizer;
 use mode::Mode;
-use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -75,8 +75,6 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Module {
     let _timer = timer!("minify");
-
-    let unresolved_ctxt = SyntaxContext::empty().apply_mark(extra.unresolved_mark);
 
     let mut marks = Marks::new();
     marks.unresolved_mark = extra.unresolved_mark;
