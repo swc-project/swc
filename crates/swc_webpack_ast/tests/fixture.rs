@@ -23,7 +23,7 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                as_folder(ast_reducer(top_level_mark)),
+                as_folder(ast_reducer(unresolved_mark)),
                 as_folder(AssertValid)
             )
         },
@@ -119,10 +119,11 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         let mut pass = {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(unresolved_mark, top_level_mark, false),
                 as_folder(ast_reducer(top_level_mark))
             )
         };
