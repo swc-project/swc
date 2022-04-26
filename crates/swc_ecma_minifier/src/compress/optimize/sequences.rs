@@ -972,7 +972,7 @@ where
 
                             if ids
                                 .iter()
-                                .all(|id| id.1.outer() == self.marks.top_level_mark)
+                                .all(|id| id.1.outer() == self.marks.unresolved_mark)
                             {
                                 return true;
                             }

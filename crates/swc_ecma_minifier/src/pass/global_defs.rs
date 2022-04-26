@@ -1,14 +1,13 @@
 use std::borrow::Cow;
 
-use swc_common::{collections::AHashSet, pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
+use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
 
-pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, top_level_mark: Mark) -> impl VisitMut {
+pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, unresolved_mark: Mark) -> impl VisitMut {
     GlobalDefs {
         defs,
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         ..Default::default()
     }
 }
@@ -16,14 +15,9 @@ pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, top_level_mark: Mark) -> 
 #[derive(Default)]
 struct GlobalDefs {
     defs: Vec<(Box<Expr>, Box<Expr>)>,
-    /// If syntax context of a identifier reference is not top-level, it means
-    /// the reference points a binding (var / fn / class or whatever).
-    top_level_ctxt: SyntaxContext,
-    /// If a varaible is registered in this variable, it's not a global
-    /// constant.
-    ///
-    /// Non-top level bindings are filtered using `top_level_mark`.
-    top_level_bindings: AHashSet<Id>,
+
+    unresolved_ctxt: SyntaxContext,
+
     in_lhs_of_assign: bool,
 }
 
@@ -58,17 +52,13 @@ impl VisitMut for GlobalDefs {
 
         match n {
             Expr::Ident(i) => {
-                if i.span.ctxt != self.top_level_ctxt
-                    || self.top_level_bindings.contains(&i.to_id())
-                {
+                if i.span.ctxt != self.unresolved_ctxt {
                     return;
                 }
             }
             Expr::Member(MemberExpr { obj, .. }) => {
                 if let Expr::Ident(i) = &**obj {
-                    if i.span.ctxt != self.top_level_ctxt
-                        || self.top_level_bindings.contains(&i.to_id())
-                    {
+                    if i.span.ctxt != self.unresolved_ctxt {
                         return;
                     }
                 }

@@ -489,7 +489,7 @@ impl Pure<'_> {
 
         if let Expr::Ident(i) = e {
             // If it's not a top level, it's a reference to a declared variable.
-            if i.span.ctxt.outer() == self.marks.top_level_mark {
+            if i.span.ctxt.outer() == self.marks.unresolved_mark {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
@@ -736,7 +736,7 @@ impl Pure<'_> {
         // Remove pure member expressions.
         if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
             if let Expr::Ident(obj) = &**obj {
-                if obj.span.ctxt.outer() == self.marks.top_level_mark {
+                if obj.span.ctxt.outer() == self.marks.unresolved_mark {
                     if let Some(bindings) = self.bindings.as_deref() {
                         if !bindings.contains(&obj.to_id()) {
                             if is_pure_member_access(obj, prop) {

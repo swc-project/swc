@@ -270,7 +270,7 @@ where
 
         match e {
             Expr::Ident(e) => {
-                if e.span.ctxt.outer() == self.marks.top_level_mark {
+                if e.span.ctxt.outer() == self.marks.unresolved_mark {
                     if is_global_var(&e.sym) {
                         return false;
                     }

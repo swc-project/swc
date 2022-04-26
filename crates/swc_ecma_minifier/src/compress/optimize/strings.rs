@@ -165,7 +165,7 @@ where
                         *n = Expr::Ident(Ident::new(
                             js_word!("NaN"),
                             span.with_ctxt(
-                                SyntaxContext::empty().apply_mark(self.marks.top_level_mark),
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ),
                         ));
                         self.changed = true;

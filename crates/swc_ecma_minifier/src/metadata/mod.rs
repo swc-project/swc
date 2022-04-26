@@ -17,14 +17,13 @@ mod tests;
 pub(crate) fn info_marker(
     comments: Option<&dyn Comments>,
     marks: Marks,
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
 ) -> impl '_ + VisitMut {
     InfoMarker {
         comments,
         marks,
-        top_level_mark,
+        unresolved_mark,
         state: Default::default(),
-        top_level_bindings: Default::default(),
     }
 }
 
@@ -37,9 +36,8 @@ struct State {
 struct InfoMarker<'a> {
     comments: Option<&'a dyn Comments>,
     marks: Marks,
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     state: State,
-    top_level_bindings: Vec<Id>,
 }
 
 impl InfoMarker<'_> {
