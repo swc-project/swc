@@ -2,9 +2,9 @@
 
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentiation,
@@ -22,8 +22,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr(t: &Tester) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        resolver(),
+        resolver(unresolved_mark, top_level_mark, false),
         function_name(),
         class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
@@ -154,11 +157,16 @@ function (Bar) {
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        function_name(),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            function_name(),
+            class_properties(Some(t.comments.clone()), Default::default()),
+        )
+    },
     private_class_method,
     r#"
 class Foo {
@@ -2791,10 +2799,15 @@ var _x = {
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        class_properties(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Some(t.comments.clone()), Default::default())
+        )
+    },
     issue_308,
     "function bar(props) {}
 class Foo {
@@ -2822,11 +2835,16 @@ class Foo{
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Some(t.comments.clone()), Default::default()),
+            classes(Some(t.comments.clone()), Default::default())
+        )
+    },
     issue_342,
     "class Foo {
   constructor(bar) {
@@ -2851,11 +2869,16 @@ let Foo = function Foo(bar) {
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping()
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Some(t.comments.clone()), Default::default()),
+            block_scoping()
+        )
+    },
     issue_443,
     "
 const MODE = 1;
@@ -4650,10 +4673,15 @@ var Foo = (_temp = _class = class Foo {}, _num = {
 // regression_7951
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        class_properties(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Some(t.comments.clone()), Default::default())
+        )
+    },
     regression_7951,
     r#"
 export class Foo extends Bar {
