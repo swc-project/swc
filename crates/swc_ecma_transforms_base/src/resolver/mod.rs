@@ -16,11 +16,6 @@ mod tests;
 
 const LOG: bool = false && cfg!(debug_assertions);
 
-/// See [resolver_with_mark] for docs.
-pub fn resolver() -> impl 'static + Fold + VisitMut {
-    resolver_with_mark(Mark::fresh(Mark::root()), Mark::fresh(Mark::root()), false)
-}
-
 /// See [Ident] for know how does swc manages identifiers.
 ///
 /// # When to run
@@ -69,7 +64,7 @@ pub fn resolver() -> impl 'static + Fold + VisitMut {
 /// 5. Found usage of `a` (last line), and determines that it's a
 /// reference to top-level `a`, and change syntax context of `a` on last line to
 /// top-level syntax context.
-pub fn resolver_with_mark(
+pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
