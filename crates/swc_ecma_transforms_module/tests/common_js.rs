@@ -3,12 +3,7 @@ use std::{cell::RefCell, path::PathBuf, rc::Rc};
 use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    fixer::fixer,
-    helpers::inject_helpers,
-    hygiene::hygiene,
-    resolver::{resolver, resolver_with_mark},
-};
+use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{
         block_scoped_functions, block_scoping, classes, destructuring, for_of, parameters,
@@ -37,12 +32,13 @@ fn ts_syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     chain!(
-        resolver_with_mark(mark),
+        resolver(unresolved_mark, top_level_mark, false),
         module_hoister(),
-        common_js(mark, config, None)
+        common_js(unresolved_mark, config, None)
     )
 }
 
