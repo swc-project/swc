@@ -963,15 +963,20 @@ exports.default = Container;
 // function_name_await
 test!(
     Default::default(),
-    |t| chain!(
-        resolver(unresolved_mark, top_level_mark, true),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_await,
     r#"
 export {};
