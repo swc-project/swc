@@ -1,6 +1,6 @@
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{
         arrow, block_scoping, classes, destructuring, parameters, parameters::Config, spread,
@@ -15,8 +15,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr(c: Config) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        resolver(),
+        resolver(unresolved_mark, top_level_mark, false),
         parameters(c),
         destructuring(destructuring::Config { loose: false }),
         block_scoping(),

@@ -884,14 +884,19 @@ function foo(bar) {
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
+        )
+    },
     issue_404_2,
     "function foo(bar) {
   const { foo } = bar;
