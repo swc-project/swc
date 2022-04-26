@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/preset_env_base/"
 edition = "2021"
 license = "Apache-2.0"
 name = "preset_env_base"
-version = "0.2.1"
+version = "0.2.2"
 
 [lib]
 bench = false
