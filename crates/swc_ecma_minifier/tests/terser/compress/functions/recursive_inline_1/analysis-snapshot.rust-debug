@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

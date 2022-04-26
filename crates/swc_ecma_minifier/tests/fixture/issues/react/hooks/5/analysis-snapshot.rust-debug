@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('CONST1' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -121,7 +121,7 @@ TestSnapshot {
         (
             (
                 Atom('GLOBALS' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -197,7 +197,7 @@ TestSnapshot {
         (
             (
                 Atom('JSON' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -235,7 +235,7 @@ TestSnapshot {
         (
             (
                 Atom('a1' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -275,7 +275,7 @@ TestSnapshot {
         (
             (
                 Atom('a1_set' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -315,7 +315,7 @@ TestSnapshot {
         (
             (
                 Atom('pure' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -353,7 +353,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -391,7 +391,7 @@ TestSnapshot {
         (
             (
                 Atom('use' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -429,7 +429,7 @@ TestSnapshot {
         (
             (
                 Atom('useEffect' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -543,7 +543,7 @@ TestSnapshot {
         (
             (
                 Atom('useState' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -661,7 +661,7 @@ TestSnapshot {
         (
             (
                 Atom('varA' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -701,7 +701,7 @@ TestSnapshot {
         (
             (
                 Atom('varB' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

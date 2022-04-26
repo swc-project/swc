@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('isAllowedCharacter' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('isPermanentCharacter' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

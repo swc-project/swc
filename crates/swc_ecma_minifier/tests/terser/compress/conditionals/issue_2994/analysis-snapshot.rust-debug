@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -269,7 +269,7 @@ TestSnapshot {
         (
             (
                 Atom('i' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -309,7 +309,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

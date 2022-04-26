@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Path' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('Tree' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -119,7 +119,7 @@ TestSnapshot {
         (
             (
                 Atom('childNode' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -239,7 +239,7 @@ TestSnapshot {
         (
             (
                 Atom('pathGetFront' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -315,7 +315,7 @@ TestSnapshot {
         (
             (
                 Atom('pathPopFront' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -353,7 +353,7 @@ TestSnapshot {
         (
             (
                 Atom('safeGet' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

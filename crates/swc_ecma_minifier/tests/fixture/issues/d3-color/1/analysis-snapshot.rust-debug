@@ -399,7 +399,7 @@ TestSnapshot {
         (
             (
                 Atom('Math' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -437,7 +437,7 @@ TestSnapshot {
         (
             (
                 Atom('NaN' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -513,7 +513,7 @@ TestSnapshot {
         (
             (
                 Atom('a' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -553,7 +553,7 @@ TestSnapshot {
         (
             (
                 Atom('arguments' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -709,7 +709,7 @@ TestSnapshot {
         (
             (
                 Atom('cosh' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1057,7 +1057,7 @@ TestSnapshot {
         (
             (
                 Atom('h' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1095,7 +1095,7 @@ TestSnapshot {
         (
             (
                 Atom('h' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1133,7 +1133,7 @@ TestSnapshot {
         (
             (
                 Atom('h' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1173,7 +1173,7 @@ TestSnapshot {
         (
             (
                 Atom('isNaN' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1251,7 +1251,7 @@ TestSnapshot {
         (
             (
                 Atom('k' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1289,7 +1289,7 @@ TestSnapshot {
         (
             (
                 Atom('k' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1367,7 +1367,7 @@ TestSnapshot {
         (
             (
                 Atom('l' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1405,7 +1405,7 @@ TestSnapshot {
         (
             (
                 Atom('l' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1443,7 +1443,7 @@ TestSnapshot {
         (
             (
                 Atom('l' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1521,7 +1521,7 @@ TestSnapshot {
         (
             (
                 Atom('opacity' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1559,7 +1559,7 @@ TestSnapshot {
         (
             (
                 Atom('opacity' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1753,7 +1753,7 @@ TestSnapshot {
         (
             (
                 Atom('s' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1791,7 +1791,7 @@ TestSnapshot {
         (
             (
                 Atom('s' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1829,7 +1829,7 @@ TestSnapshot {
         (
             (
                 Atom('sinh' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,

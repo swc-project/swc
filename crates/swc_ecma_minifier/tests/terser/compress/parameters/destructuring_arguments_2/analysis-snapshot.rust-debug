@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('a' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -155,7 +155,7 @@ TestSnapshot {
         (
             (
                 Atom('b' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('c' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -269,7 +269,7 @@ TestSnapshot {
         (
             (
                 Atom('d' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -307,7 +307,7 @@ TestSnapshot {
         (
             (
                 Atom('f' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -345,7 +345,7 @@ TestSnapshot {
         (
             (
                 Atom('thrower' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -421,7 +421,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,

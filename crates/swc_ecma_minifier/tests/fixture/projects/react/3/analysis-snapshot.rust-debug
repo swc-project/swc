@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Array' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -161,7 +161,7 @@ TestSnapshot {
         (
             (
                 Atom('arguments' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -237,7 +237,7 @@ TestSnapshot {
         (
             (
                 Atom('printWarning' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

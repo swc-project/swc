@@ -43,7 +43,7 @@ TestSnapshot {
         (
             (
                 Atom('MyClass' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -81,7 +81,7 @@ TestSnapshot {
         (
             (
                 Atom('a' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -119,7 +119,7 @@ TestSnapshot {
         (
             (
                 Atom('bar' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -157,7 +157,7 @@ TestSnapshot {
         (
             (
                 Atom('baz' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('c' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -233,7 +233,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -271,7 +271,7 @@ TestSnapshot {
         (
             (
                 Atom('f' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -349,7 +349,7 @@ TestSnapshot {
         (
             (
                 Atom('iife1' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -387,7 +387,7 @@ TestSnapshot {
         (
             (
                 Atom('iife2' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -427,7 +427,7 @@ TestSnapshot {
         (
             (
                 Atom('iife2' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -465,7 +465,7 @@ TestSnapshot {
         (
             (
                 Atom('quux' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,

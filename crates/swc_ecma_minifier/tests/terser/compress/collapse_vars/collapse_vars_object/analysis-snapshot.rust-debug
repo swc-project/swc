@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('f' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('g' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -385,7 +385,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -537,7 +537,7 @@ TestSnapshot {
         (
             (
                 Atom('y' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -695,7 +695,7 @@ TestSnapshot {
         (
             (
                 Atom('z' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,

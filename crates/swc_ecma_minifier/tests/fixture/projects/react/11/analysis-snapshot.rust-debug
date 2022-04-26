@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('describeUnknownElementTypeFrameInDEV' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -157,7 +157,7 @@ TestSnapshot {
         (
             (
                 Atom('setExtraStackFrame' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

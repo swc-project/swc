@@ -243,7 +243,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -281,7 +281,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -473,7 +473,7 @@ TestSnapshot {
         (
             (
                 Atom('rejected' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -593,7 +593,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

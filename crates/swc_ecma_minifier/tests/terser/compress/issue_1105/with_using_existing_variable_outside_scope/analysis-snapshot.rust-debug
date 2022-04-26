@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('doSomething' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('ClassB' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('module' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,

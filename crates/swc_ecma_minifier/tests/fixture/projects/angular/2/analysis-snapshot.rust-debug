@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('copy' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('destination' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('forEach' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -197,7 +197,7 @@ TestSnapshot {
         (
             (
                 Atom('key' type=static),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -235,7 +235,7 @@ TestSnapshot {
         (
             (
                 Atom('source' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -273,7 +273,7 @@ TestSnapshot {
         (
             (
                 Atom('value' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

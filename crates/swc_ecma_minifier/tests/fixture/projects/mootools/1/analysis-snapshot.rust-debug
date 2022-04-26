@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -81,7 +81,7 @@ TestSnapshot {
         (
             (
                 Atom('object' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,

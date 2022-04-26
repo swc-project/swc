@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('JSON' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('fetch' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -273,7 +273,7 @@ TestSnapshot {
         (
             (
                 Atom('r' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -311,7 +311,7 @@ TestSnapshot {
         (
             (
                 Atom('r' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
