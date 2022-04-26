@@ -1,4 +1,4 @@
-module M {
+module M__1 {
     export class A__2 {
         name: string;
     }
@@ -6,7 +6,7 @@ module M {
         return x__3.toString();
     }
 }
-module N {
+module N__1 {
     export class A__4 {
         id: number;
     }

@@ -47,14 +47,14 @@ pub struct Marks {
     /// preserve the side effects.
     pub(crate) fake_block: Mark,
 
-    pub(crate) top_level_mark: Mark,
+    pub(crate) unresolved_mark: Mark,
 }
 
 impl Marks {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         fn m() -> Mark {
-            Mark::fresh(Mark::root())
+            Mark::new()
         }
 
         Marks {
@@ -66,7 +66,7 @@ impl Marks {
             noinline: m(),
             pure: m(),
             fake_block: m(),
-            top_level_mark: m(),
+            unresolved_mark: m(),
         }
     }
 }

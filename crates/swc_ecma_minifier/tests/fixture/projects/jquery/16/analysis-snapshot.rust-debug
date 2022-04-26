@@ -399,7 +399,7 @@ TestSnapshot {
         (
             (
                 Atom('jQuery' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -515,7 +515,7 @@ TestSnapshot {
         (
             (
                 Atom('parseFloat' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

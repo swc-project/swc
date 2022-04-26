@@ -192,7 +192,7 @@ impl Evaluator {
                 });
 
                 e.visit_mut_with(&mut expr_simplifier(
-                    self.marks.top_level_mark,
+                    self.marks.unresolved_mark,
                     ExprSimplifierConfig {},
                 ));
                 return Some(Box::new(e));

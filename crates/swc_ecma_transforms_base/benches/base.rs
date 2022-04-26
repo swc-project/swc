@@ -4,7 +4,7 @@ static GLOBAL: System = System;
 use std::alloc::System;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{chain, FileName};
+use swc_common::{chain, FileName, Mark};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;
 use swc_ecma_visit::FoldWith;
@@ -37,7 +37,11 @@ macro_rules! tr {
 }
 
 fn resolver(b: &mut Bencher) {
-    tr!(b, swc_ecma_transforms_base::resolver::resolver);
+    tr!(b, || swc_ecma_transforms_base::resolver(
+        Mark::new(),
+        Mark::new(),
+        false
+    ));
 }
 
 fn fixer(b: &mut Bencher) {
@@ -50,7 +54,7 @@ fn hygiene(b: &mut Bencher) {
 
 fn resolver_with_hygiene(b: &mut Bencher) {
     tr!(b, || chain!(
-        swc_ecma_transforms_base::resolver::resolver(),
+        swc_ecma_transforms_base::resolver(Mark::new(), Mark::new(), false),
         swc_ecma_transforms_base::hygiene::hygiene()
     ));
 }

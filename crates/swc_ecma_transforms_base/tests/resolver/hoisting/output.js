@@ -1,4 +1,4 @@
-function foo() {
-    return XXX;
+function foo__1() {
+    return XXX__1;
 }
-var XXX = 1;
+var XXX__1 = 1;

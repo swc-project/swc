@@ -1,8 +1,8 @@
-import { field } from "../validation/decorators";
-class C {
+import { field__1 } from "../validation/decorators";
+class C__1 {
     method(
-    @field("a")
+    @field__1("a")
     field__2: string, 
-    @field("b")
+    @field__1("b")
     b__2: string) {}
 }

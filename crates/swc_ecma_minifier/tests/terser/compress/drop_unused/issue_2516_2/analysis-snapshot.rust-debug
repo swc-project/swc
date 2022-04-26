@@ -119,7 +119,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('never_called' type=dynamic),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

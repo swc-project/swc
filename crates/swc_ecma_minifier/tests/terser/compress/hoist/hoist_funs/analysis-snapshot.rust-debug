@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('bar' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

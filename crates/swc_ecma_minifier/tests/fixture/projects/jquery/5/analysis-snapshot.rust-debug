@@ -159,7 +159,7 @@ TestSnapshot {
         (
             (
                 Atom('isArraylike' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

@@ -9,7 +9,10 @@ pub mod terser;
 /// This is not serializable.
 #[derive(Debug)]
 pub struct ExtraOptions {
-    /// The [Mark] used for `resolver_with_mark`.
+    /// It should be the [Mark] used for `resolver`.
+    pub unresolved_mark: Mark,
+
+    /// It should be the [Mark] used for `resolver`.
     pub top_level_mark: Mark,
 }
 

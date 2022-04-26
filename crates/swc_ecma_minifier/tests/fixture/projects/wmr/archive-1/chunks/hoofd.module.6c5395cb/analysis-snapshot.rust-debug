@@ -199,7 +199,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -277,7 +277,7 @@ TestSnapshot {
         (
             (
                 Atom('Set' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -395,7 +395,7 @@ TestSnapshot {
         (
             (
                 Atom('_addToQueue' type=dynamic),
-                #9,
+                #10,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -433,7 +433,7 @@ TestSnapshot {
         (
             (
                 Atom('_change' type=inline),
-                #12,
+                #13,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -471,7 +471,7 @@ TestSnapshot {
         (
             (
                 Atom('_ref' type=inline),
-                #15,
+                #16,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -511,7 +511,7 @@ TestSnapshot {
         (
             (
                 Atom('_removeFromQueue' type=dynamic),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -549,7 +549,7 @@ TestSnapshot {
         (
             (
                 Atom('_setLang' type=dynamic),
-                #8,
+                #9,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -587,7 +587,7 @@ TestSnapshot {
         (
             (
                 Atom('acc' type=inline),
-                #22,
+                #23,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -665,7 +665,7 @@ TestSnapshot {
         (
             (
                 Atom('applyTitleTemplate' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -743,7 +743,7 @@ TestSnapshot {
         (
             (
                 Atom('changeOrCreateMetaTag' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -781,7 +781,7 @@ TestSnapshot {
         (
             (
                 Atom('clearTimeout' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -859,7 +859,7 @@ TestSnapshot {
         (
             (
                 Atom('createDispatcher' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -897,7 +897,7 @@ TestSnapshot {
         (
             (
                 Atom('currentMetaIndex' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -937,7 +937,7 @@ TestSnapshot {
         (
             (
                 Atom('currentTitleIndex' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -977,7 +977,7 @@ TestSnapshot {
         (
             (
                 Atom('currentTitleTemplateIndex' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1057,46 +1057,6 @@ TestSnapshot {
         (
             (
                 Atom('dispatcher' type=dynamic),
-                #16,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 1,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: false,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 0,
-                usage_count: 1,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: false,
-                has_property_access: true,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: false,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('dispatcher' type=dynamic),
                 #17,
             ),
             VarUsageInfo {
@@ -1137,11 +1097,11 @@ TestSnapshot {
         (
             (
                 Atom('dispatcher' type=dynamic),
-                #26,
+                #18,
             ),
             VarUsageInfo {
                 inline_prevented: false,
-                ref_count: 4,
+                ref_count: 1,
                 cond_init: false,
                 declared: true,
                 declared_count: 1,
@@ -1149,7 +1109,7 @@ TestSnapshot {
                 declared_as_fn_expr: false,
                 assign_count: 0,
                 mutation_by_call_count: 0,
-                usage_count: 4,
+                usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: false,
@@ -1158,7 +1118,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: false,
+                is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -1216,8 +1176,48 @@ TestSnapshot {
         ),
         (
             (
+                Atom('dispatcher' type=dynamic),
+                #28,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
+                ref_count: 4,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: false,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 0,
+                usage_count: 4,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: false,
+                has_property_access: true,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: false,
+                used_by_nested_fn: true,
+                executed_multiple_time: false,
+                used_in_cond: true,
+                var_kind: Some(
+                    "var",
+                ),
+                var_initialized: true,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: false,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
                 Atom('document' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1293,7 +1293,7 @@ TestSnapshot {
         (
             (
                 Atom('found' type=inline),
-                #20,
+                #21,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1333,47 +1333,7 @@ TestSnapshot {
         (
             (
                 Atom('hasMounted' type=dynamic),
-                #17,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 4,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: false,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 0,
-                usage_count: 4,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: true,
-                has_property_access: true,
-                has_property_mutation: true,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: false,
-                used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: false,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('hasMounted' type=dynamic),
-                #26,
+                #18,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1452,8 +1412,48 @@ TestSnapshot {
         ),
         (
             (
+                Atom('hasMounted' type=dynamic),
+                #28,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
+                ref_count: 4,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: false,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 0,
+                usage_count: 4,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: true,
+                has_property_access: true,
+                has_property_mutation: true,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: false,
+                used_by_nested_fn: true,
+                executed_multiple_time: false,
+                used_in_cond: false,
+                var_kind: Some(
+                    "var",
+                ),
+                var_initialized: true,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: false,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
                 Atom('index' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1533,7 +1533,7 @@ TestSnapshot {
         (
             (
                 Atom('key' type=static),
-                #18,
+                #19,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1558,44 +1558,6 @@ TestSnapshot {
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
-                var_kind: None,
-                var_initialized: false,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: true,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('key' type=static),
-                #21,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 2,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: true,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 1,
-                usage_count: 2,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: true,
-                has_property_access: false,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -1633,7 +1595,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -1722,8 +1684,46 @@ TestSnapshot {
         ),
         (
             (
+                Atom('key' type=static),
+                #25,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
+                ref_count: 2,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: true,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 1,
+                usage_count: 2,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: true,
+                has_property_access: false,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: true,
+                used_by_nested_fn: true,
+                executed_multiple_time: false,
+                used_in_cond: true,
+                var_kind: None,
+                var_initialized: false,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: true,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
                 Atom('keyword' type=inline),
-                #26,
+                #27,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1763,7 +1763,7 @@ TestSnapshot {
         (
             (
                 Atom('l' type=inline),
-                #8,
+                #9,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1801,7 +1801,7 @@ TestSnapshot {
         (
             (
                 Atom('lang' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1841,7 +1841,7 @@ TestSnapshot {
         (
             (
                 Atom('language' type=dynamic),
-                #16,
+                #17,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1879,7 +1879,7 @@ TestSnapshot {
         (
             (
                 Atom('linkQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1919,7 +1919,7 @@ TestSnapshot {
         (
             (
                 Atom('links' type=inline),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1959,7 +1959,7 @@ TestSnapshot {
         (
             (
                 Atom('m' type=inline),
-                #11,
+                #12,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1997,7 +1997,7 @@ TestSnapshot {
         (
             (
                 Atom('meta' type=static),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2035,7 +2035,7 @@ TestSnapshot {
         (
             (
                 Atom('meta' type=static),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2073,7 +2073,7 @@ TestSnapshot {
         (
             (
                 Atom('meta' type=static),
-                #14,
+                #15,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2111,7 +2111,7 @@ TestSnapshot {
         (
             (
                 Atom('meta' type=static),
-                #15,
+                #16,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2149,7 +2149,7 @@ TestSnapshot {
         (
             (
                 Atom('meta' type=static),
-                #25,
+                #26,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2187,7 +2187,7 @@ TestSnapshot {
         (
             (
                 Atom('metaObject' type=dynamic),
-                #26,
+                #27,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2227,7 +2227,7 @@ TestSnapshot {
         (
             (
                 Atom('metaQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2267,7 +2267,7 @@ TestSnapshot {
         (
             (
                 Atom('metaTag' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2307,7 +2307,7 @@ TestSnapshot {
         (
             (
                 Atom('metas' type=inline),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2347,7 +2347,7 @@ TestSnapshot {
         (
             (
                 Atom('newMeta' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2387,7 +2387,7 @@ TestSnapshot {
         (
             (
                 Atom('node' type=inline),
-                #17,
+                #18,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2427,7 +2427,7 @@ TestSnapshot {
         (
             (
                 Atom('oldMeta' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2467,7 +2467,7 @@ TestSnapshot {
         (
             (
                 Atom('options' type=inline),
-                #17,
+                #18,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2505,7 +2505,7 @@ TestSnapshot {
         (
             (
                 Atom('options' type=inline),
-                #26,
+                #27,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2543,7 +2543,7 @@ TestSnapshot {
         (
             (
                 Atom('originalOptions' type=dynamic),
-                #17,
+                #18,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2583,7 +2583,7 @@ TestSnapshot {
         (
             (
                 Atom('payload' type=inline),
-                #9,
+                #10,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2621,7 +2621,7 @@ TestSnapshot {
         (
             (
                 Atom('payload' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2659,7 +2659,7 @@ TestSnapshot {
         (
             (
                 Atom('payload' type=inline),
-                #12,
+                #13,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2697,7 +2697,7 @@ TestSnapshot {
         (
             (
                 Atom('preExistingElements' type=dynamic),
-                #19,
+                #20,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2737,7 +2737,7 @@ TestSnapshot {
         (
             (
                 Atom('prevPayload' type=dynamic),
-                #12,
+                #13,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2775,7 +2775,7 @@ TestSnapshot {
         (
             (
                 Atom('prevTitle' type=dynamic),
-                #27,
+                #28,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2815,7 +2815,7 @@ TestSnapshot {
         (
             (
                 Atom('processQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2855,7 +2855,7 @@ TestSnapshot {
         (
             (
                 Atom('queue' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2895,7 +2895,7 @@ TestSnapshot {
         (
             (
                 Atom('queue' type=inline),
-                #12,
+                #13,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2935,7 +2935,7 @@ TestSnapshot {
         (
             (
                 Atom('result' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -2975,7 +2975,7 @@ TestSnapshot {
         (
             (
                 Atom('result' type=inline),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3053,7 +3053,7 @@ TestSnapshot {
         (
             (
                 Atom('scriptQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3093,7 +3093,7 @@ TestSnapshot {
         (
             (
                 Atom('scripts' type=inline),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3133,7 +3133,7 @@ TestSnapshot {
         (
             (
                 Atom('setTimeout' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3171,7 +3171,7 @@ TestSnapshot {
         (
             (
                 Atom('template' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3209,7 +3209,7 @@ TestSnapshot {
         (
             (
                 Atom('template' type=dynamic),
-                #27,
+                #28,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3247,7 +3247,7 @@ TestSnapshot {
         (
             (
                 Atom('template' type=dynamic),
-                #28,
+                #29,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3285,7 +3285,7 @@ TestSnapshot {
         (
             (
                 Atom('timeout' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3325,7 +3325,7 @@ TestSnapshot {
         (
             (
                 Atom('title' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3363,7 +3363,7 @@ TestSnapshot {
         (
             (
                 Atom('title' type=inline),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3403,7 +3403,7 @@ TestSnapshot {
         (
             (
                 Atom('title' type=inline),
-                #27,
+                #28,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3441,7 +3441,7 @@ TestSnapshot {
         (
             (
                 Atom('titleQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3481,7 +3481,7 @@ TestSnapshot {
         (
             (
                 Atom('titleTemplateQueue' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3561,7 +3561,7 @@ TestSnapshot {
         (
             (
                 Atom('toStatic' type=dynamic),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3599,7 +3599,7 @@ TestSnapshot {
         (
             (
                 Atom('type' type=static),
-                #9,
+                #10,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3637,7 +3637,7 @@ TestSnapshot {
         (
             (
                 Atom('type' type=static),
-                #10,
+                #11,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3675,7 +3675,7 @@ TestSnapshot {
         (
             (
                 Atom('type' type=static),
-                #12,
+                #13,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3713,7 +3713,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -3791,84 +3791,6 @@ TestSnapshot {
         (
             (
                 Atom('useLang' type=inline),
-                #16,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 0,
-                cond_init: false,
-                declared: false,
-                declared_count: 0,
-                declared_as_fn_param: false,
-                declared_as_fn_expr: true,
-                assign_count: 0,
-                mutation_by_call_count: 0,
-                usage_count: 0,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: false,
-                has_property_access: false,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: false,
-                used_by_nested_fn: false,
-                executed_multiple_time: false,
-                used_in_cond: false,
-                var_kind: None,
-                var_initialized: false,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: false,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('useLink' type=inline),
-                #1,
-            ),
-            VarUsageInfo {
-                inline_prevented: true,
-                ref_count: 1,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: false,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 0,
-                usage_count: 1,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: false,
-                has_property_access: false,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: false,
-                executed_multiple_time: false,
-                used_in_cond: false,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: true,
-                used_as_callee: false,
-                used_as_arg: false,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('useLink' type=inline),
                 #17,
             ),
             VarUsageInfo {
@@ -3906,6 +3828,84 @@ TestSnapshot {
         ),
         (
             (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+            VarUsageInfo {
+                inline_prevented: true,
+                ref_count: 1,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: false,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 0,
+                usage_count: 1,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: false,
+                has_property_access: false,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: true,
+                used_by_nested_fn: false,
+                executed_multiple_time: false,
+                used_in_cond: false,
+                var_kind: Some(
+                    "var",
+                ),
+                var_initialized: true,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: true,
+                used_as_callee: false,
+                used_as_arg: false,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
+                Atom('useLink' type=inline),
+                #18,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
+                ref_count: 0,
+                cond_init: false,
+                declared: false,
+                declared_count: 0,
+                declared_as_fn_param: false,
+                declared_as_fn_expr: true,
+                assign_count: 0,
+                mutation_by_call_count: 0,
+                usage_count: 0,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: false,
+                has_property_access: false,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: false,
+                used_by_nested_fn: false,
+                executed_multiple_time: false,
+                used_in_cond: false,
+                var_kind: None,
+                var_initialized: false,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: false,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
                 Atom('useMeta' type=inline),
                 #1,
             ),
@@ -3947,7 +3947,7 @@ TestSnapshot {
         (
             (
                 Atom('useMeta' type=inline),
-                #26,
+                #27,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -4025,7 +4025,7 @@ TestSnapshot {
         (
             (
                 Atom('useTitle' type=dynamic),
-                #27,
+                #28,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -4103,7 +4103,7 @@ TestSnapshot {
         (
             (
                 Atom('useTitleTemplate' type=dynamic),
-                #28,
+                #29,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -4141,7 +4141,7 @@ TestSnapshot {
         (
             (
                 Atom('visited' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -4181,7 +4181,7 @@ TestSnapshot {
         (
             (
                 Atom('visited' type=inline),
-                #13,
+                #14,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -4221,7 +4221,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #20,
+                #21,
             ),
             VarUsageInfo {
                 inline_prevented: false,

@@ -13,7 +13,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 use walkdir::WalkDir;
 
@@ -29,7 +29,8 @@ fn main() {
                     GLOBALS.set(globals, || {
                         let fm = cm.load_file(&path).expect("failed to load file");
 
-                        let top_level_mark = Mark::fresh(Mark::root());
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
 
                         let program = parse_file_as_module(
                             &fm,
@@ -41,7 +42,9 @@ fn main() {
                         .map_err(|err| {
                             err.into_diagnostic(&handler).emit();
                         })
-                        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
+                        .map(|module| {
+                            module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
+                        })
                         .unwrap();
 
                         let output = optimize(
@@ -57,7 +60,10 @@ fn main() {
                                 }),
                                 ..Default::default()
                             },
-                            &ExtraOptions { top_level_mark },
+                            &ExtraOptions {
+                                unresolved_mark,
+                                top_level_mark,
+                            },
                         );
 
                         let output = output.fold_with(&mut fixer(None));

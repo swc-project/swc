@@ -411,7 +411,7 @@ where
                             *e = Expr::Ident(Ident::new(
                                 js_word!("NaN"),
                                 bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.top_level_mark),
+                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                                 ),
                             ));
                         }

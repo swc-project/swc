@@ -2,7 +2,7 @@
 
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator, es2018, es2021, es2022,
 };
@@ -14,9 +14,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
     chain!(
-        resolver(),
-        regenerator(Default::default(), Mark::fresh(Mark::root()))
+        resolver(unresolved_mark, top_level_mark, false),
+        regenerator(Default::default(), unresolved_mark)
     )
 }
 

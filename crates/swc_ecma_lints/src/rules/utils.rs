@@ -1,10 +1,9 @@
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::{
-    Expr, Id, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
+    Expr, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
 };
-use swc_ecma_utils::ident::IdentLike;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -52,11 +51,7 @@ pub enum ArgValue {
     Other,
 }
 
-pub fn extract_arg_val(
-    top_level_ctxt: &SyntaxContext,
-    top_level_declared_vars: &AHashSet<Id>,
-    expr: &Expr,
-) -> ArgValue {
+pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue {
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
         Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(value.clone()),
@@ -84,11 +79,7 @@ pub fn extract_arg_val(
                             return ArgValue::Other;
                         }
 
-                        if obj.span.ctxt != *top_level_ctxt {
-                            return ArgValue::Other;
-                        }
-
-                        if top_level_declared_vars.contains(&obj.to_id()) {
+                        if obj.span.ctxt != unresolved_ctxt {
                             return ArgValue::Other;
                         }
 

@@ -46,6 +46,7 @@ use non_critical_lints::*;
 pub struct LintParams<'a> {
     pub program: &'a Program,
     pub lint_config: &'a LintConfig,
+    pub unresolved_ctxt: SyntaxContext,
     pub top_level_ctxt: SyntaxContext,
     pub es_version: EsVersion,
     pub source_map: Arc<SourceMap>,
@@ -64,7 +65,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         let LintParams {
             program,
             lint_config,
-            top_level_ctxt,
+            unresolved_ctxt,
+            top_level_ctxt: _,
             es_version,
             source_map,
         } = lint_params;
@@ -75,13 +77,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_console::no_console(
             &lint_config.no_console,
-            top_level_ctxt,
+            unresolved_ctxt,
         ));
 
         rules.extend(no_alert::no_alert(
-            program,
             &lint_config.no_alert,
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ));
 
@@ -90,9 +91,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(quotes::quotes(&lint_config.quotes));
 
         rules.extend(prefer_regex_literals::prefer_regex_literals(
-            program,
             &lint_config.prefer_regex_literals,
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ));
 
@@ -120,7 +120,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &lint_config.no_restricted_syntax,
         ));
 
-        rules.extend(radix::radix(program, top_level_ctxt, &lint_config.radix));
+        rules.extend(radix::radix(unresolved_ctxt, &lint_config.radix));
 
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
 
@@ -131,14 +131,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(yoda::yoda(&lint_config.yoda));
 
         rules.extend(no_new_symbol::no_new_symbol(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.no_new_symbol,
         ));
 
         rules.extend(use_is_nan::use_is_nan(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.use_isnan,
         ));
 
@@ -149,14 +147,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(symbol_description::symbol_description(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.symbol_description,
         ));
 
         rules.extend(no_obj_calls::no_obj_calls(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.no_obj_calls,
         ));
     }

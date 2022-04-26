@@ -16,7 +16,7 @@ use swc_ecma_codegen::{
     Emitter,
 };
 use swc_ecma_minifier::option::MangleOptions;
-use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
@@ -1047,9 +1047,10 @@ fn bundle(url: &str, minify: bool) -> String {
             let mut module = output.into_iter().next().unwrap().module;
 
             if minify {
-                let top_level_mark = Mark::fresh(Mark::root());
+                let unresolved_mark = Mark::new();
+                let top_level_mark = Mark::new();
 
-                module.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+                module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
                 module = swc_ecma_minifier::optimize(
                     module,
@@ -1064,7 +1065,10 @@ fn bundle(url: &str, minify: bool) -> String {
                         }),
                         ..Default::default()
                     },
-                    &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
+                    &swc_ecma_minifier::option::ExtraOptions {
+                        unresolved_mark,
+                        top_level_mark,
+                    },
                 );
                 module.visit_mut_with(&mut fixer(None));
             }

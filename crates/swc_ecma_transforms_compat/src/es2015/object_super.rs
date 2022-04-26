@@ -485,7 +485,7 @@ impl SuperReplacer {
 mod tests {
     use swc_common::{chain, Mark};
     use swc_ecma_parser::{EsConfig, Syntax};
-    use swc_ecma_transforms_base::resolver::resolver_with_mark;
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
@@ -493,9 +493,10 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(unresolved_mark, top_level_mark, false),
                 object_super(),
                 shorthand(),
                 function_name(),
@@ -517,9 +518,8 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
                 function_name(),
@@ -541,9 +541,8 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
                 function_name(),
@@ -566,9 +565,8 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
                 function_name(),
@@ -604,9 +602,8 @@ mod tests {
             ..Default::default()
         }),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
                 function_name(),

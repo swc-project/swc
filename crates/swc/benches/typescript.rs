@@ -10,7 +10,7 @@ use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, resolver_with_mark, typescript};
+use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
 static SOURCE: &str = include_str!("assets/Observable.ts");
@@ -45,10 +45,12 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
 
 fn as_es(c: &swc::Compiler) -> Program {
     let program = parse(c).1;
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     program
-        .fold_with(&mut resolver_with_mark(mark))
-        .fold_with(&mut typescript::strip(mark))
+        .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+        .fold_with(&mut typescript::strip(top_level_mark))
 }
 
 fn base_tr_group(c: &mut Criterion) {
@@ -83,7 +85,7 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
             black_box(c.run_transform(&handler, true, || {
                 module
                     .clone()
-                    .fold_with(&mut resolver())
+                    .fold_with(&mut resolver(Mark::new(), Mark::new(), false))
                     .fold_with(&mut hygiene())
             }))
         });

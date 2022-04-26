@@ -1,7 +1,7 @@
-export default function foo() {
-    foo = function foo__2(x__2) {
+export default function foo__1() {
+    foo__1 = function foo__2(x__2) {
         return x__2 === 0 ? 1 : 1 + foo__2(x__2 - 1);
     };
-    return foo(10);
+    return foo__1(10);
 };
-foo = 2;
+foo__1 = 2;

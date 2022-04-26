@@ -1,5 +1,7 @@
 #![deny(clippy::all)]
 
+pub use self::resolver::resolver;
+
 #[doc(hidden)]
 pub mod ext;
 pub mod fixer;
@@ -12,7 +14,7 @@ pub mod native;
 pub mod pass;
 pub mod perf;
 pub mod quote;
-pub mod resolver;
+mod resolver;
 pub mod scope;
 #[cfg(test)]
 mod tests;

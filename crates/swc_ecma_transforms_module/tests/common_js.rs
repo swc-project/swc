@@ -3,12 +3,7 @@ use std::{cell::RefCell, path::PathBuf, rc::Rc};
 use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    fixer::fixer,
-    helpers::inject_helpers,
-    hygiene::hygiene,
-    resolver::{resolver, resolver_with_mark},
-};
+use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{
         block_scoped_functions, block_scoping, classes, destructuring, for_of, parameters,
@@ -37,12 +32,13 @@ fn ts_syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     chain!(
-        resolver_with_mark(mark),
+        resolver(unresolved_mark, top_level_mark, false),
         module_hoister(),
-        common_js(mark, config, None)
+        common_js(unresolved_mark, config, None)
     )
 }
 
@@ -98,15 +94,16 @@ _foo.default.bar = true;
 test!(
     syntax(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            resolver_with_mark(mark),
+            resolver(unresolved_mark, top_level_mark, false),
             // Optional::new(typescript::strip(mark), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
-            common_js(mark, Default::default(), Some(scope)),
+            common_js(unresolved_mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
         )
@@ -4139,13 +4136,14 @@ function foo() {
 test!(
     syntax(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            resolver_with_mark(mark),
+            resolver(unresolved_mark, top_level_mark, false),
             block_scoped_functions(),
             block_scoping(),
-            common_js(mark, Default::default(), None),
+            common_js(unresolved_mark, Default::default(), None),
         )
     },
     issue_396_2,
@@ -4550,13 +4548,18 @@ export * from './pipes';
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        block_scoping(),
-        classes(Some(t.comments.clone()), Default::default()),
-        destructuring(Default::default()),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            block_scoping(),
+            classes(Some(t.comments.clone()), Default::default()),
+            destructuring(Default::default()),
+            common_js(unresolved_mark, Default::default(), None)
+        )
+    },
     issue_578_2,
     "
 import { myFunction } from './dep.js'
@@ -4644,12 +4647,17 @@ console.log(elm);
 // regression_t7178
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        object_rest_spread(Default::default()),
-        destructuring(destructuring::Config { loose: false }),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            object_rest_spread(Default::default()),
+            destructuring(destructuring::Config { loose: false }),
+            common_js(unresolved_mark, Default::default(), None),
+        )
+    },
     regression_t7178,
     r#"
 import props from "props";
@@ -4759,11 +4767,16 @@ var _a1;
 // regression_6733
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        regenerator(Default::default(), Mark::fresh(Mark::root())),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            regenerator(Default::default(), Mark::fresh(Mark::root())),
+            common_js(unresolved_mark, Default::default(), None)
+        )
+    },
     regression_6733,
     r#"
 export default function * () {
@@ -4802,11 +4815,11 @@ return 5;
 test!(
     syntax(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
 
         chain!(
-            regenerator(Default::default(), mark),
-            common_js(mark, Default::default(), None),
+            regenerator(Default::default(), unresolved_mark),
+            common_js(unresolved_mark, Default::default(), None),
         )
     },
     issue_831_2,

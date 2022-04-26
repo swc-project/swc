@@ -1,7 +1,7 @@
-function _setPrototypeOf(o__2, p__2) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf__3(o__3, p__3) {
-        o__3.__proto__ = p__3;
-        return o__3;
+function _setPrototypeOf__1(o__2, p__2) {
+    _setPrototypeOf__1 = Object.setPrototypeOf || function _setPrototypeOf__4(o__4, p__4) {
+        o__4.__proto__ = p__4;
+        return o__4;
     };
-    return _setPrototypeOf(o__2, p__2);
+    return _setPrototypeOf__1(o__2, p__2);
 }

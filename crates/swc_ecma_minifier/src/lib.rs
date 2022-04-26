@@ -28,7 +28,7 @@
 
 use compress::pure_optimizer;
 use mode::Mode;
-use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -76,10 +76,8 @@ pub fn optimize(
 ) -> Module {
     let _timer = timer!("minify");
 
-    let top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
-
     let mut marks = Marks::new();
-    marks.top_level_mark = extra.top_level_mark;
+    marks.unresolved_mark = extra.unresolved_mark;
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         let _timer = timer!("inline global defs");
@@ -91,7 +89,11 @@ pub fn optimize(
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
-            m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
+            m.visit_mut_with(&mut global_defs::globals_defs(
+                defs,
+                extra.unresolved_mark,
+                extra.top_level_mark,
+            ));
         }
     }
 
@@ -102,7 +104,7 @@ pub fn optimize(
     }
 
     if options.compress.is_some() {
-        m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+        m.visit_mut_with(&mut info_marker(comments, marks, extra.unresolved_mark));
     }
     m.visit_mut_with(&mut unique_scope());
 
@@ -172,7 +174,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks, top_level_ctxt));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {

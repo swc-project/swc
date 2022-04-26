@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('core_concat' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('disableScript' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('findOrAppend' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -313,7 +313,7 @@ TestSnapshot {
         (
             (
                 Atom('getAll' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -471,7 +471,7 @@ TestSnapshot {
         (
             (
                 Atom('index' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -549,7 +549,7 @@ TestSnapshot {
         (
             (
                 Atom('jQuery' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -707,7 +707,7 @@ TestSnapshot {
         (
             (
                 Atom('rchecked' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -745,7 +745,7 @@ TestSnapshot {
         (
             (
                 Atom('rcleanScript' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -783,7 +783,7 @@ TestSnapshot {
         (
             (
                 Atom('restoreScript' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -821,7 +821,7 @@ TestSnapshot {
         (
             (
                 Atom('rscriptType' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -899,7 +899,7 @@ TestSnapshot {
         (
             (
                 Atom('self' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1017,7 +1017,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

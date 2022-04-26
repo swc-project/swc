@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('__webpack_exports__' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('__webpack_require__' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('_query' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -237,7 +237,7 @@ TestSnapshot {
         (
             (
                 Atom('branches' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -277,7 +277,7 @@ TestSnapshot {
         (
             (
                 Atom('endpoint' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -395,7 +395,7 @@ TestSnapshot {
         (
             (
                 Atom('opts' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -433,7 +433,7 @@ TestSnapshot {
         (
             (
                 Atom('param' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -471,7 +471,7 @@ TestSnapshot {
         (
             (
                 Atom('projectId' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -509,7 +509,7 @@ TestSnapshot {
         (
             (
                 Atom('projectId' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -549,7 +549,7 @@ TestSnapshot {
         (
             (
                 Atom('projectInfo' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -589,7 +589,7 @@ TestSnapshot {
         (
             (
                 Atom('projectName' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -669,7 +669,7 @@ TestSnapshot {
         (
             (
                 Atom('ref' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -709,7 +709,7 @@ TestSnapshot {
         (
             (
                 Atom('ref' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -749,7 +749,7 @@ TestSnapshot {
         (
             (
                 Atom('ref1' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -789,7 +789,7 @@ TestSnapshot {
         (
             (
                 Atom('ref2' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -869,7 +869,7 @@ TestSnapshot {
         (
             (
                 Atom('team' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -909,7 +909,7 @@ TestSnapshot {
         (
             (
                 Atom('teamId' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -949,7 +949,7 @@ TestSnapshot {
         (
             (
                 Atom('teamSlug' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -989,7 +989,7 @@ TestSnapshot {
         (
             (
                 Atom('token' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

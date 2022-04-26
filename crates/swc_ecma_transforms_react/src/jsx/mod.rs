@@ -2,7 +2,6 @@
 
 use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
 
-use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -127,15 +126,9 @@ pub fn parse_expr_for_jsx(
     src: String,
     top_level_mark: Mark,
 ) -> Arc<Box<Expr>> {
-    static CACHE: Lazy<DashMap<(String, Mark), Arc<Box<Expr>>, ahash::RandomState>> =
-        Lazy::new(|| DashMap::with_capacity_and_hasher(2, Default::default()));
-
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&((*fm.src).clone(), top_level_mark)) {
-        return expr.clone();
-    }
 
-    let expr = parse_file_as_expr(
+    parse_file_as_expr(
         &fm,
         Syntax::default(),
         Default::default(),
@@ -162,11 +155,7 @@ pub fn parse_expr_for_jsx(
             "failed to parse jsx option {}: '{}' is not an expression",
             name, fm.src,
         )
-    });
-
-    CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
-
-    expr
+    })
 }
 
 fn apply_mark(e: &mut Expr, mark: Mark) {
@@ -188,6 +177,19 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 ///
 /// `top_level_mark` should be [Mark] passed to
 /// [swc_ecma_transforms_base::resolver::resolver_with_mark].
+///
+///
+/// # Parameters
+///
+/// ## `top_level_ctxt`
+///
+/// This is used to reference `React` defined by the user.
+///
+/// e.g.
+///
+/// ```js
+/// import React from 'react';
+/// ```
 pub fn jsx<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,

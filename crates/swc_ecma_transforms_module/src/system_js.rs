@@ -21,7 +21,7 @@ pub struct Config {
 }
 
 struct SystemJs {
-    root_mark: Mark,
+    unresolved_mark: Mark,
     resolver: Resolver,
     config: Config,
 
@@ -39,9 +39,9 @@ struct SystemJs {
     context_ident: Ident,
 }
 
-pub fn system_js(root_mark: Mark, config: Config) -> impl Fold {
+pub fn system_js(unresolved_mark: Mark, config: Config) -> impl Fold {
     SystemJs {
-        root_mark,
+        unresolved_mark,
         resolver: Resolver::Default,
         config,
 
@@ -63,11 +63,11 @@ pub fn system_js(root_mark: Mark, config: Config) -> impl Fold {
 pub fn system_js_with_resolver(
     resolver: Box<dyn ImportResolver>,
     base: FileName,
-    root_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
 ) -> impl Fold {
     SystemJs {
-        root_mark,
+        unresolved_mark,
         resolver: Resolver::Real { base, resolver },
         config,
 
@@ -105,7 +105,7 @@ impl SystemJs {
     }
 
     fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
-        if &*ident.sym == "__moduleName" && ident.span.ctxt().outer() == self.root_mark {
+        if &*ident.sym == "__moduleName" && ident.span.ctxt().outer() == self.unresolved_mark {
             return self.context_ident.clone().make_member(quote_ident!("id"));
         }
         Expr::Ident(ident)

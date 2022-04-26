@@ -1,6 +1,6 @@
-function f2() {
-    function f__2(x__3: T): T {
-        interface T__3 {
+function f2__1() {
+    function f__2(x__4: T): T {
+        interface T__4 {
         }
         return undefined;
     }

@@ -3,7 +3,7 @@ use std::{fs, path::PathBuf};
 use swc_common::{chain, Mark, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use swc_webpack_ast::reducer::ast_reducer;
@@ -18,11 +18,12 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         &|_| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver_with_mark(top_level_mark),
-                as_folder(ast_reducer(top_level_mark)),
+                resolver(unresolved_mark, top_level_mark, false),
+                as_folder(ast_reducer(unresolved_mark)),
                 as_folder(AssertValid)
             )
         },
@@ -118,10 +119,11 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         let mut pass = {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(unresolved_mark, top_level_mark, false),
                 as_folder(ast_reducer(top_level_mark))
             )
         };

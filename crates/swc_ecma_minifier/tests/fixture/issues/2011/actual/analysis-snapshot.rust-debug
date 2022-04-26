@@ -43,7 +43,7 @@ TestSnapshot {
         (
             (
                 Atom('ClassA' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -81,7 +81,7 @@ TestSnapshot {
         (
             (
                 Atom('ClassB' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -121,7 +121,7 @@ TestSnapshot {
         (
             (
                 Atom('ClassB' type=inline),
-                #8,
+                #9,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -197,7 +197,7 @@ TestSnapshot {
         (
             (
                 Atom('Constructor' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -235,7 +235,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -273,7 +273,7 @@ TestSnapshot {
         (
             (
                 Atom('TypeError' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -463,7 +463,7 @@ TestSnapshot {
         (
             (
                 Atom('descriptor' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -503,7 +503,7 @@ TestSnapshot {
         (
             (
                 Atom('i' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -581,7 +581,7 @@ TestSnapshot {
         (
             (
                 Atom('it' type=inline),
-                #9,
+                #10,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -619,7 +619,7 @@ TestSnapshot {
         (
             (
                 Atom('key' type=static),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -657,7 +657,7 @@ TestSnapshot {
         (
             (
                 Atom('module' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -695,7 +695,7 @@ TestSnapshot {
         (
             (
                 Atom('obj' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -733,7 +733,7 @@ TestSnapshot {
         (
             (
                 Atom('props' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -771,7 +771,7 @@ TestSnapshot {
         (
             (
                 Atom('protoProps' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -809,7 +809,7 @@ TestSnapshot {
         (
             (
                 Atom('staticProps' type=dynamic),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -847,7 +847,7 @@ TestSnapshot {
         (
             (
                 Atom('target' type=static),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -885,7 +885,7 @@ TestSnapshot {
         (
             (
                 Atom('value' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,

@@ -24,14 +24,15 @@ use super::util::{
 };
 use crate::path::{ImportResolver, Resolver};
 
+/// See [common_js_with_resolver] for docs.
 pub fn common_js(
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
 ) -> impl Fold {
     let scope = scope.unwrap_or_default();
     CommonJs {
-        top_level_mark,
+        unresolved_mark,
         config,
         scope,
         in_top_level: Default::default(),
@@ -40,17 +41,24 @@ pub fn common_js(
     }
 }
 
+/// # Paramteres
+///
+/// ## `unresolved_mark`
+///
+/// Used to generate `require` call. This is required because the generated
+/// `require` shuold not be shadowned by a declaration named `require` in the
+/// same file.
 pub fn common_js_with_resolver(
     resolver: Box<dyn ImportResolver>,
     base: FileName,
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
 ) -> impl Fold {
     let scope = scope.unwrap_or_default();
 
     CommonJs {
-        top_level_mark,
+        unresolved_mark,
         config,
         scope,
         in_top_level: Default::default(),
@@ -133,7 +141,7 @@ impl Visit for LazyIdentifierVisitor {
 }
 
 struct CommonJs {
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
@@ -806,7 +814,7 @@ impl Fold for CommonJs {
 
             let require =
                 self.resolver
-                    .make_require_call(self.top_level_mark, src.clone(), src_span);
+                    .make_require_call(self.unresolved_mark, src.clone(), src_span);
 
             match import {
                 Some(import) => {
@@ -962,7 +970,7 @@ impl Fold for CommonJs {
                             args: vec![Ident::new(
                                 "__filename".into(),
                                 DUMMY_SP.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.top_level_mark),
+                                    SyntaxContext::empty().apply_mark(self.unresolved_mark),
                                 ),
                             )
                             .as_arg()],

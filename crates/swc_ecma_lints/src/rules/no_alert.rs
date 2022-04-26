@@ -1,7 +1,6 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -14,9 +13,8 @@ const GLOBAL_THIS_PROP: &str = "globalThis";
 const OBJ_NAMES: &[&str] = &["window", GLOBAL_THIS_PROP];
 
 pub fn no_alert(
-    program: &Program,
     config: &RuleConfig<()>,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     es_version: EsVersion,
 ) -> Option<Box<dyn Rule>> {
     let rule_reaction = config.get_rule_reaction();
@@ -25,8 +23,7 @@ pub fn no_alert(
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoAlert::new(
             rule_reaction,
-            collect_decls_with_ctxt(program, top_level_ctxt),
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ))),
     }
@@ -35,8 +32,7 @@ pub fn no_alert(
 #[derive(Debug, Default)]
 struct NoAlert {
     expected_reaction: LintRuleReaction,
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: AHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
     pass_call_on_global_this: bool,
     inside_callee: bool,
     classes_depth: usize,
@@ -49,14 +45,12 @@ struct NoAlert {
 impl NoAlert {
     fn new(
         expected_reaction: LintRuleReaction,
-        top_level_declared_vars: AHashSet<Id>,
-        top_level_ctxt: SyntaxContext,
+        unresolved_ctxt: SyntaxContext,
         es_version: EsVersion,
     ) -> Self {
         Self {
             expected_reaction,
-            top_level_ctxt,
-            top_level_declared_vars,
+            unresolved_ctxt,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
             inside_callee: false,
             classes_depth: 0,
@@ -114,11 +108,7 @@ impl NoAlert {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.span.ctxt != self.top_level_ctxt {
-            return false;
-        }
-
-        if self.top_level_declared_vars.contains(&ident.to_id()) {
+        if ident.span.ctxt != self.unresolved_ctxt {
             return false;
         }
 

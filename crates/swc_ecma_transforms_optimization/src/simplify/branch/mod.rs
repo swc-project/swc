@@ -23,7 +23,7 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover(_top_level_mark: Mark) -> impl RepeatedJsPass + VisitMut + 'static {
+pub fn dead_branch_remover(_unresolved_mark: Mark) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(Remover::default())
 }
 

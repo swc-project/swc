@@ -27,11 +27,18 @@ pub struct Config {
     pub import_path: Option<JsWord>,
 }
 
+/// # Paramters
+///
+/// ## `unresolved_mark`
+///
+/// `unresolved_mark` is used to generate `require` call, as the generated
+/// `require` should not be shadowed by other `require` declaration in the
+/// file.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
+pub fn regenerator(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(Regenerator {
         config,
-        top_level_mark,
+        unresolved_mark,
         regenerator_runtime: Default::default(),
         top_level_vars: Default::default(),
     })
@@ -40,14 +47,14 @@ pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut
 #[derive(Debug)]
 struct Regenerator {
     config: Config,
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
     /// mark
     top_level_vars: Vec<VarDeclarator>,
 }
 
-fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
+fn require_rt(unresolved_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
@@ -57,7 +64,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
             name: rt.into(),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
+                callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),
                 args: vec![src.unwrap_or_else(|| "regenerator-runtime".into()).as_arg()],
                 type_args: Default::default(),
             }))),
@@ -302,7 +309,7 @@ impl VisitMut for Regenerator {
             prepend(
                 &mut s.body,
                 require_rt(
-                    self.top_level_mark,
+                    self.unresolved_mark,
                     rt_ident,
                     self.config.import_path.clone(),
                 ),

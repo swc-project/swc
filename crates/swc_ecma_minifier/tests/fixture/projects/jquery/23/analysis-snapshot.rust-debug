@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('e' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -159,7 +159,7 @@ TestSnapshot {
         (
             (
                 Atom('isNaN' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -197,7 +197,7 @@ TestSnapshot {
         (
             (
                 Atom('jQuery' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -353,7 +353,7 @@ TestSnapshot {
         (
             (
                 Atom('parseFloat' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -431,7 +431,7 @@ TestSnapshot {
         (
             (
                 Atom('rrelNum' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -549,7 +549,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -625,7 +625,7 @@ TestSnapshot {
         (
             (
                 Atom('vendorPropName' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

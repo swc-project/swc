@@ -34,27 +34,6 @@ struct InlineEnum {
 impl VisitMut for InlineEnum {
     noop_visit_mut_type!();
 
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if !self.is_lhs {
-            if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
-                let lit = Self::get_enum_id(obj).and_then(|id| {
-                    let ts_enum_lit = self.ts_enum_lit.borrow();
-                    let k_v = ts_enum_lit.get(&id)?;
-                    let key = Self::get_member_key(prop)?;
-                    let lit = k_v.get(&key)?;
-                    Some(lit.clone())
-                });
-
-                if let Some(lit) = lit {
-                    *e = lit.into();
-                    return;
-                }
-            }
-        }
-
-        e.visit_mut_children_with(self);
-    }
-
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
         let is_lhs = self.is_lhs;
 
@@ -86,6 +65,27 @@ impl VisitMut for InlineEnum {
         a.value.visit_mut_with(self);
 
         self.is_lhs = is_lhs;
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if !self.is_lhs {
+            if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
+                let lit = Self::get_enum_id(obj).and_then(|id| {
+                    let ts_enum_lit = self.ts_enum_lit.borrow();
+                    let k_v = ts_enum_lit.get(&id)?;
+                    let key = Self::get_member_key(prop)?;
+                    let lit = k_v.get(&key)?;
+                    Some(lit.clone())
+                });
+
+                if let Some(lit) = lit {
+                    *e = lit.into();
+                    return;
+                }
+            }
+        }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {

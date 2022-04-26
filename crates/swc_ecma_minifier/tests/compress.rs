@@ -36,7 +36,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
@@ -172,7 +172,8 @@ fn run(
         }
     }
 
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     let minification_start = Instant::now();
 
@@ -192,7 +193,7 @@ fn run(
         .map_err(|err| {
             err.into_diagnostic(handler).emit();
         })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
 
     // Ignore parser errors.
     //
@@ -225,7 +226,10 @@ fn run(
             }),
             ..Default::default()
         },
-        &ExtraOptions { top_level_mark },
+        &ExtraOptions {
+            unresolved_mark,
+            top_level_mark,
+        },
     );
     let end = Instant::now();
     tracing::info!(

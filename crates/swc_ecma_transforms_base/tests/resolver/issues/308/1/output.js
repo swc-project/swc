@@ -1,9 +1,9 @@
-function bar(props__2) {}
-var Foo = function Foo1__3() {
+function bar__1(props__2) {}
+var Foo__1 = function Foo1__3() {
     _classCallCheck(this, Foo1__3);
     super();
     _defineProperty(this, 'onBar', ()=>{
-        bar();
+        bar__1();
     });
-    bar();
+    bar__1();
 };

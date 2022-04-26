@@ -5,7 +5,7 @@ use swc::config::IsModule;
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{compat::es2020, resolver_with_mark, typescript};
+use swc_ecma_transforms::{compat::es2020, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use swc_estree_compat::babelify::{Babelify, Context};
 
@@ -46,10 +46,12 @@ fn babelify_only(b: &mut Bencher) {
     let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
     let module = c.run_transform(&handler, false, || {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         module
-            .fold_with(&mut resolver_with_mark(mark))
-            .fold_with(&mut typescript::strip(mark))
+            .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+            .fold_with(&mut typescript::strip(top_level_mark))
             .fold_with(&mut es2020(Default::default()))
     });
 

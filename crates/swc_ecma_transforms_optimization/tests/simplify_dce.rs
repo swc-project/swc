@@ -1,6 +1,6 @@
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_proposal::decorators;
@@ -19,7 +19,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(), tr()),
+            |_| chain!(resolver(Mark::new(), Mark::new(), false), tr()),
             $name,
             $src,
             $expected
@@ -415,14 +415,16 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false
             }),
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             tr()
         )
     },
@@ -465,14 +467,16 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false
             }),
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             tr()
         )
     },
@@ -494,7 +498,12 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), tr()),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(resolver(unresolved_mark, top_level_mark, false), tr())
+    },
     issue_1150_1,
     "
 class A {
@@ -542,10 +551,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -591,10 +602,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -666,8 +679,14 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
-        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
+            tr(),
+        )
     },
     issue_1156_3,
     "
@@ -702,10 +721,12 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {

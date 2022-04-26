@@ -2,20 +2,20 @@
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
-fn simple_strip(mark: Mark) -> impl Fold {
+fn simple_strip(top_level_mark: Mark) -> impl Fold {
     strip::strip_with_config(
         strip::Config {
             no_empty_export: true,
             ..Default::default()
         },
-        mark,
+        top_level_mark,
     )
 }
 
@@ -23,7 +23,10 @@ macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), inlining(Default::default())),
+            |_| chain!(
+                resolver(Mark::new(), Mark::new(), false),
+                inlining(Default::default())
+            ),
             $name,
             $src,
             $expected
@@ -34,7 +37,10 @@ macro_rules! to {
         test!(
             ignore,
             Default::default(),
-            |_| chain!(resolver(), inlining(Default::default())),
+            |_| chain!(
+                resolver(Mark::new(), Mark::new(), false),
+                inlining(Default::default())
+            ),
             $name,
             $src,
             $expected
@@ -52,7 +58,15 @@ macro_rules! identical {
 fn test(src: &str, expected: &str) {
     swc_ecma_transforms_testing::test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), inlining(Default::default())),
+        |_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                inlining(Default::default())
+            )
+        },
         src,
         expected,
         true,
@@ -2155,10 +2169,11 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2204,10 +2219,11 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2279,10 +2295,11 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            simple_strip(top_level_mark),
             inlining(Default::default())
         )
     },
@@ -2330,10 +2347,11 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver(unresolved_mark, top_level_mark, false),
+            simple_strip(top_level_mark),
             inlining(Default::default())
         )
     },

@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
@@ -20,42 +19,32 @@ pub struct UseIsNanConfig {
 }
 
 pub fn use_is_nan(
-    program: &Program,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     config: &RuleConfig<UseIsNanConfig>,
 ) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(UseIsNan::new(
-            collect_decls_with_ctxt(program, top_level_ctxt),
-            top_level_ctxt,
-            config,
-        ))),
+        _ => Some(visitor_rule(UseIsNan::new(unresolved_ctxt, config))),
     }
 }
 
 #[derive(Debug, Default)]
 struct UseIsNan {
     expected_reaction: LintRuleReaction,
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: AHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
+
     enforce_for_switch_case: bool,
     enforce_for_index_of: bool,
     check_any_cast: bool,
 }
 
 impl UseIsNan {
-    fn new(
-        top_level_declared_vars: AHashSet<Id>,
-        top_level_ctxt: SyntaxContext,
-        config: &RuleConfig<UseIsNanConfig>,
-    ) -> Self {
+    fn new(unresolved_ctxt: SyntaxContext, config: &RuleConfig<UseIsNanConfig>) -> Self {
         let rule_config = config.get_rule_config();
 
         Self {
             expected_reaction: config.get_rule_reaction(),
-            top_level_declared_vars,
-            top_level_ctxt,
+            unresolved_ctxt,
             enforce_for_switch_case: rule_config.enforce_for_switch_case.unwrap_or(true),
             enforce_for_index_of: rule_config.enforce_for_index_of.unwrap_or(true),
             check_any_cast: rule_config.check_any_cast.unwrap_or(true),
@@ -104,11 +93,7 @@ impl UseIsNan {
                 obj, prop, span, ..
             }) => {
                 if let Expr::Ident(obj) = obj.as_ref() {
-                    if obj.span.ctxt != self.top_level_ctxt {
-                        return;
-                    }
-
-                    if self.top_level_declared_vars.contains(&obj.to_id()) {
+                    if obj.span.ctxt != self.unresolved_ctxt {
                         return;
                     }
 

@@ -33,12 +33,17 @@ impl Resolver {
         }
     }
 
-    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord, src_span: Span) -> Expr {
+    pub(crate) fn make_require_call(
+        &self,
+        unresolved_mark: Mark,
+        src: JsWord,
+        src_span: Span,
+    ) -> Expr {
         let src = self.resolve(src);
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
+            callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),
             args: vec![Lit::Str(Str {
                 span: src_span,
                 raw: None,

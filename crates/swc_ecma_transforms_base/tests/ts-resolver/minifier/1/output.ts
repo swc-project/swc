@@ -1,6 +1,6 @@
-function foo() {
+function foo__1() {
     try {
-        foo();
+        foo__1();
     } catch (ex__2) {
         let x__2 = 10;
         const y__2 = 10;

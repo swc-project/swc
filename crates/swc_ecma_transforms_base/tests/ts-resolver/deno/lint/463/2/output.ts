@@ -1,4 +1,4 @@
-function wrapper() {
+function wrapper__1() {
     function foo__2() {
         return new Bar__2();
     }
