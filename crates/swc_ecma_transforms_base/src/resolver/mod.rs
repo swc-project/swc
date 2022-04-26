@@ -1512,6 +1512,24 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.resolver.modify(&mut n.local, None);
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.resolver.modify(&mut n.local, None);
+    }
+
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.resolver.modify(&mut n.local, None);
+    }
+
     #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}
 
