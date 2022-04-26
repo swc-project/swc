@@ -13,7 +13,6 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::VisitMutWith;
 use testing::NormalizedOutput;
 

@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Id;
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
@@ -20,7 +20,8 @@ fn snapshot(input: PathBuf) {
         let fm = cm.load_file(&input).expect("failed to load input.js");
         let comments = SingleThreadedComments::default();
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         let marks = Marks::new();
 
@@ -37,7 +38,7 @@ fn snapshot(input: PathBuf) {
         .map_err(|err| {
             err.into_diagnostic(&handler).emit();
         })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
 
         let program = match program {
             Ok(program) => program,
