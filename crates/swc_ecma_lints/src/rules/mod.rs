@@ -66,7 +66,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             program,
             lint_config,
             unresolved_ctxt,
-            top_level_ctxt,
+            top_level_ctxt: _,
             es_version,
             source_map,
         } = lint_params;
@@ -136,8 +136,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(use_is_nan::use_is_nan(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.use_isnan,
         ));
 
