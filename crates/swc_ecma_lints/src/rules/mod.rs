@@ -93,7 +93,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(prefer_regex_literals::prefer_regex_literals(
             program,
             &lint_config.prefer_regex_literals,
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ));
 
@@ -121,7 +121,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &lint_config.no_restricted_syntax,
         ));
 
-        rules.extend(radix::radix(program, top_level_ctxt, &lint_config.radix));
+        rules.extend(radix::radix(program, unresolved_ctxt, &lint_config.radix));
 
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
 

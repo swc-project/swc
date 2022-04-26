@@ -1,12 +1,11 @@
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashSet,
     errors::{DiagnosticBuilder, HANDLER},
     Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -46,24 +45,19 @@ pub struct RadixConfig {
 
 pub fn radix(
     program: &Program,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     config: &RuleConfig<RadixConfig>,
 ) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(Radix::new(
-            collect_decls_with_ctxt(program, top_level_ctxt),
-            top_level_ctxt,
-            config,
-        ))),
+        _ => Some(visitor_rule(Radix::new(unresolved_ctxt, config))),
     }
 }
 
 #[derive(Default, Debug)]
 struct Radix {
     expected_reaction: LintRuleReaction,
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: AHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
 
     radix_mode: RadixMode,
     unwrap_parens_and_seqs: bool,
@@ -74,17 +68,12 @@ struct Radix {
 }
 
 impl Radix {
-    fn new(
-        top_level_declared_vars: AHashSet<Id>,
-        top_level_ctxt: SyntaxContext,
-        config: &RuleConfig<RadixConfig>,
-    ) -> Self {
+    fn new(unresolved_ctxt: SyntaxContext, config: &RuleConfig<RadixConfig>) -> Self {
         let rule_config = config.get_rule_config();
 
         Self {
             expected_reaction: config.get_rule_reaction(),
-            top_level_ctxt,
-            top_level_declared_vars,
+            unresolved_ctxt,
 
             radix_mode: rule_config.mode.unwrap_or_default(),
             unwrap_parens_and_seqs: rule_config.unwrap_parens_and_seqs.unwrap_or(true),
@@ -158,7 +147,7 @@ impl Radix {
                     expr.as_ref()
                 };
 
-                match &extract_arg_val(&self.top_level_ctxt, &self.top_level_declared_vars, expr) {
+                match &extract_arg_val(self.unresolved_ctxt, expr) {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
                         if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {

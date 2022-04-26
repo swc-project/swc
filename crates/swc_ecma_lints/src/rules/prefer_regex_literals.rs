@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -30,7 +29,7 @@ pub struct PreferRegexLiteralsConfig {
 pub fn prefer_regex_literals(
     program: &Program,
     config: &RuleConfig<PreferRegexLiteralsConfig>,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     es_version: EsVersion,
 ) -> Option<Box<dyn Rule>> {
     let rule_reaction = config.get_rule_reaction();
@@ -45,8 +44,7 @@ pub fn prefer_regex_literals(
         _ => Some(visitor_rule(PreferRegexLiterals::new(
             rule_reaction,
             disallow_redundant_wrapping,
-            collect_decls_with_ctxt(program, top_level_ctxt),
-            top_level_ctxt,
+            unresolved_ctxt,
             es_version,
         ))),
     }
@@ -56,8 +54,7 @@ pub fn prefer_regex_literals(
 struct PreferRegexLiterals {
     expected_reaction: LintRuleReaction,
     disallow_redundant_wrapping: bool,
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: AHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
     allow_global_this: bool,
     call_span: Option<Span>,
     first_arg: Option<ArgValue>,
@@ -68,15 +65,13 @@ impl PreferRegexLiterals {
     fn new(
         expected_reaction: LintRuleReaction,
         disallow_redundant_wrapping: bool,
-        top_level_declared_vars: AHashSet<Id>,
-        top_level_ctxt: SyntaxContext,
+        unresolved_ctxt: SyntaxContext,
         es_version: EsVersion,
     ) -> Self {
         Self {
             expected_reaction,
             disallow_redundant_wrapping,
-            top_level_ctxt,
-            top_level_declared_vars,
+            unresolved_ctxt,
             allow_global_this: es_version < EsVersion::Es2020,
             call_span: None,
             first_arg: None,
@@ -95,16 +90,14 @@ impl PreferRegexLiterals {
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
             self.first_arg = Some(extract_arg_val(
-                &self.top_level_ctxt,
-                &self.top_level_declared_vars,
+                self.unresolved_ctxt,
                 unwrap_seqs_and_parens(expr.as_ref()),
             ));
         }
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
             self.second_arg = Some(extract_arg_val(
-                &self.top_level_ctxt,
-                &self.top_level_declared_vars,
+                self.unresolved_ctxt,
                 unwrap_seqs_and_parens(expr.as_ref()),
             ));
         }
@@ -183,11 +176,7 @@ impl Visit for PreferRegexLiterals {
     }
 
     fn visit_ident(&mut self, ident: &Ident) {
-        if ident.span.ctxt != self.top_level_ctxt {
-            return;
-        }
-
-        if self.top_level_declared_vars.contains(&ident.to_id()) {
+        if ident.span.ctxt != self.unresolved_ctxt {
             return;
         }
 
@@ -208,11 +197,7 @@ impl Visit for PreferRegexLiterals {
         }
 
         if let Some(ident) = member_expr.obj.as_ident() {
-            if ident.span.ctxt != self.top_level_ctxt {
-                return;
-            }
-
-            if self.top_level_declared_vars.contains(&ident.to_id()) {
+            if ident.span.ctxt != self.unresolved_ctxt {
                 return;
             }
 
