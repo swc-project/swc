@@ -331,6 +331,16 @@ impl<'a> Resolver<'a> {
             span
         };
     }
+
+    fn try_resolving_as_type(&mut self, i: &mut Ident) {
+        if i.span.ctxt.outer() == self.config.unresolved_mark {
+            i.span.ctxt = SyntaxContext::empty()
+        }
+
+        self.in_type = true;
+        i.visit_mut_with(self);
+        self.in_type = false;
+    }
 }
 
 macro_rules! typed {
@@ -698,12 +708,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         if self.config.handle_types {
             if let Expr::Ident(i) = &mut *node.expr {
-                if i.span.ctxt.outer() == self.config.unresolved_mark {
-                    i.span.ctxt = SyntaxContext::empty()
-                }
-
-                self.in_type = true;
-                node.expr.visit_mut_with(self);
+                self.try_resolving_as_type(i);
             }
         }
     }
