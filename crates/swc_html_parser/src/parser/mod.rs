@@ -3669,76 +3669,10 @@ where
                         self.insert_html_element(token_and_info)?;
                     }
                     // Any other end tag
-                    //
-                    // Run these steps:
-                    //
-                    // 1. Initialize node to be the current node (the bottommost node of the stack).
-                    //
-                    // 2. Loop: If node is an HTML element with the same tag name as the token,
-                    // then:
-                    //
-                    //   1. Generate implied end tags, except for HTML elements with the same tag
-                    // name as the token.
-                    //
-                    //   2. If node is not the current node, then this is a parse error.
-                    //
-                    //   3. Pop all the nodes from the current node up to node, including node, then
-                    // stop these steps.
-                    //
-                    // 3. Otherwise, if node is in the special category, then this is a parse error;
-                    // ignore the token, and return.
-                    //
-                    // 4. Set node to the previous entry in the stack of open elements.
-                    //
-                    // 5. Return to the step labeled loop.
-                    Token::EndTag { tag_name, .. } => {
-                        let mut match_idx = None;
-
-                        // 1., 2., 4. and 5.
-                        for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
-                            if get_tag_name!(node) == tag_name
-                                && get_namespace!(node) == Namespace::HTML
-                            {
-                                match_idx = Some(i);
-
-                                break;
-                            }
-
-                            // 3.
-                            if self.is_special_element(node) {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-
-                                return Ok(());
-                            }
-                        }
-
-                        let match_idx = match match_idx {
-                            None => {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
-                                ));
-
-                                return Ok(());
-                            }
-                            Some(x) => x,
-                        };
-
-                        // 2. - 1.
-                        self.open_elements_stack
-                            .generate_implied_end_tags_with_exclusion(tag_name);
-
-                        // 2. - 2.
-                        if match_idx != self.open_elements_stack.items.len() - 1 {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        }
-
-                        // 2.- 3.
-                        self.open_elements_stack.items.truncate(match_idx);
+                    Token::EndTag { .. } => {
+                        self.any_other_end_tag_for_in_body_insertion_mode(
+                            &mut token_and_info.clone(),
+                        );
                     }
                 }
 
@@ -5955,6 +5889,79 @@ where
         Ok(())
     }
 
+    // Any other end tag
+    //
+    // Run these steps:
+    //
+    // 1. Initialize node to be the current node (the bottommost node of the stack).
+    //
+    // 2. Loop: If node is an HTML element with the same tag name as the token,
+    // then:
+    //
+    //   1. Generate implied end tags, except for HTML elements with the same tag
+    // name as the token.
+    //
+    //   2. If node is not the current node, then this is a parse error.
+    //
+    //   3. Pop all the nodes from the current node up to node, including node, then
+    // stop these steps.
+    //
+    // 3. Otherwise, if node is in the special category, then this is a parse error;
+    // ignore the token, and return.
+    //
+    // 4. Set node to the previous entry in the stack of open elements.
+    //
+    // 5. Return to the step labeled loop.
+    fn any_other_end_tag_for_in_body_insertion_mode(&mut self, token_and_info: &mut TokenAndInfo) {
+        let mut match_idx = None;
+        let tag_name = match &token_and_info.token {
+            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => &*tag_name,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // 1., 2., 4. and 5.
+        for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
+            if get_tag_name!(node) == tag_name && get_namespace!(node) == Namespace::HTML {
+                match_idx = Some(i);
+
+                break;
+            }
+
+            // 3.
+            if self.is_special_element(node) {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+                return;
+            }
+        }
+
+        let match_idx = match match_idx {
+            None => {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+                return;
+            }
+            Some(x) => x,
+        };
+
+        // 2. - 1.
+        self.open_elements_stack
+            .generate_implied_end_tags_with_exclusion(tag_name);
+
+        // 2. - 2.
+        if match_idx != self.open_elements_stack.items.len() - 1 {
+            self.errors
+                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+        }
+
+        // 2.- 3.
+        self.open_elements_stack.items.truncate(match_idx);
+    }
+
     fn process_token_using_rules(
         &mut self,
         token_and_info: &mut TokenAndInfo,
@@ -6253,113 +6260,180 @@ where
     // The adoption agency algorithm, which takes as its only argument a token token
     // for which the algorithm is being run, consists of the following steps:
     //
-    // Let subject be token's tag name.
+    // 1. Let subject be token's tag name.
     //
-    // If the current node is an HTML element whose tag name is subject, and the
+    // 2. If the current node is an HTML element whose tag name is subject, and the
     // current node is not in the list of active formatting elements, then pop the
     // current node off the stack of open elements and return.
     //
-    // Let outer loop counter be 0.
+    // 3. Let outer loop counter be 0.
     //
-    // While true:
+    // 4. While true:
     //
-    // If outer loop counter is greater than or equal to 8, then return.
+    //    1. If outer loop counter is greater than or equal to 8, then return.
     //
-    // Increment outer loop counter by 1.
+    //    2. Increment outer loop counter by 1.
     //
-    // Let formatting element be the last element in the list of active formatting
-    // elements that:
+    //    3. Let formatting element be the last element in the list of active
+    // formatting    elements that:
     //
-    // is between the end of the list and the last marker in the list, if any, or
-    // the start of the list otherwise, and has the tag name subject.
-    // If there is no such element, then return and instead act as described in the
-    // "any other end tag" entry above.
+    //        is between the end of the list and the last marker in the list, if
+    // any, or        the start of the list otherwise, and has the tag name
+    // subject.
     //
-    // If formatting element is not in the stack of open elements, then this is a
-    // parse error; remove the element from the list, and return.
+    //        If there is no such element, then return and instead act as described
+    // in the        "any other end tag" entry above.
     //
-    // If formatting element is in the stack of open elements, but the element is
-    // not in scope, then this is a parse error; return.
+    //    4. If formatting element is not in the stack of open elements, then this
+    // is a    parse error; remove the element from the list, and return.
     //
-    // If formatting element is not the current node, this is a parse error. (But do
-    // not return.)
+    //    5. If formatting element is in the stack of open elements, but the element
+    // is    not in scope, then this is a parse error; return.
     //
-    // Let furthest block be the topmost node in the stack of open elements that is
-    // lower in the stack than formatting element, and is an element in the special
-    // category. There might not be one.
+    //    6. If formatting element is not the current node, this is a parse error.
+    // (But do    not return.)
     //
-    // If there is no furthest block, then the UA must first pop all the nodes from
-    // the bottom of the stack of open elements, from the current node up to and
-    // including formatting element, then remove formatting element from the list of
-    // active formatting elements, and finally return.
+    //    7. Let furthest block be the topmost node in the stack of open elements
+    // that is    lower in the stack than formatting element, and is an element
+    // in the special    category. There might not be one.
     //
-    // Let common ancestor be the element immediately above formatting element in
-    // the stack of open elements.
+    //    8. If there is no furthest block, then the UA must first pop all the nodes
+    // from    the bottom of the stack of open elements, from the current node
+    // up to and    including formatting element, then remove formatting element
+    // from the list of    active formatting elements, and finally return.
     //
-    // Let a bookmark note the position of formatting element in the list of active
-    // formatting elements relative to the elements on either side of it in the
-    // list.
+    //    9. Let common ancestor be the element immediately above formatting element
+    // in    the stack of open elements.
     //
-    // Let node and last node be furthest block.
+    //    10. Let a bookmark note the position of formatting element in the list of
+    // active    formatting elements relative to the elements on either side of
+    // it in the    list.
     //
-    // Let inner loop counter be 0.
+    //    11. Let node and last node be furthest block.
     //
-    // While true:
+    //    12. Let inner loop counter be 0.
     //
-    // Increment inner loop counter by 1.
+    //    13. While true:
     //
-    // Let node be the element immediately above node in the stack of open elements,
-    // or if node is no longer in the stack of open elements (e.g. because it got
-    // removed by this algorithm), the element that was immediately above node in
-    // the stack of open elements before node was removed.
+    //        1. Increment inner loop counter by 1.
     //
-    // If node is formatting element, then break.
+    //        2. Let node be the element immediately above node in the stack of open
+    //          elements, or if node is no longer in the stack of open
+    //          elements (e.g. because it got removed by this algorithm), the
+    //          element that was immediately above node in the stack of open
+    //          elements before node was removed.
     //
-    // If inner loop counter is greater than 3 and node is in the list of active
-    // formatting elements, then remove node from the list of active formatting
-    // elements.
+    //        3. If node is formatting element, then break.
     //
-    // If node is not in the list of active formatting elements, then remove node
-    // from the stack of open elements and continue.
+    //        4. If inner loop counter is greater than 3 and node is in the list of
+    //          active formatting elements, then remove node from the list of
+    //          active formatting elements.
     //
-    // Create an element for the token for which the element node was created, in
-    // the HTML namespace, with common ancestor as the intended parent; replace the
-    // entry for node in the list of active formatting elements with an entry for
-    // the new element, replace the entry for node in the stack of open elements
-    // with an entry for the new element, and let node be the new element.
+    //        5. If node is not in the list of active formatting elements, then
+    //          remove node from the stack of open elements and continue.
     //
-    // If last node is furthest block, then move the aforementioned bookmark to be
-    // immediately after the new node in the list of active formatting elements.
+    //        6. Create an element for the token for which the element node was
+    //          created, in the HTML namespace, with common ancestor as the
+    //          intended parent; replace the entry for node in the list of active
+    //          formatting elements with an entry for the new element, replace the
+    //          entry for node in the stack of open elements with an entry for the
+    //          new element, and let node be the new element.
     //
-    // Append last node to node.
+    //        7. If last node is furthest block, then move the aforementioned
+    //          bookmark to be immediately after the new node in the list of
+    //          active formatting elements.
     //
-    // Set last node to node.
+    //        8. Append last node to node.
     //
-    // Insert whatever last node ended up being in the previous step at the
+    //        9. Set last node to node.
+    //
+    // 14. Insert whatever last node ended up being in the previous step at the
     // appropriate place for inserting a node, but using common ancestor as the
     // override target.
     //
-    // Create an element for the token for which formatting element was created, in
-    // the HTML namespace, with furthest block as the intended parent.
+    // 15, Create an element for the token for which formatting element was created,
+    // in the HTML namespace, with furthest block as the intended parent.
     //
-    // Take all of the child nodes of furthest block and append them to the element
-    // created in the last step.
+    // 16. Take all of the child nodes of furthest block and append them to the
+    // element created in the last step.
     //
-    // Append that new element to furthest block.
+    // 17. Append that new element to furthest block.
     //
-    // Remove formatting element from the list of active formatting elements, and
-    // insert the new element into the list of active formatting elements at the
-    // position of the aforementioned bookmark.
+    // 18. Remove formatting element from the list of active formatting elements,
+    // and insert the new element into the list of active formatting elements at
+    // the position of the aforementioned bookmark.
     //
-    // Remove formatting element from the stack of open elements, and insert the new
-    // element into the stack of open elements immediately below the position of
-    // furthest block in that stack.
+    // 19. Remove formatting element from the stack of open elements, and insert the
+    // new element into the stack of open elements immediately below the
+    // position of furthest block in that stack.
     //
     // This algorithm's name, the "adoption agency algorithm", comes from the way it
     // causes elements to change parents, and is in contrast with other possible
     // algorithms for dealing with misnested content.
-    fn run_the_adoption_agency_algorithm(&mut self, _subject: &mut TokenAndInfo) {
-        // TODO fix me
+    fn run_the_adoption_agency_algorithm(&mut self, token_and_info: &mut TokenAndInfo) {
+        // 1.
+        let subject = match &token_and_info.token {
+            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name.clone(),
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // 2.
+        let last = self.open_elements_stack.items.last();
+
+        if let Some(last) = last {
+            match &last.data {
+                Data::Element(element)
+                    if element.tag_name == subject
+                        && self.active_formatting_elements.get_position(last).is_none() =>
+                {
+                    self.open_elements_stack.pop();
+
+                    return;
+                }
+                _ => {}
+            }
+        }
+
+        // 3.
+        let mut counter = 0;
+
+        // 4.
+        loop {
+            // 4.1
+            if counter >= 8 {
+                return;
+            }
+
+            // 4.2
+            counter += 1;
+
+            // 4.3
+            let mut formatting_element = None;
+
+            for element in self.active_formatting_elements.items.iter().rev() {
+                match element {
+                    ActiveFormattingElement::Element(element, _) => match &element.data {
+                        Data::Element(element) if element.tag_name == subject => {
+                            formatting_element = Some(element);
+
+                            break;
+                        }
+                        _ => {}
+                    },
+                    ActiveFormattingElement::Marker => {
+                        break;
+                    }
+                }
+            }
+
+            if formatting_element.is_none() {
+                self.any_other_end_tag_for_in_body_insertion_mode(&mut token_and_info.clone());
+
+                return;
+            }
+        }
     }
 
     // When the steps below require the UA to reconstruct the active formatting
@@ -6399,17 +6473,15 @@ where
     // in the current body, cell, or caption (whichever is youngest) that haven't
     // been explicitly closed.
     fn reconstruct_active_formatting_elements(&mut self) -> PResult<()> {
-        {
-            let last = match self.active_formatting_elements.items.last() {
-                None => {
-                    return Ok(());
-                }
-                Some(x) => x,
-            };
-
-            if self.is_marker_or_open(last) {
+        let last = match self.active_formatting_elements.items.last() {
+            None => {
                 return Ok(());
             }
+            Some(x) => x,
+        };
+
+        if self.is_marker_or_open(last) {
+            return Ok(());
         }
 
         let mut entry_index = self.active_formatting_elements.items.len() - 1;
