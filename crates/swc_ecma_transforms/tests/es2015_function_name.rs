@@ -7,7 +7,7 @@
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, shorthand},
     es2022::class_properties,
@@ -22,7 +22,14 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    chain!(resolver(), function_name(), block_scoping())
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        function_name(),
+        block_scoping()
+    )
 }
 
 //macro_rules! identical {

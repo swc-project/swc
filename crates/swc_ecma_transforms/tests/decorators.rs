@@ -5321,15 +5321,20 @@ exports.default = _default;
 test!(
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_function_assignment,
     r#"
 var foo;
@@ -5382,15 +5387,20 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_shorthand_property,
     r#"
 var Utils = {
@@ -5446,15 +5456,20 @@ var obj = {
 test!(
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default()),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default()),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            })
+        )
+    },
     function_name_object,
     r#"
 var obj = {
@@ -5507,15 +5522,20 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default()),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default()),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            })
+        )
+    },
     function_name_export,
     r#"
 export var foo = "yes", foob = "no";
@@ -5571,15 +5591,20 @@ test!(
     // Cost of development is too high.
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default()),
+        )
+    },
     function_name_global,
     r#"
 var test = {
@@ -5612,16 +5637,21 @@ setInterval: function (_setInterval) {
 // function_name_modules
 test!(
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+            common_js(Mark::fresh(Mark::root()), Default::default(), None),
+        )
+    },
     function_name_modules,
     r#"
 import events from "events";
@@ -5665,15 +5695,20 @@ console.log(new Template().events());
 // function_name_eval
 test!(
     Default::default(),
-    |t| chain!(
-        resolver(),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default()),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        })
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default()),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            })
+        )
+    },
     function_name_eval,
     r#"
 var a = {
@@ -6111,10 +6146,11 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         |_t| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver_with_mark(top_level_mark),
+                resolver(unresolved_mark, top_level_mark, true),
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
