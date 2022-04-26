@@ -191,7 +191,10 @@ impl Evaluator {
                     prop: prop.clone(),
                 });
 
-                e.visit_mut_with(&mut expr_simplifier(ExprSimplifierConfig {}));
+                e.visit_mut_with(&mut expr_simplifier(
+                    self.marks.top_level_mark,
+                    ExprSimplifierConfig {},
+                ));
                 return Some(Box::new(e));
             }
             _ => {}

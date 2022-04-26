@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
-    Spanned, DUMMY_SP,
+    Mark, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
@@ -23,7 +23,7 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover() -> impl RepeatedJsPass + VisitMut + 'static {
+pub fn dead_branch_remover(_top_level_mark: Mark) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(Remover::default())
 }
 

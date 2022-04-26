@@ -4,7 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Span, Spanned, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
@@ -35,7 +35,10 @@ pub struct Config {}
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
-pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'static {
+pub fn expr_simplifier(
+    top_level_mark: Mark,
+    config: Config,
+) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(SimplifyExpr {
         config,
         changed: false,
@@ -43,12 +46,15 @@ pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'stat
         is_arg_of_update: false,
         is_modifying: false,
         in_callee: false,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
     })
 }
 
 #[derive(Debug)]
 struct SimplifyExpr {
+    top_level_ctxt: SyntaxContext,
     config: Config,
+
     changed: bool,
     /// Uninitialized variables.
     vars: Vec<VarDeclarator>,
@@ -1278,6 +1284,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut child = SimplifyExpr {
+            top_level_ctxt: self.top_level_ctxt,
             config: self.config,
             changed: Default::default(),
             vars: Default::default(),
@@ -1415,6 +1422,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let mut child = SimplifyExpr {
+            top_level_ctxt: self.top_level_ctxt,
             config: self.config,
             changed: Default::default(),
             vars: Default::default(),

@@ -42,6 +42,7 @@ where
 {
     pub fn new(mut input: I) -> Self {
         let last_pos = input.start_pos();
+
         Buffer {
             cur: None,
             peeked: None,
@@ -51,8 +52,6 @@ where
     }
 
     pub fn last_pos(&mut self) -> PResult<BytePos> {
-        self.cur()?;
-
         Ok(self.last_pos)
     }
 
@@ -84,8 +83,6 @@ where
         }
 
         let token = self.cur.take();
-
-        self.bump_inner()?;
 
         Ok(token)
     }

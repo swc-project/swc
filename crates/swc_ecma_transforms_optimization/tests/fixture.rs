@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, pass::Repeat};
+use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
@@ -67,7 +67,14 @@ fn expr(input: PathBuf) {
         Syntax::Es(EsConfig {
             ..Default::default()
         }),
-        &|t| chain!(remover(t), Repeat::new(expr_simplifier(Default::default()))),
+        &|t| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                remover(t),
+                Repeat::new(expr_simplifier(top_level_mark, Default::default()))
+            )
+        },
         &input,
         &output,
     );

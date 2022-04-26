@@ -1,13 +1,12 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
+#![deny(warnings)]
+
 use std::{cell::RefCell, rc::Rc};
 
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    helpers::inject_helpers,
-    resolver::{resolver, resolver_with_mark},
-};
+use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver_with_mark};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
@@ -22,7 +21,14 @@ use swc_ecma_transforms_typescript::strip;
 fn test(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), simplifier(Default::default())),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                simplifier(top_level_mark, Default::default())
+            )
+        },
         src,
         expected,
         true,
@@ -37,7 +43,14 @@ macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), simplifier(Default::default())),
+            |_| {
+                let top_level_mark = Mark::fresh(Mark::root());
+
+                chain!(
+                    resolver_with_mark(top_level_mark),
+                    simplifier(top_level_mark, Default::default())
+                )
+            },
             $name,
             $src,
             $expected
@@ -549,14 +562,14 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             decorators(Default::default()),
-            resolver_with_mark(mark),
-            strip(mark),
+            resolver_with_mark(top_level_mark),
+            strip(top_level_mark),
             class_properties(Some(t.comments.clone()), Default::default()),
-            simplifier(Default::default()),
+            simplifier(top_level_mark, Default::default()),
             es2018(Default::default()),
             es2017(Default::default()),
             es2016(),
@@ -590,7 +603,11 @@ _foo.default.bar = true;
 
 test!(
     Syntax::default(),
-    |_| expr_simplifier(Default::default()),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        expr_simplifier(top_level_mark, Default::default())
+    },
     issue_1619_1,
     r#"
     "use strict";
@@ -607,7 +624,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| dead_branch_remover(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        dead_branch_remover(top_level_mark)
+    },
     issue_2466_1,
     "
     const X = {
@@ -633,7 +654,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| dead_branch_remover(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        dead_branch_remover(top_level_mark)
+    },
     issue_4272,
     "
     function oe() {
@@ -651,10 +676,17 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| chain!(
-        resolver(),
-        Repeat::new(chain!(inlining(Default::default()), dead_branch_remover()))
-    ),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            resolver_with_mark(top_level_mark),
+            Repeat::new(chain!(
+                inlining(Default::default()),
+                dead_branch_remover(top_level_mark)
+            ))
+        )
+    },
     issue_4173,
     "
 function emit(type) {

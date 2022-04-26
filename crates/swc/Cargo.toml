@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.170.2"
+version = "0.171.0"
 
 [lib]
 bench = false
@@ -20,12 +20,6 @@ default = ["es3"]
 # You can disable this feature to reduce binary size.
 es3 = []
 
-concurrent = [
-  "swc_ecma_utils/concurrent",
-  "swc_ecma_transforms_base/concurrent",
-  "swc_ecma_transforms_compat/concurrent",
-  "swc_ecma_transforms_optimization/concurrent",
-]
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
 plugin = ["swc_plugin_runner", "swc_plugin_proxy/plugin-rt"]
@@ -62,10 +56,10 @@ swc_ecma_loader = {version = "0.29.0", path = "../swc_ecma_loader", features = [
   "node",
   "tsc",
 ]}
-swc_ecma_minifier = {version = "0.105.0", path = "../swc_ecma_minifier"}
+swc_ecma_minifier = {version = "0.106.0", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.102.0", path = "../swc_ecma_parser"}
-swc_ecma_preset_env = {version = "0.121.0", path = "../swc_ecma_preset_env"}
-swc_ecma_transforms = {version = "0.146.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = {version = "0.122.0", path = "../swc_ecma_preset_env"}
+swc_ecma_transforms = {version = "0.147.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -75,10 +69,10 @@ swc_ecma_transforms = {version = "0.146.0", path = "../swc_ecma_transforms", fea
 ]}
 swc_ecma_transforms_base = {version = "0.79.0", path = "../swc_ecma_transforms_base"}
 swc_ecma_transforms_compat = {version = "0.93.0", path = "../swc_ecma_transforms_compat"}
-swc_ecma_transforms_optimization = {version = "0.116.0", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_transforms_optimization = {version = "0.117.0", path = "../swc_ecma_transforms_optimization"}
 swc_ecma_utils = {version = "0.82.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.62.0", path = "../swc_ecma_visit"}
-swc_ecmascript = {version = "0.148.0", path = "../swc_ecmascript"}
+swc_ecmascript = {version = "0.149.0", path = "../swc_ecmascript"}
 swc_error_reporters = {version = "0.1.0", path = "../swc_error_reporters"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
 swc_plugin_proxy = {version = "0.2.1", path = "../swc_plugin_proxy", optional = true}
