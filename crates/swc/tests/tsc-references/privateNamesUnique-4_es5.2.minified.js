@@ -9,4 +9,3 @@ var A1 = function() {
         value: void 0
     });
 };
-a;

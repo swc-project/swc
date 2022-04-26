@@ -1,2 +1,1 @@
-MyComp;
 export { };

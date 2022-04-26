@@ -1,4 +1,4 @@
-var B, A;
+var B, A1;
 import * as swcHelpers from "@swc/helpers";
 !function(B1) {
     var a = A;
@@ -13,12 +13,12 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(a.C);
     B1.D = D;
-}(B || (B = {})), function(A1) {
+}(B || (B = {})), function(A) {
     var C = function() {
         "use strict";
         swcHelpers.classCallCheck(this, C);
     };
-    A1.C = C;
+    A.C = C;
     var b = B;
-    A1.b = b;
-}(A || (A = {})), new B.a.C();
+    A.b = b;
+}(A1 || (A1 = {})), new B.a.C();

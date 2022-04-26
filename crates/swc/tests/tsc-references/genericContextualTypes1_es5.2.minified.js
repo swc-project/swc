@@ -1,4 +1,4 @@
-list, wrap(list), wrap(function(x) {
+wrap(list), wrap(function(x) {
     return [
         x
     ];

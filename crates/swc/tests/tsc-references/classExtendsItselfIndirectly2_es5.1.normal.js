@@ -24,8 +24,8 @@ var M;
     }(C);
     M1.D = D;
 })(M || (M = {}));
-var N;
-(function(N1) {
+var _$N;
+(function(N) {
     var E = /*#__PURE__*/ function(_D) {
         "use strict";
         swcHelpers.inherits(E, _D);
@@ -36,8 +36,8 @@ var N;
         }
         return E;
     }(M.D);
-    N1.E = E;
-})(N || (N = {}));
+    N.E = E;
+})(_$N || (_$N = {}));
 var O;
 (function(O) {
     var C2 = /*#__PURE__*/ function(_E2) {
