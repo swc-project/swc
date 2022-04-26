@@ -132,7 +132,6 @@ impl Load for Loader {
             panic!("failed to parse")
         });
 
-        let mark = Mark::fresh(Mark::root());
         let module = HELPERS.set(&Helpers::new(false), || {
             module
                 .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
@@ -140,7 +139,7 @@ impl Load for Loader {
                     legacy: true,
                     emit_metadata: Default::default(),
                 }))
-                .fold_with(&mut strip(mark))
+                .fold_with(&mut strip(top_level_mark))
                 .fold_with(&mut react::<SingleThreadedComments>(
                     self.cm.clone(),
                     None,
