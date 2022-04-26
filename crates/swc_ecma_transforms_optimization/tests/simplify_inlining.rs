@@ -2,20 +2,20 @@
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
-fn simple_strip(mark: Mark) -> impl Fold {
+fn simple_strip(top_level_mark: Mark) -> impl Fold {
     strip::strip_with_config(
         strip::Config {
             no_empty_export: true,
             ..Default::default()
         },
-        mark,
+        top_level_mark,
     )
 }
 
@@ -2155,10 +2155,10 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver_with_mark(top_level_mark),
+            simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2204,10 +2204,10 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver_with_mark(top_level_mark),
+            simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2279,10 +2279,10 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver_with_mark(top_level_mark),
+            simple_strip(top_level_mark),
             inlining(Default::default())
         )
     },
@@ -2330,10 +2330,10 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(mark),
-            simple_strip(mark),
+            resolver_with_mark(top_level_mark),
+            simple_strip(top_level_mark),
             inlining(Default::default())
         )
     },
