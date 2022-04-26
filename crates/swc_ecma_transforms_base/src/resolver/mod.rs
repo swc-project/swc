@@ -83,6 +83,9 @@ const LOG: bool = true && cfg!(debug_assertions);
 ///
 /// [Mark] applied to top-level bindings.
 ///
+/// **NOTE**: This is **not** globals. This is for top level items declared by
+/// users.
+///
 /// A pass should accept this [Mark] if it requires user-defined top-level
 /// items.
 ///
