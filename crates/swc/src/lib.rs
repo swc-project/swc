@@ -472,6 +472,7 @@ impl Compiler {
                 && !src_map_buf.is_empty()
                 && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
                 && src.lines().count() >= 3
+                && option_env!("SWC_DEBUG") == Some("1")
             {
                 panic!("The module contains only dummy spans\n{}", src);
             }
