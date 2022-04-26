@@ -96,7 +96,7 @@ pub fn remove_default_attributes(element: &mut Element) {
     element
         .attributes
         .retain(|attribute| match &attribute.value {
-            Some(value) => is_default_attribute_value(
+            Some(value) => !is_default_attribute_value(
                 element.namespace,
                 &element.tag_name,
                 &attribute.name,
