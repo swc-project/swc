@@ -9,8 +9,7 @@ use std::{fs, path::PathBuf};
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms::resolver_with_mark;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{classes, function_name},
     es2022::class_properties,
@@ -55,16 +54,18 @@ fn ts_transform(t: &Tester) -> impl Fold {
 }
 
 fn simple_strip(t: &Tester, config: Config) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
         decorators(config),
-        resolver_with_mark(mark),
+        resolver(unresolved_mark, top_level_mark, false),
         strip::strip_with_config(
             strip::Config {
                 no_empty_export: true,
                 ..Default::default()
             },
-            mark
+            top_level_mark
         ),
         class_properties(
             Some(t.comments.clone()),
