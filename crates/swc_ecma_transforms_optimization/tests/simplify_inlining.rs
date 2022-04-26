@@ -2155,9 +2155,10 @@ test!(
         ..Default::default()
     }),
     |t| {
+        let unresolved_mark = Mark::new();
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
@@ -2204,9 +2205,10 @@ test!(
         ..Default::default()
     }),
     |t| {
+        let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             simple_strip(top_level_mark),
             class_properties(
                 Some(t.comments.clone()),
@@ -2279,9 +2281,10 @@ test!(
         ..Default::default()
     }),
     |_| {
+        let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             simple_strip(top_level_mark),
             inlining(Default::default())
         )
@@ -2330,9 +2333,10 @@ test!(
         ..Default::default()
     }),
     |_| {
+        let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(
-            resolver_with_mark(top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             simple_strip(top_level_mark),
             inlining(Default::default())
         )
