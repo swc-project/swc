@@ -5,6 +5,9 @@
 
 
 
+- **(es/ast)** Fix tag of `BigInt` (#4440) ([2813eaa](https://github.com/swc-project/swc/commit/2813eaadcd0703b9f8c11d77f91c70cd002c9296))
+
+
 - **(es/minifier)** Remove the last break in the last `BlockStmt` (#4413) ([83244ad](https://github.com/swc-project/swc/commit/83244add338c3dd1a1a84fec94b73d1931699cdb))
 
 
