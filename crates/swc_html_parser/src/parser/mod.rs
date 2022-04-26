@@ -3022,8 +3022,7 @@ where
 
                                 self.run_the_adoption_agency_algorithm(token_and_info);
                                 self.active_formatting_elements.remove(&remove);
-                                // TODO fix me
-                                // self.open_elements_stack.remove(&remove);
+                                self.open_elements_stack.remove(&remove);
                             }
                         }
 
@@ -6400,31 +6399,54 @@ where
     // in the current body, cell, or caption (whichever is youngest) that haven't
     // been explicitly closed.
     fn reconstruct_active_formatting_elements(&mut self) -> PResult<()> {
-        if self.active_formatting_elements.items.is_empty() {
-            return Ok(());
-        }
+        {
+            let last = match self.active_formatting_elements.items.last() {
+                None => {
+                    return Ok(());
+                }
+                Some(x) => x,
+            };
 
-        let last = match self.active_formatting_elements.items.last() {
-            Some(x) => x,
-            _ => {
+            if self.is_marker_or_open(last) {
                 return Ok(());
             }
-        };
-
-        if self.is_marker_or_open(last) {
-            return Ok(());
         }
 
-        let _entry = match last {
-            ActiveFormattingElement::Element(element, ..) => element,
-            _ => {
-                unreachable!();
+        let mut entry_index = self.active_formatting_elements.items.len() - 1;
+
+        loop {
+            if entry_index == 0 {
+                break;
             }
-        };
 
-        // TODO fix me
+            entry_index -= 1;
 
-        Ok(())
+            if self.is_marker_or_open(&self.active_formatting_elements.items[entry_index]) {
+                entry_index += 1;
+
+                break;
+            }
+        }
+
+        loop {
+            let mut token_and_info = match self.active_formatting_elements.items[entry_index] {
+                ActiveFormattingElement::Element(_, ref t) => t.clone(),
+                ActiveFormattingElement::Marker => {
+                    panic!("Found marker during formatting element reconstruction")
+                }
+            };
+
+            let new_element = self.insert_html_element(&mut token_and_info)?;
+
+            self.active_formatting_elements.items[entry_index] =
+                ActiveFormattingElement::Element(new_element, token_and_info);
+
+            if entry_index == self.active_formatting_elements.items.len() - 1 {
+                break Ok(());
+            }
+
+            entry_index += 1;
+        }
     }
 
     fn is_marker_or_open(&self, entry: &ActiveFormattingElement) -> bool {
