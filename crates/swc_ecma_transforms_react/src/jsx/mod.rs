@@ -188,6 +188,19 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 ///
 /// `top_level_mark` should be [Mark] passed to
 /// [swc_ecma_transforms_base::resolver::resolver_with_mark].
+///
+///
+/// # Parameters
+///
+/// ## `top_level_ctxt`
+///
+/// This is used to reference `React` defined by the user.
+///
+/// e.g.
+///
+/// ```js
+/// import React from 'react';
+/// ```
 pub fn jsx<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
