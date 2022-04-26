@@ -73,6 +73,9 @@
 
 - **(node/css)** Add css bindings crate (#4346) ([6a19ff1](https://github.com/swc-project/swc/commit/6a19ff1a152b67b15714c0290eb21ede878692e5))
 
+
+- **(preset-env/base)** Update "browserslist-rs" (#4435) ([1c2af93](https://github.com/swc-project/swc/commit/1c2af932b68cae34805b4ab789d6f2ccb4171fa4))
+
 ### Miscellaneous Tasks
 
 
