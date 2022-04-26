@@ -1494,10 +1494,12 @@ impl VisitMut for Hoister<'_, '_> {
                 }
 
                 Decl::TsEnum(e) => {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = false;
-                    self.resolver.modify(&mut e.id, None);
-                    self.resolver.in_type = old_in_type;
+                    if !self.in_block {
+                        let old_in_type = self.resolver.in_type;
+                        self.resolver.in_type = false;
+                        self.resolver.modify(&mut e.id, None);
+                        self.resolver.in_type = old_in_type;
+                    }
                 }
                 _ => {}
             }
