@@ -713,6 +713,19 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
+    fn visit_mut_export_named_specifier(&mut self, e: &mut ExportNamedSpecifier) {
+        e.visit_mut_children_with(self);
+
+        if self.config.handle_types {
+            match &mut e.orig {
+                ModuleExportName::Ident(orig) => {
+                    self.try_resolving_as_type(orig);
+                }
+                ModuleExportName::Str(_) => {}
+            }
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_expr").entered())
