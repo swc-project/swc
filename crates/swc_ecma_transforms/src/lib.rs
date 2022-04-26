@@ -27,8 +27,4 @@ pub use swc_ecma_transforms_react as react;
 #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
 pub use swc_ecma_transforms_typescript as typescript;
 
-pub use self::{
-    fixer::fixer,
-    hygiene::hygiene,
-    resolver::{resolver, resolver_with_mark},
-};
+pub use self::{fixer::fixer, hygiene::hygiene};
