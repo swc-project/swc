@@ -89,7 +89,11 @@ pub fn optimize(
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
-            m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.unresolved_mark));
+            m.visit_mut_with(&mut global_defs::globals_defs(
+                defs,
+                extra.unresolved_mark,
+                extra.top_level_mark,
+            ));
         }
     }
 

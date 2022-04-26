@@ -11,6 +11,9 @@ pub mod terser;
 pub struct ExtraOptions {
     /// It should be the [Mark] used for `resolver`.
     pub unresolved_mark: Mark,
+
+    /// It should be the [Mark] used for `resolver`.
+    pub top_level_mark: Mark,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

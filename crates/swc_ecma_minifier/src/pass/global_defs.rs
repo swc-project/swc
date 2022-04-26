@@ -4,10 +4,15 @@ use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
 
-pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, unresolved_mark: Mark) -> impl VisitMut {
+pub fn globals_defs(
+    defs: Vec<(Box<Expr>, Box<Expr>)>,
+    unresolved_mark: Mark,
+    top_level_mark: Mark,
+) -> impl VisitMut {
     GlobalDefs {
         defs,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         ..Default::default()
     }
 }
@@ -17,6 +22,7 @@ struct GlobalDefs {
     defs: Vec<(Box<Expr>, Box<Expr>)>,
 
     unresolved_ctxt: SyntaxContext,
+    top_level_ctxt: SyntaxContext,
 
     in_lhs_of_assign: bool,
 }
@@ -52,13 +58,13 @@ impl VisitMut for GlobalDefs {
 
         match n {
             Expr::Ident(i) => {
-                if i.span.ctxt != self.unresolved_ctxt {
+                if i.span.ctxt != self.unresolved_ctxt && i.span.ctxt != self.top_level_ctxt {
                     return;
                 }
             }
             Expr::Member(MemberExpr { obj, .. }) => {
                 if let Expr::Ident(i) = &**obj {
-                    if i.span.ctxt != self.unresolved_ctxt {
+                    if i.span.ctxt != self.unresolved_ctxt && i.span.ctxt != self.top_level_ctxt {
                         return;
                     }
                 }
