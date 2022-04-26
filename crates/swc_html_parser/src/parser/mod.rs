@@ -2993,39 +2993,37 @@ where
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
                     Token::StartTag { tag_name, .. } if tag_name == "a" => {
-                        // TODO fix me
                         if !self.active_formatting_elements.items.is_empty() {
-                            // let element = None;
-                            let has_anchor_element = false;
+                            let mut node = None;
 
-                            for _element in &self.active_formatting_elements.items {
-                                // if ($element instanceof Marker) {
-                                //     break;
-                                // } else if element instanceof
-                                // HTMLAnchorElement {
-                                //     element
-                                //
-                                //     break;
-                                // }
+                            for element in self.active_formatting_elements.items.iter().rev() {
+                                match element {
+                                    ActiveFormattingElement::Marker => {
+                                        break;
+                                    }
+                                    ActiveFormattingElement::Element(item, _) => match &item.data {
+                                        Data::Element(element) if &*element.tag_name == "a" => {
+                                            node = Some(item);
+
+                                            break;
+                                        }
+                                        _ => {}
+                                    },
+                                }
                             }
 
-                            if has_anchor_element {
+                            if let Some(element) = node {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::UnexpectedToken,
                                 ));
 
-                                self.run_the_adoption_agency_algorithm(token_and_info);
+                                let remove = element.clone();
 
-                                // if let Some(element) = &element {
-                                //     if self.active_formatting_elements.
-                                // contains(element) {
-                                //         self.active_formatting_elements.
-                                // remove(element);
-                                //         self.open_elements_stack.
-                                // remove(element);
-                                //     }
-                                // }
+                                self.run_the_adoption_agency_algorithm(token_and_info);
+                                self.active_formatting_elements.remove(&remove);
+                                // TODO fix me
+                                // self.open_elements_stack.remove(&remove);
                             }
                         }
 
@@ -6402,73 +6400,44 @@ where
     // in the current body, cell, or caption (whichever is youngest) that haven't
     // been explicitly closed.
     fn reconstruct_active_formatting_elements(&mut self) -> PResult<()> {
-        // TODO there is bug?
+        if self.active_formatting_elements.items.is_empty() {
+            return Ok(());
+        }
+
+        let last = match self.active_formatting_elements.items.last() {
+            Some(x) => x,
+            _ => {
+                return Ok(());
+            }
+        };
+
+        if self.is_marker_or_open(last) {
+            return Ok(());
+        }
+
+        let _entry = match last {
+            ActiveFormattingElement::Element(element, ..) => element,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // TODO fix me
+
         Ok(())
-        // {
-        //     let last = match self.active_formatting_elements.items.last() {
-        //         Some(x) => x,
-        //         _ => {
-        //             return Ok(());
-        //         }
-        //     };
-        //
-        //     if self.is_marker_or_open(last) {
-        //         return Ok(());
-        //     }
-        // }
-        //
-        // let mut entry_index = self.active_formatting_elements.items.len() -
-        // 1;
-        //
-        // loop {
-        //     if entry_index == 0 {
-        //         break;
-        //     }
-        //     entry_index -= 1;
-        //
-        //     if self.is_marker_or_open(&self.active_formatting_elements.
-        // items[entry_index]) {         entry_index += 1;
-        //
-        //         break;
-        //     }
-        // }
-        //
-        // loop {
-        //     let token_and_info = match
-        // self.active_formatting_elements.items[entry_index] {
-        //         ActiveFormattingElement::Element(_, ref t) => t.clone(),
-        //         ActiveFormattingElement::Marker => {
-        //             panic!("Found marker during formatting element
-        // reconstruction")         }
-        //     };
-        //
-        //     // TODO Push?
-        //     let new_element = self.insert_html_element(&mut
-        // token_and_info.clone())?;
-        //
-        //     self.active_formatting_elements.items[entry_index] =
-        //         ActiveFormattingElement::Element(new_element,
-        // token_and_info);
-        //
-        //     if entry_index == self.active_formatting_elements.items.len() - 1
-        // {         break Ok(());
-        //     }
-        //
-        //     entry_index += 1;
-        // }
     }
 
-    // fn is_marker_or_open(&self, entry: &ActiveFormattingElement) -> bool {
-    //     match *entry {
-    //         ActiveFormattingElement::Marker => true,
-    //         ActiveFormattingElement::Element(ref node, _) => self
-    //             .open_elements_stack
-    //             .items
-    //             .iter()
-    //             .rev()
-    //             .any(|n| is_same_node(&n, node)),
-    //     }
-    // }
+    fn is_marker_or_open(&self, entry: &ActiveFormattingElement) -> bool {
+        match *entry {
+            ActiveFormattingElement::Marker => true,
+            ActiveFormattingElement::Element(ref node, _) => self
+                .open_elements_stack
+                .items
+                .iter()
+                .rev()
+                .any(|n| is_same_node(n, node)),
+        }
+    }
 
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(Data::Element(Element {
