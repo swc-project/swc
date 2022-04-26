@@ -146,20 +146,16 @@ fn identity(entry: PathBuf) {
                 .map(|p| {
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
-                    p.fold_with(&mut resolver_with_mark(
-                        unresolved_mark,
-                        top_level_mark,
-                        true,
-                    ))
-                    .fold_with(&mut strip_with_config(
-                        strip::Config {
-                            no_empty_export: true,
-                            ..Default::default()
-                        },
-                        top_level_mark,
-                    ))
-                    .fold_with(&mut hygiene())
-                    .fold_with(&mut fixer(None))
+                    p.fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+                        .fold_with(&mut strip_with_config(
+                            strip::Config {
+                                no_empty_export: true,
+                                ..Default::default()
+                            },
+                            top_level_mark,
+                        ))
+                        .fold_with(&mut hygiene())
+                        .fold_with(&mut fixer(None))
                 })
                 .map_err(|e| {
                     eprintln!("failed to parse as typescript module");
