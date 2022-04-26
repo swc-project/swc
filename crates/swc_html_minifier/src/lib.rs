@@ -47,21 +47,104 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
-static EXECUTABLE_SCRIPTS_MIME_TYPES: &[&str] = &[
-    "text/javascript",
-    "text/ecmascript",
-    "text/jscript",
-    "application/javascript",
-    "application/x-javascript",
-    "application/ecmascript",
-    "module",
-];
-
 struct Minifier {}
 
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
         BOOLEAN_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_default_attribute_value(
+        &self,
+        namespace: Namespace,
+        tag_name: &str,
+        attribute_name: &str,
+        attribute_value: &str,
+    ) -> bool {
+        matches!(
+            (
+                namespace,
+                tag_name,
+                attribute_name,
+                attribute_value.to_ascii_lowercase().trim()
+            ),
+            (Namespace::HTML, "iframe", "height", "150")
+                | (Namespace::HTML, "iframe", "width", "300")
+                | (Namespace::HTML, "iframe", "frameborder", "1")
+                | (Namespace::HTML, "iframe", "loading", "eager")
+                | (Namespace::HTML, "iframe", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "iframe",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (
+                    Namespace::HTML,
+                    "a",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "a", "target", "_self")
+                | (Namespace::HTML, "area", "target", "_self")
+                | (Namespace::HTML, "area", "shape", "rect")
+                | (
+                    Namespace::HTML,
+                    "area",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "form", "method", "get")
+                | (Namespace::HTML, "form", "target", "_self")
+                | (Namespace::HTML, "input", "type", "text")
+                | (Namespace::HTML, "input", "size", "20")
+                | (Namespace::HTML, "track", "kind", "subtitles")
+                | (Namespace::HTML, "textarea", "cols", "20")
+                | (Namespace::HTML, "textarea", "rows", "2")
+                | (Namespace::HTML, "textarea", "wrap", "sort")
+                | (Namespace::HTML, "progress", "max", "1")
+                | (Namespace::HTML, "meter", "min", "0")
+                | (Namespace::HTML, "img", "decoding", "auto")
+                | (Namespace::HTML, "img", "fetchpriority", "auto")
+                | (Namespace::HTML, "img", "loading", "eager")
+                | (
+                    Namespace::HTML,
+                    "img",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "link", "type", "text/css")
+                | (Namespace::HTML, "link", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "link",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "style", "type", "text/css")
+                | (Namespace::HTML, "script", "type", "text/javascript")
+                | (Namespace::HTML, "script", "type", "text/ecmascript")
+                | (Namespace::HTML, "script", "type", "text/jscript")
+                | (Namespace::HTML, "script", "type", "application/javascript")
+                | (
+                    Namespace::HTML,
+                    "script",
+                    "type",
+                    "application/x-javascript"
+                )
+                | (Namespace::HTML, "script", "type", "application/ecmascript")
+                | (Namespace::HTML, "script", "fetchpriority", "auto")
+                | (
+                    Namespace::HTML,
+                    "script",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (Namespace::HTML, "ol", "type", "1")
+                | (Namespace::HTML, "base", "target", "_self")
+                | (Namespace::HTML, "canvas", "height", "150")
+                | (Namespace::HTML, "canvas", "width", "300")
+        )
     }
 
     fn is_conditional_comment(&self, data: &str) -> bool {
@@ -80,40 +163,23 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
-        n.attributes.retain(|attribute| match &*attribute.name {
-            "type"
-                if n.namespace == Namespace::HTML
-                    && matches!(n.tag_name.as_ref(), "script")
-                    && (attribute.value.is_some()
-                        && attribute
-                            .value
-                            .as_ref()
-                            .map(|v| {
-                                EXECUTABLE_SCRIPTS_MIME_TYPES
-                                    .iter()
-                                    .any(|mime| v.eq_str_ignore_ascii_case(mime))
-                            })
-                            .unwrap_or_default()) =>
-            {
-                false
+        n.attributes.retain(|attribute| {
+            if attribute.value.is_none() {
+                return true;
             }
-            "type"
-                if n.namespace == Namespace::HTML
-                    && matches!(n.tag_name.as_ref(), "style" | "link")
-                    && (attribute.value.is_some()
-                        && matches!(
-                            attribute
-                                .value
-                                .as_ref()
-                                .unwrap()
-                                .to_ascii_lowercase()
-                                .trim(),
-                            "text/css"
-                        )) =>
-            {
-                false
+
+            match &*attribute.name {
+                _ if self.is_default_attribute_value(
+                    n.namespace,
+                    &n.tag_name,
+                    &attribute.name,
+                    attribute.value.as_ref().unwrap(),
+                ) =>
+                {
+                    false
+                }
+                _ => true,
             }
-            _ => true,
         });
     }
 

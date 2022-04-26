@@ -71,6 +71,9 @@
 - **(html/minifier)** Compress doctype (#4425) ([6fc70f3](https://github.com/swc-project/swc/commit/6fc70f3866e4d60867a3ae38ae40c8f46065153c))
 
 
+- **(html/minifier)** Compress default values of attributes (#4427) ([4c699f2](https://github.com/swc-project/swc/commit/4c699f2554157333f0598cd4f8143f536027d396))
+
+
 - **(node/css)** Add css bindings crate (#4346) ([6a19ff1](https://github.com/swc-project/swc/commit/6a19ff1a152b67b15714c0290eb21ede878692e5))
 
 
