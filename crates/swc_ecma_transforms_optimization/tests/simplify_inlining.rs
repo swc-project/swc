@@ -23,7 +23,10 @@ macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), inlining(Default::default())),
+            |_| chain!(
+                resolver(Mark::new(), Mark::new(), false),
+                inlining(Default::default())
+            ),
             $name,
             $src,
             $expected
@@ -34,7 +37,10 @@ macro_rules! to {
         test!(
             ignore,
             Default::default(),
-            |_| chain!(resolver(), inlining(Default::default())),
+            |_| chain!(
+                resolver(Mark::new(), Mark::new(), false),
+                inlining(Default::default())
+            ),
             $name,
             $src,
             $expected

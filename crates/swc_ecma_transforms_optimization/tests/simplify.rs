@@ -7,6 +7,7 @@ use std::{cell::RefCell, rc::Rc};
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
