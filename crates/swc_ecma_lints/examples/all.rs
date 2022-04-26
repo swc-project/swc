@@ -2,7 +2,7 @@ use swc_common::{errors::HANDLER, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_lints::{rule::Rule, rules::LintParams};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 
 fn main() {
@@ -28,10 +28,11 @@ fn main() {
                 }
             };
 
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
             let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
             let mut rules = swc_ecma_lints::rules::all(LintParams {
                 program: &program,

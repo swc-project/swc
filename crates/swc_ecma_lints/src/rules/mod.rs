@@ -46,6 +46,7 @@ use non_critical_lints::*;
 pub struct LintParams<'a> {
     pub program: &'a Program,
     pub lint_config: &'a LintConfig,
+    pub unresolved_ctxt: SyntaxContext,
     pub top_level_ctxt: SyntaxContext,
     pub es_version: EsVersion,
     pub source_map: Arc<SourceMap>,
@@ -64,6 +65,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         let LintParams {
             program,
             lint_config,
+            unresolved_ctxt,
             top_level_ctxt,
             es_version,
             source_map,
@@ -75,7 +77,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_console::no_console(
             &lint_config.no_console,
-            top_level_ctxt,
+            unresolved_ctxt,
         ));
 
         rules.extend(no_alert::no_alert(
