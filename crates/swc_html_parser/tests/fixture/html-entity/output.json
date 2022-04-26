@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 23,
-            "end": 1256,
+            "end": 2864,
             "ctxt": 0
           },
           "tagName": "body",
@@ -1122,7 +1122,7 @@
               "type": "Element",
               "span": {
                 "start": 1192,
-                "end": 1256,
+                "end": 1251,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -1146,61 +1146,79 @@
                   "type": "Text",
                   "span": {
                     "start": 1241,
-                    "end": 1256,
+                    "end": 1251,
                     "ctxt": 0
                   },
-                  "value": "tired meme\n"
+                  "value": "tired meme"
                 }
               ],
               "content": null
-            }
-          ],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 1256,
-            "end": 2864,
-            "ctxt": 0
-          },
-          "tagName": "a",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [
-            {
-              "type": "Attribute",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "namespace": null,
-              "prefix": null,
-              "name": "href",
-              "value": "#"
             },
-            {
-              "type": "Attribute",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "namespace": null,
-              "prefix": null,
-              "name": "onclick",
-              "value": "window.location='?l=1&q=rick+roll';return false"
-            }
-          ],
-          "children": [
             {
               "type": "Text",
               "span": {
-                "start": 1330,
+                "start": 1255,
+                "end": 1256,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1256,
+                "end": 1345,
+                "ctxt": 0
+              },
+              "tagName": "a",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "href",
+                  "value": "#"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "onclick",
+                  "value": "window.location='?l=1&q=rick+roll';return false"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 1330,
+                    "end": 1345,
+                    "ctxt": 0
+                  },
+                  "value": "\n    kablammo!\n"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1349,
                 "end": 1351,
                 "ctxt": 0
               },
-              "value": "\n    kablammo!\n\n\n"
+              "value": "\n\n"
             },
             {
               "type": "Element",

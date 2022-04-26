@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 31,
-                "end": 101,
+                "end": 79,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -90,13 +90,22 @@
                   "type": "Text",
                   "span": {
                     "start": 65,
-                    "end": 101,
+                    "end": 79,
                     "ctxt": 0
                   },
-                  "value": "This is a link\n\n\n\n"
+                  "value": "This is a link"
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 83,
+                "end": 101,
+                "ctxt": 0
+              },
+              "value": "\n\n\n\n"
             }
           ],
           "content": null

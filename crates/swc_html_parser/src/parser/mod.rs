@@ -3020,7 +3020,7 @@ where
 
                                 let remove = element.clone();
 
-                                self.run_the_adoption_agency_algorithm(token_and_info);
+                                self.run_the_adoption_agency_algorithm(token_and_info)?;
                                 self.active_formatting_elements.remove(&remove);
                                 self.open_elements_stack.remove(&remove);
                             }
@@ -3086,7 +3086,7 @@ where
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
-                            self.run_the_adoption_agency_algorithm(token_and_info);
+                            self.run_the_adoption_agency_algorithm(token_and_info)?;
                             self.reconstruct_active_formatting_elements()?;
                         } else {
                             let element = self.insert_html_element(&mut token_and_info.clone())?;
@@ -3120,7 +3120,7 @@ where
                                 | "u"
                         ) =>
                     {
-                        self.run_the_adoption_agency_algorithm(token_and_info);
+                        self.run_the_adoption_agency_algorithm(token_and_info)?;
                     }
                     // A start tag whose tag name is one of: "applet", "marquee", "object"
                     //
@@ -6370,7 +6370,11 @@ where
     // This algorithm's name, the "adoption agency algorithm", comes from the way it
     // causes elements to change parents, and is in contrast with other possible
     // algorithms for dealing with misnested content.
-    fn run_the_adoption_agency_algorithm(&mut self, token_and_info: &mut TokenAndInfo) {
+    fn run_the_adoption_agency_algorithm(
+        &mut self,
+        token_and_info: &mut TokenAndInfo,
+    ) -> PResult<()> {
+        // TODO finish me
         // 1.
         let subject = match &token_and_info.token {
             Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name.clone(),
@@ -6390,7 +6394,7 @@ where
                 {
                     self.open_elements_stack.pop();
 
-                    return;
+                    return Ok(());
                 }
                 _ => {}
             }
@@ -6401,38 +6405,218 @@ where
 
         // 4.
         loop {
-            // 4.1
+            // 1.
             if counter >= 8 {
-                return;
+                return Ok(());
             }
 
-            // 4.2
+            // 2.
             counter += 1;
 
-            // 4.3
-            let mut formatting_element = None;
-
-            for element in self.active_formatting_elements.items.iter().rev() {
-                match element {
-                    ActiveFormattingElement::Element(element, _) => match &element.data {
-                        Data::Element(element) if element.tag_name == subject => {
-                            formatting_element = Some(element);
-
-                            break;
-                        }
-                        _ => {}
-                    },
-                    ActiveFormattingElement::Marker => {
-                        break;
+            // 3.
+            let formatting_element = self
+                .active_formatting_elements
+                .items
+                .iter()
+                .enumerate()
+                .rev()
+                .find(|info| match &info.1 {
+                    ActiveFormattingElement::Element(element, _) => matches!(&element.data, Data::Element(element) if element.tag_name == subject),
+                    _ => false,
+                })
+                .map(|(i, e)| match e {
+                    ActiveFormattingElement::Element(node, token_and_info) => {
+                        (i, node.clone(), token_and_info.clone())
                     }
-                }
-            }
+                    _ => {
+                        unreachable!()
+                    }
+                });
 
             if formatting_element.is_none() {
                 self.any_other_end_tag_for_in_body_insertion_mode(&mut token_and_info.clone());
 
-                return;
+                return Ok(());
             }
+
+            let formatting_element = formatting_element.unwrap();
+
+            // 4.
+            let formatting_element_stack_index = self
+                .open_elements_stack
+                .items
+                .iter()
+                .rposition(|n| is_same_node(n, &formatting_element.1));
+
+            if formatting_element_stack_index.is_none() {
+                self.active_formatting_elements
+                    .remove(&formatting_element.1);
+            }
+
+            let formatting_element_stack_index = formatting_element_stack_index.unwrap();
+
+            // 5.
+            if !self
+                .open_elements_stack
+                .has_node_in_scope(&formatting_element.1)
+            {
+                // TODO error
+
+                return Ok(());
+            }
+
+            // 6.
+            if let Some(node) = self.open_elements_stack.items.last() {
+                if !is_same_node(node, &formatting_element.1) {
+                    // TODO error
+                }
+            }
+
+            // 7.
+            let furthest_block = self
+                .open_elements_stack
+                .items
+                .iter()
+                .enumerate()
+                .skip(formatting_element_stack_index)
+                .find(|&(_, open_element)| self.is_special_element(open_element))
+                .map(|(i, h)| (i, h.clone()));
+
+            // 8.
+            if furthest_block.is_none() {
+                self.open_elements_stack
+                    .items
+                    .truncate(formatting_element_stack_index);
+                self.active_formatting_elements
+                    .remove(&formatting_element.1);
+
+                return Ok(());
+            }
+
+            // 9.
+            //let common_ancestor =
+            // self.open_elements_stack.items[formatting_element_stack_index - 1].clone();
+
+            // 10.
+            // let bookmark =
+            // self.active_formatting_elements.get_position(&formatting_element.1);
+
+            // 11.
+            // let furthest_block = furthest_block.unwrap();
+            // let mut node: RcNode;
+            // let mut node_index = furthest_block.0;
+            // let mut last_node = furthest_block.1.clone();
+
+            // 12.
+            // let mut inner_loop_counter = 0;
+
+            // 13.
+            // loop {
+            //     // 13.1
+            //     inner_loop_counter += 1;
+            //
+            //     // 13.2
+            //     node_index -= 1;
+            //     node = self.open_elements_stack.items[node_index].clone();
+            //
+            //     // 13.3
+            //     if is_same_node(&node, &formatting_element.1) {
+            //         break;
+            //     }
+            //
+            //     // 13.4
+            //     if inner_loop_counter > 3 {
+            //         self.active_formatting_elements
+            //             .get_position(&node)
+            //             .map(|position|
+            // self.active_formatting_elements.items.remove(position));
+            //         self.open_elements_stack.remove(&node);
+            //
+            //         continue;
+            //     }
+            //
+            //     // 13.4
+            //     let node_formatting_index =
+            //         unwrap_or_else!(self.active_formatting_elements.get_position(&node),
+            // {             self.open_elems.remove(node_index);
+            //
+            //             continue;
+            //         });
+            //
+            //     // 13.5
+            //     let token_and_info =
+            //         match self.active_formatting_elements.items[node_formatting_index] {
+            //             Element(ref h, ref t) => {
+            //                 assert!(is_same_node(h, &node));
+            //
+            //                 t.clone()
+            //             }
+            //             Marker => panic!(
+            //                 "Found marker during adoption agency"
+            //             ),
+            //         };
+            //
+            //     // 13.6
+            //     let last_pos = self.input.last_pos()?;
+            //     let new_element = self.create_element_for_token(
+            //         token_and_info,
+            //         Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            //         Some(Namespace::HTML),
+            //         None,
+            //     );
+            //
+            //     self.open_elements_stack.items[node_index] = new_element.clone();
+            //     self.active_formatting_elements.items[node_formatting_index] =
+            //         ActiveFormattingElement::Element(new_element.clone(), tag);
+            //
+            //     node = new_element;
+            //
+            //     // 13.7
+            //     if is_same_node(&last_node, &furthest_block) {
+            //         // bookmark = Bookmark::InsertAfter(node.clone());
+            //     }
+            //
+            //     // 13.8
+            //     self.sink.remove_from_parent(&last_node);
+            //     self.sink.append(&node, AppendNode(last_node.clone()));
+            //
+            //     // 13.9
+            //     last_node = node.clone();
+            // }
+
+            // 14.
+            // self.sink.remove_from_parent(&last_node);
+            // self.insert_appropriately(AppendNode(last_node.clone()),
+            // Some(common_ancestor));
+
+            // 15.
+            // let new_element = create_element(
+            //     &mut self.sink,
+            //     QualName::new(None, ns!(html), fmt_elem_tag.name.clone()),
+            //     fmt_elem_tag.attrs.clone(),
+            // );
+            // let new_entry = Element(new_element.clone(), fmt_elem_tag);
+
+            // 16.
+            // self.sink.reparent_children(&furthest_block, &new_element);
+
+            // 17.
+            // self.sink .append(&furthest_block, AppendNode(new_element.clone()));
+
+            // 18.
+
+            // 19.
+            self.open_elements_stack.remove(&formatting_element.1);
+
+            // let new_furthest_block_index = self
+            //     .open_elements_stack
+            //     .items
+            //     .iter()
+            //     .position(|n| is_same_node(n, &furthest_block))
+            //     .expect("furthest block missing from open element stack");
+            //
+            // self.open_elements_stack.items
+            //     .insert(new_furthest_block_index + 1, new_element);
         }
     }
 

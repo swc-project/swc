@@ -95,24 +95,32 @@
 
   x Child
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
- 6 | |   
- 7 | `-> </body>
- 8 |     </html>
+ 5 | <a href=https://www.w3schools.com>This is a link</a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
- 5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
- 6 | |   
- 7 | `-> </body>
- 8 |     </html>
+ 5 | <a href=https://www.w3schools.com>This is a link</a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
  1 | <!DOCTYPE>
    : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
+ 5 | <a href=https://www.w3schools.com>This is a link</a>
+   :                                   ^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
+ 5 | <a href=https://www.w3schools.com>This is a link</a>
+   :                                   ^^^^^^^^^^^^^^
    `----
 
   x Child

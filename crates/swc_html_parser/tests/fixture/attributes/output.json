@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 271,
+                "end": 75,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -485,239 +485,238 @@
                   "value": null
                 }
               ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 79,
+                "end": 80,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 80,
+                "end": 124,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "title",
+                  "value": " <![CDATA[ \\n\\n foobar baz ]]> "
+                }
+              ],
               "children": [
                 {
                   "type": "Text",
                   "span": {
-                    "start": 79,
-                    "end": 80,
-                    "ctxt": 0
-                  },
-                  "value": "\n"
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 80,
+                    "start": 123,
                     "end": 124,
                     "ctxt": 0
                   },
-                  "tagName": "p",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "title",
-                      "value": " <![CDATA[ \\n\\n foobar baz ]]> "
-                    }
-                  ],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 123,
-                        "end": 124,
-                        "ctxt": 0
-                      },
-                      "value": "x"
-                    }
-                  ],
-                  "content": null
-                },
+                  "value": "x"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 128,
+                "end": 129,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 129,
+                "end": 164,
+                "ctxt": 0
+              },
+              "tagName": "p",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "title",
+                  "value": " <!-- hello world --> "
+                }
+              ],
+              "children": [
                 {
                   "type": "Text",
                   "span": {
-                    "start": 128,
-                    "end": 129,
-                    "ctxt": 0
-                  },
-                  "value": "\n"
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 129,
+                    "start": 163,
                     "end": 164,
                     "ctxt": 0
                   },
-                  "tagName": "p",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "title",
-                      "value": " <!-- hello world --> "
-                    }
-                  ],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 163,
-                        "end": 164,
-                        "ctxt": 0
-                      },
-                      "value": "x"
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 168,
-                    "end": 169,
-                    "ctxt": 0
-                  },
-                  "value": "\n"
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 169,
-                    "end": 208,
-                    "ctxt": 0
-                  },
-                  "tagName": "tag",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "v-ref:vm_pv",
-                      "value": null
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": ":imgs",
-                      "value": " objpicsurl_ "
-                    }
-                  ],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 214,
-                    "end": 215,
-                    "ctxt": 0
-                  },
-                  "value": "\n"
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 215,
-                    "end": 250,
-                    "ctxt": 0
-                  },
-                  "tagName": "br",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "a",
-                      "value": "\\u00A0"
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "b",
-                      "value": " "
-                    },
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "c",
-                      "value": "\\u00A0"
-                    }
-                  ],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 250,
-                    "end": 251,
-                    "ctxt": 0
-                  },
-                  "value": "\n"
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 251,
-                    "end": 271,
-                    "ctxt": 0
-                  },
-                  "tagName": "img",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [
-                    {
-                      "type": "Attribute",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "namespace": null,
-                      "prefix": null,
-                      "name": "src",
-                      "value": "test"
-                    }
-                  ],
-                  "children": [],
-                  "content": null
+                  "value": "x"
                 }
               ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 168,
+                "end": 169,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 169,
+                "end": 208,
+                "ctxt": 0
+              },
+              "tagName": "tag",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "v-ref:vm_pv",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": ":imgs",
+                  "value": " objpicsurl_ "
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 214,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 215,
+                "end": 250,
+                "ctxt": 0
+              },
+              "tagName": "br",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "a",
+                  "value": "\\u00A0"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "b",
+                  "value": " "
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "c",
+                  "value": "\\u00A0"
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 250,
+                "end": 251,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 251,
+                "end": 271,
+                "ctxt": 0
+              },
+              "tagName": "img",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "src",
+                  "value": "test"
+                }
+              ],
+              "children": [],
               "content": null
             }
           ],

@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 133,
+                "end": 119,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -154,13 +154,22 @@
                   "type": "Text",
                   "span": {
                     "start": 114,
-                    "end": 133,
+                    "end": 119,
                     "ctxt": 0
                   },
-                  "value": "First\n\n\n"
+                  "value": "First"
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 123,
+                "end": 133,
+                "ctxt": 0
+              },
+              "value": "\n\n\n"
             }
           ],
           "content": null

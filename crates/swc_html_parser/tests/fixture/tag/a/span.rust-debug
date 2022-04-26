@@ -173,20 +173,28 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
-  8 | ,-> <a href="https://example.com">First</a>
-  9 | |   
- 10 | `-> </body>
- 11 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
+ 8 | <a href="https://example.com">First</a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
-  8 | ,-> <a href="https://example.com">First</a>
-  9 | |   
- 10 | `-> </body>
- 11 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
+ 8 | <a href="https://example.com">First</a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
+ 8 | <a href="https://example.com">First</a>
+   :                               ^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/a/input.html:8:1]
+ 8 | <a href="https://example.com">First</a>
+   :                               ^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/a/input.html:8:1]

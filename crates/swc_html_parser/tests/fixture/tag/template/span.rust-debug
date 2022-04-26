@@ -518,16 +518,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | `->             </summary>
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | `->             </summary>
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -568,6 +566,18 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                                                                  ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
+ 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    :                                                                  ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
  24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | `->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
@@ -580,14 +590,14 @@
 
   x Child
     ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | `->             </summary>
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | `->             </summary>
+ 25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -624,52 +634,6 @@
     ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
  25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 | `->             </summary>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | `->         </details>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | `->         </details>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | `->         </details>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | `->         </details>
     `----
 
   x Child
@@ -806,60 +770,6 @@
     ,-[$DIR/tests/fixture/tag/template/input.html:30:13]
  30 | ,-> </div>
  31 | `->         </details>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | |           </details>
- 32 | |           <hr>
- 33 | `->     </template>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:24:17]
- 24 | ,-> <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
- 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | |           </details>
- 32 | |           <hr>
- 33 | `->     </template>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | |           </details>
- 32 | |           <hr>
- 33 | `->     </template>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/template/input.html:25:17]
- 25 | ,-> <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
- 26 | |               </summary>
- 27 | |               <div class="attributes">
- 28 | |                   <h4>Attributes</h4>
- 29 | |                   <slot name="attributes"><p>None</p></slot>
- 30 | |               </div>
- 31 | |           </details>
- 32 | |           <hr>
- 33 | `->     </template>
     `----
 
   x Child
