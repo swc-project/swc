@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{block_scoping, for_of::for_of},
@@ -1080,7 +1080,7 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| chain!(resolver(), block_scoping()),
+        |_| chain!(resolver(Mark::new(), Mark::new(), false), block_scoping()),
         &input,
     );
 }
@@ -1091,7 +1091,7 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|_| chain!(resolver(), block_scoping()),
+        &|_| chain!(resolver(Mark::new(), Mark::new(), false), block_scoping()),
         &input,
         &output,
     );

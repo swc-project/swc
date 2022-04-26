@@ -114,7 +114,7 @@ pub struct Config {
 #[cfg(test)]
 mod tests {
     use swc_common::Mark;
-    use swc_ecma_transforms_base::resolver::resolver;
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::{test, test_exec};
 
     use super::*;
@@ -207,7 +207,10 @@ export default function fn1() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(block_scoped_functions(), resolver(),),
+        |_| chain!(
+            block_scoped_functions(),
+            resolver(Mark::new(), Mark::new(), false)
+        ),
         issue_271,
         "
 function foo(scope) {
