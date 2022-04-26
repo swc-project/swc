@@ -67,7 +67,7 @@ fn run_test(input: &str, expected: &str) {
 
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
         let actual = actual
-            .fold_with(&mut resolver::resolver())
+            .fold_with(&mut resolver())
             .fold_with(&mut crate::react(
                 actual_sm.clone(),
                 Some(&actual_comments),

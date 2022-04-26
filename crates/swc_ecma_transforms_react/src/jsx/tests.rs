@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
@@ -16,8 +16,10 @@ use super::*;
 use crate::{display_name, pure_annotations, react};
 
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
+    let unresolved_mark = Mark::new();
+
     chain!(
-        resolver_with_mark(top_level_mark),
+        resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
@@ -54,7 +56,8 @@ fn true_by_default() -> bool {
 }
 
 fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
 
@@ -64,7 +67,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 
     options.options.use_builtins |= options.use_builtins;
     chain!(
-        resolver_with_mark(top_level_mark),
+        resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
@@ -77,7 +80,8 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 }
 
 fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
 
@@ -87,7 +91,7 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 
     options.options.use_builtins |= options.use_builtins;
     chain!(
-        resolver_with_mark(top_level_mark),
+        resolver(unresolved_mark, top_level_mark, false),
         react(
             t.cm.clone(),
             Some(t.comments.clone()),
