@@ -150,7 +150,7 @@ use swc_ecma_transforms::{
     hygiene,
     modules::path::NodeImportResolver,
     pass::noop,
-    resolver_with_mark,
+    resolver,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -1037,12 +1037,14 @@ impl Compiler {
                 Default::default()
             };
 
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             let is_mangler_enabled = min_opts.mangle.is_some();
 
             let module = self.run_transform(handler, false, || {
-                let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+                let module =
+                    module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
                 let mut module = swc_ecma_minifier::optimize(
                     module,

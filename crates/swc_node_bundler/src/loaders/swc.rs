@@ -212,7 +212,7 @@ impl SwcLoader {
                     skip_helper_injection: true,
                     disable_hygiene: false,
                     disable_fixer: true,
-                    global_mark: self.options.global_mark,
+                    top_level_mark: self.options.top_level_mark,
                     cwd: self.options.cwd.clone(),
                     caller: None,
                     filename: String::new(),

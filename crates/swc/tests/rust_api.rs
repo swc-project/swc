@@ -161,7 +161,7 @@ fn shopify_2_same_opt() {
             skip_helper_injection: false,
             disable_hygiene: false,
             disable_fixer: false,
-            global_mark: None,
+            top_level_mark: None,
             cwd: "/Users/kdy1/projects/example-swcify".into(),
             filename: "/Users/kdy1/projects/example-swcify/src/App/App.tsx".into(),
             env_name: "development".into(),

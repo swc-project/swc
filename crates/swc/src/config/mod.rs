@@ -53,9 +53,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react,
-    resolver::ts_resolver,
-    resolver_with_mark,
+    react, resolver,
     typescript::{self, TSEnumConfig},
     Assumptions,
 };
@@ -166,7 +164,7 @@ pub struct Options {
     pub disable_fixer: bool,
 
     #[serde(skip_deserializing, default)]
-    pub global_mark: Option<Mark>,
+    pub top_level_mark: Option<Mark>,
 
     #[cfg(not(target_arch = "wasm32"))]
     #[serde(default = "default_cwd")]
@@ -310,9 +308,8 @@ impl Options {
             }
         });
 
-        let top_level_mark = self
-            .global_mark
-            .unwrap_or_else(|| Mark::fresh(Mark::root()));
+        let unresolved_mark = Mark::new();
+        let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
         let es_version = target.unwrap_or_default();
 
@@ -329,11 +326,13 @@ impl Options {
         if syntax.typescript() {
             assumptions.set_class_methods = !transform.use_define_for_class_fields;
             assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
-
-            program.visit_mut_with(&mut ts_resolver(top_level_mark));
-        } else {
-            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
+
+        program.visit_mut_with(&mut resolver(
+            unresolved_mark,
+            top_level_mark,
+            syntax.typescript(),
+        ));
 
         if program.is_module() {
             js_minify = js_minify.map(|c| {
@@ -408,6 +407,7 @@ impl Options {
             }
         };
 
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let pass = chain!(
@@ -511,6 +511,7 @@ impl Options {
                 program: &program,
                 lint_config: &lints,
                 top_level_ctxt,
+                unresolved_ctxt,
                 es_version,
                 source_map: cm.clone(),
             })),
