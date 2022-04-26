@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('test0' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('test1' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('test2' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -157,46 +157,6 @@ TestSnapshot {
         (
             (
                 Atom('value' type=inline),
-                #2,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 1,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: true,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 0,
-                usage_count: 1,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: false,
-                has_property_access: false,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: false,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: false,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('value' type=inline),
                 #3,
             ),
             VarUsageInfo {
@@ -238,6 +198,46 @@ TestSnapshot {
             (
                 Atom('value' type=inline),
                 #4,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
+                ref_count: 1,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: true,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 0,
+                usage_count: 1,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: false,
+                has_property_access: false,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: true,
+                used_by_nested_fn: true,
+                executed_multiple_time: false,
+                used_in_cond: false,
+                var_kind: Some(
+                    "var",
+                ),
+                var_initialized: false,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: false,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
+                Atom('value' type=inline),
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

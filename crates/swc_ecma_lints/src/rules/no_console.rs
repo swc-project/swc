@@ -18,23 +18,23 @@ pub struct NoConsoleConfig {
 
 pub fn no_console(
     config: &RuleConfig<NoConsoleConfig>,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
 ) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoConsole::new(config, top_level_ctxt))),
+        _ => Some(visitor_rule(NoConsole::new(config, unresolved_ctxt))),
     }
 }
 
 #[derive(Debug, Default)]
 struct NoConsole {
     expected_reaction: LintRuleReaction,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     allow: Option<AHashSet<JsWord>>,
 }
 
 impl NoConsole {
-    fn new(config: &RuleConfig<NoConsoleConfig>, top_level_ctxt: SyntaxContext) -> Self {
+    fn new(config: &RuleConfig<NoConsoleConfig>, unresolved_ctxt: SyntaxContext) -> Self {
         Self {
             expected_reaction: config.get_rule_reaction(),
             allow: config.get_rule_config().allow.as_ref().map(|method_names| {
@@ -43,12 +43,12 @@ impl NoConsole {
                     .map(|method_name| JsWord::from(method_name.as_str()))
                     .collect()
             }),
-            top_level_ctxt,
+            unresolved_ctxt,
         }
     }
 
     fn check(&self, span: Span, ident: &Ident, method: &JsWord) {
-        if &*ident.sym == "console" && ident.span.ctxt == self.top_level_ctxt {
+        if &*ident.sym == "console" && ident.span.ctxt == self.unresolved_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {
                     return;

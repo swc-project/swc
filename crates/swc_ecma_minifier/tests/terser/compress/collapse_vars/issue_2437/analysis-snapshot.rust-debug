@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('SYMBOL_FAKE_ONREADYSTATECHANGE_1' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('XMLHttpRequest' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -313,7 +313,7 @@ TestSnapshot {
         (
             (
                 Atom('xhrDesc' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

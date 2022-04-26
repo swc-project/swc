@@ -1,7 +1,7 @@
-type Foo = {
+type Foo__1 = {
 };
-function foo() {
+function foo__1() {
     type Foo__2 = string | number;
     const foo__2 = {} as Foo__2;
 }
-const bar = {} as Foo;
+const bar__1 = {} as Foo__1;

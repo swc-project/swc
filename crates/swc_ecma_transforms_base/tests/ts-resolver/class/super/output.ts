@@ -1,7 +1,7 @@
-class A extends B {
+class A__1 extends B {
     constructor(){
         super();
-        const sym__2 = "";
-        console.log(super.sym + super[sym__2]);
+        const sym__3 = "";
+        console.log(super.sym + super[sym__3]);
     }
 }

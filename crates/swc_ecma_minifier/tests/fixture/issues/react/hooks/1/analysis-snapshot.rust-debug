@@ -515,7 +515,7 @@ TestSnapshot {
         (
             (
                 Atom('useProjectBranches' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

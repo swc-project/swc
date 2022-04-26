@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Error' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('JSON' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('Math' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('NaN' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -155,7 +155,7 @@ TestSnapshot {
         (
             (
                 Atom('String' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -233,7 +233,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -271,7 +271,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #8,
+                #9,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -463,7 +463,7 @@ TestSnapshot {
         (
             (
                 Atom('isFinite' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -501,7 +501,7 @@ TestSnapshot {
         (
             (
                 Atom('isPlural' type=dynamic),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -581,7 +581,7 @@ TestSnapshot {
         (
             (
                 Atom('match' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -621,7 +621,7 @@ TestSnapshot {
         (
             (
                 Atom('message' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -699,44 +699,6 @@ TestSnapshot {
         (
             (
                 Atom('ms' type=inline),
-                #5,
-            ),
-            VarUsageInfo {
-                inline_prevented: false,
-                ref_count: 6,
-                cond_init: false,
-                declared: true,
-                declared_count: 1,
-                declared_as_fn_param: true,
-                declared_as_fn_expr: false,
-                assign_count: 0,
-                mutation_by_call_count: 5,
-                usage_count: 6,
-                reassigned_with_assignment: false,
-                reassigned_with_var_decl: false,
-                mutated: true,
-                has_property_access: false,
-                has_property_mutation: false,
-                accessed_props: {},
-                exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: true,
-                var_kind: None,
-                var_initialized: false,
-                declared_as_catch_param: false,
-                no_side_effect_for_member_access: false,
-                used_as_callee: false,
-                used_as_arg: true,
-                pure_fn: false,
-                infects: [],
-            },
-        ),
-        (
-            (
-                Atom('ms' type=inline),
                 #6,
             ),
             VarUsageInfo {
@@ -779,6 +741,44 @@ TestSnapshot {
             ),
             VarUsageInfo {
                 inline_prevented: false,
+                ref_count: 6,
+                cond_init: false,
+                declared: true,
+                declared_count: 1,
+                declared_as_fn_param: true,
+                declared_as_fn_expr: false,
+                assign_count: 0,
+                mutation_by_call_count: 5,
+                usage_count: 6,
+                reassigned_with_assignment: false,
+                reassigned_with_var_decl: false,
+                mutated: true,
+                has_property_access: false,
+                has_property_mutation: false,
+                accessed_props: {},
+                exported: false,
+                used_above_decl: false,
+                is_fn_local: true,
+                used_by_nested_fn: true,
+                executed_multiple_time: false,
+                used_in_cond: true,
+                var_kind: None,
+                var_initialized: false,
+                declared_as_catch_param: false,
+                no_side_effect_for_member_access: false,
+                used_as_callee: false,
+                used_as_arg: true,
+                pure_fn: false,
+                infects: [],
+            },
+        ),
+        (
+            (
+                Atom('ms' type=inline),
+                #8,
+            ),
+            VarUsageInfo {
+                inline_prevented: false,
                 ref_count: 1,
                 cond_init: false,
                 declared: true,
@@ -813,7 +813,7 @@ TestSnapshot {
         (
             (
                 Atom('msAbs' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -853,7 +853,7 @@ TestSnapshot {
         (
             (
                 Atom('msAbs' type=inline),
-                #6,
+                #7,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -893,7 +893,7 @@ TestSnapshot {
         (
             (
                 Atom('msAbs' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -931,7 +931,7 @@ TestSnapshot {
         (
             (
                 Atom('n' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -971,7 +971,7 @@ TestSnapshot {
         (
             (
                 Atom('n' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1009,7 +1009,7 @@ TestSnapshot {
         (
             (
                 Atom('name' type=inline),
-                #7,
+                #8,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1123,7 +1123,7 @@ TestSnapshot {
         (
             (
                 Atom('parseFloat' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1239,7 +1239,7 @@ TestSnapshot {
         (
             (
                 Atom('str' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -1277,7 +1277,7 @@ TestSnapshot {
         (
             (
                 Atom('type' type=static),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

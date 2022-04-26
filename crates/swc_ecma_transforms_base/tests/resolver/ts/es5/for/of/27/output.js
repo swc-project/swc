@@ -1,7 +1,7 @@
-for (var { x: a = 0 , y: b = 1  } of [
+for (var { x: a__1 = 0 , y: b__1 = 1  } of [
     2,
     3
 ]){
-    a;
-    b;
+    a__1;
+    b__1;
 }

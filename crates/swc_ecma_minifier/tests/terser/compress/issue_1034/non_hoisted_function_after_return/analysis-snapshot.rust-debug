@@ -155,7 +155,7 @@ TestSnapshot {
         (
             (
                 Atom('not_called1' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('not_called2' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('not_reached' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

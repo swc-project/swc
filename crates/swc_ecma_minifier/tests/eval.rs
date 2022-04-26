@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
     marks::Marks,
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
@@ -29,7 +29,6 @@ fn eval(module: &str, expr: &str) -> Option<String> {
 
         let expr_ast = {
             let fm = cm.new_source_file(FileName::Anon, expr.to_string());
-
             parse_file_as_expr(
                 &fm,
                 Default::default(),
@@ -92,7 +91,7 @@ impl PartialInliner {
                 &mut vec![],
             )
             .unwrap();
-            module.visit_mut_with(&mut resolver());
+            module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
 
             let mut inliner = PartialInliner {
                 marks,

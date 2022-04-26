@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('__webpack_require__' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -121,7 +121,7 @@ TestSnapshot {
         (
             (
                 Atom('endpoint' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -239,7 +239,7 @@ TestSnapshot {
         (
             (
                 Atom('opts' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -277,7 +277,7 @@ TestSnapshot {
         (
             (
                 Atom('projectId' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -355,7 +355,7 @@ TestSnapshot {
         (
             (
                 Atom('ref' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -435,7 +435,7 @@ TestSnapshot {
         (
             (
                 Atom('team' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -475,7 +475,7 @@ TestSnapshot {
         (
             (
                 Atom('teamId' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -515,7 +515,7 @@ TestSnapshot {
         (
             (
                 Atom('token' type=inline),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

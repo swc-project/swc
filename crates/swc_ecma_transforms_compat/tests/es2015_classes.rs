@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{arrow, block_scoping, classes, classes::Config, spread},
@@ -22,7 +22,7 @@ fn tr(tester: &Tester) -> impl Fold {
 
 fn spec_tr(tester: &Tester) -> impl Fold {
     chain!(
-        resolver(),
+        resolver(Mark::new(), Mark::new(), false),
         classes(Some(tester.comments.clone()), Default::default()),
         spread(spread::Config {
             ..Default::default()
@@ -4954,7 +4954,7 @@ test!(
 test!(
     syntax(),
     |t| chain!(
-        resolver(),
+        resolver(Mark::new(), Mark::new(), false),
         classes(Some(t.comments.clone()), Default::default())
     ),
     duplicate_ident,

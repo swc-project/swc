@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('eval' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

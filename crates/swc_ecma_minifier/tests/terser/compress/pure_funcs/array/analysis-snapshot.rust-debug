@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Math' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -119,7 +119,7 @@ TestSnapshot {
         (
             (
                 Atom('c' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

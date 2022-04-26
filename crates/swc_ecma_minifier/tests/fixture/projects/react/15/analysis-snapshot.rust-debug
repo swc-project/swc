@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -237,7 +237,7 @@ TestSnapshot {
         (
             (
                 Atom('setCurrentlyValidatingElement$1' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

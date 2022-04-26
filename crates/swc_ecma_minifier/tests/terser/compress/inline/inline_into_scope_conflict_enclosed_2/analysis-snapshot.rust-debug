@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('global' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('same_name' type=dynamic),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('same_name' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -269,7 +269,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -307,7 +307,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

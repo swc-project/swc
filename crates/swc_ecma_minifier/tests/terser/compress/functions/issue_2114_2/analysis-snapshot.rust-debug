@@ -197,7 +197,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

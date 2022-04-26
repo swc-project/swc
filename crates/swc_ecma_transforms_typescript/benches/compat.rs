@@ -2,7 +2,7 @@ use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::{helpers, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -27,10 +27,11 @@ where
 {
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
         let module = module
-            .fold_with(&mut resolver_with_mark(mark))
-            .fold_with(&mut strip(mark));
+            .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+            .fold_with(&mut strip(top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
@@ -69,16 +70,17 @@ fn base(b: &mut Bencher) {
 fn common_typescript(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
         let module = module
-            .fold_with(&mut resolver_with_mark(mark))
-            .fold_with(&mut strip(mark));
+            .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+            .fold_with(&mut strip(top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
 
             let _ = helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.fold_with(&mut strip(mark)));
+                black_box(module.fold_with(&mut strip(top_level_mark)));
             });
         });
 

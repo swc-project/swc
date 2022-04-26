@@ -1,4 +1,4 @@
-let a;
+let a__1;
 {
     let a__2;
     let b__2;

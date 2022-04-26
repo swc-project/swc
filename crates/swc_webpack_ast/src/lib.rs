@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
@@ -91,19 +91,20 @@ pub fn webpack_ast(
     mut n: Module,
 ) -> Result<String, Error> {
     let _timer = timer!("webpack_ast");
-    let top_level_mark = Mark::fresh(Mark::root());
 
     Flavor::Acorn {
         extra_comments: true,
     }
     .with(|| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
         {
             let _timer = timer!("resolver");
-            n.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+            n.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
         }
 
         {
-            n.visit_mut_with(&mut ast_reducer(top_level_mark));
+            n.visit_mut_with(&mut ast_reducer(unresolved_mark));
         }
 
         let ctx = swc_estree_compat::babelify::Context {

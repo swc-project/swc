@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('a' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -157,7 +157,7 @@ TestSnapshot {
         (
             (
                 Atom('g1' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('g2' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -233,7 +233,7 @@ TestSnapshot {
         (
             (
                 Atom('g9' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -311,7 +311,7 @@ TestSnapshot {
         (
             (
                 Atom('not_used' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -351,7 +351,7 @@ TestSnapshot {
         (
             (
                 Atom('sideeffect' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -429,7 +429,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -469,7 +469,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -547,7 +547,7 @@ TestSnapshot {
         (
             (
                 Atom('y' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -627,7 +627,7 @@ TestSnapshot {
         (
             (
                 Atom('z' type=inline),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

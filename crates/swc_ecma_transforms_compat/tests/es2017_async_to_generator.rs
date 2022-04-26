@@ -3,7 +3,7 @@ use std::{fs::read_to_string, path::PathBuf};
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{arrow, block_scoping, destructuring, function_name, parameters},
@@ -916,7 +916,15 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default())
+        )
+    },
     async_to_generator_shadowed_promise,
     r#"
 let Promise;
@@ -1785,7 +1793,15 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default())
+        )
+    },
     async_to_generator_shadowed_promise_nested,
     r#"
 let Promise;
@@ -2022,7 +2038,15 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            async_to_generator(Default::default())
+        )
+    },
     async_to_generator_shadowed_promise_import,
     r#"
 import Promise from 'somewhere';
@@ -3589,8 +3613,11 @@ fn exec(input: PathBuf) {
     compare_stdout(
         Default::default(),
         |t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
             chain!(
-                resolver(),
+                resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default())
             )
@@ -3605,15 +3632,16 @@ fn exec_regenerator(input: PathBuf) {
     compare_stdout(
         Default::default(),
         |t| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver(),
+                resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default()),
                 es2015::for_of(Default::default()),
                 block_scoping(),
-                regenerator(Default::default(), top_level_mark)
+                regenerator(Default::default(), unresolved_mark)
             )
         },
         &input,

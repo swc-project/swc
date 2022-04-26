@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Array' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: true,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('args' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('arguments' type=static),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('bar_base' type=dynamic),
-                #3,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: true,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('console' type=inline),
-                #1,
+                #2,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -307,7 +307,7 @@ TestSnapshot {
         (
             (
                 Atom('foo_base' type=dynamic),
-                #2,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: true,

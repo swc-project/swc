@@ -1,6 +1,6 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{arrow, function_name, shorthand};
 use swc_ecma_transforms_module::{
     hoist::module_hoister,
@@ -17,11 +17,13 @@ fn syntax() -> Syntax {
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        resolver_with_mark(mark),
+        resolver(unresolved_mark, top_level_mark, false),
         module_hoister(),
-        umd(tester.cm.clone(), mark, config)
+        umd(tester.cm.clone(), unresolved_mark, config)
     )
 }
 
@@ -1926,17 +1928,18 @@ test!(
 test!(
     ignore,
     syntax(),
-    |tester| chain!(
-        resolver(),
-        function_name(),
-        shorthand(),
-        arrow(),
-        umd(
-            tester.cm.clone(),
-            Mark::fresh(Mark::root()),
-            Default::default()
+    |tester| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            function_name(),
+            shorthand(),
+            arrow(),
+            umd(tester.cm.clone(), unresolved_mark, Default::default())
         )
-    ),
+    },
     function_name_export_default_arrow_renaming_module_umd,
     r#"
 export default (a) => {

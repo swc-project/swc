@@ -83,7 +83,7 @@ TestSnapshot {
         (
             (
                 Atom('netmaskBits' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

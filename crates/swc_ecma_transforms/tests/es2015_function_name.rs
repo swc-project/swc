@@ -7,7 +7,7 @@
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, shorthand},
     es2022::class_properties,
@@ -22,7 +22,14 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    chain!(resolver(), function_name(), block_scoping())
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        function_name(),
+        block_scoping()
+    )
 }
 
 //macro_rules! identical {
@@ -268,16 +275,21 @@ const z = {
 // function_name_modules_3
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default()),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default()),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            common_js(unresolved_mark, Default::default(), None)
+        )
+    },
     function_name_modules_3,
     r#"
 import {getForm} from "./store"
@@ -327,15 +339,20 @@ exports.default = Login;
 // function_name_basic
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_basic,
     r#"
 var g = function () {
@@ -489,15 +506,20 @@ test!(
     // not important
     ignore,
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        function_name(),
-        classes(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            function_name(),
+            classes(Some(t.comments.clone()), Default::default())
+        )
+    },
     function_name_self_reference,
     r#"
 var f = function () {
@@ -557,15 +579,20 @@ const z = {
 // function_name_method_definition
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_method_definition,
     r#"
 ({ x() {} });
@@ -640,15 +667,20 @@ test!(
     // not important
     ignore,
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_own_bindings,
     r#"
 var f = function () {
@@ -746,15 +778,20 @@ return 123;
 test!(
     ignore,
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_function_collision,
     r#"
 function f() {
@@ -813,15 +850,20 @@ b();
 // function_name_collisions
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_collisions,
     r#"
 var obj = {
@@ -853,16 +895,21 @@ function search({ search: search3 }) {
 test!(
     ignore,
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+            common_js(unresolved_mark, Default::default(), None)
+        )
+    },
     function_name_modules_2,
     r#"
 import last from "lodash/last"
@@ -916,15 +963,20 @@ exports.default = Container;
 // function_name_await
 test!(
     Default::default(),
-    |t| chain!(
-        resolver(),
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        classes(Some(t.comments.clone()), Default::default()),
-        function_name(),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            classes(Some(t.comments.clone()), Default::default()),
+            function_name(),
+        )
+    },
     function_name_await,
     r#"
 export {};

@@ -64,9 +64,9 @@ mod typescript;
 /// require("z")
 /// module.hot.accept("x", () => {     })
 /// ```
-pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
+pub fn ast_reducer(unresolved_mark: Mark) -> impl VisitMut {
     Repeat::new(ReduceAst {
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         ..Default::default()
     })
 }
@@ -241,7 +241,7 @@ impl ScopeData {
 struct ReduceAst {
     collected_data: bool,
     data: Arc<ScopeData>,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
 
     var_decl_kind: Option<VarDeclKind>,
 
@@ -1450,7 +1450,7 @@ impl VisitMut for ReduceAst {
                 if self.data.should_preserve(&p.id) {
                     return;
                 }
-                if p.id.span.ctxt != self.top_level_ctxt {
+                if p.id.span.ctxt != self.unresolved_ctxt {
                     pat.take();
                 }
             }

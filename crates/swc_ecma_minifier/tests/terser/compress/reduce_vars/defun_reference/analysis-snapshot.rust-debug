@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -233,7 +233,7 @@ TestSnapshot {
         (
             (
                 Atom('y' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

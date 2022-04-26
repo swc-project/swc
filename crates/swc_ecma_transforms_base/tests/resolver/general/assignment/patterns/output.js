@@ -1,5 +1,5 @@
-const foo = "foo";
-function foobar() {
+const foo__1 = "foo";
+function foobar__1() {
     for (let item__2 of [
         1,
         2,

@@ -123,7 +123,7 @@ TestSnapshot {
         (
             (
                 Atom('could_throw' type=dynamic),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -199,7 +199,7 @@ TestSnapshot {
         (
             (
                 Atom('ex' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -313,7 +313,7 @@ TestSnapshot {
         (
             (
                 Atom('might_throw' type=dynamic),
-                #1,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

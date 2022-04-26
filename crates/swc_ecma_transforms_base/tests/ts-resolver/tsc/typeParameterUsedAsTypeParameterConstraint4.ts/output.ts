@@ -1,45 +1,45 @@
-class C<T__2, U__2 extends T__2, V__2 extends U__2> {
+class C__1<T__2, U__2 extends T__2, V__2 extends U__2> {
     z: W;
-    foo<W__3 extends V__2>(x__3: W__3): T__2 {
-        var r__3: T__2;
-        return x__3;
+    foo<W__4 extends V__2>(x__4: W__4): T__2 {
+        var r__4: T__2;
+        return x__4;
     }
 }
-interface I<T__4, U__4 extends T__4, V__4 extends U__4> {
-    x__0: T__4;
-    y__0: U__4;
+interface I__1<T__5, U__5 extends T__5, V__5 extends U__5> {
+    x__0: T__5;
+    y__0: U__5;
     z__0: W;
-    foo__0<W__5 extends V__4>(x__5: W__5): T__4;
+    foo__0<W__6 extends V__5>(x__6: W__6): T__5;
 }
-function foo<T__6, U__6 extends T__6>(x__6: T__6, y__6: U__6): V {
-    function bar__6<V__7 extends T__6, W__7 extends U__6>(): X {
-        function baz__7<X__8 extends W__7, Y__8 extends V__7>(a__8: X__8, b__8: Y__8): T__6 {
-            x__6 = y__6;
-            return y__6;
+function foo__1<T__7, U__7 extends T__7>(x__7: T__7, y__7: U__7): V {
+    function bar__7<V__8 extends T__7, W__8 extends U__7>(): X {
+        function baz__8<X__9 extends W__8, Y__9 extends V__8>(a__9: X__9, b__9: Y__9): T__7 {
+            x__7 = y__7;
+            return y__7;
         }
     }
 }
-function foo2<U__9 extends T__9, T__9>(x__9: T__9, y__9: U__9): W {
-    function bar__9<V__10 extends T__9, W__10 extends U__9>(): Y {
-        function baz__10<X__11 extends W__10, Y__11 extends V__10>(a__11: X__11, b__11: Y__11): T__9 {
-            x__9 = y__9;
-            return y__9;
+function foo2__1<U__10 extends T__10, T__10>(x__10: T__10, y__10: U__10): W {
+    function bar__10<V__11 extends T__10, W__11 extends U__10>(): Y {
+        function baz__11<X__12 extends W__11, Y__12 extends V__11>(a__12: X__12, b__12: Y__12): T__10 {
+            x__10 = y__10;
+            return y__10;
         }
     }
 }
-var f3 = <T__12, U__12 extends T__12>(x__12: T__12, y__12: U__12)=>{
-    function bar__12<V__13 extends T__12, W__13 extends U__12>(r__13: X, s__13: Y) {
-        var g__13 = <X__14 extends W__13, Y__14 extends V__13>(a__14: X__14, b__14: Y__14): T__12 =>{
-            x__12 = y__12;
-            return y__12;
+var f3__1 = <T__13, U__13 extends T__13>(x__13: T__13, y__13: U__13)=>{
+    function bar__13<V__14 extends T__13, W__14 extends U__13>(r__14: X, s__14: Y) {
+        var g__14 = <X__15 extends W__14, Y__15 extends V__14>(a__15: X__15, b__15: Y__15): T__13 =>{
+            x__13 = y__13;
+            return y__13;
         };
     }
 };
-var f4 = <U__15 extends T__15, T__15>(x__15: V, y__15: X)=>{
-    function bar__15<V__16 extends T__15, W__16 extends U__15>() {
-        var g__16 = <X__17 extends W__16, Y__17 extends V__16>(a__17: X__17, b__17: Y__17): T__15 =>{
-            x__15 = y__15;
-            return y__15;
+var f4__1 = <U__16 extends T__16, T__16>(x__16: V, y__16: X)=>{
+    function bar__16<V__17 extends T__16, W__17 extends U__16>() {
+        var g__17 = <X__18 extends W__17, Y__18 extends V__17>(a__18: X__18, b__18: Y__18): T__16 =>{
+            x__16 = y__16;
+            return y__16;
         };
     }
 };

@@ -6,12 +6,12 @@ var M;
     }
     M1.D = D;
 })(M || (M = {}));
-var N;
-(function(N1) {
+var N1;
+(function(N) {
     class E extends M.D {
     }
-    N1.E = E;
-})(N || (N = {}));
+    N.E = E;
+})(N1 || (N1 = {}));
 var O;
 (function(O) {
     class C2 extends Q.E2 {

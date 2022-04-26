@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('_react' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -119,7 +119,7 @@ TestSnapshot {
         (
             (
                 Atom('opts' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -157,7 +157,7 @@ TestSnapshot {
         (
             (
                 Atom('props' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -195,7 +195,7 @@ TestSnapshot {
         (
             (
                 Atom('state' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -233,7 +233,7 @@ TestSnapshot {
         (
             (
                 Atom('subscription' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

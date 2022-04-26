@@ -1,6 +1,6 @@
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{arrow, for_of, function_name, shorthand};
 use swc_ecma_transforms_module::{
     amd::{amd, Config},
@@ -17,7 +17,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold {
-    chain!(resolver(), module_hoister(), amd(config))
+    chain!(
+        resolver(Mark::new(), Mark::new(), false),
+        module_hoister(),
+        amd(config)
+    )
 }
 
 test!(

@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_BLOCK_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_FORWARD_REF_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_LAZY_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -155,7 +155,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_MEMO_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -193,7 +193,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_SUSPENSE_LIST_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -231,7 +231,7 @@ TestSnapshot {
         (
             (
                 Atom('describeBuiltInComponentFrame' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -269,7 +269,7 @@ TestSnapshot {
         (
             (
                 Atom('describeFunctionComponentFrame' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -307,7 +307,7 @@ TestSnapshot {
         (
             (
                 Atom('describeNativeComponentFrame' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -383,7 +383,7 @@ TestSnapshot {
         (
             (
                 Atom('exports' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -733,7 +733,7 @@ TestSnapshot {
         (
             (
                 Atom('x' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,

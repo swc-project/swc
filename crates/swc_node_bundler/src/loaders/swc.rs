@@ -24,7 +24,7 @@ use swc_ecma_transforms::{
         simplify::{dead_branch_remover, expr_simplifier},
     },
     pass::noop,
-    resolver_with_mark,
+    resolver,
 };
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
@@ -170,12 +170,14 @@ impl SwcLoader {
                         Default::default(),
                         Default::default(),
                     ));
-                    let top_level_mark = Mark::fresh(Mark::root());
-                    program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
-                    let program =
-                        program.fold_with(&mut expr_simplifier(top_level_mark, Default::default()));
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
 
-                    program.fold_with(&mut dead_branch_remover(top_level_mark))
+                    program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+                    let program = program
+                        .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
+
+                    program.fold_with(&mut dead_branch_remover(unresolved_mark))
                 })
             })
         } else {
@@ -212,7 +214,7 @@ impl SwcLoader {
                     skip_helper_injection: true,
                     disable_hygiene: false,
                     disable_fixer: true,
-                    global_mark: self.options.global_mark,
+                    top_level_mark: self.options.top_level_mark,
                     cwd: self.options.cwd.clone(),
                     caller: None,
                     filename: String::new(),
@@ -244,11 +246,17 @@ impl SwcLoader {
                             Default::default(),
                             Default::default(),
                         ));
-                        let top_level_mark = Mark::fresh(Mark::root());
-                        program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
+
+                        program.visit_mut_with(&mut resolver(
+                            unresolved_mark,
+                            top_level_mark,
+                            false,
+                        ));
                         let program = program
-                            .fold_with(&mut expr_simplifier(top_level_mark, Default::default()));
-                        let program = program.fold_with(&mut dead_branch_remover(top_level_mark));
+                            .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
+                        let program = program.fold_with(&mut dead_branch_remover(unresolved_mark));
 
                         program.fold_with(&mut pass)
                     })

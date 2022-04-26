@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('__webpack_require__' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

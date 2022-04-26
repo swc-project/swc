@@ -1,1 +1,1 @@
-import { foo__0 as foo } from 'src';
+import { foo__0 as foo__1 } from 'src';

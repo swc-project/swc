@@ -1,4 +1,4 @@
-export class X {
+export class X__1 {
     constructor(){}
     bad(target__2: number) {
         const d__2 = 1;

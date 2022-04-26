@@ -1,5 +1,5 @@
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::test_transform;
 
 use super::expr_simplifier;
@@ -8,11 +8,12 @@ fn fold(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
             chain!(
-                resolver_with_mark(top_level_mark),
-                expr_simplifier(top_level_mark, Default::default())
+                resolver(unresolved_mark, top_level_mark, false),
+                expr_simplifier(unresolved_mark, Default::default())
             )
         },
         src,

@@ -1,33 +1,33 @@
-var sym = Symbol();
-var Foo = function() {
-    function Foo__2() {
-        _classCallCheck(this, Foo__2);
+var sym__1 = Symbol();
+var Foo__1 = function() {
+    function Foo__3() {
+        _classCallCheck(this, Foo__3);
     }
-    _createClass(Foo__2, [
+    _createClass(Foo__3, [
         {
-            key: sym,
+            key: sym__1,
             value: function() {
                 return 1;
             }
         }
     ]);
-    return Foo__2;
+    return Foo__3;
 }();
-var Bar = function(_Foo__3) {
-    _inherits(Bar__3, _Foo__3);
-    function Bar__3() {
-        _classCallCheck(this, Bar__3);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Bar__3).apply(this, arguments));
+var Bar__1 = function(_Foo__4) {
+    _inherits(Bar__4, _Foo__4);
+    function Bar__4() {
+        _classCallCheck(this, Bar__4);
+        return _possibleConstructorReturn(this, _getPrototypeOf(Bar__4).apply(this, arguments));
     }
-    _createClass(Bar__3, [
+    _createClass(Bar__4, [
         {
-            key: sym,
+            key: sym__1,
             value: function() {
-                return _get(_getPrototypeOf(Bar__3.prototype), sym, this)() + 2;
+                return _get(_getPrototypeOf(Bar__4.prototype), sym__1, this)() + 2;
             }
         }
     ]);
-    return Bar__3;
-}(Foo);
-var i = new Bar();
-expect(i[sym]()).toBe(3);
+    return Bar__4;
+}(Foo__1);
+var i__1 = new Bar__1();
+expect(i__1[sym__1]()).toBe(3);

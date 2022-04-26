@@ -43,7 +43,7 @@ TestSnapshot {
         (
             (
                 Atom('core_deletedIds' type=dynamic),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -355,7 +355,7 @@ TestSnapshot {
         (
             (
                 Atom('jQuery' type=inline),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -629,7 +629,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #3,
             ),
             VarUsageInfo {
                 inline_prevented: false,

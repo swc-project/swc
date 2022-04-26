@@ -3,7 +3,7 @@ TestSnapshot {
         (
             (
                 Atom('Error' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -41,7 +41,7 @@ TestSnapshot {
         (
             (
                 Atom('Function' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -79,7 +79,7 @@ TestSnapshot {
         (
             (
                 Atom('Object' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -117,7 +117,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_FORWARD_REF_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -155,7 +155,7 @@ TestSnapshot {
         (
             (
                 Atom('REACT_MEMO_TYPE' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -425,7 +425,7 @@ TestSnapshot {
         (
             (
                 Atom('error' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -503,7 +503,7 @@ TestSnapshot {
         (
             (
                 Atom('ex' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -541,7 +541,7 @@ TestSnapshot {
         (
             (
                 Atom('getComponentName' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -657,7 +657,7 @@ TestSnapshot {
         (
             (
                 Atom('loggedTypeFailures' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -775,7 +775,7 @@ TestSnapshot {
         (
             (
                 Atom('propTypesMisspellWarningShown' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -813,7 +813,7 @@ TestSnapshot {
         (
             (
                 Atom('setCurrentlyValidatingElement' type=dynamic),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -969,7 +969,7 @@ TestSnapshot {
         (
             (
                 Atom('undefined' type=static),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

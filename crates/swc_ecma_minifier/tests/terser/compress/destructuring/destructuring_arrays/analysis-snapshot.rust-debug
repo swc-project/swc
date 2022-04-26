@@ -123,7 +123,7 @@ TestSnapshot {
         (
             (
                 Atom('aa' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -163,7 +163,7 @@ TestSnapshot {
         (
             (
                 Atom('aa' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -323,7 +323,7 @@ TestSnapshot {
         (
             (
                 Atom('bb' type=inline),
-                #4,
+                #5,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -363,7 +363,7 @@ TestSnapshot {
         (
             (
                 Atom('bb' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -481,7 +481,7 @@ TestSnapshot {
         (
             (
                 Atom('cc' type=inline),
-                #5,
+                #6,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -521,7 +521,7 @@ TestSnapshot {
         (
             (
                 Atom('dd' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -559,7 +559,7 @@ TestSnapshot {
         (
             (
                 Atom('xx' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,
@@ -597,7 +597,7 @@ TestSnapshot {
         (
             (
                 Atom('xxx' type=inline),
-                #1,
+                #4,
             ),
             VarUsageInfo {
                 inline_prevented: false,

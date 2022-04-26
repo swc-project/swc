@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{
@@ -11,11 +11,7 @@ use swc_ecma_visit::{
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
 use crate::{marks::Marks, option::MangleOptions};
 
-pub(crate) fn name_mangler(
-    options: MangleOptions,
-    _marks: Marks,
-    _top_level_ctxt: SyntaxContext,
-) -> impl VisitMut {
+pub(crate) fn name_mangler(options: MangleOptions, _marks: Marks) -> impl VisitMut {
     Mangler {
         options,
         preserved: Default::default(),

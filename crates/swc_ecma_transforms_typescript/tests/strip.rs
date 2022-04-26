@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use swc_common::{chain, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::ts_resolver;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
@@ -22,7 +22,8 @@ fn tr_config(
     config: Option<strip::Config>,
     decorators_config: Option<decorators::Config>,
 ) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
     let has_decorators = decorators_config.is_some();
     let config = config.unwrap_or_else(|| strip::Config {
         no_empty_export: true,
@@ -33,8 +34,8 @@ fn tr_config(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
         ),
-        ts_resolver(mark),
-        strip_with_config(config, mark),
+        resolver(unresolved_mark, top_level_mark, true),
+        strip_with_config(config, top_level_mark),
     )
 }
 
