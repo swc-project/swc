@@ -14,7 +14,7 @@ use crate::scope::{IdentType, ScopeKind};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true && cfg!(debug_assertions);
+const LOG: bool = false && cfg!(debug_assertions);
 
 /// See [Ident] for know how does swc manages identifiers.
 ///
