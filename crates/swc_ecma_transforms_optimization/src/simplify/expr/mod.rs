@@ -36,7 +36,7 @@ pub struct Config {}
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
 pub fn expr_simplifier(
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
 ) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(SimplifyExpr {
@@ -46,13 +46,13 @@ pub fn expr_simplifier(
         is_arg_of_update: false,
         is_modifying: false,
         in_callee: false,
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }
 
 #[derive(Debug)]
 struct SimplifyExpr {
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     config: Config,
 
     changed: bool,
@@ -1284,7 +1284,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut child = SimplifyExpr {
-            top_level_ctxt: self.top_level_ctxt,
+            unresolved_ctxt: self.unresolved_ctxt,
             config: self.config,
             changed: Default::default(),
             vars: Default::default(),
@@ -1422,7 +1422,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let mut child = SimplifyExpr {
-            top_level_ctxt: self.top_level_ctxt,
+            unresolved_ctxt: self.unresolved_ctxt,
             config: self.config,
             changed: Default::default(),
             vars: Default::default(),
