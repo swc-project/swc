@@ -70,17 +70,36 @@ const LOG: bool = true && cfg!(debug_assertions);
 ///
 /// ## `unresolved_mark`
 ///
-/// [Mark] applied to unresolved references
+/// [Mark] applied to unresolved references.
+///
+/// A pass should accept this [Mark] if it's going to generate a refernce to
+/// globals like `require`.
+///
+/// e.g. `common_js` pass generates calls to `require`, and this should not
+/// be shadowed by a declaration named `require` in the same file.
+/// So it uses this value.
 ///
 /// ## `top_level_mark`
 ///
-/// [Mark] applied to top-level bindings
+/// [Mark] applied to top-level bindings.
+///
+/// A pass should accept this [Mark] if it requires user-defined top-level
+/// items.
+///
+/// e.g. `jsx` pass requires to call `React` imported by the user.
+///
+/// ```js
+/// import React from 'react';
+/// ```
+///
+/// In the code above, `React` has this [Mark]. `jsx` passes need to
+/// reference this [Mark], so it accpets this.
 ///
 ///
 /// ## `typescript`
 ///
-/// Enable this only if you are going to strip types or apply type-aware passes
-/// like decorators pass.
+/// Enable this only if you are going to strip types or apply type-aware
+/// passes like decorators pass.
 pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
