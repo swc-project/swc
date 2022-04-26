@@ -149,7 +149,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(symbol_description::symbol_description(
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.symbol_description,
         ));
 
