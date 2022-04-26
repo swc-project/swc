@@ -10,7 +10,7 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,
     ModuleDecl, ModuleExportName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -137,7 +137,9 @@ where
 
             data.module.visit_mut_with(&mut ClearMark);
 
-            let mut module = data.module.fold_with(&mut resolver_with_mark(local_mark));
+            let mut module = data
+                .module
+                .fold_with(&mut resolver(local_mark, local_mark, false));
 
             // {
             //     let code = self
