@@ -58,7 +58,15 @@ macro_rules! identical {
 fn test(src: &str, expected: &str) {
     swc_ecma_transforms_testing::test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), inlining(Default::default())),
+        |_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                inlining(Default::default())
+            )
+        },
         src,
         expected,
         true,

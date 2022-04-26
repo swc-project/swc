@@ -29,6 +29,10 @@ fn test(src: &str, expected: &str) {
                 resolver_with_mark(top_level_mark),
                 simplifier(top_level_mark, Default::default())
             )
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(resolver(), simplifier(Default::default()))
         },
         src,
         expected,
@@ -51,6 +55,10 @@ macro_rules! to {
                     resolver_with_mark(top_level_mark),
                     simplifier(top_level_mark, Default::default())
                 )
+                let unresolved_mark = Mark::new();
+                let top_level_mark = Mark::new();
+
+                chain!(resolver(), simplifier(Default::default()))
             },
             $name,
             $src,
