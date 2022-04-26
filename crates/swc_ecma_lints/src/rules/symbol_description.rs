@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
@@ -20,7 +19,6 @@ pub struct SymbolDescriptionConfig {
 }
 
 pub fn symbol_description(
-    program: &Program,
     unresolved_ctxt: SyntaxContext,
     config: &RuleConfig<SymbolDescriptionConfig>,
 ) -> Option<Box<dyn Rule>> {

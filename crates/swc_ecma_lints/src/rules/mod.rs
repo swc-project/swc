@@ -91,7 +91,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(quotes::quotes(&lint_config.quotes));
 
         rules.extend(prefer_regex_literals::prefer_regex_literals(
-            program,
             &lint_config.prefer_regex_literals,
             unresolved_ctxt,
             es_version,
@@ -150,7 +149,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(symbol_description::symbol_description(
-            program,
             top_level_ctxt,
             &lint_config.symbol_description,
         ));

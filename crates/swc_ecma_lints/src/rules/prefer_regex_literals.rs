@@ -27,7 +27,6 @@ pub struct PreferRegexLiteralsConfig {
 }
 
 pub fn prefer_regex_literals(
-    program: &Program,
     config: &RuleConfig<PreferRegexLiteralsConfig>,
     unresolved_ctxt: SyntaxContext,
     es_version: EsVersion,
