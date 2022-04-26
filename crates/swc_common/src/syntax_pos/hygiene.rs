@@ -94,6 +94,12 @@ extern "C" {
 }
 
 impl Mark {
+    /// Shortcut for `Mark::fresh(Mark::root())`
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Self {
+        Mark::fresh(Mark::root())
+    }
+
     pub fn fresh(parent: Mark) -> Self {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
