@@ -37,6 +37,9 @@
 
 - **(html/parser)** Fix span (#4437) ([3293060](https://github.com/swc-project/swc/commit/329306007018d733bc9d348cd4a5dc839768b3e8))
 
+
+- **(html/parsing)** Fix parsing of formatting elements (#4442) ([8f2a3ea](https://github.com/swc-project/swc/commit/8f2a3ead6a56c47ae867c40ac863346a0e6bc88a))
+
 ### Features
 
 
