@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.172.0"
+version = "0.172.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3720,7 +3720,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "anyhow",
  "miette",
