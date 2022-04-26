@@ -108,7 +108,7 @@ fn test_mark_for() {
 fn issue_1279_1() {
     run_test_with_config(
         Default::default(),
-        resolver,
+        || resolver(Mark::new(), Mark::new(), false),
         "class Foo {
             static f = 1;
             static g = Foo.f;
