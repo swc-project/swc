@@ -19,5 +19,6 @@
                 "useBuiltins": true
             }
         }
-    }
+    },
+    "sourceMaps": "inline"
 }
