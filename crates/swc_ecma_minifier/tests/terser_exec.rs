@@ -216,7 +216,10 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
             mangle: None,
             ..Default::default()
         },
-        &ExtraOptions { unresolved_mark },
+        &ExtraOptions {
+            unresolved_mark,
+            top_level_mark,
+        },
     );
     let end = Instant::now();
     tracing::info!(

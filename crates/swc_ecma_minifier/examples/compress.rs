@@ -52,7 +52,10 @@ fn main() {
                 mangle: None,
                 ..Default::default()
             },
-            &ExtraOptions { unresolved_mark },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
         );
 
         let output = output.fold_with(&mut fixer(None));

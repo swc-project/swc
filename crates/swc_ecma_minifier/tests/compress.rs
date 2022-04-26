@@ -226,7 +226,10 @@ fn run(
             }),
             ..Default::default()
         },
-        &ExtraOptions { unresolved_mark },
+        &ExtraOptions {
+            unresolved_mark,
+            top_level_mark,
+        },
     );
     let end = Instant::now();
     tracing::info!(

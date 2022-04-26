@@ -1065,7 +1065,10 @@ fn bundle(url: &str, minify: bool) -> String {
                         }),
                         ..Default::default()
                     },
-                    &swc_ecma_minifier::option::ExtraOptions { unresolved_mark },
+                    &swc_ecma_minifier::option::ExtraOptions {
+                        unresolved_mark,
+                        top_level_mark,
+                    },
                 );
                 module.visit_mut_with(&mut fixer(None));
             }

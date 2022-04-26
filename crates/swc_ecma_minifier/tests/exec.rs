@@ -152,7 +152,10 @@ fn run(
             mangle,
             ..Default::default()
         },
-        &ExtraOptions { unresolved_mark },
+        &ExtraOptions {
+            unresolved_mark,
+            top_level_mark,
+        },
     );
 
     if run_hygiene {

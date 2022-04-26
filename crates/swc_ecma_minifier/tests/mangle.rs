@@ -90,7 +90,10 @@ fn compressed(compressed_file: PathBuf) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { unresolved_mark },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
         );
 
         let mangled = print(cm.clone(), &m, false);
@@ -127,7 +130,10 @@ fn fixture(input: PathBuf) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { unresolved_mark },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
         );
 
         let mangled = print(cm, &m, false);
@@ -148,6 +154,7 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
         let m = parse_fm(&handler, fm)?;
 
         let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
 
         let m = optimize(
             m,
@@ -159,7 +166,10 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
                 compress: None,
                 ..Default::default()
             },
-            &ExtraOptions { unresolved_mark },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
         );
 
         let mangled = print(cm, &m, false);

@@ -135,6 +135,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                             },
                             &ExtraOptions {
                                 unresolved_mark: Mark::new(),
+                                top_level_mark: Mark::new(),
                             },
                         );
                         b.module.visit_mut_with(&mut fixer(None));

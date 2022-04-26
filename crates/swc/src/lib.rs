@@ -1052,7 +1052,10 @@ impl Compiler {
                     Some(&comments),
                     None,
                     &min_opts,
-                    &swc_ecma_minifier::option::ExtraOptions { unresolved_mark },
+                    &swc_ecma_minifier::option::ExtraOptions {
+                        unresolved_mark,
+                        top_level_mark,
+                    },
                 );
 
                 if !is_mangler_enabled {
