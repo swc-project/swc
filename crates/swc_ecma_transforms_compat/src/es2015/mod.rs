@@ -45,8 +45,16 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
+///
+/// # Parameters
+///
+/// ## `unresolved_mark`
+///
+/// Used to generate `require` calls.
+/// See the documentation of [regenerator](self::regenerator::regenerator) for
+/// more details.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
     C: Comments,
 {
@@ -76,7 +84,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(),
-        regenerator(c.regenerator, global_mark),
+        regenerator(c.regenerator, unresolved_mark),
     )
 }
 
