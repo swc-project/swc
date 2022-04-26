@@ -6,7 +6,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{helpers::inject_helpers, resolver, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
@@ -25,7 +25,10 @@ fn test(src: &str, expected: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(resolver(), simplifier(Default::default()))
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                simplifier(unresolved_mark, Default::default())
+            )
         },
         src,
         expected,
@@ -45,7 +48,10 @@ macro_rules! to {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
-                chain!(resolver(), simplifier(Default::default()))
+                chain!(
+                    resolver(unresolved_mark, top_level_mark, false),
+                    simplifier(unresolved_mark, Default::default())
+                )
             },
             $name,
             $src,
@@ -565,7 +571,7 @@ test!(
             resolver_with_mark(top_level_mark),
             strip(top_level_mark),
             class_properties(Some(t.comments.clone()), Default::default()),
-            simplifier(top_level_mark, Default::default()),
+            simplifier(unresolved_mark, Default::default()),
             es2018(Default::default()),
             es2017(Default::default()),
             es2016(),
