@@ -21,10 +21,10 @@ use crate::path::{ImportResolver, Resolver};
 
 mod config;
 
-pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
+pub fn umd(cm: Lrc<SourceMap>, unresolved_mark: Mark, config: Config) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
-        root_mark,
+        unresolved_mark,
         cm,
 
         in_top_level: Default::default(),
@@ -45,7 +45,7 @@ pub fn umd_with_resolver(
 ) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
-        root_mark,
+        unresolved_mark: root_mark,
         cm,
 
         in_top_level: Default::default(),
@@ -59,7 +59,7 @@ pub fn umd_with_resolver(
 
 struct Umd {
     cm: Lrc<SourceMap>,
-    root_mark: Mark,
+    unresolved_mark: Mark,
     in_top_level: bool,
     config: BuiltConfig,
     scope: RefCell<Scope>,
@@ -575,7 +575,7 @@ impl Fold for Umd {
             });
             factory_args.push(
                 self.resolver
-                    .make_require_call(self.root_mark, src.clone(), src_span)
+                    .make_require_call(self.unresolved_mark, src.clone(), src_span)
                     .as_arg(),
             );
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
