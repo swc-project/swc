@@ -27,7 +27,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::assert_eq;
 
@@ -174,7 +174,8 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
-    let top_level_mark = Mark::fresh(Mark::root());
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
 
     let minification_start = Instant::now();
 
@@ -194,7 +195,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         .map_err(|err| {
             err.into_diagnostic(handler).emit();
         })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
 
     // Ignore parser errors.
     //

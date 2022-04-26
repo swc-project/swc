@@ -15,7 +15,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 
 fn main() {
@@ -26,7 +26,8 @@ fn main() {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(Path::new(&file)).expect("failed to load file");
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         let program = parse_file_as_module(
             &fm,
@@ -38,7 +39,7 @@ fn main() {
         .map_err(|err| {
             err.into_diagnostic(&handler).emit();
         })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
+        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)))
         .unwrap();
 
         let output = optimize(

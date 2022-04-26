@@ -13,6 +13,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
@@ -106,9 +107,10 @@ fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
-        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let m = optimize(
             m,
