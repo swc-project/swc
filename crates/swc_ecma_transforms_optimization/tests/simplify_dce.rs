@@ -19,7 +19,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(), tr()),
+            |_| chain!(resolver(Mark::new(), Mark::new(), false), tr()),
             $name,
             $src,
             $expected

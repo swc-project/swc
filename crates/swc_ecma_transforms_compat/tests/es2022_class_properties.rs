@@ -6183,16 +6183,21 @@ MyClass[_ref3] = "247";
 
 test!(
     syntax(),
-    |t| chain!(
-        resolver(),
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            }
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                }
+            )
         )
-    ),
+    },
     set_public_constructor_collision,
     r#"
 var foo = "bar";
