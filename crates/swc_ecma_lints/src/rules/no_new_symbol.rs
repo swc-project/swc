@@ -1,6 +1,5 @@
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -11,8 +10,7 @@ use crate::{
 const MESSAGE: &str = "`Symbol` cannot be called as a constructor";
 
 pub fn no_new_symbol(
-    program: &Program,
-    top_level_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     config: &RuleConfig<()>,
 ) -> Option<Box<dyn Rule>> {
     let expected_reaction = config.get_rule_reaction();
@@ -20,8 +18,7 @@ pub fn no_new_symbol(
     match expected_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoNewSymbol::new(
-            collect_decls_with_ctxt(program, top_level_ctxt),
-            top_level_ctxt,
+            unresolved_ctxt,
             expected_reaction,
         ))),
     }
@@ -30,29 +27,19 @@ pub fn no_new_symbol(
 #[derive(Debug, Default)]
 struct NoNewSymbol {
     expected_reaction: LintRuleReaction,
-    top_level_ctxt: SyntaxContext,
-    top_level_declared_vars: AHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
 }
 
 impl NoNewSymbol {
-    fn new(
-        top_level_declared_vars: AHashSet<Id>,
-        top_level_ctxt: SyntaxContext,
-        expected_reaction: LintRuleReaction,
-    ) -> Self {
+    fn new(unresolved_ctxt: SyntaxContext, expected_reaction: LintRuleReaction) -> Self {
         Self {
             expected_reaction,
-            top_level_ctxt,
-            top_level_declared_vars,
+            unresolved_ctxt,
         }
     }
 
     fn check(&self, span: Span, ident: &Ident) {
-        if self.top_level_declared_vars.contains(&ident.to_id()) {
-            return;
-        }
-
-        if ident.span.ctxt != self.top_level_ctxt {
+        if ident.span.ctxt != self.unresolved_ctxt {
             return;
         }
 

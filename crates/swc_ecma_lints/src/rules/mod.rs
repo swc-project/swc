@@ -131,8 +131,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(yoda::yoda(&lint_config.yoda));
 
         rules.extend(no_new_symbol::no_new_symbol(
-            program,
-            top_level_ctxt,
+            unresolved_ctxt,
             &lint_config.no_new_symbol,
         ));
 
