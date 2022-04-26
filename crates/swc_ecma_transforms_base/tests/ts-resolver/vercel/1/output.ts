@@ -1,17 +1,17 @@
-var n = t(3957);
-function o(e__2) {
-    const r__2 = e__2.nextUrl;
-    if ('/log' !== r__2.pathname) {
-        if ('/throw-error-internal' === r__2.pathname) {
-            function r__3() {
-                return e__2();
+var n__1 = t(3957);
+function o__1(e__3) {
+    const r__3 = e__3.nextUrl;
+    if ('/log' !== r__3.pathname) {
+        if ('/throw-error-internal' === r__3.pathname) {
+            function r__4() {
+                return e__3();
             }
             try {
-                r__3();
-            } catch (o__4) {
-                console.error(o__4);
+                r__4();
+            } catch (o__5) {
+                console.error(o__5);
             }
-            return new Promise((e__5, r__5)=>r__5(new Error('oh no!'))
+            return new Promise((e__6, r__6)=>r__6(new Error('oh no!'))
             );
         }
     }

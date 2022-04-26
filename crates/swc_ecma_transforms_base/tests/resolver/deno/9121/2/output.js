@@ -1,5 +1,5 @@
-var _ = 1;
-function wt() {
+var ___1 = 1;
+function wt__1() {
     if (u !== null) {
         if (y !== null) {
             var ___2 = 2;

@@ -1,18 +1,18 @@
-function f1() {
+function f1__1() {
     function f__2<T__3>(x__3: T__3): T__3 {
         return undefined;
     }
 }
-function f2() {
-    function f__4(x__5: T): T {
-        interface T__5 {
+function f2__1() {
+    function f__5(x__6: T): T {
+        interface T__6 {
         }
         return undefined;
     }
 }
-function f3() {
-    function f__6<T__7>() {
-        interface T__7 {
+function f3__1() {
+    function f__7<T__8>() {
+        interface T__8 {
         }
         return undefined;
     }

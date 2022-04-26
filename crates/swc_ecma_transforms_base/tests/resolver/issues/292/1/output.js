@@ -1,10 +1,10 @@
-var __assign = function() {
-    __assign = Object.assign || function __assign1__2(t__2) {
-        for(var s__2, i__2 = 1, n__2 = arguments.length; i__2 < n__2; i__2++){
-            s__2 = arguments[i__2];
-            for(var p__2 in s__2)if (Object.prototype.hasOwnProperty.call(s__2, p__2)) t__2[p__2] = s__2[p__2];
+var __assign__1 = function() {
+    __assign__1 = Object.assign || function __assign1__3(t__3) {
+        for(var s__3, i__3 = 1, n__3 = arguments.length; i__3 < n__3; i__3++){
+            s__3 = arguments[i__3];
+            for(var p__3 in s__3)if (Object.prototype.hasOwnProperty.call(s__3, p__3)) t__3[p__3] = s__3[p__3];
         }
-        return t__2;
+        return t__3;
     };
-    return __assign.apply(this, arguments);
+    return __assign__1.apply(this, arguments);
 };

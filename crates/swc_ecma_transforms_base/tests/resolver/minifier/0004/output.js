@@ -1,4 +1,4 @@
-var o = "PASS";
+var o__1 = "PASS";
 try {
     throw 0;
 } catch (o__2) {
@@ -9,4 +9,4 @@ try {
         a__3(), a__3();
     })();
 }
-console.log(o);
+console.log(o__1);

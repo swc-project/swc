@@ -1,23 +1,23 @@
-function top() {
+function top__1() {
     let resolved__2 = false;
     const doResolve__2 = ()=>{
         if (!resolved__2) {
             resolved__2 = true;
-            resolve((res__3, next__3)=>{
-                const drainHandler__3 = ()=>{
-                    const prevCallbacks__4 = underlyingStream.queuedCallbacks;
+            resolve((res__4, next__4)=>{
+                const drainHandler__4 = ()=>{
+                    const prevCallbacks__5 = underlyingStream.queuedCallbacks;
                     underlyingStream.queuedCallbacks = [];
-                    prevCallbacks__4.forEach((callback__5)=>callback__5()
+                    prevCallbacks__5.forEach((callback__6)=>callback__6()
                     );
                 };
-                res__3.on("drain", drainHandler__3);
+                res__4.on("drain", drainHandler__4);
                 underlyingStream = {
-                    resolve: (err__6)=>{
+                    resolve: (err__7)=>{
                         underlyingStream = null;
-                        res__3.removeListener("drain", drainHandler__3);
-                        next__3(err__6);
+                        res__4.removeListener("drain", drainHandler__4);
+                        next__4(err__7);
                     },
-                    writable: res__3,
+                    writable: res__4,
                     queuedCallbacks: []
                 };
                 startWriting__2();
@@ -25,10 +25,10 @@ function top() {
         }
     };
     const { abort__2 , startWriting__2  } = ReactDOMServer.pipeToNodeWritable(element, stream, {
-        onError (error__7) {
+        onError (error__8) {
             if (!resolved__2) {
                 resolved__2 = true;
-                reject(error__7);
+                reject(error__8);
             }
             abort__2();
         },

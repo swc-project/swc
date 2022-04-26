@@ -1,4 +1,4 @@
-module Top {
+module Top__1 {
     interface A__2<T__3> {
         x__0: T__3;
     }

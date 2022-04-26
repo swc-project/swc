@@ -1,4 +1,4 @@
-for(var a = 0; a < 10; a++){
-    console.log(a);
-    var a = 10;
+for(var a__1 = 0; a__1 < 10; a__1++){
+    console.log(a__1);
+    var a__1 = 10;
 }

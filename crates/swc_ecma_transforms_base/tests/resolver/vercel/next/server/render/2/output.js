@@ -1,83 +1,83 @@
-function renderToStream(element__2, generateStaticHTML__2) {
-    return new Promise((resolve__3, reject__3)=>{
-        let underlyingStream__3 = null;
-        const stream__3 = new Writable({
+function renderToStream__1(element__2, generateStaticHTML__2) {
+    return new Promise((resolve__4, reject__4)=>{
+        let underlyingStream__4 = null;
+        const stream__4 = new Writable({
             highWaterMark: 0,
-            write (chunk__4, encoding__4, callback__4) {
-                if (!underlyingStream__3) {
+            write (chunk__5, encoding__5, callback__5) {
+                if (!underlyingStream__4) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
-                if (!underlyingStream__3.writable.write(chunk__4, encoding__4)) {
-                    underlyingStream__3.queuedCallbacks.push(()=>callback__4()
+                if (!underlyingStream__4.writable.write(chunk__5, encoding__5)) {
+                    underlyingStream__4.queuedCallbacks.push(()=>callback__5()
                     );
                 } else {
-                    callback__4();
+                    callback__5();
                 }
             }
         });
-        stream__3.once("finish", ()=>{
-            if (!underlyingStream__3) {
+        stream__4.once("finish", ()=>{
+            if (!underlyingStream__4) {
                 throw new Error("invariant: finish called without an underlying stream. This is a bug in Next.js");
             }
-            underlyingStream__3.resolve();
+            underlyingStream__4.resolve();
         });
-        stream__3.once("error", (err__5)=>{
-            if (!underlyingStream__3) {
+        stream__4.once("error", (err__6)=>{
+            if (!underlyingStream__4) {
                 throw new Error("invariant: error called without an underlying stream. This is a bug in Next.js");
             }
-            underlyingStream__3.resolve(err__5);
+            underlyingStream__4.resolve(err__6);
         });
-        Object.defineProperty(stream__3, "flush", {
+        Object.defineProperty(stream__4, "flush", {
             value: ()=>{
-                if (!underlyingStream__3) {
+                if (!underlyingStream__4) {
                     throw new Error("invariant: flush called without an underlying stream. This is a bug in Next.js");
                 }
-                if (typeof underlyingStream__3.writable.flush === "function") {
-                    underlyingStream__3.writable.flush();
+                if (typeof underlyingStream__4.writable.flush === "function") {
+                    underlyingStream__4.writable.flush();
                 }
             },
             enumerable: true
         });
-        let resolved__3 = false;
-        const doResolve__3 = ()=>{
-            if (!resolved__3) {
-                resolved__3 = true;
-                resolve__3((res__6, next__6)=>{
-                    const drainHandler__6 = ()=>{
-                        const prevCallbacks__7 = underlyingStream__3.queuedCallbacks;
-                        underlyingStream__3.queuedCallbacks = [];
-                        prevCallbacks__7.forEach((callback__8)=>callback__8()
+        let resolved__4 = false;
+        const doResolve__4 = ()=>{
+            if (!resolved__4) {
+                resolved__4 = true;
+                resolve__4((res__7, next__7)=>{
+                    const drainHandler__7 = ()=>{
+                        const prevCallbacks__8 = underlyingStream__4.queuedCallbacks;
+                        underlyingStream__4.queuedCallbacks = [];
+                        prevCallbacks__8.forEach((callback__9)=>callback__9()
                         );
                     };
-                    res__6.on("drain", drainHandler__6);
-                    underlyingStream__3 = {
-                        resolve: (err__9)=>{
-                            underlyingStream__3 = null;
-                            res__6.removeListener("drain", drainHandler__6);
-                            next__6(err__9);
+                    res__7.on("drain", drainHandler__7);
+                    underlyingStream__4 = {
+                        resolve: (err__10)=>{
+                            underlyingStream__4 = null;
+                            res__7.removeListener("drain", drainHandler__7);
+                            next__7(err__10);
                         },
-                        writable: res__6,
+                        writable: res__7,
                         queuedCallbacks: []
                     };
-                    startWriting__3();
+                    startWriting__4();
                 });
             }
         };
-        const { abort__3 , startWriting__3  } = ReactDOMServer.pipeToNodeWritable(element__2, stream__3, {
-            onError (error__10) {
-                if (!resolved__3) {
-                    resolved__3 = true;
-                    reject__3(error__10);
+        const { abort__4 , startWriting__4  } = ReactDOMServer.pipeToNodeWritable(element__2, stream__4, {
+            onError (error__11) {
+                if (!resolved__4) {
+                    resolved__4 = true;
+                    reject__4(error__11);
                 }
-                abort__3();
+                abort__4();
             },
             onCompleteShell () {
                 if (!generateStaticHTML__2) {
-                    doResolve__3();
+                    doResolve__4();
                 }
             },
             onCompleteAll () {
-                doResolve__3();
+                doResolve__4();
             }
         });
     });

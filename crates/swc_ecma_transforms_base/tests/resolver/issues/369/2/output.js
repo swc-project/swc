@@ -1,8 +1,8 @@
-function a() {}
-function b() {}
-function foo({ a: b__2  }) {
+function a__1() {}
+function b__1() {}
+function foo__1({ a: b__2  }) {
     expect(b__2).toBe('a');
 }
-foo({
+foo__1({
     a: 'a'
 });

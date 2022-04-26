@@ -1,5 +1,5 @@
-import { myFunction } from './dep.js';
-class SomeClass {
+import { myFunction__1 } from './dep.js';
+class SomeClass__1 {
     constructor(properties__2){
         this.props = properties__2;
     }
@@ -12,9 +12,9 @@ class SomeClass {
         }
     }
 }
-let instance = new SomeClass({
+let instance__1 = new SomeClass__1({
     myFunction: ()=>{
         console.log('CORRECT FUNCTION CALLED');
     }
 });
-instance.call();
+instance__1.call();

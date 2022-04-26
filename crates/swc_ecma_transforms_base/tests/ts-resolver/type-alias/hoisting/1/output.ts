@@ -1,4 +1,4 @@
-module Foo {
+module Foo__1 {
     export type ServerHandle__2 = HandleFunction__2 | http.Server;
     export class IncomingMessage__2 extends http.IncomingMessage {
         originalUrl?: http.IncomingMessage["url"] | undefined;

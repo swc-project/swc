@@ -1,4 +1,4 @@
-var e = 1;
+var e__1 = 1;
 try {
     throw 2;
 } catch (e__2) {

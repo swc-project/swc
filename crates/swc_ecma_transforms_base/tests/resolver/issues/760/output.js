@@ -1,2 +1,2 @@
-var initialState = 'foo';
-export default function reducer(state__2 = initialState, action__2 = {}) {};
+var initialState__1 = 'foo';
+export default function reducer__1(state__2 = initialState__1, action__2 = {}) {};
