@@ -1,0 +1,23 @@
+{
+    "module": {
+        "type": "amd",
+        "strict": false,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false
+    },
+    "jsc": {
+        "externalHelpers": false,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "pragma": "DCGView.createElement",
+                "development": false,
+                "useBuiltins": true
+            }
+        }
+    }
+}
