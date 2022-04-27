@@ -7284,6 +7284,7 @@ where
             }
             // 2.4
             else if last_table.is_none() && self.open_elements_stack.items.first().is_some() {
+                unreachable!();
                 let first = if let Some(first) = self.open_elements_stack.items.first() {
                     first.clone()
                 } else {
@@ -7313,6 +7314,8 @@ where
 
                 InsertionPosition::BeforeSibling(sibling)
             } else {
+                unreachable!();
+
                 // 2.6
                 let previous_element = if let Some(previous_element) =
                     self.open_elements_stack.items.get(last_table_index - 1)
