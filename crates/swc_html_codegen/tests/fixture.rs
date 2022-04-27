@@ -115,13 +115,23 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
-    // TODO also investigate problem with empty body (why one empty node?)
-    // TODO fix me, we should normalize only last text node in document due to
-    // parsing html logic or maybe improve AST to allow developer understand it
-    fn visit_mut_text(&mut self, n: &mut Text) {
+    fn visit_mut_element(&mut self, n: &mut Element) {
         n.visit_mut_children_with(self);
 
-        n.value = "".into();
+        if &*n.tag_name == "body" {
+            if let Some(last) = n.children.last_mut() {
+                match last {
+                    Child::Text(text) => {
+                        // Drop value from the last `Text` node because characters after `</body>`
+                        // moved to body tag
+                        text.value = "".into();
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+            }
+        }
     }
 
     fn visit_mut_span(&mut self, n: &mut Span) {
