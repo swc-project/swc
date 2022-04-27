@@ -1,0 +1,60 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   :               ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   :               ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   :        ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/table-broken-5/input.html:1:1]
+ 1 | <table><thead><input type="text"></thead></table>
+   :        ^^^^^^^
+   `----
