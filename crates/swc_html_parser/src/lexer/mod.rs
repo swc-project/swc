@@ -23,6 +23,7 @@ where
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
+    finished: bool,
     state: State,
     return_state: State,
     errors: Vec<Error>,
@@ -48,6 +49,7 @@ where
             cur_pos: start_pos,
             start_pos,
             last_pos: None,
+            finished: false,
             state: State::Data,
             return_state: State::Data,
             errors: vec![],
@@ -352,24 +354,24 @@ where
     }
 
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
-        loop {
-            if !self.pending_tokens.is_empty() {
-                let token_and_span = self.pending_tokens.remove(0);
+        if self.finished {
+            return Err(ErrorKind::Eof);
+        }
 
-                match token_and_span.token {
-                    Token::Eof => {
-                        return Err(ErrorKind::Eof);
-                    }
-                    _ => {
-                        return Ok(token_and_span);
-                    }
-                }
-            } else {
-                if self.input.cur().is_none() {
-                    return Err(ErrorKind::Eof);
-                }
+        while self.pending_tokens.is_empty() {
+            self.run()?;
+        }
 
-                self.run()?;
+        let token_and_span = self.pending_tokens.remove(0);
+
+        match token_and_span.token {
+            Token::Eof => {
+                self.finished = true;
+
+                return Err(ErrorKind::Eof);
+            }
+            _ => {
+                return Ok(token_and_span);
             }
         }
     }
