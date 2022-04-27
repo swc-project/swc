@@ -415,43 +415,15 @@ impl VisitMut for AsyncFnBodyHandler {
                 let arg = Box::new(Expr::Call(CallExpr {
                     span: *span,
                     callee,
-                    args: vec![FnExpr {
-                        ident: None,
-                        function: Function {
-                            params: Default::default(),
-                            decorators: Default::default(),
+                    args: vec![
+                        CallExpr {
                             span: DUMMY_SP,
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![YieldExpr {
-                                    span: DUMMY_SP,
-                                    delegate: true,
-                                    arg: Some(Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(
-                                            async_generator_delegate,
-                                            "asyncGeneratorDelegate"
-                                        ),
-                                        args: vec![
-                                            arg.take().as_arg(),
-                                            helper_expr!(
-                                                await_async_generator,
-                                                "awaitAsyncGenerator"
-                                            )
-                                            .as_arg(),
-                                        ],
-                                        type_args: Default::default(),
-                                    }))),
-                                }
-                                .into_stmt()],
-                            }),
-                            is_generator: true,
-                            is_async: false,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            callee: helper!(async_iterator, "asyncIterrator"),
+                            args: vec![arg.take().as_arg()],
+                            type_args: Default::default(),
                         },
-                    }
-                    .as_arg()],
+                        helper_expr!(await_async_generator, "awaitAsyncGenerator").as_arg(),
+                    ],
                     type_args: Default::default(),
                 }));
                 *expr = Expr::Yield(YieldExpr {
