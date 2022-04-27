@@ -168,7 +168,16 @@
   7 | |   
   8 | |   <table>
   9 | |       <table>
- 10 | `->         <tr>
+ 10 | |           <tr>
+ 11 | |               <td>
+ 12 | |                   Table
+ 13 | |               </td>
+ 14 | |           </tr>
+ 15 | |       </table>
+ 16 | |   </table>
+ 17 | |   
+ 18 | `-> </body>
+ 19 |     </html>
     `----
 
   x Element
@@ -177,7 +186,16 @@
   7 | |   
   8 | |   <table>
   9 | |       <table>
- 10 | `->         <tr>
+ 10 | |           <tr>
+ 11 | |               <td>
+ 12 | |                   Table
+ 13 | |               </td>
+ 14 | |           </tr>
+ 15 | |       </table>
+ 16 | |   </table>
+ 17 | |   
+ 18 | `-> </body>
+ 19 |     </html>
     `----
 
   x Child
@@ -221,13 +239,23 @@
   x Child
     ,-[$DIR/tests/fixture/tag/table-broken-3/input.html:9:5]
   9 | ,-> <table>
- 10 | `->         <tr>
+ 10 | |           <tr>
+ 11 | |               <td>
+ 12 | |                   Table
+ 13 | |               </td>
+ 14 | |           </tr>
+ 15 | `->     </table>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/table-broken-3/input.html:9:5]
   9 | ,-> <table>
- 10 | `->         <tr>
+ 10 | |           <tr>
+ 11 | |               <td>
+ 12 | |                   Table
+ 13 | |               </td>
+ 14 | |           </tr>
+ 15 | `->     </table>
     `----
 
   x Child

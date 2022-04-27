@@ -4008,7 +4008,7 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
-                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
                             acknowledged: true,
@@ -4046,7 +4046,7 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
-                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
                             acknowledged: false,
@@ -4260,10 +4260,6 @@ where
                         self.foster_parenting_enabled = saved_foster_parenting_state;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table context, it means that the UA must, while the
-                // current node is not a table, template, or html element, pop
-                // elements from the stack of open elements.
             }
             // The "in table text" insertion mode
             InsertionMode::InTableText => {
@@ -4760,10 +4756,6 @@ where
                         self.process_token_using_rules(token_and_info, InsertionMode::InTable)?;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table body context, it means that the UA must, while the
-                // current node is not a tbody, tfoot, thead, template, or html
-                // element, pop elements from the stack of open elements.
             }
             // The "in row" insertion mode
             InsertionMode::InRow => {
@@ -4906,10 +4898,6 @@ where
                         self.process_token_using_rules(token_and_info, InsertionMode::InTable)?;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table row context, it means that the UA must, while the
-                // current node is not a tr, template, or html element, pop
-                // elements from the stack of open elements.
             }
             // The "in cell" insertion mode
             InsertionMode::InCell => {
@@ -7211,7 +7199,7 @@ where
         &mut self,
         override_target: Option<RcNode>,
     ) -> PResult<InsertionPosition> {
-        // TODO avoid `unreachable` and return `Option`
+        // TODO avoid `unreachable` and return `Option` and improve error reporting
         // 1.
         let target = override_target.unwrap_or_else(|| {
             if let Some(last) = self.open_elements_stack.items.last() {
