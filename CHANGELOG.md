@@ -7,6 +7,12 @@
 
 - **(es)** Remove wrong debug assertion (#4445) ([962cf4a](https://github.com/swc-project/swc/commit/962cf4a08caaee6dc0579aed556df55bc60bf093))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Don't run tests with infinite loops (#4448) ([ec7dfb9](https://github.com/swc-project/swc/commit/ec7dfb92098897d9b8dbe5726bef78ea2a868053))
+
 ## [1.2.172] - 2022-04-26
 
 ### Bug Fixes
