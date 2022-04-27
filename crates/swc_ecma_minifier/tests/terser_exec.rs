@@ -58,6 +58,12 @@ use testing::assert_eq;
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
         "yield/issue_2689/",
+        // tests with infinite loops
+        "reduce_vars/toplevel_off_loops_2",
+        "reduce_vars/toplevel_on_loops_2",
+        "drop_unused/issue_1656",
+        "transform/condition_evaluate",
+        "reduce_vars/var_assign_3",
     )
 )]
 fn terser_exec(input: PathBuf) {
