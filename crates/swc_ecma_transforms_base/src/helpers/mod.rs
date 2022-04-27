@@ -1,6 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -51,7 +52,11 @@ macro_rules! add_to {
         let enable = $b.load(Ordering::Relaxed);
         if enable {
             $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
-                stmt.visit_mut_with(&mut Marker($mark));
+                stmt.visit_mut_with(&mut Marker {
+                    base: $mark,
+                    decls: Default::default(),
+                    decl_mark: Mark::new(),
+                });
                 stmt
             }))
         }
@@ -367,13 +372,25 @@ impl VisitMut for Marker {
     noop_visit_mut_type!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span = i.span.apply_mark(self.0);
+        if self.decls.contains(&i.sym) {
+            i.span = i.span.apply_mark(self.decl_mark);
+        } else {
+            i.span = i.span.apply_mark(self.base);
+        }
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
         if let MemberProp::Computed(p) = p {
             p.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        if let Pat::Ident(i) = &n.pat {
+            self.decls.insert(i.id.sym.clone());
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_super_prop(&mut self, p: &mut SuperProp) {
