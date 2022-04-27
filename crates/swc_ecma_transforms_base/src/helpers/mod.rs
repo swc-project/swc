@@ -16,31 +16,38 @@ macro_rules! enable_helper {
     }};
 }
 
+/// NOT A PUBLIC API
+pub fn parse(code: &str) -> Vec<Stmt> {
+    let cm = SourceMap::new(FilePathMapping::empty());
+
+    let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+
+    let stmts = swc_ecma_parser::parse_file_as_script(
+        &fm,
+        Default::default(),
+        Default::default(),
+        None,
+        &mut vec![],
+    )
+    .map(|mut script| {
+        script.body.visit_mut_with(&mut DropSpan {
+            preserve_ctxt: false,
+        });
+        script.body
+    })
+    .map_err(|e| {
+        unreachable!("Error occurred while parsing error: {:?}", e);
+    })
+    .unwrap();
+
+    stmts
+}
+
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
-            let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
-            let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-
-            let stmts = swc_ecma_parser::parse_file_as_script(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut vec![],
-            )
-            .map(|mut script| {
-                script.body.visit_mut_with(&mut DropSpan {
-                    preserve_ctxt: false,
-                });
-                script.body
-            })
-            .map_err(|e| {
-                unreachable!("Error occurred while parsing error: {:?}", e);
-            })
-            .unwrap();
-            stmts
+            $crate::helpers::parse(&code)
         });
 
         let enable = $b.load(Ordering::Relaxed);
