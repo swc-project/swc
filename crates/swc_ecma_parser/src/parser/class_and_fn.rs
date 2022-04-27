@@ -1102,15 +1102,10 @@ impl<'a, I: Tokens> Parser<I> {
                 is_async,
                 is_generator,
             )?;
-            // expect!(self, '(');
-            // let params_ctx = Context {
-            //     in_parameters: true,
-            //     ..p.ctx()
-            // };
-            // let params = p.with_ctx(params_ctx).parse_formal_params()?;
-            // expect!(self, ')');
 
-            // let body = p.parse_fn_body(is_async, is_generator)?;
+            if is_fn_expr && f.body.is_none() {
+                unexpected!(p, "{");
+            }
 
             Ok((ident, f))
         })
