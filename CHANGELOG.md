@@ -10,6 +10,12 @@
 
 - **(html/parser)** Fix a bug with nested tags (#4438) ([8c4dc4c](https://github.com/swc-project/swc/commit/8c4dc4cc46e73265ad45e63fecd513f4ba4cf7bb))
 
+### Features
+
+
+
+- **(es/parser)** Reject indirect opt chain in assignment (#4447) ([df7b3f6](https://github.com/swc-project/swc/commit/df7b3f611a7bf5509e143cf81a69e0443cf80288))
+
 ### Miscellaneous Tasks
 
 
