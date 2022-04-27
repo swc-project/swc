@@ -418,7 +418,7 @@ impl VisitMut for AsyncFnBodyHandler {
                     args: vec![
                         CallExpr {
                             span: DUMMY_SP,
-                            callee: helper!(async_iterator, "asyncIterrator"),
+                            callee: helper!(async_iterator, "asyncIterator"),
                             args: vec![arg.take().as_arg()],
                             type_args: Default::default(),
                         }
