@@ -3,7 +3,7 @@ use std::iter;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_this_expr,
@@ -405,27 +405,85 @@ impl VisitMut for AsyncFnBodyHandler {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Await(AwaitExpr { span, arg }) = expr {
-            if self.is_async_generator {
-                let callee = helper!(await_async_generator, "awaitAsyncGenerator");
+        match expr {
+            Expr::Yield(YieldExpr {
+                span,
+                arg: Some(arg),
+                delegate: true,
+            }) => {
+                let callee = helper!(async_generator_delegate, "asyncGeneratorDelegate");
                 let arg = Box::new(Expr::Call(CallExpr {
                     span: *span,
                     callee,
-                    args: vec![arg.take().as_arg()],
+                    args: vec![FnExpr {
+                        ident: None,
+                        function: Function {
+                            params: Default::default(),
+                            decorators: Default::default(),
+                            span: DUMMY_SP,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![YieldExpr {
+                                    span: DUMMY_SP,
+                                    delegate: true,
+                                    arg: Some(Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(
+                                            async_generator_delegate,
+                                            "asyncGeneratorDelegate"
+                                        ),
+                                        args: vec![
+                                            arg.take().as_arg(),
+                                            helper_expr!(
+                                                await_async_generator,
+                                                "awaitAsyncGenerator"
+                                            )
+                                            .as_arg(),
+                                        ],
+                                        type_args: Default::default(),
+                                    }))),
+                                }
+                                .into_stmt()],
+                            }),
+                            is_generator: true,
+                            is_async: false,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_arg()],
                     type_args: Default::default(),
                 }));
                 *expr = Expr::Yield(YieldExpr {
                     span: *span,
-                    delegate: false,
+                    delegate: true,
                     arg: Some(arg),
                 })
-            } else {
-                *expr = Expr::Yield(YieldExpr {
-                    span: *span,
-                    delegate: false,
-                    arg: Some(arg.take()),
-                })
             }
+
+            Expr::Await(AwaitExpr { span, arg }) => {
+                if self.is_async_generator {
+                    let callee = helper!(await_async_generator, "awaitAsyncGenerator");
+                    let arg = Box::new(Expr::Call(CallExpr {
+                        span: *span,
+                        callee,
+                        args: vec![arg.take().as_arg()],
+                        type_args: Default::default(),
+                    }));
+                    *expr = Expr::Yield(YieldExpr {
+                        span: *span,
+                        delegate: false,
+                        arg: Some(arg),
+                    })
+                } else {
+                    *expr = Expr::Yield(YieldExpr {
+                        span: *span,
+                        delegate: false,
+                        arg: Some(arg.take()),
+                    })
+                }
+            }
+            _ => {}
         }
     }
 
