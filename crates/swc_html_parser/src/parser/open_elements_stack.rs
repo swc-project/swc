@@ -130,7 +130,6 @@ impl OpenElementsStack {
             }
 
             self.items.remove(position);
-            self.pop();
         }
     }
 
