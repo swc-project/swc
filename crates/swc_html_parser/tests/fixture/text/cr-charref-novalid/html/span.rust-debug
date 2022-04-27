@@ -1,0 +1,108 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                    ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                    ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                           ^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                           ^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cr-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
+   :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
