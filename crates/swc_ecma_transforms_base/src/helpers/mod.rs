@@ -1,4 +1,7 @@
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    mem::take,
+    sync::atomic::{AtomicBool, Ordering},
+};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashSet;
@@ -371,6 +374,18 @@ struct Marker {
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        let old_decl_mark = self.decl_mark;
+        let old_decls = take(&mut self.decls);
+
+        self.decl_mark = Mark::new();
+
+        n.visit_mut_children_with(self);
+
+        self.decls = old_decls;
+        self.decl_mark = old_decl_mark;
+    }
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if self.decls.contains(&i.sym) {
             i.span = i.span.apply_mark(self.decl_mark);
@@ -391,6 +406,12 @@ impl VisitMut for Marker {
         }
 
         n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(e) = n {
+            e.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_super_prop(&mut self, p: &mut SuperProp) {
