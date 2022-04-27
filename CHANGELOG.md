@@ -10,6 +10,9 @@
 
 - **(html/parser)** Fix a bug with nested tags (#4438) ([8c4dc4c](https://github.com/swc-project/swc/commit/8c4dc4cc46e73265ad45e63fecd513f4ba4cf7bb))
 
+
+- **(html/parser)** Parse table including broken one (#4451) ([6e60813](https://github.com/swc-project/swc/commit/6e6081336714861055a1ae148f1305e2ab180efc))
+
 ### Features
 
 
