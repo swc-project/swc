@@ -7283,8 +7283,8 @@ where
                 InsertionPosition::LastChild(last_template)
             }
             // 2.4
+            // Fragment case
             else if last_table.is_none() && self.open_elements_stack.items.first().is_some() {
-                unreachable!();
                 let first = if let Some(first) = self.open_elements_stack.items.first() {
                     first.clone()
                 } else {
@@ -7314,8 +7314,6 @@ where
 
                 InsertionPosition::BeforeSibling(sibling)
             } else {
-                unreachable!();
-
                 // 2.6
                 let previous_element = if let Some(previous_element) =
                     self.open_elements_stack.items.get(last_table_index - 1)
@@ -7436,7 +7434,7 @@ where
         // these steps.
         // NOTE: The DOM will not let Document nodes have Text node children, so
         // they are dropped on the floor.
-        // TODO fix me
+        // Note: we don't use document in stack elements, so we can't have Document here
 
         // If there is a Text node immediately before the adjusted insertion location,
         // then append data to that Text node's data. Otherwise, create
@@ -7565,8 +7563,7 @@ where
                 .borrow()
                 .iter()
                 .enumerate()
-                // TODO span?
-                .find(|&(_, child)| Rc::ptr_eq(child, node))
+                .find(|&(_, child)| is_same_node(child, node))
             {
                 Some((i, _)) => i,
                 None => {
