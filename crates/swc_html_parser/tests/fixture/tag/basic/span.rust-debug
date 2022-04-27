@@ -17,19 +17,17 @@
  14 | |   
  15 | |   </div>
  16 | |   
- 17 | |   <div></div test="a">
- 18 | |   <div data-test="a"></div data-test="a">
- 19 | |   <br data-test="a" />
- 20 | |   <br data-test="a" >
- 21 | |   <br data-test="a">
- 22 | |   <div
- 23 | |   >
- 24 | |   Test
- 25 | |   </div
- 26 | |   >
- 27 | |   
- 28 | |   <div>test</div foo="bar" />
- 29 | `-> <div>test</div/>
+ 17 | |   <div data-test="a"></div>
+ 18 | |   <br data-test="a" />
+ 19 | |   <br data-test="a" >
+ 20 | |   <br data-test="a">
+ 21 | |   <div
+ 22 | |   >
+ 23 | |   Test
+ 24 | |   </div
+ 25 | |   >
+ 26 | |   
+ 27 | `-> <div>test</div>
     `----
 
   x Child
@@ -50,19 +48,17 @@
  14 | |   
  15 | |   </div>
  16 | |   
- 17 | |   <div></div test="a">
- 18 | |   <div data-test="a"></div data-test="a">
- 19 | |   <br data-test="a" />
- 20 | |   <br data-test="a" >
- 21 | |   <br data-test="a">
- 22 | |   <div
- 23 | |   >
- 24 | |   Test
- 25 | |   </div
- 26 | |   >
- 27 | |   
- 28 | |   <div>test</div foo="bar" />
- 29 | `-> <div>test</div/>
+ 17 | |   <div data-test="a"></div>
+ 18 | |   <br data-test="a" />
+ 19 | |   <br data-test="a" >
+ 20 | |   <br data-test="a">
+ 21 | |   <div
+ 22 | |   >
+ 23 | |   Test
+ 24 | |   </div
+ 25 | |   >
+ 26 | |   
+ 27 | `-> <div>test</div>
     `----
 
   x Element
@@ -83,19 +79,17 @@
  14 | |   
  15 | |   </div>
  16 | |   
- 17 | |   <div></div test="a">
- 18 | |   <div data-test="a"></div data-test="a">
- 19 | |   <br data-test="a" />
- 20 | |   <br data-test="a" >
- 21 | |   <br data-test="a">
- 22 | |   <div
- 23 | |   >
- 24 | |   Test
- 25 | |   </div
- 26 | |   >
- 27 | |   
- 28 | |   <div>test</div foo="bar" />
- 29 | `-> <div>test</div/>
+ 17 | |   <div data-test="a"></div>
+ 18 | |   <br data-test="a" />
+ 19 | |   <br data-test="a" >
+ 20 | |   <br data-test="a">
+ 21 | |   <div
+ 22 | |   >
+ 23 | |   Test
+ 24 | |   </div
+ 25 | |   >
+ 26 | |   
+ 27 | `-> <div>test</div>
     `----
 
   x Child
@@ -488,248 +482,196 @@
     ,-[$DIR/tests/fixture/tag/basic/input.html:15:1]
  15 | ,-> </div>
  16 | `-> 
- 17 |     <div></div test="a">
+ 17 |     <div data-test="a"></div>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/basic/input.html:15:1]
  15 | ,-> </div>
  16 | `-> 
- 17 |     <div></div test="a">
+ 17 |     <div data-test="a"></div>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
- 17 | <div></div test="a">
-    : ^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
- 17 | <div></div test="a">
-    : ^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
- 17 | <div></div test="a">
-    :                     ^
- 18 | <div data-test="a"></div data-test="a">
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
- 17 | <div></div test="a">
-    :                     ^
- 18 | <div data-test="a"></div data-test="a">
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
- 18 | <div data-test="a"></div data-test="a">
+ 17 | <div data-test="a"></div>
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
- 18 | <div data-test="a"></div data-test="a">
+    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
+ 17 | <div data-test="a"></div>
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
- 18 | <div data-test="a"></div data-test="a">
-    :                                        ^
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
+ 17 | <div data-test="a"></div>
+    :                          ^
+ 18 | <br data-test="a" />
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
- 18 | <div data-test="a"></div data-test="a">
-    :                                        ^
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
+ 17 | <div data-test="a"></div>
+    :                          ^
+ 18 | <br data-test="a" />
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
+ 18 | <br data-test="a" />
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
+ 18 | <br data-test="a" />
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
+ 18 | <br data-test="a" />
     :                     ^
- 20 | <br data-test="a" >
+ 19 | <br data-test="a" >
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
- 19 | <br data-test="a" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
+ 18 | <br data-test="a" />
     :                     ^
- 20 | <br data-test="a" >
+ 19 | <br data-test="a" >
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
- 20 | <br data-test="a" >
+    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
+ 19 | <br data-test="a" >
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
- 20 | <br data-test="a" >
+    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
+ 19 | <br data-test="a" >
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
- 20 | <br data-test="a" >
+    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
+ 19 | <br data-test="a" >
     :                    ^
- 21 | <br data-test="a">
+ 20 | <br data-test="a">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
- 20 | <br data-test="a" >
+    ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
+ 19 | <br data-test="a" >
     :                    ^
- 21 | <br data-test="a">
+ 20 | <br data-test="a">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
- 21 | <br data-test="a">
+    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
+ 20 | <br data-test="a">
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
- 21 | <br data-test="a">
+    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
+ 20 | <br data-test="a">
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
- 21 | <br data-test="a">
+    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
+ 20 | <br data-test="a">
     :                   ^
- 22 | <div
+ 21 | <div
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
- 21 | <br data-test="a">
+    ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
+ 20 | <br data-test="a">
     :                   ^
- 22 | <div
+ 21 | <div
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
+ 21 | ,-> <div
+ 22 | |   >
+ 23 | `-> Test
+ 24 |     </div
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
+ 21 | ,-> <div
+ 22 | |   >
+ 23 | `-> Test
+ 24 |     </div
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/basic/input.html:22:1]
- 22 | ,-> <div
- 23 | |   >
- 24 | `-> Test
- 25 |     </div
+ 22 | ,-> >
+ 23 | `-> Test
+ 24 |     </div
     `----
 
-  x Element
+  x Text
     ,-[$DIR/tests/fixture/tag/basic/input.html:22:1]
- 22 | ,-> <div
- 23 | |   >
- 24 | `-> Test
- 25 |     </div
+ 22 | ,-> >
+ 23 | `-> Test
+ 24 |     </div
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:23:1]
- 23 | ,-> >
- 24 | `-> Test
- 25 |     </div
+    ,-[$DIR/tests/fixture/tag/basic/input.html:25:1]
+ 25 | ,-> >
+ 26 | `-> 
+ 27 |     <div>test</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:23:1]
- 23 | ,-> >
- 24 | `-> Test
- 25 |     </div
+    ,-[$DIR/tests/fixture/tag/basic/input.html:25:1]
+ 25 | ,-> >
+ 26 | `-> 
+ 27 |     <div>test</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | ,-> >
- 27 | `-> 
- 28 |     <div>test</div foo="bar" />
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
- 26 | ,-> >
- 27 | `-> 
- 28 |     <div>test</div foo="bar" />
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
     : ^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
     : ^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
     :      ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
     :      ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
-    :                            ^
- 29 | <div>test</div/>
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
+    :                ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
- 28 | <div>test</div foo="bar" />
-    :                            ^
- 29 | <div>test</div/>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
- 29 | <div>test</div/>
-    : ^^^^^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
- 29 | <div>test</div/>
-    : ^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
- 29 | <div>test</div/>
-    :      ^^^^
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
- 29 | <div>test</div/>
-    :      ^^^^
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | <div>test</div>
+    :                ^
     `----

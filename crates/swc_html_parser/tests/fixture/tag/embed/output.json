@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 387,
+    "end": 374,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 380,
+        "end": 367,
         "ctxt": 0
       },
       "tagName": "html",
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 76,
-            "end": 380,
+            "end": 367,
             "ctxt": 0
           },
           "tagName": "body",
@@ -224,16 +224,16 @@
               "type": "Text",
               "span": {
                 "start": 235,
-                "end": 253,
+                "end": 240,
                 "ctxt": 0
               },
-              "value": "\n    \n    "
+              "value": "\n    "
             },
             {
               "type": "Element",
               "span": {
-                "start": 253,
-                "end": 371,
+                "start": 240,
+                "end": 358,
                 "ctxt": 0
               },
               "tagName": "embed",
@@ -294,8 +294,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 371,
-                "end": 380,
+                "start": 358,
+                "end": 367,
                 "ctxt": 0
               },
               "value": "\n\n"

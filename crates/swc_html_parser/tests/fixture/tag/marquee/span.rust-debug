@@ -203,34 +203,28 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
-  7 | ,-> <marquee>This text will scroll from right to left</marquee>
-  8 | |   
-  9 | |   <marquee direction="up">This text will scroll from bottom to top</marquee>
- 10 | |   
- 11 | |   <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
- 12 | |       <marquee behavior="alternate">
- 13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
+ 7 | <marquee>This text will scroll from right to left</marquee>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
-  7 | ,-> <marquee>This text will scroll from right to left</marquee>
-  8 | |   
-  9 | |   <marquee direction="up">This text will scroll from bottom to top</marquee>
- 10 | |   
- 11 | |   <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
- 12 | |       <marquee behavior="alternate">
- 13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
+ 7 | <marquee>This text will scroll from right to left</marquee>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
+ 7 | <marquee>This text will scroll from right to left</marquee>
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
+ 7 | <marquee>This text will scroll from right to left</marquee>
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/tag/marquee/input.html:7:1]
@@ -247,30 +241,28 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
-  9 | ,-> <marquee direction="up">This text will scroll from bottom to top</marquee>
- 10 | |   
- 11 | |   <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
- 12 | |       <marquee behavior="alternate">
- 13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
+ 9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
-  9 | ,-> <marquee direction="up">This text will scroll from bottom to top</marquee>
- 10 | |   
- 11 | |   <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
- 12 | |       <marquee behavior="alternate">
- 13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
-    `----
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
+ 9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
+ 9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
+ 9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/marquee/input.html:9:1]
@@ -291,10 +283,8 @@
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
+ 14 | `->     </marquee>
+ 15 |     </marquee>
     `----
 
   x Element
@@ -302,10 +292,8 @@
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
+ 14 | `->     </marquee>
+ 15 |     </marquee>
     `----
 
   x Child
@@ -324,38 +312,54 @@
     ,-[$DIR/tests/fixture/tag/marquee/input.html:12:5]
  12 | ,-> <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
+ 14 | `->     </marquee>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/marquee/input.html:12:5]
  12 | ,-> <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
+ 14 | `->     </marquee>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/marquee/input.html:12:5]
  12 | ,-> <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
- 16 | `-> </body>
- 17 |     </html>
+ 14 | `->     </marquee>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/marquee/input.html:12:5]
  12 | ,-> <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | |       </marquee>
- 15 | |   </marquee>
+ 14 | `->     </marquee>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/marquee/input.html:14:5]
+ 14 | </marquee>
+    :           ^
+ 15 | </marquee>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/marquee/input.html:14:5]
+ 14 | </marquee>
+    :           ^
+ 15 | </marquee>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/marquee/input.html:15:1]
+ 15 | ,-> </marquee>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/marquee/input.html:15:1]
+ 15 | ,-> </marquee>
  16 | `-> </body>
  17 |     </html>
     `----

@@ -73,111 +73,101 @@
   70 | |               </apply>
   71 | |           </annotation-xml>
   72 | |   
-  73 | |           <!-- Content HTML -->
-  74 | |           <annotation-xml encoding="application/xhtml+xml">
-  75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
-  76 | |               <head><title>INNER HTML TITLE</title></head>
-  77 | |               <body>
-  78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
-  79 | |               </body>
-  80 | |               </html>
-  81 | |           </annotation-xml>
-  82 | |   
-  83 | |           <!-- annotate an image -->
-  84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
-  85 | |   
-  86 | |           <!-- annotate TeX -->
-  87 | |           <annotation encoding="application/x-tex">
-  88 | |               x^{2} + y
-  89 | |           </annotation>
-  90 | |   
-  91 | |       </semantics>
-  92 | |   </math>
-  93 | |   
-  94 | |   <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | |       </mtable>
- 124 | |   </math>
- 125 | |   
- 126 | |   <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
+  73 | |           <!-- annotate an image -->
+  74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+  75 | |   
+  76 | |           <!-- annotate TeX -->
+  77 | |           <annotation encoding="application/x-tex">
+  78 | |               x^{2} + y
+  79 | |           </annotation>
+  80 | |   
+  81 | |       </semantics>
+  82 | |   </math>
+  83 | |   
+  84 | |   <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | |       </mtable>
+ 114 | |   </math>
+ 115 | |   
+ 116 | |   <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | |   
+ 122 | |   </math>
+ 123 | |   
+ 124 | |   <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | |       </mtext>
+ 128 | |   </math>
  129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | |   
- 132 | |   </math>
- 133 | |   
- 134 | |   <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | |       </mtext>
+ 130 | |   <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | |       </msup>
  138 | |   </math>
  139 | |   
  140 | |   <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | |       </msup>
- 148 | |   </math>
- 149 | |   
- 150 | |   <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | |       </annotation-xml>
- 174 | |   </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | |       </annotation-xml>
+ 164 | |   </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Child
@@ -265,111 +255,101 @@
   70 | |               </apply>
   71 | |           </annotation-xml>
   72 | |   
-  73 | |           <!-- Content HTML -->
-  74 | |           <annotation-xml encoding="application/xhtml+xml">
-  75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
-  76 | |               <head><title>INNER HTML TITLE</title></head>
-  77 | |               <body>
-  78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
-  79 | |               </body>
-  80 | |               </html>
-  81 | |           </annotation-xml>
-  82 | |   
-  83 | |           <!-- annotate an image -->
-  84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
-  85 | |   
-  86 | |           <!-- annotate TeX -->
-  87 | |           <annotation encoding="application/x-tex">
-  88 | |               x^{2} + y
-  89 | |           </annotation>
-  90 | |   
-  91 | |       </semantics>
-  92 | |   </math>
-  93 | |   
-  94 | |   <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | |       </mtable>
- 124 | |   </math>
- 125 | |   
- 126 | |   <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
+  73 | |           <!-- annotate an image -->
+  74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+  75 | |   
+  76 | |           <!-- annotate TeX -->
+  77 | |           <annotation encoding="application/x-tex">
+  78 | |               x^{2} + y
+  79 | |           </annotation>
+  80 | |   
+  81 | |       </semantics>
+  82 | |   </math>
+  83 | |   
+  84 | |   <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | |       </mtable>
+ 114 | |   </math>
+ 115 | |   
+ 116 | |   <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | |   
+ 122 | |   </math>
+ 123 | |   
+ 124 | |   <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | |       </mtext>
+ 128 | |   </math>
  129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | |   
- 132 | |   </math>
- 133 | |   
- 134 | |   <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | |       </mtext>
+ 130 | |   <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | |       </msup>
  138 | |   </math>
  139 | |   
  140 | |   <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | |       </msup>
- 148 | |   </math>
- 149 | |   
- 150 | |   <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | |       </annotation-xml>
- 174 | |   </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | |       </annotation-xml>
+ 164 | |   </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Element
@@ -445,111 +425,101 @@
   70 | |               </apply>
   71 | |           </annotation-xml>
   72 | |   
-  73 | |           <!-- Content HTML -->
-  74 | |           <annotation-xml encoding="application/xhtml+xml">
-  75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
-  76 | |               <head><title>INNER HTML TITLE</title></head>
-  77 | |               <body>
-  78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
-  79 | |               </body>
-  80 | |               </html>
-  81 | |           </annotation-xml>
-  82 | |   
-  83 | |           <!-- annotate an image -->
-  84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
-  85 | |   
-  86 | |           <!-- annotate TeX -->
-  87 | |           <annotation encoding="application/x-tex">
-  88 | |               x^{2} + y
-  89 | |           </annotation>
-  90 | |   
-  91 | |       </semantics>
-  92 | |   </math>
-  93 | |   
-  94 | |   <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | |       </mtable>
- 124 | |   </math>
- 125 | |   
- 126 | |   <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
+  73 | |           <!-- annotate an image -->
+  74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+  75 | |   
+  76 | |           <!-- annotate TeX -->
+  77 | |           <annotation encoding="application/x-tex">
+  78 | |               x^{2} + y
+  79 | |           </annotation>
+  80 | |   
+  81 | |       </semantics>
+  82 | |   </math>
+  83 | |   
+  84 | |   <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | |       </mtable>
+ 114 | |   </math>
+ 115 | |   
+ 116 | |   <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | |   
+ 122 | |   </math>
+ 123 | |   
+ 124 | |   <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | |       </mtext>
+ 128 | |   </math>
  129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | |   
- 132 | |   </math>
- 133 | |   
- 134 | |   <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | |       </mtext>
+ 130 | |   <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | |       </msup>
  138 | |   </math>
  139 | |   
  140 | |   <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | |       </msup>
- 148 | |   </math>
- 149 | |   
- 150 | |   <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | |       </annotation-xml>
- 174 | |   </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | |       </annotation-xml>
+ 164 | |   </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Child
@@ -699,111 +669,101 @@
   70 | |               </apply>
   71 | |           </annotation-xml>
   72 | |   
-  73 | |           <!-- Content HTML -->
-  74 | |           <annotation-xml encoding="application/xhtml+xml">
-  75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
-  76 | |               <head><title>INNER HTML TITLE</title></head>
-  77 | |               <body>
-  78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
-  79 | |               </body>
-  80 | |               </html>
-  81 | |           </annotation-xml>
-  82 | |   
-  83 | |           <!-- annotate an image -->
-  84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
-  85 | |   
-  86 | |           <!-- annotate TeX -->
-  87 | |           <annotation encoding="application/x-tex">
-  88 | |               x^{2} + y
-  89 | |           </annotation>
-  90 | |   
-  91 | |       </semantics>
-  92 | |   </math>
-  93 | |   
-  94 | |   <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | |       </mtable>
- 124 | |   </math>
- 125 | |   
- 126 | |   <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
+  73 | |           <!-- annotate an image -->
+  74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+  75 | |   
+  76 | |           <!-- annotate TeX -->
+  77 | |           <annotation encoding="application/x-tex">
+  78 | |               x^{2} + y
+  79 | |           </annotation>
+  80 | |   
+  81 | |       </semantics>
+  82 | |   </math>
+  83 | |   
+  84 | |   <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | |       </mtable>
+ 114 | |   </math>
+ 115 | |   
+ 116 | |   <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | |   
+ 122 | |   </math>
+ 123 | |   
+ 124 | |   <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | |       </mtext>
+ 128 | |   </math>
  129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | |   
- 132 | |   </math>
- 133 | |   
- 134 | |   <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | |       </mtext>
+ 130 | |   <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | |       </msup>
  138 | |   </math>
  139 | |   
  140 | |   <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | |       </msup>
- 148 | |   </math>
- 149 | |   
- 150 | |   <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | |       </annotation-xml>
- 174 | |   </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | |       </annotation-xml>
+ 164 | |   </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Element
@@ -875,111 +835,101 @@
   70 | |               </apply>
   71 | |           </annotation-xml>
   72 | |   
-  73 | |           <!-- Content HTML -->
-  74 | |           <annotation-xml encoding="application/xhtml+xml">
-  75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
-  76 | |               <head><title>INNER HTML TITLE</title></head>
-  77 | |               <body>
-  78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
-  79 | |               </body>
-  80 | |               </html>
-  81 | |           </annotation-xml>
-  82 | |   
-  83 | |           <!-- annotate an image -->
-  84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
-  85 | |   
-  86 | |           <!-- annotate TeX -->
-  87 | |           <annotation encoding="application/x-tex">
-  88 | |               x^{2} + y
-  89 | |           </annotation>
-  90 | |   
-  91 | |       </semantics>
-  92 | |   </math>
-  93 | |   
-  94 | |   <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | |       </mtable>
- 124 | |   </math>
- 125 | |   
- 126 | |   <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
+  73 | |           <!-- annotate an image -->
+  74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+  75 | |   
+  76 | |           <!-- annotate TeX -->
+  77 | |           <annotation encoding="application/x-tex">
+  78 | |               x^{2} + y
+  79 | |           </annotation>
+  80 | |   
+  81 | |       </semantics>
+  82 | |   </math>
+  83 | |   
+  84 | |   <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | |       </mtable>
+ 114 | |   </math>
+ 115 | |   
+ 116 | |   <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | |   
+ 122 | |   </math>
+ 123 | |   
+ 124 | |   <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | |       </mtext>
+ 128 | |   </math>
  129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | |   
- 132 | |   </math>
- 133 | |   
- 134 | |   <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | |       </mtext>
+ 130 | |   <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | |       </msup>
  138 | |   </math>
  139 | |   
  140 | |   <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | |       </msup>
- 148 | |   </math>
- 149 | |   
- 150 | |   <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | |       </annotation-xml>
- 174 | |   </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | |       </annotation-xml>
+ 164 | |   </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Child
@@ -2256,26 +2206,16 @@
  70 | |               </apply>
  71 | |           </annotation-xml>
  72 | |   
- 73 | |           <!-- Content HTML -->
- 74 | |           <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | |           </annotation-xml>
- 82 | |   
- 83 | |           <!-- annotate an image -->
- 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | |           <!-- annotate TeX -->
- 87 | |           <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | |           </annotation>
- 90 | |   
- 91 | `->     </semantics>
- 92 |     </math>
+ 73 | |           <!-- annotate an image -->
+ 74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | |           <!-- annotate TeX -->
+ 77 | |           <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | |           </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
+ 82 |     </math>
     `----
 
   x Element
@@ -2306,26 +2246,16 @@
  70 | |               </apply>
  71 | |           </annotation-xml>
  72 | |   
- 73 | |           <!-- Content HTML -->
- 74 | |           <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | |           </annotation-xml>
- 82 | |   
- 83 | |           <!-- annotate an image -->
- 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | |           <!-- annotate TeX -->
- 87 | |           <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | |           </annotation>
- 90 | |   
- 91 | `->     </semantics>
- 92 |     </math>
+ 73 | |           <!-- annotate an image -->
+ 74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | |           <!-- annotate TeX -->
+ 77 | |           <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | |           </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
+ 82 |     </math>
     `----
 
   x Child
@@ -2367,25 +2297,15 @@
  70 | |               </apply>
  71 | |           </annotation-xml>
  72 | |   
- 73 | |           <!-- Content HTML -->
- 74 | |           <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | |           </annotation-xml>
- 82 | |   
- 83 | |           <!-- annotate an image -->
- 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | |           <!-- annotate TeX -->
- 87 | |           <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | |           </annotation>
- 90 | |   
- 91 | `->     </semantics>
+ 73 | |           <!-- annotate an image -->
+ 74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | |           <!-- annotate TeX -->
+ 77 | |           <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | |           </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
     `----
 
   x Element
@@ -2415,25 +2335,15 @@
  70 | |               </apply>
  71 | |           </annotation-xml>
  72 | |   
- 73 | |           <!-- Content HTML -->
- 74 | |           <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | |           </annotation-xml>
- 82 | |   
- 83 | |           <!-- annotate an image -->
- 84 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | |           <!-- annotate TeX -->
- 87 | |           <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | |           </annotation>
- 90 | |   
- 91 | `->     </semantics>
+ 73 | |           <!-- annotate an image -->
+ 74 | |           <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | |           <!-- annotate TeX -->
+ 77 | |           <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | |           </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
     `----
 
   x Child
@@ -3026,1721 +2936,1803 @@
     ,-[$DIR/tests/fixture/tag/math/input.html:71:9]
  71 | ,-> </annotation-xml>
  72 | |   
- 73 | `->         <!-- Content HTML -->
+ 73 | `->         <!-- annotate an image -->
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/math/input.html:71:9]
  71 | ,-> </annotation-xml>
  72 | |   
- 73 | `->         <!-- Content HTML -->
+ 73 | `->         <!-- annotate an image -->
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
- 73 | <!-- Content HTML -->
-    : ^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Comment
-    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
- 73 | <!-- Content HTML -->
-    : ^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
- 73 | ,-> <!-- Content HTML -->
- 74 | `->         <annotation-xml encoding="application/xhtml+xml">
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
- 73 | ,-> <!-- Content HTML -->
- 74 | `->         <annotation-xml encoding="application/xhtml+xml">
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
- 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | `->         </annotation-xml>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
- 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | |               <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | |               <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | `->         </annotation-xml>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
- 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | `->             <head><title>INNER HTML TITLE</title></head>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
- 74 | ,-> <annotation-xml encoding="application/xhtml+xml">
- 75 | |               <html xmlns="http://www.w3.org/1999/xhtml">
- 76 | `->             <head><title>INNER HTML TITLE</title></head>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | <head><title>INNER HTML TITLE</title></head>
-    :              ^^^^^^^^^^^^^^^^
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | <head><title>INNER HTML TITLE</title></head>
-    :              ^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | ,-> <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:76:13]
- 76 | ,-> <head><title>INNER HTML TITLE</title></head>
- 77 | |               <body>
- 78 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | `->         </annotation-xml>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:78:13]
- 78 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
- 79 | |               </body>
- 80 | |               </html>
- 81 | `->         </annotation-xml>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:81:9]
- 81 | ,-> </annotation-xml>
- 82 | |   
- 83 | `->         <!-- annotate an image -->
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:81:9]
- 81 | ,-> </annotation-xml>
- 82 | |   
- 83 | `->         <!-- annotate an image -->
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
- 83 | <!-- annotate an image -->
+ 73 | <!-- annotate an image -->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Comment
-    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
- 83 | <!-- annotate an image -->
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | <!-- annotate an image -->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
- 83 | ,-> <!-- annotate an image -->
- 84 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | ,-> <!-- annotate an image -->
+ 74 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:83:9]
- 83 | ,-> <!-- annotate an image -->
- 84 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/fixture/tag/math/input.html:73:9]
+ 73 | ,-> <!-- annotate an image -->
+ 74 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
- 84 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | <annotation encoding="image/png" src="some/path/formula.png"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
- 84 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | <annotation encoding="image/png" src="some/path/formula.png"/>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
- 84 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | `->         <!-- annotate TeX -->
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | `->         <!-- annotate TeX -->
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:84:9]
- 84 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
- 85 | |   
- 86 | `->         <!-- annotate TeX -->
+    ,-[$DIR/tests/fixture/tag/math/input.html:74:9]
+ 74 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+ 75 | |   
+ 76 | `->         <!-- annotate TeX -->
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
- 86 | <!-- annotate TeX -->
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:9]
+ 76 | <!-- annotate TeX -->
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Comment
-    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
- 86 | <!-- annotate TeX -->
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:9]
+ 76 | <!-- annotate TeX -->
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
- 86 | ,-> <!-- annotate TeX -->
- 87 | `->         <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:9]
+ 76 | ,-> <!-- annotate TeX -->
+ 77 | `->         <annotation encoding="application/x-tex">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
- 86 | ,-> <!-- annotate TeX -->
- 87 | `->         <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/fixture/tag/math/input.html:76:9]
+ 76 | ,-> <!-- annotate TeX -->
+ 77 | `->         <annotation encoding="application/x-tex">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
- 87 | ,-> <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | `->         </annotation>
+    ,-[$DIR/tests/fixture/tag/math/input.html:77:9]
+ 77 | ,-> <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | `->         </annotation>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
- 87 | ,-> <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | `->         </annotation>
+    ,-[$DIR/tests/fixture/tag/math/input.html:77:9]
+ 77 | ,-> <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | `->         </annotation>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
- 87 | ,-> <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | `->         </annotation>
+    ,-[$DIR/tests/fixture/tag/math/input.html:77:9]
+ 77 | ,-> <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | `->         </annotation>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:87:9]
- 87 | ,-> <annotation encoding="application/x-tex">
- 88 | |               x^{2} + y
- 89 | `->         </annotation>
+    ,-[$DIR/tests/fixture/tag/math/input.html:77:9]
+ 77 | ,-> <annotation encoding="application/x-tex">
+ 78 | |               x^{2} + y
+ 79 | `->         </annotation>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:89:9]
- 89 | ,-> </annotation>
- 90 | |   
- 91 | `->     </semantics>
+    ,-[$DIR/tests/fixture/tag/math/input.html:79:9]
+ 79 | ,-> </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:89:9]
- 89 | ,-> </annotation>
- 90 | |   
- 91 | `->     </semantics>
+    ,-[$DIR/tests/fixture/tag/math/input.html:79:9]
+ 79 | ,-> </annotation>
+ 80 | |   
+ 81 | `->     </semantics>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:91:5]
- 91 | </semantics>
+    ,-[$DIR/tests/fixture/tag/math/input.html:81:5]
+ 81 | </semantics>
     :             ^
- 92 | </math>
+ 82 | </math>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:91:5]
- 91 | </semantics>
+    ,-[$DIR/tests/fixture/tag/math/input.html:81:5]
+ 81 | </semantics>
     :             ^
- 92 | </math>
+ 82 | </math>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:92:1]
- 92 | ,-> </math>
- 93 | `-> 
- 94 |     <math>
+    ,-[$DIR/tests/fixture/tag/math/input.html:82:1]
+ 82 | ,-> </math>
+ 83 | `-> 
+ 84 |     <math>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:92:1]
- 92 | ,-> </math>
- 93 | `-> 
- 94 |     <math>
+    ,-[$DIR/tests/fixture/tag/math/input.html:82:1]
+ 82 | ,-> </math>
+ 83 | `-> 
+ 84 |     <math>
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:94:1]
-  94 | ,-> <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | `->     </mtable>
- 124 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:84:1]
+  84 | ,-> <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | `->     </mtable>
+ 114 |     </math>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:94:1]
-  94 | ,-> <math>
-  95 | |       <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | `->     </mtable>
- 124 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:84:1]
+  84 | ,-> <math>
+  85 | |       <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | `->     </mtable>
+ 114 |     </math>
      `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:94:1]
- 94 | ,-> <math>
- 95 | `->     <mtable>
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:1]
+ 84 | ,-> <math>
+ 85 | `->     <mtable>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:94:1]
- 94 | ,-> <math>
- 95 | `->     <mtable>
+    ,-[$DIR/tests/fixture/tag/math/input.html:84:1]
+ 84 | ,-> <math>
+ 85 | `->     <mtable>
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:95:5]
-  95 | ,-> <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | `->     </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:85:5]
+  85 | ,-> <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | `->     </mtable>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:95:5]
-  95 | ,-> <mtable>
-  96 | |           <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | |           </mtr>
- 110 | |           <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | |           </mtr>
- 123 | `->     </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:85:5]
+  85 | ,-> <mtable>
+  86 | |           <mtr groupalign="{left}">
+  87 | |               <mtd>
+  88 | |                   <mrow>
+  89 | |                       <mn>2</mn>
+  90 | |                       <mo>&InvisibleTimes;</mo>
+  91 | |                       <maligngroup/><mi>x</mi>
+  92 | |                       <maligngroup/><mo>+</mo>
+  93 | |                       <maligngroup/><mi>y</mi>
+  94 | |                       <maligngroup/><mo>=</mo>
+  95 | |                       <mo>-</mo>
+  96 | |                       <maligngroup/><mn>5</mn>
+  97 | |                   </mrow>
+  98 | |               </mtd>
+  99 | |           </mtr>
+ 100 | |           <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | |           </mtr>
+ 113 | `->     </mtable>
      `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:95:5]
- 95 | ,-> <mtable>
- 96 | `->         <mtr groupalign="{left}">
+    ,-[$DIR/tests/fixture/tag/math/input.html:85:5]
+ 85 | ,-> <mtable>
+ 86 | `->         <mtr groupalign="{left}">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:95:5]
- 95 | ,-> <mtable>
- 96 | `->         <mtr groupalign="{left}">
+    ,-[$DIR/tests/fixture/tag/math/input.html:85:5]
+ 85 | ,-> <mtable>
+ 86 | `->         <mtr groupalign="{left}">
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:96:9]
-  96 | ,-> <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | `->         </mtr>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <mtr groupalign="{left}">
+ 87 | |               <mtd>
+ 88 | |                   <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | |                   </mrow>
+ 98 | |               </mtd>
+ 99 | `->         </mtr>
+    `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:96:9]
-  96 | ,-> <mtr groupalign="{left}">
-  97 | |               <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | |               </mtd>
- 109 | `->         </mtr>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <mtr groupalign="{left}">
+ 87 | |               <mtd>
+ 88 | |                   <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | |                   </mrow>
+ 98 | |               </mtd>
+ 99 | `->         </mtr>
+    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:96:9]
- 96 | ,-> <mtr groupalign="{left}">
- 97 | `->             <mtd>
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <mtr groupalign="{left}">
+ 87 | `->             <mtd>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:96:9]
- 96 | ,-> <mtr groupalign="{left}">
- 97 | `->             <mtd>
+    ,-[$DIR/tests/fixture/tag/math/input.html:86:9]
+ 86 | ,-> <mtr groupalign="{left}">
+ 87 | `->             <mtd>
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:97:13]
-  97 | ,-> <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | `->             </mtd>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:13]
+ 87 | ,-> <mtd>
+ 88 | |                   <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | |                   </mrow>
+ 98 | `->             </mtd>
+    `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:97:13]
-  97 | ,-> <mtd>
-  98 | |                   <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | |                   </mrow>
- 108 | `->             </mtd>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:13]
+ 87 | ,-> <mtd>
+ 88 | |                   <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | |                   </mrow>
+ 98 | `->             </mtd>
+    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:97:13]
- 97 | ,-> <mtd>
- 98 | `->                 <mrow>
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:13]
+ 87 | ,-> <mtd>
+ 88 | `->                 <mrow>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:97:13]
- 97 | ,-> <mtd>
- 98 | `->                 <mrow>
+    ,-[$DIR/tests/fixture/tag/math/input.html:87:13]
+ 87 | ,-> <mtd>
+ 88 | `->                 <mrow>
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:98:17]
-  98 | ,-> <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | `->                 </mrow>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:88:17]
+ 88 | ,-> <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | `->                 </mrow>
+    `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:98:17]
-  98 | ,-> <mrow>
-  99 | |                       <mn>2</mn>
- 100 | |                       <mo>&InvisibleTimes;</mo>
- 101 | |                       <maligngroup/><mi>x</mi>
- 102 | |                       <maligngroup/><mo>+</mo>
- 103 | |                       <maligngroup/><mi>y</mi>
- 104 | |                       <maligngroup/><mo>=</mo>
- 105 | |                       <mo>-</mo>
- 106 | |                       <maligngroup/><mn>5</mn>
- 107 | `->                 </mrow>
-     `----
+    ,-[$DIR/tests/fixture/tag/math/input.html:88:17]
+ 88 | ,-> <mrow>
+ 89 | |                       <mn>2</mn>
+ 90 | |                       <mo>&InvisibleTimes;</mo>
+ 91 | |                       <maligngroup/><mi>x</mi>
+ 92 | |                       <maligngroup/><mo>+</mo>
+ 93 | |                       <maligngroup/><mi>y</mi>
+ 94 | |                       <maligngroup/><mo>=</mo>
+ 95 | |                       <mo>-</mo>
+ 96 | |                       <maligngroup/><mn>5</mn>
+ 97 | `->                 </mrow>
+    `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:98:17]
- 98 | ,-> <mrow>
- 99 | `->                     <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:88:17]
+ 88 | ,-> <mrow>
+ 89 | `->                     <mn>2</mn>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:98:17]
- 98 | ,-> <mrow>
- 99 | `->                     <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:88:17]
+ 88 | ,-> <mrow>
+ 89 | `->                     <mn>2</mn>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
- 99 | <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | <mn>2</mn>
     : ^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
- 99 | <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | <mn>2</mn>
     : ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
- 99 | <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | <mn>2</mn>
     :     ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
- 99 | <mn>2</mn>
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | <mn>2</mn>
     :     ^
     `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
-  99 | ,-> <mn>2</mn>
- 100 | `->                     <mo>&InvisibleTimes;</mo>
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | ,-> <mn>2</mn>
+ 90 | `->                     <mo>&InvisibleTimes;</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:89:21]
+ 89 | ,-> <mn>2</mn>
+ 90 | `->                     <mo>&InvisibleTimes;</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | <mo>&InvisibleTimes;</mo>
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | <mo>&InvisibleTimes;</mo>
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | <mo>&InvisibleTimes;</mo>
+    :     ^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | <mo>&InvisibleTimes;</mo>
+    :     ^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | ,-> <mo>&InvisibleTimes;</mo>
+ 91 | `->                     <maligngroup/><mi>x</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:90:21]
+ 90 | ,-> <mo>&InvisibleTimes;</mo>
+ 91 | `->                     <maligngroup/><mi>x</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    :               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    :               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    :                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | <maligngroup/><mi>x</mi>
+    :                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | ,-> <maligngroup/><mi>x</mi>
+ 92 | `->                     <maligngroup/><mo>+</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:91:21]
+ 91 | ,-> <maligngroup/><mi>x</mi>
+ 92 | `->                     <maligngroup/><mo>+</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    :               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    :               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    :                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | <maligngroup/><mo>+</mo>
+    :                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | ,-> <maligngroup/><mo>+</mo>
+ 93 | `->                     <maligngroup/><mi>y</mi>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:92:21]
+ 92 | ,-> <maligngroup/><mo>+</mo>
+ 93 | `->                     <maligngroup/><mi>y</mi>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    :               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    :               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    :                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | <maligngroup/><mi>y</mi>
+    :                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | ,-> <maligngroup/><mi>y</mi>
+ 94 | `->                     <maligngroup/><mo>=</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:93:21]
+ 93 | ,-> <maligngroup/><mi>y</mi>
+ 94 | `->                     <maligngroup/><mo>=</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    :               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    :               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    :                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | <maligngroup/><mo>=</mo>
+    :                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | ,-> <maligngroup/><mo>=</mo>
+ 95 | `->                     <mo>-</mo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:94:21]
+ 94 | ,-> <maligngroup/><mo>=</mo>
+ 95 | `->                     <mo>-</mo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | <mo>-</mo>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | <mo>-</mo>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | <mo>-</mo>
+    :     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | <mo>-</mo>
+    :     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | ,-> <mo>-</mo>
+ 96 | `->                     <maligngroup/><mn>5</mn>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:95:21]
+ 95 | ,-> <mo>-</mo>
+ 96 | `->                     <maligngroup/><mn>5</mn>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    :               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    :               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    :                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | <maligngroup/><mn>5</mn>
+    :                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | ,-> <maligngroup/><mn>5</mn>
+ 97 | `->                 </mrow>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:96:21]
+ 96 | ,-> <maligngroup/><mn>5</mn>
+ 97 | `->                 </mrow>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:97:17]
+ 97 | ,-> </mrow>
+ 98 | `->             </mtd>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:97:17]
+ 97 | ,-> </mrow>
+ 98 | `->             </mtd>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/math/input.html:98:13]
+ 98 | ,-> </mtd>
+ 99 | `->         </mtr>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/math/input.html:98:13]
+ 98 | ,-> </mtd>
+ 99 | `->         </mtr>
+    `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:99:9]
+  99 | ,-> </mtr>
+ 100 | `->         <mtr>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:99:21]
-  99 | ,-> <mn>2</mn>
- 100 | `->                     <mo>&InvisibleTimes;</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:99:9]
+  99 | ,-> </mtr>
+ 100 | `->         <mtr>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | <mo>&InvisibleTimes;</mo>
-     : ^^^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:100:9]
+ 100 | ,-> <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | `->         </mtr>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | <mo>&InvisibleTimes;</mo>
-     : ^^^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:100:9]
+ 100 | ,-> <mtr>
+ 101 | |               <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | |               </mtd>
+ 112 | `->         </mtr>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | <mo>&InvisibleTimes;</mo>
-     :     ^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:100:9]
+ 100 | ,-> <mtr>
+ 101 | `->             <mtd>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | <mo>&InvisibleTimes;</mo>
-     :     ^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:100:9]
+ 100 | ,-> <mtr>
+ 101 | `->             <mtd>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | ,-> <mo>&InvisibleTimes;</mo>
- 101 | `->                     <maligngroup/><mi>x</mi>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:100:21]
- 100 | ,-> <mo>&InvisibleTimes;</mo>
- 101 | `->                     <maligngroup/><mi>x</mi>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     : ^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:101:13]
+ 101 | ,-> <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | `->             </mtd>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     : ^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:101:13]
+ 101 | ,-> <mtd>
+ 102 | |                   <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | |                   </mrow>
+ 111 | `->             </mtd>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:101:13]
+ 101 | ,-> <mtd>
+ 102 | `->                 <mrow>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:101:13]
+ 101 | ,-> <mtd>
+ 102 | `->                 <mrow>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:102:17]
+ 102 | ,-> <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | `->                 </mrow>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:102:17]
+ 102 | ,-> <mrow>
+ 103 | |                       <maligngroup/><mi>x</mi>
+ 104 | |                       <maligngroup/><mo>-</mo>
+ 105 | |                       <mn>2</mn>
+ 106 | |                       <mo>&InvisibleTimes;</mo>
+ 107 | |                       <maligngroup/><mi>y</mi>
+ 108 | |                       <maligngroup/><mo>=</mo>
+ 109 | |                       <maligngroup/><mn>1</mn>
+ 110 | `->                 </mrow>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     :                   ^
+     ,-[$DIR/tests/fixture/tag/math/input.html:102:17]
+ 102 | ,-> <mrow>
+ 103 | `->                     <maligngroup/><mi>x</mi>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | <maligngroup/><mi>x</mi>
-     :                   ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | ,-> <maligngroup/><mi>x</mi>
- 102 | `->                     <maligngroup/><mo>+</mo>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:101:21]
- 101 | ,-> <maligngroup/><mi>x</mi>
- 102 | `->                     <maligngroup/><mo>+</mo>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     :               ^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     :               ^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     :                   ^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | <maligngroup/><mo>+</mo>
-     :                   ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | ,-> <maligngroup/><mo>+</mo>
- 103 | `->                     <maligngroup/><mi>y</mi>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:102:21]
- 102 | ,-> <maligngroup/><mo>+</mo>
- 103 | `->                     <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:102:17]
+ 102 | ,-> <mrow>
+ 103 | `->                     <maligngroup/><mi>x</mi>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      : ^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      : ^^^^^^^^^^^^^^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      :               ^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      :               ^^^^^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      :                   ^
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | <maligngroup/><mi>y</mi>
+ 103 | <maligngroup/><mi>x</mi>
      :                   ^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | ,-> <maligngroup/><mi>y</mi>
- 104 | `->                     <maligngroup/><mo>=</mo>
+ 103 | ,-> <maligngroup/><mi>x</mi>
+ 104 | `->                     <maligngroup/><mo>-</mo>
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:103:21]
- 103 | ,-> <maligngroup/><mi>y</mi>
- 104 | `->                     <maligngroup/><mo>=</mo>
+ 103 | ,-> <maligngroup/><mi>x</mi>
+ 104 | `->                     <maligngroup/><mo>-</mo>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      : ^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      : ^^^^^^^^^^^^^^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      :               ^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      :               ^^^^^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      :                   ^
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | <maligngroup/><mo>=</mo>
+ 104 | <maligngroup/><mo>-</mo>
      :                   ^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | ,-> <maligngroup/><mo>=</mo>
- 105 | `->                     <mo>-</mo>
+ 104 | ,-> <maligngroup/><mo>-</mo>
+ 105 | `->                     <mn>2</mn>
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:104:21]
- 104 | ,-> <maligngroup/><mo>=</mo>
- 105 | `->                     <mo>-</mo>
+ 104 | ,-> <maligngroup/><mo>-</mo>
+ 105 | `->                     <mn>2</mn>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | <mo>-</mo>
+ 105 | <mn>2</mn>
      : ^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | <mo>-</mo>
+ 105 | <mn>2</mn>
      : ^^^^^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | <mo>-</mo>
+ 105 | <mn>2</mn>
      :     ^
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | <mo>-</mo>
+ 105 | <mn>2</mn>
      :     ^
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | ,-> <mo>-</mo>
- 106 | `->                     <maligngroup/><mn>5</mn>
+ 105 | ,-> <mn>2</mn>
+ 106 | `->                     <mo>&InvisibleTimes;</mo>
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:105:21]
- 105 | ,-> <mo>-</mo>
- 106 | `->                     <maligngroup/><mn>5</mn>
+ 105 | ,-> <mn>2</mn>
+ 106 | `->                     <mo>&InvisibleTimes;</mo>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     :               ^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     :               ^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     :                   ^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | <maligngroup/><mn>5</mn>
-     :                   ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | ,-> <maligngroup/><mn>5</mn>
- 107 | `->                 </mrow>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
- 106 | ,-> <maligngroup/><mn>5</mn>
- 107 | `->                 </mrow>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:107:17]
- 107 | ,-> </mrow>
- 108 | `->             </mtd>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:107:17]
- 107 | ,-> </mrow>
- 108 | `->             </mtd>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:108:13]
- 108 | ,-> </mtd>
- 109 | `->         </mtr>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:108:13]
- 108 | ,-> </mtd>
- 109 | `->         </mtr>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:109:9]
- 109 | ,-> </mtr>
- 110 | `->         <mtr>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:109:9]
- 109 | ,-> </mtr>
- 110 | `->         <mtr>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:110:9]
- 110 | ,-> <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | `->         </mtr>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:110:9]
- 110 | ,-> <mtr>
- 111 | |               <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | |               </mtd>
- 122 | `->         </mtr>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:110:9]
- 110 | ,-> <mtr>
- 111 | `->             <mtd>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:110:9]
- 110 | ,-> <mtr>
- 111 | `->             <mtd>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
- 111 | ,-> <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | `->             </mtd>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
- 111 | ,-> <mtd>
- 112 | |                   <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | |                   </mrow>
- 121 | `->             </mtd>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
- 111 | ,-> <mtd>
- 112 | `->                 <mrow>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
- 111 | ,-> <mtd>
- 112 | `->                 <mrow>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:112:17]
- 112 | ,-> <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | `->                 </mrow>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:112:17]
- 112 | ,-> <mrow>
- 113 | |                       <maligngroup/><mi>x</mi>
- 114 | |                       <maligngroup/><mo>-</mo>
- 115 | |                       <mn>2</mn>
- 116 | |                       <mo>&InvisibleTimes;</mo>
- 117 | |                       <maligngroup/><mi>y</mi>
- 118 | |                       <maligngroup/><mo>=</mo>
- 119 | |                       <maligngroup/><mn>1</mn>
- 120 | `->                 </mrow>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:112:17]
- 112 | ,-> <mrow>
- 113 | `->                     <maligngroup/><mi>x</mi>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:112:17]
- 112 | ,-> <mrow>
- 113 | `->                     <maligngroup/><mi>x</mi>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     :                   ^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | <maligngroup/><mi>x</mi>
-     :                   ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | ,-> <maligngroup/><mi>x</mi>
- 114 | `->                     <maligngroup/><mo>-</mo>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:113:21]
- 113 | ,-> <maligngroup/><mi>x</mi>
- 114 | `->                     <maligngroup/><mo>-</mo>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     : ^^^^^^^^^^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     :               ^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     :               ^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     :                   ^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | <maligngroup/><mo>-</mo>
-     :                   ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | ,-> <maligngroup/><mo>-</mo>
- 115 | `->                     <mn>2</mn>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:114:21]
- 114 | ,-> <maligngroup/><mo>-</mo>
- 115 | `->                     <mn>2</mn>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | <mn>2</mn>
-     : ^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | <mn>2</mn>
-     : ^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | <mn>2</mn>
-     :     ^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | <mn>2</mn>
-     :     ^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | ,-> <mn>2</mn>
- 116 | `->                     <mo>&InvisibleTimes;</mo>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:115:21]
- 115 | ,-> <mn>2</mn>
- 116 | `->                     <mo>&InvisibleTimes;</mo>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | <mo>&InvisibleTimes;</mo>
+ 106 | <mo>&InvisibleTimes;</mo>
      : ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | <mo>&InvisibleTimes;</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
+ 106 | <mo>&InvisibleTimes;</mo>
      : ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | <mo>&InvisibleTimes;</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
+ 106 | <mo>&InvisibleTimes;</mo>
      :     ^^^^^^^^^^^^^^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | <mo>&InvisibleTimes;</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
+ 106 | <mo>&InvisibleTimes;</mo>
      :     ^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | ,-> <mo>&InvisibleTimes;</mo>
- 117 | `->                     <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
+ 106 | ,-> <mo>&InvisibleTimes;</mo>
+ 107 | `->                     <maligngroup/><mi>y</mi>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:116:21]
- 116 | ,-> <mo>&InvisibleTimes;</mo>
- 117 | `->                     <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:106:21]
+ 106 | ,-> <mo>&InvisibleTimes;</mo>
+ 107 | `->                     <maligngroup/><mi>y</mi>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      : ^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      : ^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      :               ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      :               ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      :                   ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | <maligngroup/><mi>y</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | <maligngroup/><mi>y</mi>
      :                   ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | ,-> <maligngroup/><mi>y</mi>
- 118 | `->                     <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | ,-> <maligngroup/><mi>y</mi>
+ 108 | `->                     <maligngroup/><mo>=</mo>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:117:21]
- 117 | ,-> <maligngroup/><mi>y</mi>
- 118 | `->                     <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:107:21]
+ 107 | ,-> <maligngroup/><mi>y</mi>
+ 108 | `->                     <maligngroup/><mo>=</mo>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      : ^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      : ^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      :               ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      :               ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      :                   ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | <maligngroup/><mo>=</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | <maligngroup/><mo>=</mo>
      :                   ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | ,-> <maligngroup/><mo>=</mo>
- 119 | `->                     <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | ,-> <maligngroup/><mo>=</mo>
+ 109 | `->                     <maligngroup/><mn>1</mn>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:118:21]
- 118 | ,-> <maligngroup/><mo>=</mo>
- 119 | `->                     <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:108:21]
+ 108 | ,-> <maligngroup/><mo>=</mo>
+ 109 | `->                     <maligngroup/><mn>1</mn>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      : ^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      : ^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      :               ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      :               ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      :                   ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | <maligngroup/><mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | <maligngroup/><mn>1</mn>
      :                   ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | ,-> <maligngroup/><mn>1</mn>
- 120 | `->                 </mrow>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | ,-> <maligngroup/><mn>1</mn>
+ 110 | `->                 </mrow>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:119:21]
- 119 | ,-> <maligngroup/><mn>1</mn>
- 120 | `->                 </mrow>
+     ,-[$DIR/tests/fixture/tag/math/input.html:109:21]
+ 109 | ,-> <maligngroup/><mn>1</mn>
+ 110 | `->                 </mrow>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:120:17]
- 120 | ,-> </mrow>
- 121 | `->             </mtd>
+     ,-[$DIR/tests/fixture/tag/math/input.html:110:17]
+ 110 | ,-> </mrow>
+ 111 | `->             </mtd>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:120:17]
- 120 | ,-> </mrow>
- 121 | `->             </mtd>
+     ,-[$DIR/tests/fixture/tag/math/input.html:110:17]
+ 110 | ,-> </mrow>
+ 111 | `->             </mtd>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:121:13]
- 121 | ,-> </mtd>
- 122 | `->         </mtr>
+     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
+ 111 | ,-> </mtd>
+ 112 | `->         </mtr>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:121:13]
- 121 | ,-> </mtd>
- 122 | `->         </mtr>
+     ,-[$DIR/tests/fixture/tag/math/input.html:111:13]
+ 111 | ,-> </mtd>
+ 112 | `->         </mtr>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:122:9]
- 122 | ,-> </mtr>
- 123 | `->     </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:112:9]
+ 112 | ,-> </mtr>
+ 113 | `->     </mtable>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:122:9]
- 122 | ,-> </mtr>
- 123 | `->     </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:112:9]
+ 112 | ,-> </mtr>
+ 113 | `->     </mtable>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:123:5]
- 123 | </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:113:5]
+ 113 | </mtable>
      :          ^
- 124 | </math>
+ 114 | </math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:123:5]
- 123 | </mtable>
+     ,-[$DIR/tests/fixture/tag/math/input.html:113:5]
+ 113 | </mtable>
      :          ^
- 124 | </math>
+ 114 | </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
- 124 | ,-> </math>
- 125 | `-> 
- 126 |     <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:114:1]
+ 114 | ,-> </math>
+ 115 | `-> 
+ 116 |     <math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
- 124 | ,-> </math>
- 125 | `-> 
- 126 |     <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:114:1]
+ 114 | ,-> </math>
+ 115 | `-> 
+ 116 |     <math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:126:1]
- 126 | ,-> <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
- 129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | `-> 
- 132 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:116:1]
+ 116 | ,-> <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | `-> 
+ 122 |     </math>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:126:1]
- 126 | ,-> <math>
- 127 | |   
- 128 | |       <mtext> Theorem of Pythagoras </mtext>
- 129 | |   
- 130 | |       <mtext> /* comment here */ </mtext>
- 131 | `-> 
- 132 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:116:1]
+ 116 | ,-> <math>
+ 117 | |   
+ 118 | |       <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | |       <mtext> /* comment here */ </mtext>
+ 121 | `-> 
+ 122 |     </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:126:1]
- 126 | ,-> <math>
- 127 | |   
- 128 | `->     <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:116:1]
+ 116 | ,-> <math>
+ 117 | |   
+ 118 | `->     <mtext> Theorem of Pythagoras </mtext>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:126:1]
- 126 | ,-> <math>
- 127 | |   
- 128 | `->     <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:116:1]
+ 116 | ,-> <math>
+ 117 | |   
+ 118 | `->     <mtext> Theorem of Pythagoras </mtext>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | <mtext> Theorem of Pythagoras </mtext>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | <mtext> Theorem of Pythagoras </mtext>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | <mtext> Theorem of Pythagoras </mtext>
      :        ^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | <mtext> Theorem of Pythagoras </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | <mtext> Theorem of Pythagoras </mtext>
      :        ^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | ,-> <mtext> Theorem of Pythagoras </mtext>
- 129 | |   
- 130 | `->     <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | ,-> <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | `->     <mtext> /* comment here */ </mtext>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:128:5]
- 128 | ,-> <mtext> Theorem of Pythagoras </mtext>
- 129 | |   
- 130 | `->     <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:118:5]
+ 118 | ,-> <mtext> Theorem of Pythagoras </mtext>
+ 119 | |   
+ 120 | `->     <mtext> /* comment here */ </mtext>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | <mtext> /* comment here */ </mtext>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | <mtext> /* comment here */ </mtext>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | <mtext> /* comment here */ </mtext>
      :        ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | <mtext> /* comment here */ </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | <mtext> /* comment here */ </mtext>
      :        ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | ,-> <mtext> /* comment here */ </mtext>
- 131 | `-> 
- 132 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | ,-> <mtext> /* comment here */ </mtext>
+ 121 | `-> 
+ 122 |     </math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:130:5]
- 130 | ,-> <mtext> /* comment here */ </mtext>
- 131 | `-> 
- 132 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:120:5]
+ 120 | ,-> <mtext> /* comment here */ </mtext>
+ 121 | `-> 
+ 122 |     </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:132:1]
- 132 | ,-> </math>
- 133 | `-> 
- 134 |     <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:122:1]
+ 122 | ,-> </math>
+ 123 | `-> 
+ 124 |     <math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:132:1]
- 132 | ,-> </math>
- 133 | `-> 
- 134 |     <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:122:1]
+ 122 | ,-> </math>
+ 123 | `-> 
+ 124 |     <math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:134:1]
- 134 | ,-> <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | `->     </mtext>
- 138 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
+ 124 | ,-> <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | `->     </mtext>
+ 128 |     </math>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:134:1]
- 134 | ,-> <math>
- 135 | |       <mtext>
- 136 | |           <div>test</div>
- 137 | `->     </mtext>
- 138 |     </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
+ 124 | ,-> <math>
+ 125 | |       <mtext>
+ 126 | |           <div>test</div>
+ 127 | `->     </mtext>
+ 128 |     </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:134:1]
- 134 | ,-> <math>
- 135 | `->     <mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
+ 124 | ,-> <math>
+ 125 | `->     <mtext>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:134:1]
- 134 | ,-> <math>
- 135 | `->     <mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:124:1]
+ 124 | ,-> <math>
+ 125 | `->     <mtext>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:135:5]
- 135 | ,-> <mtext>
- 136 | |           <div>test</div>
- 137 | `->     </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:125:5]
+ 125 | ,-> <mtext>
+ 126 | |           <div>test</div>
+ 127 | `->     </mtext>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:135:5]
- 135 | ,-> <mtext>
- 136 | |           <div>test</div>
- 137 | `->     </mtext>
+     ,-[$DIR/tests/fixture/tag/math/input.html:125:5]
+ 125 | ,-> <mtext>
+ 126 | |           <div>test</div>
+ 127 | `->     </mtext>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:135:5]
- 135 | ,-> <mtext>
- 136 | `->         <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:125:5]
+ 125 | ,-> <mtext>
+ 126 | `->         <div>test</div>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:135:5]
- 135 | ,-> <mtext>
- 136 | `->         <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:125:5]
+ 125 | ,-> <mtext>
+ 126 | `->         <div>test</div>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | <div>test</div>
      : ^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | <div>test</div>
      : ^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | <div>test</div>
      :      ^^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | <div>test</div>
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | <div>test</div>
      :      ^^^^
      `----
 
   x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | ,-> <div>test</div>
+ 127 | `->     </mtext>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:126:9]
+ 126 | ,-> <div>test</div>
+ 127 | `->     </mtext>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:127:5]
+ 127 | </mtext>
+     :         ^
+ 128 | </math>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:127:5]
+ 127 | </mtext>
+     :         ^
+ 128 | </math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:128:1]
+ 128 | ,-> </math>
+ 129 | `-> 
+ 130 |     <math>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:128:1]
+ 128 | ,-> </math>
+ 129 | `-> 
+ 130 |     <math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:130:1]
+ 130 | ,-> <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | `->     </msup>
+ 138 |     </math>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:130:1]
+ 130 | ,-> <math>
+ 131 | |       <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | `->     </msup>
+ 138 |     </math>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:130:1]
+ 130 | ,-> <math>
+ 131 | `->     <msup>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:130:1]
+ 130 | ,-> <math>
+ 131 | `->     <msup>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:131:5]
+ 131 | ,-> <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | `->     </msup>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:131:5]
+ 131 | ,-> <msup>
+ 132 | |           <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | |           </mrow>
+ 136 | |           <mn> 2 </mn>
+ 137 | `->     </msup>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:131:5]
+ 131 | ,-> <msup>
+ 132 | `->         <mrow>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:131:5]
+ 131 | ,-> <msup>
+ 132 | `->         <mrow>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:132:9]
+ 132 | ,-> <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | `->         </mrow>
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:132:9]
+ 132 | ,-> <mrow>
+ 133 | |               <mi> x </mi>
+ 134 | |               <malignmark edge="right"/>
+ 135 | `->         </mrow>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:132:9]
+ 132 | ,-> <mrow>
+ 133 | `->             <mi> x </mi>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:132:9]
+ 132 | ,-> <mrow>
+ 133 | `->             <mi> x </mi>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | <mi> x </mi>
+     : ^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | <mi> x </mi>
+     : ^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | <mi> x </mi>
+     :     ^^^
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | <mi> x </mi>
+     :     ^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | ,-> <mi> x </mi>
+ 134 | `->             <malignmark edge="right"/>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:133:13]
+ 133 | ,-> <mi> x </mi>
+ 134 | `->             <malignmark edge="right"/>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:134:13]
+ 134 | <malignmark edge="right"/>
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:134:13]
+ 134 | <malignmark edge="right"/>
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:134:13]
+ 134 | ,-> <malignmark edge="right"/>
+ 135 | `->         </mrow>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:134:13]
+ 134 | ,-> <malignmark edge="right"/>
+ 135 | `->         </mrow>
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:135:9]
+ 135 | ,-> </mrow>
+ 136 | `->         <mn> 2 </mn>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:135:9]
+ 135 | ,-> </mrow>
+ 136 | `->         <mn> 2 </mn>
+     `----
+
+  x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | ,-> <div>test</div>
- 137 | `->     </mtext>
+ 136 | <mn> 2 </mn>
+     : ^^^^^^^
+     `----
+
+  x Element
+     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
+ 136 | <mn> 2 </mn>
+     : ^^^^^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
+ 136 | <mn> 2 </mn>
+     :     ^^^
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
- 136 | ,-> <div>test</div>
- 137 | `->     </mtext>
+ 136 | <mn> 2 </mn>
+     :     ^^^
+     `----
+
+  x Child
+     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
+ 136 | ,-> <mn> 2 </mn>
+ 137 | `->     </msup>
+     `----
+
+  x Text
+     ,-[$DIR/tests/fixture/tag/math/input.html:136:9]
+ 136 | ,-> <mn> 2 </mn>
+ 137 | `->     </msup>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:137:5]
- 137 | </mtext>
-     :         ^
+ 137 | </msup>
+     :        ^
  138 | </math>
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:137:5]
- 137 | </mtext>
-     :         ^
+ 137 | </msup>
+     :        ^
  138 | </math>
      `----
 
@@ -4761,989 +4753,753 @@
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:140:1]
  140 | ,-> <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | `->     </msup>
- 148 |     </math>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | `->     </annotation-xml>
+ 164 |     </math>
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:140:1]
  140 | ,-> <math>
- 141 | |       <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | `->     </msup>
- 148 |     </math>
+ 141 | |       <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | `->     </annotation-xml>
+ 164 |     </math>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:140:1]
  140 | ,-> <math>
- 141 | `->     <msup>
+ 141 | `->     <annotation-xml>
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:140:1]
  140 | ,-> <math>
- 141 | `->     <msup>
+ 141 | `->     <annotation-xml>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:141:5]
- 141 | ,-> <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | `->     </msup>
+ 141 | ,-> <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | `->     </annotation-xml>
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:141:5]
- 141 | ,-> <msup>
- 142 | |           <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | |           </mrow>
- 146 | |           <mn> 2 </mn>
- 147 | `->     </msup>
+ 141 | ,-> <annotation-xml>
+ 142 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | |           </svg>
+ 163 | `->     </annotation-xml>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:141:5]
- 141 | ,-> <msup>
- 142 | `->         <mrow>
+ 141 | ,-> <annotation-xml>
+ 142 | `->         <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:141:5]
- 141 | ,-> <msup>
- 142 | `->         <mrow>
+ 141 | ,-> <annotation-xml>
+ 142 | `->         <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:142:9]
- 142 | ,-> <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | `->         </mrow>
+ 142 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | `->         </svg>
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:142:9]
- 142 | ,-> <mrow>
- 143 | |               <mi> x </mi>
- 144 | |               <malignmark edge="right"/>
- 145 | `->         </mrow>
+ 142 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | |               <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | |               </g>
+ 162 | `->         </svg>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:142:9]
- 142 | ,-> <mrow>
- 143 | `->             <mi> x </mi>
+ 142 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | `->             <g transform="translate(10,80)">
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:142:9]
- 142 | ,-> <mrow>
- 143 | `->             <mi> x </mi>
+ 142 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 143 | `->             <g transform="translate(10,80)">
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | <mi> x </mi>
-     : ^^^^^^^
+ 143 | ,-> <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | `->             </g>
      `----
 
   x Element
      ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | <mi> x </mi>
-     : ^^^^^^^
+ 143 | ,-> <g transform="translate(10,80)">
+ 144 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | |                         fill="none" stroke="black"></path>
+ 147 | |                   <text transform="translate(10,20)">1</text>
+ 148 | |                   <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | |                   </switch>
+ 161 | `->             </g>
      `----
 
   x Child
      ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | <mi> x </mi>
-     :     ^^^
+ 143 | ,-> <g transform="translate(10,80)">
+ 144 | `->                 <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
      `----
 
   x Text
      ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | <mi> x </mi>
-     :     ^^^
+ 143 | ,-> <g transform="translate(10,80)">
+ 144 | `->                 <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | ,-> <mi> x </mi>
- 144 | `->             <malignmark edge="right"/>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:143:13]
- 143 | ,-> <mi> x </mi>
- 144 | `->             <malignmark edge="right"/>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:144:13]
- 144 | <malignmark edge="right"/>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:144:17]
+ 144 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | `->                       fill="none" stroke="black"></path>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:144:13]
- 144 | <malignmark edge="right"/>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/tag/math/input.html:144:17]
+ 144 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 146 | `->                       fill="none" stroke="black"></path>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:144:13]
- 144 | ,-> <malignmark edge="right"/>
- 145 | `->         </mrow>
+     ,-[$DIR/tests/fixture/tag/math/input.html:146:23]
+ 146 | ,-> fill="none" stroke="black"></path>
+ 147 | `->                 <text transform="translate(10,20)">1</text>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:144:13]
- 144 | ,-> <malignmark edge="right"/>
- 145 | `->         </mrow>
+     ,-[$DIR/tests/fixture/tag/math/input.html:146:23]
+ 146 | ,-> fill="none" stroke="black"></path>
+ 147 | `->                 <text transform="translate(10,20)">1</text>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:145:9]
- 145 | ,-> </mrow>
- 146 | `->         <mn> 2 </mn>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:145:9]
- 145 | ,-> </mrow>
- 146 | `->         <mn> 2 </mn>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | <mn> 2 </mn>
-     : ^^^^^^^
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | <mn> 2 </mn>
-     : ^^^^^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | <mn> 2 </mn>
-     :     ^^^
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | <mn> 2 </mn>
-     :     ^^^
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | ,-> <mn> 2 </mn>
- 147 | `->     </msup>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:146:9]
- 146 | ,-> <mn> 2 </mn>
- 147 | `->     </msup>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:147:5]
- 147 | </msup>
-     :        ^
- 148 | </math>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:147:5]
- 147 | </msup>
-     :        ^
- 148 | </math>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:148:1]
- 148 | ,-> </math>
- 149 | `-> 
- 150 |     <math>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:148:1]
- 148 | ,-> </math>
- 149 | `-> 
- 150 |     <math>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:150:1]
- 150 | ,-> <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | `->     </annotation-xml>
- 174 |     </math>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:150:1]
- 150 | ,-> <math>
- 151 | |       <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | `->     </annotation-xml>
- 174 |     </math>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:150:1]
- 150 | ,-> <math>
- 151 | `->     <annotation-xml>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:150:1]
- 150 | ,-> <math>
- 151 | `->     <annotation-xml>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:151:5]
- 151 | ,-> <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | `->     </annotation-xml>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:151:5]
- 151 | ,-> <annotation-xml>
- 152 | |           <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | |           </svg>
- 173 | `->     </annotation-xml>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:151:5]
- 151 | ,-> <annotation-xml>
- 152 | `->         <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:151:5]
- 151 | ,-> <annotation-xml>
- 152 | `->         <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:152:9]
- 152 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | `->         </svg>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:152:9]
- 152 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | |               <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | |               </g>
- 172 | `->         </svg>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:152:9]
- 152 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | `->             <g transform="translate(10,80)">
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:152:9]
- 152 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 153 | `->             <g transform="translate(10,80)">
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:153:13]
- 153 | ,-> <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | `->             </g>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:153:13]
- 153 | ,-> <g transform="translate(10,80)">
- 154 | |                   <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | |                         fill="none" stroke="black"></path>
- 157 | |                   <text transform="translate(10,20)">1</text>
- 158 | |                   <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | |                   </switch>
- 171 | `->             </g>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:153:13]
- 153 | ,-> <g transform="translate(10,80)">
- 154 | `->                 <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:153:13]
- 153 | ,-> <g transform="translate(10,80)">
- 154 | `->                 <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:154:17]
- 154 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | `->                       fill="none" stroke="black"></path>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:154:17]
- 154 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 155 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 156 | `->                       fill="none" stroke="black"></path>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:156:23]
- 156 | ,-> fill="none" stroke="black"></path>
- 157 | `->                 <text transform="translate(10,20)">1</text>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:156:23]
- 156 | ,-> fill="none" stroke="black"></path>
- 157 | `->                 <text transform="translate(10,20)">1</text>
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | <text transform="translate(10,20)">1</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | <text transform="translate(10,20)">1</text>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | <text transform="translate(10,20)">1</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | <text transform="translate(10,20)">1</text>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | <text transform="translate(10,20)">1</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | <text transform="translate(10,20)">1</text>
      :                                    ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | <text transform="translate(10,20)">1</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | <text transform="translate(10,20)">1</text>
      :                                    ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | ,-> <text transform="translate(10,20)">1</text>
- 158 | `->                 <switch transform="translate(35,-40)">
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | ,-> <text transform="translate(10,20)">1</text>
+ 148 | `->                 <switch transform="translate(35,-40)">
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:157:17]
- 157 | ,-> <text transform="translate(10,20)">1</text>
- 158 | `->                 <switch transform="translate(35,-40)">
+     ,-[$DIR/tests/fixture/tag/math/input.html:147:17]
+ 147 | ,-> <text transform="translate(10,20)">1</text>
+ 148 | `->                 <switch transform="translate(35,-40)">
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:158:17]
- 158 | ,-> <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | `->                 </switch>
+     ,-[$DIR/tests/fixture/tag/math/input.html:148:17]
+ 148 | ,-> <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | `->                 </switch>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:158:17]
- 158 | ,-> <switch transform="translate(35,-40)">
- 159 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | |                       </foreignObject>
- 169 | |                       <text>\sqrt{2r - 1}</text>
- 170 | `->                 </switch>
+     ,-[$DIR/tests/fixture/tag/math/input.html:148:17]
+ 148 | ,-> <switch transform="translate(35,-40)">
+ 149 | |                       <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | |                       </foreignObject>
+ 159 | |                       <text>\sqrt{2r - 1}</text>
+ 160 | `->                 </switch>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:158:17]
- 158 | ,-> <switch transform="translate(35,-40)">
- 159 | `->                     <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+     ,-[$DIR/tests/fixture/tag/math/input.html:148:17]
+ 148 | ,-> <switch transform="translate(35,-40)">
+ 149 | `->                     <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:158:17]
- 158 | ,-> <switch transform="translate(35,-40)">
- 159 | `->                     <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+     ,-[$DIR/tests/fixture/tag/math/input.html:148:17]
+ 148 | ,-> <switch transform="translate(35,-40)">
+ 149 | `->                     <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
- 159 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | `->                     </foreignObject>
+     ,-[$DIR/tests/fixture/tag/math/input.html:149:21]
+ 149 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | `->                     </foreignObject>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
- 159 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | |                           <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | |                           </math>
- 168 | `->                     </foreignObject>
+     ,-[$DIR/tests/fixture/tag/math/input.html:149:21]
+ 149 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | |                           <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | |                           </math>
+ 158 | `->                     </foreignObject>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
- 159 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | `->                         <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:149:21]
+ 149 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | `->                         <math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
- 159 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 160 | `->                         <math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:149:21]
+ 149 | ,-> <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 150 | `->                         <math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:160:25]
- 160 | ,-> <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | `->                         </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:150:25]
+ 150 | ,-> <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | `->                         </math>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:160:25]
- 160 | ,-> <math>
- 161 | |                               <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | |                               </msqrt>
- 167 | `->                         </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:150:25]
+ 150 | ,-> <math>
+ 151 | |                               <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | |                               </msqrt>
+ 157 | `->                         </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:160:25]
- 160 | ,-> <math>
- 161 | `->                             <msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:150:25]
+ 150 | ,-> <math>
+ 151 | `->                             <msqrt>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:160:25]
- 160 | ,-> <math>
- 161 | `->                             <msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:150:25]
+ 150 | ,-> <math>
+ 151 | `->                             <msqrt>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:161:29]
- 161 | ,-> <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | `->                             </msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:151:29]
+ 151 | ,-> <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | `->                             </msqrt>
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:161:29]
- 161 | ,-> <msqrt>
- 162 | |                                   <mn>2</mn>
- 163 | |                                   <mi>r</mi>
- 164 | |                                   <mo>−</mo>
- 165 | |                                   <mn>1</mn>
- 166 | `->                             </msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:151:29]
+ 151 | ,-> <msqrt>
+ 152 | |                                   <mn>2</mn>
+ 153 | |                                   <mi>r</mi>
+ 154 | |                                   <mo>−</mo>
+ 155 | |                                   <mn>1</mn>
+ 156 | `->                             </msqrt>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:161:29]
- 161 | ,-> <msqrt>
- 162 | `->                                 <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:151:29]
+ 151 | ,-> <msqrt>
+ 152 | `->                                 <mn>2</mn>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:161:29]
- 161 | ,-> <msqrt>
- 162 | `->                                 <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:151:29]
+ 151 | ,-> <msqrt>
+ 152 | `->                                 <mn>2</mn>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | <mn>2</mn>
      : ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | <mn>2</mn>
      : ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | <mn>2</mn>
      :     ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | <mn>2</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | <mn>2</mn>
      :     ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | ,-> <mn>2</mn>
- 163 | `->                                 <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | ,-> <mn>2</mn>
+ 153 | `->                                 <mi>r</mi>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:162:33]
- 162 | ,-> <mn>2</mn>
- 163 | `->                                 <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:152:33]
+ 152 | ,-> <mn>2</mn>
+ 153 | `->                                 <mi>r</mi>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | <mi>r</mi>
      : ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | <mi>r</mi>
      : ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | <mi>r</mi>
      :     ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | <mi>r</mi>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | <mi>r</mi>
      :     ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | ,-> <mi>r</mi>
- 164 | `->                                 <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | ,-> <mi>r</mi>
+ 154 | `->                                 <mo>−</mo>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:163:33]
- 163 | ,-> <mi>r</mi>
- 164 | `->                                 <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:153:33]
+ 153 | ,-> <mi>r</mi>
+ 154 | `->                                 <mo>−</mo>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | <mo>−</mo>
      : ^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | <mo>−</mo>
      : ^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | <mo>−</mo>
      :     ^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | <mo>−</mo>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | <mo>−</mo>
      :     ^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | ,-> <mo>−</mo>
- 165 | `->                                 <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | ,-> <mo>−</mo>
+ 155 | `->                                 <mn>1</mn>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:164:33]
- 164 | ,-> <mo>−</mo>
- 165 | `->                                 <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:154:33]
+ 154 | ,-> <mo>−</mo>
+ 155 | `->                                 <mn>1</mn>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | <mn>1</mn>
      : ^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | <mn>1</mn>
      : ^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | <mn>1</mn>
      :     ^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | <mn>1</mn>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | <mn>1</mn>
      :     ^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | ,-> <mn>1</mn>
- 166 | `->                             </msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | ,-> <mn>1</mn>
+ 156 | `->                             </msqrt>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:165:33]
- 165 | ,-> <mn>1</mn>
- 166 | `->                             </msqrt>
+     ,-[$DIR/tests/fixture/tag/math/input.html:155:33]
+ 155 | ,-> <mn>1</mn>
+ 156 | `->                             </msqrt>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:166:29]
- 166 | ,-> </msqrt>
- 167 | `->                         </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:156:29]
+ 156 | ,-> </msqrt>
+ 157 | `->                         </math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:166:29]
- 166 | ,-> </msqrt>
- 167 | `->                         </math>
+     ,-[$DIR/tests/fixture/tag/math/input.html:156:29]
+ 156 | ,-> </msqrt>
+ 157 | `->                         </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:167:25]
- 167 | ,-> </math>
- 168 | `->                     </foreignObject>
+     ,-[$DIR/tests/fixture/tag/math/input.html:157:25]
+ 157 | ,-> </math>
+ 158 | `->                     </foreignObject>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:167:25]
- 167 | ,-> </math>
- 168 | `->                     </foreignObject>
+     ,-[$DIR/tests/fixture/tag/math/input.html:157:25]
+ 157 | ,-> </math>
+ 158 | `->                     </foreignObject>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:168:21]
- 168 | ,-> </foreignObject>
- 169 | `->                     <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:158:21]
+ 158 | ,-> </foreignObject>
+ 159 | `->                     <text>\sqrt{2r - 1}</text>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:168:21]
- 168 | ,-> </foreignObject>
- 169 | `->                     <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:158:21]
+ 158 | ,-> </foreignObject>
+ 159 | `->                     <text>\sqrt{2r - 1}</text>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | <text>\sqrt{2r - 1}</text>
      : ^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | <text>\sqrt{2r - 1}</text>
      : ^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | <text>\sqrt{2r - 1}</text>
      :       ^^^^^^^^^^^^^
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | <text>\sqrt{2r - 1}</text>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | <text>\sqrt{2r - 1}</text>
      :       ^^^^^^^^^^^^^
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | ,-> <text>\sqrt{2r - 1}</text>
- 170 | `->                 </switch>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | ,-> <text>\sqrt{2r - 1}</text>
+ 160 | `->                 </switch>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:169:21]
- 169 | ,-> <text>\sqrt{2r - 1}</text>
- 170 | `->                 </switch>
+     ,-[$DIR/tests/fixture/tag/math/input.html:159:21]
+ 159 | ,-> <text>\sqrt{2r - 1}</text>
+ 160 | `->                 </switch>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:170:17]
- 170 | ,-> </switch>
- 171 | `->             </g>
+     ,-[$DIR/tests/fixture/tag/math/input.html:160:17]
+ 160 | ,-> </switch>
+ 161 | `->             </g>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:170:17]
- 170 | ,-> </switch>
- 171 | `->             </g>
+     ,-[$DIR/tests/fixture/tag/math/input.html:160:17]
+ 160 | ,-> </switch>
+ 161 | `->             </g>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:171:13]
- 171 | ,-> </g>
- 172 | `->         </svg>
+     ,-[$DIR/tests/fixture/tag/math/input.html:161:13]
+ 161 | ,-> </g>
+ 162 | `->         </svg>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:171:13]
- 171 | ,-> </g>
- 172 | `->         </svg>
+     ,-[$DIR/tests/fixture/tag/math/input.html:161:13]
+ 161 | ,-> </g>
+ 162 | `->         </svg>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:172:9]
- 172 | ,-> </svg>
- 173 | `->     </annotation-xml>
+     ,-[$DIR/tests/fixture/tag/math/input.html:162:9]
+ 162 | ,-> </svg>
+ 163 | `->     </annotation-xml>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:172:9]
- 172 | ,-> </svg>
- 173 | `->     </annotation-xml>
+     ,-[$DIR/tests/fixture/tag/math/input.html:162:9]
+ 162 | ,-> </svg>
+ 163 | `->     </annotation-xml>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:173:5]
- 173 | </annotation-xml>
+     ,-[$DIR/tests/fixture/tag/math/input.html:163:5]
+ 163 | </annotation-xml>
      :                  ^
- 174 | </math>
+ 164 | </math>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:173:5]
- 173 | </annotation-xml>
+     ,-[$DIR/tests/fixture/tag/math/input.html:163:5]
+ 163 | </annotation-xml>
      :                  ^
- 174 | </math>
+ 164 | </math>
      `----
 
   x Child
-     ,-[$DIR/tests/fixture/tag/math/input.html:174:1]
- 174 | ,-> </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+     ,-[$DIR/tests/fixture/tag/math/input.html:164:1]
+ 164 | ,-> </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Text
-     ,-[$DIR/tests/fixture/tag/math/input.html:174:1]
- 174 | ,-> </math>
- 175 | |   
- 176 | |   </body>
- 177 | `-> </html>
+     ,-[$DIR/tests/fixture/tag/math/input.html:164:1]
+ 164 | ,-> </math>
+ 165 | |   
+ 166 | |   </body>
+ 167 | `-> </html>
      `----

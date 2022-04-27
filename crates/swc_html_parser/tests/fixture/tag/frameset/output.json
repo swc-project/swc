@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 524,
+    "end": 430,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -11,18 +11,18 @@
       "type": "DocumentType",
       "span": {
         "start": 0,
-        "end": 109,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
-      "publicId": "-//W3C//DTD HTML 4.01 Frameset//EN",
-      "systemId": "http://www.w3.org/TR/html4/frameset.dtd"
+      "publicId": null,
+      "systemId": null
     },
     {
       "type": "Element",
       "span": {
-        "start": 110,
-        "end": 517,
+        "start": 16,
+        "end": 423,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 117,
-            "end": 231,
+            "start": 23,
+            "end": 137,
             "ctxt": 0
           },
           "tagName": "head",
@@ -43,8 +43,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 123,
-                "end": 128,
+                "start": 29,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -52,8 +52,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 128,
-                "end": 195,
+                "start": 34,
+                "end": 101,
                 "ctxt": 0
               },
               "tagName": "meta",
@@ -90,8 +90,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 195,
-                "end": 200,
+                "start": 101,
+                "end": 106,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -99,8 +99,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 200,
-                "end": 222,
+                "start": 106,
+                "end": 128,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -110,8 +110,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 207,
-                    "end": 222,
+                    "start": 113,
+                    "end": 128,
                     "ctxt": 0
                   },
                   "value": "Тег FRAMESET"
@@ -122,8 +122,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 230,
-                "end": 231,
+                "start": 136,
+                "end": 137,
                 "ctxt": 0
               },
               "value": "\n"
@@ -134,8 +134,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 238,
-            "end": 240,
+            "start": 144,
+            "end": 146,
             "ctxt": 0
           },
           "value": "\n\n"
@@ -143,8 +143,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 240,
-            "end": 504,
+            "start": 146,
+            "end": 410,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -179,8 +179,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 271,
-                "end": 276,
+                "start": 177,
+                "end": 182,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -188,8 +188,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 276,
-                "end": 338,
+                "start": 182,
+                "end": 244,
                 "ctxt": 0
               },
               "tagName": "frame",
@@ -250,8 +250,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 338,
-                "end": 343,
+                "start": 244,
+                "end": 249,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -259,8 +259,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 343,
-                "end": 492,
+                "start": 249,
+                "end": 398,
                 "ctxt": 0
               },
               "tagName": "frameset",
@@ -283,8 +283,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 365,
-                    "end": 374,
+                    "start": 271,
+                    "end": 280,
                     "ctxt": 0
                   },
                   "value": "\n        "
@@ -292,8 +292,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 374,
-                    "end": 438,
+                    "start": 280,
+                    "end": 344,
                     "ctxt": 0
                   },
                   "tagName": "frame",
@@ -354,8 +354,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 438,
-                    "end": 447,
+                    "start": 344,
+                    "end": 353,
                     "ctxt": 0
                   },
                   "value": "\n        "
@@ -363,8 +363,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 447,
-                    "end": 487,
+                    "start": 353,
+                    "end": 393,
                     "ctxt": 0
                   },
                   "tagName": "frame",
@@ -401,8 +401,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 487,
-                    "end": 492,
+                    "start": 393,
+                    "end": 398,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -413,8 +413,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 503,
-                "end": 504,
+                "start": 409,
+                "end": 410,
                 "ctxt": 0
               },
               "value": "\n"
@@ -425,8 +425,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 515,
-            "end": 517,
+            "start": 421,
+            "end": 423,
             "ctxt": 0
           },
           "value": "\n\n"

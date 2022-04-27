@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 83,
-                "end": 413,
+                "end": 132,
                 "ctxt": 0
               },
               "tagName": "marquee",
@@ -141,16 +141,154 @@
                   "type": "Text",
                   "span": {
                     "start": 92,
-                    "end": 144,
+                    "end": 132,
                     "ctxt": 0
                   },
-                  "value": "This text will scroll from right to left\n\n"
+                  "value": "This text will scroll from right to left"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 142,
+                "end": 144,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 144,
+                "end": 208,
+                "ctxt": 0
+              },
+              "tagName": "marquee",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "direction",
+                  "value": "up"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 168,
+                    "end": 208,
+                    "ctxt": 0
+                  },
+                  "value": "This text will scroll from bottom to top"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 218,
+                "end": 220,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 220,
+                "end": 394,
+                "ctxt": 0
+              },
+              "tagName": "marquee",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "direction",
+                  "value": "down"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "width",
+                  "value": "250"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "height",
+                  "value": "200"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "behavior",
+                  "value": "alternate"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "style",
+                  "value": "border:solid"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 313,
+                    "end": 318,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
-                    "start": 144,
-                    "end": 413,
+                    "start": 318,
+                    "end": 383,
                     "ctxt": 0
                   },
                   "tagName": "marquee",
@@ -165,145 +303,43 @@
                       },
                       "namespace": null,
                       "prefix": null,
-                      "name": "direction",
-                      "value": "up"
+                      "name": "behavior",
+                      "value": "alternate"
                     }
                   ],
                   "children": [
                     {
                       "type": "Text",
                       "span": {
-                        "start": 168,
-                        "end": 220,
+                        "start": 348,
+                        "end": 383,
                         "ctxt": 0
                       },
-                      "value": "This text will scroll from bottom to top\n\n"
-                    },
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 220,
-                        "end": 413,
-                        "ctxt": 0
-                      },
-                      "tagName": "marquee",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "direction",
-                          "value": "down"
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "width",
-                          "value": "250"
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "height",
-                          "value": "200"
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "behavior",
-                          "value": "alternate"
-                        },
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "style",
-                          "value": "border:solid"
-                        }
-                      ],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 313,
-                            "end": 318,
-                            "ctxt": 0
-                          },
-                          "value": "\n    "
-                        },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 318,
-                            "end": 413,
-                            "ctxt": 0
-                          },
-                          "tagName": "marquee",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [
-                            {
-                              "type": "Attribute",
-                              "span": {
-                                "start": 0,
-                                "end": 0,
-                                "ctxt": 0
-                              },
-                              "namespace": null,
-                              "prefix": null,
-                              "name": "behavior",
-                              "value": "alternate"
-                            }
-                          ],
-                          "children": [
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 348,
-                                "end": 413,
-                                "ctxt": 0
-                              },
-                              "value": "\n        This text will bounce\n    \n\n\n"
-                            }
-                          ],
-                          "content": null
-                        }
-                      ],
-                      "content": null
+                      "value": "\n        This text will bounce\n    "
                     }
                   ],
                   "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 393,
+                    "end": 394,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 404,
+                "end": 413,
+                "ctxt": 0
+              },
+              "value": "\n\n"
             }
           ],
           "content": null
