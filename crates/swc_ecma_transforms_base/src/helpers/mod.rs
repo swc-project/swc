@@ -1,6 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use once_cell::sync::Lazy;
+use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
@@ -356,7 +357,11 @@ impl VisitMut for InjectHelpers {
     }
 }
 
-struct Marker(Mark);
+struct Marker {
+    base: Mark,
+    decls: FxHashSet<JsWord>,
+    decl_mark: Mark,
+}
 
 impl VisitMut for Marker {
     noop_visit_mut_type!();
