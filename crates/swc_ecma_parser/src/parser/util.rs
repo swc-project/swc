@@ -269,7 +269,13 @@ pub(super) trait ExprExt {
                 expr.is_valid_simple_assignment_target(strict)
             }
 
-            Expr::Member(..) | Expr::SuperProp(..) => true,
+            Expr::Member(MemberExpr { ref obj, .. }) => match obj.as_ref() {
+                Expr::Member(..) => obj.is_valid_simple_assignment_target(strict),
+                Expr::OptChain(..) => false,
+                _ => true,
+            },
+
+            Expr::SuperProp(..) => true,
 
             Expr::New(..) | Expr::Call(..) => false,
             // TODO: Spec only mentions `new.target`

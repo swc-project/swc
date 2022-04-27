@@ -74,14 +74,9 @@ impl Default for InsertionMode {
     }
 }
 
-#[allow(dead_code)]
 enum InsertionPosition {
     LastChild(RcNode),
     BeforeSibling(RcNode),
-    TableFosterParenting {
-        element: RcNode,
-        prev_element: RcNode,
-    },
 }
 
 pub struct Parser<I>
@@ -1474,7 +1469,7 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "script" => {
                         let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
-                            self.get_appropriate_place_for_inserting_node(None);
+                            self.get_appropriate_place_for_inserting_node(None)?;
                         let node = Node::new(Data::Element(self.create_element_for_token(
                             token_and_info.token.clone(),
                             Span::new(token_and_info.span.lo, last_pos, Default::default()),
@@ -4013,7 +4008,7 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
-                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
                             acknowledged: true,
@@ -4051,7 +4046,7 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
-                        self.open_elements_stack.clear_back_to_table_body_context();
+                        self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
                             acknowledged: false,
@@ -4265,10 +4260,6 @@ where
                         self.foster_parenting_enabled = saved_foster_parenting_state;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table context, it means that the UA must, while the
-                // current node is not a table, template, or html element, pop
-                // elements from the stack of open elements.
             }
             // The "in table text" insertion mode
             InsertionMode::InTableText => {
@@ -4765,10 +4756,6 @@ where
                         self.process_token_using_rules(token_and_info, InsertionMode::InTable)?;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table body context, it means that the UA must, while the
-                // current node is not a tbody, tfoot, thead, template, or html
-                // element, pop elements from the stack of open elements.
             }
             // The "in row" insertion mode
             InsertionMode::InRow => {
@@ -4911,10 +4898,6 @@ where
                         self.process_token_using_rules(token_and_info, InsertionMode::InTable)?;
                     }
                 }
-                // When the steps above require the UA to clear the stack back
-                // to a table row context, it means that the UA must, while the
-                // current node is not a tr, template, or html element, pop
-                // elements from the stack of open elements.
             }
             // The "in cell" insertion mode
             InsertionMode::InCell => {
@@ -6880,7 +6863,7 @@ where
                 if self.is_fragment_case {
                     // Fragment case
 
-                    // node = self.context_element;
+                    node = self.context_element.as_ref();
                 }
             }
 
@@ -7152,27 +7135,204 @@ where
         false
     }
 
-    // Gets the appropriate place to insert the node.
+    // While the parser is processing a token, it can enable or disable foster
+    // parenting. This affects the following algorithm.
+    //
+    // The appropriate place for inserting a node, optionally using a particular
+    // override target, is the position in an element returned by running the
+    // following steps:
+    //
+    // 1. If there was an override target specified, then let target be the override
+    // target.
+    //
+    // Otherwise, let target be the current node.
+    //
+    // 2. Determine the adjusted insertion location using the first matching steps
+    // from the following list:
+    //
+    // If foster parenting is enabled and target is a table, tbody, tfoot, thead, or
+    // tr element Foster parenting happens when content is misnested in tables.
+    //
+    // Run these substeps:
+    //
+    // 1. Let last template be the last template element in the stack of open
+    // elements, if any.
+    //
+    // 2. Let last table be the last table element in the stack of open elements, if
+    // any.
+    //
+    // 3. If there is a last template and either there is no last table, or there is
+    // one, but last template is lower (more recently added) than last table in the
+    // stack of open elements, then: let adjusted insertion location be inside last
+    // template's template contents, after its last child (if any), and abort these
+    // steps.
+    //
+    // 4. If there is no last table, then let adjusted insertion location be inside
+    // the first element in the stack of open elements (the html element), after
+    // its last child (if any), and abort these steps. (fragment case)
+    //
+    // 5. If last table has a parent node, then let adjusted insertion location be
+    // inside last table's parent node, immediately before last table, and abort
+    // these steps.
+    //
+    // 6. Let previous element be the element immediately above last table in the
+    // stack of open elements.
+    //
+    // 7. Let adjusted insertion location be inside previous element, after its last
+    // child (if any).
+    //
+    // These steps are involved in part because it's possible for elements, the
+    // table element in this case in particular, to have been moved by a script
+    // around in the DOM, or indeed removed from the DOM entirely, after the element
+    // was inserted by the parser.
+    //
+    // Otherwise
+    // Let adjusted insertion location be inside target, after its last child (if
+    // any).
+    //
+    // 3. If the adjusted insertion location is inside a template element, let it
+    // instead be inside the template element's template contents, after its last
+    // child (if any).
+    //
+    // 4. Return the adjusted insertion location.
     fn get_appropriate_place_for_inserting_node(
         &mut self,
         override_target: Option<RcNode>,
-    ) -> InsertionPosition {
-        // If there was an override target specified, then let target be the
-        // override target. Otherwise, let target be the current node.
-        // TODO avoid unwrap and improve foster and document
-        let target = override_target
-            .unwrap_or_else(|| self.open_elements_stack.items.last().unwrap().clone());
+    ) -> PResult<InsertionPosition> {
+        // TODO avoid `unreachable` and return `Option` and improve error reporting
+        // 1.
+        let target = override_target.unwrap_or_else(|| {
+            if let Some(last) = self.open_elements_stack.items.last() {
+                last.clone()
+            } else {
+                unreachable!();
+            }
+        });
 
-        // NOTE: Foster parenting happens when content is misnested in tables.
-        // let adjusted_insertion_location = if self.foster_parenting_enabled {
-        //     target
-        // } else {
-        //     target
+        // 2.
+        let adjusted_insertion_location = if self.foster_parenting_enabled
+            && match &target.data {
+                Data::Element(element)
+                    if matches!(
+                        element.tag_name.as_ref(),
+                        "table" | "tbody" | "tfoot" | "thead" | "tr"
+                    ) =>
+                {
+                    true
+                }
+                _ => false,
+            } {
+            // 2.1
+            let mut last_template = None;
+            let mut last_template_index = 0;
+
+            // 2.2
+            let mut last_table = None;
+            let mut last_table_index = 0;
+
+            for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
+                match &node.data {
+                    Data::Element(element)
+                        if &*element.tag_name == "template" && last_template.is_none() =>
+                    {
+                        last_template = Some(node);
+                        last_template_index = i;
+
+                        if last_table.is_some() {
+                            break;
+                        }
+                    }
+                    Data::Element(element)
+                        if &*element.tag_name == "table" && last_table.is_none() =>
+                    {
+                        last_table = Some(node);
+                        last_table_index = i;
+
+                        if last_template.is_some() {
+                            break;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            // 2.3
+            if (last_table.is_none()
+                || (last_table.is_some() && last_template_index > last_table_index))
+                && last_template.is_some()
+            {
+                let last_template = if let Some(last_template) = last_template {
+                    // TODO use template `content`
+                    last_template.clone()
+                } else {
+                    unreachable!();
+                };
+
+                InsertionPosition::LastChild(last_template)
+            }
+            // 2.4
+            // Fragment case
+            else if last_table.is_none() && self.open_elements_stack.items.first().is_some() {
+                let first = if let Some(first) = self.open_elements_stack.items.first() {
+                    first.clone()
+                } else {
+                    unreachable!();
+                };
+
+                InsertionPosition::LastChild(first)
+            }
+            // 2.5
+            else if match last_table {
+                Some(last_table) => {
+                    let parent = last_table.parent.take();
+                    let has_parent = parent.is_some();
+
+                    last_table.parent.set(parent);
+
+                    has_parent
+                }
+                _ => false,
+            } {
+                let sibling =
+                    if let Some(sibling) = self.open_elements_stack.items.get(last_table_index) {
+                        sibling.clone()
+                    } else {
+                        unreachable!()
+                    };
+
+                InsertionPosition::BeforeSibling(sibling)
+            } else {
+                // 2.6
+                let previous_element = if let Some(previous_element) =
+                    self.open_elements_stack.items.get(last_table_index - 1)
+                {
+                    previous_element.clone()
+                } else {
+                    unreachable!()
+                };
+
+                // 2.7
+                InsertionPosition::LastChild(previous_element)
+            }
+        } else {
+            InsertionPosition::LastChild(target)
+        };
+
+        // 3.
+        // TODO use template `content`
+        // adjusted_insertion_location = match &adjusted_insertion_location {
+        //     InsertionPosition::LastChild(node) |
+        // InsertionPosition::BeforeSibling(node) => {         match &node.data
+        // {             Data::Element(element) if &*element.tag_name ==
+        // "template" => {                 adjusted_insertion_location
+        //             },
+        //             _ => adjusted_insertion_location
+        //         }
+        //     }
         // };
 
-        // let html_elem = self.html_elem();
-
-        InsertionPosition::LastChild(target)
+        // 4.
+        Ok(adjusted_insertion_location)
     }
 
     // Inserts a comment node in to the document while processing a comment token.
@@ -7181,7 +7341,7 @@ where
         // If position was specified, then let the adjusted insertion location
         // be position. Otherwise, let adjusted insertion location be the
         // appropriate place for inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None)?;
 
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
@@ -7256,13 +7416,13 @@ where
 
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None)?;
 
         // If the adjusted insertion location is in a Document node, then abort
         // these steps.
         // NOTE: The DOM will not let Document nodes have Text node children, so
         // they are dropped on the floor.
-        // TODO fix me
+        // Note: we don't use document in stack elements, so we can't have Document here
 
         // If there is a Text node immediately before the adjusted insertion location,
         // then append data to that Text node's data. Otherwise, create
@@ -7306,9 +7466,6 @@ where
                 // TODO improve me for another, not happens for comments right
                 // now
             }
-            InsertionPosition::TableFosterParenting { .. } => {
-                // TODO improve me for another, but we don't support foster yet
-            }
         }
 
         // Otherwise, create a new Text node whose data is data and whose node document
@@ -7343,16 +7500,7 @@ where
     ) -> PResult<RcNode> {
         // Let the adjusted insertion location be the appropriate place for
         // inserting a node.
-        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None);
-        let (_node1, _node2) = match adjusted_insertion_location {
-            InsertionPosition::LastChild(ref p) | InsertionPosition::BeforeSibling(ref p) => {
-                (p.clone(), None)
-            }
-            InsertionPosition::TableFosterParenting {
-                ref element,
-                ref prev_element,
-            } => (element.clone(), Some(prev_element.clone())),
-        };
+        let adjusted_insertion_location = self.get_appropriate_place_for_inserting_node(None)?;
 
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
@@ -7403,8 +7551,7 @@ where
                 .borrow()
                 .iter()
                 .enumerate()
-                // TODO span?
-                .find(|&(_, child)| Rc::ptr_eq(child, node))
+                .find(|&(_, child)| is_same_node(child, node))
             {
                 Some((i, _)) => i,
                 None => {
@@ -7440,21 +7587,6 @@ where
             }
             InsertionPosition::BeforeSibling(sibling) => {
                 self.append_node_before_sibling(&sibling, node)
-            }
-            InsertionPosition::TableFosterParenting {
-                element,
-                prev_element,
-            } => {
-                let parent = element.parent.take();
-                let has_parent = parent.is_some();
-
-                element.parent.set(parent);
-
-                if has_parent {
-                    self.append_node_before_sibling(&element, node);
-                } else {
-                    self.append_node(&prev_element, node);
-                }
             }
         }
     }
