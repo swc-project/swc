@@ -386,6 +386,18 @@ impl VisitMut for Marker {
         self.decl_mark = old_decl_mark;
     }
 
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        let old_decl_mark = self.decl_mark;
+        let old_decls = take(&mut self.decls);
+
+        self.decl_mark = Mark::new();
+
+        n.visit_mut_children_with(self);
+
+        self.decls = old_decls;
+        self.decl_mark = old_decl_mark;
+    }
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if self.decls.contains(&i.sym) {
             i.span = i.span.apply_mark(self.decl_mark);
