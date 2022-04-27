@@ -3,3 +3,8 @@
 	url = https://github.com/tc39/test262-parser-tests.git
 	shallow = true
 	ignore = dirty
+[submodule "html/html5lib-tests"]
+	path = crates/swc_html_parser/tests/html5lib-tests
+	url = https://github.com/html5lib/html5lib-tests.git
+    shallow = true
+    ignore = dirty

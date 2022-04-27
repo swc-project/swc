@@ -1,8 +1,10 @@
 #![allow(clippy::needless_update)]
 
-use std::path::PathBuf;
+use std::{fs, path::PathBuf};
 
 use swc_common::{errors::Handler, input::SourceFileInput, Spanned};
+use serde_json::{Map, Value};
+use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_html_ast::*;
 use swc_html_parser::{
     lexer::Lexer,
@@ -216,4 +218,46 @@ fn span_visualizer(input: PathBuf) {
             ..Default::default()
         },
     )
+// fn make_test(input: String, expect: Value, opts: TokenizerOpts) ->
+// TestDescAndFn {     let splitted = splits(&input, 3);
+//
+//     for input in splitted.into_iter() {
+//         let output = tokenize(input.clone(), opts.clone());
+//         let expect_toks = json_to_tokens(&expect, opts.exact_errors);
+//
+//         if output != expect_toks {
+//             panic!(
+//                 "\ninput: {:?}\ngot: {:?}\nexpected: {:?}",
+//                 input, output, expect
+//             );
+//         }
+//     }
+// }
+
+#[testing::fixture("tests/html5lib-tests/tokenizer/**/*.test")]
+fn html5lib_test_tokenizer(input: PathBuf) {
+    let filename = input.to_str().expect("failed to parse path");
+    let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
+    let obj: Value = serde_json::from_str(&contents)
+        .ok()
+        .expect("json parse error");
+
+    match obj.get(&"tests".to_string()) {
+        Some(&Value::Array(ref list)) => {
+            for test in list.iter() {
+                let input = test.get("input").expect("failed to get input in test");
+                let lexer = Lexer::new(
+                    input.to_string(),
+                    ParserConfig {
+                        ..Default::default()
+                    },
+                );
+
+                println!("{:?}", input);
+                unreachable!();
+            }
+        }
+
+        _ => {}
+    }
 }
