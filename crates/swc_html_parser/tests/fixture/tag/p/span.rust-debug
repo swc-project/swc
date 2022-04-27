@@ -14,8 +14,11 @@
  11 | |   </p>
  12 | |   <p>One
  13 | |   <p>Two
- 14 | |   </body>
- 15 | `-> </html>
+ 14 | |   
+ 15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | |   </body>
+ 18 | `-> </html>
     `----
 
   x Child
@@ -44,8 +47,11 @@
  11 | |   </p>
  12 | |   <p>One
  13 | |   <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   
+ 15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
     `----
 
   x Element
@@ -62,8 +68,11 @@
  11 | |   </p>
  12 | |   <p>One
  13 | |   <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   
+ 15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
     `----
 
   x Attribute
@@ -160,8 +169,11 @@
  11 | |   </p>
  12 | |   <p>One
  13 | |   <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   
+ 15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
     `----
 
   x Element
@@ -174,8 +186,11 @@
  11 | |   </p>
  12 | |   <p>One
  13 | |   <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | |   
+ 15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
     `----
 
   x Child
@@ -307,27 +322,173 @@
   x Child
     ,-[$DIR/tests/fixture/tag/p/input.html:13:1]
  13 | ,-> <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | `-> 
+ 15 |     <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/tag/p/input.html:13:1]
  13 | ,-> <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | `-> 
+ 15 |     <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/tag/p/input.html:13:1]
  13 | ,-> <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | `-> 
+ 15 |     <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/tag/p/input.html:13:1]
  13 | ,-> <p>Two
- 14 | `-> </body>
- 15 |     </html>
+ 14 | `-> 
+ 15 |     <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :            ^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :            ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                             ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                             ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                                         ^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                                         ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <p>Test</p>
+  8 | |   <p>
+  9 | |       Test
+ 10 | |       Test
+ 11 | |   </p>
+ 12 | |   <p>One
+ 13 | |   <p>Two
+ 14 | |   
+ 15 | `-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tag/p/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <p>Test</p>
+  8 | |   <p>
+  9 | |       Test
+ 10 | |       Test
+ 11 | |   </p>
+ 12 | |   <p>One
+ 13 | |   <p>Two
+ 14 | |   
+ 15 | `-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tag/p/input.html:15:1]
+ 15 | ,-> <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
     `----
