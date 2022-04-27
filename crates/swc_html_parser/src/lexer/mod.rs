@@ -5562,8 +5562,9 @@ fn is_spacy(c: char) -> bool {
 }
 
 #[inline(always)]
-fn is_control(c: u32) -> bool {
-    matches!(c, c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f))
+fn is_control(cp: u32) -> bool {
+    (cp != 0x20 && cp != 0x0a && cp != 0x0d && cp != 0x09 && cp != 0x0c && cp >= 0x01 && cp <= 0x1f)
+        || (0x7f..=0x9f).contains(&cp)
 }
 
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
