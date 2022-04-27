@@ -1,12 +1,9 @@
-use std::{
-    mem::take,
-    sync::atomic::{AtomicBool, Ordering},
-};
+use std::sync::atomic::{AtomicBool, Ordering};
 
 use once_cell::sync::Lazy;
-use rustc_hash::FxHashSet;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
+use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -58,7 +55,6 @@ macro_rules! add_to {
                 stmt.visit_mut_with(&mut Marker {
                     base: $mark,
                     decls: Default::default(),
-                    decl_mark: Mark::new(),
                 });
                 stmt
             }))
@@ -367,40 +363,31 @@ impl VisitMut for InjectHelpers {
 
 struct Marker {
     base: Mark,
-    decls: FxHashSet<JsWord>,
-    decl_mark: Mark,
+    decls: FxHashMap<JsWord, SyntaxContext>,
 }
 
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        let old_decl_mark = self.decl_mark;
-        let old_decls = take(&mut self.decls);
-
-        self.decl_mark = Mark::new();
+        let old_decls = self.decls.clone();
 
         n.visit_mut_children_with(self);
 
         self.decls = old_decls;
-        self.decl_mark = old_decl_mark;
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        let old_decl_mark = self.decl_mark;
-        let old_decls = take(&mut self.decls);
-
-        self.decl_mark = Mark::new();
+        let old_decls = self.decls.clone();
 
         n.visit_mut_children_with(self);
 
         self.decls = old_decls;
-        self.decl_mark = old_decl_mark;
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if self.decls.contains(&i.sym) {
-            i.span = i.span.apply_mark(self.decl_mark);
+        if let Some(ctxt) = self.decls.get(&i.sym).copied() {
+            i.span.ctxt = ctxt;
         } else {
             i.span = i.span.apply_mark(self.base);
         }
@@ -414,7 +401,10 @@ impl VisitMut for Marker {
 
     fn visit_mut_param(&mut self, n: &mut Param) {
         if let Pat::Ident(i) = &n.pat {
-            self.decls.insert(i.id.sym.clone());
+            self.decls.insert(
+                i.id.sym.clone(),
+                SyntaxContext::empty().apply_mark(Mark::new()),
+            );
         }
 
         n.visit_mut_children_with(self);
