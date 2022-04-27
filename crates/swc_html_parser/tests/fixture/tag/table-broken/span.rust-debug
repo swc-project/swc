@@ -139,30 +139,6 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
- 8 | <table><h1>test</h1></table>
-   :        ^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
- 8 | <table><h1>test</h1></table>
-   :        ^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
- 8 | <table><h1>test</h1></table>
-   :            ^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
- 8 | <table><h1>test</h1></table>
-   :            ^^^^
-   `----
-
-  x Child
     ,-[$DIR/tests/fixture/tag/table-broken/input.html:6:1]
   6 | ,-> <body>
   7 | |   
@@ -194,6 +170,30 @@
  6 | ,-> <body>
  7 | `-> 
  8 |     <table><h1>test</h1></table>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :        ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :            ^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/tag/table-broken/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :            ^^^^
    `----
 
   x Child

@@ -109,29 +109,6 @@
         {
           "type": "Element",
           "span": {
-            "start": 91,
-            "end": 99,
-            "ctxt": 0
-          },
-          "tagName": "h1",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [
-            {
-              "type": "Text",
-              "span": {
-                "start": 95,
-                "end": 99,
-                "ctxt": 0
-              },
-              "value": "test"
-            }
-          ],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
             "start": 76,
             "end": 122,
             "ctxt": 0
@@ -148,6 +125,29 @@
                 "ctxt": 0
               },
               "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 91,
+                "end": 99,
+                "ctxt": 0
+              },
+              "tagName": "h1",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 95,
+                    "end": 99,
+                    "ctxt": 0
+                  },
+                  "value": "test"
+                }
+              ],
+              "content": null
             },
             {
               "type": "Element",

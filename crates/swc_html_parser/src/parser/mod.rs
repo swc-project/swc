@@ -7274,6 +7274,7 @@ where
                 && last_template.is_some()
             {
                 let last_template = if let Some(last_template) = last_template {
+                    // TODO use template `content`
                     last_template.clone()
                 } else {
                     unreachable!();
@@ -7292,14 +7293,23 @@ where
                 InsertionPosition::LastChild(first)
             }
             // 2.5
-            else if last_table.is_some() && last_table.unwrap().parent.take().is_some() {
-                let sibling = if let Some(sibling) =
-                    self.open_elements_stack.items.get(last_table_index - 1)
-                {
-                    sibling.clone()
-                } else {
-                    unreachable!()
-                };
+            else if match last_table {
+                Some(last_table) => {
+                    let parent = last_table.parent.take();
+                    let has_parent = parent.is_some();
+
+                    last_table.parent.set(parent);
+
+                    has_parent
+                }
+                _ => false,
+            } {
+                let sibling =
+                    if let Some(sibling) = self.open_elements_stack.items.get(last_table_index) {
+                        sibling.clone()
+                    } else {
+                        unreachable!()
+                    };
 
                 InsertionPosition::BeforeSibling(sibling)
             } else {
@@ -7320,7 +7330,7 @@ where
         };
 
         // 3.
-        // TODO fix me for `template`
+        // TODO use template `content`
         // adjusted_insertion_location = match &adjusted_insertion_location {
         //     InsertionPosition::LastChild(node) |
         // InsertionPosition::BeforeSibling(node) => {         match &node.data
