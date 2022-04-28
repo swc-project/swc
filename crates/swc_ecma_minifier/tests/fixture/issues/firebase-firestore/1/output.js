@@ -66,9 +66,6 @@
                 const e = `FIRESTORE (${C}) INTERNAL ASSERTION FAILED: ` + t;
                 throw O(e), new Error(e);
             }
-            function B(t, e) {
-                t || L();
-            }
             const K = {
                 OK: "ok",
                 CANCELLED: "cancelled",
@@ -150,7 +147,7 @@
                 }
                 getToken() {
                     const t = this.i, e3 = this.forceRefresh;
-                    return this.forceRefresh = !1, this.auth ? this.auth.getToken(e3).then((e)=>this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? (B("string" == typeof e.accessToken), new W(e.accessToken, this.currentUser)) : null
+                    return this.forceRefresh = !1, this.auth ? this.auth.getToken(e3).then((e)=>this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? ("string" == typeof e.accessToken || L(), new W(e.accessToken, this.currentUser)) : null
                     ) : Promise.resolve(null);
                 }
                 invalidateToken() {
@@ -161,7 +158,7 @@
                 }
                 u() {
                     const t = this.auth && this.auth.getUid();
-                    return B(null === t || "string" == typeof t), new D(t);
+                    return null === t || "string" == typeof t || L(), new D(t);
                 }
             }
             class J {
@@ -483,10 +480,10 @@
             _t.EMPTY_BYTE_STRING = new _t("");
             const mt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
             function gt(t) {
-                if (B(!!t), "string" == typeof t) {
+                if (t || L(), "string" == typeof t) {
                     let e = 0;
                     const n = mt.exec(t);
-                    if (B(!!n), n[1]) {
+                    if (n || L(), n[1]) {
                         let t = n[1];
                         e = Number(t = (t + "000000000").substr(0, 9));
                     }
@@ -1342,7 +1339,7 @@
             }
             function rn(t, e, n) {
                 const s = new Map;
-                B(t.length === n.length);
+                t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
                     const r = t[i], o = r.transform, c = e.data.field(r.field);
                     s.set(r.field, ke(o, c, n[i]));
@@ -1893,7 +1890,7 @@
                             if (0 === n) {
                                 const n = new Pt(t.path);
                                 this.ct(e, n, Kt.newNoDocument(n, rt.min()));
-                            } else B(1 === n);
+                            } else 1 === n || L();
                         } else this.wt(e) !== n && (this.lt(e), this.it = this.it.add(e));
                     }
                 }
@@ -2001,7 +1998,7 @@
                 return t.D ? e.toBase64() : e.toUint8Array();
             }
             function jn(t51) {
-                return B(!!t51), rt.fromTimestamp(function(t) {
+                return t51 || L(), rt.fromTimestamp(function(t) {
                     const e = gt(t);
                     return new it(e.seconds, e.nanos);
                 }(t51));
@@ -2017,7 +2014,7 @@
             }
             function Wn(t) {
                 const e = ht.fromString(t);
-                return B(Ts(e)), e;
+                return Ts(e) || L(), e;
             }
             function Gn(t, e) {
                 return Qn(t.databaseId, e.path);
@@ -2040,7 +2037,7 @@
                 ]).canonicalString();
             }
             function Xn(t) {
-                return B(t.length > 4 && "documents" === t.get(4)), t.popFirst(5);
+                return t.length > 4 && "documents" === t.get(4) || L(), t.popFirst(5);
             }
             function Zn(t, e, n) {
                 return {
@@ -2101,7 +2098,7 @@
                 var t55;
                 const n13 = e33.currentDocument ? void 0 !== (t55 = e33.currentDocument).updateTime ? Ge.updateTime(jn(t55.updateTime)) : void 0 !== t55.exists ? Ge.exists(t55.exists) : Ge.none() : Ge.none(), s4 = e33.updateTransforms ? e33.updateTransforms.map((e34)=>(function(t, e) {
                         let n = null;
-                        if ("setToServerValue" in e) B("REQUEST_TIME" === e.setToServerValue), n = new Oe;
+                        if ("setToServerValue" in e) "REQUEST_TIME" === e.setToServerValue || L(), n = new Oe;
                         else if ("appendMissingElements" in e) {
                             const t = e.appendMissingElements.values || [];
                             n = new Fe(t);
@@ -2256,7 +2253,7 @@
             }
             function Rs(t) {
                 const e = t.length;
-                if (B(e >= 2), 2 === e) return B("" === t.charAt(0) && "" === t.charAt(1)), ht.emptyPath();
+                if (e >= 2 || L(), 2 === e) return "" === t.charAt(0) && "" === t.charAt(1) || L(), ht.emptyPath();
                 const n = e - 2, s = [];
                 let i = "";
                 for(let r = 0; r < e;){
@@ -2767,7 +2764,7 @@
                     this.batch = t, this.commitVersion = e, this.mutationResults = n, this.docVersions = s;
                 }
                 static from(t, e, n) {
-                    B(t.mutations.length === n.length);
+                    t.mutations.length === n.length || L();
                     let s = An;
                     const i = t.mutations;
                     for(let t79 = 0; t79 < i.length; t79++)s = s.insert(i[t79].key, n[t79].version);
@@ -2816,7 +2813,7 @@
                     this.userId = t, this.N = e, this.Ht = n, this.referenceDelegate = s, this.Jt = {};
                 }
                 static Yt(t, e, n, s) {
-                    B("" !== t.uid);
+                    "" !== t.uid || L();
                     const i = t.isAuthenticated() ? t.uid : "";
                     return new vi(i, e, n, s);
                 }
@@ -2840,7 +2837,7 @@
                 addMutationBatch(t81, e45, n18, s7) {
                     const i3 = Di(t81), r = Si(t81);
                     return r.add({}).next((o)=>{
-                        B("number" == typeof o);
+                        "number" == typeof o || L();
                         const c = new ni(o, e45, n18, s7), a = function(t, e46, n) {
                             const s = n.baseMutations.map((e)=>ss(t.Wt, e)
                             ), i = n.mutations.map((e)=>ss(t.Wt, e)
@@ -2862,7 +2859,7 @@
                     });
                 }
                 lookupMutationBatch(t83, e) {
-                    return Si(t83).get(e).next((t)=>t ? (B(t.userId === this.userId), fi(this.N, t)) : null
+                    return Si(t83).get(e).next((t)=>t ? (t.userId === this.userId || L(), fi(this.N, t)) : null
                     );
                 }
                 Xt(t84, e) {
@@ -2884,7 +2881,7 @@
                         index: Vs.userMutationsIndex,
                         range: s8
                     }, (t, e, s)=>{
-                        e.userId === this.userId && (B(e.batchId >= n), i = fi(this.N, e)), s.done();
+                        e.userId === this.userId && (e.batchId >= n || L(), i = fi(this.N, e)), s.done();
                     }).next(()=>i
                     );
                 }
@@ -2923,7 +2920,7 @@
                         const [o, c, a] = n, u = Rs(c);
                         if (o === this.userId && e.path.isEqual(u)) return Si(t87).get(a).next((t)=>{
                             if (!t) throw L();
-                            B(t.userId === this.userId), i.push(fi(this.N, t));
+                            t.userId === this.userId || L(), i.push(fi(this.N, t));
                         });
                         r.done();
                     }).next(()=>i
@@ -2959,7 +2956,7 @@
                     return e50.forEach((e)=>{
                         s.push(Si(t90).get(e).next((t)=>{
                             if (null === t) throw L();
-                            B(t.userId === this.userId), n.push(fi(this.N, t));
+                            t.userId === this.userId || L(), n.push(fi(this.N, t));
                         }));
                     }), js.waitFor(s).next(()=>n
                     );
@@ -2973,7 +2970,7 @@
                         }, (t, e, n)=>(c++, n.delete())
                         );
                         r.push(a.next(()=>{
-                            B(1 === c);
+                            1 === c || L();
                         }));
                         const u = [];
                         for (const t91 of n20.mutations){
@@ -3003,7 +3000,7 @@
                                 s.push(e);
                             } else n.done();
                         }).next(()=>{
-                            B(0 === s.length);
+                            0 === s.length || L();
                         });
                     });
                 }
@@ -3460,7 +3457,7 @@
                     }), e;
                 }
                 removeMutationBatch(t, e) {
-                    B(0 === this.ys(e.batchId, "removed")), this.In.shift();
+                    0 === this.ys(e.batchId, "removed") || L(), this.In.shift();
                     let n = this.ds;
                     return js.forEach(e.mutations, (s)=>{
                         const i = new Pr(s.key, e.batchId);
@@ -3690,7 +3687,7 @@
                                         const n25 = t141.structuredQuery, s12 = n25.from ? n25.from.length : 0;
                                         let i8 = null;
                                         if (s12 > 0) {
-                                            B(1 === s12);
+                                            1 === s12 || L();
                                             const t = n25.from[0];
                                             t.allDescendants ? i8 = t.collectionId : e77 = e77.child(t.collectionId);
                                         }
@@ -4141,7 +4138,7 @@
                         var e90;
                         if (!u) {
                             const n = t.data[0];
-                            B(!!n);
+                            n || L();
                             const s = n, i = s.error || (null === (e90 = s[0]) || void 0 === e90 ? void 0 : e90.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
@@ -4286,7 +4283,7 @@
                         if ("targetChange" in e95) {
                             var t162, t163, e93;
                             e95.targetChange;
-                            const s = "NO_CHANGE" === (t162 = e95.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t162 ? 1 : "REMOVE" === t162 ? 2 : "CURRENT" === t162 ? 3 : "RESET" === t162 ? 4 : L(), i = e95.targetChange.targetIds || [], r = (t163 = t165, e93 = e95.targetChange.resumeToken, t163.D ? (B(void 0 === e93 || "string" == typeof e93), _t.fromBase64String(e93 || "")) : (B(void 0 === e93 || e93 instanceof Uint8Array), _t.fromUint8Array(e93 || new Uint8Array))), o = e95.targetChange.cause, c = o && function(t) {
+                            const s = "NO_CHANGE" === (t162 = e95.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t162 ? 1 : "REMOVE" === t162 ? 2 : "CURRENT" === t162 ? 3 : "RESET" === t162 ? 4 : L(), i = e95.targetChange.targetIds || [], r = (t163 = t165, e93 = e95.targetChange.resumeToken, t163.D ? (void 0 === e93 || "string" == typeof e93 || L(), _t.fromBase64String(e93 || "")) : (void 0 === e93 || e93 instanceof Uint8Array || L(), _t.fromUint8Array(e93 || new Uint8Array))), o = e95.targetChange.cause, c = o && function(t) {
                                 const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
                                 return new j(e, t.message || "");
                             }(o);
@@ -4463,17 +4460,17 @@
                     return this.sr.ji("Write", t);
                 }
                 onMessage(t176) {
-                    if (B(!!t176.streamToken), this.lastStreamToken = t176.streamToken, this.vr) {
-                        var t174, e102;
+                    var t174, e102;
+                    if (t176.streamToken || L(), this.lastStreamToken = t176.streamToken, this.vr) {
                         this.ar.reset();
-                        const e101 = (t174 = t176.writeResults, e102 = t176.commitTime, t174 && t174.length > 0 ? (B(void 0 !== e102), t174.map((t)=>{
+                        const e101 = (t174 = t176.writeResults, e102 = t176.commitTime, t174 && t174.length > 0 ? (void 0 !== e102 || L(), t174.map((t)=>{
                             var t175, e;
                             let n;
                             return t175 = t, e = e102, (n = t175.updateTime ? jn(t175.updateTime) : jn(e)).isEqual(rt.min()) && (n = jn(e)), new We(n, t175.transformResults || []);
                         })) : []), n31 = jn(t176.commitTime);
                         return this.listener.Dr(n31, e101);
                     }
-                    return B(!t176.writeResults || 0 === t176.writeResults.length), this.vr = !0, this.listener.Cr();
+                    return t176.writeResults && 0 !== t176.writeResults.length && L(), this.vr = !0, this.listener.Cr();
                 }
                 Nr() {
                     const t = {};
@@ -4513,8 +4510,8 @@
                 }
             }
             class io {
-                constructor(t180, e104, n, s, i){
-                    this.localStore = t180, this.datastore = e104, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map, this.Wr = new Set, this.Gr = [], this.zr = i, this.zr.Ti((t181)=>{
+                constructor(t180, e103, n, s, i){
+                    this.localStore = t180, this.datastore = e103, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map, this.Wr = new Set, this.Gr = [], this.zr = i, this.zr.Ti((t181)=>{
                         n.enqueueAndForget(async ()=>{
                             wo(this) && ($("RemoteStore", "Restarting streams for network reachability change."), await async function(t) {
                                 const e = t;
@@ -4592,23 +4589,23 @@
             async function go(t, e) {
                 _o(t), fo(t) ? (t.Hr.qr(e), lo(t)) : t.Hr.set("Unknown");
             }
-            async function yo(t182, e105, n33) {
-                if (t182.Hr.set("Online"), e105 instanceof xn && 2 === e105.state && e105.cause) try {
+            async function yo(t182, e104, n33) {
+                if (t182.Hr.set("Online"), e104 instanceof xn && 2 === e104.state && e104.cause) try {
                     await async function(t, e) {
                         const n = e.cause;
                         for (const s of e.targetIds)t.Qr.has(s) && (await t.remoteSyncer.rejectListen(s, n), t.Qr.delete(s), t.Jr.removeTarget(s));
-                    }(t182, e105);
+                    }(t182, e104);
                 } catch (n34) {
-                    $("RemoteStore", "Failed to remove targets %s: %s ", e105.targetIds.join(","), n34), await po(t182, n34);
+                    $("RemoteStore", "Failed to remove targets %s: %s ", e104.targetIds.join(","), n34), await po(t182, n34);
                 }
-                else if (e105 instanceof Cn ? t182.Jr.rt(e105) : e105 instanceof Nn ? t182.Jr.ft(e105) : t182.Jr.at(e105), !n33.isEqual(rt.min())) try {
-                    const e106 = await fr(t182.localStore);
-                    n33.compareTo(e106) >= 0 && await function(t, e108) {
-                        const n35 = t.Jr._t(e108);
+                else if (e104 instanceof Cn ? t182.Jr.rt(e104) : e104 instanceof Nn ? t182.Jr.ft(e104) : t182.Jr.at(e104), !n33.isEqual(rt.min())) try {
+                    const e105 = await fr(t182.localStore);
+                    n33.compareTo(e105) >= 0 && await function(t, e107) {
+                        const n35 = t.Jr._t(e107);
                         return n35.targetChanges.forEach((n, s)=>{
                             if (n.resumeToken.approximateByteSize() > 0) {
                                 const i = t.Qr.get(s);
-                                i && t.Qr.set(s, i.withResumeToken(n.resumeToken, e108));
+                                i && t.Qr.set(s, i.withResumeToken(n.resumeToken, e107));
                             }
                         }), n35.targetMismatches.forEach((e)=>{
                             const n = t.Qr.get(e);
@@ -4674,8 +4671,8 @@
                 await To(t, ()=>t.remoteSyncer.applySuccessfulWrite(i)
                 ), await Eo(t);
             }
-            async function So(t184, e109) {
-                e109 && No(t184).Vr && await async function(t185, e) {
+            async function So(t184, e108) {
+                e108 && No(t184).Vr && await async function(t185, e) {
                     var n;
                     if (function(t) {
                         switch(t){
@@ -4705,7 +4702,7 @@
                         No(t185).dr(), await To(t185, ()=>t185.remoteSyncer.rejectFailedWrite(n.batchId, e)
                         ), await Eo(t185);
                     }
-                }(t184, e109), Ro(t184) && bo(t184);
+                }(t184, e108), Ro(t184) && bo(t184);
             }
             async function Do(t, e) {
                 const n = t;
@@ -4991,9 +4988,9 @@
                 get Ro() {
                     return this.po;
                 }
-                bo(t195, e110) {
-                    const n = e110 ? e110.Po : new Oo, s = e110 ? e110.Ao : this.Ao;
-                    let i = e110 ? e110.mutatedKeys : this.mutatedKeys, r = s, o = !1;
+                bo(t195, e109) {
+                    const n = e109 ? e109.Po : new Oo, s = e109 ? e109.Ao : this.Ao;
+                    let i = e109 ? e109.mutatedKeys : this.mutatedKeys, r = s, o = !1;
                     const c = _e(this.query) && s.size === this.query.limit ? s.last() : null, a = me(this.query) && s.size === this.query.limit ? s.first() : null;
                     if (t195.inorderTraversal((t, e)=>{
                         const u = s.get(t), h = Pe(this.query, e) ? e : null, l = !!u && this.mutatedKeys.has(u.key), f = !!h && (h.hasLocalMutations || this.mutatedKeys.has(h.key) && h.hasCommittedMutations);
@@ -5028,11 +5025,11 @@
                 vo(t, e) {
                     return t.hasLocalMutations && e.hasCommittedMutations && !e.hasLocalMutations;
                 }
-                applyChanges(t196, e111, n36) {
+                applyChanges(t196, e110, n36) {
                     const s = this.Ao;
                     this.Ao = t196.Ao, this.mutatedKeys = t196.mutatedKeys;
                     const i = t196.Po.eo();
-                    i.sort((t197, e112)=>(function(t198, e) {
+                    i.sort((t197, e111)=>(function(t198, e) {
                             const n = (t)=>{
                                 switch(t){
                                     case 0:
@@ -5047,9 +5044,9 @@
                                 }
                             };
                             return n(t198) - n(e);
-                        })(t197.type, e112.type) || this.Io(t197.doc, e112.doc)
+                        })(t197.type, e111.type) || this.Io(t197.doc, e111.doc)
                     ), this.Vo(n36);
-                    const r = e111 ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 : 0, c = o !== this.To;
+                    const r = e110 ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 : 0, c = o !== this.To;
                     return (this.To = o, 0 !== i.length || c) ? {
                         snapshot: new Fo(this.query, t196.Ao, s, i, t196.mutatedKeys, 0 === o, c, !1),
                         Do: r
@@ -5116,10 +5113,10 @@
                     return !0 === this.Qo;
                 }
             }
-            async function nc(t203, e113) {
+            async function nc(t203, e112) {
                 const n37 = Cc(t203);
                 let s15, i10;
-                const r = n37.Oo.get(e113);
+                const r = n37.Oo.get(e112);
                 if (r) s15 = r.targetId, n37.sharedClientState.addLocalQueryTarget(s15), i10 = r.view.xo();
                 else {
                     const t202 = await function(t204, e) {
@@ -5134,25 +5131,25 @@
                             const s = n.Un.get(t.targetId);
                             return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (n.Un = n.Un.insert(t.targetId, t), n.qn.set(e, t.targetId)), t;
                         });
-                    }(n37.localStore, Ee(e113)), r = n37.sharedClientState.addLocalQueryTarget(t202.targetId);
-                    i10 = await sc(n37, e113, s15 = t202.targetId, "current" === r), n37.isPrimaryClient && co(n37.remoteStore, t202);
+                    }(n37.localStore, Ee(e112)), r = n37.sharedClientState.addLocalQueryTarget(t202.targetId);
+                    i10 = await sc(n37, e112, s15 = t202.targetId, "current" === r), n37.isPrimaryClient && co(n37.remoteStore, t202);
                 }
                 return i10;
             }
-            async function sc(t205, e114, n38, s16) {
-                t205.Wo = (e115, n39, s17)=>(async function(t206, e, n, s) {
+            async function sc(t205, e113, n38, s16) {
+                t205.Wo = (e114, n39, s17)=>(async function(t206, e, n, s) {
                         let i = e.view.bo(n);
                         i.Ln && (i = await yr(t206.localStore, e.query, !1).then(({ documents: t  })=>e.view.bo(t, i)
                         ));
                         const r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, t206.isPrimaryClient, r);
                         return mc(t206, e.targetId, o.Do), o.snapshot;
-                    })(t205, e115, n39, s17)
+                    })(t205, e114, n39, s17)
                 ;
-                const i12 = await yr(t205.localStore, e114, !0), r6 = new Xo(e114, i12.Gn), o3 = r6.bo(i12.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n38, s16 && "Offline" !== t205.onlineState), a = r6.applyChanges(o3, t205.isPrimaryClient, c);
+                const i12 = await yr(t205.localStore, e113, !0), r6 = new Xo(e113, i12.Gn), o3 = r6.bo(i12.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n38, s16 && "Offline" !== t205.onlineState), a = r6.applyChanges(o3, t205.isPrimaryClient, c);
                 mc(t205, n38, a.Do);
-                const u = new Zo(e114, n38, r6);
-                return t205.Oo.set(e114, u), t205.Fo.has(n38) ? t205.Fo.get(n38).push(e114) : t205.Fo.set(n38, [
-                    e114
+                const u = new Zo(e113, n38, r6);
+                return t205.Oo.set(e113, u), t205.Fo.has(n38) ? t205.Fo.get(n38).push(e113) : t205.Fo.set(n38, [
+                    e113
                 ]), a.snapshot;
             }
             async function ic(t207, e) {
@@ -5163,40 +5160,40 @@
                     n.sharedClientState.clearQueryState(s.targetId), ao(n.remoteStore, s.targetId), wc(n, s.targetId);
                 }).catch(Fi)) : (wc(n, s.targetId), await gr(n.localStore, s.targetId, !0));
             }
-            async function oc(t210, e116) {
+            async function oc(t210, e115) {
                 const n40 = t210;
                 try {
-                    const t208 = await function(t211, e119) {
-                        const n43 = t211, s19 = e119.snapshotVersion;
+                    const t208 = await function(t211, e118) {
+                        const n43 = t211, s19 = e118.snapshotVersion;
                         let i = n43.Un;
                         return n43.persistence.runTransaction("Apply remote event", "readwrite-primary", (t213)=>{
-                            var t209, e117, n41, s18, i13;
+                            var t209, e116, n41, s18, i13;
                             const r8 = n43.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
                             i = n43.Un;
                             const o4 = [];
-                            e119.targetChanges.forEach((e, r)=>{
+                            e118.targetChanges.forEach((e, r)=>{
                                 const c = i.get(r);
                                 if (!c) return;
                                 o4.push(n43.ze.removeMatchingKeys(t213, e.removedDocuments, r).next(()=>n43.ze.addMatchingKeys(t213, e.addedDocuments, r)
                                 ));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
-                                    var t212, e118, n42;
+                                    var t212, e117, n42;
                                     const u = c.withResumeToken(a, s19).withSequenceNumber(t213.currentSequenceNumber);
-                                    i = i.insert(r, u), t212 = c, e118 = u, n42 = e, ((B(e118.resumeToken.approximateByteSize() > 0), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e118.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
+                                    i = i.insert(r, u), t212 = c, e117 = u, n42 = e, ((e117.resumeToken.approximateByteSize() > 0 || L(), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e117.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
                                 }
                             });
                             let c2 = pn, r7;
-                            if (e119.documentUpdates.forEach((s, i)=>{
-                                e119.resolvedLimboDocuments.has(s) && o4.push(n43.persistence.referenceDelegate.updateLimboDocument(t213, s));
-                            }), o4.push((t209 = t213, e117 = r8, n41 = e119.documentUpdates, s18 = s19, i13 = void 0, r7 = Pn(), n41.forEach((t)=>r7 = r7.add(t)
-                            ), e117.getEntries(t209, r7).next((t)=>{
+                            if (e118.documentUpdates.forEach((s, i)=>{
+                                e118.resolvedLimboDocuments.has(s) && o4.push(n43.persistence.referenceDelegate.updateLimboDocument(t213, s));
+                            }), o4.push((t209 = t213, e116 = r8, n41 = e118.documentUpdates, s18 = s19, i13 = void 0, r7 = Pn(), n41.forEach((t)=>r7 = r7.add(t)
+                            ), e116.getEntries(t209, r7).next((t)=>{
                                 let r = pn;
                                 return n41.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i13 ? void 0 : i13.get(n)) || s18;
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e117.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e117.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e116.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e116.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
                                 }), r;
                             })).next((t)=>{
                                 c2 = t;
@@ -5211,21 +5208,21 @@
                             );
                         }).then((t)=>(n43.Un = i, t)
                         );
-                    }(n40.localStore, e116);
-                    e116.targetChanges.forEach((t, e)=>{
+                    }(n40.localStore, e115);
+                    e115.targetChanges.forEach((t, e)=>{
                         const s = n40.Bo.get(e);
-                        s && (B(t.addedDocuments.size + t.modifiedDocuments.size + t.removedDocuments.size <= 1), t.addedDocuments.size > 0 ? s.ko = !0 : t.modifiedDocuments.size > 0 ? B(s.ko) : t.removedDocuments.size > 0 && (B(s.ko), s.ko = !1));
-                    }), await pc(n40, t208, e116);
+                        s && (t.addedDocuments.size + t.modifiedDocuments.size + t.removedDocuments.size <= 1 || L(), t.addedDocuments.size > 0 ? s.ko = !0 : t.modifiedDocuments.size > 0 ? s.ko || L() : t.removedDocuments.size > 0 && (s.ko || L(), s.ko = !1));
+                    }), await pc(n40, t208, e115);
                 } catch (t) {
                     await Fi(t);
                 }
             }
-            function cc(t, e120, n44) {
+            function cc(t, e119, n44) {
                 const s20 = t;
                 if (s20.isPrimaryClient && 0 === n44 || !s20.isPrimaryClient && 1 === n44) {
                     const t214 = [];
                     s20.Oo.forEach((n, s)=>{
-                        const i = s.view.io(e120);
+                        const i = s.view.io(e119);
                         i.snapshot && t214.push(i.snapshot);
                     }), function(t, e) {
                         const n45 = t;
@@ -5234,7 +5231,7 @@
                         n45.queries.forEach((t, n)=>{
                             for (const t215 of n.listeners)t215.io(e) && (s = !0);
                         }), s && jo(n45);
-                    }(s20.eventManager, e120), t214.length && s20.$o.Rr(t214), s20.onlineState = e120, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e120);
+                    }(s20.eventManager, e119), t214.length && s20.$o.Rr(t214), s20.onlineState = e119, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e119);
                 }
             }
             async function ac(t, e, n) {
@@ -5249,9 +5246,9 @@
                 } else await gr(s.localStore, e, !1).then(()=>wc(s, e, n)
                 ).catch(Fi);
             }
-            function wc(t, e121, n = null) {
-                for (const s of (t.sharedClientState.removeLocalQueryTarget(e121), t.Fo.get(e121)))t.Oo.delete(s), n && t.$o.Go(s, n);
-                t.Fo.delete(e121), t.isPrimaryClient && t.Uo.cs(e121).forEach((e)=>{
+            function wc(t, e120, n = null) {
+                for (const s of (t.sharedClientState.removeLocalQueryTarget(e120), t.Fo.get(e120)))t.Oo.delete(s), n && t.$o.Go(s, n);
+                t.Fo.delete(e120), t.isPrimaryClient && t.Uo.cs(e120).forEach((e)=>{
                     t.Uo.containsKey(e) || _c(t, e);
                 });
             }
@@ -5275,20 +5272,20 @@
                     t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(we(n.path)), s, 2, X.T));
                 }
             }
-            async function pc(t216, e122, n46) {
+            async function pc(t216, e121, n46) {
                 const s21 = t216, i14 = [], r = [], o = [];
                 s21.Oo.isEmpty() || (s21.Oo.forEach((t217, c)=>{
-                    o.push(s21.Wo(c, e122, n46).then((t)=>{
+                    o.push(s21.Wo(c, e121, n46).then((t)=>{
                         if (t) {
                             s21.isPrimaryClient && s21.sharedClientState.updateQueryState(c.targetId, t.fromCache ? "not-current" : "current"), i14.push(t);
                             const e = or.kn(c.targetId, t);
                             r.push(e);
                         }
                     }));
-                }), await Promise.all(o), s21.$o.Rr(i14), await async function(t219, e123) {
+                }), await Promise.all(o), s21.$o.Rr(i14), await async function(t219, e122) {
                     const n = t219;
                     try {
-                        await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e123, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)
+                        await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e122, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)
                                 ).next(()=>js.forEach(e.xn, (s)=>n.persistence.referenceDelegate.removeReference(t, e.targetId, s)
                                     )
                                 )
@@ -5298,7 +5295,7 @@
                         if (!Hs(t)) throw t;
                         $("LocalStore", "Failed to update sequence numbers: " + t);
                     }
-                    for (const t218 of e123){
+                    for (const t218 of e122){
                         const e = t218.targetId;
                         if (!t218.fromCache) {
                             const t = n.Un.get(e), s = t.snapshotVersion, i = t.withLastLimboFreeSnapshotVersion(s);
@@ -5308,14 +5305,14 @@
                 }(s21.localStore, r));
             }
             async function Tc(t222, e) {
-                var t220, e124;
+                var t220, e123;
                 const n = t222;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t221 = await hr(n.localStore, e);
-                    n.currentUser = e, e124 = "'waitForPendingWrites' promise is rejected due to a user change.", (t220 = n).Ko.forEach((t223)=>{
+                    n.currentUser = e, e123 = "'waitForPendingWrites' promise is rejected due to a user change.", (t220 = n).Ko.forEach((t223)=>{
                         t223.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, e124));
+                            t.reject(new j(K.CANCELLED, e123));
                         });
                     }), t220.Ko.clear(), n.sharedClientState.handleUserChange(e, t221.removedBatchIds, t221.addedBatchIds), await pc(n, t221.Wn);
                 }
@@ -5327,8 +5324,8 @@
                     let t = Pn();
                     const s = n.Fo.get(e);
                     if (!s) return t;
-                    for (const e125 of s){
-                        const s = n.Oo.get(e125);
+                    for (const e124 of s){
+                        const s = n.Oo.get(e124);
                         t = t.unionWith(s.view.Ro);
                     }
                     return t;
@@ -5372,19 +5369,19 @@
                 }
                 createDatastore(t) {
                     var s, t226, e, n;
-                    const e126 = Yr(t.databaseInfo.databaseId), n47 = (s = t.databaseInfo, new zr(s));
-                    return t226 = t.credentials, e = n47, n = e126, new no(t226, e, n);
+                    const e125 = Yr(t.databaseInfo.databaseId), n47 = (s = t.databaseInfo, new zr(s));
+                    return t226 = t.credentials, e = n47, n = e125, new no(t226, e, n);
                 }
                 createRemoteStore(t227) {
                     var e, n, s, i, r;
                     return e = this.localStore, n = this.datastore, s = t227.asyncQueue, i = (t)=>cc(this.syncEngine, t, 0)
                     , r = Qr.bt() ? new Qr : new jr, new io(e, n, s, i, r);
                 }
-                createSyncEngine(t228, e127) {
+                createSyncEngine(t228, e126) {
                     return function(t, e, n, s, i, r, o) {
                         const c = new ec(t, e, n, s, i, r);
                         return o && (c.Qo = !0), c;
-                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t228.initialUser, t228.maxConcurrentLimboResolutions, e127);
+                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t228.initialUser, t228.maxConcurrentLimboResolutions, e126);
                 }
                 terminate() {
                     return async function(t) {
@@ -5413,8 +5410,8 @@
                 }
             }
             class Kc {
-                constructor(t229, e128, n48){
-                    this.credentials = t229, this.asyncQueue = e128, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
+                constructor(t229, e127, n48){
+                    this.credentials = t229, this.asyncQueue = e127, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
                         static I() {
                             const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
                             let n = "";
@@ -5425,7 +5422,7 @@
                             return n;
                         }
                     }).I(), this.credentialListener = ()=>Promise.resolve()
-                    , this.credentials.start(e128, async (t)=>{
+                    , this.credentials.start(e127, async (t)=>{
                         $("FirestoreClient", "Received user=", t.uid), await this.credentialListener(t), this.user = t;
                     });
                 }
@@ -5468,18 +5465,18 @@
                 }), e.persistence.setDatabaseDeletedListener(()=>t230.terminate()
                 ), t230.offlineComponents = e;
             }
-            async function Qc(t231, e129) {
+            async function Qc(t231, e128) {
                 t231.asyncQueue.verifyOperationInProgress();
                 const n49 = await Wc(t231);
                 $("FirestoreClient", "Initializing OnlineComponentProvider");
                 const s22 = await t231.getConfiguration();
-                await e129.initialize(n49, s22), t231.setCredentialChangeListener((t232)=>(async function(t, e) {
+                await e128.initialize(n49, s22), t231.setCredentialChangeListener((t232)=>(async function(t, e) {
                         const n = t;
                         n.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
                         const s = wo(n);
                         n.Wr.add(3), await oo(n), s && n.Hr.set("Unknown"), await n.remoteSyncer.handleCredentialChange(e), n.Wr.delete(3), await ro(n);
-                    })(e129.remoteStore, t232)
-                ), t231.onlineComponents = e129;
+                    })(e128.remoteStore, t232)
+                ), t231.onlineComponents = e128;
             }
             async function Wc(t) {
                 return t.offlineComponents || ($("FirestoreClient", "Using default OfflineComponentProvider"), await jc(t, new kc)), t.offlineComponents;
@@ -5538,11 +5535,11 @@
             }
             class pa {
                 constructor(t234){
-                    var e130;
+                    var e129;
                     if (void 0 === t234.host) {
                         if (void 0 !== t234.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
                         this.host = "firestore.googleapis.com", this.ssl = !0;
-                    } else this.host = t234.host, this.ssl = null === (e130 = t234.ssl) || void 0 === e130 || e130;
+                    } else this.host = t234.host, this.ssl = null === (e129 = t234.ssl) || void 0 === e129 || e129;
                     if (this.credentials = t234.credentials, this.ignoreUndefinedProperties = !!t234.ignoreUndefinedProperties, void 0 === t234.cacheSizeBytes) this.cacheSizeBytes = 41943040;
                     else {
                         if (-1 !== t234.cacheSizeBytes && t234.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
@@ -5582,7 +5579,7 @@
                         switch(t.type){
                             case "gapi":
                                 const e = t.client;
-                                return B(!("object" != typeof e || null === e || !e.auth || !e.auth.getAuthHeaderValueForFirstParty)), new Y(e, t.sessionIndex || "0", t.iamToken || null);
+                                return "object" == typeof e && null !== e && e.auth && e.auth.getAuthHeaderValueForFirstParty || L(), new Y(e, t.sessionIndex || "0", t.iamToken || null);
                             case "provider":
                                 return t.client;
                             default:
@@ -5659,22 +5656,22 @@
                     return new Ra(this.firestore, t, this._path);
                 }
             }
-            function ba(t237, e131, ...n50) {
+            function ba(t237, e130, ...n50) {
                 if (t237 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t237), function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
-                }("collection", "path", e131), t237 instanceof Ta) {
-                    const s = ht.fromString(e131, ...n50);
+                }("collection", "path", e130), t237 instanceof Ta) {
+                    const s = ht.fromString(e130, ...n50);
                     return _a(s), new Ra(t237, null, s);
                 }
                 {
                     if (!(t237 instanceof Ia || t237 instanceof Ra)) throw new j(K.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
-                    const s = t237._path.child(ht.fromString(e131, ...n50));
+                    const s = t237._path.child(ht.fromString(e130, ...n50));
                     return _a(s), new Ra(t237.firestore, null, s);
                 }
             }
             class ka extends Ta {
-                constructor(t238, e132){
-                    super(t238, e132), this.type = "firestore", this._queue = new class {
+                constructor(t238, e131){
+                    super(t238, e131), this.type = "firestore", this._queue = new class {
                         constructor(){
                             this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
                                 const t = Jr();
@@ -5723,16 +5720,16 @@
                             }
                         }
                         Pc(t241) {
-                            const e134 = this._c.then(()=>(this.Ec = !0, t241().catch((t)=>{
+                            const e133 = this._c.then(()=>(this.Ec = !0, t241().catch((t)=>{
                                     var t240;
                                     this.Tc = t, this.Ec = !1;
                                     let e;
-                                    const e133 = (e = (t240 = t).message || "", t240.stack && (e = t240.stack.includes(t240.message) ? t240.stack : t240.message + "\n" + t240.stack), e);
-                                    throw O("INTERNAL UNHANDLED ERROR: ", e133), t;
+                                    const e132 = (e = (t240 = t).message || "", t240.stack && (e = t240.stack.includes(t240.message) ? t240.stack : t240.message + "\n" + t240.stack), e);
+                                    throw O("INTERNAL UNHANDLED ERROR: ", e132), t;
                                 }).then((t)=>(this.Ec = !1, t)
                                 ))
                             );
-                            return this._c = e134, e134;
+                            return this._c = e133, e133;
                         }
                         enqueueAfterDelay(t242, e, n) {
                             this.bc(), this.Ac.indexOf(t242) > -1 && (e = 0);
@@ -5755,8 +5752,8 @@
                         }
                         Cc(t243) {
                             return this.Sc().then(()=>{
-                                for (const e135 of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs
-                                ), this.yc))if (e135.skipDelay(), "all" !== t243 && e135.timerId === t243) break;
+                                for (const e134 of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs
+                                ), this.yc))if (e134.skipDelay(), "all" !== t243 && e134.timerId === t243) break;
                                 return this.Sc();
                             });
                         }
@@ -5774,8 +5771,8 @@
                 }
             }
             function Ma(t) {
-                var e, t244, e136, n, s;
-                const n51 = t._freezeSettings(), s23 = (t244 = t._databaseId, e136 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n51, new ua(t244, e136, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
+                var e, t244, e135, n, s;
+                const n51 = t._freezeSettings(), s23 = (t244 = t._databaseId, e135 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n51, new ua(t244, e135, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
                 t._firestoreClient = new Kc(t._credentials, t._queue, s23);
             }
             class Ja {
@@ -5926,17 +5923,17 @@
                     return t instanceof lu;
                 }
             }
-            function yu(t246, e137) {
-                if (Tu(t246 = getModularInstance(t246))) return Eu("Unsupported field value:", e137, t246), pu(t246, e137);
+            function yu(t246, e136) {
+                if (Tu(t246 = getModularInstance(t246))) return Eu("Unsupported field value:", e136, t246), pu(t246, e136);
                 if (t246 instanceof Za) return function(t, e) {
                     if (!iu(e.kc)) throw e.Uc(`${t._methodName}() can only be used with update() and set()`);
                     if (!e.path) throw e.Uc(`${t._methodName}() is not currently supported inside arrays`);
                     const n = t._toFieldTransform(e);
                     n && e.fieldTransforms.push(n);
-                }(t246, e137), null;
-                if (void 0 === t246 && e137.ignoreUndefinedProperties) return null;
-                if (e137.path && e137.fieldMask.push(e137.path), t246 instanceof Array) {
-                    if (e137.settings.Fc && 4 !== e137.kc) throw e137.Uc("Nested arrays are not supported");
+                }(t246, e136), null;
+                if (void 0 === t246 && e136.ignoreUndefinedProperties) return null;
+                if (e136.path && e136.fieldMask.push(e136.path), t246 instanceof Array) {
+                    if (e136.settings.Fc && 4 !== e136.kc) throw e136.Uc("Nested arrays are not supported");
                     return function(t, e) {
                         const n = [];
                         let s = 0;
@@ -5951,15 +5948,15 @@
                                 values: n
                             }
                         };
-                    }(t246, e137);
+                    }(t246, e136);
                 }
                 return function(t, e) {
                     if (null === (t = getModularInstance(t))) return {
                         nullValue: "NULL_VALUE"
                     };
                     if ("number" == typeof t) {
-                        var t247, e138;
-                        return t247 = e.N, bt(e138 = t) ? De(e138) : Se(t247, e138);
+                        var t247, e137;
+                        return t247 = e.N, bt(e137 = t) ? De(e137) : Se(t247, e137);
                     }
                     if ("boolean" == typeof t) return {
                         booleanValue: t
@@ -5996,7 +5993,7 @@
                         };
                     }
                     throw e.Uc(`Unsupported field value: ${ma(t)}`);
-                }(t246, e137);
+                }(t246, e136);
             }
             function pu(t248, e) {
                 const n = {};
@@ -6061,15 +6058,15 @@
                     return super.data();
                 }
             }
-            function Su(t250, e139) {
-                return "string" == typeof e139 ? function(t, e, n) {
+            function Su(t250, e138) {
+                return "string" == typeof e138 ? function(t, e, n) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
                     try {
                         return new Ja(...e.split("."))._internalPath;
                     } catch (s) {
                         throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
                     }
-                }(t250, e139) : e139 instanceof Ja ? e139._internalPath : e139._delegate._internalPath;
+                }(t250, e138) : e138 instanceof Ja ? e138._internalPath : e138._delegate._internalPath;
             }
             class Du {
                 constructor(t, e){
@@ -6128,9 +6125,9 @@
                     });
                 }
                 docChanges(t251 = {}) {
-                    const e140 = !!t251.includeMetadataChanges;
-                    if (e140 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
-                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e140 || (this._cachedChanges = function(t252, e141) {
+                    const e139 = !!t251.includeMetadataChanges;
+                    if (e139 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
+                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e139 || (this._cachedChanges = function(t252, e140) {
                         if (t252._snapshot.oldDocs.isEmpty()) {
                             let e = 0;
                             return t252._snapshot.docChanges.map((n)=>({
@@ -6143,7 +6140,7 @@
                         }
                         {
                             let n = t252._snapshot.oldDocs;
-                            return t252._snapshot.docChanges.filter((t)=>e141 || 3 !== t.type
+                            return t252._snapshot.docChanges.filter((t)=>e140 || 3 !== t.type
                             ).map((e)=>{
                                 const s = new Nu(t252._firestore, t252._userDataWriter, e.doc.key, e.doc, new Du(t252._snapshot.mutatedKeys.has(e.doc.key), t252._snapshot.fromCache), t252.query.converter);
                                 let i = -1, r = -1;
@@ -6155,7 +6152,7 @@
                                 };
                             });
                         }
-                    }(this, e140), this._cachedChangesIncludeMetadataChanges = e140), this._cachedChanges;
+                    }(this, e139), this._cachedChangesIncludeMetadataChanges = e139), this._cachedChanges;
                 }
             }
             function ku(t) {
@@ -6230,7 +6227,7 @@
                 }
                 convertDocumentKey(t, e) {
                     const n = ht.fromString(t);
-                    B(Ts(n));
+                    Ts(n) || L();
                     const s = new ha(n.get(1), n.get(3)), i = new Pt(n.popFirst(5));
                     return s.isEqual(e) || O(`Document ${i} contains a document reference within a different database (${s.projectId}/${s.database}) which is not supported. It will be treated as a reference in the current database (${e.projectId}/${e.database}) instead.`), i;
                 }
@@ -6250,10 +6247,10 @@
             function lh(t256) {
                 var t255;
                 t256 = ga(t256, Aa);
-                const e142 = ga(t256.firestore, ka), n52 = ((t255 = e142)._firestoreClient || Ma(t255), t255._firestoreClient.verifyNotTerminated(), t255._firestoreClient), s24 = new ah(e142);
+                const e141 = ga(t256.firestore, ka), n52 = ((t255 = e141)._firestoreClient || Ma(t255), t255._firestoreClient.verifyNotTerminated(), t255._firestoreClient), s24 = new ah(e141);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                }(t256._query), (function(t257, e143, n53 = {}) {
+                }(t256._query), (function(t257, e142, n53 = {}) {
                     const s25 = new Q;
                     return t257.asyncQueue.enqueueAndForget(async ()=>(function(t258, e, n54, s, i) {
                             const r = new Lc({
@@ -6267,9 +6264,9 @@
                                 fo: !0
                             });
                             return Bo(t258, o);
-                        })(await Xc(t257), t257.asyncQueue, e143, n53, s25)
+                        })(await Xc(t257), t257.asyncQueue, e142, n53, s25)
                     ), s25.promise;
-                })(n52, t256._query).then((n)=>new xu(e142, s24, t256, n)
+                })(n52, t256._query).then((n)=>new xu(e141, s24, t256, n)
                 );
             }
             !function(t259, e = !0) {
