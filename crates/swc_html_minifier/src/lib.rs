@@ -47,8 +47,21 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
-// TODO improve list + event handlers
-static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &["id", "class", "style"];
+// TODO improve list - event handlers + remove multiple whitespace from class +
+// test for custom elements
+static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
+    "id",
+    "class",
+    "style",
+    "tabindex",
+    "maxlength",
+    "size",
+    "rows",
+    "cols",
+    "span",
+    "rowspan",
+    "colspan",
+];
 
 struct Minifier {}
 
@@ -185,7 +198,7 @@ impl VisitMut for Minifier {
                 {
                     false
                 }
-                _ if self.allow_to_trim(&attribute.name)
+                _ if matches!(&*attribute.name, "id" | "class" | "style")
                     && (&*attribute.value.as_ref().unwrap()).trim().is_empty() =>
                 {
                     false
@@ -202,16 +215,16 @@ impl VisitMut for Minifier {
             return;
         }
 
-        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
-
-        if self.allow_to_trim(&n.name) {
-            value = value.trim();
-        }
-
         if self.is_boolean_attribute(&n.name) {
             n.value = None;
 
             return;
+        }
+
+        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
+
+        if self.allow_to_trim(&n.name) {
+            value = value.trim();
         }
 
         n.value = Some(value.into());
