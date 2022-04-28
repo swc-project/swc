@@ -56,7 +56,7 @@ macro_rules! add_to {
         if enable {
             $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
                 stmt.visit_mut_with(&mut Marker {
-                    base: $mark,
+                    base: SyntaxContext::empty().apply_mark($mark),
                     decls: Default::default(),
 
                     decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
@@ -367,7 +367,7 @@ impl VisitMut for InjectHelpers {
 }
 
 struct Marker {
-    base: Mark,
+    base: SyntaxContext,
     decls: FxHashMap<JsWord, SyntaxContext>,
 
     decl_ctxt: SyntaxContext,
@@ -403,11 +403,7 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if let Some(ctxt) = self.decls.get(&i.sym).copied() {
-            i.span.ctxt = ctxt;
-        } else {
-            i.span = i.span.apply_mark(self.base);
-        }
+        i.span.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
