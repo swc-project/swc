@@ -133,6 +133,11 @@ impl Visit for AliasCollector<'_> {
         n.visit_children_with(self);
     }
 
+    fn visit_cond_expr(&mut self, n: &CondExpr) {
+        n.cons.visit_with(self);
+        n.alt.visit_with(self);
+    }
+
     fn visit_expr(&mut self, n: &Expr) {
         match n {
             Expr::Ident(i) => {
