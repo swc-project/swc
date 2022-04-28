@@ -47,11 +47,18 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+// TODO improve list + event handlers
+static CAN_BE_EMPTY_ATTRIBUTES: &[&str] = &["id", "class", "style"];
+
 struct Minifier {}
 
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
         BOOLEAN_ATTRIBUTES.contains(&name)
+    }
+
+    fn can_be_empty(&self, name: &str) -> bool {
+        CAN_BE_EMPTY_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -175,6 +182,11 @@ impl VisitMut for Minifier {
                     &attribute.name,
                     attribute.value.as_ref().unwrap(),
                 ) =>
+                {
+                    false
+                }
+                _ if self.can_be_empty(&attribute.name)
+                    && (&*attribute.value.as_ref().unwrap()).trim().is_empty() =>
                 {
                     false
                 }
