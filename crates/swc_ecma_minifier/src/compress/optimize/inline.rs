@@ -305,6 +305,17 @@ where
                     ..
                 }) => false,
 
+                Expr::Unary(UnaryExpr { arg, .. }) => is_expr_simple_enough(arg),
+
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) => {
+                    is_expr_simple_enough(callee)
+                        && args.iter().all(|arg| is_expr_simple_enough(&arg.expr))
+                }
+
                 Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
 
                 Expr::Update(e) => is_expr_simple_enough(&e.arg),
