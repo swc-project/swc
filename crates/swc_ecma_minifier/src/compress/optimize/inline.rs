@@ -194,13 +194,19 @@ where
                     return;
                 }
 
+                let is_by_value = match &**init {
+                    Expr::Lit(Lit::Regex(..)) => false,
+                    Expr::Lit(..) => true,
+                    _ => false,
+                };
+
                 // Single use => inlined
                 if is_inline_enabled
                     && !should_preserve
                     && !usage.reassigned()
-                    && (!usage.mutated || usage.is_mutated_only_by_one_call())
-                    && usage.usage_count == 1
+                    && (is_by_value || !usage.mutated || usage.is_mutated_only_by_one_call())
                     && usage.ref_count == 1
+                    && (is_by_value || usage.usage_count == 1)
                 {
                     match &**init {
                         Expr::Fn(FnExpr {
