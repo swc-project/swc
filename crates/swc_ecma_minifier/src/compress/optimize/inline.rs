@@ -200,6 +200,7 @@ where
                     && !usage.reassigned()
                     && (!usage.mutated || usage.is_mutated_only_by_one_call())
                     && usage.ref_count == 1
+                    && !self.data.alias.is_infected(&i.to_id())
                 {
                     match &**init {
                         Expr::Fn(FnExpr {
