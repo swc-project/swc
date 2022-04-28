@@ -18,6 +18,15 @@ TestSnapshot {
                 #3,
             ),
         ],
+        (
+            Atom('node' type=inline),
+            #2,
+        ): [
+            (
+                Atom('node' type=inline),
+                #2,
+            ),
+        ],
     },
     vars: [
         (

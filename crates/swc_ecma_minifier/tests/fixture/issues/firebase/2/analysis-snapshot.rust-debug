@@ -21,6 +21,10 @@ TestSnapshot {
                 Atom('next' type=inline),
                 #2,
             ),
+            (
+                Atom('path' type=inline),
+                #2,
+            ),
         ],
         (
             Atom('next' type=inline),
@@ -33,6 +37,10 @@ TestSnapshot {
             (
                 Atom('childNode' type=dynamic),
                 #4,
+            ),
+            (
+                Atom('child' type=inline),
+                #2,
             ),
         ],
         (
@@ -68,6 +76,14 @@ TestSnapshot {
             (
                 Atom('childNode' type=dynamic),
                 #4,
+            ),
+            (
+                Atom('next' type=inline),
+                #2,
+            ),
+            (
+                Atom('child' type=inline),
+                #2,
             ),
         ],
     },

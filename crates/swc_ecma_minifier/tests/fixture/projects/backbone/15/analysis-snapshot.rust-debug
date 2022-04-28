@@ -1,12 +1,12 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('obj' type=inline),
-            #1,
+            Atom('diff' type=inline),
+            #2,
         ): [
             (
-                Atom('_' type=inline),
-                #3,
+                Atom('val' type=inline),
+                #2,
             ),
         ],
         (
@@ -16,6 +16,37 @@ TestSnapshot {
             (
                 Atom('obj' type=inline),
                 #1,
+            ),
+        ],
+        (
+            Atom('val' type=inline),
+            #2,
+        ): [
+            (
+                Atom('diff' type=inline),
+                #2,
+            ),
+            (
+                Atom('attr' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('attr' type=inline),
+            #2,
+        ): [
+            (
+                Atom('val' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
             ),
         ],
     },
@@ -70,7 +101,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 3,
                 reassigned_with_assignment: true,
@@ -148,12 +179,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},

@@ -1,5 +1,28 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('nativeIndexOf' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('_' type=inline),
+            #1,
+        ): [
+            (
+                Atom('nativeIndexOf' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

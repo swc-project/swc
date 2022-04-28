@@ -11,29 +11,15 @@ TestSnapshot {
         ],
         (
             Atom('results' type=inline),
-            #34,
-        ): [
-            (
-                Atom('state' type=inline),
-                #34,
-            ),
-        ],
-        (
-            Atom('results' type=inline),
             #41,
         ): [
             (
                 Atom('key' type=static),
                 #41,
             ),
-        ],
-        (
-            Atom('parameters' type=dynamic),
-            #32,
-        ): [
             (
-                Atom('derivedHelper' type=dynamic),
-                #32,
+                Atom('client' type=inline),
+                #41,
             ),
         ],
         (
@@ -43,6 +29,376 @@ TestSnapshot {
             (
                 Atom('requestsWithSerializedParams' type=dynamic),
                 #39,
+            ),
+        ],
+        (
+            Atom('subIndexNotEqualMainIndex' type=dynamic),
+            #26,
+        ): [
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('widget' type=inline),
+                #26,
+            ),
+        ],
+        (
+            Atom('JSON' type=static),
+            #6,
+        ): [
+            (
+                Atom('key' type=static),
+                #41,
+            ),
+            (
+                Atom('client' type=inline),
+                #41,
+            ),
+            (
+                Atom('key' type=static),
+                #48,
+            ),
+            (
+                Atom('client' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('stalledSearchDelay' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('sharedParameters' type=dynamic),
+            #18,
+        ): [
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('widgetsManager' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('mainParameters' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('derivedParameters' type=dynamic),
+                #18,
+            ),
+        ],
+        (
+            Atom('derivedParameters' type=dynamic),
+            #18,
+        ): [
+            (
+                Atom('Object' type=static),
+                #6,
+            ),
+            (
+                Atom('derivedIndices' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('sharedParameters' type=dynamic),
+                #18,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #41,
+        ): [
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('client' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('client' type=inline),
+            #48,
+        ): [
+            (
+                Atom('results' type=inline),
+                #48,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('client' type=inline),
+                #48,
+            ),
+            (
+                Atom('key' type=static),
+                #48,
+            ),
+        ],
+        (
+            Atom('baseMethod' type=dynamic),
+            #38,
+        ): [
+            (
+                Atom('client' type=inline),
+                #37,
+            ),
+        ],
+        (
+            Atom('helper' type=inline),
+            #13,
+        ): [
+            (
+                Atom('searchClient' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('HIGHLIGHT_TAGS' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('derivedHelper' type=dynamic),
+                #32,
+            ),
+            (
+                Atom('isDerivedHelpersEmpty' type=dynamic),
+                #34,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #48,
+        ): [
+            (
+                Atom('results' type=inline),
+                #48,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('client' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('stalledSearchTimer' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('stalledSearchDelay' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('widgetsManager' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('onWidgetsUpdate' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('sharedParameters' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('mainParameters' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('derivedIndices' type=dynamic),
+                #18,
+            ),
+        ],
+        (
+            Atom('subIndexEqualMainIndex' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('widget' type=inline),
+                #23,
+            ),
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('client' type=inline),
+            #37,
+        ): [
+            (
+                Atom('baseMethod' type=dynamic),
+                #38,
+            ),
+            (
+                Atom('client' type=inline),
+                #37,
+            ),
+        ],
+        (
+            Atom('nextSearchState' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('metadata' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('metadata' type=dynamic),
+            #53,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #6,
+        ): [
+            (
+                Atom('maxFacetHitsWithinRange' type=dynamic),
+                #58,
+            ),
+        ],
+        (
+            Atom('newIndex' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('widgets' type=inline),
+            #27,
+        ): [
+            (
+                Atom('indices' type=inline),
+                #27,
+            ),
+            (
+                Atom('indexId' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('widget' type=inline),
+            #27,
+        ): [
+            (
+                Atom('indexId' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('event' type=inline),
+            #34,
+        ): [
+            (
+                Atom('results' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('widget' type=inline),
+            #23,
+        ): [
+            (
+                Atom('targetedIndexEqualMainIndex' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('subIndexEqualMainIndex' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('maxFacetHitsWithinRange' type=dynamic),
+            #58,
+        ): [
+            (
+                Atom('maxFacetHits' type=dynamic),
+                #58,
+            ),
+            (
+                Atom('Math' type=static),
+                #6,
+            ),
+        ],
+        (
+            Atom('targetedIndexNotEqualMainIndex' type=dynamic),
+            #26,
+        ): [
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('widget' type=inline),
+                #26,
+            ),
+        ],
+        (
+            Atom('results' type=inline),
+            #34,
+        ): [
+            (
+                Atom('state' type=inline),
+                #34,
+            ),
+            (
+                Atom('results' type=inline),
+                #34,
+            ),
+            (
+                Atom('indexId' type=inline),
+                #33,
+            ),
+            (
+                Atom('event' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('parameters' type=dynamic),
+            #32,
+        ): [
+            (
+                Atom('derivedHelper' type=dynamic),
+                #32,
             ),
         ],
         (
@@ -60,6 +416,10 @@ TestSnapshot {
         ): [
             (
                 Atom('key' type=static),
+                #48,
+            ),
+            (
+                Atom('client' type=inline),
                 #48,
             ),
         ],
@@ -90,46 +450,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('subIndexNotEqualMainIndex' type=dynamic),
-            #26,
-        ): [
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('widget' type=inline),
-                #26,
-            ),
-        ],
-        (
             Atom('searchClient' type=dynamic),
             #13,
         ): [
             (
                 Atom('helper' type=inline),
                 #13,
-            ),
-        ],
-        (
-            Atom('sharedParameters' type=dynamic),
-            #18,
-        ): [
-            (
-                Atom('initialSearchParameters' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('widgetsManager' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('mainParameters' type=dynamic),
-                #18,
-            ),
-            (
-                Atom('derivedParameters' type=dynamic),
-                #18,
             ),
         ],
         (
@@ -154,23 +480,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('derivedParameters' type=dynamic),
-            #18,
-        ): [
-            (
-                Atom('Object' type=static),
-                #6,
-            ),
-            (
-                Atom('derivedIndices' type=dynamic),
-                #18,
-            ),
-            (
-                Atom('sharedParameters' type=dynamic),
-                #18,
-            ),
-        ],
-        (
             Atom('isDerivedHelpersEmpty' type=dynamic),
             #34,
         ): [
@@ -186,32 +495,6 @@ TestSnapshot {
             (
                 Atom('currentState' type=dynamic),
                 #35,
-            ),
-        ],
-        (
-            Atom('key' type=static),
-            #41,
-        ): [
-            (
-                Atom('results' type=inline),
-                #41,
-            ),
-            (
-                Atom('JSON' type=static),
-                #6,
-            ),
-        ],
-        (
-            Atom('JSON' type=static),
-            #6,
-        ): [
-            (
-                Atom('key' type=static),
-                #41,
-            ),
-            (
-                Atom('key' type=static),
-                #48,
             ),
         ],
         (
@@ -294,6 +577,10 @@ TestSnapshot {
                 #35,
             ),
             (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+            (
                 Atom('metadata' type=dynamic),
                 #53,
             ),
@@ -334,35 +621,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('helper' type=inline),
-            #13,
-        ): [
-            (
-                Atom('searchClient' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('HIGHLIGHT_TAGS' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('initialSearchParameters' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('derivedHelper' type=dynamic),
-                #32,
-            ),
-            (
-                Atom('isDerivedHelpersEmpty' type=dynamic),
-                #34,
-            ),
-        ],
-        (
             Atom('derivedHelper' type=dynamic),
             #32,
         ): [
@@ -376,12 +634,33 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('baseMethod' type=dynamic),
-            #38,
+            Atom('client' type=inline),
+            #41,
         ): [
             (
                 Atom('client' type=inline),
-                #37,
+                #41,
+            ),
+            (
+                Atom('key' type=static),
+                #41,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('searchState' type=dynamic),
+            #54,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
             ),
         ],
         (
@@ -398,16 +677,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('key' type=static),
-            #48,
+            Atom('metadata' type=dynamic),
+            #57,
         ): [
             (
-                Atom('results' type=inline),
-                #48,
-            ),
-            (
-                Atom('JSON' type=static),
-                #6,
+                Atom('nextSearchState' type=dynamic),
+                #57,
             ),
         ],
         (
@@ -417,24 +692,6 @@ TestSnapshot {
             (
                 Atom('currentState' type=dynamic),
                 #34,
-            ),
-        ],
-        (
-            Atom('searchState' type=dynamic),
-            #54,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('metadata' type=dynamic),
-            #57,
-        ): [
-            (
-                Atom('nextSearchState' type=dynamic),
-                #57,
             ),
         ],
         (
@@ -477,64 +734,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('widgetsManager' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('onWidgetsUpdate' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('sharedParameters' type=dynamic),
-                #18,
-            ),
-            (
-                Atom('mainParameters' type=dynamic),
-                #18,
-            ),
-            (
-                Atom('derivedIndices' type=dynamic),
-                #18,
-            ),
-        ],
-        (
-            Atom('subIndexEqualMainIndex' type=dynamic),
-            #23,
-        ): [
-            (
-                Atom('widget' type=inline),
-                #23,
-            ),
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-        ],
-        (
             Atom('secondWidget' type=dynamic),
             #8,
         ): [
             (
                 Atom('isSecondWidgetIndex' type=dynamic),
                 #8,
-            ),
-        ],
-        (
-            Atom('client' type=inline),
-            #37,
-        ): [
-            (
-                Atom('baseMethod' type=dynamic),
-                #38,
-            ),
-        ],
-        (
-            Atom('nextSearchState' type=dynamic),
-            #57,
-        ): [
-            (
-                Atom('metadata' type=dynamic),
-                #57,
             ),
         ],
         (
@@ -558,6 +763,14 @@ TestSnapshot {
                 Atom('sharedParameters' type=dynamic),
                 #18,
             ),
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('newIndex' type=dynamic),
+                #62,
+            ),
         ],
         (
             Atom('firstWidget' type=dynamic),
@@ -566,6 +779,15 @@ TestSnapshot {
             (
                 Atom('isFirstWidgetIndex' type=dynamic),
                 #8,
+            ),
+        ],
+        (
+            Atom('indexId' type=inline),
+            #33,
+        ): [
+            (
+                Atom('results' type=inline),
+                #34,
             ),
         ],
         (
@@ -582,46 +804,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('metadata' type=dynamic),
-            #53,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('widgets' type=inline),
-            #27,
-        ): [
-            (
-                Atom('indices' type=inline),
-                #27,
-            ),
-            (
-                Atom('indexId' type=inline),
-                #27,
-            ),
-        ],
-        (
-            Atom('widget' type=inline),
-            #27,
-        ): [
-            (
-                Atom('indexId' type=inline),
-                #27,
-            ),
-        ],
-        (
-            Atom('initialState' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-        ],
-        (
             Atom('indexId' type=inline),
             #27,
         ): [
@@ -635,60 +817,21 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('initialState' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
             Atom('indices' type=inline),
             #27,
         ): [
             (
                 Atom('widgets' type=inline),
                 #27,
-            ),
-        ],
-        (
-            Atom('widget' type=inline),
-            #23,
-        ): [
-            (
-                Atom('targetedIndexEqualMainIndex' type=dynamic),
-                #23,
-            ),
-            (
-                Atom('subIndexEqualMainIndex' type=dynamic),
-                #23,
-            ),
-        ],
-        (
-            Atom('maxFacetHitsWithinRange' type=dynamic),
-            #58,
-        ): [
-            (
-                Atom('maxFacetHits' type=dynamic),
-                #58,
-            ),
-            (
-                Atom('Math' type=static),
-                #6,
-            ),
-        ],
-        (
-            Atom('Math' type=static),
-            #6,
-        ): [
-            (
-                Atom('maxFacetHitsWithinRange' type=dynamic),
-                #58,
-            ),
-        ],
-        (
-            Atom('targetedIndexNotEqualMainIndex' type=dynamic),
-            #26,
-        ): [
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('widget' type=inline),
-                #26,
             ),
         ],
     },
@@ -1674,7 +1817,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -1711,7 +1854,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -2165,18 +2308,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3032,12 +3175,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -3184,7 +3327,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -3876,7 +4019,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -4026,7 +4169,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -4063,7 +4206,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: true,
@@ -4100,7 +4243,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: true,
@@ -5195,7 +5338,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 1,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -5499,7 +5642,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 3,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -5684,7 +5827,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -5988,7 +6131,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -6025,7 +6168,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 2,
                 usage_count: 3,
                 reassigned_with_assignment: true,
@@ -6101,7 +6244,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -6140,7 +6283,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 5,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 22,
                 reassigned_with_assignment: false,

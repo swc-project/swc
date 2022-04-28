@@ -14,6 +14,10 @@ TestSnapshot {
             #5,
         ): [
             (
+                Atom('str' type=inline),
+                #5,
+            ),
+            (
                 Atom('match' type=inline),
                 #5,
             ),

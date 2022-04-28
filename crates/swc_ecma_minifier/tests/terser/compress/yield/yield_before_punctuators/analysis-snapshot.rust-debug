@@ -1,5 +1,66 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('assignmentResult' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('value' type=inline),
+                #2,
+            ),
+            (
+                Atom('iter' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('iter' type=inline),
+            #2,
+        ): [
+            (
+                Atom('value' type=inline),
+                #2,
+            ),
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('assignmentResult' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #2,
+        ): [
+            (
+                Atom('assignmentResult' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iter' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #2,
+        ): [
+            (
+                Atom('assignmentResult' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iter' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -14,7 +75,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 0,
                 reassigned_with_assignment: true,
@@ -25,7 +86,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -199,7 +260,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 0,
                 reassigned_with_assignment: true,
@@ -210,8 +271,8 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
-                used_by_nested_fn: false,
+                is_fn_local: false,
+                used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: None,
@@ -236,18 +297,18 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -273,7 +334,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 0,
                 reassigned_with_assignment: true,
@@ -284,7 +345,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,

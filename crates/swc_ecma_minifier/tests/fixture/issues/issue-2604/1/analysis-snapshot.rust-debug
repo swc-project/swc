@@ -55,6 +55,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('ShaderLib' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
             Atom('distanceRGBA_vert' type=dynamic),
             #6,
         ): [
@@ -218,6 +227,10 @@ TestSnapshot {
             (
                 Atom('skinning_pars_vertex' type=dynamic),
                 #6,
+            ),
+            (
+                Atom('ShaderLib' type=dynamic),
+                #1,
             ),
         ],
         (

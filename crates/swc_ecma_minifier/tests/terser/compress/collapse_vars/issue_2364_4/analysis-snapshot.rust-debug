@@ -10,11 +10,38 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('baz' type=inline),
+            #3,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #1,
+            ),
+        ],
+        (
             Atom('result' type=inline),
             #3,
         ): [
             (
                 Atom('bar' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('foo' type=inline),
+            #1,
+        ): [
+            (
+                Atom('baz' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('bar' type=inline),
+            #3,
+        ): [
+            (
+                Atom('result' type=inline),
                 #3,
             ),
         ],
@@ -25,15 +52,6 @@ TestSnapshot {
             (
                 Atom('data' type=inline),
                 #1,
-            ),
-        ],
-        (
-            Atom('bar' type=inline),
-            #3,
-        ): [
-            (
-                Atom('result' type=inline),
-                #3,
             ),
         ],
     },

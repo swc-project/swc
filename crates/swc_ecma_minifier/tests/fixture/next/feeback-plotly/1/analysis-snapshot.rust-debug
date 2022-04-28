@@ -1,5 +1,45 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('r' type=inline),
+            #2,
+        ): [
+            (
+                Atom('v' type=inline),
+                #2,
+            ),
+            (
+                Atom('shift' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('shift' type=inline),
+            #2,
+        ): [
+            (
+                Atom('v' type=inline),
+                #2,
+            ),
+            (
+                Atom('r' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('v' type=inline),
+            #2,
+        ): [
+            (
+                Atom('r' type=inline),
+                #2,
+            ),
+            (
+                Atom('shift' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -51,9 +91,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 4,
+                assign_count: 11,
                 mutation_by_call_count: 0,
-                usage_count: 5,
+                usage_count: 9,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -90,9 +130,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 11,
                 mutation_by_call_count: 0,
-                usage_count: 6,
+                usage_count: 13,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -129,9 +169,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 4,
+                assign_count: 11,
                 mutation_by_call_count: 0,
-                usage_count: 9,
+                usage_count: 12,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,

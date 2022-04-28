@@ -1,5 +1,50 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('Infinity' type=static),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #1,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #2,
+            ),
+            (
+                Atom('Infinity' type=static),
+                #2,
+            ),
+            (
+                Atom('NaN' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -14,7 +59,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -51,7 +96,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -164,7 +209,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,

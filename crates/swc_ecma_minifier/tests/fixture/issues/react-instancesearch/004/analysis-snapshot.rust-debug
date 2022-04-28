@@ -1,46 +1,12 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('getMetadata' type=dynamic),
-            #13,
+            Atom('_key' type=inline),
+            #11,
         ): [
             (
-                Atom('widgetsManager' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('partialState' type=dynamic),
-            #42,
-        ): [
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('currentState' type=dynamic),
-                #42,
-            ),
-        ],
-        (
-            Atom('handleNewSearch' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('stalledSearchDelay' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('stalledSearchTimer' type=dynamic),
-                #13,
+                Atom('args' type=inline),
+                #11,
             ),
         ],
         (
@@ -53,11 +19,24 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('facetName' type=dynamic),
+            Atom('HIGHLIGHT_TAGS' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('maxFacetHitsWithinRange' type=dynamic),
             #65,
         ): [
             (
-                Atom('param' type=inline),
+                Atom('Math' type=static),
+                #6,
+            ),
+            (
+                Atom('maxFacetHits' type=dynamic),
                 #65,
             ),
         ],
@@ -69,6 +48,22 @@ TestSnapshot {
                 Atom('state' type=inline),
                 #41,
             ),
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+            (
+                Atom('indexId' type=inline),
+                #40,
+            ),
+            (
+                Atom('event' type=inline),
+                #41,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
         ],
         (
             Atom('mainParameters' type=dynamic),
@@ -77,19 +72,6 @@ TestSnapshot {
             (
                 Atom('ref' type=inline),
                 #37,
-            ),
-        ],
-        (
-            Atom('targetedIndexEqualMainIndex' type=dynamic),
-            #30,
-        ): [
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('widget' type=inline),
-                #30,
             ),
         ],
         (
@@ -109,6 +91,14 @@ TestSnapshot {
                 Atom('baseMethod' type=dynamic),
                 #45,
             ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('client' type=inline),
+                #45,
+            ),
         ],
         (
             Atom('hydrateSearchClientWithSingleIndexRequest' type=dynamic),
@@ -124,42 +114,15 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('requests' type=dynamic),
-            #46,
-        ): [
-            (
-                Atom('requestsWithSerializedParams' type=dynamic),
-                #46,
-            ),
-        ],
-        (
-            Atom('stalledSearchDelay' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('param' type=inline),
-                #13,
-            ),
-            (
-                Atom('handleNewSearch' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('nextIsSearchStalled' type=dynamic),
-            #42,
-        ): [
-            (
-                Atom('currentState' type=dynamic),
-                #42,
-            ),
-        ],
-        (
             Atom('JSON' type=static),
             #6,
         ): [
             (
                 Atom('key' type=static),
+                #48,
+            ),
+            (
+                Atom('client' type=inline),
                 #48,
             ),
             (
@@ -171,29 +134,11 @@ TestSnapshot {
                 #55,
             ),
             (
-                Atom('hydrateSearchClientWithSingleIndexRequest' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('key' type=static),
-            #55,
-        ): [
-            (
-                Atom('results' type=inline),
+                Atom('client' type=inline),
                 #55,
             ),
             (
-                Atom('JSON' type=static),
-                #6,
-            ),
-        ],
-        (
-            Atom('searchState' type=dynamic),
-            #61,
-        ): [
-            (
-                Atom('store' type=inline),
+                Atom('hydrateSearchClientWithSingleIndexRequest' type=dynamic),
                 #13,
             ),
         ],
@@ -217,6 +162,15 @@ TestSnapshot {
             (
                 Atom('swcHelpers' type=dynamic),
                 #1,
+            ),
+        ],
+        (
+            Atom('newIndex' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
             ),
         ],
         (
@@ -266,19 +220,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('hydrateSearchClientWithMultiIndexRequest' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('JSON' type=static),
-                #6,
-            ),
-        ],
-        (
             Atom('subIndexEqualMainIndex' type=dynamic),
             #30,
         ): [
@@ -289,19 +230,6 @@ TestSnapshot {
             (
                 Atom('widget' type=inline),
                 #30,
-            ),
-        ],
-        (
-            Atom('_maxFacetHits' type=dynamic),
-            #65,
-        ): [
-            (
-                Atom('param' type=inline),
-                #65,
-            ),
-            (
-                Atom('maxFacetHits' type=dynamic),
-                #65,
             ),
         ],
         (
@@ -322,29 +250,28 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('param' type=inline),
-            #39,
+            Atom('client' type=inline),
+            #48,
         ): [
             (
-                Atom('indexId' type=inline),
-                #39,
+                Atom('results' type=inline),
+                #48,
             ),
             (
-                Atom('parameters' type=dynamic),
-                #39,
-            ),
-        ],
-        (
-            Atom('maxFacetHitsWithinRange' type=dynamic),
-            #65,
-        ): [
-            (
-                Atom('Math' type=static),
+                Atom('JSON' type=static),
                 #6,
             ),
             (
-                Atom('maxFacetHits' type=dynamic),
-                #65,
+                Atom('client' type=inline),
+                #48,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('key' type=static),
+                #48,
             ),
         ],
         (
@@ -361,11 +288,11 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('metadata' type=dynamic),
-            #60,
+            Atom('_obj' type=inline),
+            #1,
         ): [
             (
-                Atom('store' type=inline),
+                Atom('onSearchForFacetValues' type=dynamic),
                 #13,
             ),
         ],
@@ -431,19 +358,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('partialState' type=dynamic),
-            #44,
-        ): [
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('_ref' type=inline),
-                #44,
-            ),
-        ],
-        (
             Atom('handleSearchError' type=dynamic),
             #13,
         ): [
@@ -506,14 +420,9 @@ TestSnapshot {
                 Atom('JSON' type=static),
                 #6,
             ),
-        ],
-        (
-            Atom('_obj' type=inline),
-            #1,
-        ): [
             (
-                Atom('onSearchForFacetValues' type=dynamic),
-                #13,
+                Atom('client' type=inline),
+                #48,
             ),
         ],
         (
@@ -529,34 +438,20 @@ TestSnapshot {
                 #13,
             ),
             (
-                Atom('handleNewSearch' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('_ref' type=inline),
-            #44,
-        ): [
-            (
                 Atom('store' type=inline),
                 #13,
             ),
             (
-                Atom('resultsFacetValues' type=dynamic),
-                #44,
+                Atom('swcHelpers' type=dynamic),
+                #1,
             ),
             (
-                Atom('partialState' type=dynamic),
-                #44,
+                Atom('stalledSearchDelay' type=dynamic),
+                #13,
             ),
-        ],
-        (
-            Atom('resultsFacetValues' type=dynamic),
-            #41,
-        ): [
             (
-                Atom('currentState' type=dynamic),
-                #41,
+                Atom('handleNewSearch' type=dynamic),
+                #13,
             ),
         ],
         (
@@ -607,24 +502,6 @@ TestSnapshot {
         ],
         (
             Atom('indexId' type=inline),
-            #40,
-        ): [
-            (
-                Atom('param' type=inline),
-                #40,
-            ),
-        ],
-        (
-            Atom('baseMethod' type=dynamic),
-            #45,
-        ): [
-            (
-                Atom('client' type=inline),
-                #45,
-            ),
-        ],
-        (
-            Atom('indexId' type=inline),
             #34,
         ): [
             (
@@ -637,9 +514,157 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('widget' type=inline),
-            #33,
+            Atom('param' type=inline),
+            #42,
         ): [
+            (
+                Atom('error' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('nextSearchState' type=dynamic),
+            #64,
+        ): [
+            (
+                Atom('metadata' type=dynamic),
+                #64,
+            ),
+        ],
+        (
+            Atom('resultsFacetValues' type=dynamic),
+            #42,
+        ): [
+            (
+                Atom('currentState' type=dynamic),
+                #42,
+            ),
+        ],
+        (
+            Atom('skip' type=inline),
+            #13,
+        ): [
+            (
+                Atom('skipSearch' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('search' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('resultsState' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('param' type=inline),
+                #13,
+            ),
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('indexId' type=inline),
+            #39,
+        ): [
+            (
+                Atom('param' type=inline),
+                #39,
+            ),
+        ],
+        (
+            Atom('state' type=inline),
+            #41,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('searchClient' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('param' type=inline),
+                #13,
+            ),
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('methodArgs' type=dynamic),
+            #46,
+        ): [
+            (
+                Atom('_key' type=inline),
+                #46,
+            ),
+        ],
+        (
+            Atom('nextState' type=dynamic),
+            #15,
+        ): [
+            (
+                Atom('state' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('hydrateSearchClient' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('Array' type=static),
+                #6,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('state' type=inline),
+            #14,
+        ): [
+            (
+                Atom('initialState' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('nextState' type=dynamic),
+                #15,
+            ),
+        ],
+        (
+            Atom('indexName' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('param' type=inline),
+                #13,
+            ),
+            (
+                Atom('targetedIndexEqualMainIndex' type=dynamic),
+                #30,
+            ),
+            (
+                Atom('subIndexEqualMainIndex' type=dynamic),
+                #30,
+            ),
+            (
+                Atom('mainParameters' type=dynamic),
+                #25,
+            ),
             (
                 Atom('targetedIndexNotEqualMainIndex' type=dynamic),
                 #33,
@@ -648,14 +673,720 @@ TestSnapshot {
                 Atom('subIndexNotEqualMainIndex' type=dynamic),
                 #33,
             ),
+            (
+                Atom('derivedIndices' type=dynamic),
+                #25,
+            ),
+            (
+                Atom('getSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('hydrateResultsState' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('Array' type=static),
+                #6,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('algoliasearchHelper' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #6,
+        ): [
+            (
+                Atom('derivedParameters' type=dynamic),
+                #25,
+            ),
+            (
+                Atom('getSearchParameters' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('parameters' type=dynamic),
+            #39,
+        ): [
+            (
+                Atom('param' type=inline),
+                #39,
+            ),
+            (
+                Atom('derivedHelper' type=dynamic),
+                #39,
+            ),
+        ],
+        (
+            Atom('store' type=inline),
+            #13,
+        ): [
+            (
+                Atom('state' type=inline),
+                #41,
+            ),
+            (
+                Atom('currentState' type=dynamic),
+                #41,
+            ),
+            (
+                Atom('handleSearchSuccess' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('currentState' type=dynamic),
+                #42,
+            ),
+            (
+                Atom('handleSearchError' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('_ref' type=inline),
+                #44,
+            ),
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('handleNewSearch' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('metadata' type=dynamic),
+                #60,
+            ),
+            (
+                Atom('onWidgetsUpdate' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('searchState' type=dynamic),
+                #61,
+            ),
+            (
+                Atom('transitionState' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('onExternalStateUpdate' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('onSearchForFacetValues' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('getWidgetsIds' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('initialState' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('resultsState' type=dynamic),
+                #13,
+            ),
         ],
         (
             Atom('param' type=inline),
+            #40,
+        ): [
+            (
+                Atom('indexId' type=inline),
+                #40,
+            ),
+        ],
+        (
+            Atom('currentState' type=dynamic),
+            #41,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('nextIsSearchStalled' type=dynamic),
+                #41,
+            ),
+            (
+                Atom('resultsFacetValues' type=dynamic),
+                #41,
+            ),
+            (
+                Atom('partialState' type=dynamic),
+                #41,
+            ),
+        ],
+        (
+            Atom('onWidgetsUpdate' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('widgetsManager' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('onSearchForFacetValues' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+            (
+                Atom('Math' type=static),
+                #6,
+            ),
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('_obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('handleSearchSuccess' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('getWidgetsIds' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('swcHelpers' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('derivedIndices' type=dynamic),
+                #25,
+            ),
+            (
+                Atom('getSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+            (
+                Atom('partialState' type=dynamic),
+                #41,
+            ),
+            (
+                Atom('handleSearchSuccess' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('partialState' type=dynamic),
+                #42,
+            ),
+            (
+                Atom('handleSearchError' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('partialState' type=dynamic),
+                #44,
+            ),
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('handleNewSearch' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('requestsWithSerializedParams' type=dynamic),
+                #46,
+            ),
+            (
+                Atom('client' type=inline),
+                #45,
+            ),
+            (
+                Atom('hydrateSearchClient' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('client' type=inline),
+                #48,
+            ),
+            (
+                Atom('hydrateSearchClientWithMultiIndexRequest' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('client' type=inline),
+                #55,
+            ),
+            (
+                Atom('hydrateSearchClientWithSingleIndexRequest' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('hydrateResultsState' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('onWidgetsUpdate' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('onExternalStateUpdate' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('onSearchForFacetValues' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('isSecondWidgetIndex' type=dynamic),
+            #8,
+        ): [
+            (
+                Atom('secondWidget' type=dynamic),
+                #8,
+            ),
+        ],
+        (
+            Atom('skipSearch' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('skip' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('searchState' type=dynamic),
+            #61,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('widgets' type=inline),
+            #34,
+        ): [
+            (
+                Atom('indexId' type=inline),
+                #34,
+            ),
+            (
+                Atom('indices' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('firstWidget' type=dynamic),
+            #8,
+        ): [
+            (
+                Atom('isFirstWidgetIndex' type=dynamic),
+                #8,
+            ),
+        ],
+        (
+            Atom('initialSearchParameters' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('sharedParameters' type=dynamic),
+                #25,
+            ),
+            (
+                Atom('getSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('newIndex' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('initialSearchParameters' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('updateIndex' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('helper' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('partialState' type=dynamic),
             #42,
         ): [
             (
-                Atom('error' type=inline),
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('currentState' type=dynamic),
                 #42,
+            ),
+        ],
+        (
+            Atom('widget' type=inline),
+            #34,
+        ): [
+            (
+                Atom('indexId' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('event' type=inline),
+            #41,
+        ): [
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('widget' type=inline),
+            #30,
+        ): [
+            (
+                Atom('targetedIndexEqualMainIndex' type=dynamic),
+                #30,
+            ),
+            (
+                Atom('subIndexEqualMainIndex' type=dynamic),
+                #30,
+            ),
+        ],
+        (
+            Atom('handleNewSearch' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('stalledSearchDelay' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #13,
+        ): [
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('_initialState' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('searchClient' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('resultsState' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('stalledSearchDelay' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('derivedIndices' type=dynamic),
+            #25,
+        ): [
+            (
+                Atom('sortIndexWidgetsFirst' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('widgetsManager' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('derivedParameters' type=dynamic),
+                #25,
+            ),
+        ],
+        (
+            Atom('targetedIndexEqualMainIndex' type=dynamic),
+            #30,
+        ): [
+            (
+                Atom('indexName' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('widget' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('client' type=inline),
+            #55,
+        ): [
+            (
+                Atom('client' type=inline),
+                #55,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('results' type=inline),
+                #55,
+            ),
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('key' type=static),
+                #55,
+            ),
+        ],
+        (
+            Atom('_key' type=inline),
+            #46,
+        ): [
+            (
+                Atom('methodArgs' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('stalledSearchDelay' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('param' type=inline),
+                #13,
+            ),
+            (
+                Atom('stalledSearchTimer' type=dynamic),
+                #13,
+            ),
+            (
+                Atom('handleNewSearch' type=dynamic),
+                #13,
+            ),
+        ],
+        (
+            Atom('nextIsSearchStalled' type=dynamic),
+            #42,
+        ): [
+            (
+                Atom('currentState' type=dynamic),
+                #42,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #55,
+        ): [
+            (
+                Atom('results' type=inline),
+                #55,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+            (
+                Atom('client' type=inline),
+                #55,
+            ),
+        ],
+        (
+            Atom('hydrateSearchClientWithMultiIndexRequest' type=dynamic),
+            #13,
+        ): [
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('JSON' type=static),
+                #6,
+            ),
+        ],
+        (
+            Atom('_maxFacetHits' type=dynamic),
+            #65,
+        ): [
+            (
+                Atom('param' type=inline),
+                #65,
+            ),
+            (
+                Atom('maxFacetHits' type=dynamic),
+                #65,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #39,
+        ): [
+            (
+                Atom('indexId' type=inline),
+                #39,
+            ),
+            (
+                Atom('parameters' type=dynamic),
+                #39,
+            ),
+        ],
+        (
+            Atom('metadata' type=dynamic),
+            #60,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('partialState' type=dynamic),
+            #44,
+        ): [
+            (
+                Atom('swcHelpers' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('_ref' type=inline),
+                #44,
+            ),
+        ],
+        (
+            Atom('_ref' type=inline),
+            #44,
+        ): [
+            (
+                Atom('store' type=inline),
+                #13,
+            ),
+            (
+                Atom('resultsFacetValues' type=dynamic),
+                #44,
+            ),
+            (
+                Atom('partialState' type=dynamic),
+                #44,
+            ),
+        ],
+        (
+            Atom('resultsFacetValues' type=dynamic),
+            #41,
+        ): [
+            (
+                Atom('currentState' type=dynamic),
+                #41,
+            ),
+        ],
+        (
+            Atom('indexId' type=inline),
+            #40,
+        ): [
+            (
+                Atom('param' type=inline),
+                #40,
+            ),
+            (
+                Atom('results' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('baseMethod' type=dynamic),
+            #45,
+        ): [
+            (
+                Atom('client' type=inline),
+                #45,
             ),
         ],
         (
@@ -669,6 +1400,19 @@ TestSnapshot {
             (
                 Atom('onSearchForFacetValues' type=dynamic),
                 #13,
+            ),
+        ],
+        (
+            Atom('widget' type=inline),
+            #33,
+        ): [
+            (
+                Atom('targetedIndexNotEqualMainIndex' type=dynamic),
+                #33,
+            ),
+            (
+                Atom('subIndexNotEqualMainIndex' type=dynamic),
+                #33,
             ),
         ],
         (
@@ -724,24 +1468,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('nextSearchState' type=dynamic),
-            #64,
-        ): [
-            (
-                Atom('metadata' type=dynamic),
-                #64,
-            ),
-        ],
-        (
-            Atom('resultsFacetValues' type=dynamic),
-            #42,
-        ): [
-            (
-                Atom('currentState' type=dynamic),
-                #42,
-            ),
-        ],
-        (
             Atom('resultsFacetValues' type=dynamic),
             #44,
         ): [
@@ -764,29 +1490,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('skip' type=inline),
-            #13,
+            Atom('results' type=inline),
+            #48,
         ): [
             (
-                Atom('skipSearch' type=dynamic),
-                #13,
+                Atom('key' type=static),
+                #48,
             ),
             (
-                Atom('search' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('resultsState' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('param' type=inline),
-                #13,
-            ),
-            (
-                Atom('store' type=inline),
-                #13,
+                Atom('client' type=inline),
+                #48,
             ),
         ],
         (
@@ -811,55 +1524,15 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('indexId' type=inline),
-            #39,
+            Atom('Array' type=static),
+            #6,
         ): [
             (
-                Atom('param' type=inline),
-                #39,
-            ),
-        ],
-        (
-            Atom('results' type=inline),
-            #48,
-        ): [
-            (
-                Atom('key' type=static),
-                #48,
-            ),
-        ],
-        (
-            Atom('state' type=inline),
-            #41,
-        ): [
-            (
-                Atom('store' type=inline),
+                Atom('hydrateSearchClient' type=dynamic),
                 #13,
             ),
             (
-                Atom('results' type=inline),
-                #41,
-            ),
-        ],
-        (
-            Atom('searchClient' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('param' type=inline),
-                #13,
-            ),
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('updateClient' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('helper' type=inline),
+                Atom('hydrateResultsState' type=dynamic),
                 #13,
             ),
         ],
@@ -877,47 +1550,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('Array' type=static),
-            #6,
-        ): [
-            (
-                Atom('hydrateSearchClient' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('hydrateResultsState' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('HIGHLIGHT_TAGS' type=dynamic),
-            #1,
+            Atom('updateClient' type=dynamic),
+            #13,
         ): [
             (
                 Atom('helper' type=inline),
                 #13,
-            ),
-        ],
-        (
-            Atom('hydrateSearchClient' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('Array' type=static),
-                #6,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-        ],
-        (
-            Atom('state' type=inline),
-            #14,
-        ): [
-            (
-                Atom('initialState' type=dynamic),
-                #14,
             ),
         ],
         (
@@ -947,47 +1585,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('indexName' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('param' type=inline),
-                #13,
-            ),
-            (
-                Atom('targetedIndexEqualMainIndex' type=dynamic),
-                #30,
-            ),
-            (
-                Atom('subIndexEqualMainIndex' type=dynamic),
-                #30,
-            ),
-            (
-                Atom('mainParameters' type=dynamic),
-                #25,
-            ),
-            (
-                Atom('targetedIndexNotEqualMainIndex' type=dynamic),
-                #33,
-            ),
-            (
-                Atom('subIndexNotEqualMainIndex' type=dynamic),
-                #33,
-            ),
-            (
-                Atom('derivedIndices' type=dynamic),
-                #25,
-            ),
-            (
-                Atom('getSearchParameters' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-        ],
-        (
             Atom('error' type=inline),
             #42,
         ): [
@@ -997,29 +1594,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('Object' type=static),
-            #6,
+            Atom('results' type=inline),
+            #55,
         ): [
             (
-                Atom('derivedParameters' type=dynamic),
-                #25,
+                Atom('key' type=static),
+                #55,
             ),
             (
-                Atom('getSearchParameters' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('parameters' type=dynamic),
-            #39,
-        ): [
-            (
-                Atom('param' type=inline),
-                #39,
-            ),
-            (
-                Atom('derivedHelper' type=dynamic),
-                #39,
+                Atom('client' type=inline),
+                #55,
             ),
         ],
         (
@@ -1032,148 +1616,6 @@ TestSnapshot {
             ),
             (
                 Atom('initialState' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('param' type=inline),
-            #40,
-        ): [
-            (
-                Atom('indexId' type=inline),
-                #40,
-            ),
-        ],
-        (
-            Atom('store' type=inline),
-            #13,
-        ): [
-            (
-                Atom('state' type=inline),
-                #41,
-            ),
-            (
-                Atom('currentState' type=dynamic),
-                #41,
-            ),
-            (
-                Atom('handleSearchSuccess' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('currentState' type=dynamic),
-                #42,
-            ),
-            (
-                Atom('handleSearchError' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('_ref' type=inline),
-                #44,
-            ),
-            (
-                Atom('handleNewSearch' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('metadata' type=dynamic),
-                #60,
-            ),
-            (
-                Atom('onWidgetsUpdate' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('searchState' type=dynamic),
-                #61,
-            ),
-            (
-                Atom('transitionState' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('onExternalStateUpdate' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('onSearchForFacetValues' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('getWidgetsIds' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('initialState' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('resultsState' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('currentState' type=dynamic),
-            #41,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-            (
-                Atom('nextIsSearchStalled' type=dynamic),
-                #41,
-            ),
-            (
-                Atom('resultsFacetValues' type=dynamic),
-                #41,
-            ),
-            (
-                Atom('partialState' type=dynamic),
-                #41,
-            ),
-        ],
-        (
-            Atom('results' type=inline),
-            #55,
-        ): [
-            (
-                Atom('key' type=static),
-                #55,
-            ),
-        ],
-        (
-            Atom('hydrateResultsState' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('Array' type=static),
-                #6,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('algoliasearchHelper' type=dynamic),
-                #1,
-            ),
-        ],
-        (
-            Atom('onWidgetsUpdate' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('widgetsManager' type=dynamic),
                 #13,
             ),
         ],
@@ -1191,66 +1633,11 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('onSearchForFacetValues' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-            (
-                Atom('Math' type=static),
-                #6,
-            ),
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('_obj' type=inline),
-                #1,
-            ),
-        ],
-        (
             Atom('updateIndex' type=dynamic),
             #13,
         ): [
             (
                 Atom('initialSearchParameters' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('handleSearchSuccess' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-            (
-                Atom('store' type=inline),
-                #13,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('stalledSearchTimer' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('getWidgetsIds' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('store' type=inline),
                 #13,
             ),
         ],
@@ -1264,79 +1651,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('swcHelpers' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('derivedIndices' type=dynamic),
-                #25,
-            ),
-            (
-                Atom('getSearchParameters' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('partialState' type=dynamic),
-                #41,
-            ),
-            (
-                Atom('handleSearchSuccess' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('partialState' type=dynamic),
-                #42,
-            ),
-            (
-                Atom('handleSearchError' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('partialState' type=dynamic),
-                #44,
-            ),
-            (
-                Atom('handleNewSearch' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('requestsWithSerializedParams' type=dynamic),
-                #46,
-            ),
-            (
-                Atom('hydrateSearchClient' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('hydrateSearchClientWithMultiIndexRequest' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('hydrateSearchClientWithSingleIndexRequest' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('hydrateResultsState' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('onWidgetsUpdate' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('onExternalStateUpdate' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('onSearchForFacetValues' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-        ],
-        (
             Atom('secondWidget' type=dynamic),
             #8,
         ): [
@@ -1346,34 +1660,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('isSecondWidgetIndex' type=dynamic),
-            #8,
+            Atom('requests' type=dynamic),
+            #46,
         ): [
             (
-                Atom('secondWidget' type=dynamic),
-                #8,
+                Atom('requestsWithSerializedParams' type=dynamic),
+                #46,
             ),
         ],
         (
-            Atom('skipSearch' type=dynamic),
-            #13,
+            Atom('derivedParameters' type=dynamic),
+            #37,
         ): [
             (
-                Atom('skip' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('widgets' type=inline),
-            #34,
-        ): [
-            (
-                Atom('indexId' type=inline),
-                #34,
-            ),
-            (
-                Atom('indices' type=inline),
-                #34,
+                Atom('ref' type=inline),
+                #37,
             ),
         ],
         (
@@ -1391,45 +1692,6 @@ TestSnapshot {
         ],
         (
             Atom('derivedParameters' type=dynamic),
-            #37,
-        ): [
-            (
-                Atom('ref' type=inline),
-                #37,
-            ),
-        ],
-        (
-            Atom('firstWidget' type=dynamic),
-            #8,
-        ): [
-            (
-                Atom('isFirstWidgetIndex' type=dynamic),
-                #8,
-            ),
-        ],
-        (
-            Atom('initialSearchParameters' type=dynamic),
-            #13,
-        ): [
-            (
-                Atom('sharedParameters' type=dynamic),
-                #25,
-            ),
-            (
-                Atom('getSearchParameters' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('updateIndex' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('helper' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('derivedParameters' type=dynamic),
             #25,
         ): [
             (
@@ -1443,15 +1705,6 @@ TestSnapshot {
             (
                 Atom('derivedIndices' type=dynamic),
                 #25,
-            ),
-        ],
-        (
-            Atom('widget' type=inline),
-            #34,
-        ): [
-            (
-                Atom('indexId' type=inline),
-                #34,
             ),
         ],
         (
@@ -1477,6 +1730,24 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('args' type=inline),
+            #11,
+        ): [
+            (
+                Atom('_key' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('facetName' type=dynamic),
+            #65,
+        ): [
+            (
+                Atom('param' type=inline),
+                #65,
+            ),
+        ],
+        (
             Atom('sharedParameters' type=dynamic),
             #25,
         ): [
@@ -1498,66 +1769,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('widget' type=inline),
-            #30,
-        ): [
-            (
-                Atom('targetedIndexEqualMainIndex' type=dynamic),
-                #30,
-            ),
-            (
-                Atom('subIndexEqualMainIndex' type=dynamic),
-                #30,
-            ),
-        ],
-        (
-            Atom('param' type=inline),
+            Atom('getMetadata' type=dynamic),
             #13,
         ): [
             (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('_initialState' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('searchClient' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('resultsState' type=dynamic),
-                #13,
-            ),
-            (
-                Atom('stalledSearchDelay' type=dynamic),
-                #13,
-            ),
-        ],
-        (
-            Atom('derivedIndices' type=dynamic),
-            #25,
-        ): [
-            (
-                Atom('sortIndexWidgetsFirst' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('indexName' type=dynamic),
-                #13,
-            ),
-            (
                 Atom('widgetsManager' type=dynamic),
                 #13,
-            ),
-            (
-                Atom('swcHelpers' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('derivedParameters' type=dynamic),
-                #25,
             ),
         ],
     },
@@ -2401,7 +2618,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -2477,25 +2694,23 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
+                var_kind: None,
+                var_initialized: false,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
                 used_as_callee: false,
@@ -2664,7 +2879,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 2,
                 usage_count: 12,
                 reassigned_with_assignment: false,
@@ -2674,7 +2889,7 @@ TestSnapshot {
                 has_property_mutation: true,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
@@ -2701,7 +2916,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -2711,8 +2926,8 @@ TestSnapshot {
                 has_property_mutation: true,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -2738,7 +2953,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -2748,8 +2963,8 @@ TestSnapshot {
                 has_property_mutation: true,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3447,18 +3662,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -4672,7 +4887,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -4682,15 +4897,13 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
+                var_kind: None,
+                var_initialized: false,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
                 used_as_callee: false,
@@ -5732,7 +5945,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 2,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -5808,7 +6021,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -5818,11 +6031,11 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -5993,12 +6206,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -6326,21 +6539,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,

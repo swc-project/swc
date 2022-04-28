@@ -1,19 +1,6 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('a' type=inline),
-            #2,
-        ): [
-            (
-                Atom('c' type=inline),
-                #2,
-            ),
-            (
-                Atom('b' type=inline),
-                #2,
-            ),
-        ],
-        (
             Atom('b' type=inline),
             #2,
         ): [
@@ -32,6 +19,19 @@ TestSnapshot {
         ): [
             (
                 Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #2,
+        ): [
+            (
+                Atom('b' type=inline),
+                #2,
+            ),
+            (
+                Atom('c' type=inline),
                 #2,
             ),
         ],

@@ -8,6 +8,10 @@ TestSnapshot {
                 Atom('array' type=inline),
                 #3,
             ),
+            (
+                Atom('from' type=static),
+                #3,
+            ),
         ],
         (
             Atom('array' type=inline),
@@ -16,6 +20,33 @@ TestSnapshot {
             (
                 Atom('len' type=inline),
                 #3,
+            ),
+        ],
+        (
+            Atom('Native' type=inline),
+            #1,
+        ): [
+            (
+                Atom('YArray' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('from' type=static),
+            #3,
+        ): [
+            (
+                Atom('len' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('YArray' type=inline),
+            #1,
+        ): [
+            (
+                Atom('Native' type=inline),
+                #1,
             ),
         ],
     },
@@ -218,12 +249,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 5,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -329,12 +360,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 5,
                 mutation_by_call_count: 0,
-                usage_count: 2,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},

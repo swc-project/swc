@@ -25,6 +25,10 @@ TestSnapshot {
                 Atom('C' type=inline),
                 #3,
             ),
+            (
+                Atom('window' type=inline),
+                #2,
+            ),
         ],
         (
             Atom('A' type=inline),

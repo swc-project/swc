@@ -1,5 +1,24 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('e' type=inline),
+            #4,
+        ): [
+            (
+                Atom('bad' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('bad' type=inline),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #4,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -88,7 +107,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -98,8 +117,8 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,

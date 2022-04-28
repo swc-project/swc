@@ -5,14 +5,31 @@ TestSnapshot {
             #3,
         ): [
             (
+                Atom('_' type=inline),
+                #1,
+            ),
+            (
                 Atom('func' type=inline),
                 #3,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #1,
             ),
         ],
         (
             Atom('obj' type=inline),
             #2,
         ): [
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
             (
                 Atom('func' type=inline),
                 #3,
@@ -23,8 +40,37 @@ TestSnapshot {
             #1,
         ): [
             (
+                Atom('name' type=inline),
+                #3,
+            ),
+            (
+                Atom('obj' type=inline),
+                #2,
+            ),
+            (
                 Atom('func' type=inline),
                 #3,
+            ),
+            (
+                Atom('result' type=inline),
+                #1,
+            ),
+            (
+                Atom('push' type=inline),
+                #1,
+            ),
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('push' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #1,
             ),
         ],
         (

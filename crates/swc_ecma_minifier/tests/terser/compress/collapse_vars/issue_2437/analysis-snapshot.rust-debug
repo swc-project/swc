@@ -1,6 +1,15 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('detectFunc' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('req' type=inline),
+                #2,
+            ),
+        ],
+        (
             Atom('result' type=inline),
             #2,
         ): [
@@ -15,6 +24,10 @@ TestSnapshot {
         ): [
             (
                 Atom('result' type=inline),
+                #2,
+            ),
+            (
+                Atom('detectFunc' type=dynamic),
                 #2,
             ),
         ],

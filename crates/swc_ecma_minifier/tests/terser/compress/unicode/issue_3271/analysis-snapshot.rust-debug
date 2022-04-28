@@ -10,11 +10,24 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('buf' type=inline),
+            #2,
+        ): [
+            (
+                Atom('c' type=inline),
+                #2,
+            ),
+        ],
+        (
             Atom('c' type=inline),
             #2,
         ): [
             (
                 Atom('str' type=inline),
+                #2,
+            ),
+            (
+                Atom('buf' type=inline),
                 #2,
             ),
         ],

@@ -14,6 +14,10 @@ TestSnapshot {
             #7,
         ): [
             (
+                Atom('x' type=inline),
+                #7,
+            ),
+            (
                 Atom('c' type=inline),
                 #7,
             ),
@@ -22,6 +26,10 @@ TestSnapshot {
             Atom('v' type=inline),
             #9,
         ): [
+            (
+                Atom('x' type=inline),
+                #9,
+            ),
             (
                 Atom('c' type=inline),
                 #9,
@@ -41,6 +49,10 @@ TestSnapshot {
             #11,
         ): [
             (
+                Atom('w' type=inline),
+                #11,
+            ),
+            (
                 Atom('b' type=inline),
                 #11,
             ),
@@ -49,6 +61,10 @@ TestSnapshot {
             Atom('w' type=inline),
             #7,
         ): [
+            (
+                Atom('x' type=inline),
+                #7,
+            ),
             (
                 Atom('b' type=inline),
                 #7,
@@ -71,6 +87,10 @@ TestSnapshot {
             Atom('w' type=inline),
             #9,
         ): [
+            (
+                Atom('x' type=inline),
+                #9,
+            ),
             (
                 Atom('b' type=inline),
                 #9,
@@ -103,6 +123,14 @@ TestSnapshot {
             #7,
         ): [
             (
+                Atom('v' type=inline),
+                #7,
+            ),
+            (
+                Atom('w' type=inline),
+                #7,
+            ),
+            (
                 Atom('c' type=inline),
                 #7,
             ),
@@ -124,6 +152,14 @@ TestSnapshot {
             Atom('x' type=inline),
             #9,
         ): [
+            (
+                Atom('v' type=inline),
+                #9,
+            ),
+            (
+                Atom('w' type=inline),
+                #9,
+            ),
             (
                 Atom('c' type=inline),
                 #9,
@@ -190,6 +226,10 @@ TestSnapshot {
             #10,
         ): [
             (
+                Atom('x' type=inline),
+                #10,
+            ),
+            (
                 Atom('b' type=inline),
                 #10,
             ),
@@ -198,6 +238,10 @@ TestSnapshot {
             Atom('w' type=inline),
             #12,
         ): [
+            (
+                Atom('x' type=inline),
+                #12,
+            ),
             (
                 Atom('b' type=inline),
                 #12,
@@ -288,6 +332,10 @@ TestSnapshot {
             #10,
         ): [
             (
+                Atom('w' type=inline),
+                #10,
+            ),
+            (
                 Atom('b' type=inline),
                 #10,
             ),
@@ -297,6 +345,10 @@ TestSnapshot {
             #11,
         ): [
             (
+                Atom('x' type=inline),
+                #11,
+            ),
+            (
                 Atom('b' type=inline),
                 #11,
             ),
@@ -305,6 +357,10 @@ TestSnapshot {
             Atom('x' type=inline),
             #12,
         ): [
+            (
+                Atom('w' type=inline),
+                #12,
+            ),
             (
                 Atom('b' type=inline),
                 #12,

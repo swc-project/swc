@@ -1,5 +1,33 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('Infinity' type=static),
+            #2,
+        ): [
+            (
+                Atom('Infinity' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #2,
+        ): [
+            (
+                Atom('NaN' type=static),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

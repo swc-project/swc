@@ -1,21 +1,47 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('obj' type=inline),
-            #1,
-        ): [
-            (
-                Atom('jQuery' type=inline),
-                #3,
-            ),
-        ],
-        (
             Atom('jQuery' type=inline),
             #3,
         ): [
             (
                 Atom('obj' type=inline),
                 #1,
+            ),
+        ],
+        (
+            Atom('dataAndEvents' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('dataAndEvents' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('deepDataAndEvents' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('deepDataAndEvents' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('dataAndEvents' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('deepDataAndEvents' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
             ),
         ],
     },
@@ -33,7 +59,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 1,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -70,7 +96,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 1,
                 usage_count: 3,
                 reassigned_with_assignment: true,

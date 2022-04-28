@@ -5,6 +5,23 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('result' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #2,
+        ): [
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+            (
                 Atom('result' type=inline),
                 #2,
             ),
@@ -19,15 +36,6 @@ TestSnapshot {
             ),
             (
                 Atom('x' type=inline),
-                #2,
-            ),
-        ],
-        (
-            Atom('x' type=inline),
-            #2,
-        ): [
-            (
-                Atom('result' type=inline),
                 #2,
             ),
         ],

@@ -1,6 +1,15 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('callValidate' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('validate' type=dynamic),
+                #2,
+            ),
+        ],
+        (
             Atom('validate' type=dynamic),
             #2,
         ): [
@@ -11,6 +20,10 @@ TestSnapshot {
             (
                 Atom('result' type=inline),
                 #2,
+            ),
+            (
+                Atom('callValidate' type=dynamic),
+                #1,
             ),
         ],
         (

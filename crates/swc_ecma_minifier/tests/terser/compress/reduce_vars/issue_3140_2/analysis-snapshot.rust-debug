@@ -1,5 +1,63 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('h' type=inline),
+            #2,
+        ): [
+            (
+                Atom('g' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('console' type=inline),
+            #3,
+        ): [
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #1,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+            (
+                Atom('a' type=inline),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #1,
+        ): [
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #2,
+        ): [
+            (
+                Atom('h' type=inline),
+                #2,
+            ),
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -53,12 +111,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -90,7 +148,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -101,7 +159,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -127,12 +185,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: true,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -164,7 +222,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,

@@ -1,5 +1,33 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('self' type=inline),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

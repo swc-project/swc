@@ -1,6 +1,33 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('_N_E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('window' type=inline),
+            #1,
+        ): [
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+        ],
+        (
             Atom('__webpack_exports__' type=dynamic),
             #4,
         ): [
@@ -8,11 +35,37 @@ TestSnapshot {
                 Atom('__webpack_require__' type=dynamic),
                 #4,
             ),
+            (
+                Atom('_N_E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
         ],
         (
             Atom('__webpack_require__' type=dynamic),
             #4,
         ): [
+            (
+                Atom('moduleId' type=dynamic),
+                #5,
+            ),
             (
                 Atom('__webpack_exec__' type=dynamic),
                 #4,
@@ -25,6 +78,15 @@ TestSnapshot {
         (
             Atom('__webpack_exec__' type=dynamic),
             #4,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('moduleId' type=dynamic),
+            #5,
         ): [
             (
                 Atom('__webpack_require__' type=dynamic),
@@ -194,7 +256,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -270,7 +332,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -383,7 +445,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -420,7 +482,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,

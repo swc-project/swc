@@ -10,16 +10,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('fired' type=inline),
-            #3,
+            Atom('context' type=inline),
+            #2,
         ): [
             (
-                Atom('obj' type=inline),
-                #1,
+                Atom('args' type=inline),
+                #2,
             ),
         ],
         (
-            Atom('stack' type=inline),
+            Atom('fired' type=inline),
             #3,
         ): [
             (
@@ -46,6 +46,28 @@ TestSnapshot {
             (
                 Atom('list' type=inline),
                 #3,
+            ),
+        ],
+        (
+            Atom('stack' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('args' type=inline),
+                #2,
+            ),
+            (
+                Atom('context' type=inline),
+                #2,
             ),
         ],
         (
@@ -109,12 +131,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},

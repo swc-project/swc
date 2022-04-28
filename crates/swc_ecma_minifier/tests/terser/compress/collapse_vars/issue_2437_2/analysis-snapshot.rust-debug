@@ -1,5 +1,24 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('detectFunc' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('req' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('req' type=inline),
+            #3,
+        ): [
+            (
+                Atom('detectFunc' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

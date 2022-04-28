@@ -10,6 +10,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('options' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #2,
+            ),
+        ],
+        (
             Atom('History' type=static),
             #3,
         ): [

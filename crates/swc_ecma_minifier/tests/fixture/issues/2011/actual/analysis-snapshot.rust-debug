@@ -10,8 +10,26 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('ClassA' type=inline),
-            #7,
+            Atom('obj' type=inline),
+            #6,
+        ): [
+            (
+                Atom('value' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #6,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #3,
         ): [
             (
                 Atom('ClassA' type=inline),
@@ -30,6 +48,19 @@ TestSnapshot {
                 Atom('i' type=inline),
                 #4,
             ),
+            (
+                Atom('descriptor' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('ClassA' type=inline),
+            #7,
+        ): [
+            (
+                Atom('ClassA' type=inline),
+                #1,
+            ),
         ],
         (
             Atom('i' type=inline),
@@ -47,6 +78,10 @@ TestSnapshot {
             (
                 Atom('ClassA' type=inline),
                 #7,
+            ),
+            (
+                Atom('module' type=static),
+                #3,
             ),
         ],
     },

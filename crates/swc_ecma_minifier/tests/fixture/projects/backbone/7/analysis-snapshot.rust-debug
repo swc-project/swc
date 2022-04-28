@@ -8,9 +8,22 @@ TestSnapshot {
                 Atom('success' type=inline),
                 #2,
             ),
+            (
+                Atom('collection' type=dynamic),
+                #2,
+            ),
         ],
         (
             Atom('success' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('collection' type=dynamic),
             #2,
         ): [
             (

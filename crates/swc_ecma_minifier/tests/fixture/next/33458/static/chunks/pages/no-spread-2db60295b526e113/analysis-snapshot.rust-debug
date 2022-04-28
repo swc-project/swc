@@ -19,6 +19,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('window' type=inline),
+            #1,
+        ): [
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+        ],
+        (
             Atom('param' type=inline),
             #5,
         ): [
@@ -41,6 +50,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('components_Form' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Form' type=inline),
+                #3,
+            ),
+        ],
+        (
             Atom('value' type=inline),
             #4,
         ): [
@@ -50,12 +68,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('ContainerNoSpread' type=dynamic),
-            #6,
+            Atom('self' type=inline),
+            #1,
         ): [
             (
-                Atom('NoSpread' type=dynamic),
-                #6,
+                Atom('self' type=inline),
+                #1,
             ),
         ],
         (
@@ -68,15 +86,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('components_Form' type=dynamic),
-            #3,
-        ): [
-            (
-                Atom('Form' type=inline),
-                #3,
-            ),
-        ],
-        (
             Atom('components_Input' type=dynamic),
             #3,
         ): [
@@ -86,20 +95,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('ref' type=inline),
-            #8,
+            Atom('ContainerNoSpread' type=dynamic),
+            #6,
         ): [
             (
-                Atom('react' type=inline),
+                Atom('NoSpread' type=dynamic),
                 #6,
-            ),
-            (
-                Atom('text' type=inline),
-                #8,
-            ),
-            (
-                Atom('setText' type=inline),
-                #8,
             ),
         ],
         (
@@ -134,21 +135,29 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('handleChange' type=dynamic),
+            Atom('ref' type=inline),
             #8,
         ): [
             (
                 Atom('react' type=inline),
                 #6,
             ),
+            (
+                Atom('text' type=inline),
+                #8,
+            ),
+            (
+                Atom('setText' type=inline),
+                #8,
+            ),
         ],
         (
-            Atom('__webpack_exports__' type=dynamic),
-            #10,
+            Atom('handleChange' type=dynamic),
+            #8,
         ): [
             (
-                Atom('__webpack_require__' type=dynamic),
-                #10,
+                Atom('react' type=inline),
+                #6,
             ),
         ],
         (
@@ -167,6 +176,37 @@ TestSnapshot {
             (
                 Atom('param' type=inline),
                 #4,
+            ),
+        ],
+        (
+            Atom('moduleId' type=dynamic),
+            #11,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_N_E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('_N_E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #10,
             ),
         ],
         (
@@ -226,6 +266,10 @@ TestSnapshot {
             Atom('__webpack_require__' type=dynamic),
             #10,
         ): [
+            (
+                Atom('moduleId' type=dynamic),
+                #11,
+            ),
             (
                 Atom('__webpack_exec__' type=dynamic),
                 #10,
@@ -661,7 +705,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -774,7 +818,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -924,7 +968,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -1228,7 +1272,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,

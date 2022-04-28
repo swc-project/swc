@@ -27,24 +27,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('BrowserLoaded' type=dynamic),
-            #10,
+            Atom('self' type=inline),
+            #1,
         ): [
             (
-                Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_2__' type=dynamic),
-                #10,
-            ),
-            (
-                Atom('_callee' type=inline),
-                #11,
-            ),
-            (
-                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
-                #10,
-            ),
-            (
-                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
-                #10,
+                Atom('self' type=inline),
+                #1,
             ),
         ],
         (
@@ -88,6 +76,31 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('BrowserLoaded' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_2__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_callee' type=inline),
+                #11,
+            ),
+            (
+                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #10,
+            ),
+        ],
+        (
             Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_2__' type=dynamic),
             #10,
         ): [
@@ -97,11 +110,33 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('_context' type=dynamic),
+            #12,
+        ): [
+            (
+                Atom('_context' type=dynamic),
+                #12,
+            ),
+        ],
+        (
             Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
             #10,
         ): [
             (
                 Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
                 #10,
             ),
         ],
@@ -165,6 +200,10 @@ TestSnapshot {
         ): [
             (
                 Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
                 #10,
             ),
         ],

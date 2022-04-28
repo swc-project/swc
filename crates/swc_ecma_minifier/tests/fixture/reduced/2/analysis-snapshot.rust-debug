@@ -14,6 +14,10 @@ TestSnapshot {
             #3,
         ): [
             (
+                Atom('it' type=inline),
+                #2,
+            ),
+            (
                 Atom('properties' type=dynamic),
                 #2,
             ),
@@ -79,16 +83,11 @@ TestSnapshot {
             #2,
         ): [
             (
-                Atom('valid' type=inline),
+                Atom('it' type=inline),
                 #2,
             ),
-        ],
-        (
-            Atom('it' type=inline),
-            #2,
-        ): [
             (
-                Atom('properties' type=dynamic),
+                Atom('valid' type=inline),
                 #2,
             ),
         ],
@@ -102,6 +101,35 @@ TestSnapshot {
             ),
             (
                 Atom('schema' type=inline),
+                #2,
+            ),
+            (
+                Atom('it' type=inline),
+                #2,
+            ),
+            (
+                Atom('properties' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('it' type=inline),
+            #2,
+        ): [
+            (
+                Atom('util_1' type=inline),
+                #3,
+            ),
+            (
+                Atom('gen' type=inline),
+                #2,
+            ),
+            (
+                Atom('allProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('it' type=inline),
                 #2,
             ),
             (

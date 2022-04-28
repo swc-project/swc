@@ -14,6 +14,10 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('type' type=static),
+                #2,
+            ),
+            (
                 Atom('events' type=inline),
                 #2,
             ),
@@ -32,8 +36,25 @@ TestSnapshot {
             #3,
         ): [
             (
+                Atom('args' type=inline),
+                #2,
+            ),
+            (
                 Atom('exported' type=dynamic),
                 #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Array' type=static),
+                #3,
+            ),
+            (
+                Atom('args' type=inline),
+                #2,
             ),
         ],
     },
@@ -51,12 +72,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -199,21 +220,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 0,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
-                used_by_nested_fn: false,
+                is_fn_local: false,
+                used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: Some(
                     "const",
                 ),

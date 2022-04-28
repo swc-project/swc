@@ -5,6 +5,10 @@ TestSnapshot {
             #4,
         ): [
             (
+                Atom('test1' type=inline),
+                #2,
+            ),
+            (
                 Atom('tokenCodes' type=dynamic),
                 #1,
             ),
@@ -14,6 +18,10 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('value' type=inline),
+                #5,
+            ),
+            (
                 Atom('tokenCodes' type=dynamic),
                 #1,
             ),
@@ -22,6 +30,10 @@ TestSnapshot {
             Atom('value' type=inline),
             #3,
         ): [
+            (
+                Atom('test0' type=inline),
+                #2,
+            ),
             (
                 Atom('tokenCodes' type=dynamic),
                 #1,
@@ -61,6 +73,10 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('value' type=inline),
+                #3,
+            ),
+            (
                 Atom('tokenCodes' type=dynamic),
                 #1,
             ),
@@ -70,6 +86,10 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('value' type=inline),
+                #4,
+            ),
+            (
                 Atom('tokenCodes' type=dynamic),
                 #1,
             ),
@@ -78,6 +98,10 @@ TestSnapshot {
             Atom('value' type=inline),
             #5,
         ): [
+            (
+                Atom('test2' type=inline),
+                #2,
+            ),
             (
                 Atom('tokenCodes' type=dynamic),
                 #1,

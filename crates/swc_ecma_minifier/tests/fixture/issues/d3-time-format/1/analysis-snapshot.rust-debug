@@ -1,43 +1,28 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('shortMonthRe' type=dynamic),
-            #6,
+            Atom('c' type=inline),
+            #8,
         ): [
             (
-                Atom('locale_shortMonths' type=dynamic),
-                #6,
+                Atom('i' type=inline),
+                #8,
             ),
             (
-                Atom('n' type=inline),
-                #15,
+                Atom('specifier' type=dynamic),
+                #7,
             ),
-        ],
-        (
-            Atom('formatZone' type=dynamic),
-            #1,
-        ): [
             (
-                Atom('formats' type=inline),
-                #6,
+                Atom('pad' type=inline),
+                #8,
             ),
-        ],
-        (
-            Atom('formatUTCMilliseconds' type=dynamic),
-            #1,
-        ): [
             (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                Atom('format' type=inline),
+                #8,
             ),
-        ],
-        (
-            Atom('formatUTCWeekdayNumberSunday' type=dynamic),
-            #1,
-        ): [
             (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                Atom('date' type=inline),
+                #8,
             ),
         ],
         (
@@ -47,15 +32,6 @@ TestSnapshot {
             (
                 Atom('n' type=inline),
                 #15,
-            ),
-        ],
-        (
-            Atom('parseMicroseconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
             ),
         ],
         (
@@ -87,41 +63,6 @@ TestSnapshot {
             (
                 Atom('n' type=inline),
                 #12,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #52,
-        ): [
-            (
-                Atom('n' type=inline),
-                #52,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #43,
-        ): [
-            (
-                Atom('n' type=inline),
-                #43,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #57,
-        ): [
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('string' type=static),
-                #57,
-            ),
-            (
-                Atom('i' type=inline),
-                #57,
             ),
         ],
         (
@@ -160,42 +101,11 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('specifier' type=dynamic),
-            #9,
-        ): [
-            (
-                Atom('i' type=inline),
-                #10,
-            ),
-        ],
-        (
-            Atom('f' type=inline),
-            #34,
-        ): [
-            (
-                Atom('specifier' type=dynamic),
-                #34,
-            ),
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
             Atom('formatUTCMonthNumber' type=dynamic),
             #1,
         ): [
             (
                 Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('parseDayOfYear' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
                 #6,
             ),
         ],
@@ -222,23 +132,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('i' type=inline),
-            #10,
-        ): [
-            (
-                Atom('specifier' type=dynamic),
-                #9,
-            ),
-            (
-                Atom('d' type=inline),
-                #10,
-            ),
-            (
-                Atom('string' type=static),
-                #10,
-            ),
-        ],
-        (
             Atom('n' type=inline),
             #12,
         ): [
@@ -254,59 +147,9 @@ TestSnapshot {
                 Atom('periodRe' type=dynamic),
                 #6,
             ),
-        ],
-        (
-            Atom('string' type=static),
-            #44,
-        ): [
-            (
-                Atom('n' type=inline),
-                #44,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #51,
-        ): [
-            (
-                Atom('n' type=inline),
-                #51,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #11,
-        ): [
-            (
-                Atom('m' type=inline),
-                #11,
-            ),
-        ],
-        (
-            Atom('d' type=inline),
-            #4,
-        ): [
-            (
-                Atom('date' type=inline),
-                #4,
-            ),
-        ],
-        (
-            Atom('formatUTCQuarter' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('day' type=inline),
-            #70,
-        ): [
             (
                 Atom('d' type=inline),
-                #70,
+                #12,
             ),
         ],
         (
@@ -345,79 +188,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('periodLookup' type=dynamic),
-            #6,
+            Atom('formats' type=inline),
+            #7,
         ): [
             (
-                Atom('locale_periods' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #58,
-        ): [
-            (
-                Atom('n' type=inline),
-                #58,
-            ),
-        ],
-        (
-            Atom('parseWeekNumberMonday' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #13,
-        ): [
-            (
-                Atom('n' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('formatMicroseconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('shortWeekdayRe' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('locale_shortWeekdays' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('n' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('parseShortWeekday' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('parseWeekdayNumberSunday' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
+                Atom('format' type=inline),
+                #8,
             ),
         ],
         (
@@ -426,6 +202,14 @@ TestSnapshot {
         ): [
             (
                 Atom('locale' type=inline),
+                #6,
+            ),
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
                 #6,
             ),
         ],
@@ -465,47 +249,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('string' type=static),
-            #58,
-        ): [
-            (
-                Atom('n' type=inline),
-                #58,
-            ),
-        ],
-        (
-            Atom('specifier' type=dynamic),
-            #7,
-        ): [
-            (
-                Atom('n' type=inline),
-                #8,
-            ),
-        ],
-        (
-            Atom('formatHour24' type=dynamic),
-            #1,
+            Atom('format' type=inline),
+            #8,
         ): [
             (
                 Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #47,
-        ): [
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
+                #7,
             ),
             (
-                Atom('i' type=inline),
-                #47,
-            ),
-            (
-                Atom('string' type=static),
-                #47,
+                Atom('c' type=inline),
+                #8,
             ),
         ],
         (
@@ -525,6 +278,14 @@ TestSnapshot {
                 Atom('n' type=inline),
                 #11,
             ),
+            (
+                Atom('c' type=inline),
+                #11,
+            ),
+            (
+                Atom('parse' type=inline),
+                #11,
+            ),
         ],
         (
             Atom('f' type=inline),
@@ -540,21 +301,34 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('monthLookup' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('locale_months' type=dynamic),
-                #6,
-            ),
-        ],
-        (
             Atom('i' type=inline),
             #49,
         ): [
             (
                 Atom('n' type=inline),
                 #49,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #8,
+        ): [
+            (
+                Atom('c' type=inline),
+                #8,
+            ),
+            (
+                Atom('pad' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('timeThursday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('d' type=inline),
+                #79,
             ),
         ],
         (
@@ -575,59 +349,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('locale_shortWeekdays' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('locale' type=inline),
-                #6,
-            ),
-            (
-                Atom('shortWeekdayRe' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('shortWeekdayLookup' type=dynamic),
-                #6,
-            ),
-        ],
-        (
             Atom('parseLocaleTime' type=dynamic),
             #6,
         ): [
             (
                 Atom('parses' type=inline),
                 #6,
-            ),
-        ],
-        (
-            Atom('d' type=inline),
-            #10,
-        ): [
-            (
-                Atom('undefined' type=static),
-                #3,
-            ),
-            (
-                Atom('i' type=inline),
-                #10,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #14,
-        ): [
-            (
-                Atom('i' type=inline),
-                #14,
-            ),
-            (
-                Atom('weekdayRe' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('string' type=static),
-                #14,
             ),
         ],
         (
@@ -676,46 +403,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('date' type=inline),
-            #4,
-        ): [
-            (
-                Atom('Date' type=static),
-                #3,
-            ),
-            (
-                Atom('d' type=inline),
-                #4,
-            ),
-        ],
-        (
-            Atom('formatWeekdayNumberMonday' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('parseWeekday' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #49,
-        ): [
-            (
-                Atom('n' type=inline),
-                #49,
-            ),
-        ],
-        (
             Atom('n' type=inline),
             #42,
         ): [
@@ -733,47 +420,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('n' type=inline),
-            #54,
-        ): [
-            (
-                Atom('i' type=inline),
-                #54,
-            ),
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('string' type=static),
-                #54,
-            ),
-        ],
-        (
             Atom('i' type=inline),
             #56,
         ): [
             (
                 Atom('n' type=inline),
                 #56,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #41,
-        ): [
-            (
-                Atom('n' type=inline),
-                #41,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #16,
-        ): [
-            (
-                Atom('n' type=inline),
-                #16,
             ),
         ],
         (
@@ -786,21 +438,20 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('d' type=inline),
-            #72,
+            Atom('j' type=inline),
+            #11,
         ): [
             (
-                Atom('day' type=inline),
-                #72,
+                Atom('string' type=static),
+                #11,
             ),
-        ],
-        (
-            Atom('shortMonthLookup' type=dynamic),
-            #6,
-        ): [
             (
-                Atom('locale_shortMonths' type=dynamic),
-                #6,
+                Atom('j' type=inline),
+                #11,
+            ),
+            (
+                Atom('d' type=inline),
+                #11,
             ),
         ],
         (
@@ -920,8 +571,37 @@ TestSnapshot {
                 #6,
             ),
             (
+                Atom('locale_date' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('locale_time' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('locale_dateTime' type=dynamic),
+                #6,
+            ),
+            (
                 Atom('f' type=inline),
                 #34,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #13,
+        ): [
+            (
+                Atom('n' type=inline),
+                #13,
+            ),
+            (
+                Atom('shortWeekdayLookup' type=dynamic),
+                #6,
             ),
         ],
         (
@@ -934,30 +614,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatWeekNumberISO' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
             Atom('parseMonth' type=dynamic),
             #6,
         ): [
             (
                 Atom('parses' type=inline),
                 #6,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #47,
-        ): [
-            (
-                Atom('n' type=inline),
-                #47,
             ),
         ],
         (
@@ -984,6 +646,1521 @@ TestSnapshot {
             (
                 Atom('i' type=inline),
                 #49,
+            ),
+        ],
+        (
+            Atom('formatDayOfMonth' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatYear' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCDayOfYear' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #16,
+        ): [
+            (
+                Atom('string' type=static),
+                #16,
+            ),
+            (
+                Atom('i' type=inline),
+                #16,
+            ),
+            (
+                Atom('monthRe' type=inline),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('formatUnixTimestampSeconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatQuarter' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #42,
+        ): [
+            (
+                Atom('n' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('formatShortMonth' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseSeconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #51,
+        ): [
+            (
+                Atom('n' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #56,
+        ): [
+            (
+                Atom('string' type=static),
+                #56,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('formatMonthNumber' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatSeconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatMilliseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #43,
+        ): [
+            (
+                Atom('n' type=inline),
+                #43,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #50,
+        ): [
+            (
+                Atom('n' type=inline),
+                #50,
+            ),
+        ],
+        (
+            Atom('timeMonday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('week' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('formatWeekday' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #10,
+        ): [
+            (
+                Atom('i' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('parseUnixTimestampSeconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #45,
+        ): [
+            (
+                Atom('n' type=inline),
+                #45,
+            ),
+        ],
+        (
+            Atom('formatUnixTimestamp' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCMicroseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #53,
+        ): [
+            (
+                Atom('n' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #11,
+        ): [
+            (
+                Atom('i' type=inline),
+                #11,
+            ),
+            (
+                Atom('specifier' type=dynamic),
+                #11,
+            ),
+            (
+                Atom('parse' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('parseLocaleDateTime' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #12,
+        ): [
+            (
+                Atom('n' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #92,
+        ): [
+            (
+                Atom('d' type=inline),
+                #92,
+            ),
+        ],
+        (
+            Atom('formatMonth' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatYearISO' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #2,
+        ): [
+            (
+                Atom('date' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCShortWeekday' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCSeconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('percentRe' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('n' type=inline),
+                #58,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #57,
+        ): [
+            (
+                Atom('n' type=inline),
+                #57,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #46,
+        ): [
+            (
+                Atom('i' type=inline),
+                #46,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('string' type=static),
+                #46,
+            ),
+        ],
+        (
+            Atom('parse' type=inline),
+            #11,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+            (
+                Atom('i' type=inline),
+                #11,
+            ),
+            (
+                Atom('c' type=inline),
+                #11,
+            ),
+            (
+                Atom('specifier' type=dynamic),
+                #11,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #60,
+        ): [
+            (
+                Atom('n' type=inline),
+                #60,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #97,
+        ): [
+            (
+                Atom('d' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('utcThursday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('d' type=inline),
+                #99,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #13,
+        ): [
+            (
+                Atom('shortWeekdayRe' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('string' type=static),
+                #13,
+            ),
+            (
+                Atom('i' type=inline),
+                #13,
+            ),
+            (
+                Atom('d' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('parseZone' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCZone' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseMilliseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseYear' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('utcMonday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('week' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #48,
+        ): [
+            (
+                Atom('n' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('Date' type=static),
+            #3,
+        ): [
+            (
+                Atom('date' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('formats' type=inline),
+            #6,
+        ): [
+            (
+                Atom('formatHour12' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatMilliseconds' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatSeconds' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekNumberSunday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekNumberISO' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekdayNumberSunday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatZone' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatLiteralPercent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekday' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formatDayOfYear' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatFullYear' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatDayOfMonth' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatUnixTimestamp' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatMicroseconds' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekdayNumberMonday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatWeekNumberMonday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatYear' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatFullYearISO' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatShortWeekday' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formatUnixTimestampSeconds' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatPeriod' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formatMinutes' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatShortMonth' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formatMonth' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formatYearISO' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatHour24' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatMonthNumber' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('formatQuarter' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('locale_date' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+            (
+                Atom('locale_time' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('locale_dateTime' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('f' type=inline),
+                #32,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #53,
+        ): [
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('string' type=static),
+                #53,
+            ),
+            (
+                Atom('i' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #16,
+        ): [
+            (
+                Atom('n' type=inline),
+                #16,
+            ),
+            (
+                Atom('monthLookup' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #79,
+        ): [
+            (
+                Atom('day' type=inline),
+                #79,
+            ),
+            (
+                Atom('timeThursday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #79,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #80,
+        ): [
+            (
+                Atom('d' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('parseMinutes' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #35,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #46,
+        ): [
+            (
+                Atom('n' type=inline),
+                #46,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #55,
+        ): [
+            (
+                Atom('n' type=inline),
+                #55,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #60,
+        ): [
+            (
+                Atom('string' type=static),
+                #60,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #60,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekNumberSunday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #47,
+        ): [
+            (
+                Atom('n' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #54,
+        ): [
+            (
+                Atom('n' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('formatUTCMonth' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #11,
+        ): [
+            (
+                Atom('string' type=static),
+                #11,
+            ),
+        ],
+        (
+            Atom('formatMinutes' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('weekdayLookup' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_weekdays' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #14,
+        ): [
+            (
+                Atom('n' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('formatUTCYearISO' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #10,
+        ): [
+            (
+                Atom('week' type=inline),
+                #10,
+            ),
+            (
+                Atom('d' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('formatUTCFullYear' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #43,
+        ): [
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #43,
+            ),
+            (
+                Atom('string' type=static),
+                #43,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #57,
+        ): [
+            (
+                Atom('n' type=inline),
+                #57,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #93,
+        ): [
+            (
+                Atom('d' type=inline),
+                #93,
+            ),
+        ],
+        (
+            Atom('parseLiteralPercent' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #14,
+        ): [
+            (
+                Atom('weekdayLookup' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('n' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #34,
+        ): [
+            (
+                Atom('f' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #72,
+        ): [
+            (
+                Atom('d' type=inline),
+                #72,
+            ),
+        ],
+        (
+            Atom('formatShortWeekday' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('shortWeekdayLookup' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_shortWeekdays' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #50,
+        ): [
+            (
+                Atom('i' type=inline),
+                #50,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('string' type=static),
+                #50,
+            ),
+        ],
+        (
+            Atom('locale_time' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #6,
+            ),
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('pads' type=inline),
+            #1,
+        ): [
+            (
+                Atom('pad' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('shortMonthRe' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_shortMonths' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('n' type=inline),
+                #15,
+            ),
+        ],
+        (
+            Atom('formatZone' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCMilliseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekdayNumberSunday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseMicroseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #52,
+        ): [
+            (
+                Atom('n' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #43,
+        ): [
+            (
+                Atom('n' type=inline),
+                #43,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #57,
+        ): [
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('string' type=static),
+                #57,
+            ),
+            (
+                Atom('i' type=inline),
+                #57,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #44,
+        ): [
+            (
+                Atom('n' type=inline),
+                #44,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #9,
+        ): [
+            (
+                Atom('i' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #34,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #34,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseDayOfYear' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #10,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #9,
+            ),
+            (
+                Atom('d' type=inline),
+                #10,
+            ),
+            (
+                Atom('string' type=static),
+                #10,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #51,
+        ): [
+            (
+                Atom('n' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #70,
+        ): [
+            (
+                Atom('d' type=inline),
+                #70,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #11,
+        ): [
+            (
+                Atom('m' type=inline),
+                #11,
+            ),
+            (
+                Atom('j' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #4,
+        ): [
+            (
+                Atom('date' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('formatUTCQuarter' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('periodLookup' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_periods' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #58,
+        ): [
+            (
+                Atom('n' type=inline),
+                #58,
+            ),
+        ],
+        (
+            Atom('parseWeekNumberMonday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #13,
+        ): [
+            (
+                Atom('n' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('formatMicroseconds' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('shortWeekdayRe' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_shortWeekdays' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('n' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('parseShortWeekday' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseWeekdayNumberSunday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #58,
+        ): [
+            (
+                Atom('n' type=inline),
+                #58,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #7,
+        ): [
+            (
+                Atom('n' type=inline),
+                #8,
+            ),
+            (
+                Atom('c' type=inline),
+                #8,
+            ),
+            (
+                Atom('pad' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('formatHour24' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #47,
+        ): [
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #47,
+            ),
+            (
+                Atom('string' type=static),
+                #47,
+            ),
+        ],
+        (
+            Atom('monthLookup' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_months' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('locale_shortWeekdays' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #6,
+            ),
+            (
+                Atom('shortWeekdayRe' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('shortWeekdayLookup' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #10,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #3,
+            ),
+            (
+                Atom('i' type=inline),
+                #10,
+            ),
+            (
+                Atom('d' type=inline),
+                #10,
+            ),
+            (
+                Atom('week' type=inline),
+                #10,
+            ),
+            (
+                Atom('day' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #14,
+        ): [
+            (
+                Atom('i' type=inline),
+                #14,
+            ),
+            (
+                Atom('weekdayRe' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('string' type=static),
+                #14,
+            ),
+            (
+                Atom('d' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #49,
+        ): [
+            (
+                Atom('n' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #4,
+        ): [
+            (
+                Atom('Date' type=static),
+                #3,
+            ),
+            (
+                Atom('d' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('formatWeekdayNumberMonday' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('parseWeekday' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #54,
+        ): [
+            (
+                Atom('i' type=inline),
+                #54,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('string' type=static),
+                #54,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #41,
+        ): [
+            (
+                Atom('n' type=inline),
+                #41,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #16,
+        ): [
+            (
+                Atom('n' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #72,
+        ): [
+            (
+                Atom('day' type=inline),
+                #72,
+            ),
+        ],
+        (
+            Atom('shortMonthLookup' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('locale_shortMonths' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('d' type=inline),
+                #15,
+            ),
+        ],
+        (
+            Atom('formatWeekNumberISO' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #47,
+        ): [
+            (
+                Atom('n' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #57,
+        ): [
+            (
+                Atom('Math' type=static),
+                #3,
             ),
         ],
         (
@@ -1128,14 +2305,9 @@ TestSnapshot {
                 Atom('parseDayOfMonth' type=dynamic),
                 #1,
             ),
-        ],
-        (
-            Atom('formatDayOfMonth' type=dynamic),
-            #1,
-        ): [
             (
-                Atom('formats' type=inline),
-                #6,
+                Atom('parse' type=inline),
+                #11,
             ),
         ],
         (
@@ -1166,24 +2338,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatYear' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatUTCDayOfYear' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
             Atom('parseHour24' type=dynamic),
             #1,
         ): [
@@ -1199,23 +2353,6 @@ TestSnapshot {
             (
                 Atom('n' type=inline),
                 #15,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #16,
-        ): [
-            (
-                Atom('string' type=static),
-                #16,
-            ),
-            (
-                Atom('i' type=inline),
-                #16,
-            ),
-            (
-                Atom('monthRe' type=inline),
-                #6,
             ),
         ],
         (
@@ -1322,106 +2459,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatUnixTimestampSeconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatQuarter' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
             Atom('formatUTCHour24' type=dynamic),
             #1,
         ): [
             (
                 Atom('utcFormats' type=dynamic),
                 #6,
-            ),
-        ],
-        (
-            Atom('parseSeconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatShortMonth' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #42,
-        ): [
-            (
-                Atom('n' type=inline),
-                #42,
-            ),
-        ],
-        (
-            Atom('formatMonthNumber' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatSeconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatHour12' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatMilliseconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #43,
-        ): [
-            (
-                Atom('n' type=inline),
-                #43,
             ),
         ],
         (
@@ -1442,38 +2485,33 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('i' type=inline),
-            #50,
+            Atom('formatHour12' type=dynamic),
+            #1,
         ): [
             (
-                Atom('n' type=inline),
-                #50,
+                Atom('formats' type=inline),
+                #6,
             ),
         ],
         (
-            Atom('string' type=static),
-            #51,
+            Atom('pad' type=inline),
+            #8,
         ): [
             (
-                Atom('n' type=inline),
-                #51,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #56,
-        ): [
-            (
-                Atom('string' type=static),
-                #56,
-            ),
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
+                Atom('c' type=inline),
+                #8,
             ),
             (
                 Atom('i' type=inline),
-                #56,
+                #8,
+            ),
+            (
+                Atom('specifier' type=dynamic),
+                #7,
+            ),
+            (
+                Atom('pads' type=inline),
+                #1,
             ),
         ],
         (
@@ -1486,15 +2524,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatWeekday' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
             Atom('formatFullYear' type=dynamic),
             #1,
         ): [
@@ -1504,21 +2533,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('string' type=static),
-            #10,
+            Atom('d' type=inline),
+            #15,
         ): [
             (
-                Atom('i' type=inline),
-                #10,
-            ),
-        ],
-        (
-            Atom('parseUnixTimestampSeconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
+                Atom('shortMonthLookup' type=dynamic),
                 #6,
+            ),
+            (
+                Atom('n' type=inline),
+                #15,
             ),
         ],
         (
@@ -1531,16 +2555,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatUnixTimestamp' type=dynamic),
-            #1,
+            Atom('d' type=inline),
+            #70,
         ): [
             (
-                Atom('formats' type=inline),
-                #6,
-            ),
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                Atom('day' type=inline),
+                #70,
             ),
         ],
         (
@@ -1560,20 +2580,10 @@ TestSnapshot {
                 Atom('locale' type=inline),
                 #6,
             ),
-        ],
-        (
-            Atom('i' type=inline),
-            #45,
-        ): [
             (
-                Atom('n' type=inline),
-                #45,
+                Atom('formats' type=inline),
+                #6,
             ),
-        ],
-        (
-            Atom('formatUTCMicroseconds' type=dynamic),
-            #1,
-        ): [
             (
                 Atom('utcFormats' type=dynamic),
                 #6,
@@ -1597,12 +2607,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('i' type=inline),
-            #53,
+            Atom('day' type=inline),
+            #99,
         ): [
             (
-                Atom('n' type=inline),
-                #53,
+                Atom('d' type=inline),
+                #99,
             ),
         ],
         (
@@ -1611,33 +2621,6 @@ TestSnapshot {
         ): [
             (
                 Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('d' type=inline),
-            #70,
-        ): [
-            (
-                Atom('day' type=inline),
-                #70,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #12,
-        ): [
-            (
-                Atom('n' type=inline),
-                #12,
-            ),
-        ],
-        (
-            Atom('parseLocaleDateTime' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('parses' type=inline),
                 #6,
             ),
         ],
@@ -1660,15 +2643,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatMonth' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
             Atom('length' type=static),
             #36,
         ): [
@@ -1678,57 +2652,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatYearISO' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('day' type=inline),
-            #92,
+            Atom('Math' type=static),
+            #3,
         ): [
             (
                 Atom('d' type=inline),
-                #92,
+                #57,
             ),
         ],
         (
             Atom('d' type=inline),
-            #2,
-        ): [
-            (
-                Atom('date' type=inline),
-                #2,
-            ),
-        ],
-        (
-            Atom('formatUTCShortWeekday' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('day' type=inline),
-            #99,
+            #77,
         ): [
             (
                 Atom('d' type=inline),
-                #99,
-            ),
-        ],
-        (
-            Atom('formatUTCSeconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                #77,
             ),
         ],
         (
@@ -1738,6 +2676,15 @@ TestSnapshot {
             (
                 Atom('n' type=inline),
                 #53,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #8,
+        ): [
+            (
+                Atom('c' type=inline),
+                #8,
             ),
         ],
         (
@@ -1758,15 +2705,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('percentRe' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('n' type=inline),
-                #58,
-            ),
-        ],
-        (
             Atom('weekdayRe' type=dynamic),
             #6,
         ): [
@@ -1780,29 +2718,36 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('n' type=inline),
-            #46,
+            Atom('week' type=inline),
+            #10,
         ): [
             (
-                Atom('i' type=inline),
-                #46,
+                Atom('d' type=inline),
+                #10,
             ),
             (
-                Atom('numberRe' type=dynamic),
+                Atom('day' type=inline),
+                #10,
+            ),
+            (
+                Atom('utcMonday' type=dynamic),
                 #1,
             ),
             (
-                Atom('string' type=static),
-                #46,
+                Atom('week' type=inline),
+                #10,
             ),
-        ],
-        (
-            Atom('string' type=static),
-            #57,
-        ): [
             (
-                Atom('n' type=inline),
-                #57,
+                Atom('utcDay' type=inline),
+                #1,
+            ),
+            (
+                Atom('timeMonday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('timeDay' type=inline),
+                #1,
             ),
         ],
         (
@@ -1824,6 +2769,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('timeDay' type=inline),
+            #1,
+        ): [
+            (
+                Atom('week' type=inline),
+                #10,
+            ),
+        ],
+        (
             Atom('i' type=inline),
             #48,
         ): [
@@ -1834,42 +2788,20 @@ TestSnapshot {
         ],
         (
             Atom('i' type=inline),
-            #60,
+            #11,
         ): [
             (
-                Atom('n' type=inline),
-                #60,
+                Atom('c' type=inline),
+                #11,
+            ),
+            (
+                Atom('parse' type=inline),
+                #11,
             ),
         ],
         (
             Atom('parseLocaleDate' type=dynamic),
             #6,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #13,
-        ): [
-            (
-                Atom('shortWeekdayRe' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('string' type=static),
-                #13,
-            ),
-            (
-                Atom('i' type=inline),
-                #13,
-            ),
-        ],
-        (
-            Atom('parseZone' type=dynamic),
-            #1,
         ): [
             (
                 Atom('parses' type=inline),
@@ -1908,20 +2840,20 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('string' type=static),
-            #12,
-        ): [
-            (
-                Atom('n' type=inline),
-                #12,
-            ),
-        ],
-        (
-            Atom('formatUTCZone' type=dynamic),
+            Atom('utcDay' type=inline),
             #1,
         ): [
             (
-                Atom('utcFormats' type=dynamic),
+                Atom('week' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('parseWeekNumberISO' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('parses' type=inline),
                 #6,
             ),
         ],
@@ -1943,160 +2875,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('parseYear' type=dynamic),
-            #1,
+            Atom('string' type=static),
+            #12,
         ): [
             (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('parseMilliseconds' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('parseWeekNumberISO' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('Date' type=static),
-            #3,
-        ): [
-            (
-                Atom('date' type=inline),
-                #4,
-            ),
-        ],
-        (
-            Atom('formats' type=inline),
-            #6,
-        ): [
-            (
-                Atom('formatHour12' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatMilliseconds' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatSeconds' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekNumberSunday' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekNumberISO' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekdayNumberSunday' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatZone' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatLiteralPercent' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekday' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('formatDayOfYear' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatFullYear' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatDayOfMonth' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatUnixTimestamp' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatMicroseconds' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekdayNumberMonday' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatWeekNumberMonday' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatYear' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatFullYearISO' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatShortWeekday' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('formatUnixTimestampSeconds' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatPeriod' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('formatMinutes' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatShortMonth' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('formatMonth' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('formatYearISO' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatHour24' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatMonthNumber' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('formatQuarter' type=dynamic),
-                #6,
-            ),
-            (
-                Atom('f' type=inline),
-                #32,
+                Atom('n' type=inline),
+                #12,
             ),
         ],
         (
@@ -2135,47 +2919,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('string' type=static),
-            #48,
-        ): [
-            (
-                Atom('n' type=inline),
-                #48,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #53,
-        ): [
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('string' type=static),
-                #53,
-            ),
-            (
-                Atom('i' type=inline),
-                #53,
-            ),
-        ],
-        (
             Atom('i' type=inline),
             #59,
         ): [
             (
                 Atom('n' type=inline),
                 #59,
-            ),
-        ],
-        (
-            Atom('d' type=inline),
-            #79,
-        ): [
-            (
-                Atom('day' type=inline),
-                #79,
             ),
         ],
         (
@@ -2188,48 +2937,25 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('d' type=inline),
+            #12,
+        ): [
+            (
+                Atom('n' type=inline),
+                #12,
+            ),
+            (
+                Atom('periodLookup' type=dynamic),
+                #6,
+            ),
+        ],
+        (
             Atom('specifier' type=dynamic),
             #32,
         ): [
             (
                 Atom('f' type=inline),
                 #32,
-            ),
-        ],
-        (
-            Atom('z' type=inline),
-            #80,
-        ): [
-            (
-                Atom('d' type=inline),
-                #80,
-            ),
-        ],
-        (
-            Atom('parseMinutes' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('p' type=inline),
-            #35,
-        ): [
-            (
-                Atom('specifier' type=dynamic),
-                #35,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #46,
-        ): [
-            (
-                Atom('n' type=inline),
-                #46,
             ),
         ],
         (
@@ -2243,11 +2969,11 @@ TestSnapshot {
         ],
         (
             Atom('string' type=static),
-            #55,
+            #59,
         ): [
             (
                 Atom('n' type=inline),
-                #55,
+                #59,
             ),
         ],
         (
@@ -2310,12 +3036,20 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('formatUTCWeekNumberSunday' type=dynamic),
-            #1,
+            Atom('d' type=inline),
+            #99,
         ): [
             (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                Atom('day' type=inline),
+                #99,
+            ),
+            (
+                Atom('utcThursday' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #99,
             ),
         ],
         (
@@ -2328,57 +3062,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('string' type=static),
-            #47,
+            Atom('d' type=inline),
+            #90,
         ): [
             (
-                Atom('n' type=inline),
-                #47,
+                Atom('dow' type=inline),
+                #90,
             ),
         ],
         (
-            Atom('i' type=inline),
-            #54,
-        ): [
-            (
-                Atom('n' type=inline),
-                #54,
-            ),
-        ],
-        (
-            Atom('formatUTCMonth' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('m' type=inline),
+            Atom('d' type=inline),
             #11,
         ): [
             (
-                Atom('string' type=static),
+                Atom('j' type=inline),
                 #11,
-            ),
-        ],
-        (
-            Atom('formatMinutes' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #59,
-        ): [
-            (
-                Atom('n' type=inline),
-                #59,
             ),
         ],
         (
@@ -2397,41 +3095,9 @@ TestSnapshot {
                 Atom('string' type=static),
                 #15,
             ),
-        ],
-        (
-            Atom('weekdayLookup' type=dynamic),
-            #6,
-        ): [
             (
-                Atom('locale_weekdays' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('d' type=inline),
-            #90,
-        ): [
-            (
-                Atom('dow' type=inline),
-                #90,
-            ),
-        ],
-        (
-            Atom('string' type=static),
-            #14,
-        ): [
-            (
-                Atom('n' type=inline),
-                #14,
-            ),
-        ],
-        (
-            Atom('formatUTCYearISO' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
+                Atom('d' type=inline),
+                #15,
             ),
         ],
         (
@@ -2441,15 +3107,6 @@ TestSnapshot {
             (
                 Atom('d' type=inline),
                 #79,
-            ),
-        ],
-        (
-            Atom('formatUTCFullYear' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('utcFormats' type=dynamic),
-                #6,
             ),
         ],
         (
@@ -2497,55 +3154,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('n' type=inline),
-            #60,
-        ): [
-            (
-                Atom('string' type=static),
-                #60,
-            ),
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('i' type=inline),
-                #60,
-            ),
-        ],
-        (
             Atom('formatUTCPeriod' type=dynamic),
             #6,
         ): [
             (
                 Atom('utcFormats' type=dynamic),
                 #6,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #43,
-        ): [
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('i' type=inline),
-                #43,
-            ),
-            (
-                Atom('string' type=static),
-                #43,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #57,
-        ): [
-            (
-                Atom('n' type=inline),
-                #57,
             ),
         ],
         (
@@ -2558,15 +3172,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('d' type=inline),
-            #99,
-        ): [
-            (
-                Atom('day' type=inline),
-                #99,
-            ),
-        ],
-        (
             Atom('formatWeekNumberMonday' type=dynamic),
             #1,
         ): [
@@ -2576,57 +3181,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('parseLiteralPercent' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('parses' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('specifier' type=dynamic),
-            #34,
-        ): [
-            (
-                Atom('f' type=inline),
-                #34,
-            ),
-        ],
-        (
-            Atom('day' type=inline),
-            #72,
+            Atom('d' type=inline),
+            #73,
         ): [
             (
                 Atom('d' type=inline),
-                #72,
-            ),
-        ],
-        (
-            Atom('formatShortWeekday' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
-            ),
-        ],
-        (
-            Atom('shortWeekdayLookup' type=dynamic),
-            #6,
-        ): [
-            (
-                Atom('locale_shortWeekdays' type=dynamic),
-                #6,
-            ),
-        ],
-        (
-            Atom('formatWeekNumberSunday' type=dynamic),
-            #1,
-        ): [
-            (
-                Atom('formats' type=inline),
-                #6,
+                #73,
             ),
         ],
         (
@@ -2648,29 +3208,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('locale_time' type=dynamic),
-            #6,
+            Atom('formatWeekNumberSunday' type=dynamic),
+            #1,
         ): [
             (
-                Atom('locale' type=inline),
+                Atom('formats' type=inline),
                 #6,
-            ),
-        ],
-        (
-            Atom('n' type=inline),
-            #50,
-        ): [
-            (
-                Atom('i' type=inline),
-                #50,
-            ),
-            (
-                Atom('numberRe' type=dynamic),
-                #1,
-            ),
-            (
-                Atom('string' type=static),
-                #50,
             ),
         ],
         (
@@ -2974,7 +3517,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 3,
                 reassigned_with_assignment: true,
@@ -3013,7 +3556,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -3163,7 +3706,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 4,
                 usage_count: 60,
                 reassigned_with_assignment: false,
@@ -3202,7 +3745,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -3239,9 +3782,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -3250,7 +3793,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3276,9 +3819,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -3287,7 +3830,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3313,9 +3856,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -3324,7 +3867,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3350,9 +3893,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -3361,7 +3904,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -3387,9 +3930,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -3398,7 +3941,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -6351,7 +6894,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 2,
                 usage_count: 3,
                 reassigned_with_assignment: true,
@@ -6388,9 +6931,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 10,
                 mutation_by_call_count: 0,
-                usage_count: 6,
+                usage_count: 7,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -6398,14 +6941,12 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
+                var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
@@ -6774,7 +7315,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: true,
@@ -8924,12 +9465,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -8961,7 +9502,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 10,
                 mutation_by_call_count: 5,
                 usage_count: 7,
                 reassigned_with_assignment: true,
@@ -9000,7 +9541,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -9014,7 +9555,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: Some(
                     "var",
                 ),
@@ -9039,7 +9580,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 6,
                 mutation_by_call_count: 3,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -9078,9 +9619,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -9089,7 +9630,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -9115,9 +9656,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -9126,7 +9667,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -9152,9 +9693,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -9163,7 +9704,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -9189,9 +9730,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -9200,7 +9741,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -9226,9 +9767,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -9237,7 +9778,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -10303,18 +10844,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 8,
+                usage_count: 10,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -10340,9 +10881,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 3,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10379,9 +10920,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 3,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10418,9 +10959,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 2,
-                usage_count: 4,
+                usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10457,9 +10998,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 2,
-                usage_count: 4,
+                usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10496,9 +11037,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 2,
-                usage_count: 4,
+                usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10535,9 +11076,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 2,
-                usage_count: 4,
+                usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10574,9 +11115,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 3,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10613,9 +11154,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 2,
-                usage_count: 4,
+                usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -10689,12 +11230,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -10728,12 +11269,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -10767,12 +11308,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -10806,12 +11347,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -10845,12 +11386,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -10884,18 +11425,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -10923,18 +11464,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -10962,18 +11503,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -11001,18 +11542,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -11040,18 +11581,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
@@ -13419,7 +13960,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: true,
@@ -13458,12 +13999,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13495,7 +14036,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -13534,12 +14075,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13547,8 +14088,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13571,12 +14112,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13584,8 +14125,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13608,12 +14149,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13621,8 +14162,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13645,12 +14186,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13658,8 +14199,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13682,12 +14223,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13695,8 +14236,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13719,21 +14260,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13756,21 +14297,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13793,21 +14334,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13830,12 +14371,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13843,8 +14384,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13867,12 +14408,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13880,8 +14421,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13904,12 +14445,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13917,8 +14458,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13941,21 +14482,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -13978,12 +14519,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -13991,8 +14532,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14015,21 +14556,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14052,12 +14593,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14065,8 +14606,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14089,12 +14630,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14102,8 +14643,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14126,21 +14667,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14163,21 +14704,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14237,12 +14778,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14250,8 +14791,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14274,12 +14815,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14287,8 +14828,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14311,12 +14852,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14324,8 +14865,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14348,12 +14889,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14361,8 +14902,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14385,12 +14926,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14398,8 +14939,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14422,21 +14963,21 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14459,12 +15000,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14472,8 +15013,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14496,12 +15037,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14509,8 +15050,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14533,12 +15074,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14546,8 +15087,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14570,12 +15111,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14583,8 +15124,8 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -14607,12 +15148,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14685,12 +15226,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14724,12 +15265,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14876,12 +15417,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14915,12 +15456,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14954,12 +15495,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -14993,12 +15534,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -15071,12 +15612,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 6,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -15108,7 +15649,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -15122,7 +15663,7 @@ TestSnapshot {
                 is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -15145,12 +15686,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 6,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -15369,7 +15910,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -15383,7 +15924,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
@@ -15406,7 +15947,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 1,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -15443,18 +15984,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -15480,18 +16021,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -15517,18 +16058,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -15554,18 +16095,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -15591,18 +16132,18 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
                 used_above_decl: false,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: false,
@@ -16518,12 +17059,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
-                usage_count: 2,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -16555,12 +17096,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -16629,12 +17170,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -16703,7 +17244,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 10,
                 mutation_by_call_count: 1,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -16777,12 +17318,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
-                usage_count: 2,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -16853,12 +17394,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 10,
                 mutation_by_call_count: 0,
-                usage_count: 3,
+                usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -16927,12 +17468,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -17038,9 +17579,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 6,
+                assign_count: 10,
                 mutation_by_call_count: 6,
-                usage_count: 14,
+                usage_count: 15,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -17048,14 +17589,12 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
                 used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
+                var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
@@ -17077,12 +17616,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -17116,12 +17655,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
-                usage_count: 1,
+                usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},

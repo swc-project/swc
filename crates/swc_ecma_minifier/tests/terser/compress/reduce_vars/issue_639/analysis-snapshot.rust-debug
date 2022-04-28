@@ -1,6 +1,24 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('name' type=inline),
+            #6,
+        ): [
+            (
+                Atom('ext' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('ext' type=inline),
+            #6,
+        ): [
+            (
+                Atom('name' type=inline),
+                #6,
+            ),
+        ],
+        (
             Atom('console' type=inline),
             #2,
         ): [
@@ -370,7 +388,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,

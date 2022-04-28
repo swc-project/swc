@@ -1,5 +1,42 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('foo' type=inline),
+            #1,
+        ): [
+            (
+                Atom('module' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('lightGreeting' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('greeting' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #3,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('greeting' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('lightGreeting' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -51,12 +88,12 @@ TestSnapshot {
                 declared_count: 2,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},

@@ -1,5 +1,24 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('exports' type=inline),
+            #2,
+        ): [
+            (
+                Atom('withStyles' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('withStyles' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exports' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

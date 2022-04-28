@@ -1,5 +1,41 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('i' type=inline),
+            #2,
+        ): [
+            (
+                Atom('e' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #2,
+        ): [
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+            (
+                Atom('self' type=inline),
+                #2,
+            ),
+            (
+                Atom('e' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #2,
+        ): [
+            (
+                Atom('e' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -53,7 +89,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 7,
                 reassigned_with_assignment: false,
@@ -129,12 +165,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},

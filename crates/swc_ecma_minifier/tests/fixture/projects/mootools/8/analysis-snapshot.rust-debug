@@ -1,12 +1,38 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('version' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Browser' type=inline),
+                #3,
+            ),
+        ],
+        (
             Atom('Browser' type=inline),
             #3,
         ): [
             (
+                Atom('name' type=inline),
+                #2,
+            ),
+            (
+                Atom('version' type=inline),
+                #2,
+            ),
+            (
                 Atom('setEngine' type=dynamic),
                 #1,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Browser' type=inline),
+                #3,
             ),
         ],
         (

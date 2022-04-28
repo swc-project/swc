@@ -8,13 +8,17 @@ TestSnapshot {
                 Atom('s' type=inline),
                 #2,
             ),
+            (
+                Atom('t' type=inline),
+                #3,
+            ),
         ],
         (
-            Atom('o' type=inline),
-            #2,
+            Atom('t' type=inline),
+            #3,
         ): [
             (
-                Atom('a' type=inline),
+                Atom('i' type=inline),
                 #2,
             ),
         ],
@@ -28,6 +32,33 @@ TestSnapshot {
             ),
             (
                 Atom('o' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #3,
+        ): [
+            (
+                Atom('n' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #2,
+        ): [
+            (
+                Atom('t' type=inline),
                 #2,
             ),
         ],
@@ -50,21 +81,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('n' type=inline),
-            #2,
-        ): [
-            (
-                Atom('t' type=inline),
-                #2,
-            ),
-        ],
-        (
             Atom('s' type=inline),
             #2,
         ): [
             (
                 Atom('i' type=inline),
                 #2,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #3,
+        ): [
+            (
+                Atom('e' type=inline),
+                #3,
             ),
         ],
     },
@@ -156,7 +187,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 3,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -230,7 +261,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 3,
                 mutation_by_call_count: 5,
                 usage_count: 7,
                 reassigned_with_assignment: true,
@@ -495,7 +526,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -571,7 +602,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 3,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: true,

@@ -1,5 +1,24 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('o' type=inline),
+            #1,
+        ): [
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #1,
+        ): [
+            (
+                Atom('o' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

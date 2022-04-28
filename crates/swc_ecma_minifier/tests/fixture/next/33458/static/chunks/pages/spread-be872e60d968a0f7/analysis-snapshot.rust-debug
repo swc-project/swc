@@ -1,28 +1,6 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('ownKeys' type=inline),
-            #8,
-        ): [
-            (
-                Atom('source' type=inline),
-                #8,
-            ),
-            (
-                Atom('Object' type=static),
-                #1,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #8,
-        ): [
-            (
-                Atom('source' type=inline),
-                #8,
-            ),
-        ],
-        (
             Atom('ref' type=inline),
             #12,
         ): [
@@ -40,6 +18,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('i' type=inline),
+            #8,
+        ): [
+            (
+                Atom('source' type=inline),
+                #8,
+            ),
+        ],
+        (
             Atom('handleChange' type=dynamic),
             #12,
         ): [
@@ -49,25 +36,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('param' type=inline),
-            #5,
-        ): [
-            (
-                Atom('value' type=inline),
-                #5,
-            ),
-            (
-                Atom('onChange' type=dynamic),
-                #5,
-            ),
-        ],
-        (
-            Atom('Object' type=static),
+            Atom('window' type=inline),
             #1,
         ): [
             (
-                Atom('ownKeys' type=inline),
-                #8,
+                Atom('window' type=inline),
+                #1,
             ),
         ],
         (
@@ -84,12 +58,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('value' type=inline),
-            #4,
+            Atom('Object' type=static),
+            #1,
         ): [
             (
-                Atom('param' type=inline),
-                #4,
+                Atom('ownKeys' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
             ),
         ],
         (
@@ -102,30 +85,29 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('components_Form' type=dynamic),
-            #3,
+            Atom('setText' type=inline),
+            #12,
         ): [
             (
-                Atom('Form' type=inline),
-                #3,
+                Atom('ref' type=inline),
+                #12,
             ),
         ],
         (
-            Atom('components_Input' type=dynamic),
-            #3,
+            Atom('__webpack_require__' type=dynamic),
+            #14,
         ): [
             (
-                Atom('Input' type=inline),
-                #3,
+                Atom('moduleId' type=dynamic),
+                #15,
             ),
-        ],
-        (
-            Atom('components_Container' type=dynamic),
-            #6,
-        ): [
             (
-                Atom('Container' type=dynamic),
-                #6,
+                Atom('__webpack_exec__' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #14,
             ),
         ],
         (
@@ -151,6 +133,117 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('_N_E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #7,
+        ): [
+            (
+                Atom('value' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('moduleId' type=dynamic),
+            #15,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('ownKeys' type=inline),
+            #8,
+        ): [
+            (
+                Atom('source' type=inline),
+                #8,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #5,
+        ): [
+            (
+                Atom('value' type=inline),
+                #5,
+            ),
+            (
+                Atom('onChange' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #7,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('components_Form' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Form' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #4,
+        ): [
+            (
+                Atom('param' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('components_Container' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('Container' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('__webpack_exec__' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('components_Input' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Input' type=inline),
+                #3,
+            ),
+        ],
+        (
             Atom('text' type=inline),
             #12,
         ): [
@@ -169,28 +262,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('setText' type=inline),
-            #12,
-        ): [
-            (
-                Atom('ref' type=inline),
-                #12,
-            ),
-        ],
-        (
-            Atom('__webpack_require__' type=dynamic),
-            #14,
-        ): [
-            (
-                Atom('__webpack_exec__' type=dynamic),
-                #14,
-            ),
-            (
-                Atom('__webpack_exports__' type=dynamic),
-                #14,
-            ),
-        ],
-        (
             Atom('onChange' type=dynamic),
             #4,
         ): [
@@ -200,21 +271,16 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('__webpack_exec__' type=dynamic),
-            #14,
-        ): [
-            (
-                Atom('__webpack_require__' type=dynamic),
-                #14,
-            ),
-        ],
-        (
             Atom('__webpack_exports__' type=dynamic),
             #14,
         ): [
             (
                 Atom('__webpack_require__' type=dynamic),
                 #14,
+            ),
+            (
+                Atom('_N_E' type=inline),
+                #1,
             ),
         ],
         (
@@ -672,7 +738,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -785,7 +851,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -935,7 +1001,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -1502,7 +1568,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,

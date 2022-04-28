@@ -22,21 +22,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('resolved' type=dynamic),
-            #3,
+            Atom('Rejected' type=dynamic),
+            #2,
         ): [
             (
-                Atom('payload' type=inline),
-                #2,
+                Atom('rejected' type=dynamic),
+                #5,
             ),
         ],
         (
-            Atom('rejected' type=dynamic),
+            Atom('error' type=inline),
             #5,
         ): [
             (
-                Atom('payload' type=inline),
-                #2,
+                Atom('rejected' type=dynamic),
+                #5,
             ),
         ],
         (
@@ -58,11 +58,80 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('resolved' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+            (
+                Atom('Resolved' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('defaultExport' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('Pending' type=inline),
+            #2,
+        ): [
+            (
+                Atom('pending' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('thenable' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('pending' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('Resolved' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('resolved' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('rejected' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+            (
+                Atom('Rejected' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('error' type=inline),
+                #5,
+            ),
+        ],
+        (
             Atom('pending' type=inline),
             #2,
         ): [
             (
                 Atom('payload' type=inline),
+                #2,
+            ),
+            (
+                Atom('Pending' type=inline),
+                #2,
+            ),
+            (
+                Atom('thenable' type=dynamic),
                 #2,
             ),
         ],
@@ -72,6 +141,10 @@ TestSnapshot {
         ): [
             (
                 Atom('moduleObject' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('resolved' type=dynamic),
                 #3,
             ),
         ],

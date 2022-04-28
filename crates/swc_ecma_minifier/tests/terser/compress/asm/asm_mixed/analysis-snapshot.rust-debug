@@ -19,12 +19,39 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('log' type=inline),
-            #5,
+            Atom('end' type=inline),
+            #4,
         ): [
             (
-                Atom('stdlib' type=inline),
-                #5,
+                Atom('end' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #3,
+        ): [
+            (
+                Atom('start' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #6,
+        ): [
+            (
+                Atom('start' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('end' type=inline),
+            #7,
+        ): [
+            (
+                Atom('end' type=inline),
+                #7,
             ),
         ],
         (
@@ -71,6 +98,64 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('buffer' type=inline),
+            #2,
+        ): [
+            (
+                Atom('values' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #4,
+        ): [
+            (
+                Atom('start' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('end' type=inline),
+            #3,
+        ): [
+            (
+                Atom('end' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #7,
+        ): [
+            (
+                Atom('start' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #5,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('values' type=inline),
+            #5,
+        ): [
+            (
+                Atom('buffer' type=inline),
+                #5,
+            ),
+            (
+                Atom('stdlib' type=inline),
+                #5,
+            ),
+        ],
+        (
             Atom('values' type=inline),
             #2,
         ): [
@@ -85,15 +170,6 @@ TestSnapshot {
         ],
         (
             Atom('buffer' type=inline),
-            #2,
-        ): [
-            (
-                Atom('values' type=inline),
-                #2,
-            ),
-        ],
-        (
-            Atom('buffer' type=inline),
             #5,
         ): [
             (
@@ -102,16 +178,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('values' type=inline),
-            #5,
+            Atom('end' type=inline),
+            #6,
         ): [
             (
-                Atom('buffer' type=inline),
-                #5,
-            ),
-            (
-                Atom('stdlib' type=inline),
-                #5,
+                Atom('end' type=inline),
+                #6,
             ),
         ],
     },

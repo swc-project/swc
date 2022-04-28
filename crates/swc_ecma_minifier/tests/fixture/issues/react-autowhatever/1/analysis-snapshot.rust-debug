@@ -12,31 +12,9 @@ TestSnapshot {
                 Atom('i' type=inline),
                 #5,
             ),
-        ],
-        (
-            Atom('itemProps' type=dynamic),
-            #22,
-        ): [
             (
-                Atom('_props' type=inline),
-                #22,
-            ),
-            (
-                Atom('itemPropsObj' type=dynamic),
-                #23,
-            ),
-        ],
-        (
-            Atom('keyPrefix' type=dynamic),
-            #22,
-        ): [
-            (
-                Atom('_props' type=inline),
-                #22,
-            ),
-            (
-                Atom('sectionPrefix' type=dynamic),
-                #22,
+                Atom('descriptor' type=dynamic),
+                #5,
             ),
         ],
         (
@@ -46,15 +24,6 @@ TestSnapshot {
             (
                 Atom('descriptor' type=dynamic),
                 #5,
-            ),
-        ],
-        (
-            Atom('isHighlighted' type=dynamic),
-            #23,
-        ): [
-            (
-                Atom('allItemProps' type=dynamic),
-                #23,
             ),
         ],
         (
@@ -89,27 +58,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('sectionIndex' type=dynamic),
-            #22,
-        ): [
-            (
-                Atom('_props' type=inline),
-                #22,
-            ),
-            (
-                Atom('sectionPrefix' type=dynamic),
-                #22,
-            ),
-            (
-                Atom('itemPropsObj' type=dynamic),
-                #23,
-            ),
-            (
-                Atom('allItemProps' type=dynamic),
-                #23,
-            ),
-        ],
-        (
             Atom('highlightedItemIndex' type=dynamic),
             #22,
         ): [
@@ -119,30 +67,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('isFirst' type=inline),
-            #23,
-        ): [
-            (
-                Atom('allItemProps' type=dynamic),
-                #23,
-            ),
-        ],
-        (
             Atom('renderItem' type=dynamic),
             #22,
         ): [
             (
                 Atom('_props' type=inline),
                 #22,
-            ),
-        ],
-        (
-            Atom('i' type=inline),
-            #11,
-        ): [
-            (
-                Atom('source' type=inline),
-                #11,
             ),
         ],
         (
@@ -213,6 +143,221 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('Component' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ItemsList' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #7,
+        ): [
+            (
+                Atom('value' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('subClass' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('superClass' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+            (
+                Atom('subClass' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('superClass' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('subClass' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('getItemId' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #3,
+        ): [
+            (
+                Atom('_getPrototypeOf' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('subClass' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #11,
+            ),
+            (
+                Atom('_setPrototypeOf' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #16,
+        ): [
+            (
+                Atom('o' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #16,
+        ): [
+            (
+                Atom('p' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('_this' type=inline),
+            #19,
+        ): [
+            (
+                Atom('ItemsList' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('_this' type=inline),
+                #19,
+            ),
+        ],
+        (
+            Atom('itemProps' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('_setPrototypeOf' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('keyPrefix' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('sectionPrefix' type=dynamic),
+                #22,
+            ),
+        ],
+        (
+            Atom('ItemsList' type=dynamic),
+            #18,
+        ): [
+            (
+                Atom('_this' type=inline),
+                #19,
+            ),
+        ],
+        (
+            Atom('isHighlighted' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #7,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('_getPrototypeOf' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('sectionIndex' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('sectionPrefix' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('isFirst' type=inline),
+            #23,
+        ): [
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('PropTypes' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ItemsList' type=dynamic),
+                #1,
+            ),
+        ],
+        (
             Atom('itemPropsObj' type=dynamic),
             #23,
         ): [
@@ -234,12 +379,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('Component' type=dynamic),
-            #1,
+            Atom('i' type=inline),
+            #11,
         ): [
             (
-                Atom('ItemsList' type=dynamic),
-                #1,
+                Atom('source' type=inline),
+                #11,
             ),
         ],
         (
@@ -252,6 +397,10 @@ TestSnapshot {
             ),
             (
                 Atom('Item' type=inline),
+                #1,
+            ),
+            (
+                Atom('PropTypes' type=dynamic),
                 #1,
             ),
         ],
@@ -267,6 +416,10 @@ TestSnapshot {
                 Atom('Object' type=static),
                 #3,
             ),
+            (
+                Atom('ownKeys' type=inline),
+                #11,
+            ),
         ],
         (
             Atom('itemKey' type=inline),
@@ -280,6 +433,15 @@ TestSnapshot {
                 Atom('sectionPrefix' type=dynamic),
                 #22,
             ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('_this' type=inline),
+            #22,
+        ): [
             (
                 Atom('allItemProps' type=dynamic),
                 #23,
@@ -321,24 +483,6 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('Object' type=static),
-            #3,
-        ): [
-            (
-                Atom('ownKeys' type=inline),
-                #11,
-            ),
-        ],
-        (
-            Atom('getItemId' type=dynamic),
-            #22,
-        ): [
-            (
-                Atom('_props' type=inline),
-                #22,
-            ),
-        ],
-        (
             Atom('allItemProps' type=dynamic),
             #23,
         ): [
@@ -364,6 +508,10 @@ TestSnapshot {
             ),
             (
                 Atom('sectionIndex' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('_this' type=inline),
                 #22,
             ),
         ],
@@ -606,7 +754,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 1,
                 mutation_by_call_count: 4,
                 usage_count: 5,
                 reassigned_with_assignment: false,
@@ -643,7 +791,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 11,
                 reassigned_with_assignment: false,
@@ -1050,7 +1198,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -1063,8 +1211,8 @@ TestSnapshot {
                 used_above_decl: false,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
-                used_in_cond: false,
+                executed_multiple_time: true,
+                used_in_cond: true,
                 var_kind: None,
                 var_initialized: true,
                 declared_as_catch_param: false,
@@ -1311,7 +1459,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -1324,7 +1472,7 @@ TestSnapshot {
                 used_above_decl: true,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
+                executed_multiple_time: true,
                 used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
@@ -1841,7 +1989,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -1851,15 +1999,13 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: true,
                 used_in_cond: true,
-                var_kind: Some(
-                    "var",
-                ),
-                var_initialized: true,
+                var_kind: None,
+                var_initialized: false,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
                 used_as_callee: false,
@@ -2636,7 +2782,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -2647,7 +2793,7 @@ TestSnapshot {
                 accessed_props: {},
                 exported: false,
                 used_above_decl: true,
-                is_fn_local: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: true,
                 used_in_cond: true,
@@ -3125,7 +3271,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 4,
                 mutation_by_call_count: 3,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -3199,7 +3345,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 4,
                 mutation_by_call_count: 1,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -3209,10 +3355,10 @@ TestSnapshot {
                 has_property_mutation: true,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
+                executed_multiple_time: true,
                 used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,
@@ -3236,7 +3382,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 4,
                 mutation_by_call_count: 2,
                 usage_count: 6,
                 reassigned_with_assignment: false,
@@ -3246,10 +3392,10 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
-                is_fn_local: true,
+                used_above_decl: true,
+                is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: false,
+                executed_multiple_time: true,
                 used_in_cond: true,
                 var_kind: None,
                 var_initialized: false,

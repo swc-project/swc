@@ -1,5 +1,37 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('ClassA' type=inline),
+            #1,
+        ): [
+            (
+                Atom('module' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('ClassB' type=inline),
+            #3,
+        ): [
+            (
+                Atom('module' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #2,
+        ): [
+            (
+                Atom('ClassB' type=inline),
+                #3,
+            ),
+            (
+                Atom('ClassA' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

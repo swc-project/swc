@@ -17,6 +17,14 @@ TestSnapshot {
                 Atom('isFunc' type=inline),
                 #2,
             ),
+            (
+                Atom('slice' type=inline),
+                #1,
+            ),
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
         ],
         (
             Atom('isFunc' type=inline),
@@ -38,6 +46,10 @@ TestSnapshot {
             (
                 Atom('args' type=inline),
                 #2,
+            ),
+            (
+                Atom('_' type=inline),
+                #1,
             ),
         ],
         (

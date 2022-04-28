@@ -1,7 +1,24 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('h' type=inline),
+            Atom('destination' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('h' type=inline),
+                #1,
+            ),
+            (
+                Atom('source' type=inline),
+                #2,
+            ),
+            (
+                Atom('key' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('key' type=static),
             #1,
         ): [
             (
@@ -10,12 +27,21 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('destination' type=dynamic),
+            Atom('source' type=inline),
             #2,
         ): [
             (
-                Atom('h' type=inline),
-                #1,
+                Atom('destination' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #1,
+        ): [
+            (
+                Atom('destination' type=dynamic),
+                #2,
             ),
         ],
     },

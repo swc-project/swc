@@ -17,6 +17,10 @@ TestSnapshot {
                 Atom('timerQueue' type=dynamic),
                 #3,
             ),
+            (
+                Atom('timer' type=inline),
+                #2,
+            ),
         ],
     },
     vars: [

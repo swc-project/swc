@@ -8,14 +8,71 @@ TestSnapshot {
                 Atom('resolved' type=dynamic),
                 #7,
             ),
+            (
+                Atom('pkgBrowserslist' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('module' type=static),
+                #6,
+            ),
         ],
         (
-            Atom('pkgBrowserslist' type=dynamic),
-            #1,
+            Atom('exports' type=inline),
+            #18,
         ): [
             (
-                Atom('resolved' type=dynamic),
-                #7,
+                Atom('String' type=static),
+                #5,
+            ),
+        ],
+        (
+            Atom('String' type=static),
+            #5,
+        ): [
+            (
+                Atom('exports' type=inline),
+                #17,
+            ),
+            (
+                Atom('exports' type=inline),
+                #18,
+            ),
+        ],
+        (
+            Atom('exports' type=inline),
+            #14,
+        ): [
+            (
+                Atom('module' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('exports' type=inline),
+            #17,
+        ): [
+            (
+                Atom('String' type=static),
+                #5,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #14,
+        ): [
+            (
+                Atom('exports' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #16,
+        ): [
+            (
+                Atom('exports' type=inline),
+                #16,
             ),
         ],
         (
@@ -29,6 +86,46 @@ TestSnapshot {
             (
                 Atom('module' type=static),
                 #6,
+            ),
+        ],
+        (
+            Atom('exports' type=inline),
+            #16,
+        ): [
+            (
+                Atom('module' type=static),
+                #16,
+            ),
+        ],
+        (
+            Atom('pkgBrowserslist' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resolved' type=dynamic),
+                #7,
+            ),
+            (
+                Atom('module' type=static),
+                #6,
+            ),
+        ],
+        (
+            Atom('module' type=static),
+            #12,
+        ): [
+            (
+                Atom('exports' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('exports' type=inline),
+            #12,
+        ): [
+            (
+                Atom('module' type=static),
+                #12,
             ),
         ],
     },

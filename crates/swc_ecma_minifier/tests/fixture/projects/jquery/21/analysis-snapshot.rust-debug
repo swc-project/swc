@@ -1,11 +1,59 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('off' type=inline),
+            Atom('undefined' type=static),
+            #1,
+        ): [
+            (
+                Atom('params' type=inline),
+                #2,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('_load' type=inline),
+            #1,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('selector' type=dynamic),
             #2,
         ): [
             (
+                Atom('off' type=inline),
+                #2,
+            ),
+            (
                 Atom('url' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('params' type=inline),
+            #2,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('callback' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('params' type=inline),
                 #2,
             ),
         ],
@@ -15,6 +63,44 @@ TestSnapshot {
         ): [
             (
                 Atom('off' type=inline),
+                #2,
+            ),
+            (
+                Atom('selector' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('url' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_load' type=inline),
+                #1,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('off' type=inline),
+            #2,
+        ): [
+            (
+                Atom('url' type=static),
+                #2,
+            ),
+            (
+                Atom('selector' type=dynamic),
                 #2,
             ),
         ],
@@ -33,12 +119,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -107,7 +193,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 2,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -144,7 +230,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: false,
@@ -218,7 +304,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 2,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -257,7 +343,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 1,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -370,7 +456,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 2,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -524,12 +610,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -561,7 +647,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 6,
                 reassigned_with_assignment: true,

@@ -1,5 +1,24 @@
 TestSnapshot {
-    aliases: {},
+    aliases: {
+        (
+            Atom('b' type=inline),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #2,
+        ): [
+            (
+                Atom('b' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
@@ -14,9 +33,9 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 5,
                 mutation_by_call_count: 0,
-                usage_count: 7,
+                usage_count: 10,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,
@@ -51,7 +70,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 4,
+                assign_count: 5,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: true,

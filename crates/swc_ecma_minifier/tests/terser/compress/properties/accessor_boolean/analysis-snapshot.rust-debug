@@ -5,6 +5,10 @@ TestSnapshot {
             #1,
         ): [
             (
+                Atom('c' type=inline),
+                #2,
+            ),
+            (
                 Atom('b' type=inline),
                 #1,
             ),
@@ -26,6 +30,10 @@ TestSnapshot {
             Atom('c' type=inline),
             #2,
         ): [
+            (
+                Atom('a' type=inline),
+                #1,
+            ),
             (
                 Atom('b' type=inline),
                 #1,

@@ -1,6 +1,15 @@
 TestSnapshot {
     aliases: {
         (
+            Atom('console' type=inline),
+            #4,
+        ): [
+            (
+                Atom('p' type=inline),
+                #1,
+            ),
+        ],
+        (
             Atom('Parser' type=inline),
             #1,
         ): [
@@ -16,6 +25,10 @@ TestSnapshot {
             (
                 Atom('Parser' type=inline),
                 #1,
+            ),
+            (
+                Atom('console' type=inline),
+                #4,
             ),
         ],
     },

@@ -48,6 +48,10 @@ TestSnapshot {
                 #1,
             ),
             (
+                Atom('hb' type=inline),
+                #3,
+            ),
+            (
                 Atom('_hb' type=inline),
                 #3,
             ),
@@ -56,6 +60,10 @@ TestSnapshot {
             Atom('hb' type=inline),
             #4,
         ): [
+            (
+                Atom('win' type=inline),
+                #4,
+            ),
             (
                 Atom('_hb' type=inline),
                 #4,
@@ -66,6 +74,10 @@ TestSnapshot {
             #2,
         ): [
             (
+                Atom('win' type=inline),
+                #2,
+            ),
+            (
                 Atom('_hb' type=inline),
                 #2,
             ),
@@ -74,6 +86,10 @@ TestSnapshot {
             Atom('win' type=inline),
             #6,
         ): [
+            (
+                Atom('hb' type=inline),
+                #6,
+            ),
             (
                 Atom('_hb' type=inline),
                 #6,
@@ -112,23 +128,6 @@ TestSnapshot {
             (
                 Atom('_hb' type=inline),
                 #7,
-            ),
-        ],
-        (
-            Atom('_hb' type=inline),
-            #5,
-        ): [
-            (
-                Atom('hb' type=inline),
-                #5,
-            ),
-            (
-                Atom('win' type=inline),
-                #5,
-            ),
-            (
-                Atom('prop' type=inline),
-                #5,
             ),
         ],
         (
@@ -140,8 +139,29 @@ TestSnapshot {
                 #1,
             ),
             (
+                Atom('hb' type=inline),
+                #4,
+            ),
+            (
                 Atom('_hb' type=inline),
                 #4,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #5,
+        ): [
+            (
+                Atom('hb' type=inline),
+                #5,
+            ),
+            (
+                Atom('win' type=inline),
+                #5,
+            ),
+            (
+                Atom('prop' type=inline),
+                #5,
             ),
         ],
         (
@@ -162,18 +182,26 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('win' type=inline),
+            Atom('hb' type=inline),
             #7,
         ): [
+            (
+                Atom('win' type=inline),
+                #7,
+            ),
             (
                 Atom('_hb' type=inline),
                 #7,
             ),
         ],
         (
-            Atom('hb' type=inline),
+            Atom('win' type=inline),
             #7,
         ): [
+            (
+                Atom('hb' type=inline),
+                #7,
+            ),
             (
                 Atom('_hb' type=inline),
                 #7,
@@ -206,8 +234,38 @@ TestSnapshot {
                 #1,
             ),
             (
+                Atom('hb' type=inline),
+                #2,
+            ),
+            (
                 Atom('_hb' type=inline),
                 #2,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #5,
+        ): [
+            (
+                Atom('hb' type=inline),
+                #5,
+            ),
+            (
+                Atom('_hb' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #5,
+        ): [
+            (
+                Atom('win' type=inline),
+                #5,
+            ),
+            (
+                Atom('_hb' type=inline),
+                #5,
             ),
         ],
         (
@@ -229,11 +287,15 @@ TestSnapshot {
         ],
         (
             Atom('hb' type=inline),
-            #5,
+            #3,
         ): [
             (
+                Atom('win' type=inline),
+                #3,
+            ),
+            (
                 Atom('_hb' type=inline),
-                #5,
+                #3,
             ),
         ],
         (
@@ -255,26 +317,12 @@ TestSnapshot {
         ],
         (
             Atom('hb' type=inline),
-            #3,
-        ): [
-            (
-                Atom('_hb' type=inline),
-                #3,
-            ),
-        ],
-        (
-            Atom('win' type=inline),
-            #5,
-        ): [
-            (
-                Atom('_hb' type=inline),
-                #5,
-            ),
-        ],
-        (
-            Atom('hb' type=inline),
             #6,
         ): [
+            (
+                Atom('win' type=inline),
+                #6,
+            ),
             (
                 Atom('_hb' type=inline),
                 #6,

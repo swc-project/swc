@@ -8,6 +8,10 @@ TestSnapshot {
                 Atom('result' type=inline),
                 #3,
             ),
+            (
+                Atom('foo' type=inline),
+                #1,
+            ),
         ],
         (
             Atom('data' type=inline),
@@ -16,6 +20,15 @@ TestSnapshot {
             (
                 Atom('answer' type=inline),
                 #1,
+            ),
+        ],
+        (
+            Atom('foo' type=inline),
+            #1,
+        ): [
+            (
+                Atom('first' type=inline),
+                #3,
             ),
         ],
         (

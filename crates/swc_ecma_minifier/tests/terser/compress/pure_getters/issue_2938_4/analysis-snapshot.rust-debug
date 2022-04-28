@@ -10,6 +10,15 @@ TestSnapshot {
             ),
         ],
         (
+            Atom('console' type=inline),
+            #4,
+        ): [
+            (
+                Atom('p' type=inline),
+                #1,
+            ),
+        ],
+        (
             Atom('Parser' type=inline),
             #1,
         ): [
@@ -29,6 +38,14 @@ TestSnapshot {
             (
                 Atom('unused' type=inline),
                 #1,
+            ),
+            (
+                Atom('p' type=inline),
+                #1,
+            ),
+            (
+                Atom('console' type=inline),
+                #4,
             ),
         ],
     },

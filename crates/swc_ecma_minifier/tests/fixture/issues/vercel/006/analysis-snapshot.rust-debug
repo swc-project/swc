@@ -44,12 +44,12 @@ TestSnapshot {
             ),
         ],
         (
-            Atom('document' type=dynamic),
-            #2,
+            Atom('LoadScript' type=dynamic),
+            #1,
         ): [
             (
-                Atom('script1' type=inline),
-                #12,
+                Atom('defaultLoadScriptProps' type=dynamic),
+                #1,
             ),
         ],
         (
@@ -59,6 +59,24 @@ TestSnapshot {
             (
                 Atom('document' type=dynamic),
                 #2,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('script1' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('defaultLoadScriptProps' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('LoadScript' type=dynamic),
+                #1,
             ),
         ],
         (

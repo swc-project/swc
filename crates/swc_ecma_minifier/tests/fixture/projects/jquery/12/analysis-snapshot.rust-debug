@@ -1,11 +1,15 @@
 TestSnapshot {
     aliases: {
         (
-            Atom('cache' type=inline),
+            Atom('ret' type=inline),
             #2,
         ): [
             (
-                Atom('elem' type=inline),
+                Atom('name' type=inline),
+                #2,
+            ),
+            (
+                Atom('thisCache' type=dynamic),
                 #2,
             ),
             (
@@ -25,13 +29,41 @@ TestSnapshot {
                 Atom('cache' type=inline),
                 #2,
             ),
+            (
+                Atom('id' type=inline),
+                #2,
+            ),
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('ret' type=inline),
+                #2,
+            ),
         ],
         (
-            Atom('isNode' type=inline),
+            Atom('thisCache' type=dynamic),
             #2,
         ): [
             (
-                Atom('elem' type=inline),
+                Atom('id' type=inline),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+            (
+                Atom('thisCache' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('data' type=inline),
+                #2,
+            ),
+            (
+                Atom('ret' type=inline),
                 #2,
             ),
         ],
@@ -51,9 +83,17 @@ TestSnapshot {
                 Atom('id' type=inline),
                 #2,
             ),
+            (
+                Atom('core_deletedIds' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
         ],
         (
-            Atom('id' type=inline),
+            Atom('cache' type=inline),
             #2,
         ): [
             (
@@ -61,7 +101,23 @@ TestSnapshot {
                 #2,
             ),
             (
-                Atom('internalKey' type=dynamic),
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('name' type=inline),
+                #2,
+            ),
+            (
+                Atom('id' type=inline),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+            (
+                Atom('thisCache' type=dynamic),
                 #2,
             ),
         ],
@@ -75,6 +131,79 @@ TestSnapshot {
             ),
             (
                 Atom('id' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('isNode' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('core_deletedIds' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('id' type=inline),
+                #2,
+            ),
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('data' type=inline),
+            #2,
+        ): [
+            (
+                Atom('thisCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+            (
+                Atom('ret' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('internalKey' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('core_deletedIds' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+            (
+                Atom('thisCache' type=dynamic),
                 #2,
             ),
         ],
@@ -93,7 +222,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 10,
                 reassigned_with_assignment: false,
@@ -132,12 +261,12 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: true,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -169,12 +298,12 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 3,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
-                mutated: false,
+                mutated: true,
                 has_property_access: false,
                 has_property_mutation: false,
                 accessed_props: {},
@@ -206,7 +335,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 1,
                 usage_count: 6,
                 reassigned_with_assignment: false,
@@ -282,7 +411,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 12,
                 reassigned_with_assignment: true,
@@ -358,7 +487,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: false,
@@ -397,7 +526,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -436,7 +565,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 10,
                 reassigned_with_assignment: false,
@@ -473,7 +602,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 0,
+                assign_count: 7,
                 mutation_by_call_count: 4,
                 usage_count: 8,
                 reassigned_with_assignment: false,
@@ -586,7 +715,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 3,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: true,
@@ -664,7 +793,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 7,
                 reassigned_with_assignment: true,

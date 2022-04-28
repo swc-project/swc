@@ -17,6 +17,10 @@ TestSnapshot {
                 Atom('console' type=inline),
                 #1,
             ),
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
         ],
     },
     vars: [
