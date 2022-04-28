@@ -74,7 +74,7 @@ impl Evaluator {
                     m.fold_with(&mut compressor(
                         globals,
                         marks,
-                        &serde_json::from_str("{}").unwrap(),
+                        &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
                         &data,
                     ))
                 })

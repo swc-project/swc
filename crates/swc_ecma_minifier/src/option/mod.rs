@@ -169,7 +169,7 @@ pub struct CompressOptions {
     #[serde(alias = "hoist_funs")]
     pub hoist_fns: bool,
 
-    #[serde(default = "true_by_default")]
+    #[serde(default)]
     #[serde(alias = "hoist_props")]
     pub hoist_props: bool,
 

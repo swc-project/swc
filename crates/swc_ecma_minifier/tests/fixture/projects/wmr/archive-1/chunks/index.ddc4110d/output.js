@@ -6,6 +6,6 @@ function About({ query , title ,  }) {
     return y(()=>(console.log("Mounted About: ", title), ()=>{
             console.log("Unmounting About: ", title);
         })
-    , []), m`<section class=${"about_migxty"}><h1>${title || "About"}</h1><p>My name is Jason.</p><pre>${JSON.stringify(query)}</pre></section>`;
+    , []), m`<section class=${styles.about}><h1>${title || "About"}</h1><p>My name is Jason.</p><pre>${JSON.stringify(query)}</pre></section>`;
 }
 export default About;
