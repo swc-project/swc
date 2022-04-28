@@ -543,7 +543,7 @@ where
             //      namespace
             //
             //      Acknowledge the token's self-closing flag, and then act as
-            //      described in the steps for      a "script" end tag below.
+            //      described in the steps for a "script" end tag below.
             //
             // Otherwise
             //      Pop the current node off the stack of open elements and acknowledge the token's

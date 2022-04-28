@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 260,
+    "end": 210,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 253,
+        "end": 203,
         "ctxt": 0
       },
       "tagName": "html",
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 76,
-            "end": 253,
+            "end": 203,
             "ctxt": 0
           },
           "tagName": "body",
@@ -130,10 +130,10 @@
               "type": "Element",
               "span": {
                 "start": 87,
-                "end": 169,
+                "end": 185,
                 "ctxt": 0
               },
-              "tagName": "embed",
+              "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [
                 {
@@ -146,76 +146,18 @@
                   "namespace": null,
                   "prefix": null,
                   "name": "type",
-                  "value": "vide/webm"
-                },
-                {
-                  "type": "Attribute",
-                  "span": {
-                    "start": 0,
-                    "end": 0,
-                    "ctxt": 0
-                  },
-                  "namespace": null,
-                  "prefix": null,
-                  "name": "src",
-                  "value": "/media/examples/flower.mp4"
-                },
-                {
-                  "type": "Attribute",
-                  "span": {
-                    "start": 0,
-                    "end": 0,
-                    "ctxt": 0
-                  },
-                  "namespace": null,
-                  "prefix": null,
-                  "name": "width",
-                  "value": "200"
-                },
-                {
-                  "type": "Attribute",
-                  "span": {
-                    "start": 0,
-                    "end": 0,
-                    "ctxt": 0
-                  },
-                  "namespace": null,
-                  "prefix": null,
-                  "name": "height",
-                  "value": "200"
+                  "value": "text/html"
                 }
               ],
-              "children": [],
-              "content": null
-            },
-            {
-              "type": "Text",
-              "span": {
-                "start": 169,
-                "end": 174,
-                "ctxt": 0
-              },
-              "value": "\n    "
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 174,
-                "end": 225,
-                "ctxt": 0
-              },
-              "tagName": "noembed",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
               "children": [
                 {
                   "type": "Text",
                   "span": {
-                    "start": 183,
-                    "end": 225,
+                    "start": 112,
+                    "end": 185,
                     "ctxt": 0
                   },
-                  "value": "\n        <h1>Alternative content</h1>\n    "
+                  "value": "\n        <div>\n            test\n        </div>\n        <!-- aa -->\\n\n    "
                 }
               ],
               "content": null
@@ -223,11 +165,11 @@
             {
               "type": "Text",
               "span": {
-                "start": 235,
-                "end": 253,
+                "start": 194,
+                "end": 203,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "value": "\n\n"
             }
           ],
           "content": null

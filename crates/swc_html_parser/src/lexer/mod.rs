@@ -353,6 +353,17 @@ where
         }
     }
 
+    fn emit_temporary_buffer(&mut self) {
+        if let Some(temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.chars() {
+                self.emit_token(Token::Character {
+                    value: c,
+                    raw: None,
+                });
+            }
+        }
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         if self.finished {
             return Err(ErrorKind::Eof);
@@ -885,6 +896,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -905,6 +917,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -926,6 +939,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -1011,6 +1025,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::Rcdata;
                         self.reconsume();
                     }
@@ -1100,6 +1115,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1120,6 +1136,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1141,6 +1158,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1226,6 +1244,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::Rawtext;
                         self.reconsume()
                     }
@@ -1329,6 +1348,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1349,6 +1369,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1370,6 +1391,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1455,6 +1477,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::ScriptData;
                         self.reconsume()
                     }
@@ -1759,6 +1782,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1779,6 +1803,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1800,6 +1825,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1885,6 +1911,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::ScriptDataEscaped;
                         self.reconsume()
                     }
