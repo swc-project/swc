@@ -17,11 +17,6 @@ use swc_ecma_visit::{
 };
 use tracing::debug;
 
-pub(crate) const SHOULD_CHECK: bool = cfg!(debug_assertions) && option_env!("SWC_CHECK").is_some();
-
-pub(crate) const SHOULD_RUN: bool =
-    cfg!(debug_assertions) && cfg!(feature = "debug") && option_env!("SWC_RUN").is_some();
-
 pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
@@ -80,7 +75,11 @@ pub(crate) fn invoke(module: &Module) {
         module.visit_with(&mut AssertValid);
     }
 
-    if !SHOULD_RUN && !SHOULD_CHECK {
+    let should_run =
+        cfg!(debug_assertions) && cfg!(feature = "debug") && option_env!("SWC_RUN") == Some("1");
+    let should_check = cfg!(debug_assertions) && option_env!("SWC_CHECK") == Some("1");
+
+    if !should_run && !should_check {
         return;
     }
 
@@ -108,7 +107,7 @@ pub(crate) fn invoke(module: &Module) {
 
     debug!("Validating with node.js:\n{}", code);
 
-    if SHOULD_CHECK {
+    if should_check {
         let mut child = Command::new("node")
             .arg("-")
             .arg("--check")
