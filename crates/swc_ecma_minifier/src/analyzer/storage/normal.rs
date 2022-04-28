@@ -3,7 +3,6 @@ use std::{collections::hash_map::Entry, sync::Arc};
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use tracing::error;
 
 use super::{ScopeDataLike, Storage, VarDataLike};
 use crate::analyzer::{
@@ -225,14 +224,6 @@ impl ProgramData {
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
-        dbg!(
-            &i,
-            is_modify,
-            ctx.is_exact_reassignment,
-            &dejavu,
-            &self.alias.aliases
-        );
-        error!("TRACE");
         if is_modify && ctx.is_exact_reassignment {
             e.assign_count += 1;
 
