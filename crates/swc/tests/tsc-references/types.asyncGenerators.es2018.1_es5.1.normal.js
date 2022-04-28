@@ -101,10 +101,10 @@ function _inferReturnType6() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -121,9 +121,9 @@ function _inferReturnType7() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -140,7 +140,7 @@ function _inferReturnType8() {
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
             while(1)switch(_ctx1.prev = _ctx1.next){
                 case 0:
-                    return _ctx1.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx1.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -151,7 +151,7 @@ function _inferReturnType8() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx1.stop();
@@ -199,10 +199,10 @@ var assignability3 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -218,9 +218,9 @@ var assignability4 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -236,7 +236,7 @@ var assignability5 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx2) {
             while(1)switch(_ctx2.prev = _ctx2.next){
                 case 0:
-                    return _ctx2.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx2.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -247,7 +247,7 @@ var assignability5 = function() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx2.stop();
@@ -297,10 +297,10 @@ var assignability8 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -316,9 +316,9 @@ var assignability9 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -334,7 +334,7 @@ var assignability10 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx3) {
             while(1)switch(_ctx3.prev = _ctx3.next){
                 case 0:
-                    return _ctx3.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx3.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -345,7 +345,7 @@ var assignability10 = function() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx3.stop();
@@ -395,10 +395,10 @@ var assignability13 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -414,9 +414,9 @@ var assignability14 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -432,7 +432,7 @@ var assignability15 = function() {
         return regeneratorRuntime.wrap(function _callee$(_ctx4) {
             while(1)switch(_ctx4.prev = _ctx4.next){
                 case 0:
-                    return _ctx4.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx4.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -443,7 +443,7 @@ var assignability15 = function() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx4.stop();
@@ -498,10 +498,10 @@ function _explicitReturnType3() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -518,9 +518,9 @@ function _explicitReturnType4() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -537,7 +537,7 @@ function _explicitReturnType5() {
         return regeneratorRuntime.wrap(function _callee$(_ctx5) {
             while(1)switch(_ctx5.prev = _ctx5.next){
                 case 0:
-                    return _ctx5.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx5.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -548,7 +548,7 @@ function _explicitReturnType5() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx5.stop();
@@ -601,10 +601,10 @@ function _explicitReturnType8() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -621,9 +621,9 @@ function _explicitReturnType9() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -640,7 +640,7 @@ function _explicitReturnType10() {
         return regeneratorRuntime.wrap(function _callee$(_ctx6) {
             while(1)switch(_ctx6.prev = _ctx6.next){
                 case 0:
-                    return _ctx6.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx6.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -651,7 +651,7 @@ function _explicitReturnType10() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx6.stop();
@@ -704,10 +704,10 @@ function _explicitReturnType13() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         1,
                         2
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -724,9 +724,9 @@ function _explicitReturnType14() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield([
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                         Promise.resolve(1)
-                    ], "t0", 1);
+                    ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -743,7 +743,7 @@ function _explicitReturnType15() {
         return regeneratorRuntime.wrap(function _callee$(_ctx7) {
             while(1)switch(_ctx7.prev = _ctx7.next){
                 case 0:
-                    return _ctx7.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx7.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -754,7 +754,7 @@ function _explicitReturnType15() {
                                     return _ctx.stop();
                             }
                         }, _callee);
-                    }))(), "t0", 1);
+                    }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
                 case "end":
                     return _ctx7.stop();

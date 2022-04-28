@@ -1,7 +1,12 @@
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    mem::replace,
+    sync::atomic::{AtomicBool, Ordering},
+};
 
 use once_cell::sync::Lazy;
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
+use rustc_hash::FxHashMap;
+use swc_atoms::JsWord;
+use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -16,37 +21,46 @@ macro_rules! enable_helper {
     }};
 }
 
+fn parse(code: &str) -> Vec<Stmt> {
+    let cm = SourceMap::new(FilePathMapping::empty());
+
+    let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+
+    swc_ecma_parser::parse_file_as_script(
+        &fm,
+        Default::default(),
+        Default::default(),
+        None,
+        &mut vec![],
+    )
+    .map(|mut script| {
+        script.body.visit_mut_with(&mut DropSpan {
+            preserve_ctxt: false,
+        });
+        script.body
+    })
+    .map_err(|e| {
+        unreachable!("Error occurred while parsing error: {:?}", e);
+    })
+    .unwrap()
+}
+
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
-            let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
-            let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-
-            let stmts = swc_ecma_parser::parse_file_as_script(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut vec![],
-            )
-            .map(|mut script| {
-                script.body.visit_mut_with(&mut DropSpan {
-                    preserve_ctxt: false,
-                });
-                script.body
-            })
-            .map_err(|e| {
-                unreachable!("Error occurred while parsing error: {:?}", e);
-            })
-            .unwrap();
-            stmts
+            parse(&code)
         });
 
         let enable = $b.load(Ordering::Relaxed);
         if enable {
             $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
-                stmt.visit_mut_with(&mut Marker($mark));
+                stmt.visit_mut_with(&mut Marker {
+                    base: SyntaxContext::empty().apply_mark($mark),
+                    decls: Default::default(),
+
+                    decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
+                });
                 stmt
             }))
         }
@@ -352,13 +366,44 @@ impl VisitMut for InjectHelpers {
     }
 }
 
-struct Marker(Mark);
+struct Marker {
+    base: SyntaxContext,
+    decls: FxHashMap<JsWord, SyntaxContext>,
+
+    decl_ctxt: SyntaxContext,
+}
 
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        let old_decl_ctxt = replace(
+            &mut self.decl_ctxt,
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        );
+        let old_decls = self.decls.clone();
+
+        n.visit_mut_children_with(self);
+
+        self.decls = old_decls;
+        self.decl_ctxt = old_decl_ctxt;
+    }
+
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        let old_decl_ctxt = replace(
+            &mut self.decl_ctxt,
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        );
+        let old_decls = self.decls.clone();
+
+        n.visit_mut_children_with(self);
+
+        self.decls = old_decls;
+        self.decl_ctxt = old_decl_ctxt;
+    }
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span = i.span.apply_mark(self.0);
+        i.span.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
@@ -367,10 +412,34 @@ impl VisitMut for Marker {
         }
     }
 
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        if let Pat::Ident(i) = &n.pat {
+            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(e) = n {
+            e.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_super_prop(&mut self, p: &mut SuperProp) {
         if let SuperProp::Computed(p) = p {
             p.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        if let Pat::Ident(i) = &v.name {
+            if &*i.id.sym != "_typeof" {
+                self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            }
+        }
+
+        v.visit_mut_children_with(self);
     }
 }
 

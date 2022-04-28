@@ -27,9 +27,9 @@ const o3 = {
 const o4 = {
     f () {
         return swcHelpers.wrapAsyncGenerator(function*() {
-            const x = yield* [
+            const x = yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                 1
-            ];
+            ]), swcHelpers.awaitAsyncGenerator);
         })();
     }
 };
@@ -37,9 +37,9 @@ const o4 = {
 const o5 = {
     f () {
         return swcHelpers.wrapAsyncGenerator(function*() {
-            const x = yield* swcHelpers.wrapAsyncGenerator(function*() {
+            const x = yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
                 yield 1;
-            })();
+            })()), swcHelpers.awaitAsyncGenerator);
         })();
     }
 };

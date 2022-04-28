@@ -1,11 +1,22 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Update debugging utils (#4467) ([c45b0df](https://github.com/swc-project/swc/commit/c45b0df8770727b84ede1c3348c9769f5d4367c2))
+
+## [1.2.173] - 2022-04-28
+
 ### Bug Fixes
 
 
 
 - **(es)** Remove wrong debug assertion (#4445) ([962cf4a](https://github.com/swc-project/swc/commit/962cf4a08caaee6dc0579aed556df55bc60bf093))
+
+
+- **(es/async-generator)** Fix `yield*` in async generators (#4452) ([0bc0bae](https://github.com/swc-project/swc/commit/0bc0bae90dcf6f448f45d35edc02ce025c0d8114))
 
 
 - **(es/parser)** Throw syntax error for missing function expr body (#4462) ([393cfa8](https://github.com/swc-project/swc/commit/393cfa84b65264a07f90387a0f7852535d87cd6d))

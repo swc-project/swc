@@ -40,9 +40,9 @@ swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.delegateYield([
+                return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
                     1
-                ], "t0", 1);
+                ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
             case 1:
                 x = _ctx.t0;
             case 2:
@@ -55,7 +55,7 @@ swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx1) {
         for(;;)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                return _ctx1.delegateYield(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return _ctx1.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -65,7 +65,7 @@ swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }))(), "t0", 1);
+                }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
             case 1:
                 x = _ctx1.t0;
             case 2:
