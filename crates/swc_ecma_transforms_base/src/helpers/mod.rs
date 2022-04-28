@@ -1,4 +1,7 @@
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    mem::replace,
+    sync::atomic::{AtomicBool, Ordering},
+};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -55,6 +58,8 @@ macro_rules! add_to {
                 stmt.visit_mut_with(&mut Marker {
                     base: $mark,
                     decls: Default::default(),
+
+                    decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
                 });
                 stmt
             }))
@@ -364,25 +369,37 @@ impl VisitMut for InjectHelpers {
 struct Marker {
     base: Mark,
     decls: FxHashMap<JsWord, SyntaxContext>,
+
+    decl_ctxt: SyntaxContext,
 }
 
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        let old_decl_ctxt = replace(
+            &mut self.decl_ctxt,
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        );
         let old_decls = self.decls.clone();
 
         n.visit_mut_children_with(self);
 
         self.decls = old_decls;
+        self.decl_ctxt = old_decl_ctxt;
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        let old_decl_ctxt = replace(
+            &mut self.decl_ctxt,
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        );
         let old_decls = self.decls.clone();
 
         n.visit_mut_children_with(self);
 
         self.decls = old_decls;
+        self.decl_ctxt = old_decl_ctxt;
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
@@ -401,10 +418,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_param(&mut self, n: &mut Param) {
         if let Pat::Ident(i) = &n.pat {
-            self.decls.insert(
-                i.id.sym.clone(),
-                SyntaxContext::empty().apply_mark(Mark::new()),
-            );
+            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
         }
 
         n.visit_mut_children_with(self);
@@ -424,10 +438,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &v.name {
-            self.decls.insert(
-                i.id.sym.clone(),
-                SyntaxContext::empty().apply_mark(Mark::new()),
-            );
+            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
         }
 
         v.visit_mut_children_with(self);
