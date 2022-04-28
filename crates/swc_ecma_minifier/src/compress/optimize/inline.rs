@@ -313,7 +313,7 @@ where
                     ..
                 }) => Some(2 + op.as_str().len() + expr_cost(arg)?),
 
-                Expr::Unary(UnaryExpr { op, arg, .. }) => Some(1 + expr_cost(arg)?),
+                Expr::Unary(UnaryExpr { arg, .. }) => Some(1 + expr_cost(arg)?),
 
                 Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
