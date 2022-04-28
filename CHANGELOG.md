@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Disable some passes for `hoist_props` (#4468) ([effc85d](https://github.com/swc-project/swc/commit/effc85df572609a180f9a28177a5b37ed960c860))
 
+
+- **(es/minifier)** Fix skipping logic of sequential inliner (#4469) ([233c4d5](https://github.com/swc-project/swc/commit/233c4d5b860d557710bfe654f76d7901e5d0b3a0))
+
 ### Miscellaneous Tasks
 
 
