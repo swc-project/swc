@@ -7,3 +7,8 @@ var C = function() {
     return C.prototype.m = function(x) {}, C.m = function(x) {}, C;
 }();
 C.m(), new C().m(), new C().p();
+var obj = {
+    m: function(x) {},
+    p: function(x) {}
+};
+obj.m(), obj.p();
