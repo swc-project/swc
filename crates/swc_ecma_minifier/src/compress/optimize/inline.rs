@@ -200,6 +200,7 @@ where
                     && !usage.reassigned()
                     && (!usage.mutated || usage.is_mutated_only_by_one_call())
                     && usage.usage_count == 1
+                    && usage.ref_count == 1
                 {
                     match &**init {
                         Expr::Fn(FnExpr {
