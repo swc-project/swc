@@ -438,7 +438,9 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &v.name {
-            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            if &*i.id.sym != "_typeof" {
+                self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            }
         }
 
         v.visit_mut_children_with(self);
