@@ -421,6 +421,17 @@ impl VisitMut for Marker {
             p.visit_mut_with(self);
         }
     }
+
+    fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        if let Pat::Ident(i) = &v.name {
+            self.decls.insert(
+                i.id.sym.clone(),
+                SyntaxContext::empty().apply_mark(Mark::new()),
+            );
+        }
+
+        v.visit_mut_children_with(self);
+    }
 }
 
 #[cfg(test)]
