@@ -11,6 +11,9 @@
 - **(es/parser)** Throw syntax error for missing function expr body (#4462) ([393cfa8](https://github.com/swc-project/swc/commit/393cfa84b65264a07f90387a0f7852535d87cd6d))
 
 
+- **(es/preset-env)** Do not import new features when using old core-js (#4458) ([4262874](https://github.com/swc-project/swc/commit/4262874ce458260fc6a7d363522b5c6591df93b3))
+
+
 - **(html/parser)** Fix a bug with nested tags (#4438) ([8c4dc4c](https://github.com/swc-project/swc/commit/8c4dc4cc46e73265ad45e63fecd513f4ba4cf7bb))
 
 
