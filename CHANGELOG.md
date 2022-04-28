@@ -25,6 +25,9 @@
 
 - **(es/parser)** Reject indirect opt chain in assignment (#4447) ([df7b3f6](https://github.com/swc-project/swc/commit/df7b3f611a7bf5509e143cf81a69e0443cf80288))
 
+
+- **(html/minifier)** Compress whitespaces (#4463) ([0ae4350](https://github.com/swc-project/swc/commit/0ae43502f3f54ad7d77b790c9f1ad2af63d32090))
+
 ### Miscellaneous Tasks
 
 
