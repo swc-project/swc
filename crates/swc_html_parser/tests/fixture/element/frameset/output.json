@@ -1,0 +1,438 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 430,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 16,
+        "end": 423,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 23,
+            "end": 137,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 29,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 34,
+                "end": 101,
+                "ctxt": 0
+              },
+              "tagName": "meta",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "http-equiv",
+                  "value": "Content-Type"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "content",
+                  "value": "text/html; charset=utf-8"
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 101,
+                "end": 106,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 106,
+                "end": 128,
+                "ctxt": 0
+              },
+              "tagName": "title",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 113,
+                    "end": 128,
+                    "ctxt": 0
+                  },
+                  "value": "Тег FRAMESET"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 136,
+                "end": 137,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ],
+          "content": null
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 144,
+            "end": 146,
+            "ctxt": 0
+          },
+          "value": "\n\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 146,
+            "end": 410,
+            "ctxt": 0
+          },
+          "tagName": "frameset",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "rows",
+              "value": "80,*"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "cols",
+              "value": "*"
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 177,
+                "end": 182,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 182,
+                "end": 244,
+                "ctxt": 0
+              },
+              "tagName": "frame",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "src",
+                  "value": "top.html"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "name",
+                  "value": "topFrame"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "scrolling",
+                  "value": "no"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "noresize",
+                  "value": null
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 244,
+                "end": 249,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 249,
+                "end": 398,
+                "ctxt": 0
+              },
+              "tagName": "frameset",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "cols",
+                  "value": "80,*"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 271,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "value": "\n        "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 280,
+                    "end": 344,
+                    "ctxt": 0
+                  },
+                  "tagName": "frame",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "src",
+                      "value": "left.html"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "name",
+                      "value": "leftFrame"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "scrolling",
+                      "value": "no"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "noresize",
+                      "value": null
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 344,
+                    "end": 353,
+                    "ctxt": 0
+                  },
+                  "value": "\n        "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 353,
+                    "end": 393,
+                    "ctxt": 0
+                  },
+                  "tagName": "frame",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "src",
+                      "value": "main.html"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "name",
+                      "value": "mainFrame"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 393,
+                    "end": 398,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 409,
+                "end": 410,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ],
+          "content": null
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 421,
+            "end": 423,
+            "ctxt": 0
+          },
+          "value": "\n\n"
+        }
+      ],
+      "content": null
+    }
+  ]
+}

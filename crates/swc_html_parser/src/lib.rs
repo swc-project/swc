@@ -34,8 +34,8 @@ where
 
 /// Parse a given string as `T`.
 ///
-/// If there are syntax errors but if it was recoverable, it will be appendend
-/// to `errors`.
+/// If there are syntax errors but if it was recoverable, it will be appended
+/// `errors`.
 pub fn parse_str<'a, T>(
     src: &'a str,
     start_pos: BytePos,
@@ -56,8 +56,8 @@ where
 
 /// Parse a given file as `T`.
 ///
-/// If there are syntax errors but if it was recoverable, it will be appendend
-/// to `errors`.
+/// If there are syntax errors but if it was recoverable, it will be appended to
+/// `errors`.
 pub fn parse_file<'a, T>(
     fm: &'a SourceFile,
     config: ParserConfig,

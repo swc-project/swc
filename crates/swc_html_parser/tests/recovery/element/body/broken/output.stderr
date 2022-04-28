@@ -1,0 +1,6 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:6:1]
+ 6 | <html test="test">
+   : ^^^^^^^^^^^^^^^^^^
+   `----
