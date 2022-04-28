@@ -1,0 +1,6 @@
+
+  x Unexpected eof
+   ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/named/input.ts:1:1]
+ 1 | let f = function f();
+   :                      ^
+   `----
