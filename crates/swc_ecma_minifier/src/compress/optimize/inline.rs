@@ -299,6 +299,7 @@ where
             disallow_call: bool,
         }
 
+        #[allow(clippy::needless_update)]
         fn is_expr_simple_enough(e: &Expr, opts: Opts) -> bool {
             match e {
                 Expr::Lit(..) => true,
