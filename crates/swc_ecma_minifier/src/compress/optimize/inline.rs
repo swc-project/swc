@@ -327,7 +327,7 @@ where
                             c += 3;
                         }
 
-                        c += expr_cost(&arg.expr)?;
+                        c += expr_cost(&arg.expr)? + 1;
                     }
 
                     Some(c)
