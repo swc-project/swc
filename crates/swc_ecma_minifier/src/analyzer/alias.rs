@@ -79,10 +79,12 @@ impl Visit for AliasAnalyzer<'_> {
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         n.visit_children_with(self);
 
-        let left = leftmost(&n.left);
+        if n.op == op!("=") {
+            let left = leftmost(&n.left);
 
-        if let Some(left) = left {
-            self.add_alias(left, &n.right);
+            if let Some(left) = left {
+                self.add_alias(left, &n.right);
+            }
         }
     }
 
