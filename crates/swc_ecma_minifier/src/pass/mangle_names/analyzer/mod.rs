@@ -179,8 +179,6 @@ impl Visit for Analyzer {
         self.add_decl(f.ident.to_id());
 
         self.with_scope(|v| {
-            v.add_decl(f.ident.to_id());
-
             f.function.visit_with(v);
         })
     }
