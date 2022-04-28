@@ -67,6 +67,8 @@ pub(crate) struct VarUsageInfo {
     pub inline_prevented: bool,
 
     /// The number of reference to this identifier.
+    ///
+    /// This does not include indirect accesses via alias.
     pub ref_count: usize,
 
     /// `true` if a variable is conditionally initialized.
