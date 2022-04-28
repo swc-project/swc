@@ -13,6 +13,9 @@
 
 - **(html/parser)** Parse table including broken one (#4451) ([6e60813](https://github.com/swc-project/swc/commit/6e6081336714861055a1ae148f1305e2ab180efc))
 
+
+- **(html/parser)** Fix fosting logic for text nodes (#4457) ([65a158a](https://github.com/swc-project/swc/commit/65a158a66b2a394f70757ae363ab329ced71436f))
+
 ### Features
 
 
