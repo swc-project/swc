@@ -2967,7 +2967,7 @@ Elements.prototype = {
                 case 'cancel':
                     return this.cancel(), !0;
                 case 'chain':
-                    return this.chain(this.caller.pass(arguments, this)), !1;
+                    this.chain(this.caller.pass(arguments, this));
             }
             return !1;
         },
@@ -3385,7 +3385,7 @@ Elements.prototype = {
                 case 'cancel':
                     return this.cancel(), !0;
                 case 'chain':
-                    return this.chain(this.caller.pass(arguments, this)), !1;
+                    this.chain(this.caller.pass(arguments, this));
             }
             return !1;
         },

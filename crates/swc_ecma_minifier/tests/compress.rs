@@ -343,11 +343,37 @@ fn projects(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm, &[output_module], false, false);
+        let output = print(cm.clone(), &[output_module], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
+
+        let minified = {
+            let output = run(
+                cm.clone(),
+                &handler,
+                &input,
+                r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
+                Some(TestMangleOptions::Normal(MangleOptions {
+                    top_level: true,
+                    ..Default::default()
+                })),
+                false,
+            );
+            let output_module = match output {
+                Some(v) => v,
+                None => return Ok(()),
+            };
+
+            print(cm, &[output_module], true, true)
+        };
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Size"),
+            minified.len()
+        );
 
         NormalizedOutput::from(output)
             .compare_to_file(

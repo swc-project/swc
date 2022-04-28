@@ -575,9 +575,7 @@
                 var outerType, innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return getComponentName(init(payload));
-                } catch (x) {
-                    return null;
-                }
+                } catch (x) {}
         }
         return null;
     }
@@ -4493,7 +4491,7 @@
                 if (null == partialState) return prevState;
                 return _assign({}, prevState, partialState);
             case 2:
-                return hasForceUpdate = !0, prevState;
+                hasForceUpdate = !0;
         }
         return prevState;
     }
