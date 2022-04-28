@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Fix skipping logic of sequential inliner (#4469) ([233c4d5](https://github.com/swc-project/swc/commit/233c4d5b860d557710bfe654f76d7901e5d0b3a0))
 
+### Features
+
+
+
+- **(es/minifier)** Drop more returns (#4471) ([2739546](https://github.com/swc-project/swc/commit/273954640aa2d22d0e65f4d186bcb6add0844cb1))
+
 ### Miscellaneous Tasks
 
 
