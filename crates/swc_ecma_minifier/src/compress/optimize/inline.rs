@@ -294,75 +294,61 @@ where
 
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
-        #[derive(Debug, Default, Clone, Copy)]
-        struct Opts {
-            disallow_call: bool,
-        }
-
-        #[allow(clippy::needless_update)]
-        fn is_expr_simple_enough(e: &Expr, opts: Opts) -> bool {
+        fn expr_cost(e: &Expr) -> Option<usize> {
             match e {
-                Expr::Lit(..) => true,
-                Expr::Ident(..) => true,
+                // TODO?
+                Expr::Lit(..) => Some(1),
+                Expr::Ident(..) => Some(1),
 
-                // It's long
                 Expr::Bin(BinExpr {
-                    op: op!("instanceof"),
+                    op: op @ op!("instanceof") | op @ op!("in"),
+                    left,
+                    right,
                     ..
-                })
-                | Expr::Unary(UnaryExpr {
-                    op: op!("typeof") | op!("void") | op!("delete"),
-                    ..
-                }) => false,
+                }) => Some(2 + op.as_str().len() + expr_cost(left)? + expr_cost(right)?),
 
-                Expr::Unary(UnaryExpr { arg, .. }) => is_expr_simple_enough(arg, opts),
+                Expr::Unary(UnaryExpr {
+                    op: op @ op!("typeof") | op @ op!("void") | op @ op!("delete"),
+                    arg,
+                    ..
+                }) => Some(2 + op.as_str().len() + expr_cost(arg)?),
+
+                Expr::Unary(UnaryExpr { op, arg, .. }) => Some(1 + expr_cost(arg)?),
 
                 Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
                     args,
                     ..
-                }) if !opts.disallow_call => {
-                    is_expr_simple_enough(
-                        callee,
-                        Opts {
-                            disallow_call: true,
-                            ..opts
-                        },
-                    ) && args.iter().all(|arg| {
-                        is_expr_simple_enough(
-                            &arg.expr,
-                            Opts {
-                                disallow_call: true,
-                                ..opts
-                            },
-                        )
-                    })
+                }) => {
+                    let mut c = expr_cost(callee)? + 2;
+
+                    for arg in args {
+                        if arg.spread.is_some() {
+                            c += 3;
+                        }
+
+                        c += expr_cost(&arg.expr)?;
+                    }
+
+                    Some(c)
                 }
 
-                Expr::Bin(e) => {
-                    is_expr_simple_enough(&e.left, opts) && is_expr_simple_enough(&e.right, opts)
-                }
+                Expr::Bin(e) => Some(expr_cost(&e.left)? + expr_cost(&e.right)? + 2),
 
-                Expr::Update(e) => is_expr_simple_enough(&e.arg, opts),
+                Expr::Update(e) => Some(expr_cost(&e.arg)? + 2),
 
                 Expr::Assign(e) => {
-                    e.left.as_ident().is_some() && is_expr_simple_enough(&e.right, opts)
+                    e.left.as_ident()?;
+                    Some(2 + expr_cost(&e.right)?)
                 }
 
-                Expr::Seq(e) => {
-                    e.exprs.len() <= 2
-                        && e.exprs.iter().map(|v| &**v).all(|e| {
-                            is_expr_simple_enough(
-                                e,
-                                Opts {
-                                    disallow_call: true,
-                                    ..opts
-                                },
-                            )
-                        })
-                }
+                Expr::Seq(e) => e
+                    .exprs
+                    .iter()
+                    .map(|v| expr_cost(v))
+                    .fold(Some(0), |a, b| Some(a? + b?)),
 
-                _ => false,
+                _ => None,
             }
         }
 
