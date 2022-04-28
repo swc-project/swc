@@ -1,18 +1,30 @@
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, sync::Arc};
 
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
+use tracing::error;
 
 use super::{ScopeDataLike, Storage, VarDataLike};
-use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
+use crate::analyzer::{
+    alias::AliasData, ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo,
+};
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
-    fn alias_data(&mut self) -> &mut crate::analyzer::alias::AliasData {
-        &mut self.alias
+    fn init(alias: Arc<AliasData>) -> Self {
+        ProgramData {
+            alias,
+            vars: Default::default(),
+            top: Default::default(),
+            scopes: Default::default(),
+        }
+    }
+
+    fn clone_alias_data(&self) -> Arc<AliasData> {
+        self.alias.clone()
     }
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
@@ -213,6 +225,14 @@ impl ProgramData {
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
+        dbg!(
+            &i,
+            is_modify,
+            ctx.is_exact_reassignment,
+            &dejavu,
+            &self.alias.aliases
+        );
+        error!("TRACE");
         if is_modify && ctx.is_exact_reassignment {
             e.assign_count += 1;
 

@@ -25,7 +25,7 @@ use self::{
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
-    analyzer::{ProgramData, UsageAnalyzer},
+    analyzer::ProgramData,
     compress::util::is_pure_undefined,
     debug::{dump, AssertValid},
     marks::Marks,
@@ -301,7 +301,7 @@ where
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();

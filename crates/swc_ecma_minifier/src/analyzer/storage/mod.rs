@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -7,11 +9,13 @@ use super::{alias::AliasData, ctx::Ctx, ScopeKind};
 
 pub mod normal;
 
-pub(crate) trait Storage: Sized + Default {
+pub(crate) trait Storage: Sized {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
-    fn alias_data(&mut self) -> &mut AliasData;
+    fn init(alias: Arc<AliasData>) -> Self;
+
+    fn clone_alias_data(&self) -> Arc<AliasData>;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 

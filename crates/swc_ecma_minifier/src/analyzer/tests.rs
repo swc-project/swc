@@ -52,7 +52,7 @@ fn snapshot(input: PathBuf) {
 
         // Iteration order of hashmap is not deterministic
         let mut snapshot = TestSnapshot {
-            aliases: data.alias.aliases,
+            aliases: data.alias.aliases.clone(),
             vars: data
                 .vars
                 .into_iter()

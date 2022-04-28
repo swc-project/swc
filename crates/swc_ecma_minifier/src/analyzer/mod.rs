@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -41,11 +43,13 @@ where
 {
     let _timer = timer!("analyze");
 
-    let mut data = S::default();
+    let mut alias_data = Default::default();
 
     n.visit_with(&mut AliasAnalyzer {
-        data: &mut data.alias_data(),
+        data: &mut alias_data,
     });
+
+    let data = S::init(Arc::new(alias_data));
 
     let mut v = UsageAnalyzer {
         data,
@@ -152,9 +156,9 @@ pub(crate) struct ScopeData {
 }
 
 /// Analyzed info of a whole program we are working on.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub(crate) struct ProgramData {
-    pub alias: AliasData,
+    pub alias: Arc<AliasData>,
 
     pub vars: AHashMap<Id, VarUsageInfo>,
 
@@ -229,8 +233,9 @@ where
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
+        let data = S::init(self.data.clone_alias_data());
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            data,
             marks: self.marks,
             ctx: self.ctx,
             scope: Default::default(),

@@ -4,6 +4,7 @@ use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use tracing::error;
 
 #[derive(Debug, Default)]
 pub(crate) struct AliasData {
@@ -28,11 +29,12 @@ impl Visit for AliasAnalyzer<'_> {
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
+                let local_bindings = collect_decls(init);
+
                 let used_idents = {
-                    let bindings = collect_decls(init);
                     let mut v = AliasCollector {
                         ids: Default::default(),
-                        excluded: &bindings,
+                        excluded: &local_bindings,
                     };
                     init.visit_with(&mut v);
                     v.ids
@@ -42,6 +44,8 @@ impl Visit for AliasAnalyzer<'_> {
                 if cfg!(test) {
                     dbg!(&var.id, &used_idents);
                 }
+                dbg!(&var, init, &local_bindings, &used_idents);
+                error!("TRACE - ALIAS");
 
                 for id in used_idents {
                     {

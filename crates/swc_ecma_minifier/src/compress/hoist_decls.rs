@@ -1,11 +1,11 @@
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::util::drop_invalid_stmts;
 use crate::{
-    analyzer::{ProgramData, UsageAnalyzer},
+    analyzer::ProgramData,
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem, ModuleItemExt},
 };
 
@@ -43,7 +43,7 @@ impl Hoister<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem + ModuleItemExt,
-        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer>,
+        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>>,
     {
         stmts.visit_mut_children_with(self);
 
