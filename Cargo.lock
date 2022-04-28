@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.9"
+version = "0.102.10"
 dependencies = [
  "criterion",
  "either",
@@ -3838,7 +3838,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.3"
+version = "0.2.4"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3851,7 +3851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "bitflags",
  "lexical",

@@ -47,11 +47,31 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+// TODO improve list - event handlers + remove multiple whitespace from class +
+// test for custom elements
+static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
+    "id",
+    "class",
+    "style",
+    "tabindex",
+    "maxlength",
+    "size",
+    "rows",
+    "cols",
+    "span",
+    "rowspan",
+    "colspan",
+];
+
 struct Minifier {}
 
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
         BOOLEAN_ATTRIBUTES.contains(&name)
+    }
+
+    fn allow_to_trim(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -178,6 +198,11 @@ impl VisitMut for Minifier {
                 {
                     false
                 }
+                _ if matches!(&*attribute.name, "id" | "class" | "style")
+                    && (&*attribute.value.as_ref().unwrap()).trim().is_empty() =>
+                {
+                    false
+                }
                 _ => true,
             }
         });
@@ -186,12 +211,23 @@ impl VisitMut for Minifier {
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
         n.visit_mut_children_with(self);
 
-        match &n.name {
-            name if n.value.is_some() && self.is_boolean_attribute(name) => {
-                n.value = None;
-            }
-            _ => {}
+        if n.value.is_none() {
+            return;
         }
+
+        if self.is_boolean_attribute(&n.name) {
+            n.value = None;
+
+            return;
+        }
+
+        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
+
+        if self.allow_to_trim(&n.name) {
+            value = value.trim();
+        }
+
+        n.value = Some(value.into());
     }
 }
 
