@@ -1,4 +1,68 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('requestHeaders' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('requestHeadersNames' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('lname' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('lname' type=inline),
+            #2,
+        ): [
+            (
+                Atom('name' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('requestHeaders' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('state' type=inline),
+                #3,
+            ),
+            (
+                Atom('requestHeadersNames' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('state' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

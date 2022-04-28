@@ -1,4 +1,37 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('validate' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('compilation' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('result' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #2,
+        ): [
+            (
+                Atom('validate' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('compilation' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('validate' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

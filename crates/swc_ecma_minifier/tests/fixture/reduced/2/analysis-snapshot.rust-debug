@@ -1,4 +1,149 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('additionalProperties_1' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('def' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('util_1' type=inline),
+            #3,
+        ): [
+            (
+                Atom('properties' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('def' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('valid' type=inline),
+            #2,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('validate_1' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('def' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('properties' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('util_1' type=inline),
+                #3,
+            ),
+            (
+                Atom('allProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('it' type=inline),
+                #2,
+            ),
+            (
+                Atom('schema' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('schema' type=inline),
+            #2,
+        ): [
+            (
+                Atom('allProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('properties' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('gen' type=inline),
+            #2,
+        ): [
+            (
+                Atom('valid' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('it' type=inline),
+            #2,
+        ): [
+            (
+                Atom('properties' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('allProps' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('code_1' type=inline),
+                #3,
+            ),
+            (
+                Atom('schema' type=inline),
+                #2,
+            ),
+            (
+                Atom('properties' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('code_1' type=inline),
+            #3,
+        ): [
+            (
+                Atom('allProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('def' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('def' type=inline),
+            #1,
+        ): [
+            (
+                Atom('util_1' type=inline),
+                #3,
+            ),
+            (
+                Atom('validate_1' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('code_1' type=inline),
+                #3,
+            ),
+            (
+                Atom('additionalProperties_1' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

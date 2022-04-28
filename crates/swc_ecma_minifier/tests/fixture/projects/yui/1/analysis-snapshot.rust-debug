@@ -1,4 +1,63 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('useSVG' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Y' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('DOCUMENT' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('Y' type=inline),
+                #2,
+            ),
+            (
+                Atom('canvas' type=inline),
+                #2,
+            ),
+            (
+                Atom('svg' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('canvas' type=inline),
+            #2,
+        ): [
+            (
+                Atom('DOCUMENT' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('svg' type=inline),
+            #2,
+        ): [
+            (
+                Atom('DOCUMENT' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('Y' type=inline),
+            #2,
+        ): [
+            (
+                Atom('DOCUMENT' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('useSVG' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

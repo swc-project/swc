@@ -1,4 +1,15 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('arr' type=inline),
+            #1,
+        ): [
+            (
+                Atom('arr' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

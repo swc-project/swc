@@ -1,4 +1,120 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('exp' type=inline),
+            #5,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('exp' type=inline),
+            #2,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #5,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('stdlib' type=inline),
+            #5,
+        ): [
+            (
+                Atom('exp' type=inline),
+                #5,
+            ),
+            (
+                Atom('log' type=inline),
+                #5,
+            ),
+            (
+                Atom('values' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('stdlib' type=inline),
+            #2,
+        ): [
+            (
+                Atom('exp' type=inline),
+                #2,
+            ),
+            (
+                Atom('log' type=inline),
+                #2,
+            ),
+            (
+                Atom('values' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #2,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('values' type=inline),
+            #2,
+        ): [
+            (
+                Atom('stdlib' type=inline),
+                #2,
+            ),
+            (
+                Atom('buffer' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('buffer' type=inline),
+            #2,
+        ): [
+            (
+                Atom('values' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('buffer' type=inline),
+            #5,
+        ): [
+            (
+                Atom('values' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('values' type=inline),
+            #5,
+        ): [
+            (
+                Atom('buffer' type=inline),
+                #5,
+            ),
+            (
+                Atom('stdlib' type=inline),
+                #5,
+            ),
+        ],
+    },
     vars: [
         (
             (

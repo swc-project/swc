@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('func_bag' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('leak' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('leak' type=inline),
+            #3,
+        ): [
+            (
+                Atom('func_bag' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

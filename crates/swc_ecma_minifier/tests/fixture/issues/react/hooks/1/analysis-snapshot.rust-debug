@@ -1,4 +1,107 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('ref2' type=inline),
+            #2,
+        ): [
+            (
+                Atom('projectId' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('branches' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('projectInfo' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #2,
+            ),
+            (
+                Atom('projectId' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('ref1' type=inline),
+            #2,
+        ): [
+            (
+                Atom('teamSlug' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('projectName' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('_query' type=inline),
+                #2,
+            ),
+            (
+                Atom('ref' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('projectId' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('projectInfo' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_query' type=inline),
+            #2,
+        ): [
+            (
+                Atom('projectName' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('teamSlug' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('branches' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #2,
+        ): [
+            (
+                Atom('projectName' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('projectInfo' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

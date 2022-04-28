@@ -1,4 +1,68 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('G' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #3,
+        ): [
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('undefined' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #3,
+        ): [
+            (
+                Atom('G' type=inline),
+                #2,
+            ),
+            (
+                Atom('__webpack_modules__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('__webpack_modules__' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

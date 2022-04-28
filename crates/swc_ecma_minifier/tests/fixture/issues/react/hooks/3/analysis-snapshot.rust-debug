@@ -1,4 +1,203 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('ref2' type=inline),
+            #5,
+        ): [
+            (
+                Atom('projectId' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('branches' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #5,
+        ): [
+            (
+                Atom('use_project' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('projectName' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('projectInfo' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('teamSlug' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('team' type=inline),
+            #3,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #3,
+            ),
+            (
+                Atom('teamId' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('projectId' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('projectInfo' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('authenticate' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('token' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('projectName' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('_query' type=inline),
+                #5,
+            ),
+            (
+                Atom('ref' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('ref1' type=inline),
+            #5,
+        ): [
+            (
+                Atom('use_team' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('teamSlug' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('use_team' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #3,
+            ),
+            (
+                Atom('ref1' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('router' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_query' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('use_project' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('token' type=inline),
+            #3,
+        ): [
+            (
+                Atom('authenticate' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('_query' type=inline),
+            #5,
+        ): [
+            (
+                Atom('router' type=inline),
+                #1,
+            ),
+            (
+                Atom('projectName' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('teamId' type=inline),
+            #3,
+        ): [
+            (
+                Atom('team' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #3,
+        ): [
+            (
+                Atom('use_team' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('team' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('branches' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('projectInfo' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #5,
+            ),
+            (
+                Atom('projectId' type=dynamic),
+                #5,
+            ),
+        ],
+    },
     vars: [
         (
             (

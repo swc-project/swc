@@ -1,4 +1,104 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('console' type=inline),
+            #3,
+        ): [
+            (
+                Atom('log' type=inline),
+                #2,
+            ),
+            (
+                Atom('log' type=inline),
+                #4,
+            ),
+            (
+                Atom('log' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #5,
+        ): [
+            (
+                Atom('a' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #5,
+        ): [
+            (
+                Atom('c' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #2,
+        ): [
+            (
+                Atom('c' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #4,
+        ): [
+            (
+                Atom('c' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #4,
+        ): [
+            (
+                Atom('a' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #5,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #2,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #4,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

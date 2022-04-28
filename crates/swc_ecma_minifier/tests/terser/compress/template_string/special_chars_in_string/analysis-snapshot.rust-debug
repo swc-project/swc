@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('template' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('any' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('any' type=static),
+            #2,
+        ): [
+            (
+                Atom('template' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,185 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('self' type=inline),
+            #4,
+        ): [
+            (
+                Atom('set' type=static),
+                #2,
+            ),
+            (
+                Atom('index' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('isFunction' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('disableScript' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('index' type=inline),
+            #4,
+        ): [
+            (
+                Atom('self' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('disableScript' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('restoreScript' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('rscriptType' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('core_concat' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('rchecked' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('undefined' type=static),
+                #3,
+            ),
+            (
+                Atom('rcleanScript' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #2,
+        ): [
+            (
+                Atom('args' type=inline),
+                #2,
+            ),
+            (
+                Atom('isFunction' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('restoreScript' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('rscriptType' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('rchecked' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('rcleanScript' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('set' type=static),
+            #2,
+        ): [
+            (
+                Atom('self' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('core_concat' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('value' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('isFunction' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('value' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

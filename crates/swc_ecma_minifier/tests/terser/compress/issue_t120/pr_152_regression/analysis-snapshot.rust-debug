@@ -1,4 +1,28 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('CryptoJS' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('CryptoJS' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('Math' type=static),
+                #6,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #6,
+        ): [
+            (
+                Atom('CryptoJS' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

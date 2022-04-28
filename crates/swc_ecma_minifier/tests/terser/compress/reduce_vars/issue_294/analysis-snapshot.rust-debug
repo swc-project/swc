@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('input' type=inline),
+            #3,
+        ): [
+            (
+                Atom('keyToMap' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('keyToMap' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('input' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

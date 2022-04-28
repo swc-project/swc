@@ -1,4 +1,164 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('add' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('models' type=inline),
+            #2,
+        ): [
+            (
+                Atom('singular' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('merge' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('order' type=inline),
+            #2,
+        ): [
+            (
+                Atom('orderedModels' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('orderedModels' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('order' type=inline),
+                #2,
+            ),
+            (
+                Atom('toAdd' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('toAdd' type=inline),
+            #2,
+        ): [
+            (
+                Atom('orderedModels' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('remove' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
+            ),
+            (
+                Atom('setOptions' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('Model' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('singular' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
+            ),
+            (
+                Atom('models' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_' type=inline),
+            #3,
+        ): [
+            (
+                Atom('singular' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('setOptions' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #2,
+        ): [
+            (
+                Atom('at' type=inline),
+                #2,
+            ),
+            (
+                Atom('add' type=inline),
+                #2,
+            ),
+            (
+                Atom('merge' type=inline),
+                #2,
+            ),
+            (
+                Atom('remove' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('Model' type=inline),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('at' type=inline),
+            #2,
+        ): [
+            (
+                Atom('options' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

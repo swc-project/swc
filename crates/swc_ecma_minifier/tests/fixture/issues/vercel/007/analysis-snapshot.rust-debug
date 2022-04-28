@@ -1,4 +1,50 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('_JSXStyle' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('WithSidebar' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('Sidebar' type=inline),
+            #3,
+        ): [
+            (
+                Atom('WithSidebar' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('React' type=static),
+            #3,
+        ): [
+            (
+                Atom('WithSidebar' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('WithSidebar' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Sidebar' type=inline),
+                #3,
+            ),
+            (
+                Atom('_JSXStyle' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('React' type=static),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,28 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('params' type=inline),
+            #3,
+        ): [
+            (
+                Atom('newClass' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('newClass' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('params' type=inline),
+                #3,
+            ),
+            (
+                Atom('newClass' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

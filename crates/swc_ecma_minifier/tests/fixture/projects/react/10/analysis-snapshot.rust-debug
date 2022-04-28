@@ -1,4 +1,68 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('payload' type=inline),
+            #2,
+        ): [
+            (
+                Atom('lazyComponent' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('init' type=inline),
+            #2,
+        ): [
+            (
+                Atom('lazyComponent' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #2,
+        ): [
+            (
+                Atom('lazyComponent' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('prototype' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Component' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('Component' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('prototype' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('lazyComponent' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('type' type=static),
+                #2,
+            ),
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+            (
+                Atom('init' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

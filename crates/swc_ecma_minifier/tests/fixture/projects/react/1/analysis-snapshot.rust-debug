@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('symbolFor' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('Symbol' type=static),
+            #2,
+        ): [
+            (
+                Atom('symbolFor' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

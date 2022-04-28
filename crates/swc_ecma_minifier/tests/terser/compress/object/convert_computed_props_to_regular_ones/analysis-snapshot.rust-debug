@@ -1,4 +1,63 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('Infinity' type=static),
+            #2,
+        ): [
+            (
+                Atom('o' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #2,
+        ): [
+            (
+                Atom('o' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #1,
+        ): [
+            (
+                Atom('Infinity' type=static),
+                #2,
+            ),
+            (
+                Atom('NaN' type=static),
+                #2,
+            ),
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+            (
+                Atom('undefined' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #2,
+        ): [
+            (
+                Atom('o' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #2,
+        ): [
+            (
+                Atom('o' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

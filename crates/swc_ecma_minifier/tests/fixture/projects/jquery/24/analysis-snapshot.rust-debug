@@ -1,4 +1,138 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('wrapMap' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('rtagName' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('wrapMap' type=inline),
+                #3,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('rleadingWhitespace' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('rscriptType' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('fixDefaultChecked' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('rhtml' type=inline),
+                #3,
+            ),
+            (
+                Atom('rtagName' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('safe' type=inline),
+            #2,
+        ): [
+            (
+                Atom('context' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('elems' type=inline),
+            #2,
+        ): [
+            (
+                Atom('l' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('rleadingWhitespace' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('rscriptType' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('context' type=inline),
+            #2,
+        ): [
+            (
+                Atom('safe' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('rhtml' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('fixDefaultChecked' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elems' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

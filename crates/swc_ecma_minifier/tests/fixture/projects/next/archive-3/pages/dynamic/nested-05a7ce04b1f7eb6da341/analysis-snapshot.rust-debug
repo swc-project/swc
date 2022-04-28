@@ -1,4 +1,646 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('LoadableContext' type=dynamic),
+            #12,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('_loadableContext' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('context' type=inline),
+                #39,
+            ),
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('it' type=inline),
+            #20,
+        ): [
+            (
+                Atom('step' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #5,
+        ): [
+            (
+                Atom('source' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('initialized' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('res' type=inline),
+                #55,
+            ),
+        ],
+        (
+            Atom('Loading' type=inline),
+            #9,
+        ): [
+            (
+                Atom('loadableOptions' type=dynamic),
+                #9,
+            ),
+        ],
+        (
+            Atom('symbols' type=inline),
+            #15,
+        ): [
+            (
+                Atom('object' type=static),
+                #15,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #1,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #3,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #3,
+            ),
+            (
+                Atom('keys' type=inline),
+                #15,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #15,
+            ),
+            (
+                Atom('n' type=inline),
+                #28,
+            ),
+            (
+                Atom('opts' type=inline),
+                #35,
+            ),
+        ],
+        (
+            Atom('arr2' type=inline),
+            #29,
+        ): [
+            (
+                Atom('len' type=inline),
+                #29,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #35,
+        ): [
+            (
+                Atom('opts' type=inline),
+                #35,
+            ),
+        ],
+        (
+            Atom('symbols' type=inline),
+            #3,
+        ): [
+            (
+                Atom('object' type=static),
+                #3,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_step' type=inline),
+            #37,
+        ): [
+            (
+                Atom('moduleId' type=dynamic),
+                #37,
+            ),
+        ],
+        (
+            Atom('initializers' type=dynamic),
+            #52,
+        ): [
+            (
+                Atom('init' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('DynamicComponent' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('object' type=static),
+            #3,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #3,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('error' type=inline),
+            #11,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #61,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #61,
+            ),
+        ],
+        (
+            Atom('_react' type=inline),
+            #12,
+        ): [
+            (
+                Atom('LoadableContext' type=dynamic),
+                #12,
+            ),
+        ],
+        (
+            Atom('sub' type=inline),
+            #36,
+        ): [
+            (
+                Atom('loadFn' type=inline),
+                #35,
+            ),
+            (
+                Atom('opts' type=inline),
+                #35,
+            ),
+        ],
+        (
+            Atom('_useSubscription' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('state' type=inline),
+                #39,
+            ),
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('Promise' type=static),
+            #1,
+        ): [
+            (
+                Atom('DynamicComponent' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('opts' type=inline),
+            #35,
+        ): [
+            (
+                Atom('options' type=inline),
+                #35,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('sub' type=inline),
+                #36,
+            ),
+            (
+                Atom('moduleIds' type=dynamic),
+                #35,
+            ),
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('_default' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('Loadable' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('__webpack_exec__' type=dynamic),
+            #61,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #61,
+            ),
+        ],
+        (
+            Atom('pastDelay' type=dynamic),
+            #11,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #17,
+        ): [
+            (
+                Atom('i' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #28,
+        ): [
+            (
+                Atom('n' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('_ref' type=inline),
+            #11,
+        ): [
+            (
+                Atom('error' type=inline),
+                #11,
+            ),
+            (
+                Atom('isLoading' type=dynamic),
+                #11,
+            ),
+            (
+                Atom('pastDelay' type=dynamic),
+                #11,
+            ),
+        ],
+        (
+            Atom('step' type=inline),
+            #25,
+        ): [
+            (
+                Atom('it' type=inline),
+                #20,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #5,
+        ): [
+            (
+                Atom('i' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('_loadable' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('loadableFn' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #17,
+        ): [
+            (
+                Atom('source' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('object' type=static),
+            #15,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #15,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #15,
+            ),
+        ],
+        (
+            Atom('context' type=inline),
+            #39,
+        ): [
+            (
+                Atom('_loadableContext' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('_react' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('DynamicComponent' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #57,
+            ),
+            (
+                Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #57,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('keys' type=inline),
+            #15,
+        ): [
+            (
+                Atom('object' type=static),
+                #15,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('DynamicComponent' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('loadFn' type=inline),
+            #35,
+        ): [
+            (
+                Atom('sub' type=inline),
+                #36,
+            ),
+        ],
+        (
+            Atom('keys' type=inline),
+            #3,
+        ): [
+            (
+                Atom('object' type=static),
+                #3,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('loadableOptions' type=dynamic),
+            #9,
+        ): [
+            (
+                Atom('Loading' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #28,
+        ): [
+            (
+                Atom('o' type=inline),
+                #28,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('LoadableComponent' type=dynamic),
+            #35,
+        ): [
+            (
+                Atom('opts' type=inline),
+                #35,
+            ),
+            (
+                Atom('_loadableContext' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('_useSubscription' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('_react' type=inline),
+                #14,
+            ),
+            (
+                Atom('subscription' type=dynamic),
+                #35,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('loadableFn' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('_loadable' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('len' type=inline),
+            #29,
+        ): [
+            (
+                Atom('arr2' type=inline),
+                #29,
+            ),
+        ],
+        (
+            Atom('subscription' type=dynamic),
+            #35,
+        ): [
+            (
+                Atom('state' type=inline),
+                #39,
+            ),
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('isLoading' type=dynamic),
+            #11,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('_iterator' type=dynamic),
+            #37,
+        ): [
+            (
+                Atom('moduleIds' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('moduleIds' type=dynamic),
+            #35,
+        ): [
+            (
+                Atom('opts' type=inline),
+                #35,
+            ),
+            (
+                Atom('_iterator' type=dynamic),
+                #37,
+            ),
+        ],
+        (
+            Atom('Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('init' type=inline),
+            #52,
+        ): [
+            (
+                Atom('initializers' type=dynamic),
+                #52,
+            ),
+        ],
+        (
+            Atom('Loadable' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('_default' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('state' type=inline),
+            #39,
+        ): [
+            (
+                Atom('_useSubscription' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('subscription' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('_react' type=inline),
+            #14,
+        ): [
+            (
+                Atom('context' type=inline),
+                #39,
+            ),
+            (
+                Atom('LoadableComponent' type=dynamic),
+                #35,
+            ),
+        ],
+        (
+            Atom('moduleId' type=dynamic),
+            #37,
+        ): [
+            (
+                Atom('_step' type=inline),
+                #37,
+            ),
+        ],
+        (
+            Atom('res' type=inline),
+            #55,
+        ): [
+            (
+                Atom('initialized' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #61,
+        ): [
+            (
+                Atom('__webpack_exec__' type=dynamic),
+                #61,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #61,
+            ),
+        ],
+    },
     vars: [
         (
             (

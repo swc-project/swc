@@ -1,4 +1,73 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('JS' type=inline),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('JS' type=inline),
+                #3,
+            ),
+            (
+                Atom('Y' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #2,
+        ): [
+            (
+                Atom('name' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('Y' type=inline),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('m' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('packName' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('existing' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('existing' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('packName' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

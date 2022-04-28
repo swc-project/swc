@@ -1,4 +1,3311 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('excluded' type=dynamic),
+            #86,
+        ): [
+            (
+                Atom('target' type=static),
+                #86,
+            ),
+        ],
+        (
+            Atom('_i' type=inline),
+            #21,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('arr' type=inline),
+                #21,
+            ),
+        ],
+        (
+            Atom('useCountUpProps' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+            (
+                Atom('_excluded' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('sourceKeys' type=dynamic),
+            #32,
+        ): [
+            (
+                Atom('source' type=inline),
+                #32,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('isLazy' type=inline),
+            #49,
+        ): [
+            (
+                Atom('priority' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #49,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #7,
+        ): [
+            (
+                Atom('a' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #19,
+        ): [
+            (
+                Atom('arr2' type=inline),
+                #19,
+            ),
+        ],
+        (
+            Atom('isDisabled' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('disabled' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('hasIntersectionObserver' type=dynamic),
+                #57,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('countUpRef' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('countUp' type=inline),
+                #91,
+            ),
+            (
+                Atom('getCountUp' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('initializeOnMount' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('containerRef' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('Element' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #59,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('Promise' type=static),
+            #1,
+        ): [
+            (
+                Atom('p' type=inline),
+                #47,
+            ),
+            (
+                Atom('handleLoad' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('_useIntersection' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('params' type=inline),
+            #52,
+        ): [
+            (
+                Atom('url' type=static),
+                #52,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #53,
+        ): [
+            (
+                Atom('root' type=inline),
+                #53,
+            ),
+            (
+                Atom('src' type=inline),
+                #53,
+            ),
+            (
+                Atom('width' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('prefix' type=inline),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('configLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+            (
+                Atom('load' type=inline),
+                #45,
+            ),
+        ],
+        (
+            Atom('configDomains' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('cloudinaryLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('getCountUp' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #38,
+        ): [
+            (
+                Atom('widths' type=inline),
+                #38,
+            ),
+        ],
+        (
+            Atom('setRef' type=inline),
+            #49,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('root' type=inline),
+            #56,
+        ): [
+            (
+                Atom('param' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('VALID_LAYOUT_VALUES' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('configPath' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('widthInt' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('width' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('end' type=inline),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('hasIntersectionObserver' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('isDisabled' type=dynamic),
+                #62,
+            ),
+        ],
+        (
+            Atom('_requestIdleCallback' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('idleCallback' type=dynamic),
+                #65,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #42,
+        ): [
+            (
+                Atom('layout' type=inline),
+                #42,
+            ),
+            (
+                Atom('width' type=inline),
+                #42,
+            ),
+            (
+                Atom('sizes' type=inline),
+                #42,
+            ),
+            (
+                Atom('widths' type=inline),
+                #42,
+            ),
+            (
+                Atom('kind' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('React__default' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('containerRef' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('isInitializedRef' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('CountUp' type=inline),
+                #76,
+            ),
+        ],
+        (
+            Atom('redraw' type=inline),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+            (
+                Atom('redrawDependencies' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #53,
+        ): [
+            (
+                Atom('param' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('useCountUp' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('DEFAULTS' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('_excluded$1' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #52,
+        ): [
+            (
+                Atom('param' type=inline),
+                #52,
+            ),
+            (
+                Atom('url' type=static),
+                #52,
+            ),
+        ],
+        (
+            Atom('decimal' type=inline),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('observers' type=dynamic),
+            #57,
+        ): [
+            (
+                Atom('instance' type=dynamic),
+                #68,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('maybeInitialize' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('startOnMount' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('CountUp' type=inline),
+            #76,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('React__default' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('_excluded' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('Element' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('arr2' type=inline),
+            #19,
+        ): [
+            (
+                Atom('arr' type=inline),
+                #19,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #16,
+        ): [
+            (
+                Atom('t' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('emptyDataURL' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('imgAttributes' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('idleCallback' type=dynamic),
+            #65,
+        ): [
+            (
+                Atom('_requestIdleCallback' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('getCountUp' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('countUpRef' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('className' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('redrawDependencies' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+            (
+                Atom('redraw' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('all' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('rest' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('_excluded$1' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('instanceProps' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('useCountUp' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #86,
+        ): [
+            (
+                Atom('target' type=static),
+                #86,
+            ),
+            (
+                Atom('sourceSymbolKeys' type=dynamic),
+                #86,
+            ),
+        ],
+        (
+            Atom('createCountUpInstance' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('countup_js' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('timerRef' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('pauseResume' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('run' type=inline),
+                #92,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+            (
+                Atom('update' type=inline),
+                #90,
+            ),
+            (
+                Atom('restart' type=inline),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('CountUp' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('customLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('_unoptimized' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('unoptimized' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('decimals' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('containerProps' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('unoptimized' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_unoptimized' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('defaultImageLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loader' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('sourceKeys' type=dynamic),
+            #85,
+        ): [
+            (
+                Atom('source' type=inline),
+                #85,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_useMemo' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('DEFAULTS' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('props' type=inline),
+                #90,
+            ),
+            (
+                Atom('ref' type=inline),
+                #90,
+            ),
+            (
+                Atom('startOnMount' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('enableReinitialize' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('delay' type=inline),
+                #90,
+            ),
+            (
+                Atom('onEnd' type=inline),
+                #90,
+            ),
+            (
+                Atom('onStart' type=inline),
+                #90,
+            ),
+            (
+                Atom('onPauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('onReset' type=inline),
+                #90,
+            ),
+            (
+                Atom('onUpdate' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('instanceProps' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #14,
+        ): [
+            (
+                Atom('i' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #1,
+        ): [
+            (
+                Atom('CountUp' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_placeholder' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('placeholder' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('_priority' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('priority' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('target' type=static),
+            #86,
+        ): [
+            (
+                Atom('excluded' type=dynamic),
+                #86,
+            ),
+            (
+                Atom('source' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('isInitializedRef' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+        ],
+        (
+            Atom('_excluded' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('useCountUpProps' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('CountUp' type=inline),
+                #76,
+            ),
+        ],
+        (
+            Atom('ownKeys' type=inline),
+            #28,
+        ): [
+            (
+                Atom('source' type=inline),
+                #28,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('excluded' type=dynamic),
+            #31,
+        ): [
+            (
+                Atom('target' type=static),
+                #31,
+            ),
+        ],
+        (
+            Atom('ref2' type=inline),
+            #49,
+        ): [
+            (
+                Atom('isLazy' type=inline),
+                #49,
+            ),
+            (
+                Atom('_useIntersection' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('lazyBoundary' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #49,
+            ),
+            (
+                Atom('isIntersected' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('widths' type=inline),
+            #38,
+        ): [
+            (
+                Atom('width' type=inline),
+                #38,
+            ),
+            (
+                Atom('allSizes' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #32,
+        ): [
+            (
+                Atom('sourceKeys' type=dynamic),
+                #32,
+            ),
+        ],
+        (
+            Atom('configImageSizes' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+            (
+                Atom('allSizes' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #7,
+        ): [
+            (
+                Atom('i' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #55,
+        ): [
+            (
+                Atom('param' type=inline),
+                #55,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('disabled' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('param' type=inline),
+                #62,
+            ),
+            (
+                Atom('isDisabled' type=dynamic),
+                #62,
+            ),
+        ],
+        (
+            Atom('callback' type=dynamic),
+            #70,
+        ): [
+            (
+                Atom('elements' type=dynamic),
+                #68,
+            ),
+            (
+                Atom('entry' type=inline),
+                #70,
+            ),
+        ],
+        (
+            Atom('elements' type=dynamic),
+            #66,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #1,
+        ): [
+            (
+                Atom('__assign' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('_e' type=inline),
+                #21,
+            ),
+            (
+                Atom('VALID_LOADING_VALUES' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('VALID_LAYOUT_VALUES' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('imgAttributes' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('_e' type=inline),
+                #59,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('widthInt' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('_react' type=inline),
+            #57,
+        ): [
+            (
+                Atom('unobserve' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('ref' type=inline),
+                #62,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('objectPosition' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('imgStyle' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('blurStyle' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('load' type=inline),
+            #45,
+        ): [
+            (
+                Atom('configLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('loading' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('onLoadingComplete' type=dynamic),
+            #46,
+        ): [
+            (
+                Atom('handleLoad' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('_imageConfig' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #52,
+        ): [
+            (
+                Atom('root' type=inline),
+                #52,
+            ),
+            (
+                Atom('src' type=inline),
+                #52,
+            ),
+            (
+                Atom('width' type=inline),
+                #52,
+            ),
+            (
+                Atom('quality' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('useEasing' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('onStart' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('loader' type=inline),
+            #49,
+        ): [
+            (
+                Atom('defaultImageLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('_loader' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('setRef' type=inline),
+            #62,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #57,
+            ),
+            (
+                Atom('unobserve' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('isDisabled' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('rootMargin' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('visible' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('console' type=inline),
+            #1,
+        ): [
+            (
+                Atom('initializeOnMount' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('CountUp' type=inline),
+                #76,
+            ),
+        ],
+        (
+            Atom('quality' type=inline),
+            #52,
+        ): [
+            (
+                Atom('param' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('akamaiLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('countup_js' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('createCountUpInstance' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('update' type=inline),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('onEnd' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('handleLoad' type=dynamic),
+            #46,
+        ): [
+            (
+                Atom('img' type=inline),
+                #46,
+            ),
+            (
+                Atom('onLoadingComplete' type=dynamic),
+                #46,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+            (
+                Atom('src' type=inline),
+                #46,
+            ),
+            (
+                Atom('loadedImageURLs' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #1,
+        ): [
+            (
+                Atom('__assign' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #28,
+            ),
+            (
+                Atom('_loop' type=inline),
+                #27,
+            ),
+            (
+                Atom('sourceSymbolKeys' type=dynamic),
+                #31,
+            ),
+            (
+                Atom('sourceKeys' type=dynamic),
+                #32,
+            ),
+            (
+                Atom('keys' type=inline),
+                #78,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #78,
+            ),
+            (
+                Atom('sourceKeys' type=dynamic),
+                #85,
+            ),
+            (
+                Atom('sourceSymbolKeys' type=dynamic),
+                #86,
+            ),
+        ],
+        (
+            Atom('blurStyle' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('blurDataURL' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('objectFit' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('objectPosition' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('createInstance' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('sourceSymbolKeys' type=dynamic),
+            #31,
+        ): [
+            (
+                Atom('source' type=inline),
+                #31,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_e' type=inline),
+            #59,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('widths' type=inline),
+            #42,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #54,
+        ): [
+            (
+                Atom('param' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('Symbol' type=static),
+            #1,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #21,
+            ),
+            (
+                Atom('_i' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #62,
+        ): [
+            (
+                Atom('rootMargin' type=dynamic),
+                #62,
+            ),
+            (
+                Atom('disabled' type=dynamic),
+                #62,
+            ),
+        ],
+        (
+            Atom('symbols' type=inline),
+            #78,
+        ): [
+            (
+                Atom('object' type=static),
+                #78,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #21,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #21,
+            ),
+        ],
+        (
+            Atom('sizes' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+            (
+                Atom('ref' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #96,
+        ): [
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('objectFit' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('imgStyle' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('blurStyle' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('updateCountUp' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #55,
+        ): [
+            (
+                Atom('src' type=inline),
+                #55,
+            ),
+        ],
+        (
+            Atom('target' type=static),
+            #31,
+        ): [
+            (
+                Atom('source' type=inline),
+                #31,
+            ),
+            (
+                Atom('excluded' type=dynamic),
+                #31,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #85,
+        ): [
+            (
+                Atom('sourceKeys' type=dynamic),
+                #85,
+            ),
+        ],
+        (
+            Atom('fn' type=inline),
+            #87,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('height' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('heightInt' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('placeholder' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_placeholder' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('observer' type=dynamic),
+            #68,
+        ): [
+            (
+                Atom('elements' type=dynamic),
+                #68,
+            ),
+            (
+                Atom('options' type=inline),
+                #68,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #68,
+        ): [
+            (
+                Atom('id' type=inline),
+                #68,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #68,
+            ),
+        ],
+        (
+            Atom('separator' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('VALID_LOADING_VALUES' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_useCountUp' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('useCountUpProps' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('containerRef' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('start' type=inline),
+                #96,
+            ),
+            (
+                Atom('reset' type=inline),
+                #96,
+            ),
+            (
+                Atom('updateCountUp' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('getCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('loader' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('onPauseResume' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('isVisible' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('isIntersected' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('isLazy' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('priority' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_priority' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('isLazy' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #46,
+        ): [
+            (
+                Atom('handleLoad' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('qualityInt' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('quality' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('numerals' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('staticImageData' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('src' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #54,
+        ): [
+            (
+                Atom('param' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('enableReinitialize' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('sizes' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('isIntersected' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #49,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('srcString' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('src' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #68,
+        ): [
+            (
+                Atom('options' type=inline),
+                #68,
+            ),
+            (
+                Atom('instance' type=dynamic),
+                #68,
+            ),
+        ],
+        (
+            Atom('Element' type=static),
+            #1,
+        ): [
+            (
+                Atom('initializeOnMount' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('CountUp' type=inline),
+                #76,
+            ),
+        ],
+        (
+            Atom('duration' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('onUpdate' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('imgixLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('root' type=inline),
+            #52,
+        ): [
+            (
+                Atom('param' type=inline),
+                #52,
+            ),
+            (
+                Atom('url' type=static),
+                #52,
+            ),
+        ],
+        (
+            Atom('ref1' type=inline),
+            #17,
+        ): [
+            (
+                Atom('_imageConfig' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configDeviceSizes' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configImageSizes' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configPath' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configDomains' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('__assign' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('__assign' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #80,
+        ): [
+            (
+                Atom('i' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('loaders' type=inline),
+            #17,
+        ): [
+            (
+                Atom('defaultLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('imgixLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('akamaiLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('cloudinaryLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('customLoader' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('load' type=inline),
+                #45,
+            ),
+        ],
+        (
+            Atom('_lazyBoundary' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('lazyBoundary' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #42,
+        ): [
+            (
+                Atom('src' type=inline),
+                #42,
+            ),
+            (
+                Atom('unoptimized' type=dynamic),
+                #42,
+            ),
+            (
+                Atom('layout' type=inline),
+                #42,
+            ),
+            (
+                Atom('width' type=inline),
+                #42,
+            ),
+            (
+                Atom('quality' type=inline),
+                #42,
+            ),
+            (
+                Atom('sizes' type=inline),
+                #42,
+            ),
+            (
+                Atom('loader' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('naturalHeight' type=dynamic),
+            #48,
+        ): [
+            (
+                Atom('img' type=inline),
+                #46,
+            ),
+        ],
+        (
+            Atom('rest' type=inline),
+            #49,
+        ): [
+            (
+                Atom('all' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #56,
+        ): [
+            (
+                Atom('param' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #62,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #57,
+            ),
+            (
+                Atom('visible' type=inline),
+                #62,
+            ),
+            (
+                Atom('setVisible' type=dynamic),
+                #62,
+            ),
+        ],
+        (
+            Atom('target' type=static),
+            #27,
+        ): [
+            (
+                Atom('_loop' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('_arguments' type=dynamic),
+            #27,
+        ): [
+            (
+                Atom('source' type=inline),
+                #28,
+            ),
+            (
+                Atom('_loop' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #16,
+        ): [
+            (
+                Atom('i' type=inline),
+                #16,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #28,
+        ): [
+            (
+                Atom('source' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('sourceSymbolKeys' type=dynamic),
+            #86,
+        ): [
+            (
+                Atom('source' type=inline),
+                #86,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('reset' type=inline),
+            #96,
+        ): [
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #88,
+        ): [
+            (
+                Atom('_len' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('isInitializedRef' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('React__default' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('rootMargin' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('param' type=inline),
+                #62,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('update' type=inline),
+            #90,
+        ): [
+            (
+                Atom('run' type=inline),
+                #92,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+            (
+                Atom('restart' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #56,
+        ): [
+            (
+                Atom('param' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #7,
+        ): [
+            (
+                Atom('o' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('restart' type=inline),
+            #90,
+        ): [
+            (
+                Atom('run' type=inline),
+                #92,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+            (
+                Atom('update' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('suffix' type=inline),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('lazyBoundary' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_lazyBoundary' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('visible' type=inline),
+            #62,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #62,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #96,
+        ): [
+            (
+                Atom('className' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('redraw' type=inline),
+                #96,
+            ),
+            (
+                Atom('containerProps' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('children' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('style' type=inline),
+                #96,
+            ),
+            (
+                Atom('useCountUpProps' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('update' type=inline),
+                #96,
+            ),
+            (
+                Atom('redrawDependencies' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #28,
+        ): [
+            (
+                Atom('i' type=inline),
+                #28,
+            ),
+            (
+                Atom('_arguments' type=dynamic),
+                #27,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #14,
+        ): [
+            (
+                Atom('t' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('className' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #66,
+        ): [
+            (
+                Atom('options' type=inline),
+                #66,
+            ),
+            (
+                Atom('id' type=inline),
+                #66,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #66,
+            ),
+            (
+                Atom('elements' type=dynamic),
+                #66,
+            ),
+        ],
+        (
+            Atom('countUp' type=inline),
+            #91,
+        ): [
+            (
+                Atom('countUpRef' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('setVisible' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #66,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('_loop' type=inline),
+            #27,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('target' type=static),
+                #27,
+            ),
+            (
+                Atom('_arguments' type=dynamic),
+                #27,
+            ),
+        ],
+        (
+            Atom('_loader' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('loader' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('defaultLoader' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('loaders' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #54,
+        ): [
+            (
+                Atom('root' type=inline),
+                #54,
+            ),
+            (
+                Atom('src' type=inline),
+                #54,
+            ),
+            (
+                Atom('width' type=inline),
+                #54,
+            ),
+            (
+                Atom('quality' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #84,
+        ): [
+            (
+                Atom('i' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('createInstance' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('instanceProps' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('ref' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #80,
+        ): [
+            (
+                Atom('source' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('isVisible' type=dynamic),
+            #70,
+        ): [
+            (
+                Atom('entry' type=inline),
+                #70,
+            ),
+        ],
+        (
+            Atom('pauseResume' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('_i' type=inline),
+            #59,
+        ): [
+            (
+                Atom('arr' type=inline),
+                #59,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('quality' type=inline),
+            #54,
+        ): [
+            (
+                Atom('param' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('onReset' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('DEFAULTS' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('useCountUp' type=dynamic),
+                #76,
+            ),
+        ],
+        (
+            Atom('useIsomorphicLayoutEffect' type=dynamic),
+            #76,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #7,
+        ): [
+            (
+                Atom('h' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('_e' type=inline),
+            #21,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('layout' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+            (
+                Atom('ref' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #66,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('entry' type=inline),
+            #70,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #70,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #70,
+            ),
+        ],
+        (
+            Atom('instanceProps' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('_excluded$1' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('createInstance' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('formattingFn' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('kind' type=inline),
+            #42,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #52,
+        ): [
+            (
+                Atom('param' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #53,
+        ): [
+            (
+                Atom('param' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('unobserve' type=dynamic),
+            #62,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #57,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #62,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #31,
+        ): [
+            (
+                Atom('target' type=static),
+                #31,
+            ),
+            (
+                Atom('sourceSymbolKeys' type=dynamic),
+                #31,
+            ),
+        ],
+        (
+            Atom('url' type=static),
+            #52,
+        ): [
+            (
+                Atom('root' type=inline),
+                #52,
+            ),
+            (
+                Atom('src' type=inline),
+                #52,
+            ),
+            (
+                Atom('params' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('_len' type=inline),
+            #88,
+        ): [
+            (
+                Atom('args' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('heightInt' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('height' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #56,
+        ): [
+            (
+                Atom('root' type=inline),
+                #56,
+            ),
+            (
+                Atom('src' type=inline),
+                #56,
+            ),
+            (
+                Atom('width' type=inline),
+                #56,
+            ),
+            (
+                Atom('quality' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('React' type=static),
+            #76,
+        ): [
+            (
+                Atom('React__default' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('useIsomorphicLayoutEffect' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('ref' type=inline),
+                #87,
+            ),
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('countUpRef' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('timerRef' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('isInitializedRef' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('useCountUp' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('CountUp' type=inline),
+                #76,
+            ),
+        ],
+        (
+            Atom('naturalWidth' type=dynamic),
+            #48,
+        ): [
+            (
+                Atom('img' type=inline),
+                #46,
+            ),
+        ],
+        (
+            Atom('startOnMount' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('maybeInitialize' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('run' type=inline),
+            #92,
+        ): [
+            (
+                Atom('restart' type=inline),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('update' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #90,
+        ): [
+            (
+                Atom('restart' type=inline),
+                #90,
+            ),
+            (
+                Atom('reset' type=inline),
+                #90,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('update' type=inline),
+                #90,
+            ),
+            (
+                Atom('delay' type=inline),
+                #90,
+            ),
+            (
+                Atom('timerRef' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('allSizes' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('configDeviceSizes' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('configImageSizes' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('widths' type=inline),
+                #38,
+            ),
+        ],
+        (
+            Atom('instance' type=dynamic),
+            #68,
+        ): [
+            (
+                Atom('id' type=inline),
+                #68,
+            ),
+            (
+                Atom('observers' type=dynamic),
+                #57,
+            ),
+        ],
+        (
+            Atom('imgAttributes' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('emptyDataURL' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('elements' type=dynamic),
+            #68,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #70,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #68,
+            ),
+        ],
+        (
+            Atom('root' type=inline),
+            #53,
+        ): [
+            (
+                Atom('param' type=inline),
+                #53,
+            ),
+        ],
+        (
+            Atom('keys' type=inline),
+            #78,
+        ): [
+            (
+                Atom('object' type=static),
+                #78,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('quality' type=inline),
+            #56,
+        ): [
+            (
+                Atom('param' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('blurDataURL' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('blurStyle' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('reset' type=inline),
+            #90,
+        ): [
+            (
+                Atom('run' type=inline),
+                #92,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+            (
+                Atom('pauseResume' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('restart' type=inline),
+                #90,
+            ),
+            (
+                Atom('update' type=inline),
+                #90,
+            ),
+            (
+                Atom('timerRef' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('delay' type=inline),
+            #90,
+        ): [
+            (
+                Atom('_useMemo' type=dynamic),
+                #90,
+            ),
+            (
+                Atom('start' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('width' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+            (
+                Atom('ref' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('imgStyle' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('objectFit' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('objectPosition' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('img' type=inline),
+            #46,
+        ): [
+            (
+                Atom('p' type=inline),
+                #47,
+            ),
+            (
+                Atom('naturalWidth' type=dynamic),
+                #48,
+            ),
+            (
+                Atom('naturalHeight' type=dynamic),
+                #48,
+            ),
+            (
+                Atom('handleLoad' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #47,
+        ): [
+            (
+                Atom('img' type=inline),
+                #46,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('quality' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('qualityInt' type=dynamic),
+                #49,
+            ),
+        ],
+        (
+            Atom('observer' type=dynamic),
+            #66,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('CountUp' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #84,
+        ): [
+            (
+                Atom('source' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #87,
+        ): [
+            (
+                Atom('React' type=static),
+                #76,
+            ),
+            (
+                Atom('fn' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('easingFn' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('props' type=inline),
+                #89,
+            ),
+        ],
+        (
+            Atom('onLoadingComplete' type=dynamic),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('quality' type=inline),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('_param' type=inline),
+            #49,
+        ): [
+            (
+                Atom('src' type=inline),
+                #49,
+            ),
+            (
+                Atom('sizes' type=inline),
+                #49,
+            ),
+            (
+                Atom('_unoptimized' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('_priority' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('loading' type=inline),
+                #49,
+            ),
+            (
+                Atom('_lazyBoundary' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('className' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('quality' type=inline),
+                #49,
+            ),
+            (
+                Atom('width' type=inline),
+                #49,
+            ),
+            (
+                Atom('height' type=inline),
+                #49,
+            ),
+            (
+                Atom('objectFit' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('objectPosition' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('onLoadingComplete' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('_loader' type=inline),
+                #49,
+            ),
+            (
+                Atom('_placeholder' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('blurDataURL' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('all' type=inline),
+                #49,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #89,
+        ): [
+            (
+                Atom('decimal' type=inline),
+                #89,
+            ),
+            (
+                Atom('decimals' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('duration' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('easingFn' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('end' type=inline),
+                #89,
+            ),
+            (
+                Atom('formattingFn' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('numerals' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('prefix' type=inline),
+                #89,
+            ),
+            (
+                Atom('separator' type=dynamic),
+                #89,
+            ),
+            (
+                Atom('start' type=inline),
+                #89,
+            ),
+            (
+                Atom('suffix' type=inline),
+                #89,
+            ),
+            (
+                Atom('useEasing' type=dynamic),
+                #89,
+            ),
+        ],
+        (
+            Atom('loadedImageURLs' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('handleLoad' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('object' type=static),
+            #78,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #78,
+            ),
+            (
+                Atom('symbols' type=inline),
+                #78,
+            ),
+        ],
+        (
+            Atom('containerRef' type=dynamic),
+            #96,
+        ): [
+            (
+                Atom('React__default' type=dynamic),
+                #76,
+            ),
+            (
+                Atom('_useCountUp' type=dynamic),
+                #96,
+            ),
+            (
+                Atom('initializeOnMount' type=dynamic),
+                #96,
+            ),
+        ],
+        (
+            Atom('style' type=inline),
+            #96,
+        ): [
+            (
+                Atom('props' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('root' type=inline),
+            #54,
+        ): [
+            (
+                Atom('param' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('configDeviceSizes' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #17,
+            ),
+            (
+                Atom('allSizes' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('unoptimized' type=dynamic),
+            #42,
+        ): [
+            (
+                Atom('param' type=inline),
+                #42,
+            ),
+        ],
+        (
+            Atom('src' type=inline),
+            #49,
+        ): [
+            (
+                Atom('_param' type=inline),
+                #49,
+            ),
+            (
+                Atom('staticImageData' type=dynamic),
+                #49,
+            ),
+            (
+                Atom('srcString' type=dynamic),
+                #49,
+            ),
+        ],
+    },
     vars: [
         (
             (

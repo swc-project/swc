@@ -1,4 +1,115 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('console' type=inline),
+            #3,
+        ): [
+            (
+                Atom('eval' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('y' type=inline),
+                #2,
+            ),
+            (
+                Atom('z' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('eval' type=static),
+            #2,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('baz' type=inline),
+            #3,
+        ): [
+            (
+                Atom('eval' type=static),
+                #5,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('y' type=inline),
+                #2,
+            ),
+            (
+                Atom('z' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('eval' type=static),
+            #5,
+        ): [
+            (
+                Atom('baz' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,3840 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('observers' type=dynamic),
+            #135,
+        ): [
+            (
+                Atom('instance' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('elements' type=dynamic),
+            #146,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #148,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('str' type=inline),
+            #75,
+        ): [
+            (
+                Atom('len' type=inline),
+                #75,
+            ),
+        ],
+        (
+            Atom('sheet' type=inline),
+            #105,
+        ): [
+            (
+                Atom('sheetRefCurrent' type=dynamic),
+                #105,
+            ),
+            (
+                Atom('element' type=inline),
+                #105,
+            ),
+        ],
+        (
+            Atom('render' type=inline),
+            #94,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('Component' type=dynamic),
+                #94,
+            ),
+            (
+                Atom('WithTheme' type=dynamic),
+                #94,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #146,
+        ): [
+            (
+                Atom('id' type=inline),
+                #146,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('emotion_memoize_browser_esm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('memoize' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #116,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #116,
+            ),
+            (
+                Atom('i' type=inline),
+                #116,
+            ),
+            (
+                Atom('descriptor' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('locale' type=inline),
+            #129,
+        ): [
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('curLocale' type=dynamic),
+                #132,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('curLocale1' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('isDisabled' type=dynamic),
+            #140,
+        ): [
+            (
+                Atom('disabled' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('hasIntersectionObserver' type=dynamic),
+                #135,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('characters' type=dynamic),
+            #51,
+        ): [
+            (
+                Atom('type' type=static),
+                #51,
+            ),
+        ],
+        (
+            Atom('emotion_element_99289b21_browser_esm_createEmotionProps' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_hasOwnProperty' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('typePropName' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #129,
+        ): [
+            (
+                Atom('shouldPrefetch' type=dynamic),
+                #132,
+            ),
+        ],
+        (
+            Atom('node' type=inline),
+            #104,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('_router1' type=dynamic),
+            #118,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('className' type=dynamic),
+            #110,
+        ): [
+            (
+                Atom('rawClassName' type=dynamic),
+                #110,
+            ),
+        ],
+        (
+            Atom('setVisible' type=dynamic),
+            #140,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('k' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('theme' type=inline),
+            #93,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('sheet' type=inline),
+            #9,
+        ): [
+            (
+                Atom('tag' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+            (
+                Atom('useTheme' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('theme' type=inline),
+                #93,
+            ),
+            (
+                Atom('ThemeProvider' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('theme' type=inline),
+                #95,
+            ),
+            (
+                Atom('render' type=inline),
+                #94,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #98,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_Emotion' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #103,
+            ),
+            (
+                Atom('Global' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('processStyleValue' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('cursor' type=inline),
+                #2,
+            ),
+            (
+                Atom('animationRegex' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('emotion_element_99289b21_browser_esm_hasOwnProperty' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_createEmotionProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_Emotion' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('css' type=inline),
+            #111,
+        ): [
+            (
+                Atom('hasRendered' type=dynamic),
+                #111,
+            ),
+            (
+                Atom('cache' type=inline),
+                #111,
+            ),
+            (
+                Atom('cx' type=inline),
+                #111,
+            ),
+            (
+                Atom('content' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('instance' type=dynamic),
+            #146,
+        ): [
+            (
+                Atom('observers' type=dynamic),
+                #135,
+            ),
+            (
+                Atom('id' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('labelPattern' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('emotion_serialize_browser_esm_serializeStyles' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('size' type=inline),
+            #52,
+        ): [
+            (
+                Atom('rule' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #152,
+        ): [
+            (
+                Atom('u' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('getOwnPropertyNames' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('mergedProps' type=dynamic),
+            #83,
+        ): [
+            (
+                Atom('result' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('inserted' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('position' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('identifierWithPointTracking' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('classnames' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('isVisible' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #129,
+            ),
+            (
+                Atom('shouldPrefetch' type=dynamic),
+                #132,
+            ),
+        ],
+        (
+            Atom('serializer' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('omnipresentPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('finalizingPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('stylisPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('stylis' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('idleCallback' type=dynamic),
+            #143,
+        ): [
+            (
+                Atom('_requestIdleCallback' type=dynamic),
+                #135,
+            ),
+        ],
+        (
+            Atom('parentRules' type=dynamic),
+            #59,
+        ): [
+            (
+                Atom('parent' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #111,
+        ): [
+            (
+                Atom('serialized' type=dynamic),
+                #112,
+            ),
+            (
+                Atom('css' type=inline),
+                #111,
+            ),
+            (
+                Atom('cx' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('getOwnPropertyDescriptor' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('getOwnPropertySymbols' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #128,
+        ): [
+            (
+                Atom('nodeName' type=dynamic),
+                #128,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('element' type=inline),
+            #60,
+        ): [
+            (
+                Atom('value' type=inline),
+                #60,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #76,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('tag' type=inline),
+            #4,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('_key' type=inline),
+            #84,
+        ): [
+            (
+                Atom('value' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('pseudo' type=inline),
+            #51,
+        ): [
+            (
+                Atom('length' type=static),
+                #51,
+            ),
+        ],
+        (
+            Atom('prefixer' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('defaultStylisPlugins' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('unitless_browser_esm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('unitlessKeys' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('current' type=inline),
+            #101,
+        ): [
+            (
+                Atom('serialized' type=dynamic),
+                #101,
+            ),
+            (
+                Atom('maybeStyles' type=dynamic),
+                #101,
+            ),
+        ],
+        (
+            Atom('fixedElements' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('compat' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('cssProp' type=inline),
+            #98,
+        ): [
+            (
+                Atom('props' type=inline),
+                #98,
+            ),
+            (
+                Atom('registeredStyles' type=dynamic),
+                #98,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #144,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('rules' type=inline),
+            #98,
+        ): [
+            (
+                Atom('serialized' type=dynamic),
+                #98,
+            ),
+            (
+                Atom('cache' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('attrib' type=inline),
+            #71,
+        ): [
+            (
+                Atom('node' type=inline),
+                #71,
+            ),
+        ],
+        (
+            Atom('curLocale' type=dynamic),
+            #125,
+        ): [
+            (
+                Atom('router' type=inline),
+                #125,
+            ),
+            (
+                Atom('options' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('w' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #69,
+        ): [
+            (
+                Atom('container' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('_insert' type=inline),
+                #69,
+            ),
+            (
+                Atom('key' type=static),
+                #69,
+            ),
+            (
+                Atom('options' type=inline),
+                #69,
+            ),
+            (
+                Atom('inserted' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('rule' type=inline),
+            #51,
+        ): [
+            (
+                Atom('reference' type=dynamic),
+                #51,
+            ),
+        ],
+        (
+            Atom('rules' type=inline),
+            #51,
+        ): [
+            (
+                Atom('props' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('len' type=inline),
+            #75,
+        ): [
+            (
+                Atom('str' type=inline),
+                #75,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_len' type=inline),
+            #112,
+        ): [
+            (
+                Atom('args' type=inline),
+                #112,
+            ),
+        ],
+        (
+            Atom('getPrototypeOf' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('strings' type=inline),
+            #85,
+        ): [
+            (
+                Atom('args' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #51,
+        ): [
+            (
+                Atom('characters' type=dynamic),
+                #51,
+            ),
+        ],
+        (
+            Atom('_proto' type=inline),
+            #5,
+        ): [
+            (
+                Atom('StyleSheet' type=static),
+                #5,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #69,
+        ): [
+            (
+                Atom('key' type=static),
+                #69,
+            ),
+            (
+                Atom('stylisPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('cache' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #51,
+        ): [
+            (
+                Atom('rulesets' type=dynamic),
+                #51,
+            ),
+        ],
+        (
+            Atom('previousCursor' type=dynamic),
+            #83,
+        ): [
+            (
+                Atom('cursor' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('registeredStyles' type=dynamic),
+            #110,
+        ): [
+            (
+                Atom('rawClassName' type=dynamic),
+                #110,
+            ),
+        ],
+        (
+            Atom('parent' type=inline),
+            #59,
+        ): [
+            (
+                Atom('element' type=inline),
+                #59,
+            ),
+            (
+                Atom('parentRules' type=dynamic),
+                #59,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #1,
+        ): [
+            (
+                Atom('abs' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #60,
+        ): [
+            (
+                Atom('element' type=inline),
+                #60,
+            ),
+        ],
+        (
+            Atom('serialized' type=dynamic),
+            #103,
+        ): [
+            (
+                Atom('styles' type=inline),
+                #103,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('v' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #52,
+        ): [
+            (
+                Atom('value' type=inline),
+                #52,
+            ),
+            (
+                Atom('points' type=inline),
+                #52,
+            ),
+            (
+                Atom('i' type=inline),
+                #52,
+            ),
+            (
+                Atom('j' type=inline),
+                #52,
+            ),
+            (
+                Atom('post' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('points' type=inline),
+            #52,
+        ): [
+            (
+                Atom('y' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #59,
+        ): [
+            (
+                Atom('element' type=inline),
+                #59,
+            ),
+            (
+                Atom('rules' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('entry' type=inline),
+            #148,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #148,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #148,
+            ),
+        ],
+        (
+            Atom('WithTheme' type=dynamic),
+            #94,
+        ): [
+            (
+                Atom('render' type=inline),
+                #94,
+            ),
+        ],
+        (
+            Atom('emotion_element_99289b21_browser_esm_Emotion' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('typePropName' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_hasOwnProperty' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #51,
+        ): [
+            (
+                Atom('pseudo' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #98,
+        ): [
+            (
+                Atom('cssProp' type=inline),
+                #98,
+            ),
+            (
+                Atom('type' type=static),
+                #98,
+            ),
+        ],
+        (
+            Atom('ele' type=inline),
+            #111,
+        ): [
+            (
+                Atom('content' type=inline),
+                #111,
+            ),
+            (
+                Atom('props' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('styles' type=inline),
+            #103,
+        ): [
+            (
+                Atom('props' type=inline),
+                #103,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #103,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #1,
+        ): [
+            (
+                Atom('emotion_serialize_browser_esm_serializeStyles' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #98,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_Emotion' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('jsx' type=inline),
+                #2,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #103,
+            ),
+            (
+                Atom('Global' type=inline),
+                #2,
+            ),
+            (
+                Atom('_e' type=inline),
+                #120,
+            ),
+            (
+                Atom('_e' type=inline),
+                #137,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('emotion_serialize_browser_esm_serializeStyles' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('labelPattern' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('cursor' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #51,
+        ): [
+            (
+                Atom('rules' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('mergedTheme' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('outerTheme' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('Utility_from' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #10,
+        ): [
+            (
+                Atom('StyleSheet' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('outerTheme' type=dynamic),
+            #90,
+        ): [
+            (
+                Atom('mergedTheme' type=dynamic),
+                #90,
+            ),
+        ],
+        (
+            Atom('_len' type=inline),
+            #106,
+        ): [
+            (
+                Atom('args' type=inline),
+                #106,
+            ),
+        ],
+        (
+            Atom('sheet' type=inline),
+            #104,
+        ): [
+            (
+                Atom('key' type=static),
+                #104,
+            ),
+            (
+                Atom('cache' type=inline),
+                #103,
+            ),
+        ],
+        (
+            Atom('inheritedComponent' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('sourceComponent' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('processStyleName' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('hyphenateRegex' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('curLocale' type=dynamic),
+            #132,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('locale' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #140,
+        ): [
+            (
+                Atom('rootMargin' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('disabled' type=dynamic),
+                #140,
+            ),
+        ],
+        (
+            Atom('jsx' type=inline),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('hasOwnProperty' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('createElement' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Emotion' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('css' type=inline),
+            #2,
+        ): [
+            (
+                Atom('insertable' type=dynamic),
+                #107,
+            ),
+            (
+                Atom('keyframes' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('q' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #38,
+        ): [
+            (
+                Atom('length' type=static),
+                #38,
+            ),
+        ],
+        (
+            Atom('defaultStylisPlugins' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('prefixer' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('stylisPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('StyleSheet' type=static),
+            #5,
+        ): [
+            (
+                Atom('_proto' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('isVisible' type=dynamic),
+            #148,
+        ): [
+            (
+                Atom('entry' type=inline),
+                #148,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #137,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #137,
+            ),
+        ],
+        (
+            Atom('hasOwnProperty' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('jsx' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('defineProperty' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('setRef' type=inline),
+            #140,
+        ): [
+            (
+                Atom('isDisabled' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('unobserve' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('rootMargin' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('visible' type=inline),
+                #140,
+            ),
+            (
+                Atom('_react' type=inline),
+                #135,
+            ),
+        ],
+        (
+            Atom('componentName' type=dynamic),
+            #94,
+        ): [
+            (
+                Atom('Component' type=dynamic),
+                #94,
+            ),
+        ],
+        (
+            Atom('Link' type=inline),
+            #118,
+        ): [
+            (
+                Atom('_default' type=dynamic),
+                #118,
+            ),
+        ],
+        (
+            Atom('finalizingPlugins' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('stringify' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('currentSheet' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('serializer' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('console' type=inline),
+            #1,
+        ): [
+            (
+                Atom('createUnsafeSelectorsAlarm' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('incorrectImportAlarm' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('post' type=inline),
+            #52,
+        ): [
+            (
+                Atom('y' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('event' type=inline),
+            #127,
+        ): [
+            (
+                Atom('target' type=static),
+                #127,
+            ),
+        ],
+        (
+            Atom('observer' type=dynamic),
+            #146,
+        ): [
+            (
+                Atom('options' type=inline),
+                #146,
+            ),
+            (
+                Atom('elements' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('identifierWithPointTracking' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('position' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #38,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #38,
+            ),
+        ],
+        (
+            Atom('registeredStyles' type=dynamic),
+            #98,
+        ): [
+            (
+                Atom('cssProp' type=inline),
+                #98,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #98,
+            ),
+        ],
+        (
+            Atom('_e' type=inline),
+            #137,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #1,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #76,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_hasOwnProperty' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('defineProperty' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('getOwnPropertyNames' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('getOwnPropertySymbols' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('getOwnPropertyDescriptor' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('getPrototypeOf' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('objectPrototype' type=dynamic),
+                #114,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #102,
+        ): [
+            (
+                Atom('argsLength' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('stringify' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('finalizingPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('maybeStyles' type=dynamic),
+            #101,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #101,
+            ),
+            (
+                Atom('current' type=inline),
+                #101,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #103,
+        ): [
+            (
+                Atom('styles' type=inline),
+                #103,
+            ),
+        ],
+        (
+            Atom('as' type=static),
+            #129,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('localeDomain' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('registered' type=dynamic),
+            #110,
+        ): [
+            (
+                Atom('rawClassName' type=dynamic),
+                #110,
+            ),
+        ],
+        (
+            Atom('hash_browser_esm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('murmur2' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('createElement' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('jsx' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('compat' type=inline),
+            #2,
+        ): [
+            (
+                Atom('fixedElements' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('omnipresentPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('Global' type=inline),
+            #2,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('targetComponent' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('targetStatics' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('Symbol' type=static),
+            #1,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #120,
+            ),
+            (
+                Atom('_i' type=inline),
+                #137,
+            ),
+            (
+                Atom('b' type=inline),
+                #151,
+            ),
+            (
+                Atom('c' type=inline),
+                #151,
+            ),
+            (
+                Atom('d' type=inline),
+                #151,
+            ),
+            (
+                Atom('e' type=inline),
+                #151,
+            ),
+            (
+                Atom('f' type=inline),
+                #151,
+            ),
+            (
+                Atom('g' type=inline),
+                #151,
+            ),
+            (
+                Atom('h' type=inline),
+                #151,
+            ),
+            (
+                Atom('k' type=inline),
+                #151,
+            ),
+            (
+                Atom('l' type=inline),
+                #151,
+            ),
+            (
+                Atom('m' type=inline),
+                #151,
+            ),
+            (
+                Atom('n' type=inline),
+                #151,
+            ),
+            (
+                Atom('p' type=inline),
+                #151,
+            ),
+            (
+                Atom('q' type=inline),
+                #151,
+            ),
+            (
+                Atom('r' type=inline),
+                #151,
+            ),
+            (
+                Atom('t' type=inline),
+                #151,
+            ),
+            (
+                Atom('v' type=inline),
+                #151,
+            ),
+            (
+                Atom('w' type=inline),
+                #151,
+            ),
+            (
+                Atom('x' type=inline),
+                #151,
+            ),
+            (
+                Atom('y' type=inline),
+                #151,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #129,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #130,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('children' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('replace' type=inline),
+                #129,
+            ),
+            (
+                Atom('shallow' type=inline),
+                #129,
+            ),
+            (
+                Atom('scroll' type=inline),
+                #129,
+            ),
+            (
+                Atom('locale' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('href' type=inline),
+            #129,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('shouldPrefetch' type=dynamic),
+                #132,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('collection' type=dynamic),
+            #41,
+        ): [
+            (
+                Atom('length' type=static),
+                #41,
+            ),
+        ],
+        (
+            Atom('Emotion' type=inline),
+            #1,
+        ): [
+            (
+                Atom('jsx' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #109,
+        ): [
+            (
+                Atom('len' type=inline),
+                #109,
+            ),
+            (
+                Atom('arg' type=inline),
+                #109,
+            ),
+        ],
+        (
+            Atom('elements' type=dynamic),
+            #144,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('rehydrating' type=dynamic),
+            #105,
+        ): [
+            (
+                Atom('sheetRefCurrent' type=dynamic),
+                #105,
+            ),
+        ],
+        (
+            Atom('hasIntersectionObserver' type=dynamic),
+            #135,
+        ): [
+            (
+                Atom('isDisabled' type=dynamic),
+                #140,
+            ),
+        ],
+        (
+            Atom('ssrStyles' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #85,
+        ): [
+            (
+                Atom('strings' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #103,
+        ): [
+            (
+                Atom('sheet' type=inline),
+                #104,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #152,
+        ): [
+            (
+                Atom('a' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('__unsafe_useEmotionCache' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('EmotionCacheContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('ThemeProvider' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('shallow' type=inline),
+            #129,
+        ): [
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('typePropName' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_createEmotionProps' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('type' type=static),
+                #98,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_Emotion' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('incorrectImportAlarm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #84,
+        ): [
+            (
+                Atom('value' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('setRef' type=inline),
+            #129,
+        ): [
+            (
+                Atom('childRef' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('setIntersectionRef' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('_react' type=inline),
+                #118,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('animationRegex' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('processStyleValue' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('_insert' type=inline),
+            #69,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('theme' type=inline),
+            #95,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('ref1' type=inline),
+            #129,
+        ): [
+            (
+                Atom('_useIntersection' type=dynamic),
+                #118,
+            ),
+            (
+                Atom('setIntersectionRef' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('cursor' type=inline),
+            #2,
+        ): [
+            (
+                Atom('processStyleValue' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('previousCursor' type=dynamic),
+                #83,
+            ),
+            (
+                Atom('emotion_serialize_browser_esm_serializeStyles' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('reference' type=dynamic),
+            #51,
+        ): [
+            (
+                Atom('rule' type=inline),
+                #51,
+            ),
+        ],
+        (
+            Atom('curLocale1' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('locale' type=inline),
+                #129,
+            ),
+            (
+                Atom('localeDomain' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('createElementArgArray' type=dynamic),
+            #102,
+        ): [
+            (
+                Atom('argsLength' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('descriptor' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('key' type=static),
+                #116,
+            ),
+            (
+                Atom('sourceComponent' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #98,
+        ): [
+            (
+                Atom('props' type=inline),
+                #98,
+            ),
+            (
+                Atom('typePropName' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('ele' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('target' type=static),
+            #127,
+        ): [
+            (
+                Atom('event' type=inline),
+                #127,
+            ),
+        ],
+        (
+            Atom('_i' type=inline),
+            #120,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('arr' type=inline),
+                #120,
+            ),
+        ],
+        (
+            Atom('argsLength' type=dynamic),
+            #102,
+        ): [
+            (
+                Atom('args' type=inline),
+                #102,
+            ),
+            (
+                Atom('createElementArgArray' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('element' type=inline),
+            #105,
+        ): [
+            (
+                Atom('sheet' type=inline),
+                #105,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #52,
+        ): [
+            (
+                Atom('y' type=inline),
+                #52,
+            ),
+            (
+                Atom('z' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('insertable' type=dynamic),
+            #107,
+        ): [
+            (
+                Atom('css' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('b' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('objectPrototype' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('mergedProps' type=dynamic),
+            #84,
+        ): [
+            (
+                Atom('interpolated' type=dynamic),
+                #84,
+            ),
+        ],
+        (
+            Atom('replace' type=inline),
+            #129,
+        ): [
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('memoize' type=inline),
+            #2,
+        ): [
+            (
+                Atom('emotion_memoize_browser_esm' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('murmur2' type=inline),
+            #2,
+        ): [
+            (
+                Atom('hash_browser_esm' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #83,
+        ): [
+            (
+                Atom('mergedProps' type=dynamic),
+                #83,
+            ),
+        ],
+        (
+            Atom('isIgnoringComment' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ignoreFlag' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #98,
+        ): [
+            (
+                Atom('rules' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('sheetRef' type=dynamic),
+            #103,
+        ): [
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+            (
+                Atom('sheetRefCurrent' type=dynamic),
+                #105,
+            ),
+        ],
+        (
+            Atom('arg' type=inline),
+            #109,
+        ): [
+            (
+                Atom('args' type=inline),
+                #109,
+            ),
+            (
+                Atom('i' type=inline),
+                #109,
+            ),
+        ],
+        (
+            Atom('setIntersectionRef' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #129,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('hyphenateRegex' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('processStyleName' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('sheetRefCurrent' type=dynamic),
+            #105,
+        ): [
+            (
+                Atom('sheetRef' type=dynamic),
+                #103,
+            ),
+            (
+                Atom('sheet' type=inline),
+                #105,
+            ),
+            (
+                Atom('rehydrating' type=dynamic),
+                #105,
+            ),
+        ],
+        (
+            Atom('prefetched' type=dynamic),
+            #118,
+        ): [
+            (
+                Atom('isPrefetched' type=dynamic),
+                #132,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #146,
+        ): [
+            (
+                Atom('options' type=inline),
+                #146,
+            ),
+            (
+                Atom('instance' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('stylis' type=inline),
+            #69,
+        ): [
+            (
+                Atom('serializer' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('registered' type=dynamic),
+            #83,
+        ): [
+            (
+                Atom('cached' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('serialized' type=dynamic),
+            #112,
+        ): [
+            (
+                Atom('args' type=inline),
+                #112,
+            ),
+            (
+                Atom('cache' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('_i' type=inline),
+            #137,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('arr' type=inline),
+                #137,
+            ),
+        ],
+        (
+            Atom('cx' type=inline),
+            #111,
+        ): [
+            (
+                Atom('hasRendered' type=dynamic),
+                #111,
+            ),
+            (
+                Atom('cache' type=inline),
+                #111,
+            ),
+            (
+                Atom('css' type=inline),
+                #111,
+            ),
+            (
+                Atom('content' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('CacheProvider' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('EmotionCacheContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('Component' type=dynamic),
+            #94,
+        ): [
+            (
+                Atom('componentName' type=dynamic),
+                #94,
+            ),
+            (
+                Atom('render' type=inline),
+                #94,
+            ),
+        ],
+        (
+            Atom('_len2' type=inline),
+            #113,
+        ): [
+            (
+                Atom('args' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #144,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #52,
+        ): [
+            (
+                Atom('value' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('router' type=inline),
+            #125,
+        ): [
+            (
+                Atom('curLocale' type=dynamic),
+                #125,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #144,
+        ): [
+            (
+                Atom('options' type=inline),
+                #144,
+            ),
+            (
+                Atom('id' type=inline),
+                #144,
+            ),
+            (
+                Atom('observer' type=dynamic),
+                #144,
+            ),
+            (
+                Atom('elements' type=dynamic),
+                #144,
+            ),
+        ],
+        (
+            Atom('len' type=inline),
+            #109,
+        ): [
+            (
+                Atom('args' type=inline),
+                #109,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #116,
+        ): [
+            (
+                Atom('key' type=static),
+                #116,
+            ),
+        ],
+        (
+            Atom('shouldPrefetch' type=dynamic),
+            #132,
+        ): [
+            (
+                Atom('_router' type=inline),
+                #118,
+            ),
+            (
+                Atom('href' type=inline),
+                #129,
+            ),
+            (
+                Atom('p' type=inline),
+                #129,
+            ),
+            (
+                Atom('isVisible' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('emotion_cache_browser_esm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('isPrefetched' type=dynamic),
+            #132,
+        ): [
+            (
+                Atom('prefetched' type=dynamic),
+                #118,
+            ),
+        ],
+        (
+            Atom('registered' type=dynamic),
+            #84,
+        ): [
+            (
+                Atom('interpolated' type=dynamic),
+                #84,
+            ),
+        ],
+        (
+            Atom('ignoreFlag' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('isIgnoringComment' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('dataEmotionAttribute' type=dynamic),
+            #70,
+        ): [
+            (
+                Atom('node' type=inline),
+                #70,
+            ),
+        ],
+        (
+            Atom('rules' type=inline),
+            #52,
+        ): [
+            (
+                Atom('rule' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('rule' type=inline),
+            #52,
+        ): [
+            (
+                Atom('rules' type=inline),
+                #52,
+            ),
+            (
+                Atom('size' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('createUnsafeSelectorsAlarm' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('next' type=inline),
+            #83,
+        ): [
+            (
+                Atom('interpolation' type=dynamic),
+                #83,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #88,
+        ): [
+            (
+                Atom('EmotionCacheContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #112,
+        ): [
+            (
+                Atom('_len' type=inline),
+                #112,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #112,
+            ),
+        ],
+        (
+            Atom('_react' type=inline),
+            #118,
+        ): [
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('unobserve' type=dynamic),
+            #140,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #135,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('j' type=inline),
+            #52,
+        ): [
+            (
+                Atom('y' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('EmotionCacheContext' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+            (
+                Atom('CacheProvider' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('__unsafe_useEmotionCache' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #88,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_withEmotionCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('resolvedHref' type=dynamic),
+            #130,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #130,
+            ),
+        ],
+        (
+            Atom('classnames' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('useTheme' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('unitlessKeys' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('unitless_browser_esm' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #41,
+        ): [
+            (
+                Atom('collection' type=dynamic),
+                #41,
+            ),
+        ],
+        (
+            Atom('serialized' type=dynamic),
+            #98,
+        ): [
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('registeredStyles' type=dynamic),
+                #98,
+            ),
+            (
+                Atom('rules' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('child' type=inline),
+            #129,
+        ): [
+            (
+                Atom('childRef' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('prevElement' type=dynamic),
+            #63,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #63,
+            ),
+        ],
+        (
+            Atom('emotion_element_99289b21_browser_esm_withEmotionCache' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('EmotionCacheContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('react' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('element' type=inline),
+            #59,
+        ): [
+            (
+                Atom('value' type=inline),
+                #59,
+            ),
+            (
+                Atom('parent' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('removeLabel' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('omnipresentPlugins' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('points' type=inline),
+            #59,
+        ): [
+            (
+                Atom('rules' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('node' type=inline),
+            #71,
+        ): [
+            (
+                Atom('attrib' type=inline),
+                #71,
+            ),
+        ],
+        (
+            Atom('visible' type=inline),
+            #140,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #140,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #63,
+        ): [
+            (
+                Atom('prevElement' type=dynamic),
+                #63,
+            ),
+        ],
+        (
+            Atom('scroll' type=inline),
+            #129,
+        ): [
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('unsafePseudoClasses' type=dynamic),
+            #63,
+        ): [
+            (
+                Atom('element' type=inline),
+                #63,
+            ),
+        ],
+        (
+            Atom('cached' type=inline),
+            #83,
+        ): [
+            (
+                Atom('registered' type=dynamic),
+                #83,
+            ),
+            (
+                Atom('interpolation' type=dynamic),
+                #83,
+            ),
+        ],
+        (
+            Atom('nodeName' type=dynamic),
+            #128,
+        ): [
+            (
+                Atom('e' type=inline),
+                #128,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('router' type=inline),
+            #129,
+        ): [
+            (
+                Atom('_router1' type=dynamic),
+                #118,
+            ),
+            (
+                Atom('ref' type=inline),
+                #130,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('curLocale' type=dynamic),
+                #132,
+            ),
+            (
+                Atom('childProps' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('curLocale1' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('localeDomain' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('ele' type=inline),
+            #98,
+        ): [
+            (
+                Atom('newProps' type=dynamic),
+                #98,
+            ),
+            (
+                Atom('type' type=static),
+                #98,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #111,
+        ): [
+            (
+                Atom('ele' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('interpolated' type=dynamic),
+            #84,
+        ): [
+            (
+                Atom('value' type=inline),
+                #84,
+            ),
+            (
+                Atom('mergedProps' type=dynamic),
+                #84,
+            ),
+            (
+                Atom('registered' type=dynamic),
+                #84,
+            ),
+        ],
+        (
+            Atom('_default' type=dynamic),
+            #118,
+        ): [
+            (
+                Atom('Link' type=inline),
+                #118,
+            ),
+        ],
+        (
+            Atom('hasRendered' type=dynamic),
+            #111,
+        ): [
+            (
+                Atom('css' type=inline),
+                #111,
+            ),
+            (
+                Atom('cx' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('_router' type=inline),
+            #118,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #130,
+            ),
+            (
+                Atom('ref2' type=inline),
+                #129,
+            ),
+            (
+                Atom('shouldPrefetch' type=dynamic),
+                #132,
+            ),
+            (
+                Atom('localeDomain' type=dynamic),
+                #129,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #140,
+        ): [
+            (
+                Atom('_react' type=inline),
+                #135,
+            ),
+            (
+                Atom('visible' type=inline),
+                #140,
+            ),
+            (
+                Atom('setVisible' type=dynamic),
+                #140,
+            ),
+        ],
+        (
+            Atom('childRef' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('child' type=inline),
+                #129,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('disabled' type=dynamic),
+            #140,
+        ): [
+            (
+                Atom('param' type=inline),
+                #140,
+            ),
+            (
+                Atom('isDisabled' type=dynamic),
+                #140,
+            ),
+        ],
+        (
+            Atom('abs' type=inline),
+            #2,
+        ): [
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_requestIdleCallback' type=dynamic),
+            #135,
+        ): [
+            (
+                Atom('idleCallback' type=dynamic),
+                #143,
+            ),
+        ],
+        (
+            Atom('StyleSheet' type=static),
+            #2,
+        ): [
+            (
+                Atom('e' type=inline),
+                #10,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('keyframes' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('css' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('String' type=static),
+            #1,
+        ): [
+            (
+                Atom('Utility_from' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('observer' type=dynamic),
+            #144,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('rootMargin' type=dynamic),
+            #140,
+        ): [
+            (
+                Atom('param' type=inline),
+                #140,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('serialized' type=dynamic),
+            #101,
+        ): [
+            (
+                Atom('current' type=inline),
+                #101,
+            ),
+        ],
+        (
+            Atom('rulesets' type=dynamic),
+            #51,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #51,
+            ),
+        ],
+        (
+            Atom('ThemeContext' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('content' type=inline),
+                #111,
+            ),
+            (
+                Atom('ClassNames' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('newProps' type=dynamic),
+            #98,
+        ): [
+            (
+                Atom('ele' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('react' type=inline),
+            #2,
+        ): [
+            (
+                Atom('EmotionCacheContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #88,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_withEmotionCache' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('emotion_element_99289b21_browser_esm_ThemeContext' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('serialized' type=dynamic),
+                #103,
+            ),
+            (
+                Atom('sheetRef' type=dynamic),
+                #103,
+            ),
+            (
+                Atom('Global' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('childProps' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('replace' type=inline),
+                #129,
+            ),
+            (
+                Atom('shallow' type=inline),
+                #129,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #129,
+            ),
+            (
+                Atom('locale' type=inline),
+                #129,
+            ),
+            (
+                Atom('scroll' type=inline),
+                #129,
+            ),
+            (
+                Atom('child' type=inline),
+                #129,
+            ),
+            (
+                Atom('href' type=inline),
+                #129,
+            ),
+            (
+                Atom('as' type=static),
+                #129,
+            ),
+        ],
+        (
+            Atom('callback' type=dynamic),
+            #148,
+        ): [
+            (
+                Atom('entry' type=inline),
+                #148,
+            ),
+            (
+                Atom('elements' type=dynamic),
+                #146,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #125,
+        ): [
+            (
+                Atom('curLocale' type=dynamic),
+                #125,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #130,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('_router' type=inline),
+                #118,
+            ),
+            (
+                Atom('resolvedHref' type=dynamic),
+                #130,
+            ),
+            (
+                Atom('resolvedAs' type=dynamic),
+                #130,
+            ),
+        ],
+        (
+            Atom('targetStatics' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('targetComponent' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('element' type=inline),
+            #63,
+        ): [
+            (
+                Atom('unsafePseudoClasses' type=dynamic),
+                #63,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('rules' type=inline),
+            #59,
+        ): [
+            (
+                Atom('points' type=inline),
+                #59,
+            ),
+            (
+                Atom('value' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('createCache' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('compat' type=inline),
+                #2,
+            ),
+            (
+                Atom('removeLabel' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('defaultStylisPlugins' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('stringify' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('emotion_cache_browser_esm' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #84,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #84,
+            ),
+            (
+                Atom('_key' type=inline),
+                #84,
+            ),
+            (
+                Atom('interpolated' type=dynamic),
+                #84,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #101,
+        ): [
+            (
+                Atom('maybeStyles' type=dynamic),
+                #101,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #104,
+        ): [
+            (
+                Atom('sheet' type=inline),
+                #104,
+            ),
+        ],
+        (
+            Atom('currentSheet' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('finalizingPlugins' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('sourceStatics' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('sourceComponent' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #106,
+        ): [
+            (
+                Atom('_len' type=inline),
+                #106,
+            ),
+        ],
+        (
+            Atom('resolvedAs' type=dynamic),
+            #130,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #130,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #109,
+        ): [
+            (
+                Atom('arg' type=inline),
+                #109,
+            ),
+        ],
+        (
+            Atom('_e' type=inline),
+            #120,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('_useIntersection' type=dynamic),
+            #118,
+        ): [
+            (
+                Atom('ref1' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('interpolation' type=dynamic),
+            #83,
+        ): [
+            (
+                Atom('next' type=inline),
+                #83,
+            ),
+            (
+                Atom('cached' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #113,
+        ): [
+            (
+                Atom('_len2' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('keys' type=inline),
+            #116,
+        ): [
+            (
+                Atom('sourceComponent' type=dynamic),
+                #116,
+            ),
+            (
+                Atom('key' type=static),
+                #116,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('tag' type=inline),
+                #4,
+            ),
+            (
+                Atom('StyleSheet' type=static),
+                #2,
+            ),
+            (
+                Atom('ssrStyles' type=dynamic),
+                #69,
+            ),
+            (
+                Atom('createCache' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('node' type=inline),
+                #104,
+            ),
+            (
+                Atom('Global' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('tag' type=inline),
+            #9,
+        ): [
+            (
+                Atom('sheet' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #151,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('rawClassName' type=dynamic),
+            #110,
+        ): [
+            (
+                Atom('className' type=dynamic),
+                #110,
+            ),
+            (
+                Atom('registered' type=dynamic),
+                #110,
+            ),
+            (
+                Atom('registeredStyles' type=dynamic),
+                #110,
+            ),
+        ],
+        (
+            Atom('content' type=inline),
+            #111,
+        ): [
+            (
+                Atom('ThemeContext' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('cx' type=inline),
+                #111,
+            ),
+            (
+                Atom('css' type=inline),
+                #111,
+            ),
+            (
+                Atom('ele' type=inline),
+                #111,
+            ),
+        ],
+        (
+            Atom('sourceComponent' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('inheritedComponent' type=dynamic),
+                #116,
+            ),
+            (
+                Atom('keys' type=inline),
+                #116,
+            ),
+            (
+                Atom('sourceStatics' type=dynamic),
+                #116,
+            ),
+            (
+                Atom('descriptor' type=dynamic),
+                #116,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #120,
+        ): [
+            (
+                Atom('_i' type=inline),
+                #120,
+            ),
+        ],
+        (
+            Atom('ClassNames' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ThemeContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('stylisPlugins' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('options' type=inline),
+                #69,
+            ),
+            (
+                Atom('defaultStylisPlugins' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('serializer' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('omnipresentPlugins' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('removeLabel' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('compat' type=inline),
+                #2,
+            ),
+            (
+                Atom('serializer' type=dynamic),
+                #69,
+            ),
+        ],
+        (
+            Atom('ref2' type=inline),
+            #129,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('props' type=inline),
+                #129,
+            ),
+            (
+                Atom('_router' type=inline),
+                #118,
+            ),
+            (
+                Atom('_react' type=inline),
+                #118,
+            ),
+            (
+                Atom('href' type=inline),
+                #129,
+            ),
+            (
+                Atom('as' type=static),
+                #129,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #69,
+        ): [
+            (
+                Atom('options' type=inline),
+                #69,
+            ),
+            (
+                Atom('cache' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('container' type=dynamic),
+            #69,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #69,
+            ),
+        ],
+        (
+            Atom('node' type=inline),
+            #70,
+        ): [
+            (
+                Atom('dataEmotionAttribute' type=dynamic),
+                #70,
+            ),
+        ],
+        (
+            Atom('localeDomain' type=dynamic),
+            #129,
+        ): [
+            (
+                Atom('router' type=inline),
+                #129,
+            ),
+            (
+                Atom('_router' type=inline),
+                #118,
+            ),
+            (
+                Atom('curLocale1' type=dynamic),
+                #129,
+            ),
+            (
+                Atom('as' type=static),
+                #129,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #52,
+        ): [
+            (
+                Atom('y' type=inline),
+                #52,
+            ),
+        ],
+        (
+            Atom('_react' type=inline),
+            #135,
+        ): [
+            (
+                Atom('unobserve' type=dynamic),
+                #140,
+            ),
+            (
+                Atom('ref' type=inline),
+                #140,
+            ),
+            (
+                Atom('setRef' type=inline),
+                #140,
+            ),
+        ],
+    },
     vars: [
         (
             (

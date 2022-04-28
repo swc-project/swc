@@ -1,4 +1,128 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('j' type=inline),
+            #1,
+        ): [
+            (
+                Atom('baz' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('k' type=inline),
+            #1,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #1,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('foo' type=inline),
+            #2,
+        ): [
+            (
+                Atom('d' type=inline),
+                #1,
+            ),
+            (
+                Atom('e' type=inline),
+                #1,
+            ),
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+            (
+                Atom('k' type=inline),
+                #1,
+            ),
+            (
+                Atom('l' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #2,
+        ): [
+            (
+                Atom('e' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('bar' type=inline),
+            #2,
+        ): [
+            (
+                Atom('e' type=inline),
+                #1,
+            ),
+            (
+                Atom('f' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #1,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #1,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #2,
+            ),
+            (
+                Atom('bar' type=inline),
+                #2,
+            ),
+            (
+                Atom('undefined' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #1,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #2,
+            ),
+            (
+                Atom('bar' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('baz' type=inline),
+            #2,
+        ): [
+            (
+                Atom('j' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

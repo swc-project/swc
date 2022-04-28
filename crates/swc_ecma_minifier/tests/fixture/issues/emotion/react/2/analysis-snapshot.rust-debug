@@ -1,4 +1,308 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('mergedProps' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('interpolated' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('mergedProps' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('result' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #4,
+        ): [
+            (
+                Atom('cache' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('registered' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('interpolated' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('cache' type=inline),
+            #12,
+        ): [
+            (
+                Atom('Object' type=static),
+                #4,
+            ),
+        ],
+        (
+            Atom('unitless_browser_esm' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('unitlessKeys' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('emotion_memoize_browser_esm' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('memoize' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('_key' type=inline),
+            #6,
+        ): [
+            (
+                Atom('value' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #6,
+        ): [
+            (
+                Atom('_key' type=inline),
+                #6,
+            ),
+            (
+                Atom('obj' type=inline),
+                #6,
+            ),
+            (
+                Atom('interpolated' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #3,
+        ): [
+            (
+                Atom('mergedProps' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('processStyleValue' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('animationRegex' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('cursor' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #5,
+        ): [
+            (
+                Atom('strings' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('next' type=inline),
+            #3,
+        ): [
+            (
+                Atom('interpolation' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('unitlessKeys' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('unitless_browser_esm' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('str' type=inline),
+            #7,
+        ): [
+            (
+                Atom('len' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('cached' type=inline),
+            #3,
+        ): [
+            (
+                Atom('registered' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('interpolation' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('len' type=inline),
+            #7,
+        ): [
+            (
+                Atom('str' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('processStyleName' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('hyphenateRegex' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('registered' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('cached' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('interpolation' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('next' type=inline),
+                #3,
+            ),
+            (
+                Atom('cached' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('murmur2' type=inline),
+            #1,
+        ): [
+            (
+                Atom('hash_browser_esm' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('memoize' type=inline),
+            #1,
+        ): [
+            (
+                Atom('emotion_memoize_browser_esm' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('hash_browser_esm' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('murmur2' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('hyphenateRegex' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('processStyleName' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #6,
+        ): [
+            (
+                Atom('value' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('strings' type=inline),
+            #5,
+        ): [
+            (
+                Atom('args' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('interpolated' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('mergedProps' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('registered' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('value' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('animationRegex' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('processStyleValue' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('previousCursor' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('cursor' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('cursor' type=inline),
+            #1,
+        ): [
+            (
+                Atom('previousCursor' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('processStyleValue' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,50 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('key' type=static),
+            #3,
+        ): [
+            (
+                Atom('escapedString' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('escapedString' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('escaperLookup' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('escapeRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('key' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('escapeRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('escapedString' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('escaperLookup' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('escapedString' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

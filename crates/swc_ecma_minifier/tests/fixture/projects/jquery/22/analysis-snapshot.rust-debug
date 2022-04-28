@@ -1,4 +1,68 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('styles' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('extra' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('elem' type=inline),
+            #2,
+        ): [
+            (
+                Atom('styles' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('name' type=inline),
+                #3,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('extra' type=inline),
+            #2,
+        ): [
+            (
+                Atom('styles' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('impl' type=inline),
+            #3,
+        ): [
+            (
+                Atom('ReactDebugCurrentFrame' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('ReactDebugCurrentFrame' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('impl' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

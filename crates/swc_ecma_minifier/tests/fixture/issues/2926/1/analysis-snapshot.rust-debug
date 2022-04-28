@@ -1,4 +1,55 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('result' type=inline),
+                #2,
+            ),
+            (
+                Atom('webpackJsonpCallback' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('runtime' type=inline),
+            #2,
+        ): [
+            (
+                Atom('data' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('webpackJsonpCallback' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #2,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('data' type=inline),
+            #2,
+        ): [
+            (
+                Atom('runtime' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

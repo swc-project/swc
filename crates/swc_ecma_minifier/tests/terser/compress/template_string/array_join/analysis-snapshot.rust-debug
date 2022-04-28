@@ -1,4 +1,63 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('baz' type=inline),
+            #1,
+        ): [
+            (
+                Atom('any' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('qux' type=inline),
+            #1,
+        ): [
+            (
+                Atom('any' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('foo' type=inline),
+            #1,
+        ): [
+            (
+                Atom('any' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('any' type=static),
+            #2,
+        ): [
+            (
+                Atom('foo' type=inline),
+                #1,
+            ),
+            (
+                Atom('bar' type=inline),
+                #1,
+            ),
+            (
+                Atom('baz' type=inline),
+                #1,
+            ),
+            (
+                Atom('qux' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('bar' type=inline),
+            #1,
+        ): [
+            (
+                Atom('any' type=static),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,89 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('later' type=inline),
+            #2,
+        ): [
+            (
+                Atom('func' type=inline),
+                #2,
+            ),
+            (
+                Atom('context' type=inline),
+                #2,
+            ),
+            (
+                Atom('previous' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('timeout' type=inline),
+                #2,
+            ),
+            (
+                Atom('result' type=inline),
+                #2,
+            ),
+            (
+                Atom('args' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('func' type=inline),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('context' type=inline),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('previous' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('timeout' type=inline),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('later' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

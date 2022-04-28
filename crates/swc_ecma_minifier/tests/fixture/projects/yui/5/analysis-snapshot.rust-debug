@@ -1,4 +1,24 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('_queue' type=inline),
+            #2,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_queue' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

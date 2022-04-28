@@ -1,4 +1,403 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('pairs' type=inline),
+            #30,
+        ): [
+            (
+                Atom('search' type=inline),
+                #30,
+            ),
+            (
+                Atom('value' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('URLSearchParamsPolyfill' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('prototype' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('dict' type=inline),
+            #8,
+        ): [
+            (
+                Atom('__URLSearchParams__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('forSureUsePolyfill' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('decodesPlusesCorrectly' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useProxy' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #1,
+        ): [
+            (
+                Atom('nativeURLSearchParams' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('iterable' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useProxy' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('USPProto' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('JSON' type=static),
+            #5,
+        ): [
+            (
+                Atom('val' type=inline),
+                #31,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #31,
+        ): [
+            (
+                Atom('val' type=inline),
+                #31,
+            ),
+        ],
+        (
+            Atom('keys' type=inline),
+            #17,
+        ): [
+            (
+                Atom('key' type=static),
+                #17,
+            ),
+        ],
+        (
+            Atom('iterable' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('index' type=inline),
+            #30,
+        ): [
+            (
+                Atom('value' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('isSupportObjectConstructor' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('nativeURLSearchParams' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useProxy' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('values' type=inline),
+            #17,
+        ): [
+            (
+                Atom('dict' type=inline),
+                #17,
+            ),
+            (
+                Atom('key' type=static),
+                #17,
+            ),
+        ],
+        (
+            Atom('prototype' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('URLSearchParamsPolyfill' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('dict' type=inline),
+            #9,
+        ): [
+            (
+                Atom('__URLSearchParams__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #17,
+        ): [
+            (
+                Atom('keys' type=inline),
+                #17,
+            ),
+            (
+                Atom('i' type=inline),
+                #17,
+            ),
+            (
+                Atom('values' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #30,
+        ): [
+            (
+                Atom('item' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('__URLSearchParams__' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('dict' type=inline),
+                #8,
+            ),
+            (
+                Atom('dict' type=inline),
+                #9,
+            ),
+            (
+                Atom('dict' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #17,
+        ): [
+            (
+                Atom('key' type=static),
+                #17,
+            ),
+        ],
+        (
+            Atom('decodesPlusesCorrectly' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('nativeURLSearchParams' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('forSureUsePolyfill' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('iterator' type=static),
+            #28,
+        ): [
+            (
+                Atom('arr' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('nativeURLSearchParams' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
+            (
+                Atom('e' type=inline),
+                #2,
+            ),
+            (
+                Atom('isSupportObjectConstructor' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('decodesPlusesCorrectly' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useProxy' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('USPProto' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #29,
+        ): [
+            (
+                Atom('arr' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('search' type=inline),
+            #30,
+        ): [
+            (
+                Atom('item' type=inline),
+                #30,
+            ),
+            (
+                Atom('pairs' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('j' type=inline),
+            #30,
+        ): [
+            (
+                Atom('value' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #2,
+        ): [
+            (
+                Atom('nativeURLSearchParams' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('dict' type=inline),
+            #12,
+        ): [
+            (
+                Atom('__URLSearchParams__' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('dict' type=inline),
+            #17,
+        ): [
+            (
+                Atom('values' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('arr' type=inline),
+            #28,
+        ): [
+            (
+                Atom('value' type=inline),
+                #29,
+            ),
+            (
+                Atom('iterator' type=static),
+                #28,
+            ),
+        ],
+        (
+            Atom('useProxy' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('forSureUsePolyfill' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('self' type=inline),
+                #1,
+            ),
+            (
+                Atom('isSupportObjectConstructor' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('nativeURLSearchParams' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('val' type=inline),
+            #31,
+        ): [
+            (
+                Atom('JSON' type=static),
+                #5,
+            ),
+            (
+                Atom('value' type=inline),
+                #31,
+            ),
+        ],
+        (
+            Atom('item' type=inline),
+            #30,
+        ): [
+            (
+                Atom('search' type=inline),
+                #30,
+            ),
+            (
+                Atom('i' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #30,
+        ): [
+            (
+                Atom('j' type=inline),
+                #30,
+            ),
+            (
+                Atom('pairs' type=inline),
+                #30,
+            ),
+            (
+                Atom('index' type=inline),
+                #30,
+            ),
+        ],
+    },
     vars: [
         (
             (

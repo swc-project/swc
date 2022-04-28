@@ -1,4 +1,37 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('Lang' type=inline),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #1,
+        ): [
+            (
+                Atom('Lang' type=inline),
+                #3,
+            ),
+            (
+                Atom('Y' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('Y' type=inline),
+            #3,
+        ): [
+            (
+                Atom('E' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

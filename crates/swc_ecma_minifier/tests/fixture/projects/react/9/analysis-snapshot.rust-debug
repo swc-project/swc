@@ -1,4 +1,81 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('payload' type=inline),
+            #2,
+        ): [
+            (
+                Atom('ctor' type=inline),
+                #2,
+            ),
+            (
+                Atom('pending' type=inline),
+                #2,
+            ),
+            (
+                Atom('resolved' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('rejected' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('resolved' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('rejected' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('ctor' type=inline),
+            #2,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('moduleObject' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('defaultExport' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('pending' type=inline),
+            #2,
+        ): [
+            (
+                Atom('payload' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('defaultExport' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('moduleObject' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

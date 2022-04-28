@@ -1,4 +1,455 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('resultIsString2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsAny3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprAny2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprAny1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsNumber1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprNumber2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprNumber1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsObject1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprIsObject1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprIsObject2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprBoolean2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsBoolean2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsBoolean3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsStringOrBoolean1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsString3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsStringOrBoolean4' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprBoolean1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsBoolean2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsBoolean3' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean3' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean4' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprString1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsString1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsString2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsString3' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean3' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsStringOrBoolean4' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsObject3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprIsObject1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprIsObject2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsNumber3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprNumber2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprNumber1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsAny1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprAny2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprAny1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsStringOrBoolean2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprAny1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsAny1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsAny2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsAny3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsObject2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprIsObject1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprIsObject2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprIsObject2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsObject1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsObject2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsObject3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprAny2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsAny1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsAny2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsAny3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsBoolean2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprBoolean2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsStringOrBoolean3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsNumber2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprNumber2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprNumber1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprNumber2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsNumber1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsNumber2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsNumber3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprNumber1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsNumber1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsNumber2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsNumber3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsBoolean1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprBoolean2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprString2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsString1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsString2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsString3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsBoolean3' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprBoolean1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprBoolean2' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsAny2' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprAny2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprAny1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('exprIsObject1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resultIsObject1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsObject2' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('resultIsObject3' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('resultIsString1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('exprString1' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('exprString2' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

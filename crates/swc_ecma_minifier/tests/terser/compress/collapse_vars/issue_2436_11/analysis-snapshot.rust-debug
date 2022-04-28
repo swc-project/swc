@@ -1,4 +1,97 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('arg2' type=inline),
+            #2,
+        ): [
+            (
+                Atom('max' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('size' type=inline),
+            #2,
+        ): [
+            (
+                Atom('arg1' type=inline),
+                #2,
+            ),
+            (
+                Atom('res' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('max' type=inline),
+            #2,
+        ): [
+            (
+                Atom('arg2' type=inline),
+                #2,
+            ),
+            (
+                Atom('res' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_randomInt' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('res' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('res' type=inline),
+            #2,
+        ): [
+            (
+                Atom('size' type=inline),
+                #2,
+            ),
+            (
+                Atom('max' type=inline),
+                #2,
+            ),
+            (
+                Atom('_randomInt' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('min' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('arg1' type=inline),
+            #2,
+        ): [
+            (
+                Atom('size' type=inline),
+                #2,
+            ),
+            (
+                Atom('min' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('min' type=inline),
+            #2,
+        ): [
+            (
+                Atom('res' type=inline),
+                #2,
+            ),
+            (
+                Atom('arg1' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

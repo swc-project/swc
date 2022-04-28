@@ -1,4 +1,71 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('$el' type=inline),
+            #2,
+        ): [
+            (
+                Atom('attrs' type=inline),
+                #2,
+            ),
+            (
+                Atom('Backbone' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('_' type=inline),
+            #3,
+        ): [
+            (
+                Atom('attrs' type=inline),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('attrs' type=inline),
+            #2,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
+            ),
+            (
+                Atom('$el' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('Backbone' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('$el' type=inline),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
+            ),
+            (
+                Atom('Backbone' type=dynamic),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

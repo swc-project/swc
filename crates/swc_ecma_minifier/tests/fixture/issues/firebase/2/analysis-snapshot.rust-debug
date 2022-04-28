@@ -1,4 +1,76 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('tree' type=inline),
+            #2,
+        ): [
+            (
+                Atom('child' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('path' type=inline),
+            #2,
+        ): [
+            (
+                Atom('pathObj' type=inline),
+                #2,
+            ),
+            (
+                Atom('next' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('next' type=inline),
+            #2,
+        ): [
+            (
+                Atom('path' type=inline),
+                #2,
+            ),
+            (
+                Atom('childNode' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('childNode' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('child' type=inline),
+                #2,
+            ),
+            (
+                Atom('next' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('pathObj' type=inline),
+            #2,
+        ): [
+            (
+                Atom('path' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('child' type=inline),
+            #2,
+        ): [
+            (
+                Atom('tree' type=inline),
+                #2,
+            ),
+            (
+                Atom('childNode' type=dynamic),
+                #4,
+            ),
+        ],
+    },
     vars: [
         (
             (

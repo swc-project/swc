@@ -1,4 +1,55 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('method' type=inline),
+            #2,
+        ): [
+            (
+                Atom('isFunc' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_' type=inline),
+            #1,
+        ): [
+            (
+                Atom('isFunc' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('isFunc' type=inline),
+            #2,
+        ): [
+            (
+                Atom('method' type=inline),
+                #2,
+            ),
+            (
+                Atom('_' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('slice' type=inline),
+            #1,
+        ): [
+            (
+                Atom('args' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('slice' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

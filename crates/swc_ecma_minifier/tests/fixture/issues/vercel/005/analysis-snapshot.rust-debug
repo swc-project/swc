@@ -1,4 +1,169 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('JSON' type=static),
+            #3,
+        ): [
+            (
+                Atom('message' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('str' type=inline),
+            #5,
+        ): [
+            (
+                Atom('match' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #2,
+        ): [
+            (
+                Atom('message' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('msAbs' type=inline),
+            #7,
+        ): [
+            (
+                Atom('ms' type=inline),
+                #7,
+            ),
+            (
+                Atom('Math' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #5,
+        ): [
+            (
+                Atom('match' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('error' type=inline),
+            #4,
+        ): [
+            (
+                Atom('message' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('ms' type=inline),
+            #7,
+        ): [
+            (
+                Atom('msAbs' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('message' type=inline),
+            #4,
+        ): [
+            (
+                Atom('error' type=inline),
+                #4,
+            ),
+            (
+                Atom('JSON' type=static),
+                #3,
+            ),
+            (
+                Atom('value' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('msAbs' type=inline),
+            #6,
+        ): [
+            (
+                Atom('ms' type=inline),
+                #6,
+            ),
+            (
+                Atom('Math' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('msAbs' type=inline),
+            #8,
+        ): [
+            (
+                Atom('isPlural' type=dynamic),
+                #8,
+            ),
+        ],
+        (
+            Atom('isPlural' type=dynamic),
+            #8,
+        ): [
+            (
+                Atom('msAbs' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #5,
+        ): [
+            (
+                Atom('match' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('match' type=inline),
+            #5,
+        ): [
+            (
+                Atom('str' type=inline),
+                #5,
+            ),
+            (
+                Atom('n' type=inline),
+                #5,
+            ),
+            (
+                Atom('type' type=static),
+                #5,
+            ),
+        ],
+        (
+            Atom('ms' type=inline),
+            #6,
+        ): [
+            (
+                Atom('msAbs' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #3,
+        ): [
+            (
+                Atom('msAbs' type=inline),
+                #6,
+            ),
+            (
+                Atom('msAbs' type=inline),
+                #7,
+            ),
+        ],
+    },
     vars: [
         (
             (

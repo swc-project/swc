@@ -1,4 +1,37 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('source' type=inline),
+            #3,
+        ): [
+            (
+                Atom('fileName' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('lineNumber' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('lineNumber' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('source' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('fileName' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('source' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

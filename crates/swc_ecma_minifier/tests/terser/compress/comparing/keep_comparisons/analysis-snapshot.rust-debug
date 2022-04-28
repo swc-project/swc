@@ -1,4 +1,100 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('result3' type=inline),
+            #1,
+        ): [
+            (
+                Atom('obj1' type=inline),
+                #1,
+            ),
+            (
+                Atom('obj2' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('result4' type=inline),
+            #1,
+        ): [
+            (
+                Atom('obj1' type=inline),
+                #1,
+            ),
+            (
+                Atom('obj2' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj2' type=inline),
+            #1,
+        ): [
+            (
+                Atom('result1' type=inline),
+                #1,
+            ),
+            (
+                Atom('result2' type=inline),
+                #1,
+            ),
+            (
+                Atom('result3' type=inline),
+                #1,
+            ),
+            (
+                Atom('result4' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('result2' type=inline),
+            #1,
+        ): [
+            (
+                Atom('obj1' type=inline),
+                #1,
+            ),
+            (
+                Atom('obj2' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj1' type=inline),
+            #1,
+        ): [
+            (
+                Atom('result1' type=inline),
+                #1,
+            ),
+            (
+                Atom('result2' type=inline),
+                #1,
+            ),
+            (
+                Atom('result3' type=inline),
+                #1,
+            ),
+            (
+                Atom('result4' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('result1' type=inline),
+            #1,
+        ): [
+            (
+                Atom('obj1' type=inline),
+                #1,
+            ),
+            (
+                Atom('obj2' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

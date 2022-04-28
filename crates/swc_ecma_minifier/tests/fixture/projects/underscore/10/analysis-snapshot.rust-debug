@@ -1,4 +1,112 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('className' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('toString' type=static),
+                #3,
+            ),
+            (
+                Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #2,
+        ): [
+            (
+                Atom('className' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('aCtor' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('aCtor' type=inline),
+            #2,
+        ): [
+            (
+                Atom('a' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('b' type=inline),
+            #2,
+        ): [
+            (
+                Atom('bCtor' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('aStack' type=inline),
+            #2,
+        ): [
+            (
+                Atom('length' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('toString' type=static),
+            #3,
+        ): [
+            (
+                Atom('className' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('eq' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('bCtor' type=inline),
+            #2,
+        ): [
+            (
+                Atom('b' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_' type=inline),
+            #3,
+        ): [
+            (
+                Atom('eq' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('eq' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_' type=inline),
+                #3,
+            ),
+            (
+                Atom('toString' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #2,
+        ): [
+            (
+                Atom('aStack' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,76 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('h' type=inline),
+            #2,
+        ): [
+            (
+                Atom('NaN' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #8,
+        ): [
+            (
+                Atom('cosh' type=inline),
+                #8,
+            ),
+            (
+                Atom('sinh' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('cosh' type=inline),
+            #8,
+        ): [
+            (
+                Atom('h' type=inline),
+                #8,
+            ),
+            (
+                Atom('Math' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #3,
+        ): [
+            (
+                Atom('cosh' type=inline),
+                #8,
+            ),
+            (
+                Atom('sinh' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('sinh' type=inline),
+            #8,
+        ): [
+            (
+                Atom('h' type=inline),
+                #8,
+            ),
+            (
+                Atom('Math' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #3,
+        ): [
+            (
+                Atom('h' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

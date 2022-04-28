@@ -1,4 +1,2568 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('minl' type=inline),
+            #142,
+        ): [
+            (
+                Atom('arr2' type=inline),
+                #142,
+            ),
+            (
+                Atom('arr1' type=inline),
+                #142,
+            ),
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('func' type=inline),
+            #34,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #34,
+            ),
+        ],
+        (
+            Atom('extendedIsoRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('match' type=inline),
+                #153,
+            ),
+        ],
+        (
+            Atom('normalizedInput' type=dynamic),
+            #183,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #183,
+            ),
+            (
+                Atom('years' type=inline),
+                #183,
+            ),
+            (
+                Atom('quarters' type=dynamic),
+                #183,
+            ),
+            (
+                Atom('months' type=inline),
+                #183,
+            ),
+            (
+                Atom('weeks' type=inline),
+                #183,
+            ),
+            (
+                Atom('days' type=inline),
+                #183,
+            ),
+            (
+                Atom('hours' type=inline),
+                #183,
+            ),
+            (
+                Atom('minutes' type=inline),
+                #183,
+            ),
+            (
+                Atom('seconds' type=inline),
+                #183,
+            ),
+            (
+                Atom('milliseconds' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('weeks' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('format' type=inline),
+            #172,
+        ): [
+            (
+                Atom('config' type=inline),
+                #172,
+            ),
+        ],
+        (
+            Atom('nowValue' type=dynamic),
+            #163,
+        ): [
+            (
+                Atom('hooks' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #200,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #200,
+            ),
+        ],
+        (
+            Atom('index' type=inline),
+            #274,
+        ): [
+            (
+                Atom('utc' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('minutes' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('parentConfig' type=dynamic),
+            #148,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultWeekdaysShortRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matchWord' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #125,
+        ): [
+            (
+                Atom('weekday' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #239,
+        ): [
+            (
+                Atom('era' type=inline),
+                #239,
+            ),
+        ],
+        (
+            Atom('arrayTest' type=dynamic),
+            #210,
+        ): [
+            (
+                Atom('input' type=inline),
+                #210,
+            ),
+        ],
+        (
+            Atom('format' type=inline),
+            #214,
+        ): [
+            (
+                Atom('sod' type=inline),
+                #214,
+            ),
+            (
+                Atom('hooks' type=inline),
+                #3,
+            ),
+            (
+                Atom('output' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('dow' type=inline),
+            #101,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #101,
+            ),
+        ],
+        (
+            Atom('defaultWeekdaysRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matchWord' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('Moment' type=inline),
+            #3,
+        ): [
+            (
+                Atom('proto' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('now' type=inline),
+            #214,
+        ): [
+            (
+                Atom('time' type=inline),
+                #214,
+            ),
+            (
+                Atom('sod' type=inline),
+                #214,
+            ),
+            (
+                Atom('output' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('localInput' type=dynamic),
+            #215,
+        ): [
+            (
+                Atom('input' type=inline),
+                #215,
+            ),
+        ],
+        (
+            Atom('weekOffsetNext' type=dynamic),
+            #102,
+        ): [
+            (
+                Atom('dow' type=inline),
+                #102,
+            ),
+            (
+                Atom('doy' type=inline),
+                #102,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #152,
+        ): [
+            (
+                Atom('m' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('llc' type=inline),
+            #83,
+        ): [
+            (
+                Atom('monthName' type=dynamic),
+                #83,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #169,
+        ): [
+            (
+                Atom('i' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('defaultLocaleMeridiemParse' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('monthStr' type=dynamic),
+            #154,
+        ): [
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('unit' type=inline),
+            #46,
+        ): [
+            (
+                Atom('lowerCase' type=dynamic),
+                #46,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #210,
+        ): [
+            (
+                Atom('arrayTest' type=dynamic),
+                #210,
+            ),
+        ],
+        (
+            Atom('inputString' type=dynamic),
+            #225,
+        ): [
+            (
+                Atom('output' type=inline),
+                #225,
+            ),
+        ],
+        (
+            Atom('weekYear' type=dynamic),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('years' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+        ],
+        (
+            Atom('month' type=inline),
+            #74,
+        ): [
+            (
+                Atom('modMonth' type=dynamic),
+                #74,
+            ),
+        ],
+        (
+            Atom('format' type=inline),
+            #41,
+        ): [
+            (
+                Atom('key' type=static),
+                #41,
+            ),
+        ],
+        (
+            Atom('seconds' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('momentProperties' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('hooks' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #222,
+        ): [
+            (
+                Atom('anchor' type=inline),
+                #222,
+            ),
+        ],
+        (
+            Atom('milliseconds' type=dynamic),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('Locale' type=inline),
+            #3,
+        ): [
+            (
+                Atom('proto$1' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('doy' type=inline),
+            #101,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #101,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #2,
+        ): [
+            (
+                Atom('m' type=inline),
+                #19,
+            ),
+        ],
+        (
+            Atom('hourStr' type=inline),
+            #154,
+        ): [
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('duration' type=dynamic),
+            #200,
+        ): [
+            (
+                Atom('input' type=inline),
+                #200,
+            ),
+        ],
+        (
+            Atom('utc' type=inline),
+            #274,
+        ): [
+            (
+                Atom('index' type=inline),
+                #274,
+            ),
+            (
+                Atom('setter' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('res' type=inline),
+            #201,
+        ): [
+            (
+                Atom('inp' type=inline),
+                #201,
+            ),
+        ],
+        (
+            Atom('now' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Date' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('yearStr' type=inline),
+            #154,
+        ): [
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('days' type=inline),
+            #206,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #206,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #296,
+        ): [
+            (
+                Atom('hours' type=inline),
+                #296,
+            ),
+            (
+                Atom('seconds' type=inline),
+                #296,
+            ),
+            (
+                Atom('thresholds' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('minutes' type=inline),
+                #296,
+            ),
+            (
+                Atom('days' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('defaultLocaleMonthsShort' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('aspNetJsonRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matched' type=inline),
+                #160,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #166,
+        ): [
+            (
+                Atom('stringLength' type=dynamic),
+                #166,
+            ),
+        ],
+        (
+            Atom('prototypeMin' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('createLocal' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('token' type=inline),
+            #80,
+        ): [
+            (
+                Atom('month' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('dow' type=inline),
+            #102,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #102,
+            ),
+            (
+                Atom('weekOffsetNext' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('basicIsoRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('match' type=inline),
+                #153,
+            ),
+        ],
+        (
+            Atom('defaultRelativeTime' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('to' type=inline),
+            #217,
+        ): [
+            (
+                Atom('localTo' type=inline),
+                #217,
+            ),
+        ],
+        (
+            Atom('abs$1' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('weekdayActual' type=dynamic),
+            #157,
+        ): [
+            (
+                Atom('parsedInput' type=dynamic),
+                #157,
+            ),
+        ],
+        (
+            Atom('from' type=static),
+            #217,
+        ): [
+            (
+                Atom('localFrom' type=dynamic),
+                #217,
+            ),
+        ],
+        (
+            Atom('month' type=inline),
+            #80,
+        ): [
+            (
+                Atom('token' type=inline),
+                #80,
+            ),
+            (
+                Atom('input' type=inline),
+                #80,
+            ),
+            (
+                Atom('config' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('other' type=inline),
+            #177,
+        ): [
+            (
+                Atom('createLocal' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('dayOrDate' type=dynamic),
+            #169,
+        ): [
+            (
+                Atom('i' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('parsedInput' type=dynamic),
+            #157,
+        ): [
+            (
+                Atom('weekdayActual' type=dynamic),
+                #157,
+            ),
+        ],
+        (
+            Atom('defaultLocaleWeekdaysMin' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #215,
+        ): [
+            (
+                Atom('localInput' type=dynamic),
+                #215,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #173,
+        ): [
+            (
+                Atom('input' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('duration' type=dynamic),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('localInput' type=dynamic),
+            #218,
+        ): [
+            (
+                Atom('input' type=inline),
+                #218,
+            ),
+        ],
+        (
+            Atom('year' type=inline),
+            #155,
+        ): [
+            (
+                Atom('yearStr' type=inline),
+                #155,
+            ),
+        ],
+        (
+            Atom('res' type=inline),
+            #29,
+        ): [
+            (
+                Atom('parentConfig' type=dynamic),
+                #29,
+            ),
+        ],
+        (
+            Atom('shift' type=inline),
+            #276,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #276,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('quarters' type=dynamic),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('dayOfYearData' type=dynamic),
+            #264,
+        ): [
+            (
+                Atom('weekYear' type=dynamic),
+                #264,
+            ),
+            (
+                Atom('doy' type=inline),
+                #264,
+            ),
+            (
+                Atom('week' type=inline),
+                #264,
+            ),
+            (
+                Atom('dow' type=inline),
+                #264,
+            ),
+            (
+                Atom('weekday' type=inline),
+                #264,
+            ),
+            (
+                Atom('date' type=inline),
+                #264,
+            ),
+        ],
+        (
+            Atom('months' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #284,
+        ): [
+            (
+                Atom('other' type=inline),
+                #284,
+            ),
+        ],
+        (
+            Atom('defaultOrdinal' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultCalendar' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultLocaleWeekdaysShort' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('weekdayProvided' type=dynamic),
+                #157,
+            ),
+        ],
+        (
+            Atom('weekdayName' type=dynamic),
+            #121,
+        ): [
+            (
+                Atom('llc' type=inline),
+                #121,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #159,
+        ): [
+            (
+                Atom('match' type=inline),
+                #159,
+            ),
+        ],
+        (
+            Atom('minutes' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('a' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('func' type=inline),
+            #67,
+        ): [
+            (
+                Atom('callback' type=dynamic),
+                #67,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #216,
+        ): [
+            (
+                Atom('localInput' type=dynamic),
+                #216,
+            ),
+        ],
+        (
+            Atom('flags' type=inline),
+            #17,
+        ): [
+            (
+                Atom('m' type=inline),
+                #17,
+            ),
+            (
+                Atom('parsedParts' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('isNowValid' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('isNowValid' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('flags' type=inline),
+                #17,
+            ),
+            (
+                Atom('m' type=inline),
+                #17,
+            ),
+            (
+                Atom('parsedParts' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #153,
+        ): [
+            (
+                Atom('config' type=inline),
+                #153,
+            ),
+            (
+                Atom('match' type=inline),
+                #153,
+            ),
+        ],
+        (
+            Atom('weekday' type=inline),
+            #125,
+        ): [
+            (
+                Atom('input' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('callback' type=dynamic),
+            #67,
+        ): [
+            (
+                Atom('func' type=inline),
+                #67,
+            ),
+        ],
+        (
+            Atom('lengthDiff' type=dynamic),
+            #186,
+        ): [
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('number' type=static),
+            #33,
+        ): [
+            (
+                Atom('sign' type=inline),
+                #33,
+            ),
+        ],
+        (
+            Atom('mom' type=inline),
+            #101,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #101,
+            ),
+        ],
+        (
+            Atom('formats' type=inline),
+            #214,
+        ): [
+            (
+                Atom('output' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('localTo' type=inline),
+            #217,
+        ): [
+            (
+                Atom('to' type=inline),
+                #217,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #284,
+        ): [
+            (
+                Atom('other' type=inline),
+                #284,
+            ),
+        ],
+        (
+            Atom('thresholds' type=dynamic),
+            #296,
+        ): [
+            (
+                Atom('a' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('weekOffset' type=dynamic),
+            #100,
+        ): [
+            (
+                Atom('year' type=inline),
+                #100,
+            ),
+            (
+                Atom('doy' type=inline),
+                #100,
+            ),
+            (
+                Atom('dow' type=inline),
+                #100,
+            ),
+        ],
+        (
+            Atom('numOffset' type=dynamic),
+            #158,
+        ): [
+            (
+                Atom('hm' type=inline),
+                #158,
+            ),
+        ],
+        (
+            Atom('arr2' type=inline),
+            #142,
+        ): [
+            (
+                Atom('minl' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('matchWord' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('defaultMonthsShortRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultMonthsRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultWeekdaysRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultWeekdaysShortRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultWeekdaysMinRegex' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('posNegDuration' type=dynamic),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+        ],
+        (
+            Atom('thresholds' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('th' type=inline),
+                #299,
+            ),
+        ],
+        (
+            Atom('output' type=inline),
+            #214,
+        ): [
+            (
+                Atom('now' type=inline),
+                #214,
+            ),
+            (
+                Atom('formats' type=inline),
+                #214,
+            ),
+            (
+                Atom('format' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #19,
+        ): [
+            (
+                Atom('NaN' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('doy' type=inline),
+            #102,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #102,
+            ),
+            (
+                Atom('weekOffsetNext' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('months' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('match' type=inline),
+            #153,
+        ): [
+            (
+                Atom('extendedIsoRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('string' type=static),
+                #153,
+            ),
+            (
+                Atom('basicIsoRegex' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('hours' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('defaultLongDateFormat' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('sod' type=inline),
+            #214,
+        ): [
+            (
+                Atom('now' type=inline),
+                #214,
+            ),
+            (
+                Atom('format' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('parentConfig' type=dynamic),
+            #150,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('mathAbs' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('minuteStr' type=dynamic),
+            #154,
+        ): [
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('yearStr' type=inline),
+            #155,
+        ): [
+            (
+                Atom('year' type=inline),
+                #155,
+            ),
+        ],
+        (
+            Atom('myMoment' type=dynamic),
+            #213,
+        ): [
+            (
+                Atom('diff' type=inline),
+                #213,
+            ),
+        ],
+        (
+            Atom('time' type=inline),
+            #214,
+        ): [
+            (
+                Atom('now' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('duration' type=dynamic),
+            #296,
+        ): [
+            (
+                Atom('posNegDuration' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('seconds' type=inline),
+                #296,
+            ),
+            (
+                Atom('minutes' type=inline),
+                #296,
+            ),
+            (
+                Atom('hours' type=inline),
+                #296,
+            ),
+            (
+                Atom('days' type=inline),
+                #296,
+            ),
+            (
+                Atom('months' type=inline),
+                #296,
+            ),
+            (
+                Atom('weeks' type=inline),
+                #296,
+            ),
+            (
+                Atom('years' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('output' type=inline),
+            #225,
+        ): [
+            (
+                Atom('inputString' type=dynamic),
+                #225,
+            ),
+        ],
+        (
+            Atom('locale' type=inline),
+            #276,
+        ): [
+            (
+                Atom('shift' type=inline),
+                #276,
+            ),
+        ],
+        (
+            Atom('localFrom' type=dynamic),
+            #217,
+        ): [
+            (
+                Atom('from' type=static),
+                #217,
+            ),
+        ],
+        (
+            Atom('year' type=inline),
+            #102,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #102,
+            ),
+        ],
+        (
+            Atom('hooks' type=inline),
+            #3,
+        ): [
+            (
+                Atom('momentProperties' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('nowValue' type=dynamic),
+                #163,
+            ),
+            (
+                Atom('format' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('matched' type=inline),
+            #160,
+        ): [
+            (
+                Atom('aspNetJsonRegex' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('config' type=inline),
+                #160,
+            ),
+        ],
+        (
+            Atom('seconds' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('a' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #2,
+        ): [
+            (
+                Atom('minl' type=inline),
+                #142,
+            ),
+            (
+                Atom('len' type=inline),
+                #186,
+            ),
+            (
+                Atom('lengthDiff' type=dynamic),
+                #186,
+            ),
+            (
+                Atom('mathAbs' type=inline),
+                #3,
+            ),
+            (
+                Atom('round' type=inline),
+                #3,
+            ),
+            (
+                Atom('abs$1' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #80,
+        ): [
+            (
+                Atom('month' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('defaultLocaleWeek' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultMonthsShortRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matchWord' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultLocaleWeekdays' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('hm' type=inline),
+            #158,
+        ): [
+            (
+                Atom('numOffset' type=dynamic),
+                #158,
+            ),
+        ],
+        (
+            Atom('prototypeMax' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('createLocal' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('arr1' type=inline),
+            #142,
+        ): [
+            (
+                Atom('minl' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #190,
+        ): [
+            (
+                Atom('matches' type=inline),
+                #190,
+            ),
+        ],
+        (
+            Atom('objectTest' type=dynamic),
+            #212,
+        ): [
+            (
+                Atom('input' type=inline),
+                #212,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #171,
+        ): [
+            (
+                Atom('res' type=inline),
+                #171,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #41,
+        ): [
+            (
+                Atom('format' type=inline),
+                #41,
+            ),
+            (
+                Atom('formatUpper' type=dynamic),
+                #41,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #212,
+        ): [
+            (
+                Atom('objectTest' type=dynamic),
+                #212,
+            ),
+        ],
+        (
+            Atom('setter' type=inline),
+            #274,
+        ): [
+            (
+                Atom('utc' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #44,
+        ): [
+            (
+                Atom('output' type=inline),
+                #44,
+            ),
+        ],
+        (
+            Atom('parsedParts' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('some' type=inline),
+                #3,
+            ),
+            (
+                Atom('flags' type=inline),
+                #17,
+            ),
+            (
+                Atom('isNowValid' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #172,
+        ): [
+            (
+                Atom('config' type=inline),
+                #172,
+            ),
+        ],
+        (
+            Atom('lowerCase' type=dynamic),
+            #46,
+        ): [
+            (
+                Atom('unit' type=inline),
+                #46,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #113,
+        ): [
+            (
+                Atom('weekday' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #172,
+        ): [
+            (
+                Atom('input' type=inline),
+                #172,
+            ),
+            (
+                Atom('format' type=inline),
+                #172,
+            ),
+        ],
+        (
+            Atom('hours' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('a' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('modMonth' type=dynamic),
+            #74,
+        ): [
+            (
+                Atom('month' type=inline),
+                #74,
+            ),
+        ],
+        (
+            Atom('sign' type=inline),
+            #33,
+        ): [
+            (
+                Atom('number' type=static),
+                #33,
+            ),
+        ],
+        (
+            Atom('kInput' type=inline),
+            #133,
+        ): [
+            (
+                Atom('input' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('diff' type=inline),
+            #213,
+        ): [
+            (
+                Atom('myMoment' type=dynamic),
+                #213,
+            ),
+            (
+                Atom('now' type=inline),
+                #213,
+            ),
+        ],
+        (
+            Atom('defaultInvalidDate' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('era' type=inline),
+            #239,
+        ): [
+            (
+                Atom('config' type=inline),
+                #239,
+            ),
+            (
+                Atom('input' type=inline),
+                #239,
+            ),
+            (
+                Atom('token' type=inline),
+                #239,
+            ),
+        ],
+        (
+            Atom('token' type=inline),
+            #239,
+        ): [
+            (
+                Atom('era' type=inline),
+                #239,
+            ),
+        ],
+        (
+            Atom('matcher' type=inline),
+            #190,
+        ): [
+            (
+                Atom('matches' type=inline),
+                #190,
+            ),
+        ],
+        (
+            Atom('weeks' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #152,
+        ): [
+            (
+                Atom('a' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('defaultLocaleMonths' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('output' type=inline),
+            #44,
+        ): [
+            (
+                Atom('string' type=static),
+                #44,
+            ),
+        ],
+        (
+            Atom('res' type=inline),
+            #171,
+        ): [
+            (
+                Atom('config' type=inline),
+                #171,
+            ),
+        ],
+        (
+            Atom('Date' type=static),
+            #2,
+        ): [
+            (
+                Atom('now' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('matches' type=inline),
+            #190,
+        ): [
+            (
+                Atom('matcher' type=inline),
+                #190,
+            ),
+            (
+                Atom('string' type=static),
+                #190,
+            ),
+        ],
+        (
+            Atom('proto$1' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Locale' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('createLocal' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('other' type=inline),
+                #177,
+            ),
+            (
+                Atom('other' type=inline),
+                #178,
+            ),
+            (
+                Atom('prototypeMin' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('prototypeMax' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('wholeMonthDiff' type=dynamic),
+            #222,
+        ): [
+            (
+                Atom('anchor' type=inline),
+                #222,
+            ),
+        ],
+        (
+            Atom('match' type=inline),
+            #159,
+        ): [
+            (
+                Atom('config' type=inline),
+                #159,
+            ),
+            (
+                Atom('rfc2822' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('matchOffset' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('tZone' type=inline),
+                #197,
+            ),
+        ],
+        (
+            Atom('weekOffset' type=dynamic),
+            #101,
+        ): [
+            (
+                Atom('dow' type=inline),
+                #101,
+            ),
+            (
+                Atom('doy' type=inline),
+                #101,
+            ),
+            (
+                Atom('mom' type=inline),
+                #101,
+            ),
+        ],
+        (
+            Atom('rfc2822' type=inline),
+            #3,
+        ): [
+            (
+                Atom('match' type=inline),
+                #159,
+            ),
+        ],
+        (
+            Atom('localInput' type=dynamic),
+            #216,
+        ): [
+            (
+                Atom('input' type=inline),
+                #216,
+            ),
+        ],
+        (
+            Atom('inp' type=inline),
+            #201,
+        ): [
+            (
+                Atom('res' type=inline),
+                #201,
+            ),
+        ],
+        (
+            Atom('proto$2' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Duration' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('array1' type=inline),
+            #186,
+        ): [
+            (
+                Atom('len' type=inline),
+                #186,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #154,
+        ): [
+            (
+                Atom('minuteStr' type=dynamic),
+                #154,
+            ),
+            (
+                Atom('monthStr' type=dynamic),
+                #154,
+            ),
+            (
+                Atom('defaultLocaleMonthsShort' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('dayStr' type=inline),
+                #154,
+            ),
+            (
+                Atom('yearStr' type=inline),
+                #154,
+            ),
+            (
+                Atom('hourStr' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #160,
+        ): [
+            (
+                Atom('matched' type=inline),
+                #160,
+            ),
+        ],
+        (
+            Atom('milliseconds' type=dynamic),
+            #206,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #206,
+            ),
+        ],
+        (
+            Atom('dayStr' type=inline),
+            #154,
+        ): [
+            (
+                Atom('result' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('some' type=inline),
+            #3,
+        ): [
+            (
+                Atom('parsedParts' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('monthName' type=dynamic),
+            #83,
+        ): [
+            (
+                Atom('llc' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('week' type=inline),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('stringLength' type=dynamic),
+            #166,
+        ): [
+            (
+                Atom('string' type=static),
+                #166,
+            ),
+        ],
+        (
+            Atom('array' type=inline),
+            #36,
+        ): [
+            (
+                Atom('formattingTokens' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('format' type=inline),
+                #36,
+            ),
+        ],
+        (
+            Atom('proto' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Moment' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('months' type=inline),
+            #206,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #206,
+            ),
+        ],
+        (
+            Atom('anchor' type=inline),
+            #222,
+        ): [
+            (
+                Atom('wholeMonthDiff' type=dynamic),
+                #222,
+            ),
+            (
+                Atom('a' type=inline),
+                #222,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #153,
+        ): [
+            (
+                Atom('string' type=static),
+                #153,
+            ),
+        ],
+        (
+            Atom('dow' type=inline),
+            #100,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #100,
+            ),
+        ],
+        (
+            Atom('other' type=inline),
+            #284,
+        ): [
+            (
+                Atom('value' type=inline),
+                #284,
+            ),
+            (
+                Atom('input' type=inline),
+                #284,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #218,
+        ): [
+            (
+                Atom('localInput' type=dynamic),
+                #218,
+            ),
+        ],
+        (
+            Atom('tZone' type=inline),
+            #197,
+        ): [
+            (
+                Atom('matchOffset' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('defaultDayOfMonthOrdinalParse' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('baseConfig' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('callback' type=dynamic),
+            #34,
+        ): [
+            (
+                Atom('func' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('days' type=inline),
+            #296,
+        ): [
+            (
+                Atom('duration' type=dynamic),
+                #296,
+            ),
+            (
+                Atom('a' type=inline),
+                #296,
+            ),
+        ],
+        (
+            Atom('token' type=inline),
+            #113,
+        ): [
+            (
+                Atom('weekday' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('dow' type=inline),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('output' type=inline),
+            #32,
+        ): [
+            (
+                Atom('key' type=static),
+                #32,
+            ),
+        ],
+        (
+            Atom('formatUpper' type=dynamic),
+            #41,
+        ): [
+            (
+                Atom('key' type=static),
+                #41,
+            ),
+        ],
+        (
+            Atom('baseConfig' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('defaultLocaleWeekdaysShort' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleMeridiemParse' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleMonthsShort' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultInvalidDate' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultDayOfMonthOrdinalParse' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleWeek' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleMonths' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleWeekdays' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultOrdinal' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultRelativeTime' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLocaleWeekdaysMin' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultLongDateFormat' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('defaultCalendar' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('parentConfig' type=dynamic),
+                #148,
+            ),
+            (
+                Atom('parentConfig' type=dynamic),
+                #150,
+            ),
+        ],
+        (
+            Atom('weekdayProvided' type=dynamic),
+            #157,
+        ): [
+            (
+                Atom('defaultLocaleWeekdaysShort' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('weekdayStr' type=dynamic),
+                #157,
+            ),
+        ],
+        (
+            Atom('weekOffset' type=dynamic),
+            #102,
+        ): [
+            (
+                Atom('dow' type=inline),
+                #102,
+            ),
+            (
+                Atom('year' type=inline),
+                #102,
+            ),
+            (
+                Atom('doy' type=inline),
+                #102,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #173,
+        ): [
+            (
+                Atom('config' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('days' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #17,
+        ): [
+            (
+                Atom('flags' type=inline),
+                #17,
+            ),
+            (
+                Atom('isNowValid' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('weekdayStr' type=dynamic),
+            #157,
+        ): [
+            (
+                Atom('weekdayProvided' type=dynamic),
+                #157,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #133,
+        ): [
+            (
+                Atom('kInput' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('doy' type=inline),
+            #100,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #100,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #169,
+        ): [
+            (
+                Atom('config' type=inline),
+                #169,
+            ),
+            (
+                Atom('dayOrDate' type=dynamic),
+                #169,
+            ),
+        ],
+        (
+            Atom('Duration' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('proto$2' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('llc' type=inline),
+            #121,
+        ): [
+            (
+                Atom('weekdayName' type=dynamic),
+                #121,
+            ),
+        ],
+        (
+            Atom('doy' type=inline),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #239,
+        ): [
+            (
+                Atom('era' type=inline),
+                #239,
+            ),
+        ],
+        (
+            Atom('weekday' type=inline),
+            #113,
+        ): [
+            (
+                Atom('token' type=inline),
+                #113,
+            ),
+            (
+                Atom('config' type=inline),
+                #113,
+            ),
+            (
+                Atom('input' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('th' type=inline),
+            #299,
+        ): [
+            (
+                Atom('thresholds' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('prioritized' type=dynamic),
+            #60,
+        ): [
+            (
+                Atom('units' type=inline),
+                #60,
+            ),
+        ],
+        (
+            Atom('years' type=inline),
+            #183,
+        ): [
+            (
+                Atom('normalizedInput' type=dynamic),
+                #183,
+            ),
+        ],
+        (
+            Atom('config' type=inline),
+            #113,
+        ): [
+            (
+                Atom('weekday' type=inline),
+                #113,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #32,
+        ): [
+            (
+                Atom('output' type=inline),
+                #32,
+            ),
+        ],
+        (
+            Atom('year' type=inline),
+            #100,
+        ): [
+            (
+                Atom('weekOffset' type=dynamic),
+                #100,
+            ),
+        ],
+        (
+            Atom('duration' type=dynamic),
+            #206,
+        ): [
+            (
+                Atom('milliseconds' type=dynamic),
+                #206,
+            ),
+            (
+                Atom('days' type=inline),
+                #206,
+            ),
+            (
+                Atom('months' type=inline),
+                #206,
+            ),
+        ],
+        (
+            Atom('parentConfig' type=dynamic),
+            #29,
+        ): [
+            (
+                Atom('res' type=inline),
+                #29,
+            ),
+        ],
+        (
+            Atom('array2' type=inline),
+            #186,
+        ): [
+            (
+                Atom('len' type=inline),
+                #186,
+            ),
+        ],
+        (
+            Atom('round' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('other' type=inline),
+            #178,
+        ): [
+            (
+                Atom('createLocal' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('format' type=inline),
+            #36,
+        ): [
+            (
+                Atom('array' type=inline),
+                #36,
+            ),
+        ],
+        (
+            Atom('units' type=inline),
+            #60,
+        ): [
+            (
+                Atom('prioritized' type=dynamic),
+                #60,
+            ),
+        ],
+        (
+            Atom('defaultWeekdaysMinRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matchWord' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('len' type=inline),
+            #186,
+        ): [
+            (
+                Atom('array1' type=inline),
+                #186,
+            ),
+            (
+                Atom('Math' type=static),
+                #2,
+            ),
+            (
+                Atom('array2' type=inline),
+                #186,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #80,
+        ): [
+            (
+                Atom('month' type=inline),
+                #80,
+            ),
+        ],
+        (
+            Atom('defaultMonthsRegex' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('matchWord' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('now' type=inline),
+            #213,
+        ): [
+            (
+                Atom('diff' type=inline),
+                #213,
+            ),
+        ],
+        (
+            Atom('objectTest' type=dynamic),
+            #209,
+        ): [
+            (
+                Atom('input' type=inline),
+                #209,
+            ),
+        ],
+        (
+            Atom('weekday' type=inline),
+            #264,
+        ): [
+            (
+                Atom('dayOfYearData' type=dynamic),
+                #264,
+            ),
+        ],
+        (
+            Atom('formattingTokens' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('array' type=inline),
+                #36,
+            ),
+        ],
+        (
+            Atom('input' type=inline),
+            #209,
+        ): [
+            (
+                Atom('objectTest' type=dynamic),
+                #209,
+            ),
+        ],
+    },
     vars: [
         (
             (

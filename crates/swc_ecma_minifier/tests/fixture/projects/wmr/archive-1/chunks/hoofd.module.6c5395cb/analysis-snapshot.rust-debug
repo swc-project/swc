@@ -1,4 +1,670 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('result' type=inline),
+            #4,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('DispatcherContext' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('defaultDispatcher' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('dispatcher' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('useLang' type=inline),
+                #1,
+            ),
+            (
+                Atom('dispatcher' type=dynamic),
+                #18,
+            ),
+            (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+            (
+                Atom('dispatcher' type=dynamic),
+                #27,
+            ),
+            (
+                Atom('useMeta' type=inline),
+                #1,
+            ),
+            (
+                Atom('dispatcher' type=dynamic),
+                #28,
+            ),
+            (
+                Atom('useTitle' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('LINK' type=inline),
+            #1,
+        ): [
+            (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('dispatcher' type=dynamic),
+            #27,
+        ): [
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('metaObject' type=dynamic),
+            #27,
+        ): [
+            (
+                Atom('options' type=inline),
+                #27,
+            ),
+            (
+                Atom('keyword' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('keyword' type=inline),
+            #27,
+        ): [
+            (
+                Atom('metaObject' type=dynamic),
+                #27,
+            ),
+        ],
+        (
+            Atom('currentTitleTemplateIndex' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('useMeta' type=inline),
+            #1,
+        ): [
+            (
+                Atom('META' type=inline),
+                #1,
+            ),
+            (
+                Atom('isServerSide' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #2,
+        ): [
+            (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('dispatcher' type=dynamic),
+            #28,
+        ): [
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('TITLE' type=inline),
+            #1,
+        ): [
+            (
+                Atom('useTitle' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('toStatic' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('defaultDispatcher' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('links' type=inline),
+            #14,
+        ): [
+            (
+                Atom('linkQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('META' type=inline),
+            #1,
+        ): [
+            (
+                Atom('useMeta' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #27,
+        ): [
+            (
+                Atom('metaObject' type=dynamic),
+                #27,
+            ),
+        ],
+        (
+            Atom('TEMPLATE' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('useTitle' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('visited' type=inline),
+            #14,
+        ): [
+            (
+                Atom('metas' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('metas' type=inline),
+            #14,
+        ): [
+            (
+                Atom('metaQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('visited' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('changeOrCreateMetaTag' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('linkQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('links' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('result' type=inline),
+                #4,
+            ),
+            (
+                Atom('metaTag' type=inline),
+                #4,
+            ),
+            (
+                Atom('changeOrCreateMetaTag' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('result' type=inline),
+                #11,
+            ),
+            (
+                Atom('createDispatcher' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useLang' type=inline),
+                #1,
+            ),
+            (
+                Atom('preExistingElements' type=dynamic),
+                #20,
+            ),
+            (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('payload' type=inline),
+            #11,
+        ): [
+            (
+                Atom('index' type=inline),
+                #11,
+            ),
+            (
+                Atom('oldMeta' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('oldMeta' type=inline),
+            #11,
+        ): [
+            (
+                Atom('metaQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('payload' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('preExistingElements' type=dynamic),
+            #20,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('createDispatcher' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('isServerSide' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('undefined' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('queue' type=inline),
+            #11,
+        ): [
+            (
+                Atom('titleQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('titleTemplateQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('index' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('isServerSide' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('createDispatcher' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useLang' type=inline),
+                #1,
+            ),
+            (
+                Atom('useLink' type=inline),
+                #1,
+            ),
+            (
+                Atom('useMeta' type=inline),
+                #1,
+            ),
+            (
+                Atom('useTitle' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #2,
+        ): [
+            (
+                Atom('createDispatcher' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('metaTag' type=inline),
+            #4,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('currentTitleIndex' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('defaultDispatcher' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('toStatic' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('useTitle' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('TEMPLATE' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('TITLE' type=inline),
+                #1,
+            ),
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('isServerSide' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('metaQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('oldMeta' type=inline),
+                #11,
+            ),
+            (
+                Atom('newMeta' type=inline),
+                #11,
+            ),
+            (
+                Atom('metas' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('dispatcher' type=dynamic),
+            #18,
+        ): [
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('dispatcher' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('useLang' type=inline),
+            #1,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('isServerSide' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('title' type=inline),
+            #14,
+        ): [
+            (
+                Atom('titleQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('titleTemplateQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('useLink' type=inline),
+            #1,
+        ): [
+            (
+                Atom('Object' type=static),
+                #2,
+            ),
+            (
+                Atom('DispatcherContext' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('isServerSide' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('LINK' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('scriptQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('scripts' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('processQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('titleQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('currentTitleIndex' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('currentMetaIndex' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('titleTemplateQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('metaQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('currentTitleTemplateIndex' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('index' type=inline),
+            #11,
+        ): [
+            (
+                Atom('queue' type=inline),
+                #11,
+            ),
+            (
+                Atom('payload' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('titleQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('queue' type=inline),
+                #11,
+            ),
+            (
+                Atom('queue' type=inline),
+                #13,
+            ),
+            (
+                Atom('title' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('queue' type=inline),
+            #13,
+        ): [
+            (
+                Atom('titleQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('titleTemplateQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('currentMetaIndex' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('titleTemplateQueue' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('processQueue' type=dynamic),
+                #5,
+            ),
+            (
+                Atom('queue' type=inline),
+                #11,
+            ),
+            (
+                Atom('queue' type=inline),
+                #13,
+            ),
+            (
+                Atom('title' type=inline),
+                #14,
+            ),
+        ],
+        (
+            Atom('scripts' type=inline),
+            #14,
+        ): [
+            (
+                Atom('scriptQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('newMeta' type=inline),
+            #11,
+        ): [
+            (
+                Atom('metaQueue' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('result' type=inline),
+            #11,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

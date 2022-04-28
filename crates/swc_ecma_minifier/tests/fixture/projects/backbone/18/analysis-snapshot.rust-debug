@@ -1,4 +1,63 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('optionalParam' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('escapeRegExp' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('optionalParam' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('escapeRegExp' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('namedParam' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('splatParam' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('namedParam' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('splatParam' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,37 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('__webpack_exec__' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('__webpack_exec__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+        ],
+    },
     vars: [
         (
             (

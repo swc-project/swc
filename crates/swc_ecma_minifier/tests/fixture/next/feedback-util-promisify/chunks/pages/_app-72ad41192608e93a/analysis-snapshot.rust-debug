@@ -1,4 +1,7667 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('_styles_globals_css__WEBPACK_IMPORTED_MODULE_4__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('_styles_globals_css__WEBPACK_IMPORTED_MODULE_4___default' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #173,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #180,
+        ): [
+            (
+                Atom('r' type=inline),
+                #180,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #191,
+        ): [
+            (
+                Atom('throwTypeError' type=dynamic),
+                #191,
+            ),
+            (
+                Atom('r' type=inline),
+                #195,
+            ),
+            (
+                Atom('r' type=inline),
+                #196,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #202,
+        ): [
+            (
+                Atom('A' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('Map' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #206,
+        ): [
+            (
+                Atom('r' type=inline),
+                #206,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #328,
+        ): [
+            (
+                Atom('e' type=inline),
+                #328,
+            ),
+            (
+                Atom('r' type=inline),
+                #327,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #171,
+        ): [
+            (
+                Atom('t' type=inline),
+                #171,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #98,
+        ): [
+            (
+                Atom('f' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #173,
+        ): [
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('SharedArrayBuffer' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #228,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #191,
+        ): [
+            (
+                Atom('SyntaxError' type=static),
+                #1,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #57,
+        ): [
+            (
+                Atom('t' type=inline),
+                #57,
+            ),
+        ],
+        (
+            Atom('_callee' type=inline),
+            #17,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #16,
+            ),
+            (
+                Atom('initBranch' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #73,
+        ): [
+            (
+                Atom('r' type=inline),
+                #73,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #88,
+        ): [
+            (
+                Atom('e' type=inline),
+                #88,
+            ),
+            (
+                Atom('r' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #30,
+        ): [
+            (
+                Atom('t' type=inline),
+                #30,
+            ),
+            (
+                Atom('u' type=inline),
+                #30,
+            ),
+            (
+                Atom('s' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #186,
+        ): [
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('a' type=inline),
+                #187,
+            ),
+            (
+                Atom('t' type=inline),
+                #188,
+            ),
+            (
+                Atom('binder' type=inline),
+                #187,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #187,
+        ): [
+            (
+                Atom('e' type=inline),
+                #186,
+            ),
+            (
+                Atom('t' type=inline),
+                #188,
+            ),
+            (
+                Atom('binder' type=inline),
+                #187,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #316,
+        ): [
+            (
+                Atom('o' type=inline),
+                #316,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #176,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #206,
+        ): [
+            (
+                Atom('r' type=inline),
+                #206,
+            ),
+            (
+                Atom('t' type=inline),
+                #206,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #194,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #326,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('e' type=inline),
+                #326,
+            ),
+        ],
+        (
+            Atom('v' type=inline),
+            #331,
+        ): [
+            (
+                Atom('S' type=inline),
+                #331,
+            ),
+            (
+                Atom('m' type=inline),
+                #331,
+            ),
+            (
+                Atom('P' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('O' type=inline),
+            #331,
+        ): [
+            (
+                Atom('w' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #147,
+        ): [
+            (
+                Atom('e' type=inline),
+                #147,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #84,
+        ): [
+            (
+                Atom('n' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #274,
+        ): [
+            (
+                Atom('n' type=inline),
+                #272,
+            ),
+            (
+                Atom('i' type=inline),
+                #274,
+            ),
+            (
+                Atom('o' type=inline),
+                #274,
+            ),
+            (
+                Atom('JSON' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #274,
+            ),
+            (
+                Atom('r' type=inline),
+                #276,
+            ),
+            (
+                Atom('e' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #279,
+        ): [
+            (
+                Atom('t' type=inline),
+                #272,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #281,
+        ): [
+            (
+                Atom('e' type=inline),
+                #281,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #37,
+        ): [
+            (
+                Atom('e' type=inline),
+                #37,
+            ),
+        ],
+        (
+            Atom('Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('n' type=inline),
+                #26,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('S' type=inline),
+                #173,
+            ),
+            (
+                Atom('m' type=inline),
+                #173,
+            ),
+            (
+                Atom('e' type=inline),
+                #186,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('b' type=inline),
+                #191,
+            ),
+            (
+                Atom('S' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('S' type=inline),
+                #331,
+            ),
+            (
+                Atom('m' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #47,
+        ): [
+            (
+                Atom('t' type=inline),
+                #47,
+            ),
+            (
+                Atom('n' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #56,
+        ): [
+            (
+                Atom('Buffer' type=inline),
+                #34,
+            ),
+            (
+                Atom('r' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('Infinity' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #26,
+        ): [
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #219,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('e' type=inline),
+                #219,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #331,
+        ): [
+            (
+                Atom('c' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #341,
+        ): [
+            (
+                Atom('e' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #162,
+        ): [
+            (
+                Atom('n' type=inline),
+                #162,
+            ),
+            (
+                Atom('i' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #168,
+        ): [
+            (
+                Atom('r' type=inline),
+                #168,
+            ),
+            (
+                Atom('t' type=inline),
+                #168,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #169,
+        ): [
+            (
+                Atom('y' type=inline),
+                #169,
+            ),
+            (
+                Atom('t' type=inline),
+                #171,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #294,
+        ): [
+            (
+                Atom('n' type=inline),
+                #294,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #56,
+        ): [
+            (
+                Atom('e' type=inline),
+                #56,
+            ),
+            (
+                Atom('t' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #185,
+        ): [
+            (
+                Atom('r' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #163,
+        ): [
+            (
+                Atom('o' type=inline),
+                #203,
+            ),
+            (
+                Atom('t' type=inline),
+                #219,
+            ),
+            (
+                Atom('t' type=inline),
+                #326,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #315,
+        ): [
+            (
+                Atom('t' type=inline),
+                #315,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #315,
+        ): [
+            (
+                Atom('r' type=inline),
+                #315,
+            ),
+            (
+                Atom('f' type=inline),
+                #272,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #199,
+        ): [
+            (
+                Atom('t' type=inline),
+                #199,
+            ),
+            (
+                Atom('e' type=inline),
+                #199,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #199,
+        ): [
+            (
+                Atom('r' type=inline),
+                #199,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #333,
+        ): [
+            (
+                Atom('getEvalledConstructor' type=dynamic),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('decodeURIComponent' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #83,
+        ): [
+            (
+                Atom('r' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('encodeURI' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #59,
+        ): [
+            (
+                Atom('r' type=inline),
+                #59,
+            ),
+            (
+                Atom('e' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #228,
+        ): [
+            (
+                Atom('Number' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #26,
+        ): [
+            (
+                Atom('i' type=inline),
+                #26,
+            ),
+        ],
+        (
+            Atom('A' type=inline),
+            #202,
+        ): [
+            (
+                Atom('e' type=inline),
+                #202,
+            ),
+            (
+                Atom('d' type=inline),
+                #202,
+            ),
+            (
+                Atom('m' type=inline),
+                #202,
+            ),
+            (
+                Atom('h' type=inline),
+                #202,
+            ),
+            (
+                Atom('O' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #202,
+        ): [
+            (
+                Atom('A' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #214,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('a' type=inline),
+                #216,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #322,
+        ): [
+            (
+                Atom('cb' type=inline),
+                #322,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #169,
+        ): [
+            (
+                Atom('y' type=inline),
+                #169,
+            ),
+            (
+                Atom('t' type=inline),
+                #171,
+            ),
+            (
+                Atom('s' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #228,
+            ),
+            (
+                Atom('f' type=inline),
+                #272,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('_styles_globals_css__WEBPACK_IMPORTED_MODULE_4___default' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('_styles_globals_css__WEBPACK_IMPORTED_MODULE_4__' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #39,
+        ): [
+            (
+                Atom('e' type=inline),
+                #39,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #57,
+        ): [
+            (
+                Atom('e' type=inline),
+                #57,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #85,
+        ): [
+            (
+                Atom('r' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #86,
+        ): [
+            (
+                Atom('e' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('RegExp' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #228,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('ReferenceError' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #182,
+        ): [
+            (
+                Atom('e' type=inline),
+                #182,
+            ),
+        ],
+        (
+            Atom('info' type=inline),
+            #5,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #5,
+            ),
+            (
+                Atom('key' type=static),
+                #5,
+            ),
+            (
+                Atom('arg' type=inline),
+                #5,
+            ),
+            (
+                Atom('value' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #183,
+        ): [
+            (
+                Atom('t' type=inline),
+                #183,
+            ),
+            (
+                Atom('f' type=inline),
+                #183,
+            ),
+            (
+                Atom('u' type=inline),
+                #183,
+            ),
+            (
+                Atom('c' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #316,
+        ): [
+            (
+                Atom('o' type=inline),
+                #316,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #214,
+        ): [
+            (
+                Atom('getGeneratorFunc' type=dynamic),
+                #214,
+            ),
+        ],
+        (
+            Atom('S' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('v' type=inline),
+                #331,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #334,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #147,
+        ): [
+            (
+                Atom('t' type=inline),
+                #147,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #73,
+        ): [
+            (
+                Atom('r' type=inline),
+                #73,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #5,
+        ): [
+            (
+                Atom('info' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #86,
+        ): [
+            (
+                Atom('r' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('eval' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #33,
+        ): [
+            (
+                Atom('f' type=inline),
+                #33,
+            ),
+        ],
+        (
+            Atom('console' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #16,
+            ),
+            (
+                Atom('initBranch' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #54,
+        ): [
+            (
+                Atom('r' type=inline),
+                #54,
+            ),
+            (
+                Atom('i' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('gen' type=inline),
+            #9,
+        ): [
+            (
+                Atom('self' type=inline),
+                #8,
+            ),
+            (
+                Atom('fn' type=inline),
+                #7,
+            ),
+            (
+                Atom('args' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('encodeURIComponent' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #219,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #163,
+            ),
+            (
+                Atom('r' type=inline),
+                #219,
+            ),
+            (
+                Atom('e' type=inline),
+                #219,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('util__WEBPACK_IMPORTED_MODULE_3___default' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('_styles_globals_css__WEBPACK_IMPORTED_MODULE_4___default' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #219,
+        ): [
+            (
+                Atom('t' type=inline),
+                #219,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #168,
+        ): [
+            (
+                Atom('e' type=inline),
+                #168,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #168,
+        ): [
+            (
+                Atom('e' type=inline),
+                #168,
+            ),
+        ],
+        (
+            Atom('S' type=inline),
+            #173,
+        ): [
+            (
+                Atom('v' type=inline),
+                #173,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #183,
+        ): [
+            (
+                Atom('A' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #39,
+        ): [
+            (
+                Atom('e' type=inline),
+                #39,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #48,
+        ): [
+            (
+                Atom('r' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #54,
+        ): [
+            (
+                Atom('t' type=inline),
+                #54,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('f' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #331,
+        ): [
+            (
+                Atom('TypeError' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #331,
+        ): [
+            (
+                Atom('s' type=inline),
+                #331,
+            ),
+            (
+                Atom('o' type=inline),
+                #331,
+            ),
+            (
+                Atom('l' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #66,
+        ): [
+            (
+                Atom('u' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #82,
+        ): [
+            (
+                Atom('r' type=inline),
+                #82,
+            ),
+            (
+                Atom('i' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #8,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #273,
+        ): [
+            (
+                Atom('t' type=inline),
+                #273,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #273,
+        ): [
+            (
+                Atom('r' type=inline),
+                #273,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #285,
+        ): [
+            (
+                Atom('e' type=inline),
+                #285,
+            ),
+            (
+                Atom('r' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('__webpack_exec__' type=dynamic),
+            #348,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #348,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #169,
+        ): [
+            (
+                Atom('a' type=inline),
+                #169,
+            ),
+            (
+                Atom('o' type=inline),
+                #169,
+            ),
+            (
+                Atom('i' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #97,
+        ): [
+            (
+                Atom('e' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #183,
+        ): [
+            (
+                Atom('e' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #187,
+        ): [
+            (
+                Atom('binder' type=inline),
+                #187,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #199,
+        ): [
+            (
+                Atom('r' type=inline),
+                #199,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #154,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #66,
+        ): [
+            (
+                Atom('a' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #32,
+        ): [
+            (
+                Atom('r' type=inline),
+                #32,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #348,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #348,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #285,
+        ): [
+            (
+                Atom('e' type=inline),
+                #285,
+            ),
+            (
+                Atom('o' type=inline),
+                #285,
+            ),
+            (
+                Atom('r' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #214,
+        ): [
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #166,
+        ): [
+            (
+                Atom('r' type=inline),
+                #166,
+            ),
+            (
+                Atom('i' type=inline),
+                #166,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #100,
+        ): [
+            (
+                Atom('t' type=inline),
+                #100,
+            ),
+        ],
+        (
+            Atom('ArrayBuffer' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #191,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('Boolean' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('c' type=inline),
+                #228,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('P' type=inline),
+            #191,
+        ): [
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('A' type=inline),
+                #191,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('w' type=inline),
+            #191,
+        ): [
+            (
+                Atom('h' type=inline),
+                #191,
+            ),
+            (
+                Atom('O' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #289,
+        ): [
+            (
+                Atom('t' type=inline),
+                #289,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #313,
+        ): [
+            (
+                Atom('t' type=inline),
+                #313,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #313,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #331,
+        ): [
+            (
+                Atom('c' type=inline),
+                #331,
+            ),
+            (
+                Atom('l' type=inline),
+                #331,
+            ),
+            (
+                Atom('d' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('v' type=inline),
+                #331,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #341,
+        ): [
+            (
+                Atom('l' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #66,
+        ): [
+            (
+                Atom('i' type=inline),
+                #66,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #274,
+        ): [
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #347,
+        ): [
+            (
+                Atom('t' type=inline),
+                #164,
+            ),
+            (
+                Atom('e' type=inline),
+                #347,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #30,
+        ): [
+            (
+                Atom('e' type=inline),
+                #30,
+            ),
+            (
+                Atom('i' type=inline),
+                #30,
+            ),
+            (
+                Atom('o' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #228,
+        ): [
+            (
+                Atom('Boolean' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #162,
+        ): [
+            (
+                Atom('t' type=inline),
+                #146,
+            ),
+            (
+                Atom('r' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('arg' type=inline),
+            #5,
+        ): [
+            (
+                Atom('info' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #13,
+        ): [
+            (
+                Atom('source' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #28,
+        ): [
+            (
+                Atom('r' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('TypeError' type=static),
+            #1,
+        ): [
+            (
+                Atom('a' type=inline),
+                #173,
+            ),
+            (
+                Atom('a' type=inline),
+                #191,
+            ),
+            (
+                Atom('a' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('getEvalledConstructor' type=dynamic),
+            #173,
+        ): [
+            (
+                Atom('r' type=inline),
+                #175,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #182,
+        ): [
+            (
+                Atom('r' type=inline),
+                #182,
+            ),
+            (
+                Atom('i' type=inline),
+                #182,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #183,
+        ): [
+            (
+                Atom('p' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #188,
+        ): [
+            (
+                Atom('i' type=inline),
+                #187,
+            ),
+            (
+                Atom('a' type=inline),
+                #187,
+            ),
+            (
+                Atom('e' type=inline),
+                #186,
+            ),
+        ],
+        (
+            Atom('O' type=inline),
+            #191,
+        ): [
+            (
+                Atom('w' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #206,
+        ): [
+            (
+                Atom('e' type=inline),
+                #206,
+            ),
+            (
+                Atom('i' type=inline),
+                #206,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #147,
+        ): [
+            (
+                Atom('t' type=inline),
+                #156,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #149,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #206,
+        ): [
+            (
+                Atom('n' type=inline),
+                #206,
+            ),
+            (
+                Atom('i' type=inline),
+                #206,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #331,
+        ): [
+            (
+                Atom('c' type=inline),
+                #331,
+            ),
+            (
+                Atom('o' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('Component' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('param' type=inline),
+                #23,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #47,
+        ): [
+            (
+                Atom('f' type=inline),
+                #47,
+            ),
+            (
+                Atom('r' type=inline),
+                #47,
+            ),
+            (
+                Atom('e' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #59,
+        ): [
+            (
+                Atom('f' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #340,
+        ): [
+            (
+                Atom('e' type=inline),
+                #340,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #331,
+        ): [
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('A' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #341,
+        ): [
+            (
+                Atom('n' type=inline),
+                #341,
+            ),
+            (
+                Atom('d' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #228,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('process' type=static),
+            #163,
+        ): [
+            (
+                Atom('y' type=inline),
+                #272,
+            ),
+            (
+                Atom('e' type=inline),
+                #278,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('_ref' type=inline),
+            #16,
+        ): [
+            (
+                Atom('error' type=inline),
+                #21,
+            ),
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+            (
+                Atom('_callee' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #30,
+        ): [
+            (
+                Atom('t' type=inline),
+                #30,
+            ),
+            (
+                Atom('u' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #225,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #162,
+        ): [
+            (
+                Atom('t' type=inline),
+                #146,
+            ),
+            (
+                Atom('r' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('v' type=inline),
+            #173,
+        ): [
+            (
+                Atom('S' type=inline),
+                #173,
+            ),
+            (
+                Atom('m' type=inline),
+                #173,
+            ),
+            (
+                Atom('P' type=inline),
+                #173,
+            ),
+            (
+                Atom('h' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('O' type=inline),
+            #173,
+        ): [
+            (
+                Atom('E' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('getEvalledConstructor' type=dynamic),
+            #191,
+        ): [
+            (
+                Atom('r' type=inline),
+                #193,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #202,
+        ): [
+            (
+                Atom('r' type=inline),
+                #202,
+            ),
+            (
+                Atom('i' type=inline),
+                #202,
+            ),
+            (
+                Atom('A' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #326,
+        ): [
+            (
+                Atom('t' type=inline),
+                #326,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #326,
+        ): [
+            (
+                Atom('r' type=inline),
+                #326,
+            ),
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #163,
+            ),
+            (
+                Atom('e' type=inline),
+                #326,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #331,
+        ): [
+            (
+                Atom('p' type=inline),
+                #331,
+            ),
+            (
+                Atom('URIError' type=static),
+                #1,
+            ),
+            (
+                Atom('Map' type=static),
+                #1,
+            ),
+            (
+                Atom('Atomics' type=static),
+                #1,
+            ),
+            (
+                Atom('isFinite' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('FinalizationRegistry' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakRef' type=inline),
+                #1,
+            ),
+            (
+                Atom('ArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Float64Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+            (
+                Atom('Boolean' type=static),
+                #1,
+            ),
+            (
+                Atom('Reflect' type=static),
+                #1,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #331,
+            ),
+            (
+                Atom('AggregateError' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #331,
+            ),
+            (
+                Atom('DataView' type=static),
+                #1,
+            ),
+            (
+                Atom('RegExp' type=static),
+                #1,
+            ),
+            (
+                Atom('EvalError' type=static),
+                #1,
+            ),
+            (
+                Atom('ReferenceError' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakMap' type=static),
+                #1,
+            ),
+            (
+                Atom('Float32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('isNaN' type=inline),
+                #1,
+            ),
+            (
+                Atom('Int16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('RangeError' type=static),
+                #1,
+            ),
+            (
+                Atom('Set' type=static),
+                #1,
+            ),
+            (
+                Atom('l' type=inline),
+                #331,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('eval' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Proxy' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8ClampedArray' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('n' type=inline),
+                #331,
+            ),
+            (
+                Atom('s' type=inline),
+                #331,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('c' type=inline),
+                #331,
+            ),
+            (
+                Atom('a' type=inline),
+                #331,
+            ),
+            (
+                Atom('BigInt' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakSet' type=static),
+                #1,
+            ),
+            (
+                Atom('parseInt' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Error' type=static),
+                #1,
+            ),
+            (
+                Atom('Date' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #331,
+            ),
+            (
+                Atom('decodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('JSON' type=static),
+                #1,
+            ),
+            (
+                Atom('Number' type=static),
+                #1,
+            ),
+            (
+                Atom('parseFloat' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #340,
+            ),
+            (
+                Atom('E' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #341,
+        ): [
+            (
+                Atom('n' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #66,
+        ): [
+            (
+                Atom('r' type=inline),
+                #66,
+            ),
+            (
+                Atom('t' type=inline),
+                #66,
+            ),
+            (
+                Atom('e' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #82,
+        ): [
+            (
+                Atom('n' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #88,
+        ): [
+            (
+                Atom('f' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #285,
+        ): [
+            (
+                Atom('n' type=inline),
+                #285,
+            ),
+            (
+                Atom('i' type=inline),
+                #285,
+            ),
+            (
+                Atom('a' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('cb' type=inline),
+            #322,
+        ): [
+            (
+                Atom('o' type=inline),
+                #322,
+            ),
+            (
+                Atom('n' type=inline),
+                #322,
+            ),
+        ],
+        (
+            Atom('inspect' type=inline),
+            #272,
+        ): [
+            (
+                Atom('e' type=inline),
+                #281,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #211,
+        ): [
+            (
+                Atom('o' type=inline),
+                #211,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #216,
+        ): [
+            (
+                Atom('t' type=inline),
+                #214,
+            ),
+            (
+                Atom('r' type=inline),
+                #216,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('P' type=inline),
+            #331,
+        ): [
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('v' type=inline),
+                #331,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('w' type=inline),
+            #331,
+        ): [
+            (
+                Atom('h' type=inline),
+                #331,
+            ),
+            (
+                Atom('O' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #173,
+        ): [
+            (
+                Atom('URIError' type=static),
+                #1,
+            ),
+            (
+                Atom('Map' type=static),
+                #1,
+            ),
+            (
+                Atom('Atomics' type=static),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #173,
+            ),
+            (
+                Atom('isFinite' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('FinalizationRegistry' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakRef' type=inline),
+                #1,
+            ),
+            (
+                Atom('ArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Float64Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+            (
+                Atom('Boolean' type=static),
+                #1,
+            ),
+            (
+                Atom('Reflect' type=static),
+                #1,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('n' type=inline),
+                #173,
+            ),
+            (
+                Atom('AggregateError' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('DataView' type=static),
+                #1,
+            ),
+            (
+                Atom('RegExp' type=static),
+                #1,
+            ),
+            (
+                Atom('EvalError' type=static),
+                #1,
+            ),
+            (
+                Atom('ReferenceError' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakMap' type=static),
+                #1,
+            ),
+            (
+                Atom('Float32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('isNaN' type=inline),
+                #1,
+            ),
+            (
+                Atom('Int16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('RangeError' type=static),
+                #1,
+            ),
+            (
+                Atom('Set' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('eval' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #173,
+            ),
+            (
+                Atom('s' type=inline),
+                #173,
+            ),
+            (
+                Atom('Int8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Proxy' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8ClampedArray' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('BigInt' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakSet' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #173,
+            ),
+            (
+                Atom('parseInt' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Error' type=static),
+                #1,
+            ),
+            (
+                Atom('Date' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('a' type=inline),
+                #173,
+            ),
+            (
+                Atom('c' type=inline),
+                #173,
+            ),
+            (
+                Atom('JSON' type=static),
+                #1,
+            ),
+            (
+                Atom('p' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #173,
+            ),
+            (
+                Atom('Number' type=static),
+                #1,
+            ),
+            (
+                Atom('parseFloat' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #182,
+            ),
+            (
+                Atom('j' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #191,
+        ): [
+            (
+                Atom('p' type=inline),
+                #191,
+            ),
+            (
+                Atom('Int8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Proxy' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8ClampedArray' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('URIError' type=static),
+                #1,
+            ),
+            (
+                Atom('Map' type=static),
+                #1,
+            ),
+            (
+                Atom('Atomics' type=static),
+                #1,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('isFinite' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('n' type=inline),
+                #191,
+            ),
+            (
+                Atom('FinalizationRegistry' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakRef' type=inline),
+                #1,
+            ),
+            (
+                Atom('ArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Float64Array' type=static),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #191,
+            ),
+            (
+                Atom('Boolean' type=static),
+                #1,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Reflect' type=static),
+                #1,
+            ),
+            (
+                Atom('AggregateError' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('c' type=inline),
+                #191,
+            ),
+            (
+                Atom('a' type=inline),
+                #191,
+            ),
+            (
+                Atom('DataView' type=static),
+                #1,
+            ),
+            (
+                Atom('BigInt' type=static),
+                #1,
+            ),
+            (
+                Atom('RegExp' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakSet' type=static),
+                #1,
+            ),
+            (
+                Atom('parseInt' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Error' type=static),
+                #1,
+            ),
+            (
+                Atom('EvalError' type=static),
+                #1,
+            ),
+            (
+                Atom('s' type=inline),
+                #191,
+            ),
+            (
+                Atom('Date' type=static),
+                #1,
+            ),
+            (
+                Atom('ReferenceError' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakMap' type=static),
+                #1,
+            ),
+            (
+                Atom('Float32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('isNaN' type=inline),
+                #1,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('RangeError' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('Set' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Uint32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('eval' type=static),
+                #1,
+            ),
+            (
+                Atom('JSON' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #191,
+            ),
+            (
+                Atom('Number' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('parseFloat' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #191,
+            ),
+            (
+                Atom('i' type=inline),
+                #201,
+            ),
+            (
+                Atom('E' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #191,
+        ): [
+            (
+                Atom('g' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('util__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('util__WEBPACK_IMPORTED_MODULE_3___default' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #294,
+        ): [
+            (
+                Atom('n' type=inline),
+                #294,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #341,
+        ): [
+            (
+                Atom('n' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #56,
+        ): [
+            (
+                Atom('i' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #47,
+        ): [
+            (
+                Atom('t' type=inline),
+                #47,
+            ),
+            (
+                Atom('n' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #50,
+        ): [
+            (
+                Atom('e' type=inline),
+                #50,
+            ),
+            (
+                Atom('t' type=inline),
+                #50,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #50,
+        ): [
+            (
+                Atom('r' type=inline),
+                #50,
+            ),
+        ],
+        (
+            Atom('Number' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('u' type=inline),
+                #228,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #68,
+        ): [
+            (
+                Atom('u' type=inline),
+                #68,
+            ),
+        ],
+        (
+            Atom('Atomics' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('String' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('P' type=inline),
+                #173,
+            ),
+            (
+                Atom('h' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('m' type=inline),
+                #191,
+            ),
+            (
+                Atom('P' type=inline),
+                #191,
+            ),
+            (
+                Atom('s' type=inline),
+                #228,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('P' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #173,
+        ): [
+            (
+                Atom('SyntaxError' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #191,
+        ): [
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #313,
+        ): [
+            (
+                Atom('e' type=inline),
+                #313,
+            ),
+        ],
+        (
+            Atom('Function' type=static),
+            #1,
+        ): [
+            (
+                Atom('i' type=inline),
+                #173,
+            ),
+            (
+                Atom('S' type=inline),
+                #173,
+            ),
+            (
+                Atom('m' type=inline),
+                #173,
+            ),
+            (
+                Atom('P' type=inline),
+                #173,
+            ),
+            (
+                Atom('h' type=inline),
+                #173,
+            ),
+            (
+                Atom('i' type=inline),
+                #191,
+            ),
+            (
+                Atom('b' type=inline),
+                #191,
+            ),
+            (
+                Atom('S' type=inline),
+                #191,
+            ),
+            (
+                Atom('m' type=inline),
+                #191,
+            ),
+            (
+                Atom('P' type=inline),
+                #191,
+            ),
+            (
+                Atom('e' type=inline),
+                #214,
+            ),
+            (
+                Atom('i' type=inline),
+                #331,
+            ),
+            (
+                Atom('S' type=inline),
+                #331,
+            ),
+            (
+                Atom('m' type=inline),
+                #331,
+            ),
+            (
+                Atom('P' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('decodeURI' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #201,
+        ): [
+            (
+                Atom('e' type=inline),
+                #201,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #203,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #163,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #219,
+        ): [
+            (
+                Atom('e' type=inline),
+                #219,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #341,
+        ): [
+            (
+                Atom('t' type=inline),
+                #341,
+            ),
+            (
+                Atom('i' type=inline),
+                #341,
+            ),
+            (
+                Atom('p' type=inline),
+                #341,
+            ),
+            (
+                Atom('u' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #146,
+        ): [
+            (
+                Atom('n' type=inline),
+                #162,
+            ),
+            (
+                Atom('i' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #68,
+        ): [
+            (
+                Atom('r' type=inline),
+                #68,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #87,
+        ): [
+            (
+                Atom('f' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #87,
+        ): [
+            (
+                Atom('f' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #274,
+        ): [
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+            (
+                Atom('y' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('WeakMap' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #217,
+        ): [
+            (
+                Atom('c' type=inline),
+                #217,
+            ),
+            (
+                Atom('r' type=inline),
+                #222,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #325,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('getEvalledConstructor' type=dynamic),
+            #331,
+        ): [
+            (
+                Atom('r' type=inline),
+                #333,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #165,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #169,
+        ): [
+            (
+                Atom('y' type=inline),
+                #169,
+            ),
+            (
+                Atom('s' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('P' type=inline),
+            #183,
+        ): [
+            (
+                Atom('A' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('Buffer' type=inline),
+            #34,
+        ): [
+            (
+                Atom('f' type=inline),
+                #56,
+            ),
+            (
+                Atom('o' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #191,
+        ): [
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('Uint16Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Proxy' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #142,
+        ): [
+            (
+                Atom('p' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #66,
+        ): [
+            (
+                Atom('f' type=inline),
+                #66,
+            ),
+            (
+                Atom('n' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #73,
+        ): [
+            (
+                Atom('i' type=inline),
+                #73,
+            ),
+            (
+                Atom('u' type=inline),
+                #73,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #26,
+        ): [
+            (
+                Atom('u' type=inline),
+                #26,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #28,
+        ): [
+            (
+                Atom('r' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #231,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #180,
+        ): [
+            (
+                Atom('t' type=inline),
+                #180,
+            ),
+            (
+                Atom('e' type=inline),
+                #180,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #180,
+        ): [
+            (
+                Atom('r' type=inline),
+                #180,
+            ),
+        ],
+        (
+            Atom('v' type=inline),
+            #183,
+        ): [
+            (
+                Atom('A' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('O' type=inline),
+            #183,
+        ): [
+            (
+                Atom('A' type=inline),
+                #183,
+            ),
+            (
+                Atom('u' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #186,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #191,
+        ): [
+            (
+                Atom('TypeError' type=static),
+                #1,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #191,
+        ): [
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #202,
+        ): [
+            (
+                Atom('e' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #322,
+        ): [
+            (
+                Atom('t' type=inline),
+                #322,
+            ),
+            (
+                Atom('cb' type=inline),
+                #322,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #326,
+        ): [
+            (
+                Atom('t' type=inline),
+                #326,
+            ),
+            (
+                Atom('o' type=inline),
+                #326,
+            ),
+            (
+                Atom('n' type=inline),
+                #326,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #151,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #82,
+        ): [
+            (
+                Atom('i' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #88,
+        ): [
+            (
+                Atom('f' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('WeakSet' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #285,
+        ): [
+            (
+                Atom('n' type=inline),
+                #285,
+            ),
+            (
+                Atom('i' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('Uint8Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('n' type=inline),
+                #26,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('d' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('c' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('d' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Uint32Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #202,
+        ): [
+            (
+                Atom('p' type=inline),
+                #202,
+            ),
+            (
+                Atom('O' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #211,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #325,
+        ): [
+            (
+                Atom('r' type=inline),
+                #329,
+            ),
+            (
+                Atom('s' type=inline),
+                #325,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #341,
+        ): [
+            (
+                Atom('r' type=inline),
+                #341,
+            ),
+            (
+                Atom('o' type=inline),
+                #341,
+            ),
+            (
+                Atom('l' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #173,
+        ): [
+            (
+                Atom('o' type=inline),
+                #173,
+            ),
+            (
+                Atom('s' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #166,
+        ): [
+            (
+                Atom('a' type=inline),
+                #166,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #97,
+        ): [
+            (
+                Atom('f' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #117,
+        ): [
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #173,
+        ): [
+            (
+                Atom('TypeError' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #56,
+        ): [
+            (
+                Atom('i' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #50,
+        ): [
+            (
+                Atom('r' type=inline),
+                #50,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #56,
+        ): [
+            (
+                Atom('f' type=inline),
+                #56,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #131,
+        ): [
+            (
+                Atom('n' type=inline),
+                #131,
+            ),
+            (
+                Atom('o' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #68,
+        ): [
+            (
+                Atom('e' type=inline),
+                #68,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #84,
+        ): [
+            (
+                Atom('r' type=inline),
+                #84,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #87,
+        ): [
+            (
+                Atom('r' type=inline),
+                #87,
+            ),
+            (
+                Atom('t' type=inline),
+                #87,
+            ),
+            (
+                Atom('e' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('URIError' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #285,
+        ): [
+            (
+                Atom('a' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #27,
+        ): [
+            (
+                Atom('e' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #27,
+        ): [
+            (
+                Atom('e' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('throwTypeError' type=dynamic),
+            #173,
+        ): [
+            (
+                Atom('p' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('WeakRef' type=inline),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Promise' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #169,
+        ): [
+            (
+                Atom('o' type=inline),
+                #169,
+            ),
+            (
+                Atom('i' type=inline),
+                #169,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #185,
+        ): [
+            (
+                Atom('i' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #319,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('AggregateError' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('cleanUpNextTick' type=dynamic),
+            #147,
+        ): [
+            (
+                Atom('e' type=inline),
+                #156,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #202,
+        ): [
+            (
+                Atom('t' type=inline),
+                #202,
+            ),
+            (
+                Atom('f' type=inline),
+                #202,
+            ),
+            (
+                Atom('u' type=inline),
+                #202,
+            ),
+            (
+                Atom('c' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #217,
+        ): [
+            (
+                Atom('p' type=inline),
+                #217,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('o' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #347,
+        ): [
+            (
+                Atom('o' type=inline),
+                #347,
+            ),
+            (
+                Atom('n' type=inline),
+                #347,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #133,
+        ): [
+            (
+                Atom('e' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #87,
+        ): [
+            (
+                Atom('f' type=inline),
+                #87,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #146,
+        ): [
+            (
+                Atom('e' type=inline),
+                #148,
+            ),
+            (
+                Atom('clearTimeout' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('t' type=inline),
+                #154,
+            ),
+            (
+                Atom('setTimeout' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('e' type=inline),
+                #149,
+            ),
+            (
+                Atom('t' type=inline),
+                #155,
+            ),
+            (
+                Atom('t' type=inline),
+                #151,
+            ),
+            (
+                Atom('t' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #152,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #272,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('EvalError' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #274,
+        ): [
+            (
+                Atom('o' type=inline),
+                #274,
+            ),
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #228,
+        ): [
+            (
+                Atom('BigInt' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #30,
+        ): [
+            (
+                Atom('i' type=inline),
+                #30,
+            ),
+            (
+                Atom('e' type=inline),
+                #30,
+            ),
+            (
+                Atom('o' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #214,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #171,
+        ): [
+            (
+                Atom('a' type=inline),
+                #169,
+            ),
+            (
+                Atom('o' type=inline),
+                #169,
+            ),
+            (
+                Atom('e' type=inline),
+                #171,
+            ),
+        ],
+        (
+            Atom('A' type=inline),
+            #183,
+        ): [
+            (
+                Atom('l' type=inline),
+                #183,
+            ),
+            (
+                Atom('e' type=inline),
+                #183,
+            ),
+            (
+                Atom('v' type=inline),
+                #183,
+            ),
+            (
+                Atom('P' type=inline),
+                #183,
+            ),
+            (
+                Atom('O' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('setTimeout' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('getGeneratorFunc' type=dynamic),
+            #214,
+        ): [
+            (
+                Atom('r' type=inline),
+                #215,
+            ),
+            (
+                Atom('n' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('SyntaxError' type=static),
+            #1,
+        ): [
+            (
+                Atom('n' type=inline),
+                #173,
+            ),
+            (
+                Atom('n' type=inline),
+                #191,
+            ),
+            (
+                Atom('n' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #272,
+        ): [
+            (
+                Atom('o' type=inline),
+                #279,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #28,
+        ): [
+            (
+                Atom('e' type=inline),
+                #28,
+            ),
+            (
+                Atom('t' type=inline),
+                #28,
+            ),
+            (
+                Atom('f' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #28,
+        ): [
+            (
+                Atom('r' type=inline),
+                #28,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #23,
+        ): [
+            (
+                Atom('Component' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('pageProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #182,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('e' type=inline),
+                #182,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #98,
+        ): [
+            (
+                Atom('r' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #187,
+        ): [
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('S' type=inline),
+            #191,
+        ): [
+            (
+                Atom('A' type=inline),
+                #191,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('fn' type=inline),
+            #7,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #131,
+        ): [
+            (
+                Atom('e' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #82,
+        ): [
+            (
+                Atom('e' type=inline),
+                #82,
+            ),
+            (
+                Atom('n' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #37,
+        ): [
+            (
+                Atom('r' type=inline),
+                #37,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #47,
+        ): [
+            (
+                Atom('t' type=inline),
+                #47,
+            ),
+            (
+                Atom('n' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #47,
+        ): [
+            (
+                Atom('r' type=inline),
+                #47,
+            ),
+            (
+                Atom('e' type=inline),
+                #47,
+            ),
+            (
+                Atom('f' type=inline),
+                #47,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #65,
+        ): [
+            (
+                Atom('r' type=inline),
+                #34,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #272,
+        ): [
+            (
+                Atom('process' type=static),
+                #163,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #30,
+        ): [
+            (
+                Atom('i' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('Math' type=static),
+            #1,
+        ): [
+            (
+                Atom('i' type=inline),
+                #54,
+            ),
+            (
+                Atom('u' type=inline),
+                #66,
+            ),
+            (
+                Atom('n' type=inline),
+                #116,
+            ),
+            (
+                Atom('n' type=inline),
+                #117,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('p' type=inline),
+                #187,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #223,
+        ): [
+            (
+                Atom('t' type=inline),
+                #223,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #223,
+        ): [
+            (
+                Atom('r' type=inline),
+                #223,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #173,
+        ): [
+            (
+                Atom('r' type=inline),
+                #178,
+            ),
+            (
+                Atom('throwTypeError' type=dynamic),
+                #173,
+            ),
+            (
+                Atom('r' type=inline),
+                #177,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #191,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #316,
+        ): [
+            (
+                Atom('e' type=inline),
+                #316,
+            ),
+            (
+                Atom('t' type=inline),
+                #316,
+            ),
+        ],
+        (
+            Atom('parseFloat' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #325,
+        ): [
+            (
+                Atom('y' type=inline),
+                #325,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #133,
+        ): [
+            (
+                Atom('f' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #90,
+        ): [
+            (
+                Atom('f' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #142,
+        ): [
+            (
+                Atom('e' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('NaN' type=static),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #173,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('P' type=inline),
+            #173,
+        ): [
+            (
+                Atom('v' type=inline),
+                #173,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('w' type=inline),
+            #173,
+        ): [
+            (
+                Atom('E' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #219,
+        ): [
+            (
+                Atom('t' type=inline),
+                #219,
+            ),
+            (
+                Atom('o' type=inline),
+                #219,
+            ),
+            (
+                Atom('n' type=inline),
+                #219,
+            ),
+        ],
+        (
+            Atom('DataView' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #325,
+        ): [
+            (
+                Atom('p' type=inline),
+                #325,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #331,
+        ): [
+            (
+                Atom('w' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('A' type=inline),
+            #331,
+        ): [
+            (
+                Atom('E' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #131,
+        ): [
+            (
+                Atom('o' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #148,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #343,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #48,
+        ): [
+            (
+                Atom('e' type=inline),
+                #48,
+            ),
+            (
+                Atom('t' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #48,
+        ): [
+            (
+                Atom('r' type=inline),
+                #48,
+            ),
+        ],
+        (
+            Atom('Float32Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #66,
+        ): [
+            (
+                Atom('s' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #66,
+        ): [
+            (
+                Atom('s' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('RangeError' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #25,
+        ): [
+            (
+                Atom('e' type=inline),
+                #36,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('ArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('NaN' type=static),
+                #1,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Infinity' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('Set' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #177,
+        ): [
+            (
+                Atom('p' type=inline),
+                #173,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #173,
+        ): [
+            (
+                Atom('v' type=inline),
+                #173,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('j' type=inline),
+            #173,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('A' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('A' type=inline),
+            #173,
+        ): [
+            (
+                Atom('j' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #191,
+        ): [
+            (
+                Atom('c' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #191,
+        ): [
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('A' type=inline),
+                #191,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #195,
+        ): [
+            (
+                Atom('p' type=inline),
+                #191,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #201,
+        ): [
+            (
+                Atom('r' type=inline),
+                #201,
+            ),
+            (
+                Atom('i' type=inline),
+                #201,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #217,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #313,
+        ): [
+            (
+                Atom('e' type=inline),
+                #313,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #329,
+        ): [
+            (
+                Atom('d' type=inline),
+                #325,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #131,
+        ): [
+            (
+                Atom('o' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #1,
+        ): [
+            (
+                Atom('ownKeys' type=inline),
+                #13,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('t' type=inline),
+                #165,
+            ),
+            (
+                Atom('y' type=inline),
+                #173,
+            ),
+            (
+                Atom('u' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('t' type=inline),
+                #184,
+            ),
+            (
+                Atom('e' type=inline),
+                #184,
+            ),
+            (
+                Atom('o' type=inline),
+                #186,
+            ),
+            (
+                Atom('y' type=inline),
+                #191,
+            ),
+            (
+                Atom('u' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('n' type=inline),
+                #206,
+            ),
+            (
+                Atom('i' type=inline),
+                #206,
+            ),
+            (
+                Atom('e' type=inline),
+                #211,
+            ),
+            (
+                Atom('t' type=inline),
+                #214,
+            ),
+            (
+                Atom('i' type=inline),
+                #214,
+            ),
+            (
+                Atom('d' type=inline),
+                #217,
+            ),
+            (
+                Atom('f' type=inline),
+                #228,
+            ),
+            (
+                Atom('t' type=inline),
+                #273,
+            ),
+            (
+                Atom('o' type=inline),
+                #272,
+            ),
+            (
+                Atom('a' type=inline),
+                #285,
+            ),
+            (
+                Atom('e' type=inline),
+                #313,
+            ),
+            (
+                Atom('l' type=inline),
+                #325,
+            ),
+            (
+                Atom('y' type=inline),
+                #331,
+            ),
+            (
+                Atom('u' type=inline),
+                #331,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #85,
+        ): [
+            (
+                Atom('n' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #144,
+        ): [
+            (
+                Atom('f' type=inline),
+                #144,
+            ),
+            (
+                Atom('n' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('stylizeNoColor' type=dynamic),
+            #272,
+        ): [
+            (
+                Atom('o' type=inline),
+                #280,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #280,
+        ): [
+            (
+                Atom('stylizeNoColor' type=dynamic),
+                #272,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #34,
+        ): [
+            (
+                Atom('t' type=inline),
+                #65,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #285,
+        ): [
+            (
+                Atom('e' type=inline),
+                #285,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('y' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('Buffer' type=inline),
+            #163,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('clearTimeout' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('Symbol' type=static),
+            #1,
+        ): [
+            (
+                Atom('i' type=inline),
+                #34,
+            ),
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('o' type=inline),
+                #211,
+            ),
+            (
+                Atom('o' type=inline),
+                #219,
+            ),
+            (
+                Atom('d' type=inline),
+                #228,
+            ),
+            (
+                Atom('o' type=inline),
+                #326,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #217,
+        ): [
+            (
+                Atom('g' type=inline),
+                #217,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #326,
+        ): [
+            (
+                Atom('e' type=inline),
+                #326,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #340,
+        ): [
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('e' type=inline),
+                #340,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #173,
+        ): [
+            (
+                Atom('c' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #173,
+            ),
+            (
+                Atom('d' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #100,
+        ): [
+            (
+                Atom('e' type=inline),
+                #100,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #173,
+        ): [
+            (
+                Atom('v' type=inline),
+                #173,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('A' type=inline),
+            #191,
+        ): [
+            (
+                Atom('b' type=inline),
+                #191,
+            ),
+            (
+                Atom('S' type=inline),
+                #191,
+            ),
+            (
+                Atom('m' type=inline),
+                #191,
+            ),
+            (
+                Atom('P' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('h' type=inline),
+            #191,
+        ): [
+            (
+                Atom('w' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #90,
+        ): [
+            (
+                Atom('e' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #30,
+        ): [
+            (
+                Atom('t' type=inline),
+                #30,
+            ),
+            (
+                Atom('u' type=inline),
+                #30,
+            ),
+        ],
+        (
+            Atom('JSON' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #173,
+        ): [
+            (
+                Atom('c' type=inline),
+                #173,
+            ),
+            (
+                Atom('o' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #178,
+        ): [
+            (
+                Atom('p' type=inline),
+                #173,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('E' type=inline),
+            #173,
+        ): [
+            (
+                Atom('O' type=inline),
+                #173,
+            ),
+            (
+                Atom('w' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #184,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('g' type=inline),
+            #191,
+        ): [
+            (
+                Atom('E' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #294,
+        ): [
+            (
+                Atom('r' type=inline),
+                #294,
+            ),
+            (
+                Atom('o' type=inline),
+                #294,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #196,
+        ): [
+            (
+                Atom('p' type=inline),
+                #191,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #202,
+        ): [
+            (
+                Atom('A' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #206,
+        ): [
+            (
+                Atom('t' type=inline),
+                #206,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #214,
+        ): [
+            (
+                Atom('a' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #312,
+        ): [
+            (
+                Atom('t' type=inline),
+                #312,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #312,
+        ): [
+            (
+                Atom('r' type=inline),
+                #312,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #86,
+        ): [
+            (
+                Atom('i' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #331,
+        ): [
+            (
+                Atom('throwTypeError' type=dynamic),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #335,
+            ),
+            (
+                Atom('r' type=inline),
+                #336,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('l' type=inline),
+            #341,
+        ): [
+            (
+                Atom('e' type=inline),
+                #341,
+            ),
+            (
+                Atom('s' type=inline),
+                #341,
+            ),
+            (
+                Atom('d' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('isFinite' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #348,
+        ): [
+            (
+                Atom('__webpack_exec__' type=dynamic),
+                #348,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #348,
+            ),
+        ],
+        (
+            Atom('FinalizationRegistry' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Float64Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #228,
+        ): [
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('gen' type=inline),
+            #5,
+        ): [
+            (
+                Atom('info' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #202,
+        ): [
+            (
+                Atom('p' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #215,
+        ): [
+            (
+                Atom('getGeneratorFunc' type=dynamic),
+                #214,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('u' type=inline),
+            #183,
+        ): [
+            (
+                Atom('p' type=inline),
+                #183,
+            ),
+            (
+                Atom('O' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('b' type=inline),
+            #191,
+        ): [
+            (
+                Atom('A' type=inline),
+                #191,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #164,
+        ): [
+            (
+                Atom('r' type=inline),
+                #196,
+            ),
+            (
+                Atom('URIError' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #336,
+            ),
+            (
+                Atom('Map' type=static),
+                #1,
+            ),
+            (
+                Atom('Atomics' type=static),
+                #1,
+            ),
+            (
+                Atom('isFinite' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('FinalizationRegistry' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('SharedArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakRef' type=inline),
+                #1,
+            ),
+            (
+                Atom('ArrayBuffer' type=static),
+                #1,
+            ),
+            (
+                Atom('Float64Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Promise' type=static),
+                #1,
+            ),
+            (
+                Atom('Boolean' type=static),
+                #1,
+            ),
+            (
+                Atom('Reflect' type=static),
+                #1,
+            ),
+            (
+                Atom('String' type=static),
+                #1,
+            ),
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('decodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('AggregateError' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #319,
+            ),
+            (
+                Atom('DataView' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #215,
+            ),
+            (
+                Atom('r' type=inline),
+                #343,
+            ),
+            (
+                Atom('RegExp' type=static),
+                #1,
+            ),
+            (
+                Atom('EvalError' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #170,
+            ),
+            (
+                Atom('WeakMap' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #176,
+            ),
+            (
+                Atom('ReferenceError' type=static),
+                #1,
+            ),
+            (
+                Atom('Float32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('isNaN' type=inline),
+                #1,
+            ),
+            (
+                Atom('TypeError' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #194,
+            ),
+            (
+                Atom('Int16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('RangeError' type=static),
+                #1,
+            ),
+            (
+                Atom('Set' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #334,
+            ),
+            (
+                Atom('Array' type=static),
+                #1,
+            ),
+            (
+                Atom('eval' type=static),
+                #1,
+            ),
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #177,
+            ),
+            (
+                Atom('Uint16Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Int8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('Proxy' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8ClampedArray' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #195,
+            ),
+            (
+                Atom('encodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('process' type=static),
+                #163,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+            (
+                Atom('SyntaxError' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #329,
+            ),
+            (
+                Atom('r' type=inline),
+                #335,
+            ),
+            (
+                Atom('r' type=inline),
+                #225,
+            ),
+            (
+                Atom('r' type=inline),
+                #231,
+            ),
+            (
+                Atom('Buffer' type=inline),
+                #163,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+            (
+                Atom('BigInt' type=static),
+                #1,
+            ),
+            (
+                Atom('WeakSet' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #222,
+            ),
+            (
+                Atom('parseInt' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Error' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #175,
+            ),
+            (
+                Atom('Date' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #163,
+            ),
+            (
+                Atom('r' type=inline),
+                #193,
+            ),
+            (
+                Atom('Int32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #333,
+            ),
+            (
+                Atom('decodeURIComponent' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+            (
+                Atom('Uint32Array' type=static),
+                #1,
+            ),
+            (
+                Atom('encodeURI' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #276,
+            ),
+            (
+                Atom('JSON' type=static),
+                #1,
+            ),
+            (
+                Atom('r' type=inline),
+                #178,
+            ),
+            (
+                Atom('Number' type=static),
+                #1,
+            ),
+            (
+                Atom('parseFloat' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #164,
+        ): [
+            (
+                Atom('o' type=inline),
+                #347,
+            ),
+            (
+                Atom('n' type=inline),
+                #347,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #54,
+        ): [
+            (
+                Atom('e' type=inline),
+                #54,
+            ),
+            (
+                Atom('i' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #54,
+        ): [
+            (
+                Atom('f' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('isNaN' type=inline),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #66,
+        ): [
+            (
+                Atom('s' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('Int16Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #272,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('t' type=inline),
+                #315,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #25,
+        ): [
+            (
+                Atom('f' type=inline),
+                #144,
+            ),
+            (
+                Atom('n' type=inline),
+                #144,
+            ),
+        ],
+        (
+            Atom('ownKeys' type=inline),
+            #13,
+        ): [
+            (
+                Atom('source' type=inline),
+                #13,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #8,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #9,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #173,
+        ): [
+            (
+                Atom('o' type=inline),
+                #173,
+            ),
+            (
+                Atom('Uint8Array' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #183,
+        ): [
+            (
+                Atom('e' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #183,
+        ): [
+            (
+                Atom('p' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #187,
+        ): [
+            (
+                Atom('t' type=inline),
+                #188,
+            ),
+            (
+                Atom('binder' type=inline),
+                #187,
+            ),
+        ],
+        (
+            Atom('Int8Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Uint8ClampedArray' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #201,
+        ): [
+            (
+                Atom('e' type=inline),
+                #201,
+            ),
+        ],
+        (
+            Atom('window' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #16,
+            ),
+            (
+                Atom('initBranch' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('O' type=inline),
+            #202,
+        ): [
+            (
+                Atom('A' type=inline),
+                #202,
+            ),
+            (
+                Atom('u' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #335,
+        ): [
+            (
+                Atom('p' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #341,
+        ): [
+            (
+                Atom('l' type=inline),
+                #341,
+            ),
+            (
+                Atom('p' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #156,
+        ): [
+            (
+                Atom('cleanUpNextTick' type=dynamic),
+                #147,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #274,
+        ): [
+            (
+                Atom('i' type=inline),
+                #274,
+            ),
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+            (
+                Atom('y' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #278,
+        ): [
+            (
+                Atom('process' type=static),
+                #163,
+            ),
+        ],
+        (
+            Atom('pageProps' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('param' type=inline),
+                #23,
+            ),
+        ],
+        (
+            Atom('error' type=inline),
+            #21,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #16,
+            ),
+            (
+                Atom('initBranch' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #228,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #216,
+        ): [
+            (
+                Atom('a' type=inline),
+                #216,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #217,
+        ): [
+            (
+                Atom('y' type=inline),
+                #217,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #340,
+        ): [
+            (
+                Atom('r' type=inline),
+                #340,
+            ),
+            (
+                Atom('i' type=inline),
+                #340,
+            ),
+        ],
+        (
+            Atom('parseInt' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #187,
+        ): [
+            (
+                Atom('binder' type=inline),
+                #187,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #116,
+        ): [
+            (
+                Atom('Math' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #59,
+        ): [
+            (
+                Atom('f' type=inline),
+                #59,
+            ),
+        ],
+        (
+            Atom('Int32Array' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #272,
+        ): [
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('throwTypeError' type=dynamic),
+            #331,
+        ): [
+            (
+                Atom('p' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #184,
+        ): [
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #202,
+        ): [
+            (
+                Atom('e' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #202,
+        ): [
+            (
+                Atom('p' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #13,
+        ): [
+            (
+                Atom('i' type=inline),
+                #13,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #13,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #336,
+        ): [
+            (
+                Atom('p' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #155,
+        ): [
+            (
+                Atom('e' type=inline),
+                #146,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #66,
+        ): [
+            (
+                Atom('a' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #86,
+        ): [
+            (
+                Atom('f' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('binder' type=inline),
+            #187,
+        ): [
+            (
+                Atom('r' type=inline),
+                #187,
+            ),
+            (
+                Atom('y' type=inline),
+                #187,
+            ),
+            (
+                Atom('i' type=inline),
+                #187,
+            ),
+            (
+                Atom('a' type=inline),
+                #187,
+            ),
+            (
+                Atom('e' type=inline),
+                #186,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #289,
+        ): [
+            (
+                Atom('y' type=inline),
+                #289,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #39,
+        ): [
+            (
+                Atom('f' type=inline),
+                #39,
+            ),
+            (
+                Atom('n' type=inline),
+                #39,
+            ),
+        ],
+        (
+            Atom('Reflect' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('throwTypeError' type=dynamic),
+            #191,
+        ): [
+            (
+                Atom('p' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #274,
+        ): [
+            (
+                Atom('o' type=inline),
+                #274,
+            ),
+            (
+                Atom('e' type=inline),
+                #274,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #211,
+        ): [
+            (
+                Atom('t' type=inline),
+                #211,
+            ),
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #214,
+        ): [
+            (
+                Atom('y' type=inline),
+                #214,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #166,
+        ): [
+            (
+                Atom('a' type=inline),
+                #166,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #183,
+        ): [
+            (
+                Atom('p' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #170,
+        ): [
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #33,
+        ): [
+            (
+                Atom('e' type=inline),
+                #33,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #54,
+        ): [
+            (
+                Atom('t' type=inline),
+                #54,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #322,
+        ): [
+            (
+                Atom('o' type=inline),
+                #322,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #328,
+        ): [
+            (
+                Atom('n' type=inline),
+                #328,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #131,
+        ): [
+            (
+                Atom('f' type=inline),
+                #131,
+            ),
+            (
+                Atom('Buffer' type=inline),
+                #34,
+            ),
+            (
+                Atom('e' type=inline),
+                #131,
+            ),
+            (
+                Atom('u' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #66,
+        ): [
+            (
+                Atom('u' type=inline),
+                #66,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #68,
+        ): [
+            (
+                Atom('o' type=inline),
+                #68,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #144,
+        ): [
+            (
+                Atom('t' type=inline),
+                #144,
+            ),
+            (
+                Atom('r' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #281,
+        ): [
+            (
+                Atom('inspect' type=inline),
+                #272,
+            ),
+            (
+                Atom('t' type=inline),
+                #281,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #285,
+        ): [
+            (
+                Atom('n' type=inline),
+                #285,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #5,
+        ): [
+            (
+                Atom('info' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #173,
+        ): [
+            (
+                Atom('c' type=inline),
+                #173,
+            ),
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #183,
+        ): [
+            (
+                Atom('r' type=inline),
+                #183,
+            ),
+            (
+                Atom('i' type=inline),
+                #183,
+            ),
+            (
+                Atom('A' type=inline),
+                #183,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #325,
+        ): [
+            (
+                Atom('d' type=inline),
+                #325,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #331,
+        ): [
+            (
+                Atom('SyntaxError' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #341,
+        ): [
+            (
+                Atom('e' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('initBranch' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('error' type=inline),
+                #21,
+            ),
+            (
+                Atom('console' type=inline),
+                #1,
+            ),
+            (
+                Atom('document' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+            (
+                Atom('_callee' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #156,
+        ): [
+            (
+                Atom('i' type=inline),
+                #147,
+            ),
+        ],
+        (
+            Atom('t' type=inline),
+            #341,
+        ): [
+            (
+                Atom('n' type=inline),
+                #341,
+            ),
+        ],
+        (
+            Atom('o' type=inline),
+            #347,
+        ): [
+            (
+                Atom('t' type=inline),
+                #164,
+            ),
+            (
+                Atom('e' type=inline),
+                #347,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #34,
+        ): [
+            (
+                Atom('Symbol' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #36,
+        ): [
+            (
+                Atom('e' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('util__WEBPACK_IMPORTED_MODULE_3___default' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('util__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
+                #4,
+            ),
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('_ref' type=inline),
+                #16,
+            ),
+            (
+                Atom('initBranch' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #27,
+        ): [
+            (
+                Atom('r' type=inline),
+                #27,
+            ),
+            (
+                Atom('t' type=inline),
+                #27,
+            ),
+        ],
+        (
+            Atom('BigInt' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('l' type=inline),
+                #228,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #222,
+        ): [
+            (
+                Atom('g' type=inline),
+                #217,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Error' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #175,
+        ): [
+            (
+                Atom('getEvalledConstructor' type=dynamic),
+                #173,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('Date' type=static),
+            #1,
+        ): [
+            (
+                Atom('g' type=inline),
+                #173,
+            ),
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #191,
+        ): [
+            (
+                Atom('l' type=inline),
+                #191,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #193,
+        ): [
+            (
+                Atom('getEvalledConstructor' type=dynamic),
+                #191,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('c' type=inline),
+            #202,
+        ): [
+            (
+                Atom('p' type=inline),
+                #202,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #327,
+        ): [
+            (
+                Atom('n' type=inline),
+                #328,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #331,
+        ): [
+            (
+                Atom('Function' type=static),
+                #1,
+            ),
+            (
+                Atom('g' type=inline),
+                #331,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #144,
+        ): [
+            (
+                Atom('t' type=inline),
+                #144,
+            ),
+            (
+                Atom('r' type=inline),
+                #25,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #83,
+        ): [
+            (
+                Atom('e' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #276,
+        ): [
+            (
+                Atom('a' type=inline),
+                #274,
+            ),
+            (
+                Atom('r' type=inline),
+                #164,
+            ),
+        ],
+        (
+            Atom('r' type=inline),
+            #32,
+        ): [
+            (
+                Atom('i' type=inline),
+                #32,
+            ),
+        ],
+    },
     vars: [
         (
             (

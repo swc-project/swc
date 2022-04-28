@@ -1,4 +1,55 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('commonjsGlobal' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('globalThis' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('esm' type=inline),
+            #1,
+        ): [
+            (
+                Atom('index' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('index' type=inline),
+            #1,
+        ): [
+            (
+                Atom('somethingGlobal' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('esm' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('globalThis' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('commonjsGlobal' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('somethingGlobal' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('index' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

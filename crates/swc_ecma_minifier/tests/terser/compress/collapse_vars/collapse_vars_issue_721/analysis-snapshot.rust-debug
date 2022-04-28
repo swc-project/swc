@@ -1,4 +1,286 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('prop' type=inline),
+            #6,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('window' type=inline),
+            #1,
+        ): [
+            (
+                Atom('win' type=inline),
+                #2,
+            ),
+            (
+                Atom('win' type=inline),
+                #3,
+            ),
+            (
+                Atom('win' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #2,
+        ): [
+            (
+                Atom('hb' type=inline),
+                #2,
+            ),
+            (
+                Atom('win' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #3,
+        ): [
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+            (
+                Atom('_hb' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #4,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #2,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #6,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #7,
+        ): [
+            (
+                Atom('win' type=inline),
+                #7,
+            ),
+            (
+                Atom('prop' type=inline),
+                #7,
+            ),
+            (
+                Atom('hb' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('prop' type=inline),
+            #4,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('prop' type=inline),
+            #7,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #5,
+        ): [
+            (
+                Atom('hb' type=inline),
+                #5,
+            ),
+            (
+                Atom('win' type=inline),
+                #5,
+            ),
+            (
+                Atom('prop' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #4,
+        ): [
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+            (
+                Atom('_hb' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #6,
+        ): [
+            (
+                Atom('hb' type=inline),
+                #6,
+            ),
+            (
+                Atom('win' type=inline),
+                #6,
+            ),
+            (
+                Atom('prop' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #7,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #7,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('prop' type=inline),
+            #5,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('prop' type=inline),
+            #3,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #2,
+        ): [
+            (
+                Atom('window' type=inline),
+                #1,
+            ),
+            (
+                Atom('_hb' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #3,
+        ): [
+            (
+                Atom('win' type=inline),
+                #3,
+            ),
+            (
+                Atom('prop' type=inline),
+                #3,
+            ),
+            (
+                Atom('hb' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #5,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('_hb' type=inline),
+            #4,
+        ): [
+            (
+                Atom('prop' type=inline),
+                #4,
+            ),
+            (
+                Atom('hb' type=inline),
+                #4,
+            ),
+            (
+                Atom('win' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #3,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('win' type=inline),
+            #5,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('hb' type=inline),
+            #6,
+        ): [
+            (
+                Atom('_hb' type=inline),
+                #6,
+            ),
+        ],
+    },
     vars: [
         (
             (

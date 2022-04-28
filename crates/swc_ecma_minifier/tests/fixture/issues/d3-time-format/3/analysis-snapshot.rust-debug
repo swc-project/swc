@@ -1,4 +1,3738 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('i' type=inline),
+            #133,
+        ): [
+            (
+                Atom('n' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('year' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('sundays' type=inline),
+            #2,
+        ): [
+            (
+                Atom('sunday' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('src_minute' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('minute' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('numberRe' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('n' type=inline),
+                #123,
+            ),
+            (
+                Atom('n' type=inline),
+                #124,
+            ),
+            (
+                Atom('n' type=inline),
+                #125,
+            ),
+            (
+                Atom('n' type=inline),
+                #126,
+            ),
+            (
+                Atom('n' type=inline),
+                #127,
+            ),
+            (
+                Atom('n' type=inline),
+                #128,
+            ),
+            (
+                Atom('n' type=inline),
+                #129,
+            ),
+            (
+                Atom('n' type=inline),
+                #131,
+            ),
+            (
+                Atom('n' type=inline),
+                #132,
+            ),
+            (
+                Atom('n' type=inline),
+                #133,
+            ),
+            (
+                Atom('n' type=inline),
+                #134,
+            ),
+            (
+                Atom('n' type=inline),
+                #135,
+            ),
+            (
+                Atom('n' type=inline),
+                #136,
+            ),
+            (
+                Atom('n' type=inline),
+                #137,
+            ),
+            (
+                Atom('n' type=inline),
+                #138,
+            ),
+            (
+                Atom('n' type=inline),
+                #139,
+            ),
+            (
+                Atom('n' type=inline),
+                #141,
+            ),
+            (
+                Atom('n' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #138,
+        ): [
+            (
+                Atom('n' type=inline),
+                #138,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #124,
+        ): [
+            (
+                Atom('string' type=static),
+                #124,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #124,
+            ),
+        ],
+        (
+            Atom('utcThursdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcThursday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcSaturday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcSaturdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #86,
+        ): [
+            (
+                Atom('Date' type=static),
+                #1,
+            ),
+            (
+                Atom('d' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #174,
+        ): [
+            (
+                Atom('d' type=inline),
+                #174,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #140,
+        ): [
+            (
+                Atom('n' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #115,
+        ): [
+            (
+                Atom('p' type=inline),
+                #115,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #154,
+        ): [
+            (
+                Atom('day' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('parseZone' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatFullYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #129,
+        ): [
+            (
+                Atom('n' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #134,
+        ): [
+            (
+                Atom('i' type=inline),
+                #134,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #134,
+            ),
+        ],
+        (
+            Atom('formats' type=inline),
+            #88,
+        ): [
+            (
+                Atom('formatShortWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatMilliseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatMonth' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatPeriod' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatQuarter' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUnixTimestamp' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekNumberISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatFullYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatMonthNumber' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatDayOfMonth' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatMinutes' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatMicroseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekdayNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekdayNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatFullYearISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatZone' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatWeekNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUnixTimestampSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatLiteralPercent' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatHour24' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatYearISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatShortMonth' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatDayOfYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatHour12' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('f' type=inline),
+                #114,
+            ),
+        ],
+        (
+            Atom('parseFullYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('days' type=inline),
+            #2,
+        ): [
+            (
+                Atom('day' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('tuesday' type=inline),
+            #2,
+        ): [
+            (
+                Atom('tuesdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('parseWeekNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCShortMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #96,
+        ): [
+            (
+                Atom('n' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('formatYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatWeekNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #141,
+        ): [
+            (
+                Atom('string' type=static),
+                #141,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #141,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #118,
+        ): [
+            (
+                Atom('string' type=static),
+                #118,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #96,
+        ): [
+            (
+                Atom('n' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('formatShortMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatMilliseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseDayOfMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('hours' type=inline),
+            #2,
+        ): [
+            (
+                Atom('hour' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('src_utcMonth' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('utcMonths' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #134,
+        ): [
+            (
+                Atom('n' type=inline),
+                #134,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #85,
+        ): [
+            (
+                Atom('date' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('parseWeekdayNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #181,
+        ): [
+            (
+                Atom('d' type=inline),
+                #181,
+            ),
+        ],
+        (
+            Atom('utcTuesdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcTuesday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #126,
+        ): [
+            (
+                Atom('n' type=inline),
+                #126,
+            ),
+        ],
+        (
+            Atom('utcYear' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_utcYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('utcYears' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('src_month' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('month' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('reverse' type=inline),
+            #82,
+        ): [
+            (
+                Atom('stop' type=inline),
+                #82,
+            ),
+            (
+                Atom('start' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #97,
+        ): [
+            (
+                Atom('string' type=static),
+                #97,
+            ),
+            (
+                Atom('shortMonthRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('i' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #137,
+        ): [
+            (
+                Atom('n' type=inline),
+                #137,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('utcHour' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_utcHour' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('utcHours' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCMonthNumber' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatYearISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #92,
+        ): [
+            (
+                Atom('undefined' type=static),
+                #1,
+            ),
+            (
+                Atom('i' type=inline),
+                #92,
+            ),
+        ],
+        (
+            Atom('formatPeriod' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #93,
+        ): [
+            (
+                Atom('m' type=inline),
+                #93,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #131,
+        ): [
+            (
+                Atom('i' type=inline),
+                #131,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #131,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #142,
+        ): [
+            (
+                Atom('n' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('wednesdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('wednesday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('src_year' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('year' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('utcWednesday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcWednesdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('parseWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #95,
+        ): [
+            (
+                Atom('string' type=static),
+                #95,
+            ),
+            (
+                Atom('i' type=inline),
+                #95,
+            ),
+            (
+                Atom('shortWeekdayRe' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekdayNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #133,
+        ): [
+            (
+                Atom('n' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #138,
+        ): [
+            (
+                Atom('i' type=inline),
+                #138,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #138,
+            ),
+        ],
+        (
+            Atom('durationDay' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('millisecond' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('src_millisecond' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('milliseconds' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMondays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('parseMilliseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #125,
+        ): [
+            (
+                Atom('n' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('durationMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('parseMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCShortWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #131,
+        ): [
+            (
+                Atom('n' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #92,
+        ): [
+            (
+                Atom('d' type=inline),
+                #92,
+            ),
+            (
+                Atom('string' type=static),
+                #92,
+            ),
+            (
+                Atom('specifier' type=dynamic),
+                #91,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #152,
+        ): [
+            (
+                Atom('d' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('parseLocaleDateTime' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('year' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_year' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('years' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #162,
+        ): [
+            (
+                Atom('d' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('utcFridays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFriday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #123,
+        ): [
+            (
+                Atom('n' type=inline),
+                #123,
+            ),
+        ],
+        (
+            Atom('undefined' type=static),
+            #1,
+        ): [
+            (
+                Atom('d' type=inline),
+                #92,
+            ),
+        ],
+        (
+            Atom('formatWeekdayNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('i1' type=inline),
+            #185,
+        ): [
+            (
+                Atom('x1' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #138,
+        ): [
+            (
+                Atom('n' type=inline),
+                #138,
+            ),
+        ],
+        (
+            Atom('friday' type=inline),
+            #2,
+        ): [
+            (
+                Atom('fridays' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('count' type=inline),
+            #82,
+        ): [
+            (
+                Atom('interval' type=dynamic),
+                #82,
+            ),
+        ],
+        (
+            Atom('parseWeekdayNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #139,
+        ): [
+            (
+                Atom('n' type=inline),
+                #139,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #128,
+        ): [
+            (
+                Atom('string' type=static),
+                #128,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #128,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #125,
+        ): [
+            (
+                Atom('string' type=static),
+                #125,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('utcTuesday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcTuesdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #161,
+        ): [
+            (
+                Atom('d' type=inline),
+                #161,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #172,
+        ): [
+            (
+                Atom('dow' type=inline),
+                #172,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #141,
+        ): [
+            (
+                Atom('n' type=inline),
+                #141,
+            ),
+        ],
+        (
+            Atom('formatDayOfMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #116,
+        ): [
+            (
+                Atom('f' type=inline),
+                #116,
+            ),
+        ],
+        (
+            Atom('formatLiteralPercent' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCFullYearISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('d1' type=inline),
+            #7,
+        ): [
+            (
+                Atom('date' type=inline),
+                #7,
+            ),
+            (
+                Atom('interval' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('locale_shortWeekdays' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+            (
+                Atom('shortWeekdayRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('shortWeekdayLookup' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #130,
+        ): [
+            (
+                Atom('n' type=inline),
+                #130,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #135,
+        ): [
+            (
+                Atom('i' type=inline),
+                #135,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #135,
+            ),
+        ],
+        (
+            Atom('parseShortMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUnixTimestampSeconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #7,
+        ): [
+            (
+                Atom('d0' type=inline),
+                #7,
+            ),
+            (
+                Atom('d1' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('parseUnixTimestamp' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseSeconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #97,
+        ): [
+            (
+                Atom('n' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #115,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #115,
+            ),
+        ],
+        (
+            Atom('formatUTCMilliseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatShortWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatSeconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #126,
+        ): [
+            (
+                Atom('n' type=inline),
+                #126,
+            ),
+        ],
+        (
+            Atom('shortMonthLookup' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_shortMonths' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #142,
+        ): [
+            (
+                Atom('i' type=inline),
+                #142,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #142,
+            ),
+        ],
+        (
+            Atom('utcYears' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcYear' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcMinutes' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMinute' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('fridays' type=inline),
+            #2,
+        ): [
+            (
+                Atom('friday' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('months' type=inline),
+            #2,
+        ): [
+            (
+                Atom('month' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcSaturdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcSaturday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('parseUnixTimestampSeconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('ticks' type=inline),
+            #82,
+        ): [
+            (
+                Atom('start' type=inline),
+                #82,
+            ),
+            (
+                Atom('interval' type=dynamic),
+                #82,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #91,
+        ): [
+            (
+                Atom('i' type=inline),
+                #92,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #97,
+        ): [
+            (
+                Atom('n' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('interval' type=dynamic),
+            #82,
+        ): [
+            (
+                Atom('count' type=inline),
+                #82,
+            ),
+            (
+                Atom('start' type=inline),
+                #82,
+            ),
+            (
+                Atom('stop' type=inline),
+                #82,
+            ),
+            (
+                Atom('ticks' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('domain' type=inline),
+            #185,
+        ): [
+            (
+                Atom('x0' type=inline),
+                #185,
+            ),
+            (
+                Atom('x1' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #135,
+        ): [
+            (
+                Atom('n' type=inline),
+                #135,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #86,
+        ): [
+            (
+                Atom('date' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('interval' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('d1' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('parseHour24' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatDayOfYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('monthLookup' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_months' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #136,
+        ): [
+            (
+                Atom('n' type=inline),
+                #136,
+            ),
+        ],
+        (
+            Atom('formatUTCYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #127,
+        ): [
+            (
+                Atom('n' type=inline),
+                #127,
+            ),
+        ],
+        (
+            Atom('utcWednesdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcWednesday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('locale' type=inline),
+            #88,
+        ): [
+            (
+                Atom('locale_dateTime' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_date' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_time' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_periods' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_weekdays' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_shortWeekdays' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_months' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('locale_shortMonths' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('locale_time' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('minutes' type=inline),
+            #2,
+        ): [
+            (
+                Atom('minute' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCHour24' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('shortWeekdayLookup' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_shortWeekdays' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #98,
+        ): [
+            (
+                Atom('i' type=inline),
+                #98,
+            ),
+            (
+                Atom('monthRe' type=inline),
+                #88,
+            ),
+            (
+                Atom('string' type=static),
+                #98,
+            ),
+        ],
+        (
+            Atom('thursdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('thursday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcThursday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcThursdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #142,
+        ): [
+            (
+                Atom('n' type=inline),
+                #142,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #94,
+        ): [
+            (
+                Atom('n' type=inline),
+                #94,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #152,
+        ): [
+            (
+                Atom('day' type=inline),
+                #152,
+            ),
+        ],
+        (
+            Atom('utcMondays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMonday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #161,
+        ): [
+            (
+                Atom('day' type=inline),
+                #161,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #132,
+        ): [
+            (
+                Atom('string' type=static),
+                #132,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #132,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #83,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+            (
+                Atom('target' type=static),
+                #83,
+            ),
+            (
+                Atom('bisector' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #118,
+        ): [
+            (
+                Atom('length' type=static),
+                #118,
+            ),
+        ],
+        (
+            Atom('src_utcDay' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcDay' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('durationYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('formatUTCPeriod' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatHour24' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCZone' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #123,
+        ): [
+            (
+                Atom('n' type=inline),
+                #123,
+            ),
+        ],
+        (
+            Atom('formatUTCDayOfYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #134,
+        ): [
+            (
+                Atom('n' type=inline),
+                #134,
+            ),
+        ],
+        (
+            Atom('stop' type=inline),
+            #82,
+        ): [
+            (
+                Atom('reverse' type=inline),
+                #82,
+            ),
+            (
+                Atom('interval' type=dynamic),
+                #82,
+            ),
+        ],
+        (
+            Atom('start' type=inline),
+            #82,
+        ): [
+            (
+                Atom('reverse' type=inline),
+                #82,
+            ),
+            (
+                Atom('interval' type=dynamic),
+                #82,
+            ),
+            (
+                Atom('ticks' type=inline),
+                #82,
+            ),
+        ],
+        (
+            Atom('durationSecond' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #139,
+        ): [
+            (
+                Atom('i' type=inline),
+                #139,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #139,
+            ),
+        ],
+        (
+            Atom('parseMinutes' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_utcMinute' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMinute' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #98,
+        ): [
+            (
+                Atom('n' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('saturdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('saturday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('tuesdays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tuesday' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcDays' type=inline),
+            #2,
+        ): [
+            (
+                Atom('utcDay' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('durationMinute' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('weekdayLookup' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_weekdays' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #128,
+        ): [
+            (
+                Atom('n' type=inline),
+                #128,
+            ),
+        ],
+        (
+            Atom('sunday' type=inline),
+            #2,
+        ): [
+            (
+                Atom('sundays' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcFriday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFridays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatWeekNumberISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCYearISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_utcYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcYear' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUnixTimestamp' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #116,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #116,
+            ),
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #124,
+        ): [
+            (
+                Atom('n' type=inline),
+                #124,
+            ),
+        ],
+        (
+            Atom('formatUTCMicroseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseMonthNumber' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('minute' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_minute' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('minutes' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('dow' type=inline),
+            #172,
+        ): [
+            (
+                Atom('d' type=inline),
+                #172,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #139,
+        ): [
+            (
+                Atom('n' type=inline),
+                #139,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #140,
+        ): [
+            (
+                Atom('n' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #129,
+        ): [
+            (
+                Atom('string' type=static),
+                #129,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('seconds' type=inline),
+            #2,
+        ): [
+            (
+                Atom('second' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCSeconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #126,
+        ): [
+            (
+                Atom('i' type=inline),
+                #126,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #126,
+            ),
+        ],
+        (
+            Atom('parseQuarter' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('percentRe' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('n' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('weekdayRe' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_weekdays' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('n' type=inline),
+                #96,
+            ),
+        ],
+        (
+            Atom('formatQuarter' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatHour12' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('utcHours' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcHour' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('locale_weekdays' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+            (
+                Atom('weekdayRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('weekdayLookup' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #93,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #93,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #117,
+        ): [
+            (
+                Atom('p' type=inline),
+                #117,
+            ),
+        ],
+        (
+            Atom('hour' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_hour' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('hours' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #131,
+        ): [
+            (
+                Atom('n' type=inline),
+                #131,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #136,
+        ): [
+            (
+                Atom('string' type=static),
+                #136,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #136,
+            ),
+        ],
+        (
+            Atom('formatUTCMonth' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('hour' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('parses' type=inline),
+            #88,
+        ): [
+            (
+                Atom('parseDayOfMonth' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseWeekdayNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseZone' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseShortWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseFullYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseWeekNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseMonthNumber' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseLocaleDateTime' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseWeekdayNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseLiteralPercent' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseMinutes' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseUnixTimestampSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseWeekNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseLocaleDate' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseLocaleTime' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseShortMonth' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parsePeriod' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('parseMilliseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseDayOfYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseQuarter' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseMicroseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseUnixTimestamp' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseHour24' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseWeekNumberISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('parseMonth' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('week' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('locale_dateTime' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #98,
+        ): [
+            (
+                Atom('n' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('durationWeek' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekdayNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #127,
+        ): [
+            (
+                Atom('n' type=inline),
+                #127,
+            ),
+        ],
+        (
+            Atom('x0' type=inline),
+            #185,
+        ): [
+            (
+                Atom('i0' type=inline),
+                #185,
+            ),
+            (
+                Atom('domain' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('monday' type=inline),
+            #2,
+        ): [
+            (
+                Atom('mondays' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('years' type=inline),
+            #2,
+        ): [
+            (
+                Atom('year' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('target' type=static),
+            #83,
+        ): [
+            (
+                Atom('i' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('utcSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcSundays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('tickIntervals' type=dynamic),
+            #81,
+        ): [
+            (
+                Atom('week' type=inline),
+                #81,
+            ),
+            (
+                Atom('durationHour' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('durationWeek' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('src_second' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('year' type=inline),
+                #81,
+            ),
+            (
+                Atom('durationDay' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('minute' type=inline),
+                #81,
+            ),
+            (
+                Atom('day' type=inline),
+                #81,
+            ),
+            (
+                Atom('durationYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('durationSecond' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('durationMinute' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('hour' type=inline),
+                #81,
+            ),
+            (
+                Atom('month' type=inline),
+                #81,
+            ),
+            (
+                Atom('durationMonth' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #94,
+        ): [
+            (
+                Atom('n' type=inline),
+                #94,
+            ),
+        ],
+        (
+            Atom('src_utcHour' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcHour' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('parseDayOfYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('milliseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('millisecond' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCHour12' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseWeekNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('monthRe' type=inline),
+            #88,
+        ): [
+            (
+                Atom('locale_months' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('n' type=inline),
+                #98,
+            ),
+        ],
+        (
+            Atom('formatMinutes' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatMicroseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseLocaleDate' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #132,
+        ): [
+            (
+                Atom('n' type=inline),
+                #132,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #137,
+        ): [
+            (
+                Atom('n' type=inline),
+                #137,
+            ),
+        ],
+        (
+            Atom('thursday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('thursdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('locale_shortMonths' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+            (
+                Atom('shortMonthRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('shortMonthLookup' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('minute' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('formatUTCFullYear' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #123,
+        ): [
+            (
+                Atom('i' type=inline),
+                #123,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #123,
+            ),
+        ],
+        (
+            Atom('wednesday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('wednesdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #162,
+        ): [
+            (
+                Atom('z' type=inline),
+                #162,
+            ),
+        ],
+        (
+            Atom('i0' type=inline),
+            #185,
+        ): [
+            (
+                Atom('x0' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #90,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #89,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #95,
+        ): [
+            (
+                Atom('n' type=inline),
+                #95,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #114,
+        ): [
+            (
+                Atom('f' type=inline),
+                #114,
+            ),
+        ],
+        (
+            Atom('parseLiteralPercent' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_day' type=inline),
+                #2,
+            ),
+            (
+                Atom('days' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #128,
+        ): [
+            (
+                Atom('n' type=inline),
+                #128,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #133,
+        ): [
+            (
+                Atom('string' type=static),
+                #133,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #133,
+            ),
+        ],
+        (
+            Atom('periodLookup' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_periods' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatWeekdayNumberMonday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('p' type=inline),
+            #117,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #117,
+            ),
+        ],
+        (
+            Atom('formatUTCMinutes' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_second' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('second' type=inline),
+                #2,
+            ),
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('parsePeriod' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_hour' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('hour' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatZone' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_millisecond' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('millisecond' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcFormats' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('formatUTCYearISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCShortWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUnixTimestamp' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCHour24' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCMicroseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekday' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUTCShortMonth' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUTCMonth' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUTCHour12' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCDayOfYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekdayNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCFullYearISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatLiteralPercent' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCMinutes' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekdayNumberMonday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekNumberISO' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCQuarter' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUTCSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCDayOfMonth' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCMonthNumber' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCPeriod' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('formatUnixTimestampSeconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCFullYear' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCWeekNumberSunday' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCZone' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('formatUTCMilliseconds' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('f' type=inline),
+                #116,
+            ),
+        ],
+        (
+            Atom('parseMicroseconds' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #135,
+        ): [
+            (
+                Atom('n' type=inline),
+                #135,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #140,
+        ): [
+            (
+                Atom('string' type=static),
+                #140,
+            ),
+            (
+                Atom('percentRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #140,
+            ),
+        ],
+        (
+            Atom('durationHour' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #89,
+        ): [
+            (
+                Atom('n' type=inline),
+                #90,
+            ),
+        ],
+        (
+            Atom('f' type=inline),
+            #114,
+        ): [
+            (
+                Atom('specifier' type=dynamic),
+                #114,
+            ),
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('mondays' type=inline),
+            #2,
+        ): [
+            (
+                Atom('monday' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('month' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_month' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('months' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('utcMinute' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('src_utcMinute' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('utcMinutes' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #129,
+        ): [
+            (
+                Atom('n' type=inline),
+                #129,
+            ),
+        ],
+        (
+            Atom('day' type=inline),
+            #154,
+        ): [
+            (
+                Atom('d' type=inline),
+                #154,
+            ),
+        ],
+        (
+            Atom('locale_periods' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+            (
+                Atom('periodRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('periodLookup' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseLocaleTime' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('shortMonthRe' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_shortMonths' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('n' type=inline),
+                #97,
+            ),
+        ],
+        (
+            Atom('formatWeekNumberSunday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('src_day' type=inline),
+            #2,
+        ): [
+            (
+                Atom('day' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatUTCDayOfMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #125,
+        ): [
+            (
+                Atom('n' type=inline),
+                #125,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #96,
+        ): [
+            (
+                Atom('string' type=static),
+                #96,
+            ),
+            (
+                Atom('i' type=inline),
+                #96,
+            ),
+            (
+                Atom('weekdayRe' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('saturday' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('saturdays' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('locale_date' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseShortWeekday' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #92,
+        ): [
+            (
+                Atom('i' type=inline),
+                #92,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #136,
+        ): [
+            (
+                Atom('n' type=inline),
+                #136,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #141,
+        ): [
+            (
+                Atom('n' type=inline),
+                #141,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #130,
+        ): [
+            (
+                Atom('i' type=inline),
+                #130,
+            ),
+            (
+                Atom('string' type=static),
+                #130,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #127,
+        ): [
+            (
+                Atom('i' type=inline),
+                #127,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('string' type=static),
+                #127,
+            ),
+        ],
+        (
+            Atom('src_utcMonth' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMonth' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #174,
+        ): [
+            (
+                Atom('day' type=inline),
+                #174,
+            ),
+        ],
+        (
+            Atom('second' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_second' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('seconds' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('date' type=inline),
+            #85,
+        ): [
+            (
+                Atom('d' type=inline),
+                #85,
+            ),
+        ],
+        (
+            Atom('periodRe' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_periods' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('n' type=inline),
+                #94,
+            ),
+        ],
+        (
+            Atom('formatUTCWeekNumberISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('formatUTCQuarter' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('utcFormats' type=dynamic),
+                #88,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #94,
+        ): [
+            (
+                Atom('i' type=inline),
+                #94,
+            ),
+            (
+                Atom('periodRe' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('string' type=static),
+                #94,
+            ),
+        ],
+        (
+            Atom('month' type=inline),
+            #81,
+        ): [
+            (
+                Atom('tickIntervals' type=dynamic),
+                #81,
+            ),
+        ],
+        (
+            Atom('string' type=static),
+            #132,
+        ): [
+            (
+                Atom('n' type=inline),
+                #132,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #137,
+        ): [
+            (
+                Atom('string' type=static),
+                #137,
+            ),
+            (
+                Atom('numberRe' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #137,
+            ),
+        ],
+        (
+            Atom('bisector' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('i' type=inline),
+                #83,
+            ),
+        ],
+        (
+            Atom('utcSundays' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcSunday' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #181,
+        ): [
+            (
+                Atom('day' type=inline),
+                #181,
+            ),
+        ],
+        (
+            Atom('Date' type=static),
+            #1,
+        ): [
+            (
+                Atom('date' type=inline),
+                #86,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #124,
+        ): [
+            (
+                Atom('n' type=inline),
+                #124,
+            ),
+        ],
+        (
+            Atom('formatMonthNumber' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('d0' type=inline),
+            #7,
+        ): [
+            (
+                Atom('date' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('shortWeekdayRe' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale_shortWeekdays' type=dynamic),
+                #88,
+            ),
+            (
+                Atom('n' type=inline),
+                #95,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #130,
+        ): [
+            (
+                Atom('n' type=inline),
+                #130,
+            ),
+        ],
+        (
+            Atom('m' type=inline),
+            #93,
+        ): [
+            (
+                Atom('string' type=static),
+                #93,
+            ),
+        ],
+        (
+            Atom('utcMonths' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('utcMonth' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #95,
+        ): [
+            (
+                Atom('n' type=inline),
+                #95,
+            ),
+        ],
+        (
+            Atom('utcDay' type=inline),
+            #2,
+        ): [
+            (
+                Atom('src_utcDay' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('utcDays' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('formatFullYearISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('formats' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('parseWeekNumberISO' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('parses' type=inline),
+                #88,
+            ),
+        ],
+        (
+            Atom('specifier' type=dynamic),
+            #93,
+        ): [
+            (
+                Atom('n' type=inline),
+                #93,
+            ),
+        ],
+        (
+            Atom('x1' type=inline),
+            #185,
+        ): [
+            (
+                Atom('i1' type=inline),
+                #185,
+            ),
+            (
+                Atom('domain' type=inline),
+                #185,
+            ),
+        ],
+        (
+            Atom('locale_months' type=dynamic),
+            #88,
+        ): [
+            (
+                Atom('locale' type=inline),
+                #88,
+            ),
+            (
+                Atom('monthRe' type=inline),
+                #88,
+            ),
+            (
+                Atom('monthLookup' type=dynamic),
+                #88,
+            ),
+        ],
+    },
     vars: [
         (
             (

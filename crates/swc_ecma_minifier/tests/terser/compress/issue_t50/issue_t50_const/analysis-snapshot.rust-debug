@@ -1,4 +1,271 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('v1' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v2' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v6' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v13' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v10' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v17' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v9' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v5' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v12' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v15' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v19' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v8' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v4' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v14' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v16' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('unused' type=inline),
+            #1,
+        ): [
+            (
+                Atom('v18' type=inline),
+                #1,
+            ),
+            (
+                Atom('v2' type=inline),
+                #1,
+            ),
+            (
+                Atom('v6' type=inline),
+                #1,
+            ),
+            (
+                Atom('v13' type=inline),
+                #1,
+            ),
+            (
+                Atom('v10' type=inline),
+                #1,
+            ),
+            (
+                Atom('v17' type=inline),
+                #1,
+            ),
+            (
+                Atom('v9' type=inline),
+                #1,
+            ),
+            (
+                Atom('v5' type=inline),
+                #1,
+            ),
+            (
+                Atom('v12' type=inline),
+                #1,
+            ),
+            (
+                Atom('v15' type=inline),
+                #1,
+            ),
+            (
+                Atom('v19' type=inline),
+                #1,
+            ),
+            (
+                Atom('v8' type=inline),
+                #1,
+            ),
+            (
+                Atom('v4' type=inline),
+                #1,
+            ),
+            (
+                Atom('v14' type=inline),
+                #1,
+            ),
+            (
+                Atom('v16' type=inline),
+                #1,
+            ),
+            (
+                Atom('v7' type=inline),
+                #1,
+            ),
+            (
+                Atom('v3' type=inline),
+                #1,
+            ),
+            (
+                Atom('v20' type=inline),
+                #1,
+            ),
+            (
+                Atom('v11' type=inline),
+                #1,
+            ),
+            (
+                Atom('v1' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v7' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v3' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v20' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v18' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('v11' type=inline),
+            #1,
+        ): [
+            (
+                Atom('unused' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

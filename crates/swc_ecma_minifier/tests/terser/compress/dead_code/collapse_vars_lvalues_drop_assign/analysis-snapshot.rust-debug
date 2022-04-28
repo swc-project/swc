@@ -1,4 +1,73 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('i' type=inline),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #4,
+        ): [
+            (
+                Atom('z' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #3,
+        ): [
+            (
+                Atom('a' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #4,
+        ): [
+            (
+                Atom('x' type=inline),
+                #4,
+            ),
+            (
+                Atom('a' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #4,
+        ): [
+            (
+                Atom('z' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #2,
+        ): [
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('a' type=inline),
+            #3,
+        ): [
+            (
+                Atom('x' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

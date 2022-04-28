@@ -1,4 +1,254 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('ownKeys' type=inline),
+            #8,
+        ): [
+            (
+                Atom('source' type=inline),
+                #8,
+            ),
+            (
+                Atom('Object' type=static),
+                #1,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #8,
+        ): [
+            (
+                Atom('source' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #12,
+        ): [
+            (
+                Atom('react' type=inline),
+                #6,
+            ),
+            (
+                Atom('text' type=inline),
+                #12,
+            ),
+            (
+                Atom('setText' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('handleChange' type=dynamic),
+            #12,
+        ): [
+            (
+                Atom('react' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #5,
+        ): [
+            (
+                Atom('value' type=inline),
+                #5,
+            ),
+            (
+                Atom('onChange' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #1,
+        ): [
+            (
+                Atom('ownKeys' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #8,
+        ): [
+            (
+                Atom('i' type=inline),
+                #8,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #8,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #4,
+        ): [
+            (
+                Atom('param' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('onChange' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('param' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('components_Form' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Form' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('components_Input' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('Input' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('components_Container' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('Container' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('Form' type=inline),
+            #3,
+        ): [
+            (
+                Atom('components_Form' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('react' type=inline),
+            #6,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #12,
+            ),
+            (
+                Atom('handleChange' type=dynamic),
+                #12,
+            ),
+        ],
+        (
+            Atom('text' type=inline),
+            #12,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('Container' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('components_Container' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('setText' type=inline),
+            #12,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('__webpack_exec__' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('__webpack_exports__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('onChange' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('param' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('__webpack_exec__' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('__webpack_exports__' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #14,
+            ),
+        ],
+        (
+            Atom('Input' type=inline),
+            #3,
+        ): [
+            (
+                Atom('components_Input' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('param' type=inline),
+            #4,
+        ): [
+            (
+                Atom('value' type=inline),
+                #4,
+            ),
+            (
+                Atom('onChange' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #5,
+        ): [
+            (
+                Atom('param' type=inline),
+                #5,
+            ),
+        ],
+    },
     vars: [
         (
             (

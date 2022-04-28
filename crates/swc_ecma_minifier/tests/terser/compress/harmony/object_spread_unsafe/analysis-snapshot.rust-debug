@@ -1,4 +1,50 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('merged' type=inline),
+            #1,
+        ): [
+            (
+                Atom('o1' type=inline),
+                #1,
+            ),
+            (
+                Atom('o2' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('o1' type=inline),
+            #1,
+        ): [
+            (
+                Atom('cloned' type=inline),
+                #1,
+            ),
+            (
+                Atom('merged' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('cloned' type=inline),
+            #1,
+        ): [
+            (
+                Atom('o1' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('o2' type=inline),
+            #1,
+        ): [
+            (
+                Atom('merged' type=inline),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

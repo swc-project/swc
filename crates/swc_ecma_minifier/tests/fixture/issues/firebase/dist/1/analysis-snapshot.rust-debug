@@ -1,4 +1,473 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('modularAPIs' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('modularAPIs__namespace' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('FirebaseAppImpl' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('e' type=inline),
+            #3,
+        ): [
+            (
+                Atom('d' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('componentNameWithoutCompat' type=dynamic),
+            #19,
+        ): [
+            (
+                Atom('componentName' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('serviceNamespace' type=dynamic),
+                #19,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #2,
+        ): [
+            (
+                Atom('n' type=inline),
+                #3,
+            ),
+            (
+                Atom('d' type=inline),
+                #4,
+            ),
+            (
+                Atom('FirebaseAppImpl' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('logger' type=inline),
+            #1,
+        ): [
+            (
+                Atom('logger$1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('FirebaseAppImpl' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('modularAPIs' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Object' type=static),
+                #2,
+            ),
+            (
+                Atom('component' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('namespace' type=static),
+                #23,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #10,
+        ): [
+            (
+                Atom('provider' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('initializeAppCompat' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('rawConfig' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('app' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('serviceFxn' type=dynamic),
+            #21,
+        ): [
+            (
+                Atom('componentName' type=dynamic),
+                #19,
+            ),
+        ],
+        (
+            Atom('logger$1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('logger' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('k' type=inline),
+            #4,
+        ): [
+            (
+                Atom('d' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('provider' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('name' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('serviceNamespace' type=dynamic),
+            #19,
+        ): [
+            (
+                Atom('componentNameWithoutCompat' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('componentName' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('ERROR_FACTORY' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('useService' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('name' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('sdkVersion' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('self' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('app' type=inline),
+            #17,
+        ): [
+            (
+                Atom('modularAPIs__namespace' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('options' type=inline),
+                #17,
+            ),
+            (
+                Atom('rawConfig' type=dynamic),
+                #17,
+            ),
+            (
+                Atom('appCompat' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('n' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Object' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('d' type=inline),
+            #4,
+        ): [
+            (
+                Atom('Object' type=static),
+                #2,
+            ),
+            (
+                Atom('k' type=inline),
+                #4,
+            ),
+            (
+                Atom('e' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('modularAPIs__namespace' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('modularAPIs' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+            (
+                Atom('app' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('useAsService' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('registerComponentCompat' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('removeApp' type=dynamic),
+            #14,
+        ): [
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('options' type=inline),
+            #17,
+        ): [
+            (
+                Atom('app' type=inline),
+                #17,
+            ),
+        ],
+        (
+            Atom('component' type=dynamic),
+            #19,
+        ): [
+            (
+                Atom('componentName' type=dynamic),
+                #19,
+            ),
+        ],
+        (
+            Atom('util' type=inline),
+            #1,
+        ): [
+            (
+                Atom('ERROR_FACTORY' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #2,
+        ): [
+            (
+                Atom('sdkVersion' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('appCompat' type=dynamic),
+            #17,
+        ): [
+            (
+                Atom('app' type=inline),
+                #17,
+            ),
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('app' type=inline),
+            #14,
+        ): [
+            (
+                Atom('namespace' type=static),
+                #14,
+            ),
+        ],
+        (
+            Atom('ERROR_FACTORY' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ERRORS' type=inline),
+                #1,
+            ),
+            (
+                Atom('util' type=inline),
+                #1,
+            ),
+            (
+                Atom('serviceNamespace' type=dynamic),
+                #19,
+            ),
+        ],
+        (
+            Atom('namespace' type=static),
+            #23,
+        ): [
+            (
+                Atom('FirebaseAppImpl' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('namespace' type=static),
+            #14,
+        ): [
+            (
+                Atom('modularAPIs__namespace' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('useAsService' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('registerComponentCompat' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('initializeAppCompat' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('app' type=inline),
+                #14,
+            ),
+            (
+                Atom('removeApp' type=dynamic),
+                #14,
+            ),
+            (
+                Atom('appCompat' type=dynamic),
+                #17,
+            ),
+        ],
+        (
+            Atom('_a' type=inline),
+            #1,
+        ): [
+            (
+                Atom('ERRORS' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('componentName' type=dynamic),
+            #19,
+        ): [
+            (
+                Atom('component' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('componentNameWithoutCompat' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('serviceNamespace' type=dynamic),
+                #19,
+            ),
+            (
+                Atom('serviceFxn' type=dynamic),
+                #21,
+            ),
+        ],
+        (
+            Atom('firebase$1' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('firebase' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('firebase' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('firebase$1' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #22,
+        ): [
+            (
+                Atom('useService' type=dynamic),
+                #22,
+            ),
+        ],
+        (
+            Atom('ERRORS' type=inline),
+            #1,
+        ): [
+            (
+                Atom('_a' type=inline),
+                #1,
+            ),
+            (
+                Atom('ERROR_FACTORY' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('component' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('FirebaseAppImpl' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,131 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('deferred' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('subordinate' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('updateFunc' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('resolveValues' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('core_slice' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('length' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('deferred' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('length' type=static),
+            #2,
+        ): [
+            (
+                Atom('resolveValues' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('remaining' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('core_slice' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('remaining' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('length' type=static),
+                #2,
+            ),
+            (
+                Atom('updateFunc' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('updateFunc' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('deferred' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('remaining' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('core_slice' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('core_slice' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('resolveValues' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('updateFunc' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('subordinate' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('deferred' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

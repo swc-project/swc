@@ -1,4 +1,76 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('index' type=inline),
+            #3,
+        ): [
+            (
+                Atom('computed' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('context' type=inline),
+            #2,
+        ): [
+            (
+                Atom('computed' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #3,
+        ): [
+            (
+                Atom('computed' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('list' type=inline),
+            #3,
+        ): [
+            (
+                Atom('computed' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('iterator' type=static),
+            #2,
+        ): [
+            (
+                Atom('computed' type=dynamic),
+                #3,
+            ),
+        ],
+        (
+            Atom('computed' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('index' type=inline),
+                #3,
+            ),
+            (
+                Atom('context' type=inline),
+                #2,
+            ),
+            (
+                Atom('value' type=inline),
+                #3,
+            ),
+            (
+                Atom('list' type=inline),
+                #3,
+            ),
+            (
+                Atom('iterator' type=static),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

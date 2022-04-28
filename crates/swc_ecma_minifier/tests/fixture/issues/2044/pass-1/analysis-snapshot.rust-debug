@@ -1,4 +1,37 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('module' type=static),
+            #6,
+        ): [
+            (
+                Atom('resolved' type=dynamic),
+                #7,
+            ),
+        ],
+        (
+            Atom('pkgBrowserslist' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('resolved' type=dynamic),
+                #7,
+            ),
+        ],
+        (
+            Atom('resolved' type=dynamic),
+            #7,
+        ): [
+            (
+                Atom('pkgBrowserslist' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('module' type=static),
+                #6,
+            ),
+        ],
+    },
     vars: [
         (
             (

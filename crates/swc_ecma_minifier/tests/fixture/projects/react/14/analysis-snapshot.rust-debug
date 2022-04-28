@@ -1,4 +1,81 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('element' type=inline),
+            #2,
+        ): [
+            (
+                Atom('type' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('has' type=inline),
+            #3,
+        ): [
+            (
+                Atom('Object' type=static),
+                #4,
+            ),
+            (
+                Atom('Function' type=static),
+                #4,
+            ),
+        ],
+        (
+            Atom('_name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('type' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #2,
+        ): [
+            (
+                Atom('element' type=inline),
+                #2,
+            ),
+            (
+                Atom('name' type=inline),
+                #2,
+            ),
+            (
+                Atom('_name' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('name' type=inline),
+            #2,
+        ): [
+            (
+                Atom('type' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #4,
+        ): [
+            (
+                Atom('has' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('Function' type=static),
+            #4,
+        ): [
+            (
+                Atom('has' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,42 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('exported' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Array' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('type' type=static),
+            #2,
+        ): [
+            (
+                Atom('events' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('events' type=inline),
+            #2,
+        ): [
+            (
+                Atom('type' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('Array' type=static),
+            #3,
+        ): [
+            (
+                Atom('exported' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

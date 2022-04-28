@@ -1,4 +1,55 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('args' type=inline),
+            #2,
+        ): [
+            (
+                Atom('argsWithFormat' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('ReactDebugCurrentFrame' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('ReactSharedInternals' type=dynamic),
+                #3,
+            ),
+            (
+                Atom('stack' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('argsWithFormat' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('args' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('ReactSharedInternals' type=dynamic),
+            #3,
+        ): [
+            (
+                Atom('ReactDebugCurrentFrame' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('stack' type=inline),
+            #2,
+        ): [
+            (
+                Atom('ReactDebugCurrentFrame' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

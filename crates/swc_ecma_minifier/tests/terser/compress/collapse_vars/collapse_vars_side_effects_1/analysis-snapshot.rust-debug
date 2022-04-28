@@ -1,4 +1,326 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('z' type=inline),
+            #6,
+        ): [
+            (
+                Atom('i' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #6,
+        ): [
+            (
+                Atom('i' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #5,
+        ): [
+            (
+                Atom('x' type=inline),
+                #5,
+            ),
+            (
+                Atom('y' type=inline),
+                #5,
+            ),
+            (
+                Atom('z' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #6,
+        ): [
+            (
+                Atom('x' type=inline),
+                #6,
+            ),
+            (
+                Atom('y' type=inline),
+                #6,
+            ),
+            (
+                Atom('z' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #5,
+        ): [
+            (
+                Atom('x' type=inline),
+                #5,
+            ),
+            (
+                Atom('y' type=inline),
+                #5,
+            ),
+            (
+                Atom('z' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #4,
+        ): [
+            (
+                Atom('s' type=inline),
+                #4,
+            ),
+            (
+                Atom('i' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #4,
+        ): [
+            (
+                Atom('s' type=inline),
+                #4,
+            ),
+            (
+                Atom('i' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #2,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #4,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #4,
+        ): [
+            (
+                Atom('x' type=inline),
+                #4,
+            ),
+            (
+                Atom('y' type=inline),
+                #4,
+            ),
+            (
+                Atom('z' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('console' type=inline),
+            #3,
+        ): [
+            (
+                Atom('log' type=inline),
+                #2,
+            ),
+            (
+                Atom('log' type=inline),
+                #4,
+            ),
+            (
+                Atom('log' type=inline),
+                #5,
+            ),
+            (
+                Atom('log' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('y' type=inline),
+                #2,
+            ),
+            (
+                Atom('z' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #4,
+        ): [
+            (
+                Atom('x' type=inline),
+                #4,
+            ),
+            (
+                Atom('y' type=inline),
+                #4,
+            ),
+            (
+                Atom('z' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #5,
+        ): [
+            (
+                Atom('i' type=inline),
+                #5,
+            ),
+            (
+                Atom('s' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #6,
+        ): [
+            (
+                Atom('i' type=inline),
+                #6,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #2,
+        ): [
+            (
+                Atom('s' type=inline),
+                #2,
+            ),
+            (
+                Atom('i' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('z' type=inline),
+            #5,
+        ): [
+            (
+                Atom('i' type=inline),
+                #5,
+            ),
+            (
+                Atom('s' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('x' type=inline),
+            #4,
+        ): [
+            (
+                Atom('s' type=inline),
+                #4,
+            ),
+            (
+                Atom('i' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #5,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('log' type=inline),
+            #6,
+        ): [
+            (
+                Atom('console' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('s' type=inline),
+            #2,
+        ): [
+            (
+                Atom('x' type=inline),
+                #2,
+            ),
+            (
+                Atom('y' type=inline),
+                #2,
+            ),
+            (
+                Atom('z' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('y' type=inline),
+            #5,
+        ): [
+            (
+                Atom('i' type=inline),
+                #5,
+            ),
+            (
+                Atom('s' type=inline),
+                #5,
+            ),
+        ],
+    },
     vars: [
         (
             (

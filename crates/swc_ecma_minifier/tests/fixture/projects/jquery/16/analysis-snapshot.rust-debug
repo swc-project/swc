@@ -1,4 +1,147 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('position' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('curCSSTop' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('curCSSLeft' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('calculatePosition' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('obj' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('curOffset' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('curElem' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('curCSSTop' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('calculatePosition' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('elem' type=inline),
+            #2,
+        ): [
+            (
+                Atom('position' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('curElem' type=inline),
+                #2,
+            ),
+            (
+                Atom('curCSSTop' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('curCSSLeft' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('obj' type=inline),
+            #1,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('position' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('curCSSLeft' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('calculatePosition' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('curElem' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('curOffset' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('calculatePosition' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('curCSSTop' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('curCSSLeft' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,80 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('cleaningUp' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('timeoutCallback' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('timer' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('window' type=inline),
+            #2,
+        ): [
+            (
+                Atom('timeoutCallback' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('timer' type=inline),
+                #10,
+            ),
+        ],
+        (
+            Atom('timer' type=inline),
+            #10,
+        ): [
+            (
+                Atom('timer' type=inline),
+                #10,
+            ),
+            (
+                Atom('cleaningUp' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('window' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('document' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('script1' type=inline),
+                #12,
+            ),
+        ],
+        (
+            Atom('script1' type=inline),
+            #12,
+        ): [
+            (
+                Atom('document' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('timeoutCallback' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('cleaningUp' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('window' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

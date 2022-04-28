@@ -1,4 +1,84 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('cache' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('jQuery' type=inline),
+            #3,
+        ): [
+            (
+                Atom('internalKey' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('isNode' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('elem' type=inline),
+            #2,
+        ): [
+            (
+                Atom('isNode' type=inline),
+                #2,
+            ),
+            (
+                Atom('cache' type=inline),
+                #2,
+            ),
+            (
+                Atom('id' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('id' type=inline),
+            #2,
+        ): [
+            (
+                Atom('elem' type=inline),
+                #2,
+            ),
+            (
+                Atom('internalKey' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('internalKey' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('jQuery' type=inline),
+                #3,
+            ),
+            (
+                Atom('id' type=inline),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (

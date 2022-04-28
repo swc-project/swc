@@ -1,4 +1,89 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('value' type=inline),
+            #4,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('test2' type=inline),
+            #2,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #3,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('tokenCodes' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('value' type=inline),
+                #4,
+            ),
+            (
+                Atom('test2' type=inline),
+                #2,
+            ),
+            (
+                Atom('value' type=inline),
+                #3,
+            ),
+            (
+                Atom('test0' type=inline),
+                #2,
+            ),
+            (
+                Atom('test1' type=inline),
+                #2,
+            ),
+            (
+                Atom('value' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('test0' type=inline),
+            #2,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('test1' type=inline),
+            #2,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #5,
+        ): [
+            (
+                Atom('tokenCodes' type=dynamic),
+                #1,
+            ),
+        ],
+    },
     vars: [
         (
             (

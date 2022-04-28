@@ -1,4 +1,373 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('descriptor' type=dynamic),
+            #5,
+        ): [
+            (
+                Atom('props' type=inline),
+                #5,
+            ),
+            (
+                Atom('i' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('itemProps' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('keyPrefix' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('sectionPrefix' type=dynamic),
+                #22,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #5,
+        ): [
+            (
+                Atom('descriptor' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('isHighlighted' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('props' type=inline),
+            #5,
+        ): [
+            (
+                Atom('descriptor' type=dynamic),
+                #5,
+            ),
+        ],
+        (
+            Atom('renderItemData' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('source' type=inline),
+            #11,
+        ): [
+            (
+                Atom('i' type=inline),
+                #11,
+            ),
+            (
+                Atom('ownKeys' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('sectionIndex' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+            (
+                Atom('sectionPrefix' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('highlightedItemIndex' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('isFirst' type=inline),
+            #23,
+        ): [
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('renderItem' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #11,
+        ): [
+            (
+                Atom('source' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('theme' type=inline),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('sectionPrefix' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('keyPrefix' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('sectionIndex' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('itemKey' type=inline),
+                #23,
+            ),
+        ],
+        (
+            Atom('_props' type=inline),
+            #22,
+        ): [
+            (
+                Atom('items' type=inline),
+                #22,
+            ),
+            (
+                Atom('itemProps' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('renderItem' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('renderItemData' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('sectionIndex' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('highlightedItemIndex' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('getItemId' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('theme' type=inline),
+                #22,
+            ),
+            (
+                Atom('keyPrefix' type=dynamic),
+                #22,
+            ),
+        ],
+        (
+            Atom('itemPropsObj' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('itemIndex' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('itemProps' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('sectionIndex' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('Component' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ItemsList' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('ItemsList' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('Component' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('Item' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('ownKeys' type=inline),
+            #11,
+        ): [
+            (
+                Atom('source' type=inline),
+                #11,
+            ),
+            (
+                Atom('Object' type=static),
+                #3,
+            ),
+        ],
+        (
+            Atom('itemKey' type=inline),
+            #23,
+        ): [
+            (
+                Atom('itemIndex' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('sectionPrefix' type=dynamic),
+                #22,
+            ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('Item' type=inline),
+            #1,
+        ): [
+            (
+                Atom('ItemsList' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('items' type=inline),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('itemIndex' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('itemKey' type=inline),
+                #23,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('allItemProps' type=dynamic),
+                #23,
+            ),
+        ],
+        (
+            Atom('Object' type=static),
+            #3,
+        ): [
+            (
+                Atom('ownKeys' type=inline),
+                #11,
+            ),
+        ],
+        (
+            Atom('getItemId' type=dynamic),
+            #22,
+        ): [
+            (
+                Atom('_props' type=inline),
+                #22,
+            ),
+        ],
+        (
+            Atom('allItemProps' type=dynamic),
+            #23,
+        ): [
+            (
+                Atom('itemKey' type=inline),
+                #23,
+            ),
+            (
+                Atom('isFirst' type=inline),
+                #23,
+            ),
+            (
+                Atom('isHighlighted' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('itemIndex' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('itemPropsObj' type=dynamic),
+                #23,
+            ),
+            (
+                Atom('sectionIndex' type=dynamic),
+                #22,
+            ),
+        ],
+    },
     vars: [
         (
             (

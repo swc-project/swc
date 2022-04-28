@@ -1,4 +1,68 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('token' type=inline),
+            #3,
+        ): [
+            (
+                Atom('authenticate' type=dynamic),
+                #1,
+            ),
+        ],
+        (
+            Atom('team' type=inline),
+            #3,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #3,
+            ),
+            (
+                Atom('teamId' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('authenticate' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('token' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('ref' type=inline),
+            #3,
+        ): [
+            (
+                Atom('use_team' type=dynamic),
+                #1,
+            ),
+            (
+                Atom('team' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('teamId' type=inline),
+            #3,
+        ): [
+            (
+                Atom('team' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('use_team' type=dynamic),
+            #1,
+        ): [
+            (
+                Atom('ref' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

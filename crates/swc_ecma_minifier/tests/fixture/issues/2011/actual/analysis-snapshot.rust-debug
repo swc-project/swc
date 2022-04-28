@@ -1,4 +1,55 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('props' type=inline),
+            #4,
+        ): [
+            (
+                Atom('descriptor' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('ClassA' type=inline),
+            #7,
+        ): [
+            (
+                Atom('ClassA' type=inline),
+                #1,
+            ),
+        ],
+        (
+            Atom('descriptor' type=dynamic),
+            #4,
+        ): [
+            (
+                Atom('props' type=inline),
+                #4,
+            ),
+            (
+                Atom('i' type=inline),
+                #4,
+            ),
+        ],
+        (
+            Atom('i' type=inline),
+            #4,
+        ): [
+            (
+                Atom('descriptor' type=dynamic),
+                #4,
+            ),
+        ],
+        (
+            Atom('ClassA' type=inline),
+            #1,
+        ): [
+            (
+                Atom('ClassA' type=inline),
+                #7,
+            ),
+        ],
+    },
     vars: [
         (
             (

@@ -1,4 +1,388 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('tonemapping_pars_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('distanceRGBA_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('cube_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('tonemapping_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv2_pars_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('depth_vert' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('distanceRGBA_vert' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('shadowmap_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('linedashed_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('cube_vert' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('shadowmask_pars_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('ShaderChunk' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('tonemapping_pars_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('distanceRGBA_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('cube_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('tonemapping_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv2_pars_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('depth_vert' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('cube_vert' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('shadowmap_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('distanceRGBA_vert' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('linedashed_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('shadowmask_pars_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv2_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('depth_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('linedashed_vert' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv2_pars_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('meshphong_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('worldpos_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('skinbase_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('skinning_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('shadowmap_pars_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv_pars_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('equirect_vert' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('uv_pars_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('specularmap_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('skinnormal_vertex' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('equirect_frag' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('specularmap_pars_fragment' type=dynamic),
+                #6,
+            ),
+            (
+                Atom('skinning_pars_vertex' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv2_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('depth_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('linedashed_vert' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv2_pars_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('meshphong_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('worldpos_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('skinbase_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('skinning_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('shadowmap_pars_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv_pars_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('equirect_vert' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('uv_pars_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('specularmap_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('skinnormal_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('equirect_frag' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('specularmap_pars_fragment' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+        (
+            Atom('skinning_pars_vertex' type=dynamic),
+            #6,
+        ): [
+            (
+                Atom('ShaderChunk' type=dynamic),
+                #6,
+            ),
+        ],
+    },
     vars: [
         (
             (

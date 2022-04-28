@@ -1,4 +1,195 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('gen' type=inline),
+            #7,
+        ): [
+            (
+                Atom('args' type=inline),
+                #6,
+            ),
+            (
+                Atom('self' type=inline),
+                #6,
+            ),
+            (
+                Atom('fn' type=inline),
+                #5,
+            ),
+        ],
+        (
+            Atom('fn' type=inline),
+            #5,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('BrowserLoaded' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_2__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_callee' type=inline),
+                #11,
+            ),
+            (
+                Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('args' type=inline),
+            #6,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('__webpack_require__' type=dynamic),
+                #10,
+            ),
+            (
+                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('self' type=inline),
+            #6,
+        ): [
+            (
+                Atom('gen' type=inline),
+                #7,
+            ),
+        ],
+        (
+            Atom('arg' type=inline),
+            #3,
+        ): [
+            (
+                Atom('info' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('next_dynamic__WEBPACK_IMPORTED_MODULE_2__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('key' type=static),
+            #3,
+        ): [
+            (
+                Atom('info' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('_callee' type=inline),
+            #11,
+        ): [
+            (
+                Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('gen' type=inline),
+            #3,
+        ): [
+            (
+                Atom('info' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('value' type=inline),
+            #3,
+        ): [
+            (
+                Atom('info' type=inline),
+                #3,
+            ),
+        ],
+        (
+            Atom('__webpack_require__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__' type=dynamic),
+            #10,
+        ): [
+            (
+                Atom('BrowserLoaded' type=dynamic),
+                #10,
+            ),
+        ],
+        (
+            Atom('info' type=inline),
+            #3,
+        ): [
+            (
+                Atom('arg' type=inline),
+                #3,
+            ),
+            (
+                Atom('gen' type=inline),
+                #3,
+            ),
+            (
+                Atom('key' type=static),
+                #3,
+            ),
+            (
+                Atom('value' type=inline),
+                #3,
+            ),
+        ],
+    },
     vars: [
         (
             (

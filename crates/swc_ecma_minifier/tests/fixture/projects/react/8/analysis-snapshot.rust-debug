@@ -1,4 +1,120 @@
 TestSnapshot {
+    aliases: {
+        (
+            Atom('nameSoFar' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('childKey' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('childKey' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('nameSoFar' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('SEPARATOR' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('nextNamePrefix' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('iteratorFn' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iterator' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('_child' type=inline),
+            #2,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('mappedChild' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('mappedChild' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('_child' type=inline),
+                #2,
+            ),
+        ],
+        (
+            Atom('iterableChildren' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('children' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iterator' type=static),
+                #2,
+            ),
+        ],
+        (
+            Atom('iterator' type=static),
+            #2,
+        ): [
+            (
+                Atom('iteratorFn' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iterableChildren' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('nextNamePrefix' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('SEPARATOR' type=dynamic),
+                #2,
+            ),
+        ],
+        (
+            Atom('children' type=dynamic),
+            #2,
+        ): [
+            (
+                Atom('_child' type=inline),
+                #2,
+            ),
+            (
+                Atom('iteratorFn' type=dynamic),
+                #2,
+            ),
+            (
+                Atom('iterableChildren' type=dynamic),
+                #2,
+            ),
+        ],
+    },
     vars: [
         (
             (
