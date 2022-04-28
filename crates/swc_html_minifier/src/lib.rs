@@ -47,20 +47,6 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
-// TODO improve list - event handlers + remove multiple whitespace from class +
-// test for custom elements
-static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
-    "id",
-    "class",
-    "style",
-    "tabindex",
-    "maxlength",
-    "size",
-    "rows",
-    "cols",
-    "span",
-    "rowspan",
-    "colspan",
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onabort",
     "onauxclick",
@@ -154,6 +140,22 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onvisibilitychange",
 ];
 
+// TODO improve list - event handlers + remove multiple whitespace from class +
+// test for custom elements
+static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
+    "id",
+    "class",
+    "style",
+    "tabindex",
+    "maxlength",
+    "size",
+    "rows",
+    "cols",
+    "span",
+    "rowspan",
+    "colspan",
+];
+
 struct Minifier {}
 
 impl Minifier {
@@ -161,10 +163,12 @@ impl Minifier {
         BOOLEAN_ATTRIBUTES.contains(&name)
     }
 
-    fn allow_to_trim(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    }
+
+    fn allow_to_trim(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
