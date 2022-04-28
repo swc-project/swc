@@ -86,6 +86,7 @@ pub(crate) struct VarUsageInfo {
     /// ## Things to note
     ///
     /// - Update is counted as usage
+    /// - This includes indirect usages using aliases
     pub usage_count: usize,
 
     /// The variable itself is modified.
