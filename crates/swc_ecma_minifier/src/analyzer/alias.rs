@@ -10,6 +10,12 @@ pub(crate) struct AliasData {
     pub(super) aliases: FxHashMap<Id, Vec<Id>>,
 }
 
+impl AliasData {
+    pub fn is_infected(&self, id: &Id) -> bool {
+        self.aliases.contains_key(id)
+    }
+}
+
 pub(crate) struct AliasAnalyzer<'a> {
     pub data: &'a mut AliasData,
 }

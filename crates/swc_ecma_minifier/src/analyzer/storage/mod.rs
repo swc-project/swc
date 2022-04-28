@@ -3,13 +3,15 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
-use super::{ctx::Ctx, ScopeKind};
+use super::{alias::AliasData, ctx::Ctx, ScopeKind};
 
 pub mod normal;
 
 pub(crate) trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
+
+    fn alias_data(&mut self) -> &mut AliasData;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
@@ -60,8 +62,6 @@ pub(crate) trait VarDataLike: Sized {
 
     fn mark_mutated(&mut self);
     fn mark_reassigned_with_assign(&mut self);
-
-    fn add_infects(&mut self, other: Id);
 
     fn prevent_inline(&mut self);
 

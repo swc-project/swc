@@ -11,6 +11,10 @@ impl Storage for ProgramData {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
+    fn alias_data(&mut self) -> &mut crate::analyzer::alias::AliasData {
+        &mut self.alias
+    }
+
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
         self.scopes.entry(ctxt).or_default()
     }
@@ -64,8 +68,6 @@ impl Storage for ProgramData {
                     e.get_mut().usage_count += var_info.usage_count;
 
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
-
-                    e.get_mut().infects.extend(var_info.infects);
 
                     e.get_mut().no_side_effect_for_member_access =
                         e.get_mut().no_side_effect_for_member_access
@@ -218,7 +220,7 @@ impl ProgramData {
                 e.usage_count += 1;
             }
 
-            for other in e.infects.clone() {
+            for other in self.alias.aliases.get(&i).cloned().into_iter().flatten() {
                 self.report(other, ctx, true, dejavu)
             }
         } else {
@@ -266,10 +268,6 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_reassigned_with_assign(&mut self) {
         self.reassigned_with_assignment = true;
-    }
-
-    fn add_infects(&mut self, other: Id) {
-        self.infects.push(other);
     }
 
     fn prevent_inline(&mut self) {

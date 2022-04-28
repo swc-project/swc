@@ -37,7 +37,7 @@ where
                         && !v.used_as_arg
                         && !v.used_in_cond
                         && !v.reassigned()
-                        && !v.is_infected()
+                        && !self.data.alias.is_infected(&name.to_id())
                 })
                 .unwrap_or(false)
             {

@@ -4,18 +4,16 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, Id, IsEmpty};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 use self::{
+    alias::{AliasAnalyzer, AliasData},
     ctx::Ctx,
     storage::{Storage, *},
 };
-use crate::{
-    marks::Marks,
-    util::{can_end_conditionally, idents_used_by},
-};
+use crate::{marks::Marks, util::can_end_conditionally};
 
 pub(crate) mod alias;
 mod ctx;
@@ -26,6 +24,7 @@ mod tests;
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
+    N: for<'a> VisitWith<AliasAnalyzer<'a>>,
 {
     analyze_with_storage::<ProgramData, _>(n, marks)
 }
@@ -38,11 +37,18 @@ pub(crate) fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
+    N: for<'a> VisitWith<AliasAnalyzer<'a>>,
 {
     let _timer = timer!("analyze");
 
+    let mut data = S::default();
+
+    n.visit_with(&mut AliasAnalyzer {
+        data: &mut data.alias_data(),
+    });
+
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        data,
         marks,
         scope: Default::default(),
         ctx: Default::default(),
@@ -117,18 +123,11 @@ pub(crate) struct VarUsageInfo {
     pub used_as_arg: bool,
 
     pub pure_fn: bool,
-
-    /// In `c = b`, `b` infects `c`.
-    infects: Vec<Id>,
 }
 
 impl VarUsageInfo {
     pub fn is_mutated_only_by_one_call(&self) -> bool {
         self.assign_count == 0 && self.mutation_by_call_count == 1
-    }
-
-    pub fn is_infected(&self) -> bool {
-        !self.infects.is_empty()
     }
 
     pub fn reassigned(&self) -> bool {
@@ -152,6 +151,8 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
+    pub alias: AliasData,
+
     pub vars: AHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
@@ -964,21 +965,6 @@ where
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
-
-        for decl in &n.decls {
-            if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let used_idents = idents_used_by(init);
-                let excluded: AHashSet<Id> = collect_decls(init);
-
-                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
-                    self.data
-                        .var_or_default(id.clone())
-                        .add_infects(var.to_id());
-
-                    self.data.var_or_default(var.to_id()).add_infects(id);
-                }
-            }
-        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
