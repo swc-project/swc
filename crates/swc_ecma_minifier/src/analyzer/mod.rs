@@ -17,6 +17,7 @@ use crate::{
     util::{can_end_conditionally, idents_used_by},
 };
 
+pub(crate) mod alias;
 mod ctx;
 pub(crate) mod storage;
 #[cfg(test)]
