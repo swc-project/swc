@@ -333,7 +333,9 @@ where
                     Some(c)
                 }
 
-                Expr::Bin(e) => Some(expr_cost(&e.left)? + expr_cost(&e.right)? + 2),
+                Expr::Bin(e) => {
+                    Some(expr_cost(&e.left)? + expr_cost(&e.right)? + e.op.as_str().len())
+                }
 
                 Expr::Update(e) => Some(expr_cost(&e.arg)? + 2),
 
