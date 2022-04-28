@@ -349,11 +349,18 @@ where
                     e.left.as_ident().is_some() && is_expr_simple_enough(&e.right, opts)
                 }
 
-                Expr::Seq(e) => e
-                    .exprs
-                    .iter()
-                    .map(|v| &**v)
-                    .all(|e| is_expr_simple_enough(e, opts)),
+                Expr::Seq(e) => {
+                    e.exprs.len() <= 2
+                        && e.exprs.iter().map(|v| &**v).all(|e| {
+                            is_expr_simple_enough(
+                                e,
+                                Opts {
+                                    disallow_call: true,
+                                    ..opts
+                                },
+                            )
+                        })
+                }
 
                 _ => false,
             }
