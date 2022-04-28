@@ -27,7 +27,7 @@ use tracing::{debug, error};
 pub(crate) use self::pure::pure_optimizer;
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
-    analyzer::{analyze, UsageAnalyzer},
+    analyzer::{alias::AliasAnalyzer, analyze, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
     marks::Marks,
@@ -179,7 +179,8 @@ where
         N: CompileUnit
             + VisitWith<UsageAnalyzer>
             + for<'aa> VisitMutWith<Compressor<'aa, M>>
-            + VisitWith<AssertValid>,
+            + VisitWith<AssertValid>
+            + for<'aa> VisitWith<AliasAnalyzer<'aa>>,
     {
         trace_op!(
             "Optimizing a compile unit within `{:?}`",
@@ -226,7 +227,8 @@ where
         N: CompileUnit
             + VisitWith<UsageAnalyzer>
             + for<'aa> VisitMutWith<Compressor<'aa, M>>
-            + VisitWith<AssertValid>,
+            + VisitWith<AssertValid>
+            + for<'aa> VisitWith<AliasAnalyzer<'aa>>,
     {
         let _timer = timer!("optimize", pass = self.pass);
 

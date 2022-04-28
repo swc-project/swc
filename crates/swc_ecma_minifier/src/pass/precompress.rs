@@ -5,7 +5,7 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
-    analyzer::{analyze, ProgramData, UsageAnalyzer},
+    analyzer::{alias::AliasAnalyzer, analyze, ProgramData, UsageAnalyzer},
     marks::Marks,
     option::CompressOptions,
     util::ModuleItemExt,
@@ -43,7 +43,9 @@ impl PrecompressOptimizer<'_> {
     fn handle_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
-        Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
+        Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>>
+            + VisitWith<UsageAnalyzer>
+            + for<'aa> VisitWith<AliasAnalyzer<'aa>>,
     {
         if self.data.is_some() {
             stmts.visit_mut_children_with(self);
