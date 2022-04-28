@@ -3060,9 +3060,10 @@
                     ];
                 },
                 useRef: function(a) {
+                    var b = $h();
                     return a = {
                         current: a
-                    }, $h().memoizedState = a;
+                    }, b.memoizedState = a;
                 },
                 useState: mi,
                 useDebugValue: wi,

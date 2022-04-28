@@ -13501,9 +13501,10 @@
                 }, R.updateQueue = b, b.lastEffect = a.next = a) : null === (c = b.lastEffect) ? b.lastEffect = a.next = a : (d = c.next, c.next = a, a.next = d, b.lastEffect = a), a;
             }
             function Sh(a) {
+                var b = Hh();
                 return a = {
                     current: a
-                }, Hh().memoizedState = a;
+                }, b.memoizedState = a;
             }
             function Th() {
                 return Ih().memoizedState;

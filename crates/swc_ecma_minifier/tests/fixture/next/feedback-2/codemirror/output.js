@@ -2561,14 +2561,14 @@
     function setSelectionNoUndo(doc, sel, options) {
         if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
             var doc6, sel3, options2, obj;
-            sel = (doc6 = doc, sel3 = sel, options2 = options, (signal(doc6, "beforeSelectionChange", doc6, obj = {
+            sel = (doc6 = doc, sel3 = sel, options2 = options, obj = {
                 ranges: sel3.ranges,
                 update: function(ranges) {
                     this.ranges = [];
                     for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc6, ranges[i].anchor), clipPos(doc6, ranges[i].head));
                 },
                 origin: options2 && options2.origin
-            }), doc6.cm && signal(doc6.cm, "beforeSelectionChange", doc6.cm, obj), obj.ranges != sel3.ranges) ? normalizeSelection(doc6.cm, obj.ranges, obj.ranges.length - 1) : sel3);
+            }, (signal(doc6, "beforeSelectionChange", doc6, obj), doc6.cm && signal(doc6.cm, "beforeSelectionChange", doc6.cm, obj), obj.ranges != sel3.ranges) ? normalizeSelection(doc6.cm, obj.ranges, obj.ranges.length - 1) : sel3);
         }
         var bias = options && options.bias || (0 > cmp(sel.primary().head, doc.sel.primary().head) ? -1 : 1);
         setSelectionInner(doc, skipAtomicInSelection(doc, sel, bias, !0)), !(options && !1 === options.scroll) && doc.cm && "nocursor" != doc.cm.getOption("readOnly") && ensureCursorVisible(doc.cm);

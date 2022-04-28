@@ -6503,10 +6503,10 @@
         return workInProgress.memoizedState = null, _primaryChildFragment6;
     }
     function mountSuspensePrimaryChildren(workInProgress, primaryChildren, renderLanes) {
-        var primaryChildFragment = createFiberFromOffscreen({
+        var mode = workInProgress.mode, primaryChildFragment = createFiberFromOffscreen({
             mode: 'visible',
             children: primaryChildren
-        }, workInProgress.mode, renderLanes, null);
+        }, mode, renderLanes, null);
         return primaryChildFragment.return = workInProgress, workInProgress.child = primaryChildFragment, primaryChildFragment;
     }
     function mountSuspenseFallbackChildren(workInProgress, primaryChildren, fallbackChildren, renderLanes) {
