@@ -294,7 +294,12 @@ where
 
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
-        fn is_expr_simple_enough(e: &Expr) -> bool {
+        #[derive(Debug, Default, Clone, Copy)]
+        struct Opts {
+            disallow_call: bool,
+        }
+
+        fn is_expr_simple_enough(e: &Expr, opts: Opts) -> bool {
             match e {
                 Expr::Lit(..) => true,
                 Expr::Ident(..) => true,
@@ -309,23 +314,45 @@ where
                     ..
                 }) => false,
 
-                Expr::Unary(UnaryExpr { arg, .. }) => is_expr_simple_enough(arg),
+                Expr::Unary(UnaryExpr { arg, .. }) => is_expr_simple_enough(arg, opts),
 
                 Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
                     args,
                     ..
-                }) => {
-                    is_expr_simple_enough(callee)
-                        && args.iter().all(|arg| is_expr_simple_enough(&arg.expr))
+                }) if !opts.disallow_call => {
+                    is_expr_simple_enough(
+                        callee,
+                        Opts {
+                            disallow_call: true,
+                            ..opts
+                        },
+                    ) && args.iter().all(|arg| {
+                        is_expr_simple_enough(
+                            &arg.expr,
+                            Opts {
+                                disallow_call: true,
+                                ..opts
+                            },
+                        )
+                    })
                 }
 
-                Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
+                Expr::Bin(e) => {
+                    is_expr_simple_enough(&e.left, opts) && is_expr_simple_enough(&e.right, opts)
+                }
 
-                Expr::Update(e) => is_expr_simple_enough(&e.arg),
+                Expr::Update(e) => is_expr_simple_enough(&e.arg, opts),
 
-                Expr::Assign(e) => e.left.as_ident().is_some() && is_expr_simple_enough(&e.right),
-                Expr::Seq(e) => e.exprs.iter().map(|v| &**v).all(is_expr_simple_enough),
+                Expr::Assign(e) => {
+                    e.left.as_ident().is_some() && is_expr_simple_enough(&e.right, opts)
+                }
+
+                Expr::Seq(e) => e
+                    .exprs
+                    .iter()
+                    .map(|v| &**v)
+                    .all(|e| is_expr_simple_enough(e, opts)),
 
                 _ => false,
             }
@@ -334,14 +361,14 @@ where
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if is_expr_simple_enough(expr) {
+                    if is_expr_simple_enough(expr, Default::default()) {
                         return true;
                     }
                 }
 
                 Stmt::Return(ReturnStmt { arg, .. }) => {
                     if let Some(e) = arg.as_deref() {
-                        if is_expr_simple_enough(e) {
+                        if is_expr_simple_enough(e, Default::default()) {
                             return true;
                         }
                     }
