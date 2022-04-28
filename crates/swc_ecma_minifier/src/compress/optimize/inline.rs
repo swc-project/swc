@@ -303,6 +303,10 @@ where
                 Expr::Bin(BinExpr {
                     op: op!("instanceof"),
                     ..
+                })
+                | Expr::Unary(UnaryExpr {
+                    op: op!("typeof") | op!("void") | op!("delete"),
+                    ..
                 }) => false,
 
                 Expr::Unary(UnaryExpr { arg, .. }) => is_expr_simple_enough(arg),
