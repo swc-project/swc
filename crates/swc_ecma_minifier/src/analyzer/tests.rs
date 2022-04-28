@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use rustc_hash::FxHashMap;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Id;
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
@@ -51,6 +52,7 @@ fn snapshot(input: PathBuf) {
 
         // Iteration order of hashmap is not deterministic
         let mut snapshot = TestSnapshot {
+            aliases: data.alias.aliases,
             vars: data
                 .vars
                 .into_iter()
@@ -73,7 +75,9 @@ fn snapshot(input: PathBuf) {
     .unwrap()
 }
 
+#[allow(unused)]
 #[derive(Debug)]
 struct TestSnapshot {
+    aliases: FxHashMap<Id, Vec<Id>>,
     vars: Vec<(Id, VarUsageInfo)>,
 }
