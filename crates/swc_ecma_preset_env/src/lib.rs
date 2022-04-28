@@ -339,8 +339,11 @@ impl Fold for Polyfills {
                         v.required
                     }
                     Version { major: 3, .. } => {
-                        let mut v =
-                            corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
+                        let mut v = corejs3::UsageVisitor::new(
+                            self.targets,
+                            self.shipped_proposals,
+                            self.corejs,
+                        );
                         m.visit_with(&mut v);
                         v.required
                     }
