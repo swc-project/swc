@@ -35,7 +35,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -73,7 +72,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -111,7 +109,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -149,7 +146,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -187,7 +183,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -227,7 +222,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -265,7 +259,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -305,7 +298,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -321,7 +313,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 0,
                 mutation_by_call_count: 2,
                 usage_count: 26,
                 reassigned_with_assignment: false,
@@ -343,7 +335,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -381,7 +372,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -419,7 +409,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -457,7 +446,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -497,7 +485,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -535,7 +522,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -573,7 +559,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -611,7 +596,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -649,7 +633,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -689,7 +672,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -727,7 +709,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -765,7 +746,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -805,7 +785,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -843,7 +822,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -881,7 +859,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -919,7 +896,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -957,7 +933,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -995,7 +970,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1033,7 +1007,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1071,7 +1044,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1109,7 +1081,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1147,7 +1118,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1185,7 +1155,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1223,7 +1192,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1261,7 +1229,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1299,7 +1266,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1339,7 +1305,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1379,7 +1344,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1417,7 +1381,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1455,7 +1418,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1495,7 +1457,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1535,7 +1496,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1573,7 +1533,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1611,7 +1570,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1651,7 +1609,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1691,7 +1648,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1731,7 +1687,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1771,7 +1726,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1809,7 +1763,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1847,7 +1800,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1885,7 +1837,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1925,7 +1876,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -1965,7 +1915,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2003,7 +1952,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2043,7 +1991,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2083,7 +2030,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2121,7 +2067,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2161,7 +2106,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2201,7 +2145,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2239,7 +2182,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2277,7 +2219,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2315,7 +2256,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2355,7 +2295,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2395,7 +2334,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2433,7 +2371,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2473,7 +2410,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2513,7 +2449,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2553,7 +2488,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2593,7 +2527,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2631,7 +2564,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2671,7 +2603,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2711,7 +2642,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2751,7 +2681,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2789,7 +2718,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2827,7 +2755,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2867,7 +2794,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2907,7 +2833,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2947,7 +2872,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -2987,7 +2911,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3027,7 +2950,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3067,7 +2989,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3105,7 +3026,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3143,7 +3063,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3181,7 +3100,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3221,7 +3139,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3261,7 +3178,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3301,7 +3217,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3339,7 +3254,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3377,7 +3291,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3415,7 +3328,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3453,7 +3365,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3491,7 +3402,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3529,7 +3439,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3567,7 +3476,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3605,7 +3513,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3643,7 +3550,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3681,7 +3587,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3719,7 +3624,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3735,7 +3639,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 1,
+                assign_count: 0,
                 mutation_by_call_count: 3,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -3757,7 +3661,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3795,7 +3698,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3833,7 +3735,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3871,7 +3772,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3909,7 +3809,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3947,7 +3846,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -3985,7 +3883,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4025,7 +3922,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4065,7 +3961,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4103,7 +3998,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4143,7 +4037,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4183,7 +4076,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4223,7 +4115,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4261,7 +4152,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4299,7 +4189,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4337,7 +4226,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4377,7 +4265,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4417,7 +4304,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4455,7 +4341,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4493,7 +4378,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4531,7 +4415,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4569,7 +4452,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4609,7 +4491,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4647,7 +4528,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4685,7 +4565,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4723,7 +4602,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4763,7 +4641,6 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -4801,7 +4678,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
     ],

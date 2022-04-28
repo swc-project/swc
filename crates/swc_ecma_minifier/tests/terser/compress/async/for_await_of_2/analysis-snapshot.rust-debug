@@ -35,7 +35,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -75,7 +74,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -115,7 +113,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -155,7 +152,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -195,7 +191,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -235,7 +230,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -275,7 +269,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -315,7 +308,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -353,7 +345,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -391,7 +382,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -431,7 +421,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
     ],

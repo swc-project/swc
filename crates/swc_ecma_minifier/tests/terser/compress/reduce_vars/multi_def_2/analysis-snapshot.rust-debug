@@ -37,7 +37,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -77,7 +76,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -115,7 +113,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -153,7 +150,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -191,7 +187,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -231,7 +226,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
         (
@@ -247,7 +241,7 @@ TestSnapshot {
                 declared_count: 3,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-                assign_count: 4,
+                assign_count: 2,
                 mutation_by_call_count: 0,
                 usage_count: 0,
                 reassigned_with_assignment: false,
@@ -261,7 +255,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: Some(
                     "var",
                 ),
@@ -271,7 +265,6 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [],
             },
         ),
     ],
