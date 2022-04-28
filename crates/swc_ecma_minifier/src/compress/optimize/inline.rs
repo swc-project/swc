@@ -352,18 +352,24 @@ where
             }
         }
 
+        let cost_limit = 3 + param_count * 2;
+
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if is_expr_simple_enough(expr, Default::default()) {
-                        return true;
+                    if let Some(cost) = expr_cost(expr) {
+                        if cost < cost_limit {
+                            return true;
+                        }
                     }
                 }
 
                 Stmt::Return(ReturnStmt { arg, .. }) => {
                     if let Some(e) = arg.as_deref() {
-                        if is_expr_simple_enough(e, Default::default()) {
-                            return true;
+                        if let Some(cost) = expr_cost(e) {
+                            if cost < cost_limit {
+                                return true;
+                            }
                         }
                     }
                 }
