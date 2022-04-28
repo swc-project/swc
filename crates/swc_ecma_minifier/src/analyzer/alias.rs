@@ -16,48 +16,82 @@ impl AliasData {
     }
 }
 
+fn leftmost_of_expr(e: &Expr) -> Option<Id> {
+    match e {
+        Expr::Ident(i) => Some(i.to_id()),
+        Expr::Member(e) => leftmost_of_expr(&e.obj),
+        _ => None,
+    }
+}
+
+fn leftmost_of_pat(e: &Pat) -> Option<Id> {
+    match e {
+        Pat::Ident(e) => Some(e.to_id()),
+        Pat::Expr(e) => leftmost_of_expr(e),
+        _ => None,
+    }
+}
+
+fn leftmost(e: &PatOrExpr) -> Option<Id> {
+    match e {
+        PatOrExpr::Expr(e) => leftmost_of_expr(e),
+        PatOrExpr::Pat(p) => leftmost_of_pat(p),
+    }
+}
+
 pub(crate) struct AliasAnalyzer<'a> {
     pub data: &'a mut AliasData,
 }
 
+impl AliasAnalyzer<'_> {
+    fn add_alias(&mut self, l: Id, r: &Expr) {
+        let local_bindings = collect_decls(r);
+
+        let used_idents = {
+            let mut v = AliasCollector {
+                ids: Default::default(),
+                excluded: &local_bindings,
+            };
+            r.visit_with(&mut v);
+            v.ids
+        };
+
+        for id in used_idents {
+            {
+                let v = self.data.aliases.entry(id.clone()).or_default();
+                if !v.contains(&l) {
+                    v.push(l.clone());
+                }
+            }
+            {
+                let v = self.data.aliases.entry(l.clone()).or_default();
+                if !v.contains(&id) {
+                    v.push(id);
+                }
+            }
+        }
+    }
+}
+
 impl Visit for AliasAnalyzer<'_> {
     noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        n.visit_children_with(self);
+
+        let left = leftmost(&n.left);
+
+        if let Some(left) = left {
+            self.add_alias(left, &n.right);
+        }
+    }
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
         n.visit_children_with(self);
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let local_bindings = collect_decls(init);
-
-                let used_idents = {
-                    let mut v = AliasCollector {
-                        ids: Default::default(),
-                        excluded: &local_bindings,
-                    };
-                    init.visit_with(&mut v);
-                    v.ids
-                };
-
-                // This prints only while testing analyzer
-                if cfg!(test) {
-                    dbg!(&var.id, &used_idents);
-                }
-
-                for id in used_idents {
-                    {
-                        let v = self.data.aliases.entry(id.clone()).or_default();
-                        if !v.contains(&var.id.to_id()) {
-                            v.push(var.id.to_id());
-                        }
-                    }
-                    {
-                        let v = self.data.aliases.entry(var.id.to_id()).or_default();
-                        if !v.contains(&id) {
-                            v.push(id);
-                        }
-                    }
-                }
+                self.add_alias(var.to_id(), init);
             }
         }
     }
