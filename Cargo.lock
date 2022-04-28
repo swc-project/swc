@@ -3454,6 +3454,7 @@ dependencies = [
  "once_cell",
  "phf",
  "rayon",
+ "rustc-hash",
  "serde",
  "smallvec",
  "swc_atoms",

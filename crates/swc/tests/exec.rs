@@ -213,6 +213,8 @@ fn test_file_with_opts(
                 idx,
                 res.code
             );
+            println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
+            println!("target: {:?}", opts.config.jsc.target.unwrap());
 
             let actual_stdout = stdout_of(
                 &res.code,

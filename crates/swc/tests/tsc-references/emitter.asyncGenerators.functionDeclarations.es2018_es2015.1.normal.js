@@ -35,9 +35,9 @@ function f4() {
 function _f4() {
     _f4 = // @filename: F4.ts
     swcHelpers.wrapAsyncGenerator(function*() {
-        const x = yield* [
+        const x = yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             1
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return _f4.apply(this, arguments);
 }
@@ -47,9 +47,9 @@ function f5() {
 function _f5() {
     _f5 = // @filename: F5.ts
     swcHelpers.wrapAsyncGenerator(function*() {
-        const x = yield* swcHelpers.wrapAsyncGenerator(function*() {
+        const x = yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield 1;
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return _f5.apply(this, arguments);
 }

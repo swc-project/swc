@@ -7,7 +7,7 @@ function _inferReturnType1() {
     // @lib: esnext
     // @noEmit: true
     swcHelpers.wrapAsyncGenerator(function*() {
-        yield* {};
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator({}), swcHelpers.awaitAsyncGenerator);
     });
     return _inferReturnType1.apply(this, arguments);
 }
@@ -16,7 +16,7 @@ function inferReturnType2() {
 }
 function _inferReturnType2() {
     _inferReturnType2 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* inferReturnType2();
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(inferReturnType2()), swcHelpers.awaitAsyncGenerator);
     });
     return _inferReturnType2.apply(this, arguments);
 }
@@ -25,10 +25,10 @@ function inferReturnType3() {
 }
 function _inferReturnType3() {
     _inferReturnType3 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* Promise.resolve([
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(Promise.resolve([
             1,
             2
-        ]);
+        ])), swcHelpers.awaitAsyncGenerator);
     });
     return _inferReturnType3.apply(this, arguments);
 }
@@ -42,10 +42,10 @@ const assignability1 = function() {
 }();
 const assignability2 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability2() {
         return _ref.apply(this, arguments);
@@ -53,9 +53,9 @@ const assignability2 = function() {
 }();
 const assignability3 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability3() {
         return _ref.apply(this, arguments);
@@ -71,10 +71,10 @@ const assignability4 = function() {
 }();
 const assignability5 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability5() {
         return _ref.apply(this, arguments);
@@ -82,9 +82,9 @@ const assignability5 = function() {
 }();
 const assignability6 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability6() {
         return _ref.apply(this, arguments);
@@ -100,10 +100,10 @@ const assignability7 = function() {
 }();
 const assignability8 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability8() {
         return _ref.apply(this, arguments);
@@ -111,9 +111,9 @@ const assignability8 = function() {
 }();
 const assignability9 = function() {
     var _ref = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return function assignability9() {
         return _ref.apply(this, arguments);
@@ -133,10 +133,10 @@ function explicitReturnType2() {
 }
 function _explicitReturnType2() {
     _explicitReturnType2 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType2.apply(this, arguments);
 }
@@ -145,9 +145,9 @@ function explicitReturnType3() {
 }
 function _explicitReturnType3() {
     _explicitReturnType3 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType3.apply(this, arguments);
 }
@@ -165,10 +165,10 @@ function explicitReturnType5() {
 }
 function _explicitReturnType5() {
     _explicitReturnType5 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType5.apply(this, arguments);
 }
@@ -177,9 +177,9 @@ function explicitReturnType6() {
 }
 function _explicitReturnType6() {
     _explicitReturnType6 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType6.apply(this, arguments);
 }
@@ -197,10 +197,10 @@ function explicitReturnType8() {
 }
 function _explicitReturnType8() {
     _explicitReturnType8 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* [
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
             "a",
             "b"
-        ];
+        ]), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType8.apply(this, arguments);
 }
@@ -209,9 +209,9 @@ function explicitReturnType9() {
 }
 function _explicitReturnType9() {
     _explicitReturnType9 = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* swcHelpers.wrapAsyncGenerator(function*() {
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(function*() {
             yield "a";
-        })();
+        })()), swcHelpers.awaitAsyncGenerator);
     });
     return _explicitReturnType9.apply(this, arguments);
 }
@@ -247,7 +247,7 @@ function yieldStar() {
 }
 function _yieldStar() {
     _yieldStar = swcHelpers.wrapAsyncGenerator(function*() {
-        yield* {};
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator({}), swcHelpers.awaitAsyncGenerator);
     });
     return _yieldStar.apply(this, arguments);
 }

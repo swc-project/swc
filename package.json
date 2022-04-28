@@ -83,7 +83,7 @@
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
         "@napi-rs/cli": "^2.4.5",
-        "@swc/helpers": "^0.2.10",
+        "@swc/helpers": "^0.3.8",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^26.0.23",
         "@types/node": "^14.14.41",
