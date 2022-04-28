@@ -9,7 +9,7 @@ use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
-use super::compat::DATA as CORE_JS_COMPAT_DATA;
+use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
 static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
     serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!(
@@ -18,23 +18,6 @@ static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
     .expect("failed to parse entries.json from core js 3")
     .into_iter()
     .map(|(k, v)| {
-        (
-            k,
-            v.into_iter()
-                .map(|s: String| &*Box::leak(s.into_boxed_str()))
-                .collect::<Vec<_>>(),
-        )
-    })
-    .collect()
-});
-
-static MODULES_BY_VERSION: Lazy<AHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<_, _>>(include_str!(
-        "../../data/core-js-compat/modules-by-versions.json"
-    ))
-    .expect("failed to parse modules-by-versions.json")
-    .into_iter()
-    .map(|(k, v): (Version, Vec<String>)| {
         (
             k,
             v.into_iter()
@@ -94,15 +77,8 @@ impl Entry {
                     }
                 }
 
-                //                println!("{} -> {}", src, f);
-
-                for (_, features) in MODULES_BY_VERSION
-                    .iter()
-                    .filter(|(version, _features)| *corejs_version < **version)
-                {
-                    if features.contains(*f) {
-                        return false;
-                    }
+                if let Some(version) = MODULES_BY_VERSION.get(**f) {
+                    return version <= corejs_version;
                 }
 
                 true

@@ -1,11 +1,11 @@
 use indexmap::IndexSet;
-use preset_env_base::version::should_enable;
+use preset_env_base::version::{should_enable, Version};
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::data::BUILTINS;
+use super::data::{BUILTINS, MODULES_BY_VERSION};
 use crate::{
     corejs3::{
         compat::DATA as CORE_JS_COMPAT_DATA,
@@ -22,11 +22,12 @@ pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
+    corejs_version: Version,
     pub required: IndexSet<&'static str, ahash::RandomState>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions, shipped_proposals: bool) -> Self {
+    pub fn new(target: Versions, shipped_proposals: bool, corejs_version: Version) -> Self {
         //        let mut v = Self { required: vec![] };
         //
         //
@@ -50,6 +51,7 @@ impl UsageVisitor {
             shipped_proposals,
             is_any_target: target.is_any_target(),
             target,
+            corejs_version,
             required: Default::default(),
         }
     }
@@ -60,6 +62,7 @@ impl UsageVisitor {
             shipped_proposals,
             is_any_target,
             target,
+            corejs_version,
             ..
         } = self;
 
@@ -76,6 +79,10 @@ impl UsageVisitor {
                         return false;
                     }
                 }
+            }
+
+            if let Some(version) = MODULES_BY_VERSION.get(**f) {
+                return version <= corejs_version;
             }
 
             true

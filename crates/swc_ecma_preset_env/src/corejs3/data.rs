@@ -1,3 +1,7 @@
+use once_cell::sync::Lazy;
+use preset_env_base::version::Version;
+use swc_common::collections::AHashMap;
+
 use crate::util::{DataMap, FeatureMap};
 
 pub static COMMON_ITERATORS: &[&str] = &[
@@ -468,7 +472,8 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
 });
 
 pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
-    at: ["es.string.at"],
+    // TODO: check type of variable
+    at: ["es.string.at-alternative", "es.array.at"],
     anchor: ["es.string.anchor"],
     big: ["es.string.big"],
     bind: ["es.function.bind"],
@@ -924,3 +929,17 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
 //];
 
 pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];
+
+pub static MODULES_BY_VERSION: Lazy<AHashMap<&'static str, Version>> = Lazy::new(|| {
+    serde_json::from_str::<AHashMap<_, _>>(include_str!(
+        "../../data/core-js-compat/modules-by-versions.json"
+    ))
+    .expect("failed to parse modules-by-versions.json")
+    .into_iter()
+    .flat_map(|(k, v): (Version, Vec<String>)| {
+        v.into_iter()
+            .map(|s: String| (&*Box::leak(s.into_boxed_str()), k))
+            .collect::<Vec<_>>()
+    })
+    .collect()
+});
