@@ -50,6 +50,8 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
 // TODO improve list + event handlers
 static CAN_BE_EMPTY_ATTRIBUTES: &[&str] = &["id", "class", "style"];
 
+static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &["id", "class"];
+
 struct Minifier {}
 
 impl Minifier {
@@ -59,6 +61,10 @@ impl Minifier {
 
     fn can_be_empty(&self, name: &str) -> bool {
         CAN_BE_EMPTY_ATTRIBUTES.contains(&name)
+    }
+
+    fn allow_to_trim(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -198,12 +204,23 @@ impl VisitMut for Minifier {
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
         n.visit_mut_children_with(self);
 
-        match &n.name {
-            name if n.value.is_some() && self.is_boolean_attribute(name) => {
-                n.value = None;
-            }
-            _ => {}
+        if n.value.is_none() {
+            return;
         }
+
+        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
+
+        if self.allow_to_trim(&n.name) {
+            value = value.trim();
+        }
+
+        if self.is_boolean_attribute(&n.name) {
+            n.value = None;
+
+            return;
+        }
+
+        n.value = Some(value.into());
     }
 }
 
