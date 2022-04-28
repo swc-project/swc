@@ -345,14 +345,14 @@ function _f2() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     // yield* over iterable
-                    return _ctx.delegateYield(g1, "t0", 1);
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g1), swcHelpers.awaitAsyncGenerator), "t0", 1);
                 case 1:
-                    return _ctx.delegateYield(g3, "t1", 2);
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g3), swcHelpers.awaitAsyncGenerator), "t1", 2);
                 case 2:
                     // yield* over asynciterable
-                    return _ctx.delegateYield(g4, "t2", 3);
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g4), swcHelpers.awaitAsyncGenerator), "t2", 3);
                 case 3:
-                    return _ctx.delegateYield(g6, "t3", 4);
+                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g6), swcHelpers.awaitAsyncGenerator), "t3", 4);
                 case 4:
                 case "end":
                     return _ctx.stop();

@@ -134,11 +134,11 @@ function f2() {
 function _f2() {
     _f2 = swcHelpers.wrapAsyncGenerator(function*() {
         // yield* over iterable
-        yield* g1; // error
-        yield* g3; // ok
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g1), swcHelpers.awaitAsyncGenerator); // error
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g3), swcHelpers.awaitAsyncGenerator); // ok
         // yield* over asynciterable
-        yield* g4; // error
-        yield* g6; // ok
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g4), swcHelpers.awaitAsyncGenerator); // error
+        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g6), swcHelpers.awaitAsyncGenerator); // ok
     });
     return _f2.apply(this, arguments);
 }
