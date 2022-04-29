@@ -25,6 +25,9 @@
 
 - **(html/minifier)** Remove `javascript:` prefix (#4460) ([a1877e7](https://github.com/swc-project/swc/commit/a1877e740acf6bf51421b97c27236b0f208eaf9d))
 
+
+- **(html/minifier)** Remove duplicate attributes (#4474) ([750d655](https://github.com/swc-project/swc/commit/750d6551fcbdf9c0664bfa6ad97d394ba6c641de))
+
 ### Miscellaneous Tasks
 
 
