@@ -1,5 +1,7 @@
 #![deny(clippy::all)]
 
+use swc_atoms::JsWord;
+use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
@@ -280,28 +282,32 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+
+        let mut already_seen: AHashSet<JsWord> = Default::default();
+
         n.attributes.retain(|attribute| {
+            if already_seen.contains(&attribute.name) {
+                return false;
+            }
+
+            already_seen.insert(attribute.name.clone());
+
             if attribute.value.is_none() {
                 return true;
             }
 
-            match &*attribute.name {
-                _ if self.is_default_attribute_value(
-                    n.namespace,
-                    &n.tag_name,
-                    &attribute.name,
-                    attribute.value.as_ref().unwrap(),
-                ) =>
-                {
-                    false
-                }
-                _ if matches!(&*attribute.name, "id" | "class" | "style")
-                    && (&*attribute.value.as_ref().unwrap()).trim().is_empty() =>
-                {
-                    false
-                }
-                _ => true,
+            if self.is_default_attribute_value(
+                n.namespace,
+                &n.tag_name,
+                &attribute.name,
+                attribute.value.as_ref().unwrap(),
+            ) || (matches!(&*attribute.name, "id" | "class" | "style")
+                && (&*attribute.value.as_ref().unwrap()).trim().is_empty())
+            {
+                return false;
             }
+
+            true
         });
     }
 
