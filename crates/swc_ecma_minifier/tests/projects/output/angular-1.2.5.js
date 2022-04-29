@@ -909,7 +909,7 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout;
+            var interval, setTimeout;
             return isUndefined(pollTimeout) && (setTimeout = setTimeout1, forEach(pollFns, function(pollFn) {
                 pollFn();
             }), pollTimeout = setTimeout(check, 100)), pollFns.push(fn), fn;
@@ -2949,6 +2949,7 @@
             adjustedMatchers.push(function(matcher) {
                 if ('self' === matcher) return matcher;
                 if (isString(matcher)) {
+                    var s;
                     if (matcher.indexOf('***') > -1) throw $sceMinErr('iwcard', 'Illegal sequence *** in string matcher.  String: {0}', matcher);
                     return matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, '\\$1').replace(/\x08/g, '\\x08').replace('\\*\\*', '.*').replace('\\*', '[^:/.?&;]*'), new RegExp('^' + matcher + '$');
                 }
@@ -3461,11 +3462,11 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var queue = errors[validationToken];
+            var array, obj, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
-                    if (-1 != indexOf(queue, control)) return;
+                    if (-1 != indexOf(array = queue, control)) return;
                 } else errors[validationToken] = queue = [], invalidCount++, toggleValidCss(!1, validationToken), parentForm.$setValidity(validationToken, !1, form);
                 queue.push(control), form.$valid = !1, form.$invalid = !0;
             }

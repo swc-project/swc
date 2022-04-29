@@ -20,8 +20,11 @@
                     default:
                         return source;
                 }
-                for(const prop in source)source.hasOwnProperty(prop) && '__proto__' !== prop && (target[prop] = deepExtend(target[prop], source[prop]));
+                for(const prop in source)source.hasOwnProperty(prop) && isValidKey(prop) && (target[prop] = deepExtend(target[prop], source[prop]));
                 return target;
+            }
+            function isValidKey(key) {
+                return '__proto__' !== key;
             }
             function getUA() {
                 return 'undefined' != typeof navigator && 'string' == typeof navigator.userAgent ? navigator.userAgent : '';
