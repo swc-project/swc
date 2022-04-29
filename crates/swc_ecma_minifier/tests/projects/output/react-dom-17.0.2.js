@@ -8932,15 +8932,7 @@
     }
     hasBadMapPolyfill = !1;
     try {
-        var nonExtensibleObject = Object.preventExtensions({});
-        new Map([
-            [
-                nonExtensibleObject,
-                null
-            ]
-        ]), new Set([
-            nonExtensibleObject
-        ]);
+        Object.preventExtensions({});
     } catch (e) {
         hasBadMapPolyfill = !0;
     }

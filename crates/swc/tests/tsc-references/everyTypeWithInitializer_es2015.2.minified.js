@@ -6,5 +6,5 @@ class C {
     }, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), new Object(), new C(), new C(), new class {
+}(M || (M = {})), new C(), new C(), new class {
 }(), new M.A(), M.F2;

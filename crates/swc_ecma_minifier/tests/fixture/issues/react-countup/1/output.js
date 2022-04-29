@@ -312,9 +312,7 @@
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
-            var loadedImageURLs = new Set();
-            new Map();
-            var emptyDataURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', loaders = new Map([
+            var loadedImageURLs = new Set(), emptyDataURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', loaders = new Map([
                 [
                     'default',
                     function(param) {
