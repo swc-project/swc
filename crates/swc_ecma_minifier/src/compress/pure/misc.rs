@@ -806,7 +806,7 @@ impl Pure<'_> {
             _ => {}
         }
 
-        if self.options.side_effects {
+        if self.options.side_effects && self.options.pristine_globals {
             if let Expr::New(NewExpr { callee, args, .. }) = e {
                 if let Expr::Ident(i) = &**callee {
                     match &*i.sym {
