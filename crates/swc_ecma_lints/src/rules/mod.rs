@@ -30,6 +30,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_obj_calls;
     pub mod no_param_reassign;
     pub mod no_restricted_syntax;
+    pub mod no_throw_literal;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
@@ -155,6 +156,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             unresolved_ctxt,
             &lint_config.no_obj_calls,
         ));
+
+        rules.extend(no_throw_literal::no_throw_literal(
+            &lint_config.no_throw_literal,
+        ))
     }
 
     rules
