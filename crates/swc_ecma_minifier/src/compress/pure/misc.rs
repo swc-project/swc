@@ -830,13 +830,15 @@ impl Pure<'_> {
         }
 
         // Remove pure member expressions.
-        if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
-            if let Expr::Ident(obj) = &**obj {
-                if obj.span.ctxt.outer() == self.marks.unresolved_mark {
-                    if is_pure_member_access(obj, prop) {
-                        self.changed = true;
-                        report_change!("Remving pure member access to global var");
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+        if self.options.pristine_globals {
+            if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
+                if let Expr::Ident(obj) = &**obj {
+                    if obj.span.ctxt.outer() == self.marks.unresolved_mark {
+                        if is_pure_member_access(obj, prop) {
+                            self.changed = true;
+                            report_change!("Remving pure member access to global var");
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        }
                     }
                 }
             }
