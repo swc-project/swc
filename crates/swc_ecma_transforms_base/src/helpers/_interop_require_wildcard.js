@@ -4,7 +4,7 @@ function _getRequireWildcardCache() {
   _getRequireWildcardCache = function () { return cache; };
   return cache;
 }
-export default function _interopRequireWildcard(obj) {
+function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
     return obj;
   }
