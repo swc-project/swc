@@ -6472,10 +6472,14 @@ where
                 .map(|(i, h)| (i, h.clone()));
 
             // 8.
+
             if furthest_block.is_none() {
-                self.open_elements_stack
-                    .items
-                    .truncate(formatting_element_stack_index);
+                while let Some(node) = self.open_elements_stack.pop() {
+                    if is_same_node(&node, &formatting_element.1) {
+                        break;
+                    }
+                }
+
                 self.active_formatting_elements
                     .remove(&formatting_element.1);
 
@@ -6491,7 +6495,7 @@ where
 
             // 11.
             let furthest_block = furthest_block.unwrap();
-            let mut node: RcNode;
+            let mut node;
             let mut node_index = furthest_block.0;
             let mut last_node = furthest_block.1.clone();
 
@@ -6552,7 +6556,8 @@ where
 
                 self.active_formatting_elements.items[node_formatting_index] =
                     ActiveFormattingElement::Element(new_element.clone(), token_and_info);
-                self.open_elements_stack.items[node_index] = new_element.clone();
+                self.open_elements_stack
+                    .replace(node_index, new_element.clone());
 
                 node = new_element.clone();
 
@@ -6638,7 +6643,6 @@ where
                 .expect("furthest block missing from open element stack");
 
             self.open_elements_stack
-                .items
                 .insert(new_furthest_block_index + 1, new_element);
         }
     }
