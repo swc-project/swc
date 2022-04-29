@@ -158,10 +158,11 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &lint_config.no_obj_calls,
         ));
 
-        rules.extend(no_var::no_var(&lint_config.no_var));
         rules.extend(no_throw_literal::no_throw_literal(
             &lint_config.no_throw_literal,
-        ))
+        ));
+
+        rules.extend(no_var::no_var(&lint_config.no_var));
     }
 
     rules
