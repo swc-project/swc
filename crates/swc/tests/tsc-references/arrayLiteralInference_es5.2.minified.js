@@ -5,30 +5,7 @@ export var AppType;
 export var AppStyle;
 !function(AppStyle) {
     AppStyle[AppStyle.Tree = 0] = "Tree", AppStyle[AppStyle.TreeEntity = 1] = "TreeEntity", AppStyle[AppStyle.Standard = 2] = "Standard", AppStyle[AppStyle.MiniApp = 3] = "MiniApp", AppStyle[AppStyle.PivotTable = 4] = "PivotTable";
-}(AppStyle || (AppStyle = {})), new Map([
-    [
-        AppType.Standard,
-        [
-            AppStyle.Standard,
-            AppStyle.MiniApp
-        ]
-    ],
-    [
-        AppType.Relationship,
-        [
-            AppStyle.Standard,
-            AppStyle.Tree,
-            AppStyle.TreeEntity
-        ]
-    ],
-    [
-        AppType.AdvancedList,
-        [
-            AppStyle.Standard,
-            AppStyle.MiniApp
-        ]
-    ]
-]), foo({
+}(AppStyle || (AppStyle = {})), AppType.Standard, AppStyle.Standard, AppStyle.MiniApp, AppType.Relationship, AppStyle.Standard, AppStyle.Tree, AppStyle.TreeEntity, AppType.AdvancedList, AppStyle.Standard, AppStyle.MiniApp, foo({
     x: !0
 }, {
     x: !1
