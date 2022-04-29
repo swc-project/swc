@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "swc_atoms",
  "swc_common",
