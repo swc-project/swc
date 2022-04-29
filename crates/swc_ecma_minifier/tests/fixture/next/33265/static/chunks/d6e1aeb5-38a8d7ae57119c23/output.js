@@ -400,13 +400,16 @@
             }, setTextContent = function(el, content) {
                 el.styleSheet ? el.styleSheet.cssText = content : el.textContent = content;
             }, _guid = 3;
+            function newGUID() {
+                return _guid++;
+            }
             global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap || (FakeWeakMap1 = function() {
                 function FakeWeakMap() {
                     this.vdata = 'vdata' + Math.floor(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() || Date.now()), this.data = {};
                 }
                 var _proto = FakeWeakMap.prototype;
                 return _proto.set = function(key, value) {
-                    var access = key[this.vdata] || _guid++;
+                    var access = key[this.vdata] || newGUID();
                     return key[this.vdata] || (key[this.vdata] = access), this.data[access] = value, this;
                 }, _proto.get = function(key) {
                     var access = key[this.vdata];
@@ -477,7 +480,7 @@
                 if (Array.isArray(type)) return _handleMultipleEvents(on, elem, type, fn);
                 DomData.has(elem) || DomData.set(elem, {});
                 var data = DomData.get(elem);
-                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = _guid++), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
+                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = newGUID()), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
@@ -538,13 +541,13 @@
                 var func1 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func1.guid = fn.guid = fn.guid || _guid++, on(elem, type, func1);
+                func1.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func1);
             }
             function any(elem, type, fn) {
                 var func2 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func2.guid = fn.guid = fn.guid || _guid++, on(elem, type, func2);
+                func2.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func2);
             }
             var Events = Object.freeze({
                 __proto__: null,
@@ -555,7 +558,7 @@
                 one: one,
                 any: any
             }), bind = function(context, fn, uid) {
-                fn.guid || (fn.guid = _guid++);
+                fn.guid || (fn.guid = newGUID());
                 var bound = fn.bind(context);
                 return bound.guid = uid ? uid + '_' + fn.guid : fn.guid, bound;
             }, throttle = function(fn, wait) {
@@ -788,7 +791,7 @@
                 function Component(player, options, ready) {
                     if (!player && this.play ? this.player_ = player = this : this.player_ = player, this.isDisposed_ = !1, this.parentComponent_ = null, this.options_ = mergeOptions$3({}, this.options_), options = this.options_ = mergeOptions$3(this.options_, options), this.id_ = options.id || options.el && options.el.id, !this.id_) {
                         var id = player && player.id && player.id() || 'no_player';
-                        this.id_ = id + "_component_" + _guid++;
+                        this.id_ = id + "_component_" + newGUID();
                     }
                     this.name_ = options.name || null, options.el ? this.el_ = options.el : !1 !== options.createEl && (this.el_ = this.createEl()), !1 !== options.evented && (evented(this, {
                         eventBusKey: this.el_ ? 'el_' : null
@@ -1498,7 +1501,7 @@
                 function Track(options) {
                     void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
                     var _this, trackProps = {
-                        id: options.id || 'vjs_track_' + _guid++,
+                        id: options.id || 'vjs_track_' + newGUID(),
                         kind: options.kind || '',
                         language: options.language || ''
                     }, label = options.label || '', _loop = function(key) {
@@ -2479,9 +2482,6 @@
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
                 implementation = customImplementation;
-            }
-            function resetFormatTime() {
-                implementation = defaultImplementation;
             }
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
@@ -5194,7 +5194,7 @@
                 huge: 1 / 0
             }, Player1 = function(_Component) {
                 function Player(tag, options, ready) {
-                    if (tag.id = tag.id || options.id || "vjs_video_" + _guid++, (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
+                    if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
                         if ('function' == typeof tag.closest) {
                             var _this, closest = tag.closest('[lang]');
                             closest && closest.getAttribute && (options.language = closest.getAttribute('lang'));
@@ -6384,7 +6384,9 @@
             }, videojs.getPlugins = Plugin1.getPlugins, videojs.getPlugin = Plugin1.getPlugin, videojs.getPluginVersion = Plugin1.getPluginVersion, videojs.addLanguage = function(code, data) {
                 var _mergeOptions;
                 return code = ('' + code).toLowerCase(), videojs.options.languages = mergeOptions$3(videojs.options.languages, ((_mergeOptions = {})[code] = data, _mergeOptions)), videojs.options.languages[code];
-            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = resetFormatTime, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack1, videojs.AudioTrack = AudioTrack1, videojs.VideoTrack = VideoTrack1, [
+            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = function() {
+                implementation = defaultImplementation;
+            }, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack1, videojs.AudioTrack = AudioTrack1, videojs.VideoTrack = VideoTrack1, [
                 'isEl',
                 'isTextNode',
                 'createEl',

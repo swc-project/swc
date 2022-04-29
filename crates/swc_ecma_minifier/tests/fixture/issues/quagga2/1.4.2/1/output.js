@@ -1017,10 +1017,9 @@
             };
         },
         function(module, exports) {
-            function eq(value, other) {
+            module.exports = function(value, other) {
                 return value === other || value != value && other != other;
-            }
-            module.exports = eq;
+            };
         },
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(17).Symbol;
@@ -2046,9 +2045,10 @@
             };
         },
         function(module, exports) {
-            module.exports = function() {
+            function stubFalse() {
                 return !1;
-            };
+            }
+            module.exports = stubFalse;
         },
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), getPrototype = __webpack_require__(50), isObjectLike = __webpack_require__(18), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);

@@ -1,2 +1,1 @@
 for(;;);
-new Array();

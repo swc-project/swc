@@ -22,4 +22,4 @@ var M, C = function() {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), new Array(), M.A;
+}(M || (M = {})), new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), M.A;

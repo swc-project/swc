@@ -75,6 +75,8 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
+functions/issue_2630_1/input.js
+functions/issue_2630_4/input.js
 functions/issue_3016_3/input.js
 functions/issue_3018/input.js
 functions/issue_3076/input.js

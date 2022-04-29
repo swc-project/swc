@@ -1,12 +1,17 @@
 function error(message) {
     throw new Error(message);
 }
-function test(cb) {
-    return cb();
-}
-test(()=>"hello"
-), test(()=>error("Something failed")
-), test(()=>{
+(function(cb) {
+    cb();
+})(()=>"hello"
+), function(cb) {
+    cb();
+}(()=>error("Something failed")
+), function(cb) {
+    cb();
+}(()=>{
     throw new Error();
-}), test(()=>error("Error callback")
+}), function(cb) {
+    cb();
+}(()=>error("Error callback")
 );

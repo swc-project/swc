@@ -14,4 +14,4 @@ var c = function() {
     "use strict";
     swcHelpers.classCallCheck(this, c);
 };
-(c || (c = {})).bar = 1, new Object();
+(c || (c = {})).bar = 1;

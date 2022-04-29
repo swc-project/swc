@@ -242,6 +242,9 @@ pub struct TerserCompressorOptions {
 
     #[serde(default)]
     pub const_to_let: Option<bool>,
+
+    #[serde(default)]
+    pub pristine_globals: Option<bool>,
 }
 
 impl Default for TerserCompressorOptions {
@@ -388,6 +391,7 @@ impl TerserCompressorOptions {
             unsafe_undefined: self.unsafe_undefined,
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
+            pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
         }
     }
 }

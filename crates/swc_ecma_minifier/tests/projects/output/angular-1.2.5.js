@@ -909,7 +909,7 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout;
+            var interval, setTimeout;
             return isUndefined(pollTimeout) && (setTimeout = setTimeout1, forEach(pollFns, function(pollFn) {
                 pollFn();
             }), pollTimeout = setTimeout(check, 100)), pollFns.push(fn), fn;
@@ -1476,6 +1476,9 @@
             data = fn(data, headers);
         }), data);
     }
+    function isSuccess(status) {
+        return 200 <= status && status < 300;
+    }
     function $HttpProvider() {
         var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {
             'Content-Type': 'application/json;charset=utf-8'
@@ -1559,10 +1562,10 @@
                         }), promise;
                     }, promise;
                     function transformResponse(response) {
-                        var status, resp = extend({}, response, {
+                        var resp = extend({}, response, {
                             data: transformData(response.data, response.headers, config1.transformResponse)
                         });
-                        return 200 <= (status = response.status) && status < 300 ? resp : $q.reject(resp);
+                        return isSuccess(response.status) ? resp : $q.reject(resp);
                     }
                 }
                 return forEach(interceptorFactories, function(interceptorFactory) {
@@ -1604,19 +1607,14 @@
                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                     } else cache.put(url, promise);
                     return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        if (cache) {
-                            var status1;
-                            200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
-                                status,
-                                response,
-                                parseHeaders(headersString)
-                            ]) : cache.remove(url);
-                        }
-                        resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                        cache && (isSuccess(status) ? cache.put(url, [
+                            status,
+                            response,
+                            parseHeaders(headersString)
+                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
                     }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
                     function resolvePromise(response, status, headers) {
-                        var status2;
-                        (200 <= (status2 = status = Math.max(status, 0)) && status2 < 300 ? deferred.resolve : deferred.reject)({
+                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
                             data: response,
                             status: status,
                             headers: headersGetter(headers),
@@ -1668,14 +1666,14 @@
     }
     function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument) {
         return function(method, url, post, callback1, headers, timeout, withCredentials, responseType) {
-            var status3;
+            var status1;
             if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), 'jsonp' == lowercase(method)) {
                 var callbackId = '_' + (callbacks.counter++).toString(36);
                 callbacks[callbackId] = function(data) {
                     callbacks[callbackId].data = data;
                 };
                 var jsonpDone = jsonpReq(url.replace('JSON_CALLBACK', 'angular.callbacks.' + callbackId), function() {
-                    callbacks[callbackId].data ? completeRequest(callback1, 200, callbacks[callbackId].data) : completeRequest(callback1, status3 || -2), delete callbacks[callbackId];
+                    callbacks[callbackId].data ? completeRequest(callback1, 200, callbacks[callbackId].data) : completeRequest(callback1, status1 || -2), delete callbacks[callbackId];
                 });
             } else {
                 var xhr = new XHR();
@@ -1684,14 +1682,14 @@
                 }), xhr.onreadystatechange = function() {
                     if (4 == xhr.readyState) {
                         var responseHeaders = null, response = null;
-                        -1 !== status3 && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback1, status3 || xhr.status, response, responseHeaders);
+                        -1 !== status1 && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback1, status1 || xhr.status, response, responseHeaders);
                     }
                 }, withCredentials && (xhr.withCredentials = !0), responseType && (xhr.responseType = responseType), xhr.send(post || null);
             }
             if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
             else timeout && timeout.then && timeout.then(timeoutRequest);
             function timeoutRequest() {
-                status3 = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
+                status1 = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
             }
             function completeRequest(callback, status, response, headersString) {
                 var protocol = urlResolve(url).protocol;
@@ -2951,6 +2949,7 @@
             adjustedMatchers.push(function(matcher) {
                 if ('self' === matcher) return matcher;
                 if (isString(matcher)) {
+                    var s;
                     if (matcher.indexOf('***') > -1) throw $sceMinErr('iwcard', 'Illegal sequence *** in string matcher.  String: {0}', matcher);
                     return matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, '\\$1').replace(/\x08/g, '\\x08').replace('\\*\\*', '.*').replace('\\*', '[^:/.?&;]*'), new RegExp('^' + matcher + '$');
                 }
@@ -3463,11 +3462,11 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var queue = errors[validationToken];
+            var array, obj, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
-                    if (-1 != indexOf(queue, control)) return;
+                    if (-1 != indexOf(array = queue, control)) return;
                 } else errors[validationToken] = queue = [], invalidCount++, toggleValidCss(!1, validationToken), parentForm.$setValidity(validationToken, !1, form);
                 queue.push(control), form.$valid = !1, form.$invalid = !0;
             }
