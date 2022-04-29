@@ -1,0 +1,12 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:5]
+ 7 | A<table><tr> B</tr> C</table>
+   :               ^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:5]
+ 7 | A<table><tr> B</tr> C</table>
+   :                      ^^^^^^^^
+   `----

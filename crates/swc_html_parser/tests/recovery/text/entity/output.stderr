@@ -1,0 +1,204 @@
+
+  x Missing semicolon after character reference
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+ 7 | <div>&reg</div>
+   :      ^^^^
+   `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
+ 10 | <div>&#q;</div>
+    :      ^^^
+    `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+ 11 | <div>&#qq;</div>
+    :      ^^^
+    `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
+ 12 | <div>&#qqq;</div>
+    :      ^^^
+    `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
+ 14 | <div>&#xq;</div>
+    :      ^^^^
+    `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+ 15 | <div>&#xqq;</div>
+    :      ^^^^
+    `----
+
+  x Absence of digits in numeric character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
+ 16 | <div>&#xqqq;</div>
+    :      ^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:19:5]
+ 19 | &#x80;  0x20AC  EURO SIGN (€)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:20:5]
+ 20 | &#x82;  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:21:5]
+ 21 | &#x83;  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:22:5]
+ 22 | &#x84;  0x201E  DOUBLE LOW-9 QUOTATION MARK („)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:23:5]
+ 23 | &#x85;  0x2026  HORIZONTAL ELLIPSIS (…)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:24:5]
+ 24 | &#x86;  0x2020  DAGGER (†)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:25:5]
+ 25 | &#x87;  0x2021  DOUBLE DAGGER (‡)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:26:5]
+ 26 | &#x88;  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:27:5]
+ 27 | &#x89;  0x2030  PER MILLE SIGN (‰)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:28:5]
+ 28 | &#x8A;  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:29:5]
+ 29 | &#x8B;  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:30:5]
+ 30 | &#x8C;  0x0152  LATIN CAPITAL LIGATURE OE (Œ)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:31:5]
+ 31 | &#x8E;  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:32:5]
+ 32 | &#x91;  0x2018  LEFT SINGLE QUOTATION MARK (‘)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:33:5]
+ 33 | &#x92;  0x2019  RIGHT SINGLE QUOTATION MARK (’)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:34:5]
+ 34 | &#x93;  0x201C  LEFT DOUBLE QUOTATION MARK (“)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:35:5]
+ 35 | &#x94;  0x201D  RIGHT DOUBLE QUOTATION MARK (”)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:36:5]
+ 36 | &#x95;  0x2022  BULLET (•)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:37:5]
+ 37 | &#x96;  0x2013  EN DASH (–)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:38:5]
+ 38 | &#x97;  0x2014  EM DASH (—)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:39:5]
+ 39 | &#x98;  0x02DC  SMALL TILDE (˜)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:40:5]
+ 40 | &#x99;  0x2122  TRADE MARK SIGN (™)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:41:5]
+ 41 | &#x9A;  0x0161  LATIN SMALL LETTER S WITH CARON (š)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:42:5]
+ 42 | &#x9B;  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:43:5]
+ 43 | &#x9C;  0x0153  LATIN SMALL LIGATURE OE (œ)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:44:5]
+ 44 | &#x9E;  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)
+    : ^^^^^^
+    `----
+
+  x Control character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:45:5]
+ 45 | &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    : ^^^^^^
+    `----

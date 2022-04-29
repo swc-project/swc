@@ -23,6 +23,7 @@ where
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
+    finished: bool,
     state: State,
     return_state: State,
     errors: Vec<Error>,
@@ -48,6 +49,7 @@ where
             cur_pos: start_pos,
             start_pos,
             last_pos: None,
+            finished: false,
             state: State::Data,
             return_state: State::Data,
             errors: vec![],
@@ -351,25 +353,36 @@ where
         }
     }
 
+    fn emit_temporary_buffer(&mut self) {
+        if let Some(temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.chars() {
+                self.emit_token(Token::Character {
+                    value: c,
+                    raw: None,
+                });
+            }
+        }
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
-        loop {
-            if !self.pending_tokens.is_empty() {
-                let token_and_span = self.pending_tokens.remove(0);
+        if self.finished {
+            return Err(ErrorKind::Eof);
+        }
 
-                match token_and_span.token {
-                    Token::Eof => {
-                        return Err(ErrorKind::Eof);
-                    }
-                    _ => {
-                        return Ok(token_and_span);
-                    }
-                }
-            } else {
-                if self.input.cur().is_none() {
-                    return Err(ErrorKind::Eof);
-                }
+        while self.pending_tokens.is_empty() {
+            self.run()?;
+        }
 
-                self.run()?;
+        let token_and_span = self.pending_tokens.remove(0);
+
+        match token_and_span.token {
+            Token::Eof => {
+                self.finished = true;
+
+                return Err(ErrorKind::Eof);
+            }
+            _ => {
+                return Ok(token_and_span);
             }
         }
     }
@@ -883,6 +896,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -903,6 +917,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -924,6 +939,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -1009,6 +1025,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::Rcdata;
                         self.reconsume();
                     }
@@ -1098,6 +1115,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1118,6 +1136,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1139,6 +1158,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1224,6 +1244,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::Rawtext;
                         self.reconsume()
                     }
@@ -1327,6 +1348,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1347,6 +1369,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1368,6 +1391,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1453,6 +1477,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::ScriptData;
                         self.reconsume()
                     }
@@ -1757,6 +1782,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1777,6 +1803,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1798,6 +1825,7 @@ where
                                 value: '/',
                                 raw: None,
                             });
+                            self.emit_temporary_buffer();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1883,6 +1911,7 @@ where
                             value: '/',
                             raw: None,
                         });
+                        self.emit_temporary_buffer();
                         self.state = State::ScriptDataEscaped;
                         self.reconsume()
                     }
@@ -5560,8 +5589,9 @@ fn is_spacy(c: char) -> bool {
 }
 
 #[inline(always)]
-fn is_control(c: u32) -> bool {
-    matches!(c, c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f))
+fn is_control(cp: u32) -> bool {
+    (cp != 0x20 && cp != 0x0a && cp != 0x0d && cp != 0x09 && cp != 0x0c && cp >= 0x01 && cp <= 0x1f)
+        || (0x7f..=0x9f).contains(&cp)
 }
 
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,

@@ -10,6 +10,21 @@
 
 - **(es/minifier)** Fix skipping logic of sequential inliner (#4469) ([233c4d5](https://github.com/swc-project/swc/commit/233c4d5b860d557710bfe654f76d7901e5d0b3a0))
 
+
+- **(html)** Fix bugs of parser and codegen (#4461) ([8bdfcd9](https://github.com/swc-project/swc/commit/8bdfcd996aa5abde0e50743b90f4d36fd25003ba))
+
+
+- **(html/parser)** Fix bugs (#4459) ([2098228](https://github.com/swc-project/swc/commit/20982288fb05dcb4e2c72e5ea4c0888a0e946580))
+
+### Features
+
+
+
+- **(es/minifier)** Drop more returns (#4471) ([2739546](https://github.com/swc-project/swc/commit/273954640aa2d22d0e65f4d186bcb6add0844cb1))
+
+
+- **(html/minifier)** Remove `javascript:` prefix (#4460) ([a1877e7](https://github.com/swc-project/swc/commit/a1877e740acf6bf51421b97c27236b0f208eaf9d))
+
 ### Miscellaneous Tasks
 
 
