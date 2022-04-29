@@ -26,6 +26,9 @@
 - **(es/minifier)** Consider cost of functions for inlining (#4470) ([7a584d7](https://github.com/swc-project/swc/commit/7a584d755aa0dc70c8c367f1c0c4b61e2dbc34df))
 
 
+- **(es/minifier)** Drop pure `new` calls (#4478) ([918c9c8](https://github.com/swc-project/swc/commit/918c9c8a21c248617aef4474380c94f9f98df1dc))
+
+
 - **(html/minifier)** Remove `javascript:` prefix (#4460) ([a1877e7](https://github.com/swc-project/swc/commit/a1877e740acf6bf51421b97c27236b0f208eaf9d))
 
 
