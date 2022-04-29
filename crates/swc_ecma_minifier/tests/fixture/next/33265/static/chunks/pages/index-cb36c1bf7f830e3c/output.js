@@ -3867,8 +3867,11 @@
                 this.name = "ParsingError", this.code = errorData.code, this.message = message || errorData.message;
             }
             function parseTimeStamp(input) {
-                var h, m, s, f, h1, m1, f1, m2, s1, f2, m3 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
-                return m3 ? m3[3] ? (h = m3[1], m = m3[2], s = m3[3].replace(":", ""), f = m3[4], (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000) : m3[1] > 59 ? (h1 = m3[1], m1 = m3[2], f1 = m3[4], (0 | h1) * 3600 + (0 | m1) * 60 + 0 + (0 | f1) / 1000) : (m2 = m3[1], s1 = m3[2], f2 = m3[4], 0 + (0 | m2) * 60 + (0 | s1) + (0 | f2) / 1000) : null;
+                function computeSeconds(h, m, s, f) {
+                    return (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000;
+                }
+                var m1 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
+                return m1 ? m1[3] ? computeSeconds(m1[1], m1[2], m1[3].replace(":", ""), m1[4]) : m1[1] > 59 ? computeSeconds(m1[1], m1[2], 0, m1[4]) : computeSeconds(0, m1[1], m1[2], m1[4]) : null;
             }
             function Settings() {
                 this.values = _objCreate(null);
@@ -4058,12 +4061,12 @@
                             node = window.document.createProcessingInstruction("timestamp", ts), current1.appendChild(node);
                             continue;
                         }
-                        var m4 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m4) continue;
-                        if (!(node = createElement(m4[1], m4[3]))) continue;
+                        var m2 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
+                        if (!m2) continue;
+                        if (!(node = createElement(m2[1], m2[3]))) continue;
                         if (!shouldAdd(current1, node)) continue;
-                        if (m4[2]) {
-                            var classes = m4[2].split('.');
+                        if (m2[2]) {
+                            var classes = m2[2].split('.');
                             classes.forEach(function(cl) {
                                 var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
                                 if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
@@ -4072,7 +4075,7 @@
                                 }
                             }), node.className = classes.join(' ');
                         }
-                        tagStack.push(m4[1]), current1.appendChild(node), current1 = node;
+                        tagStack.push(m2[1]), current1.appendChild(node), current1 = node;
                         continue;
                     }
                     current1.appendChild(window.document.createTextNode(unescape(t)));

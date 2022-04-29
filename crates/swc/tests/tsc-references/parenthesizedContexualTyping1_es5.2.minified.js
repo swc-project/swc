@@ -1,39 +1,56 @@
-function fun(g, x) {
-    return g(x);
-}
-fun(function(x) {
+(function(g, x) {
+    g(10);
+})(function(x) {
     return x;
-}, 10), fun(function(x) {
+}, 10), function(g, x) {
+    g(10);
+}(function(x) {
     return x;
-}, 10), fun(function(x) {
+}, 10), function(g, x) {
+    g(10);
+}(function(x) {
     return x;
-}, 10), fun(function(x) {
+}, 10), function(g, x) {
+    g(10);
+}(function(x) {
     return x;
-}, 10), fun(function(x) {
-    return x;
-}, function(x) {
-    return x;
-}, 10), fun(function(x) {
-    return x;
-}, function(x) {
-    return x;
-}, 10), fun(function(x) {
-    return x;
-}, function(x) {
-    return x;
-}, 10), fun(function(x) {
+}, 10), function(g, x) {
+    g(x);
+}(function(x) {
     return x;
 }, function(x) {
     return x;
-}, 10), fun(0.5 > Math.random() ? function(x) {
+}, 10), function(g, x) {
+    g(x);
+}(function(x) {
     return x;
-} : function(x) {}, 10), fun(0.5 > Math.random() ? function(x) {
+}, function(x) {
     return x;
-} : function(x) {}, 10), fun(0.5 > Math.random() ? function(x) {
+}, 10), function(g, x) {
+    g(x);
+}(function(x) {
+    return x;
+}, function(x) {
+    return x;
+}, 10), function(g, x) {
+    g(x);
+}(function(x) {
+    return x;
+}, function(x) {
+    return x;
+}, 10), (0.5 > Math.random() ? function(x) {
+    return x;
+} : function(x) {})(10), (0.5 > Math.random() ? function(x) {
+    return x;
+} : function(x) {})(10), function(g, x) {
+    g(x);
+}(0.5 > Math.random() ? function(x) {
     return x;
 } : function(x) {}, function(x) {
     return x;
-}, 10), fun(0.5 > Math.random() ? function(x) {
+}, 10), function(g, x) {
+    g(x);
+}(0.5 > Math.random() ? function(x) {
     return x;
 } : function(x) {}, function(x) {
     return x;

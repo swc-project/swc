@@ -463,15 +463,9 @@
         var name = fn ? fn.displayName || fn.name : '', syntheticFrame = name ? describeBuiltInComponentFrame(name) : '';
         return 'function' == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
     }
-    function describeFunctionComponentFrame(fn, source, ownerFn) {
-        return describeNativeComponentFrame(fn, !1);
-    }
     function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
         if (null == type) return '';
-        if ('function' == typeof type) {
-            var prototype;
-            return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-        }
+        if ('function' == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
         if ('string' == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
             case exports.Suspense:
@@ -481,13 +475,13 @@
         }
         if ('object' == typeof type) switch(type.$$typeof){
             case REACT_FORWARD_REF_TYPE:
-                return describeFunctionComponentFrame(type.render);
+                return describeNativeComponentFrame(type.render, !1);
             case REACT_MEMO_TYPE:
                 return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
             case REACT_BLOCK_TYPE:
-                return describeFunctionComponentFrame(type._render);
+                return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var Component, prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}
@@ -504,7 +498,7 @@
     }
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
-            var owner = element._owner;
+            var stack, owner = element._owner;
             currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
         } else currentExtraStackFrame = null;
     }

@@ -293,47 +293,87 @@ where
     }
 
     /// Check if the body of a function is simple enough to inline.
-    fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
-        fn is_expr_simple_enough(e: &Expr) -> bool {
+    fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt, param_count: usize) -> bool {
+        fn expr_cost(e: &Expr) -> Option<usize> {
             match e {
-                Expr::Lit(..) => true,
-                Expr::Ident(..) => true,
+                // TODO?
+                Expr::Lit(..) => Some(1),
+                Expr::Ident(..) => Some(1),
 
-                // It's long
                 Expr::Bin(BinExpr {
-                    op: op!("instanceof"),
+                    op: op @ op!("instanceof") | op @ op!("in"),
+                    left,
+                    right,
                     ..
-                }) => false,
+                }) => Some(2 + op.as_str().len() + expr_cost(left)? + expr_cost(right)?),
 
-                Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
+                Expr::Unary(UnaryExpr {
+                    op: op @ op!("typeof") | op @ op!("void") | op @ op!("delete"),
+                    arg,
+                    ..
+                }) => Some(2 + op.as_str().len() + expr_cost(arg)?),
 
-                Expr::Update(e) => is_expr_simple_enough(&e.arg),
+                Expr::Unary(UnaryExpr { arg, .. }) => Some(1 + expr_cost(arg)?),
 
-                Expr::Assign(e) => e.left.as_ident().is_some() && is_expr_simple_enough(&e.right),
-                Expr::Seq(e) => e.exprs.iter().map(|v| &**v).all(is_expr_simple_enough),
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) => {
+                    let mut c = expr_cost(callee)? + 2;
 
-                _ => false,
+                    for arg in args {
+                        if arg.spread.is_some() {
+                            c += 3;
+                        }
+
+                        c += expr_cost(&arg.expr)? + 1;
+                    }
+
+                    Some(c)
+                }
+
+                Expr::Bin(e) => {
+                    Some(expr_cost(&e.left)? + expr_cost(&e.right)? + e.op.as_str().len())
+                }
+
+                Expr::Update(e) => Some(expr_cost(&e.arg)? + 2),
+
+                Expr::Assign(e) => {
+                    e.left.as_ident()?;
+                    Some(2 + expr_cost(&e.right)?)
+                }
+
+                Expr::Seq(e) => e
+                    .exprs
+                    .iter()
+                    .map(|v| expr_cost(v))
+                    .fold(Some(0), |a, b| Some(a? + b?)),
+
+                _ => None,
             }
         }
+
+        let cost_limit = 3 + param_count * 2;
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if is_expr_simple_enough(expr) {
-                        return true;
-                    }
-                }
-
-                Stmt::Return(ReturnStmt { arg, .. }) => {
-                    if let Some(e) = arg.as_deref() {
-                        if is_expr_simple_enough(e) {
+                    if let Some(cost) = expr_cost(expr) {
+                        if cost < cost_limit {
                             return true;
                         }
                     }
                 }
 
-                Stmt::Try(TryStmt { block, .. }) => {
-                    return self.is_fn_body_simple_enough_to_inline(block)
+                Stmt::Return(ReturnStmt { arg, .. }) => {
+                    if let Some(e) = arg.as_deref() {
+                        if let Some(cost) = expr_cost(e) {
+                            if cost < cost_limit {
+                                return true;
+                            }
+                        }
+                    }
                 }
 
                 _ => {}
@@ -442,7 +482,10 @@ where
                     match &f.function.body {
                         Some(body) => {
                             if !UsageFinder::find(&i, body)
-                                && self.is_fn_body_simple_enough_to_inline(body)
+                                && self.is_fn_body_simple_enough_to_inline(
+                                    body,
+                                    f.function.params.len(),
+                                )
                             {
                                 trace_op!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
