@@ -20,6 +20,9 @@
 
 
 
+- **(es/lints)** Implement `no-throw-literal` (#4477) ([3a8cade](https://github.com/swc-project/swc/commit/3a8cade2091bea83769b5140a92dad7b2a277ce0))
+
+
 - **(es/minifier)** Drop more returns (#4471) ([2739546](https://github.com/swc-project/swc/commit/273954640aa2d22d0e65f4d186bcb6add0844cb1))
 
 
