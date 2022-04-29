@@ -13,7 +13,7 @@ where
     /// Store values of properties so we can replace property accesses with the
     /// values.
     pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {
-        if !self.options.hoist_props && !self.options.reduce_vars {
+        if !self.options.hoist_props {
             return;
         }
         if self.ctx.is_exported {

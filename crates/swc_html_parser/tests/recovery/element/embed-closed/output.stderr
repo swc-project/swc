@@ -1,0 +1,6 @@
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:11:1]
+ 11 | </embed>
+    : ^^^^^^^^
+    `----

@@ -400,13 +400,16 @@
             }, setTextContent = function(el, content) {
                 el.styleSheet ? el.styleSheet.cssText = content : el.textContent = content;
             }, _guid = 3;
+            function newGUID() {
+                return _guid++;
+            }
             global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap || (FakeWeakMap1 = function() {
                 function FakeWeakMap() {
                     this.vdata = 'vdata' + Math.floor(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() || Date.now()), this.data = {};
                 }
                 var _proto = FakeWeakMap.prototype;
                 return _proto.set = function(key, value) {
-                    var access = key[this.vdata] || _guid++;
+                    var access = key[this.vdata] || newGUID();
                     return key[this.vdata] || (key[this.vdata] = access), this.data[access] = value, this;
                 }, _proto.get = function(key) {
                     var access = key[this.vdata];
@@ -477,7 +480,7 @@
                 if (Array.isArray(type)) return _handleMultipleEvents(on, elem, type, fn);
                 DomData.has(elem) || DomData.set(elem, {});
                 var data = DomData.get(elem);
-                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = _guid++), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
+                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = newGUID()), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
@@ -538,13 +541,13 @@
                 var func1 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func1.guid = fn.guid = fn.guid || _guid++, on(elem, type, func1);
+                func1.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func1);
             }
             function any(elem, type, fn) {
                 var func2 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func2.guid = fn.guid = fn.guid || _guid++, on(elem, type, func2);
+                func2.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func2);
             }
             var Events = Object.freeze({
                 __proto__: null,
@@ -555,7 +558,7 @@
                 one: one,
                 any: any
             }), bind = function(context, fn, uid) {
-                fn.guid || (fn.guid = _guid++);
+                fn.guid || (fn.guid = newGUID());
                 var bound = fn.bind(context);
                 return bound.guid = uid ? uid + '_' + fn.guid : fn.guid, bound;
             }, throttle = function(fn, wait) {
@@ -788,7 +791,7 @@
                 function Component(player, options, ready) {
                     if (!player && this.play ? this.player_ = player = this : this.player_ = player, this.isDisposed_ = !1, this.parentComponent_ = null, this.options_ = mergeOptions$3({}, this.options_), options = this.options_ = mergeOptions$3(this.options_, options), this.id_ = options.id || options.el && options.el.id, !this.id_) {
                         var id = player && player.id && player.id() || 'no_player';
-                        this.id_ = id + "_component_" + _guid++;
+                        this.id_ = id + "_component_" + newGUID();
                     }
                     this.name_ = options.name || null, options.el ? this.el_ = options.el : !1 !== options.createEl && (this.el_ = this.createEl()), !1 !== options.evented && (evented(this, {
                         eventBusKey: this.el_ ? 'el_' : null
@@ -1498,7 +1501,7 @@
                 function Track(options) {
                     void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
                     var _this, trackProps = {
-                        id: options.id || 'vjs_track_' + _guid++,
+                        id: options.id || 'vjs_track_' + newGUID(),
                         kind: options.kind || '',
                         language: options.language || ''
                     }, label = options.label || '', _loop = function(key) {
@@ -2479,9 +2482,6 @@
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
                 implementation = customImplementation;
-            }
-            function resetFormatTime() {
-                implementation = defaultImplementation;
             }
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
@@ -5194,7 +5194,7 @@
                 huge: 1 / 0
             }, Player1 = function(_Component) {
                 function Player(tag, options, ready) {
-                    if (tag.id = tag.id || options.id || "vjs_video_" + _guid++, (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
+                    if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
                         if ('function' == typeof tag.closest) {
                             var _this, closest = tag.closest('[lang]');
                             closest && closest.getAttribute && (options.language = closest.getAttribute('lang'));
@@ -6384,7 +6384,9 @@
             }, videojs.getPlugins = Plugin1.getPlugins, videojs.getPlugin = Plugin1.getPlugin, videojs.getPluginVersion = Plugin1.getPluginVersion, videojs.addLanguage = function(code, data) {
                 var _mergeOptions;
                 return code = ('' + code).toLowerCase(), videojs.options.languages = mergeOptions$3(videojs.options.languages, ((_mergeOptions = {})[code] = data, _mergeOptions)), videojs.options.languages[code];
-            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = resetFormatTime, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack1, videojs.AudioTrack = AudioTrack1, videojs.VideoTrack = VideoTrack1, [
+            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = function() {
+                implementation = defaultImplementation;
+            }, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack1, videojs.AudioTrack = AudioTrack1, videojs.VideoTrack = VideoTrack1, [
                 'isEl',
                 'isTextNode',
                 'createEl',
@@ -7608,7 +7610,7 @@
             }, getWorkerString = function(fn) {
                 return fn.toString().replace(/^function.+?{/, '').slice(0, -1);
             }, workerCode$1 = transform1(getWorkerString(function() {
-                var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, getTimescaleFromMediaHeader, Stream = function() {
+                var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, timescale1, startTime1, compositionStartTime, getVideoTrackIds, getTracks, getTimescaleFromMediaHeader, Stream = function() {
                     this.init = function() {
                         var listeners = {};
                         this.on = function(type, listener) {
@@ -8432,7 +8434,7 @@
                 }, trun$1 = function(track, offset) {
                     return 'audio' === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
                 };
-                var box, dinf, esds, ftyp, mdat1, mfhd, minf, moof1, moov, mvex, mvhd, trak1, tkhd1, mdia, mdhd1, hdlr1, sdtp, stbl, stsd1, traf1, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, VIDEO_HDLR, AUDIO_HDLR, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, mp4Generator = {
+                var box, dinf, esds, ftyp, mdat1, mfhd, minf, moof1, moov, mvex, mvhd, trak1, tkhd1, mdia, mdhd1, hdlr1, sdtp, stbl, stsd1, traf1, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, VIDEO_HDLR, AUDIO_HDLR, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, mp4Generator = {
                     ftyp: ftyp,
                     mdat: mdat1,
                     moof: moof1,
@@ -8742,29 +8744,31 @@
                         }, {}));
                     }
                     return silence;
-                }, clock = {
+                };
+                secondsToVideoTs = function(seconds) {
+                    return 90000 * seconds;
+                }, secondsToAudioTs = function(seconds, sampleRate) {
+                    return seconds * sampleRate;
+                }, videoTsToSeconds = function(timestamp) {
+                    return timestamp / 90000;
+                }, audioTsToSeconds = function(timestamp, sampleRate) {
+                    return timestamp / sampleRate;
+                }, audioTsToVideoTs = function(timestamp, sampleRate) {
+                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+                }, videoTsToAudioTs = function(timestamp, sampleRate) {
+                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+                }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                };
+                var clock = {
                     ONE_SECOND_IN_TS: 90000,
-                    secondsToVideoTs: secondsToVideoTs = function(seconds) {
-                        return 90000 * seconds;
-                    },
-                    secondsToAudioTs: secondsToAudioTs = function(seconds, sampleRate) {
-                        return seconds * sampleRate;
-                    },
-                    videoTsToSeconds: videoTsToSeconds = function(timestamp) {
-                        return timestamp / 90000;
-                    },
-                    audioTsToSeconds: audioTsToSeconds = function(timestamp, sampleRate) {
-                        return timestamp / sampleRate;
-                    },
-                    audioTsToVideoTs: function(timestamp, sampleRate) {
-                        return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                    },
-                    videoTsToAudioTs: function(timestamp, sampleRate) {
-                        return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                    },
-                    metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                        return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                    }
+                    secondsToVideoTs: secondsToVideoTs,
+                    secondsToAudioTs: secondsToAudioTs,
+                    videoTsToSeconds: videoTsToSeconds,
+                    audioTsToSeconds: audioTsToSeconds,
+                    audioTsToVideoTs: audioTsToVideoTs,
+                    videoTsToAudioTs: videoTsToAudioTs,
+                    metadataTsToSeconds: metadataTsToSeconds
                 }, sumFrameByteLengths = function(array) {
                     var i, sum = 0;
                     for(i = 0; i < array.length; i++)sum += array[i].data.byteLength;
@@ -10451,123 +10455,125 @@
                             logs: []
                         }, this.resetCaptionStream();
                     }, this.reset();
-                }, toUnsigned = bin.toUnsigned, toHexString = bin.toHexString, probe$2 = {
+                }, toUnsigned = bin.toUnsigned, toHexString = bin.toHexString;
+                timescale1 = function(init) {
+                    return findBox_1(init, [
+                        'moov',
+                        'trak'
+                    ]).reduce(function(result, trak) {
+                        var tkhd, index, id, mdhd;
+                        return (tkhd = findBox_1(trak, [
+                            'tkhd'
+                        ])[0]) && (index = 0 === tkhd[0] ? 12 : 20, id = toUnsigned(tkhd[index] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox_1(trak, [
+                            'mdia',
+                            'mdhd'
+                        ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
+                    }, {});
+                }, startTime1 = function(timescale, fragment) {
+                    var trafs, baseTimes, result2;
+                    return trafs = findBox_1(fragment, [
+                        'moof',
+                        'traf'
+                    ]), baseTimes = [].concat.apply([], trafs.map(function(traf) {
+                        return findBox_1(traf, [
+                            'tfhd'
+                        ]).map(function(tfhd) {
+                            var scale, baseTime;
+                            return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, (baseTime = 'number' != typeof (baseTime = findBox_1(traf, [
+                                'tfdt'
+                            ]).map(function(tfdt) {
+                                var version, result;
+                                return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
+                            })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
+                        });
+                    })), isFinite(result2 = Math.min.apply(null, baseTimes)) ? result2 : 0;
+                }, compositionStartTime = function(timescales, fragment) {
+                    var trackId, trafBoxes = findBox_1(fragment, [
+                        'moof',
+                        'traf'
+                    ]), baseMediaDecodeTime = 0, compositionTimeOffset = 0;
+                    if (trafBoxes && trafBoxes.length) {
+                        var tfhd = findBox_1(trafBoxes[0], [
+                            'tfhd'
+                        ])[0], trun = findBox_1(trafBoxes[0], [
+                            'trun'
+                        ])[0], tfdt = findBox_1(trafBoxes[0], [
+                            'tfdt'
+                        ])[0];
+                        if (tfhd && (trackId = parseTfhd(tfhd).trackId), tfdt && (baseMediaDecodeTime = parseTfdt(tfdt).baseMediaDecodeTime), trun) {
+                            var parsedTrun = parseTrun(trun);
+                            parsedTrun.samples && parsedTrun.samples.length && (compositionTimeOffset = parsedTrun.samples[0].compositionTimeOffset || 0);
+                        }
+                    }
+                    return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90e3);
+                }, getVideoTrackIds = function(init) {
+                    var traks = findBox_1(init, [
+                        'moov',
+                        'trak'
+                    ]), videoTrackIds = [];
+                    return traks.forEach(function(trak) {
+                        var hdlrs = findBox_1(trak, [
+                            'mdia',
+                            'hdlr'
+                        ]), tkhds = findBox_1(trak, [
+                            'tkhd'
+                        ]);
+                        hdlrs.forEach(function(hdlr, index) {
+                            var view, trackId, handlerType = parseType_1(hdlr.subarray(8, 12)), tkhd = tkhds[index];
+                            'vide' === handlerType && (trackId = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20), videoTrackIds.push(trackId));
+                        });
+                    }), videoTrackIds;
+                }, getTimescaleFromMediaHeader = function(mdhd) {
+                    var index = 0 === mdhd[0] ? 12 : 20;
+                    return toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
+                }, getTracks = function(init) {
+                    var traks = findBox_1(init, [
+                        'moov',
+                        'trak'
+                    ]), tracks = [];
+                    return traks.forEach(function(trak) {
+                        var track = {}, tkhd = findBox_1(trak, [
+                            'tkhd'
+                        ])[0];
+                        tkhd && (tkhdVersion = (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0), track.id = 0 === tkhdVersion ? view.getUint32(12) : view.getUint32(20));
+                        var hdlr = findBox_1(trak, [
+                            'mdia',
+                            'hdlr'
+                        ])[0];
+                        if (hdlr) {
+                            var type = parseType_1(hdlr.subarray(8, 12));
+                            'vide' === type ? track.type = 'video' : 'soun' === type ? track.type = 'audio' : track.type = type;
+                        }
+                        var stsd = findBox_1(trak, [
+                            'mdia',
+                            'minf',
+                            'stbl',
+                            'stsd'
+                        ])[0];
+                        if (stsd) {
+                            var view, tkhdVersion, codecConfig, sampleDescriptions = stsd.subarray(8);
+                            track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
+                            var codecBox = findBox_1(sampleDescriptions, [
+                                track.codec
+                            ])[0];
+                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? 'avcC' === parseType_1((codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += '.', track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = 'avc1.4d400d' : /^mp4[a,v]$/i.test(track.codec) ? 'esds' === parseType_1((codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += '.' + toHexString(codecConfig[19]), track.codec += '.' + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, '')) : track.codec = 'mp4a.40.2' : track.codec = track.codec.toLowerCase());
+                        }
+                        var mdhd = findBox_1(trak, [
+                            'mdia',
+                            'mdhd'
+                        ])[0];
+                        mdhd && (track.timescale = getTimescaleFromMediaHeader(mdhd)), tracks.push(track);
+                    }), tracks;
+                };
+                var probe$2 = {
                     findBox: findBox_1,
                     parseType: parseType_1,
-                    timescale: function(init) {
-                        return findBox_1(init, [
-                            'moov',
-                            'trak'
-                        ]).reduce(function(result, trak) {
-                            var tkhd, index, id, mdhd;
-                            return (tkhd = findBox_1(trak, [
-                                'tkhd'
-                            ])[0]) && (index = 0 === tkhd[0] ? 12 : 20, id = toUnsigned(tkhd[index] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox_1(trak, [
-                                'mdia',
-                                'mdhd'
-                            ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
-                        }, {});
-                    },
-                    startTime: function(timescale, fragment) {
-                        var trafs, baseTimes, result2;
-                        return trafs = findBox_1(fragment, [
-                            'moof',
-                            'traf'
-                        ]), baseTimes = [].concat.apply([], trafs.map(function(traf) {
-                            return findBox_1(traf, [
-                                'tfhd'
-                            ]).map(function(tfhd) {
-                                var scale, baseTime;
-                                return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, (baseTime = 'number' != typeof (baseTime = findBox_1(traf, [
-                                    'tfdt'
-                                ]).map(function(tfdt) {
-                                    var version, result;
-                                    return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
-                                })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
-                            });
-                        })), isFinite(result2 = Math.min.apply(null, baseTimes)) ? result2 : 0;
-                    },
-                    compositionStartTime: function(timescales, fragment) {
-                        var trackId, trafBoxes = findBox_1(fragment, [
-                            'moof',
-                            'traf'
-                        ]), baseMediaDecodeTime = 0, compositionTimeOffset = 0;
-                        if (trafBoxes && trafBoxes.length) {
-                            var tfhd = findBox_1(trafBoxes[0], [
-                                'tfhd'
-                            ])[0], trun = findBox_1(trafBoxes[0], [
-                                'trun'
-                            ])[0], tfdt = findBox_1(trafBoxes[0], [
-                                'tfdt'
-                            ])[0];
-                            if (tfhd && (trackId = parseTfhd(tfhd).trackId), tfdt && (baseMediaDecodeTime = parseTfdt(tfdt).baseMediaDecodeTime), trun) {
-                                var parsedTrun = parseTrun(trun);
-                                parsedTrun.samples && parsedTrun.samples.length && (compositionTimeOffset = parsedTrun.samples[0].compositionTimeOffset || 0);
-                            }
-                        }
-                        return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90e3);
-                    },
-                    videoTrackIds: function(init) {
-                        var traks = findBox_1(init, [
-                            'moov',
-                            'trak'
-                        ]), videoTrackIds = [];
-                        return traks.forEach(function(trak) {
-                            var hdlrs = findBox_1(trak, [
-                                'mdia',
-                                'hdlr'
-                            ]), tkhds = findBox_1(trak, [
-                                'tkhd'
-                            ]);
-                            hdlrs.forEach(function(hdlr, index) {
-                                var view, trackId, handlerType = parseType_1(hdlr.subarray(8, 12)), tkhd = tkhds[index];
-                                'vide' === handlerType && (trackId = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20), videoTrackIds.push(trackId));
-                            });
-                        }), videoTrackIds;
-                    },
-                    tracks: function(init) {
-                        var traks = findBox_1(init, [
-                            'moov',
-                            'trak'
-                        ]), tracks = [];
-                        return traks.forEach(function(trak) {
-                            var track = {}, tkhd = findBox_1(trak, [
-                                'tkhd'
-                            ])[0];
-                            tkhd && (tkhdVersion = (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0), track.id = 0 === tkhdVersion ? view.getUint32(12) : view.getUint32(20));
-                            var hdlr = findBox_1(trak, [
-                                'mdia',
-                                'hdlr'
-                            ])[0];
-                            if (hdlr) {
-                                var type = parseType_1(hdlr.subarray(8, 12));
-                                'vide' === type ? track.type = 'video' : 'soun' === type ? track.type = 'audio' : track.type = type;
-                            }
-                            var stsd = findBox_1(trak, [
-                                'mdia',
-                                'minf',
-                                'stbl',
-                                'stsd'
-                            ])[0];
-                            if (stsd) {
-                                var view, tkhdVersion, codecConfig, sampleDescriptions = stsd.subarray(8);
-                                track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
-                                var codecBox = findBox_1(sampleDescriptions, [
-                                    track.codec
-                                ])[0];
-                                codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? 'avcC' === parseType_1((codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += '.', track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = 'avc1.4d400d' : /^mp4[a,v]$/i.test(track.codec) ? 'esds' === parseType_1((codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += '.' + toHexString(codecConfig[19]), track.codec += '.' + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, '')) : track.codec = 'mp4a.40.2' : track.codec = track.codec.toLowerCase());
-                            }
-                            var mdhd = findBox_1(trak, [
-                                'mdia',
-                                'mdhd'
-                            ])[0];
-                            mdhd && (track.timescale = getTimescaleFromMediaHeader(mdhd)), tracks.push(track);
-                        }), tracks;
-                    },
-                    getTimescaleFromMediaHeader: getTimescaleFromMediaHeader = function(mdhd) {
-                        var index = 0 === mdhd[0] ? 12 : 20;
-                        return toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
-                    }
+                    timescale: timescale1,
+                    startTime: startTime1,
+                    compositionStartTime: compositionStartTime,
+                    videoTrackIds: getVideoTrackIds,
+                    tracks: getTracks,
+                    getTimescaleFromMediaHeader: getTimescaleFromMediaHeader
                 }, parsePid = function(packet) {
                     var pid = 0x1f & packet[1];
                     return pid <<= 8, pid |= packet[2];

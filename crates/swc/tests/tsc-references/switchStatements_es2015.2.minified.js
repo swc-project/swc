@@ -5,5 +5,4 @@ var M;
     }
     M1.fn = fn;
 }(M || (M = {})), new class {
-}(), new Object(), (x)=>''
-;
+}();

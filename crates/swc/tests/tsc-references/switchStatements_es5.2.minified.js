@@ -14,4 +14,4 @@ var M, C = function() {
     }
     return D;
 }(C);
-new C(), new Object();
+new C();

@@ -75,6 +75,8 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
+functions/issue_2630_1/input.js
+functions/issue_2630_4/input.js
 functions/issue_3016_3/input.js
 functions/issue_3018/input.js
 functions/issue_3076/input.js
@@ -238,6 +240,7 @@ reduce_vars/issue_432_1/input.js
 reduce_vars/issue_432_2/input.js
 reduce_vars/issue_639/input.js
 reduce_vars/obj_var_2/input.js
+reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 return_undefined/return_undefined/input.js

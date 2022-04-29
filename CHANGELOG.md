@@ -1,6 +1,39 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Disable some passes for `hoist_props` (#4468) ([effc85d](https://github.com/swc-project/swc/commit/effc85df572609a180f9a28177a5b37ed960c860))
+
+
+- **(es/minifier)** Fix skipping logic of sequential inliner (#4469) ([233c4d5](https://github.com/swc-project/swc/commit/233c4d5b860d557710bfe654f76d7901e5d0b3a0))
+
+
+- **(html)** Fix bugs of parser and codegen (#4461) ([8bdfcd9](https://github.com/swc-project/swc/commit/8bdfcd996aa5abde0e50743b90f4d36fd25003ba))
+
+
+- **(html/parser)** Fix bugs (#4459) ([2098228](https://github.com/swc-project/swc/commit/20982288fb05dcb4e2c72e5ea4c0888a0e946580))
+
+### Features
+
+
+
+- **(es/minifier)** Drop more returns (#4471) ([2739546](https://github.com/swc-project/swc/commit/273954640aa2d22d0e65f4d186bcb6add0844cb1))
+
+
+- **(es/minifier)** Consider cost of functions for inlining (#4470) ([7a584d7](https://github.com/swc-project/swc/commit/7a584d755aa0dc70c8c367f1c0c4b61e2dbc34df))
+
+
+- **(es/minifier)** Drop pure `new` calls (#4478) ([918c9c8](https://github.com/swc-project/swc/commit/918c9c8a21c248617aef4474380c94f9f98df1dc))
+
+
+- **(html/minifier)** Remove `javascript:` prefix (#4460) ([a1877e7](https://github.com/swc-project/swc/commit/a1877e740acf6bf51421b97c27236b0f208eaf9d))
+
+
+- **(html/minifier)** Remove duplicate attributes (#4474) ([750d655](https://github.com/swc-project/swc/commit/750d6551fcbdf9c0664bfa6ad97d394ba6c641de))
+
 ### Miscellaneous Tasks
 
 

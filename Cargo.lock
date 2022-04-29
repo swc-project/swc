@@ -3303,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.107.1"
+version = "0.107.6"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3483,7 +3483,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.4"
+version = "0.2.6"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.8"
+version = "0.5.10"
 dependencies = [
  "bitflags",
  "lexical",

@@ -1,0 +1,175 @@
+
+  x Document
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+  1 | ,-> <![CDATA[
+  2 | |   Within this Character Data block I can
+  3 | |   use double dashes as much as I want (along with <, &, ', and ")
+  4 | |   *and* %MyParamEntity; will be expanded to the text
+  5 | |   "Has been expanded" ... however, I can't use
+  6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+  7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+  8 | |   ]]>
+  9 | |   <div>test</div>
+ 10 | |   <![cdata[
+ 11 | |   Within this Character Data block I can
+ 12 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 13 | |   *and* %MyParamEntity; will be expanded to the text
+ 14 | |   "Has been expanded" ... however, I can't use
+ 15 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 16 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 17 | `-> ]]>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | `-> ]]>
+   `----
+
+  x Comment
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | `-> ]]>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+  1 | ,-> <![CDATA[
+  2 | |   Within this Character Data block I can
+  3 | |   use double dashes as much as I want (along with <, &, ', and ")
+  4 | |   *and* %MyParamEntity; will be expanded to the text
+  5 | |   "Has been expanded" ... however, I can't use
+  6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+  7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+  8 | |   ]]>
+  9 | |   <div>test</div>
+ 10 | |   <![cdata[
+ 11 | |   Within this Character Data block I can
+ 12 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 13 | |   *and* %MyParamEntity; will be expanded to the text
+ 14 | |   "Has been expanded" ... however, I can't use
+ 15 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 16 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 17 | `-> ]]>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+  1 | ,-> <![CDATA[
+  2 | |   Within this Character Data block I can
+  3 | |   use double dashes as much as I want (along with <, &, ', and ")
+  4 | |   *and* %MyParamEntity; will be expanded to the text
+  5 | |   "Has been expanded" ... however, I can't use
+  6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+  7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+  8 | |   ]]>
+  9 | |   <div>test</div>
+ 10 | |   <![cdata[
+ 11 | |   Within this Character Data block I can
+ 12 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 13 | |   *and* %MyParamEntity; will be expanded to the text
+ 14 | |   "Has been expanded" ... however, I can't use
+ 15 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 16 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 17 | `-> ]]>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | |   ]]>
+ 9 | `-> <div>test</div>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
+ 1 | ,-> <![CDATA[
+ 2 | |   Within this Character Data block I can
+ 3 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 4 | |   *and* %MyParamEntity; will be expanded to the text
+ 5 | |   "Has been expanded" ... however, I can't use
+ 6 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 7 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 8 | |   ]]>
+ 9 | `-> <div>test</div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+ 9 | <div>test</div>
+   : ^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+ 9 | <div>test</div>
+   : ^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+ 9 | <div>test</div>
+   :      ^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+ 9 | <div>test</div>
+   :      ^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
+ 10 | ,-> <![cdata[
+ 11 | |   Within this Character Data block I can
+ 12 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 13 | |   *and* %MyParamEntity; will be expanded to the text
+ 14 | |   "Has been expanded" ... however, I can't use
+ 15 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 16 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 17 | `-> ]]>
+    `----
+
+  x Comment
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
+ 10 | ,-> <![cdata[
+ 11 | |   Within this Character Data block I can
+ 12 | |   use double dashes as much as I want (along with <, &, ', and ")
+ 13 | |   *and* %MyParamEntity; will be expanded to the text
+ 14 | |   "Has been expanded" ... however, I can't use
+ 15 | |   the CEND sequence. If I need to use CEND I must escape one of the
+ 16 | |   brackets or the greater-than sign using concatenated CDATA sections.
+ 17 | `-> ]]>
+    `----

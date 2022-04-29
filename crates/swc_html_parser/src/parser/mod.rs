@@ -543,7 +543,7 @@ where
             //      namespace
             //
             //      Acknowledge the token's self-closing flag, and then act as
-            //      described in the steps for      a "script" end tag below.
+            //      described in the steps for a "script" end tag below.
             //
             // Otherwise
             //      Pop the current node off the stack of open elements and acknowledge the token's
@@ -3154,7 +3154,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") =>
                     {
-                        if self.open_elements_stack.has_in_scope(tag_name) {
+                        if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -4076,10 +4076,8 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        self.errors.push(Error::new(
-                            token_and_info.span,
-                            ErrorKind::UnexpectedNullCharacter,
-                        ));
+                        self.errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
@@ -4186,10 +4184,8 @@ where
                         };
 
                         if input_type.is_none() || !is_hidden {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::UnexpectedNullCharacter,
-                            ));
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                             let saved_foster_parenting_state = self.foster_parenting_enabled;
 
@@ -4248,10 +4244,8 @@ where
                     // Parse error. Enable foster parenting, process the token using the rules for
                     // the "in body" insertion mode, and then disable foster parenting.
                     _ => {
-                        self.errors.push(Error::new(
-                            token_and_info.span,
-                            ErrorKind::UnexpectedNullCharacter,
-                        ));
+                        self.errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                         let saved_foster_parenting_state = self.foster_parenting_enabled;
 
@@ -4313,10 +4307,8 @@ where
                         }
 
                         if has_non_ascii_whitespace {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::UnexpectedNullCharacter,
-                            ));
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                             for mut character_token in take(&mut self.pending_character_tokens) {
                                 let saved_foster_parenting_state = self.foster_parenting_enabled;

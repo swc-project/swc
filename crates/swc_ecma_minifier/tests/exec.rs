@@ -9789,3 +9789,71 @@ fn try_catch_5() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_4444_1() {
+    let src = r###"
+    const test = () => {
+        let a = 0;
+        let b = 0;
+        let c = [1, 2, 3, 4, 5].map((i) => {
+          a += i;
+          b += i;
+          return i;
+        });
+        return [a, b, c];
+      };
+      
+      const [a, b, c] = test();
+      console.log("test", a, b, c);
+    "###;
+
+    let config = r###"
+    {
+        "arguments": false,
+        "arrows": false,
+        "booleans": true,
+        "booleans_as_integers": false,
+        "collapse_vars": true,
+        "comparisons": true,
+        "computed_props": false,
+        "conditionals": false,
+        "dead_code": false,
+        "directives": false,
+        "drop_console": false,
+        "drop_debugger": true,
+        "evaluate": false,
+        "expression": false,
+        "hoist_funs": false,
+        "hoist_props": false,
+        "hoist_vars": false,
+        "if_return": true,
+        "join_vars": false,
+        "keep_classnames": false,
+        "keep_fargs": true,
+        "keep_fnames": false,
+        "keep_infinity": false,
+        "loops": true,
+        "negate_iife": false,
+        "properties": true,
+        "reduce_funcs": false,
+        "reduce_vars": false,
+        "side_effects": true,
+        "switches": false,
+        "typeofs": false,
+        "unsafe": false,
+        "unsafe_arrows": false,
+        "unsafe_comps": false,
+        "unsafe_Function": false,
+        "unsafe_math": false,
+        "unsafe_symbols": false,
+        "unsafe_methods": false,
+        "unsafe_proto": false,
+        "unsafe_regexp": false,
+        "unsafe_undefined": false,
+        "unused": true
+      }
+    "###;
+
+    run_exec_test(src, config, false);
+}

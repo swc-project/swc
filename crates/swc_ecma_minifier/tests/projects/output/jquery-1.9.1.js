@@ -865,24 +865,26 @@
             var handle, ontype, cur, bubbleType, special, tmp, i, eventPath = [
                 elem || document1
             ], type = core_hasOwn.call(event, "type") ? event.type : event, namespaces = core_hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-            if (cur = tmp = elem = elem || document1, 3 !== elem.nodeType && 8 !== elem.nodeType && !rfocusMorph.test(type + jQuery.event.triggered) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
-                event
-            ] : jQuery.makeArray(data, [
-                event
-            ]), special = jQuery.event.special[type] || {}, onlyHandlers || !special.trigger || !1 !== special.trigger.apply(elem, data))) {
-                if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
-                    for(bubbleType = special.delegateType || type, rfocusMorph.test(bubbleType + type) || (cur = cur.parentNode); cur; cur = cur.parentNode)eventPath.push(cur), tmp = cur;
-                    tmp === (elem.ownerDocument || document1) && eventPath.push(tmp.defaultView || tmp.parentWindow || window1);
+            if (cur = tmp = elem = elem || document1, 3 !== elem.nodeType && 8 !== elem.nodeType) {
+                if (!rfocusMorph.test(type + jQuery.event.triggered) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
+                    event
+                ] : jQuery.makeArray(data, [
+                    event
+                ]), special = jQuery.event.special[type] || {}, onlyHandlers || !special.trigger || !1 !== special.trigger.apply(elem, data))) {
+                    if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
+                        for(bubbleType = special.delegateType || type, rfocusMorph.test(bubbleType + type) || (cur = cur.parentNode); cur; cur = cur.parentNode)eventPath.push(cur), tmp = cur;
+                        tmp === (elem.ownerDocument || document1) && eventPath.push(tmp.defaultView || tmp.parentWindow || window1);
+                    }
+                    for(i = 0; (cur = eventPath[i++]) && !event.isPropagationStopped();)event.type = i > 1 ? bubbleType : special.bindType || type, (handle = (jQuery._data(cur, "events") || {})[event.type] && jQuery._data(cur, "handle")) && handle.apply(cur, data), (handle = ontype && cur[ontype]) && jQuery.acceptData(cur) && handle.apply && !1 === handle.apply(cur, data) && event.preventDefault();
+                    if (event.type = type, !onlyHandlers && !event.isDefaultPrevented() && (!special._default || !1 === special._default.apply(elem.ownerDocument, data)) && !("click" === type && jQuery.nodeName(elem, "a")) && jQuery.acceptData(elem) && ontype && elem[type] && !jQuery.isWindow(elem)) {
+                        (tmp = elem[ontype]) && (elem[ontype] = null), jQuery.event.triggered = type;
+                        try {
+                            elem[type]();
+                        } catch (e) {}
+                        jQuery.event.triggered = undefined, tmp && (elem[ontype] = tmp);
+                    }
+                    return event.result;
                 }
-                for(i = 0; (cur = eventPath[i++]) && !event.isPropagationStopped();)event.type = i > 1 ? bubbleType : special.bindType || type, (handle = (jQuery._data(cur, "events") || {})[event.type] && jQuery._data(cur, "handle")) && handle.apply(cur, data), (handle = ontype && cur[ontype]) && jQuery.acceptData(cur) && handle.apply && !1 === handle.apply(cur, data) && event.preventDefault();
-                if (event.type = type, !onlyHandlers && !event.isDefaultPrevented() && (!special._default || !1 === special._default.apply(elem.ownerDocument, data)) && !("click" === type && jQuery.nodeName(elem, "a")) && jQuery.acceptData(elem) && ontype && elem[type] && !jQuery.isWindow(elem)) {
-                    (tmp = elem[ontype]) && (elem[ontype] = null), jQuery.event.triggered = type;
-                    try {
-                        elem[type]();
-                    } catch (e) {}
-                    jQuery.event.triggered = undefined, tmp && (elem[ontype] = tmp);
-                }
-                return event.result;
             }
         },
         dispatch: function(event) {

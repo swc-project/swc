@@ -1,5 +1,7 @@
 #![deny(clippy::all)]
 
+use swc_atoms::JsWord;
+use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
@@ -47,6 +49,99 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
+    "onabort",
+    "onauxclick",
+    "onbeforematch",
+    "oncancel",
+    "oncanplay",
+    "oncanplaythrough",
+    "onchange",
+    "onclick",
+    "onclose",
+    "oncontextlost",
+    "oncontextmenu",
+    "oncontextrestored",
+    "oncuechange",
+    "ondblclick",
+    "ondrag",
+    "ondragend",
+    "ondragenter",
+    "ondragleave",
+    "ondragover",
+    "ondragstart",
+    "ondrop",
+    "ondurationchange",
+    "onemptied",
+    "onended",
+    "onformdata",
+    "oninput",
+    "oninvalid",
+    "onkeydown",
+    "onkeypress",
+    "onkeyup",
+    "onloadeddata",
+    "onloadedmetadata",
+    "onloadstart",
+    "onmousedown",
+    "onmouseenter",
+    "onmouseleave",
+    "onmousemove",
+    "onmouseout",
+    "onmouseover",
+    "onmouseup",
+    "onpause",
+    "onplay",
+    "onplaying",
+    "onprogress",
+    "onratechange",
+    "onreset",
+    "onsecuritypolicyviolation",
+    "onseeked",
+    "onseeking",
+    "onselect",
+    "onslotchange",
+    "onstalled",
+    "onsubmit",
+    "onsuspend",
+    "ontimeupdate",
+    "ontoggle",
+    "onvolumechange",
+    "onwaiting",
+    "onwebkitanimationend",
+    "onwebkitanimationiteration",
+    "onwebkitanimationstart",
+    "onwebkittransitionend",
+    "onwheel",
+    "onblur",
+    "onerror",
+    "onfocus",
+    "onload",
+    "onresize",
+    "onscroll",
+    "onafterprint",
+    "onbeforeprint",
+    "onbeforeunload",
+    "onhashchange",
+    "onlanguagechange",
+    "onmessage",
+    "onmessageerror",
+    "onoffline",
+    "ononline",
+    "onpagehide",
+    "onpageshow",
+    "onpopstate",
+    "onrejectionhandled",
+    "onstorage",
+    "onunhandledrejection",
+    "onunload",
+    "oncut",
+    "oncopy",
+    "onpaste",
+    "onreadystatechange",
+    "onvisibilitychange",
+];
+
 // TODO improve list - event handlers + remove multiple whitespace from class +
 // test for custom elements
 static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
@@ -68,6 +163,10 @@ struct Minifier {}
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
         BOOLEAN_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_event_handler_attribute(&self, name: &str) -> bool {
+        EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
 
     fn allow_to_trim(&self, name: &str) -> bool {
@@ -183,28 +282,32 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+
+        let mut already_seen: AHashSet<JsWord> = Default::default();
+
         n.attributes.retain(|attribute| {
+            if already_seen.contains(&attribute.name) {
+                return false;
+            }
+
+            already_seen.insert(attribute.name.clone());
+
             if attribute.value.is_none() {
                 return true;
             }
 
-            match &*attribute.name {
-                _ if self.is_default_attribute_value(
-                    n.namespace,
-                    &n.tag_name,
-                    &attribute.name,
-                    attribute.value.as_ref().unwrap(),
-                ) =>
-                {
-                    false
-                }
-                _ if matches!(&*attribute.name, "id" | "class" | "style")
-                    && (&*attribute.value.as_ref().unwrap()).trim().is_empty() =>
-                {
-                    false
-                }
-                _ => true,
+            if self.is_default_attribute_value(
+                n.namespace,
+                &n.tag_name,
+                &attribute.name,
+                attribute.value.as_ref().unwrap(),
+            ) || (matches!(&*attribute.name, "id" | "class" | "style")
+                && (&*attribute.value.as_ref().unwrap()).trim().is_empty())
+            {
+                return false;
             }
+
+            true
         });
     }
 
@@ -213,6 +316,22 @@ impl VisitMut for Minifier {
 
         if n.value.is_none() {
             return;
+        }
+
+        let value = n.value.as_ref().unwrap();
+
+        match &n.name {
+            name if self.is_boolean_attribute(name) => {
+                n.value = None;
+            }
+            name if self.is_event_handler_attribute(name)
+                && value.to_lowercase().starts_with("javascript:") =>
+            {
+                let new_value: String = value.as_ref().chars().skip(11).collect();
+
+                n.value = Some(new_value.into());
+            }
+            _ => {}
         }
 
         if self.is_boolean_attribute(&n.name) {

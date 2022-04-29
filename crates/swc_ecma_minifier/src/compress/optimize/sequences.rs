@@ -855,10 +855,6 @@ where
             return false;
         }
 
-        if !e.may_have_side_effects() {
-            return true;
-        }
-
         match e {
             Expr::Ident(e) => {
                 if let Some(a) = a {
@@ -982,6 +978,10 @@ where
             }
 
             _ => {}
+        }
+
+        if !e.may_have_side_effects() {
+            return true;
         }
 
         log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));

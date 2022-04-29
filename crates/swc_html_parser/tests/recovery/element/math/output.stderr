@@ -1,0 +1,36 @@
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:36:13]
+ 36 | <html xmlns="http://www.w3.org/1999/xhtml">
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
+ 37 | <head><title>INNER HTML TITLE</title></head>
+    : ^^^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
+ 37 | <head><title>INNER HTML TITLE</title></head>
+    :                                      ^^^^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:38:13]
+ 38 | <body>
+    : ^^^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:40:13]
+ 40 | </body>
+    : ^^^^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:41:13]
+ 41 | </html>
+    : ^^^^^^^
+    `----

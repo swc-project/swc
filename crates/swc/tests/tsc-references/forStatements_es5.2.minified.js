@@ -18,7 +18,7 @@ for(!function(M1) {
 for(;;);
 for(;;);
 for(;;);
-for(new Object();;);
+for(;;);
 for(;;);
 for(;;);
 for(;;);

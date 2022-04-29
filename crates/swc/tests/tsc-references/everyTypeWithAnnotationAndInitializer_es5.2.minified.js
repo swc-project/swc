@@ -14,4 +14,4 @@ var M, C = function() {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), new Object(), new C(), new C(), new D(), new C(), new M.A();
+}(M || (M = {})), new C(), new C(), new D(), new C(), new M.A();
