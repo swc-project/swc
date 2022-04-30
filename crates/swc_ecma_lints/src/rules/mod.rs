@@ -32,6 +32,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_restricted_syntax;
     pub mod no_throw_literal;
     pub mod no_use_before_define;
+    pub mod no_var;
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
@@ -159,7 +160,9 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_throw_literal::no_throw_literal(
             &lint_config.no_throw_literal,
-        ))
+        ));
+
+        rules.extend(no_var::no_var(&lint_config.no_var));
     }
 
     rules
