@@ -539,8 +539,6 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
-functions/issue_2630_1/input.js
-functions/issue_2630_4/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -1197,7 +1195,6 @@ reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
-reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js

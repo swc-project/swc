@@ -1959,7 +1959,7 @@
                                     default:
                                         return r;
                                 }
-                            }), y = o[e]; e < i; y = o[++e])null !== y && isObject(y) ? a += " " + inspect(y) : a += " " + y;
+                            }), y = o[e]; e < i; y = o[++e])isNull(y) || !isObject(y) ? a += " " + y : a += " " + inspect(y);
                             return a;
                         }, t17.deprecate = function(r, e) {
                             if (void 0 !== process && !0 === process.noDeprecation) return r;
@@ -2031,7 +2031,7 @@
                                 var e = "'" + JSON.stringify(t).replace(/^"|"$/g, "").replace(/'/g, "\\'").replace(/\\"/g, '"') + "'";
                                 return r.stylize(e, "string");
                             }
-                            return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : null === t ? r.stylize("null", "null") : void 0;
+                            return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";
@@ -2046,7 +2046,7 @@
                             var a, y, p;
                             if ((p = Object.getOwnPropertyDescriptor(t, n) || {
                                 value: t[n]
-                            }).get ? y = p.set ? r37.stylize("[Getter/Setter]", "special") : r37.stylize("[Getter]", "special") : p.set && (y = r37.stylize("[Setter]", "special")), hasOwnProperty(o, n) || (a = "[" + n + "]"), !y && (0 > r37.seen.indexOf(p.value) ? (y = null === e ? formatValue(r37, p.value, null) : formatValue(r37, p.value, e - 1)).indexOf("\n") > -1 && (y = i ? y.split("\n").map(function(r) {
+                            }).get ? y = p.set ? r37.stylize("[Getter/Setter]", "special") : r37.stylize("[Getter]", "special") : p.set && (y = r37.stylize("[Setter]", "special")), hasOwnProperty(o, n) || (a = "[" + n + "]"), !y && (0 > r37.seen.indexOf(p.value) ? (y = isNull(e) ? formatValue(r37, p.value, null) : formatValue(r37, p.value, e - 1)).indexOf("\n") > -1 && (y = i ? y.split("\n").map(function(r) {
                                 return "  " + r;
                             }).join("\n").substr(2) : "\n" + y.split("\n").map(function(r) {
                                 return "   " + r;

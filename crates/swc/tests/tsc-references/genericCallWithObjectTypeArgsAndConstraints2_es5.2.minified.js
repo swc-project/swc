@@ -12,19 +12,22 @@ var Base = function() {
     return Derived;
 }(Base);
 function f(x) {}
-function f3(x, y) {
-    return y(null);
-}
 f({
     foo: new Base(),
     bar: new Derived()
 }), f({
     foo: new Derived(),
     bar: new Derived()
-}), f3(new Base(), function(x) {
+}), function(x, y) {
+    y(null);
+}(new Base(), function(x) {
     return x;
-}), f3(new Derived(), function(x) {
+}), function(x, y) {
+    y(null);
+}(new Derived(), function(x) {
     return x;
-}), f3(null, null), f3(null, function(x) {
+}), (null)(null), function(x, y) {
+    y(null);
+}(null, function(x) {
     return x;
 });

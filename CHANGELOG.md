@@ -1,6 +1,71 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/bugfixes)** Fix handling of syntax context (#4490) ([a444726](https://github.com/swc-project/swc/commit/a444726fe3014c1a241439d8126188c0c5fe5212))
+
+
+- **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
+
+### Features
+
+
+
+- **(es/lints)** Implement `no-var` (#4485) ([17f237d](https://github.com/swc-project/swc/commit/17f237d3ba97fc14d098cef2038bb846ac2b7c8d))
+
+### Refactor
+
+
+
+- **(es/minifier)** Cleanup (#4489) ([50b2049](https://github.com/swc-project/swc/commit/50b20496cdd1d5fb2dd119c633b5dc7608cb638c))
+
+## [1.2.174] - 2022-04-30
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Update `_interopRequireWildcard` (#4479) ([7d40208](https://github.com/swc-project/swc/commit/7d40208377133b0fcd153c5bfcf47f6b489113c1))
+
+
+- **(es/minifier)** Disable some passes for `hoist_props` (#4468) ([effc85d](https://github.com/swc-project/swc/commit/effc85df572609a180f9a28177a5b37ed960c860))
+
+
+- **(es/minifier)** Fix skipping logic of sequential inliner (#4469) ([233c4d5](https://github.com/swc-project/swc/commit/233c4d5b860d557710bfe654f76d7901e5d0b3a0))
+
+
+- **(html)** Fix bugs of parser and codegen (#4461) ([8bdfcd9](https://github.com/swc-project/swc/commit/8bdfcd996aa5abde0e50743b90f4d36fd25003ba))
+
+
+- **(html/parser)** Fix bugs (#4459) ([2098228](https://github.com/swc-project/swc/commit/20982288fb05dcb4e2c72e5ea4c0888a0e946580))
+
+### Features
+
+
+
+- **(es/lints)** Implement `no-throw-literal` (#4477) ([3a8cade](https://github.com/swc-project/swc/commit/3a8cade2091bea83769b5140a92dad7b2a277ce0))
+
+
+- **(es/minifier)** Drop more returns (#4471) ([2739546](https://github.com/swc-project/swc/commit/273954640aa2d22d0e65f4d186bcb6add0844cb1))
+
+
+- **(es/minifier)** Consider cost of functions for inlining (#4470) ([7a584d7](https://github.com/swc-project/swc/commit/7a584d755aa0dc70c8c367f1c0c4b61e2dbc34df))
+
+
+- **(es/minifier)** Drop pure `new` calls (#4478) ([918c9c8](https://github.com/swc-project/swc/commit/918c9c8a21c248617aef4474380c94f9f98df1dc))
+
+
+- **(es/minifier)** Add `pristine_globals` (#4480) ([09ba3c0](https://github.com/swc-project/swc/commit/09ba3c0e688b2bd66e707836ecba23feee93fb8c))
+
+
+- **(html/minifier)** Remove `javascript:` prefix (#4460) ([a1877e7](https://github.com/swc-project/swc/commit/a1877e740acf6bf51421b97c27236b0f208eaf9d))
+
+
+- **(html/minifier)** Remove duplicate attributes (#4474) ([750d655](https://github.com/swc-project/swc/commit/750d6551fcbdf9c0664bfa6ad97d394ba6c641de))
+
 ### Miscellaneous Tasks
 
 

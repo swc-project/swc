@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.173"
+version = "1.2.174"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.172.2"
+version = "0.173.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2935,7 +2935,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.140.0"
+version = "0.141.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2993,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.46.0"
+version = "0.47.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3260,7 +3260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.36.0"
+version = "0.36.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3303,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.107.1"
+version = "0.108.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.148.0"
+version = "0.148.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3447,7 +3447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.80.1"
+version = "0.80.2"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3483,7 +3483,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.94.0"
+version = "0.94.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3627,7 +3627,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.82.0"
+version = "0.82.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3696,7 +3696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.150.0"
+version = "0.151.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3743,7 +3743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.92.0"
+version = "0.93.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.2.4"
+version = "0.2.6"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.8"
+version = "0.5.11"
 dependencies = [
  "bitflags",
  "lexical",
@@ -4031,7 +4031,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.90.0"
+version = "0.91.0"
 dependencies = [
  "anyhow",
  "rayon",

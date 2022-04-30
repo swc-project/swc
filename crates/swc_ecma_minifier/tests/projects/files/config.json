@@ -1,3 +1,4 @@
 {
-    "defaults": true
+  "defaults": true,
+  "passes": 3
 }

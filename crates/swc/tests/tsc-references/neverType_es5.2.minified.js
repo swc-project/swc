@@ -18,15 +18,20 @@ var C = function() {
         for(;;);
     }, C;
 }();
-function test(cb) {
-    return cb();
-}
-test(function() {
+(function(cb) {
+    cb();
+})(function() {
     return "hello";
-}), test(function() {
+}), function(cb) {
+    cb();
+}(function() {
     return error("Something failed");
-}), test(function() {
+}), function(cb) {
+    cb();
+}(function() {
     throw new Error();
-}), test(function() {
+}), function(cb) {
+    cb();
+}(function() {
     return error("Error callback");
 });

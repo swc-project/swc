@@ -1,0 +1,6 @@
+
+  x Incorrectly opened comment
+   ,-[$DIR/tests/recovery/comment/bogus/input.html:1:1]
+ 1 | <!–– Failing New York Times Comment -->
+   : ^^^^^
+   `----

@@ -164,4 +164,12 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noObjCalls")]
     pub no_obj_calls: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noVar")]
+    pub no_var: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noThrowLiteral")]
+    pub no_throw_literal: RuleConfig<()>,
 }

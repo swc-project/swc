@@ -1,10 +1,9 @@
 use std::ops::{Deref, DerefMut};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
 use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -15,48 +14,6 @@ impl<'b, M> Optimizer<'b, M>
 where
     M: Mode,
 {
-    pub(super) fn access_property<'e>(
-        &mut self,
-        expr: &'e mut Expr,
-        prop: &JsWord,
-    ) -> Option<&'e mut Expr> {
-        if let Expr::Object(obj) = expr {
-            for obj_prop in obj.props.iter_mut() {
-                match obj_prop {
-                    PropOrSpread::Spread(_) => {}
-                    PropOrSpread::Prop(p) => match &mut **p {
-                        Prop::Shorthand(_) => {}
-                        Prop::KeyValue(p) => {
-                            if prop_name_eq(&p.key, prop) {
-                                return Some(&mut *p.value);
-                            }
-                        }
-                        Prop::Assign(_) => {}
-                        Prop::Getter(_) => {}
-                        Prop::Setter(_) => {}
-                        Prop::Method(_) => {}
-                    },
-                }
-            }
-        }
-
-        None
-    }
-
-    pub(super) fn access_property_with_prop_name<'e>(
-        &mut self,
-        expr: &'e mut Expr,
-        prop: &PropName,
-    ) -> Option<&'e mut Expr> {
-        match prop {
-            PropName::Ident(p) => self.access_property(expr, &p.sym),
-            PropName::Str(p) => self.access_property(expr, &p.value),
-            PropName::Num(p) => self.access_numeric_property(expr, p.value as _),
-            PropName::Computed(_) => None,
-            PropName::BigInt(_) => None,
-        }
-    }
-
     pub(super) fn access_numeric_property<'e>(
         &mut self,
         _expr: &'e mut Expr,

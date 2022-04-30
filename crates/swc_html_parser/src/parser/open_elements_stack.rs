@@ -121,6 +121,28 @@ impl OpenElementsStack {
         popped
     }
 
+    pub fn insert(&mut self, index: usize, node: RcNode) {
+        if get_tag_name!(node) == "template" {
+            self.template_element_count += 1;
+        }
+
+        self.items.insert(index, node);
+    }
+
+    pub fn replace(&mut self, index: usize, node: RcNode) {
+        if let Some(item) = self.items.get(index) {
+            if get_tag_name!(item) == "template" {
+                self.template_element_count -= 1;
+            }
+
+            if get_tag_name!(node) == "template" {
+                self.template_element_count += 1;
+            }
+
+            self.items[index] = node;
+        }
+    }
+
     pub fn remove(&mut self, node: &RcNode) {
         let position = self.items.iter().rposition(|x| is_same_node(node, x));
 
@@ -204,8 +226,6 @@ impl OpenElementsStack {
     }
 
     pub fn has_node_in_scope(&self, target: &RcNode) -> bool {
-        //   self.has_element_target_node_in_specific_scope(tag_name, SPECIFIC_SCOPE)
-
         let mut iter = self.items.iter().rev();
         // 1. Initialize node to be the current node (the bottommost node of the stack).
         let mut node = iter.next();

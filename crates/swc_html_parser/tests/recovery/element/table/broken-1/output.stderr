@@ -1,0 +1,36 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :        ^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :            ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :             ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :              ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :               ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
+ 8 | <table><h1>test</h1></table>
+   :                ^^^^^
+   `----

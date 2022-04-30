@@ -1,4 +1,4 @@
-use std::{mem::take, rc::Rc};
+use std::{mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
@@ -27,6 +27,11 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
     pub scripting_enabled: bool,
+}
+
+enum Bookmark<RcNode> {
+    Replace(RcNode),
+    InsertAfter(RcNode),
 }
 
 enum AdjustAttributes {
@@ -136,7 +141,7 @@ where
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors)
+        mem::take(&mut self.errors)
     }
 
     // TODO parse_fragment
@@ -543,7 +548,7 @@ where
             //      namespace
             //
             //      Acknowledge the token's self-closing flag, and then act as
-            //      described in the steps for      a "script" end tag below.
+            //      described in the steps for a "script" end tag below.
             //
             // Otherwise
             //      Pop the current node off the stack of open elements and acknowledge the token's
@@ -1470,12 +1475,12 @@ where
                         let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None)?;
-                        let node = Node::new(Data::Element(self.create_element_for_token(
+                        let node = self.create_element_for_token(
                             token_and_info.token.clone(),
                             Span::new(token_and_info.span.lo, last_pos, Default::default()),
                             Some(Namespace::HTML),
                             None,
-                        )));
+                        );
 
                         // Skip script handling
 
@@ -3154,7 +3159,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "applet" | "marquee" | "object") =>
                     {
-                        if self.open_elements_stack.has_in_scope(tag_name) {
+                        if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         } else {
@@ -4076,10 +4081,8 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        self.errors.push(Error::new(
-                            token_and_info.span,
-                            ErrorKind::UnexpectedNullCharacter,
-                        ));
+                        self.errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
@@ -4186,10 +4189,8 @@ where
                         };
 
                         if input_type.is_none() || !is_hidden {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::UnexpectedNullCharacter,
-                            ));
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                             let saved_foster_parenting_state = self.foster_parenting_enabled;
 
@@ -4248,10 +4249,8 @@ where
                     // Parse error. Enable foster parenting, process the token using the rules for
                     // the "in body" insertion mode, and then disable foster parenting.
                     _ => {
-                        self.errors.push(Error::new(
-                            token_and_info.span,
-                            ErrorKind::UnexpectedNullCharacter,
-                        ));
+                        self.errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                         let saved_foster_parenting_state = self.foster_parenting_enabled;
 
@@ -4313,12 +4312,11 @@ where
                         }
 
                         if has_non_ascii_whitespace {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::UnexpectedNullCharacter,
-                            ));
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
-                            for mut character_token in take(&mut self.pending_character_tokens) {
+                            for mut character_token in mem::take(&mut self.pending_character_tokens)
+                            {
                                 let saved_foster_parenting_state = self.foster_parenting_enabled;
 
                                 self.foster_parenting_enabled = true;
@@ -4329,7 +4327,8 @@ where
                                 self.foster_parenting_enabled = saved_foster_parenting_state;
                             }
                         } else {
-                            for mut character_token in take(&mut self.pending_character_tokens) {
+                            for mut character_token in mem::take(&mut self.pending_character_tokens)
+                            {
                                 self.insert_character(&mut character_token)?;
                             }
                         }
@@ -6185,8 +6184,8 @@ where
         span: Span,
         namespace: Option<Namespace>,
         adjust_attributes: Option<AdjustAttributes>,
-    ) -> Element {
-        match token {
+    ) -> RcNode {
+        let element = match token {
             Token::StartTag {
                 tag_name,
                 attributes,
@@ -6237,7 +6236,9 @@ where
             _ => {
                 unreachable!();
             }
-        }
+        };
+
+        Node::new(Data::Element(element))
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -6357,7 +6358,6 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        // TODO finish me
         // 1.
         let subject = match &token_and_info.token {
             Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name.clone(),
@@ -6432,8 +6432,12 @@ where
                 .rposition(|n| is_same_node(n, &formatting_element.1));
 
             if formatting_element_stack_index.is_none() {
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                 self.active_formatting_elements
                     .remove(&formatting_element.1);
+
+                return Ok(());
             }
 
             let formatting_element_stack_index = formatting_element_stack_index.unwrap();
@@ -6443,7 +6447,8 @@ where
                 .open_elements_stack
                 .has_node_in_scope(&formatting_element.1)
             {
-                // TODO error
+                self.errors
+                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                 return Ok(());
             }
@@ -6451,7 +6456,8 @@ where
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
                 if !is_same_node(node, &formatting_element.1) {
-                    // TODO error
+                    self.errors
+                        .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                 }
             }
 
@@ -6466,10 +6472,14 @@ where
                 .map(|(i, h)| (i, h.clone()));
 
             // 8.
+
             if furthest_block.is_none() {
-                self.open_elements_stack
-                    .items
-                    .truncate(formatting_element_stack_index);
+                while let Some(node) = self.open_elements_stack.pop() {
+                    if is_same_node(&node, &formatting_element.1) {
+                        break;
+                    }
+                }
+
                 self.active_formatting_elements
                     .remove(&formatting_element.1);
 
@@ -6477,130 +6487,180 @@ where
             }
 
             // 9.
-            //let common_ancestor =
-            // self.open_elements_stack.items[formatting_element_stack_index - 1].clone();
+            let common_ancestor =
+                self.open_elements_stack.items[formatting_element_stack_index - 1].clone();
 
             // 10.
-            // let bookmark =
-            // self.active_formatting_elements.get_position(&formatting_element.1);
+            let mut bookmark = Bookmark::Replace(formatting_element.1.clone());
 
             // 11.
-            // let furthest_block = furthest_block.unwrap();
-            // let mut node: RcNode;
-            // let mut node_index = furthest_block.0;
-            // let mut last_node = furthest_block.1.clone();
+            let furthest_block = furthest_block.unwrap();
+            let mut node;
+            let mut node_index = furthest_block.0;
+            let mut last_node = furthest_block.1.clone();
 
             // 12.
-            // let mut inner_loop_counter = 0;
+            let mut inner_loop_counter = 0;
 
             // 13.
-            // loop {
-            //     // 13.1
-            //     inner_loop_counter += 1;
-            //
-            //     // 13.2
-            //     node_index -= 1;
-            //     node = self.open_elements_stack.items[node_index].clone();
-            //
-            //     // 13.3
-            //     if is_same_node(&node, &formatting_element.1) {
-            //         break;
-            //     }
-            //
-            //     // 13.4
-            //     if inner_loop_counter > 3 {
-            //         self.active_formatting_elements
-            //             .get_position(&node)
-            //             .map(|position|
-            // self.active_formatting_elements.items.remove(position));
-            //         self.open_elements_stack.remove(&node);
-            //
-            //         continue;
-            //     }
-            //
-            //     // 13.4
-            //     let node_formatting_index =
-            //         unwrap_or_else!(self.active_formatting_elements.get_position(&node),
-            // {             self.open_elems.remove(node_index);
-            //
-            //             continue;
-            //         });
-            //
-            //     // 13.5
-            //     let token_and_info =
-            //         match self.active_formatting_elements.items[node_formatting_index] {
-            //             Element(ref h, ref t) => {
-            //                 assert!(is_same_node(h, &node));
-            //
-            //                 t.clone()
-            //             }
-            //             Marker => panic!(
-            //                 "Found marker during adoption agency"
-            //             ),
-            //         };
-            //
-            //     // 13.6
-            //     let last_pos = self.input.last_pos()?;
-            //     let new_element = self.create_element_for_token(
-            //         token_and_info,
-            //         Span::new(token_and_info.span.lo, last_pos, Default::default()),
-            //         Some(Namespace::HTML),
-            //         None,
-            //     );
-            //
-            //     self.open_elements_stack.items[node_index] = new_element.clone();
-            //     self.active_formatting_elements.items[node_formatting_index] =
-            //         ActiveFormattingElement::Element(new_element.clone(), tag);
-            //
-            //     node = new_element;
-            //
-            //     // 13.7
-            //     if is_same_node(&last_node, &furthest_block) {
-            //         // bookmark = Bookmark::InsertAfter(node.clone());
-            //     }
-            //
-            //     // 13.8
-            //     self.sink.remove_from_parent(&last_node);
-            //     self.sink.append(&node, AppendNode(last_node.clone()));
-            //
-            //     // 13.9
-            //     last_node = node.clone();
-            // }
+            loop {
+                // 13.1
+                inner_loop_counter += 1;
+
+                // 13.2
+                node_index -= 1;
+                node = self.open_elements_stack.items[node_index].clone();
+
+                // 13.3
+                if is_same_node(&node, &formatting_element.1) {
+                    break;
+                }
+
+                // 13.4
+                let node_formatting_index = self.active_formatting_elements.get_position(&node);
+                let mut node_in_list = node_formatting_index.is_some();
+
+                if inner_loop_counter > 3 && node_in_list {
+                    self.active_formatting_elements.remove(&node);
+
+                    node_in_list = false;
+                }
+
+                // 13.5
+                if !node_in_list {
+                    self.open_elements_stack.remove(&node);
+
+                    continue;
+                }
+
+                // 13.6
+                let node_formatting_index = node_formatting_index.unwrap();
+                let last_pos = self.input.last_pos()?;
+                let token_and_info =
+                    match self.active_formatting_elements.items[node_formatting_index] {
+                        ActiveFormattingElement::Element(ref h, ref t) => {
+                            assert!(is_same_node(h, &node));
+
+                            t.clone()
+                        }
+                        ActiveFormattingElement::Marker => {
+                            panic!("Found marker during adoption agency")
+                        }
+                    };
+                let new_element = self.create_element_for_token(
+                    token_and_info.token.clone(),
+                    Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                    Some(Namespace::HTML),
+                    None,
+                );
+
+                self.active_formatting_elements.items[node_formatting_index] =
+                    ActiveFormattingElement::Element(new_element.clone(), token_and_info);
+                self.open_elements_stack
+                    .replace(node_index, new_element.clone());
+
+                node = new_element.clone();
+
+                // 13.7
+                if is_same_node(&last_node, &furthest_block.1) {
+                    bookmark = Bookmark::InsertAfter(node.clone());
+                }
+
+                // 13.8
+                self.append_node(&node, last_node.clone());
+
+                // 13.9
+                last_node = node.clone();
+            }
 
             // 14.
-            // self.sink.remove_from_parent(&last_node);
-            // self.insert_appropriately(AppendNode(last_node.clone()),
-            // Some(common_ancestor));
+            if let Some((parent, i)) = self.get_parent_and_index(&last_node) {
+                parent.children.borrow_mut().remove(i);
+
+                last_node.parent.set(None);
+            }
+
+            let appropriate_place =
+                self.get_appropriate_place_for_inserting_node(Some(common_ancestor))?;
+
+            self.insert_at_position(appropriate_place, last_node.clone());
 
             // 15.
-            // let new_element = create_element(
-            //     &mut self.sink,
-            //     QualName::new(None, ns!(html), fmt_elem_tag.name.clone()),
-            //     fmt_elem_tag.attrs.clone(),
-            // );
-            // let new_entry = Element(new_element.clone(), fmt_elem_tag);
+            let last_pos = self.input.last_pos()?;
+            let new_element = self.create_element_for_token(
+                formatting_element.2.token.clone(),
+                Span::new(formatting_element.2.span.lo, last_pos, Default::default()),
+                Some(Namespace::HTML),
+                None,
+            );
 
             // 16.
-            // self.sink.reparent_children(&furthest_block, &new_element);
+            self.reparent_children(&furthest_block.1, &new_element);
 
             // 17.
-            // self.sink .append(&furthest_block, AppendNode(new_element.clone()));
+            self.append_node(&furthest_block.1, new_element.clone());
 
             // 18.
+            match bookmark {
+                Bookmark::Replace(to_replace) => {
+                    let index = self
+                        .active_formatting_elements
+                        .get_position(&to_replace)
+                        .expect("bookmark not found in active formatting elements");
+
+                    self.active_formatting_elements.items[index] =
+                        ActiveFormattingElement::Element(new_element.clone(), formatting_element.2);
+                }
+                Bookmark::InsertAfter(previous) => {
+                    let index = self
+                        .active_formatting_elements
+                        .get_position(&previous)
+                        .expect("bookmark not found in active formatting elements")
+                        + 1;
+
+                    self.active_formatting_elements.items.insert(
+                        index,
+                        ActiveFormattingElement::Element(new_element.clone(), formatting_element.2),
+                    );
+
+                    let old_index = self
+                        .active_formatting_elements
+                        .get_position(&formatting_element.1)
+                        .expect("formatting element not found in active formatting elements");
+
+                    self.active_formatting_elements.items.remove(old_index);
+                }
+            }
 
             // 19.
             self.open_elements_stack.remove(&formatting_element.1);
 
-            // let new_furthest_block_index = self
-            //     .open_elements_stack
-            //     .items
-            //     .iter()
-            //     .position(|n| is_same_node(n, &furthest_block))
-            //     .expect("furthest block missing from open element stack");
-            //
-            // self.open_elements_stack.items
-            //     .insert(new_furthest_block_index + 1, new_element);
+            let new_furthest_block_index = self
+                .open_elements_stack
+                .items
+                .iter()
+                .position(|n| is_same_node(n, &furthest_block.1))
+                .expect("furthest block missing from open element stack");
+
+            self.open_elements_stack
+                .insert(new_furthest_block_index + 1, new_element);
         }
+    }
+
+    fn reparent_children(&mut self, node: &RcNode, new_parent: &RcNode) {
+        let mut children = node.children.borrow_mut();
+        let mut new_children = new_parent.children.borrow_mut();
+
+        for child in children.iter() {
+            let previous_parent = child.parent.replace(Some(Rc::downgrade(new_parent)));
+
+            assert!(Rc::ptr_eq(
+                node,
+                &previous_parent.unwrap().upgrade().expect("dangling weak")
+            ))
+        }
+
+        new_children.extend(std::mem::take(&mut *children));
     }
 
     // When the steps below require the UA to reconstruct the active formatting
@@ -7538,13 +7598,12 @@ where
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
         let last_pos = self.input.last_pos()?;
-        let element = self.create_element_for_token(
+        let node = self.create_element_for_token(
             token_and_info.token.clone(),
             Span::new(token_and_info.span.lo, last_pos, Default::default()),
             Some(namespace),
             adjust_attributes,
         );
-        let node = Node::new(Data::Element(element));
 
         // If it is possible to insert an element at the adjusted insertion
         // location, then insert the newly created element at the adjusted

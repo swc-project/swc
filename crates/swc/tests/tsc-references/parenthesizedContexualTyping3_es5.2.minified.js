@@ -84,32 +84,45 @@ function _templateObject7() {
         return data;
     }, data;
 }
-function tempFun(tempStrs, g, x) {
-    return g(x);
-}
-tempFun(_templateObject(), function(x) {
+(function(tempStrs, g, x) {
+    g(10);
+})(_templateObject(), function(x) {
     return x;
-}, 10), tempFun(_templateObject1(), function(x) {
+}, 10), function(tempStrs, g, x) {
+    g(10);
+}(_templateObject1(), function(x) {
     return x;
-}, 10), tempFun(_templateObject2(), function(x) {
+}, 10), function(tempStrs, g, x) {
+    g(10);
+}(_templateObject2(), function(x) {
     return x;
-}, 10), tempFun(_templateObject3(), function(x) {
-    return x;
-}, function(x) {
-    return x;
-}, 10), tempFun(_templateObject4(), function(x) {
-    return x;
-}, function(x) {
-    return x;
-}, 10), tempFun(_templateObject5(), function(x) {
+}, 10), function(tempStrs, g, x) {
+    g(x);
+}(_templateObject3(), function(x) {
     return x;
 }, function(x) {
     return x;
-}, 10), tempFun(_templateObject6(), function(x) {
+}, 10), function(tempStrs, g, x) {
+    g(x);
+}(_templateObject4(), function(x) {
     return x;
 }, function(x) {
     return x;
-}, 10), tempFun(_templateObject7(), function(x) {
+}, 10), function(tempStrs, g, x) {
+    g(x);
+}(_templateObject5(), function(x) {
+    return x;
+}, function(x) {
+    return x;
+}, 10), function(tempStrs, g, x) {
+    g(x);
+}(_templateObject6(), function(x) {
+    return x;
+}, function(x) {
+    return x;
+}, 10), function(tempStrs, g, x) {
+    g(x);
+}(_templateObject7(), function(x) {
     return x;
 }, function(x) {
     return x;

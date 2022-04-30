@@ -169,7 +169,7 @@ pub struct CompressOptions {
     #[serde(alias = "hoist_funs")]
     pub hoist_fns: bool,
 
-    #[serde(default = "true_by_default")]
+    #[serde(default)]
     #[serde(alias = "hoist_props")]
     pub hoist_props: bool,
 
@@ -311,6 +311,12 @@ pub struct CompressOptions {
 
     #[serde(default = "true_by_default")]
     pub const_to_let: bool,
+
+    /// If you modified globals, set this to false.
+    ///
+    /// Defaults to true.
+    #[serde(default = "true_by_default")]
+    pub pristine_globals: bool,
 }
 
 impl CompressOptions {

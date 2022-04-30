@@ -1,6 +1,3 @@
-#![allow(dead_code)]
-#![allow(unused_imports)]
-
 use std::{iter::once, mem::take};
 
 use retain_mut::RetainMut;
@@ -98,6 +95,7 @@ struct Ctx {
     skip_standalone: bool,
 
     /// `true` if the [VarDecl] has const annotation.
+    #[allow(dead_code)]
     has_const_ann: bool,
 
     in_bool_ctx: bool,
@@ -149,12 +147,11 @@ struct Ctx {
 
     in_obj_of_non_computed_member: bool,
 
+    #[allow(dead_code)]
     in_tpl_expr: bool,
 
     /// True while handling callee, except an arrow expression in callee.
     is_this_aware_callee: bool,
-
-    can_inline_arguments: bool,
 
     is_nested_if_return_merging: bool,
 
@@ -1458,10 +1455,7 @@ where
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let prepend = self.prepend_stmts.take();
 
-        let ctx = Ctx {
-            can_inline_arguments: true,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -2010,7 +2004,6 @@ where
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
                 scope: n.span.ctxt,
-                can_inline_arguments: true,
                 top_level: false,
 
                 ..self.ctx
@@ -2033,10 +2026,7 @@ where
         }
 
         {
-            let ctx = Ctx {
-                can_inline_arguments: true,
-                ..self.ctx
-            };
+            let ctx = Ctx { ..self.ctx };
             self.with_ctx(ctx).optimize_usage_of_arguments(n);
         }
 

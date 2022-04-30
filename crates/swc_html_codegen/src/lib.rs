@@ -9,10 +9,11 @@ use swc_html_codegen_macros::emitter;
 use writer::HtmlWriter;
 
 pub use self::emit::*;
-use self::list::ListFormat;
+use self::{ctx::Ctx, list::ListFormat};
 
 #[macro_use]
 mod macros;
+mod ctx;
 mod emit;
 mod list;
 pub mod writer;
@@ -28,6 +29,7 @@ where
 {
     wr: W,
     config: CodegenConfig,
+    ctx: Ctx,
 }
 
 impl<W> CodeGenerator<W>
@@ -35,7 +37,11 @@ where
     W: HtmlWriter,
 {
     pub fn new(wr: W, config: CodegenConfig) -> Self {
-        CodeGenerator { wr, config }
+        CodeGenerator {
+            wr,
+            config,
+            ctx: Default::default(),
+        }
     }
 
     #[emitter]
@@ -152,7 +158,26 @@ where
         }
 
         if !n.children.is_empty() {
-            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+            let skip_escape_text = matches!(
+                &*n.tag_name,
+                "style"
+                | "script"
+                | "xmp"
+                | "iframe"
+                | "noembed"
+                | "noframes"
+                | "plaintext"
+                // TODO we need option here
+                | "noscript"
+            );
+
+            let ctx = Ctx {
+                skip_escape_text,
+                ..self.ctx
+            };
+
+            self.with_ctx(ctx)
+                .emit_list(&n.children, ListFormat::NotDelimited)?;
         }
 
         write_raw!(self, "<");
@@ -193,25 +218,29 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        let mut text = String::new();
+        if self.ctx.skip_escape_text {
+            write_str!(self, n.span, &n.value);
+        } else {
+            let mut text = String::new();
 
-        for c in n.value.chars() {
-            match c {
-                '&' => {
-                    text.push_str(&String::from("&amp;"));
+            for c in n.value.chars() {
+                match c {
+                    '&' => {
+                        text.push_str(&String::from("&amp;"));
+                    }
+                    '<' => {
+                        text.push_str(&String::from("&lt;"));
+                    }
+                    '>' => {
+                        text.push_str(&String::from("&gt;"));
+                    }
+                    '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
+                    _ => text.push(c),
                 }
-                '<' => {
-                    text.push_str(&String::from("&lt;"));
-                }
-                '>' => {
-                    text.push_str(&String::from("&gt;"));
-                }
-                '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
-                _ => text.push(c),
             }
-        }
 
-        write_str!(self, n.span, &text);
+            write_str!(self, n.span, &text);
+        }
     }
 
     #[emitter]

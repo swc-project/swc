@@ -4,9 +4,6 @@ use super::Pure;
 
 #[derive(Default, Clone, Copy)]
 pub(super) struct Ctx {
-    /// This is actually config, but stored here.
-    pub force_str_for_tpl: bool,
-
     pub par_depth: u8,
 
     pub in_delete: bool,

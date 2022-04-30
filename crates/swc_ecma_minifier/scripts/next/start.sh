@@ -41,8 +41,8 @@ echo "----- ⚠️  Removing cache"
 (cd $dir && rm -rf .next)
 
 echo "----- ⚠️  Replacing swc binary"
-cp packages/next-swc/native/*.node $dir/node_modules/@next/swc-*/
-ls -al $dir/node_modules/@next/swc-*/
+mv packages/next-swc/native/*.node $dir/node_modules/@next/swc-*/
+ls -alh $dir/node_modules/@next/swc-*/
 
 # Build and start
 echo "----- ⚠️  Building the app using next"

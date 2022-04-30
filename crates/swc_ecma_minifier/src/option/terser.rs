@@ -242,6 +242,9 @@ pub struct TerserCompressorOptions {
 
     #[serde(default)]
     pub const_to_let: Option<bool>,
+
+    #[serde(default)]
+    pub pristine_globals: Option<bool>,
 }
 
 impl Default for TerserCompressorOptions {
@@ -319,7 +322,8 @@ impl TerserCompressorOptions {
                 })
                 .collect(),
             hoist_fns: self.hoist_funs,
-            hoist_props: self.hoist_props.unwrap_or(self.defaults),
+            // TODO: Use self.defaults
+            hoist_props: self.hoist_props.unwrap_or(false),
             hoist_vars: self.hoist_vars,
             ie8: self.ie8,
             if_return: self.if_return.unwrap_or(self.defaults),
@@ -387,6 +391,7 @@ impl TerserCompressorOptions {
             unsafe_undefined: self.unsafe_undefined,
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
+            pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
         }
     }
 }

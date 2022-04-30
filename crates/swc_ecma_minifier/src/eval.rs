@@ -9,7 +9,7 @@ use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 use crate::{
-    compress::{compressor, pure_optimizer},
+    compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     mode::Mode,
 };
@@ -74,7 +74,7 @@ impl Evaluator {
                     m.fold_with(&mut compressor(
                         globals,
                         marks,
-                        &serde_json::from_str("{}").unwrap(),
+                        &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
                         &data,
                     ))
                 })
@@ -227,9 +227,11 @@ impl Evaluator {
                 &serde_json::from_str("{}").unwrap(),
                 None,
                 self.marks,
-                Eval::force_str_for_tpl(),
-                true,
-                false,
+                PureOptimizerConfig {
+                    enable_join_vars: false,
+                    force_str_for_tpl: Eval::force_str_for_tpl(),
+                    debug_infinite_loop: false,
+                },
             ));
         }
 

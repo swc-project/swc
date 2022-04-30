@@ -5,4 +5,4 @@ function f() {}
 }(E || (E = {})), E.A, (f || (f = {})).bar = 1;
 class c {
 }
-(c || (c = {})).bar = 1, new Object();
+(c || (c = {})).bar = 1;

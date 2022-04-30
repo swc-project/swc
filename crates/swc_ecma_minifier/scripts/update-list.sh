@@ -19,7 +19,7 @@ mv tests/postponed.txt tests/postponed.tmp.txt
 echo '' > tests/postponed.txt
 
 export SWC_RUN=0
-export SWC_CHECK=1
+export SWC_CHECK=0
 
 # Update golden.txt
 cargo test --test compress fixture_tests__terser__compress__ \

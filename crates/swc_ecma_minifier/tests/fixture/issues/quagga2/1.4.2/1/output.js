@@ -578,11 +578,11 @@
                                 0,
                                 0,
                                 0
-                            ], ctx = canvas.getContext('2d');
+                            ], result = [], ctx = canvas.getContext('2d');
                             if (!ctx) throw new Error('Unable to get canvas context');
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
-                                hsv[0] = this.data[length] * adjustedScale;
-                                var pos = 4 * length, _result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb), _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
+                                hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
+                                var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
                                 data[pos] = _result2[0], data[pos + 1] = _result2[1], data[pos + 2] = _result2[2], data[pos + 3] = 255;
                             }
                             ctx.putImageData(frame, from.x, from.y);
@@ -1017,10 +1017,9 @@
             };
         },
         function(module, exports) {
-            function eq(value, other) {
+            module.exports = function(value, other) {
                 return value === other || value != value && other != other;
-            }
-            module.exports = eq;
+            };
         },
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(17).Symbol;
@@ -2046,9 +2045,10 @@
             };
         },
         function(module, exports) {
-            module.exports = function() {
+            function stubFalse() {
                 return !1;
-            };
+            }
+            module.exports = stubFalse;
         },
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), getPrototype = __webpack_require__(50), isObjectLike = __webpack_require__(18), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
