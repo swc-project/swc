@@ -19,6 +19,9 @@
 
 - **(es/lints)** Implement `no-var` (#4485) ([17f237d](https://github.com/swc-project/swc/commit/17f237d3ba97fc14d098cef2038bb846ac2b7c8d))
 
+
+- **(es/parser)** Reject private field called `#constructor` (#4491) ([857e798](https://github.com/swc-project/swc/commit/857e798194e18ec874ddd51c27d136ca1e5298b8))
+
 ### Refactor
 
 
