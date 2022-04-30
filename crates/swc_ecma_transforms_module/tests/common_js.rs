@@ -3,7 +3,7 @@ use std::{cell::RefCell, path::PathBuf, rc::Rc};
 use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{
         block_scoped_functions, block_scoping, classes, destructuring, for_of, parameters,
@@ -102,7 +102,6 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             // Optional::new(typescript::strip(mark), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
-            inject_helpers(),
             common_js(unresolved_mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
@@ -116,11 +115,6 @@ Foo.bar = true;
     "
 \"use strict\";
 var _foo = _interopRequireDefault(require(\"foo\"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
 _foo.default.bar = true;
 "
 );
@@ -5175,7 +5169,6 @@ test!(
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             import_analyzer(Rc::clone(&scope)),
-            inject_helpers(),
             common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
@@ -5198,28 +5191,6 @@ test!(
       }
     });
     var _foo = _interopRequireWildcard(require(\"foo\"));
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-            if (obj != null) {
-                for(var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? \
-     Object.getOwnPropertyDescriptor(obj, key) : {};
-                        if (desc.get || desc.set) {
-                            Object.defineProperty(newObj, key, desc);
-                        } else {
-                            newObj[key] = obj[key];
-                        }
-                    }
-                }
-            }
-            newObj.default = obj;
-            return newObj;
-        }
-    }
     "
 );
 
