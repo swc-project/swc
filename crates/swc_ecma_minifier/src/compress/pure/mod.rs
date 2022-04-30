@@ -39,9 +39,6 @@ pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
 
-    /// Required only for compressor
-    pub enable_var_reuse: bool,
-
     pub force_str_for_tpl: bool,
     pub debug_infinite_loop: bool,
 }

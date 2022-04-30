@@ -321,7 +321,6 @@ where
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
-                    enable_var_reuse: true,
                     force_str_for_tpl: M::force_str_for_tpl(),
                     debug_infinite_loop: self.pass >= 20,
                 },
