@@ -20,17 +20,28 @@ struct SafariIdDestructuringCollisionInFunctionExpression {
     in_body: bool,
 }
 
+impl SafariIdDestructuringCollisionInFunctionExpression {
+    fn visit_mut_pat_id(&mut self, id: &Ident) {
+        if !self.in_body && self.fn_expr_name == id.sym {
+            self.destructured_id_span = Some(id.span);
+        } else {
+            self.other_ident_symbols.insert(id.sym.clone());
+        }
+    }
+}
+
 #[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        self.visit_mut_pat_id(&n.key);
+
+        n.value.visit_mut_with(self);
+    }
+
     fn visit_mut_binding_ident(&mut self, binding_ident: &mut BindingIdent) {
-        if !self.in_body && self.fn_expr_name == binding_ident.id.sym {
-            self.destructured_id_span = Some(binding_ident.id.span);
-        } else {
-            self.other_ident_symbols
-                .insert(binding_ident.id.sym.clone());
-        }
+        self.visit_mut_pat_id(&binding_ident.id)
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
@@ -40,6 +51,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             let old_in_body = self.in_body;
 
             self.fn_expr_name = ident.sym.clone();
+            self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
             n.function.body.visit_mut_children_with(self);
