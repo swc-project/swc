@@ -34,40 +34,44 @@ mod strings;
 mod unsafes;
 mod vars;
 
+#[derive(Debug, Clone, Copy)]
+pub(crate) struct PureOptimizerConfig {
+    /// pass > 1
+    pub enable_join_vars: bool,
+
+    pub force_str_for_tpl: bool,
+    pub debug_infinite_loop: bool,
+}
+
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     data: Option<&'a ProgramData>,
     marks: Marks,
-    force_str_for_tpl: bool,
-    enable_everything: bool,
-    debug_infinite_loop: bool,
+    config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
+        config,
         marks,
         data,
         ctx: Ctx {
-            force_str_for_tpl,
             top_level: true,
             ..Default::default()
         },
         changed: Default::default(),
-        enable_everything,
-        debug_infinite_loop,
     }
 }
 
 struct Pure<'a> {
     options: &'a CompressOptions,
+    config: PureOptimizerConfig,
     marks: Marks,
+
     #[allow(unused)]
     data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
-    enable_everything: bool,
-
-    debug_infinite_loop: bool,
 }
 
 impl Repeated for Pure<'_> {
@@ -114,7 +118,7 @@ impl Pure<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        if self.enable_everything {
+        if self.config.enable_join_vars {
             self.join_vars(stmts);
 
             if cfg!(debug_assertions) {
@@ -595,7 +599,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
+        let _tracing = if cfg!(feature = "debug") && self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -618,7 +622,7 @@ impl VisitMut for Pure<'_> {
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if cfg!(feature = "debug") && self.debug_infinite_loop {
+        if cfg!(feature = "debug") && self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -652,7 +656,7 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if cfg!(feature = "debug") && self.debug_infinite_loop {
+        if cfg!(feature = "debug") && self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
