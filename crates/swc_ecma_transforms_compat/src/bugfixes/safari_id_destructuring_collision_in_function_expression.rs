@@ -69,16 +69,14 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
-        match p {
-            MemberProp::Computed(..) => p.visit_mut_children_with(self),
-            _ => {}
+        if let MemberProp::Computed(..) = p {
+            p.visit_mut_children_with(self)
         }
     }
 
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
-        match p {
-            PropName::Computed(..) => p.visit_mut_children_with(self),
-            _ => {}
+        if let PropName::Computed(..) = p {
+            p.visit_mut_children_with(self)
         }
     }
 }
@@ -179,18 +177,18 @@ mod tests {
         }
         ",
         "
-        export default function _typeof_1() {
-            if (Date_2.now_0() > 0) {
-                _typeof_1 = function _typeof_3() {
-                    console_2.log_0(0);
+        export default function _typeof__1() {
+            if (Date__2.now() > 0) {
+                _typeof__1 = function _typeof__3() {
+                    console__2.log(0);
                 };
             } else {
-                _typeof_1 = function _typeof_4() {
-                    console_2.log_0(2);
+                _typeof__1 = function _typeof__4() {
+                    console__2.log(2);
                 };
             }
-            return _typeof_1();
-        };
+            return _typeof__1();
+        }
         "
     );
 }
