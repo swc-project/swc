@@ -1,8 +1,7 @@
+use std::collections::HashMap;
+
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    Span,
-};
+use swc_common::{collections::AHashSet, Span};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -17,7 +16,7 @@ pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold +
 struct SafariIdDestructuringCollisionInFunctionExpression {
     fn_expr_name: JsWord,
     destructured_id_span: Option<Span>,
-    other_ident_syms: AHashSet<JsWord>,
+    other_ident_symbols: AHashSet<JsWord>,
     in_body: bool,
 }
 
@@ -26,10 +25,11 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
     fn visit_mut_binding_ident(&mut self, binding_ident: &mut BindingIdent) {
-        if !self.in_body && self.fn_expr_name.eq(&binding_ident.id.sym) {
+        if !self.in_body && self.fn_expr_name == binding_ident.id.sym {
             self.destructured_id_span = Some(binding_ident.id.span);
         } else {
-            self.other_ident_syms.insert(binding_ident.id.sym.clone());
+            self.other_ident_symbols
+                .insert(binding_ident.id.sym.clone());
         }
     }
 
@@ -45,11 +45,11 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = old_in_body;
 
             if let Some(id_span) = &self.destructured_id_span {
-                let mut rename_map = AHashMap::default();
+                let mut rename_map = HashMap::default();
                 let new_id: JsWord = {
                     let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
                     let mut count = 0;
-                    while self.other_ident_syms.contains(&id_value) {
+                    while self.other_ident_symbols.contains(&id_value) {
                         count += 1;
                         id_value = format!("_{}{}", self.fn_expr_name, count).into();
                     }
@@ -64,7 +64,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
         if self.in_body && !self.fn_expr_name.eq(&ident.sym) {
-            self.other_ident_syms.insert(ident.sym.clone());
+            self.other_ident_symbols.insert(ident.sym.clone());
         }
     }
 
