@@ -35,14 +35,13 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if let Some(ident) = &n.ident {
+            let old_fn_expr_name = self.fn_expr_name.clone();
             let old_in_body = self.in_body;
 
             self.fn_expr_name = ident.sym.clone();
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
             n.function.body.visit_mut_children_with(self);
-
-            self.in_body = old_in_body;
 
             if let Some(id_span) = &self.destructured_id_span {
                 let mut rename_map = HashMap::default();
@@ -59,6 +58,9 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                 rename_map.insert(id, new_id);
                 n.function.visit_mut_children_with(&mut rename(&rename_map));
             }
+
+            self.in_body = old_in_body;
+            self.fn_expr_name = old_fn_expr_name;
         }
     }
 
