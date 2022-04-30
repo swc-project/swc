@@ -5,6 +5,9 @@
 
 
 
+- **(es/helpers)** Update `_interopRequireWildcard` (#4479) ([7d40208](https://github.com/swc-project/swc/commit/7d40208377133b0fcd153c5bfcf47f6b489113c1))
+
+
 - **(es/minifier)** Disable some passes for `hoist_props` (#4468) ([effc85d](https://github.com/swc-project/swc/commit/effc85df572609a180f9a28177a5b37ed960c860))
 
 
