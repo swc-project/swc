@@ -5,6 +5,9 @@
 
 
 
+- **(es/bugfixes)** Fix handling of syntax context (#4490) ([a444726](https://github.com/swc-project/swc/commit/a444726fe3014c1a241439d8126188c0c5fe5212))
+
+
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
 ### Features
