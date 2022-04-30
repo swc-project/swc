@@ -5,6 +5,14 @@
 
 
 
+- **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
+
+## [1.2.174] - 2022-04-30
+
+### Bug Fixes
+
+
+
 - **(es/helpers)** Update `_interopRequireWildcard` (#4479) ([7d40208](https://github.com/swc-project/swc/commit/7d40208377133b0fcd153c5bfcf47f6b489113c1))
 
 
