@@ -1,0 +1,11 @@
+  x Illegal access to private class property.
+    ,----
+ 18 | foo.#bar;
+    : ^^^^^^^^
+    `----
+
+  x Illegal access to private class property.
+    ,----
+ 19 | foo.#privateMethod();
+    : ^^^^^^^^^^^^^^^^^^
+    `----
