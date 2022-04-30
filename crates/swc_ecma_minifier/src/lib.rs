@@ -155,7 +155,7 @@ pub fn optimize(
             marks,
             PureOptimizerConfig {
                 force_str_for_tpl: Minification::force_str_for_tpl(),
-                enable_join_vars: false,
+                enable_join_vars: true,
                 debug_infinite_loop: false,
             },
         )));
