@@ -806,14 +806,39 @@ impl Pure<'_> {
             _ => {}
         }
 
+        if self.options.side_effects && self.options.pristine_globals {
+            if let Expr::New(NewExpr { callee, args, .. }) = e {
+                if let Expr::Ident(i) = &**callee {
+                    match &*i.sym {
+                        "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
+                            if i.span.ctxt.outer() == self.marks.unresolved_mark {
+                                report_change!("Dropping a pure new expression");
+
+                                self.changed = true;
+                                *e = self
+                                    .make_ignored_expr(
+                                        args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                                    )
+                                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                                return;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+
         // Remove pure member expressions.
-        if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
-            if let Expr::Ident(obj) = &**obj {
-                if obj.span.ctxt.outer() == self.marks.unresolved_mark {
-                    if is_pure_member_access(obj, prop) {
-                        self.changed = true;
-                        report_change!("Remving pure member access to global var");
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+        if self.options.pristine_globals {
+            if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
+                if let Expr::Ident(obj) = &**obj {
+                    if obj.span.ctxt.outer() == self.marks.unresolved_mark {
+                        if is_pure_member_access(obj, prop) {
+                            self.changed = true;
+                            report_change!("Remving pure member access to global var");
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        }
                     }
                 }
             }

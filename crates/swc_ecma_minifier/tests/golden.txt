@@ -539,8 +539,6 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
-functions/issue_2630_1/input.js
-functions/issue_2630_4/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js

@@ -1,0 +1,96 @@
+
+  x Expected an error object to be thrown
+   ,----
+ 1 | throw 'error';
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 2 | throw 0;
+   : ^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 3 | throw false;
+   : ^^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 4 | throw null;
+   : ^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 5 | throw {};
+   : ^^^^^^^^^
+   `----
+
+  x Do not throw undefined
+   ,----
+ 6 | throw undefined;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 7 | throw 'a' + 'b';
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+   ,----
+ 9 | throw foo = 'error';
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expected an error object to be thrown
+    ,----
+ 10 | throw foo += new Error();
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 11 | throw foo &= new Error();
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 12 | throw foo &&= 'literal'
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 13 | throw new Error(), 1, 2, 3;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 14 | throw 'literal' && 'not an Error';
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 15 | throw foo && 'literal'
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 16 | throw foo ? 'not an Error' : 'literal';
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected an error object to be thrown
+    ,----
+ 17 | throw `${err}`;
+    : ^^^^^^^^^^^^^^^
+    `----

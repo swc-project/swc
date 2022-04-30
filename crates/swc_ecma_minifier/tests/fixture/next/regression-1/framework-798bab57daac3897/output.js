@@ -1469,10 +1469,9 @@
             function Ee(a, b) {
                 if ("input" === a || "change" === a) return se(b);
             }
-            function Fe(a, b) {
+            var Ge = "function" == typeof Object.is ? Object.is : function(a, b) {
                 return a === b && (0 !== a || 1 / a == 1 / b) || a != a && b != b;
-            }
-            var Ge = "function" == typeof Object.is ? Object.is : Fe;
+            };
             function He(a, b) {
                 if (Ge(a, b)) return !0;
                 if ("object" != typeof a || null === a || "object" != typeof b || null === b) return !1;
@@ -2086,6 +2085,9 @@
                 return b;
             }
             var lg = Tf(null), mg = null, ng = null, og = null;
+            function pg() {
+                og = ng = mg = null;
+            }
             function qg(a) {
                 var b = lg.current;
                 E(lg), a._currentValue = b;
@@ -4481,7 +4483,7 @@
                     } catch (h) {
                         Lk(a, h);
                     }
-                    og = ng = mg = null, kk.current = f, W = e, null !== X ? b = 0 : (P = null, Y = 0, b = R);
+                    pg(), kk.current = f, W = e, null !== X ? b = 0 : (P = null, Y = 0, b = R);
                 }
                 if (0 !== b) {
                     if (2 === b && 0 !== (e = wc(a)) && (d = e, b = Mk(a, e)), 1 === b) throw c = nk, Jk(a, 0), Bk(a, d), Ck(a, B()), c;
@@ -4652,7 +4654,7 @@
                 for(;;){
                     var c = X;
                     try {
-                        if (og = ng = mg = null, Mh.current = Yh, Ph) {
+                        if (pg(), Mh.current = Yh, Ph) {
                             for(var d = L.memoizedState; null !== d;){
                                 var e = d.queue;
                                 null !== e && (e.pending = null), d = d.next;
@@ -4741,7 +4743,7 @@
                 } catch (e) {
                     Lk(a, e);
                 }
-                if (og = ng = mg = null, W = c, kk.current = d, null !== X) throw Error(p(261));
+                if (pg(), W = c, kk.current = d, null !== X) throw Error(p(261));
                 return P = null, Y = 0, R;
             }
             function Sk() {

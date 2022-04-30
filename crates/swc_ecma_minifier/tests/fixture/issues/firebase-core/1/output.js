@@ -20,8 +20,11 @@
                     default:
                         return source;
                 }
-                for(const prop in source)source.hasOwnProperty(prop) && '__proto__' !== prop && (target[prop] = deepExtend(target[prop], source[prop]));
+                for(const prop in source)source.hasOwnProperty(prop) && isValidKey(prop) && (target[prop] = deepExtend(target[prop], source[prop]));
                 return target;
+            }
+            function isValidKey(key) {
+                return '__proto__' !== key;
             }
             function getUA() {
                 return 'undefined' != typeof navigator && 'string' == typeof navigator.userAgent ? navigator.userAgent : '';
@@ -1988,9 +1991,7 @@
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
-            var loadedImageURLs = new Set();
-            new Map();
-            var emptyDataURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', loaders = new Map([
+            var loadedImageURLs = new Set(), emptyDataURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', loaders = new Map([
                 [
                     'default',
                     function(param) {

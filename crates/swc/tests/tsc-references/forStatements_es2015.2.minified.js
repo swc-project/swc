@@ -10,7 +10,7 @@ for(var M;;);
 for(;;);
 for(;;);
 for(;;);
-for(new Object();;);
+for(;;);
 for(;;);
 for(;;);
 for(;;);
