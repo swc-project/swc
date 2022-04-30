@@ -625,6 +625,20 @@ impl Fold for HygieneTester {
             ..ident
         }
     }
+
+    fn fold_member_prop(&mut self, p: MemberProp) -> MemberProp {
+        match p {
+            MemberProp::Computed(..) => p.fold_children_with(self),
+            _ => p,
+        }
+    }
+
+    fn fold_prop_name(&mut self, p: PropName) -> PropName {
+        match p {
+            PropName::Computed(..) => p.fold_children_with(self),
+            _ => p,
+        }
+    }
 }
 
 pub struct HygieneVisualizer;
