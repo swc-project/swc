@@ -35,11 +35,15 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if let Some(ident) = &n.ident {
+            let old_in_body = self.in_body;
+
             self.fn_expr_name = ident.sym.clone();
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
             n.function.body.visit_mut_children_with(self);
-            self.in_body = false;
+
+            self.in_body = old_in_body;
+
             if let Some(id_span) = &self.destructured_id_span {
                 let mut rename_map = AHashMap::default();
                 let new_id: JsWord = {
@@ -160,6 +164,19 @@ mod tests {
             return _typeof();
         }
         ",
-        ""
+        "
+        export default function _typeof_1() {
+            if (Date_2.now_0() > 0) {
+                _typeof_1 = function _typeof_3() {
+                    console_2.log_0(0);
+                };
+            } else {
+                _typeof_1 = function _typeof_4() {
+                    console_2.log_0(2);
+                };
+            }
+            return _typeof_1();
+        };
+        "
     );
 }
