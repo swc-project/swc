@@ -14,6 +14,9 @@
 
 
 
+- **(es/compat)** Verify private property access (#4465) ([de53a6f](https://github.com/swc-project/swc/commit/de53a6fa9d3e983773d458f0d7e6df561f7cb5d3))
+
+
 - **(es/lints)** Implement `no-var` (#4485) ([17f237d](https://github.com/swc-project/swc/commit/17f237d3ba97fc14d098cef2038bb846ac2b7c8d))
 
 ### Refactor
