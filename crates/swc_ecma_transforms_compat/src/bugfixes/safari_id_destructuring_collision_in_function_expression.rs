@@ -67,13 +67,21 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
 #[cfg(test)]
 mod tests {
+    use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
+    fn tr() -> impl Fold {
+        chain!(
+            resolver(Mark::new(), Mark::new(), false),
+            safari_id_destructuring_collision_in_function_expression()
+        )
+    }
+
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         basic,
         "(function a ([a]) { a });
          (function a({ ...a }) { a });
@@ -84,8 +92,8 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         avoid_collision_1,
         "(function a([a, _a]) { a + _a })",
         "(function a([_a1, _a]) {
@@ -94,24 +102,24 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         use_duplicated_id,
         "(function a([a]) { console.log(_a); })",
         "(function a([_a1]) { console.log(_a); });"
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         avoid_collision_2,
         "(function _a([_a]) { console.log(_a); })",
         "(function _a([__a]) { console.log(__a); });"
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         assign_outside_var,
         "let _a;
         (function a([a]) {
@@ -124,10 +132,32 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| safari_id_destructuring_collision_in_function_expression(),
+        Syntax::default(),
+        |_| tr(),
         assignment_expr_in_default_value,
         "(function a([a = a = 3]) {})",
         "(function a([_a = _a = 3]) {})"
+    );
+
+    test!(
+        Syntax::default(),
+        |_| tr(),
+        issue_4488_1,
+        "
+        export default function _typeof() {
+            if (Date.now() > 0) {
+                _typeof = function _typeof() {
+                    console.log(0);
+                };
+            } else {
+                _typeof = function _typeof() {
+                    console.log(2);
+                };
+            }
+        
+            return _typeof();
+        }
+        ",
+        ""
     );
 }
