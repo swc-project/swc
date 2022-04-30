@@ -193,9 +193,10 @@ impl Pure<'_> {
 
                 if c.chars().all(|c| match c {
                     '\u{0020}'..='\u{007e}' => true,
-                    '\n' | '\r' => self.ctx.force_str_for_tpl,
+                    '\n' | '\r' => self.config.force_str_for_tpl,
                     _ => false,
-                }) && (self.ctx.force_str_for_tpl || (!c.contains("\\n") && !c.contains("\\r")))
+                }) && (self.config.force_str_for_tpl
+                    || (!c.contains("\\n") && !c.contains("\\r")))
                     && !c.contains("\\0")
                     && !c.contains("\\x")
                 {

@@ -9,7 +9,7 @@ use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 use crate::{
-    compress::{compressor, pure_optimizer},
+    compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     mode::Mode,
 };
@@ -227,9 +227,12 @@ impl Evaluator {
                 &serde_json::from_str("{}").unwrap(),
                 None,
                 self.marks,
-                Eval::force_str_for_tpl(),
-                true,
-                false,
+                PureOptimizerConfig {
+                    enable_join_vars: false,
+                    enable_var_reuse: false,
+                    force_str_for_tpl: Eval::force_str_for_tpl(),
+                    debug_infinite_loop: false,
+                },
             ));
         }
 

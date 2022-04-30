@@ -26,7 +26,7 @@
 #![allow(clippy::logic_bug)]
 #![allow(unstable_name_collisions)]
 
-use compress::pure_optimizer;
+use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
@@ -153,9 +153,12 @@ pub fn optimize(
             options,
             None,
             marks,
-            Minification::force_str_for_tpl(),
-            true,
-            false,
+            PureOptimizerConfig {
+                force_str_for_tpl: Minification::force_str_for_tpl(),
+                enable_join_vars: false,
+                enable_var_reuse: false,
+                debug_infinite_loop: false,
+            },
         )));
     }
 

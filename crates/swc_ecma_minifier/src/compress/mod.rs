@@ -24,7 +24,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, Vis
 use swc_timer::timer;
 use tracing::{debug, error};
 
-pub(crate) use self::pure::pure_optimizer;
+pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
     analyzer::{analyze, UsageAnalyzer},
@@ -319,9 +319,12 @@ where
                 self.options,
                 None,
                 self.marks,
-                M::force_str_for_tpl(),
-                self.pass > 1,
-                self.pass >= 20,
+                PureOptimizerConfig {
+                    enable_join_vars: self.pass > 1,
+                    enable_var_reuse: true,
+                    force_str_for_tpl: M::force_str_for_tpl(),
+                    debug_infinite_loop: self.pass >= 20,
+                },
             );
             n.apply(&mut visitor);
 
