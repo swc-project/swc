@@ -172,6 +172,7 @@ pub enum SyntaxError {
 
     AsyncConstructor,
     PropertyNamedConstructor,
+    PrivateConstructor,
     PrivateNameModifier(JsWord),
     ReadOnlyMethod,
     GeneratorConstructor,
@@ -437,6 +438,9 @@ impl SyntaxError {
             SyntaxError::AsyncConstructor => "Constructor can't be an async function".into(),
             SyntaxError::PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
+            }
+            SyntaxError::PrivateConstructor => {
+                "Classes can't have a private field named '#constructor'.".into()
             }
             SyntaxError::DuplicateConstructor => "A class can only have one constructor".into(),
             SyntaxError::PrivateNameModifier(modifier) => format!(

@@ -1249,7 +1249,11 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_class_prop_name(&mut self) -> PResult<Either<PrivateName, PropName>> {
         if is!(self, '#') {
-            self.parse_private_name().map(Either::Left)
+            let name = self.parse_private_name()?;
+            if name.id.sym == js_word!("constructor") {
+                self.emit_err(name.span, SyntaxError::PrivateConstructor);
+            }
+            Ok(Either::Left(name))
         } else {
             self.parse_prop_name().map(Either::Right)
         }
