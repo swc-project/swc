@@ -67,6 +67,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::chain;
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_testing::test;
 

@@ -153,13 +153,22 @@ impl Fold for TemplateLiteralCaching {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::{chain, Mark};
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
+    fn tr() -> impl Fold {
+        chain!(
+            resolver(Mark::new(), Mark::new(), false),
+            template_literal_caching()
+        )
+    }
+
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         single_tag,
         "t`a`;",
         r#"
@@ -170,7 +179,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         single_tag_empty,
         "x``;",
         r#"
@@ -181,7 +190,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         multiple_tags,
         r#"
         t`a`;
@@ -196,7 +205,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         function_scoped_tag,
         "const f = t => t`a`;",
         r#"
@@ -207,7 +216,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         dynamic_tag,
         "fn()``;",
         r#"
@@ -218,7 +227,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         dynamic_expressions,
         "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
         r#"
@@ -229,7 +238,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         same_tag_safari_11,
         "x`a` === x`a`;",
         r#"
@@ -240,7 +249,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         shared_strings_safari_11,
         "x`a` === y`a`;",
         r#"
@@ -251,7 +260,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         template_literals,
         r#"
         `a`;
@@ -269,7 +278,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         prevent_tag_collision,
         r#"
         const _ = 1;
@@ -285,7 +294,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| template_literal_caching(),
+        |_| tr(),
         block_scoped_tag,
         "for (let t of []) t`a`;",
         r#"
