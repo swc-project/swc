@@ -11,6 +11,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
 use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprFactory, Id,
+    HANDLER,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -365,6 +366,15 @@ impl VisitMut for PrivateInObject {
                     args: vec![right.take().as_arg()],
                     type_args: Default::default(),
                 });
+            }
+
+            Expr::Member(MemberExpr {
+                span,
+                obj: _,
+                prop: MemberProp::PrivateName(PrivateName { .. }),
+            }) => {
+                let error = "Illegal access to private class property.";
+                HANDLER.with(|h| h.struct_span_err(*span, error).emit());
             }
 
             _ => {}

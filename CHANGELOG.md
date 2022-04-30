@@ -5,10 +5,16 @@
 
 
 
+- **(es/bugfixes)** Fix handling of syntax context (#4490) ([a444726](https://github.com/swc-project/swc/commit/a444726fe3014c1a241439d8126188c0c5fe5212))
+
+
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
 ### Features
 
+
+
+- **(es/compat)** Verify private property access (#4465) ([de53a6f](https://github.com/swc-project/swc/commit/de53a6fa9d3e983773d458f0d7e6df561f7cb5d3))
 
 
 - **(es/lints)** Implement `no-var` (#4485) ([17f237d](https://github.com/swc-project/swc/commit/17f237d3ba97fc14d098cef2038bb846ac2b7c8d))

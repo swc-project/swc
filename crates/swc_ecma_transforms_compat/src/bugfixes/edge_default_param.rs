@@ -61,13 +61,22 @@ impl VisitMut for EdgeDefaultParam {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::{chain, Mark};
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
+    fn tr() -> impl Fold {
+        chain!(
+            resolver(Mark::new(), Mark::new(), false),
+            edge_default_param()
+        )
+    }
+
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| edge_default_param(),
+        |_| tr(),
         destructured_default_value,
         "const f = ({ a = 1 }) => a;",
         "const f = ({ a: a = 1 }) => a;"
@@ -75,7 +84,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| edge_default_param(),
+        |_| tr(),
         destructured_no_default_value,
         "const f = ({ a }) => a;",
         "const f = ({ a }) => a;"
@@ -83,7 +92,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| edge_default_param(),
+        |_| tr(),
         nested_default_value,
         "const f = ({ a: { b = 1 } }) => [a, b];",
         "const f = ({ a: { b: b = 1 } }) => [a, b];"
@@ -91,7 +100,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| edge_default_param(),
+        |_| tr(),
         non_arguments,
         "const f = () => { const { a = 1 } = {}; };",
         "const f = () => { const { a = 1 } = {}; };"

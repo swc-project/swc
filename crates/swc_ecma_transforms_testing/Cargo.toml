@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_testing"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.82.0"
+version = "0.82.1"
 
 [lib]
 bench = false
