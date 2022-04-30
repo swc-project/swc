@@ -143,10 +143,23 @@ impl VisitMut for BrandCheckHandler<'_> {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub(super) enum PrivateAccessType {
+    Get,
+    DestructureSet,
+    Update,
+}
+
+impl Default for PrivateAccessType {
+    fn default() -> Self {
+        Self::Get
+    }
+}
+
 pub(super) struct PrivateAccessVisitor<'a> {
     pub vars: Vec<VarDeclarator>,
     pub private: &'a PrivateRecord,
-    pub in_assign_pat: bool,
+    pub private_access_type: PrivateAccessType,
     pub c: Config,
 }
 
@@ -214,138 +227,12 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
         }
 
         match e {
-            Expr::Update(UpdateExpr {
-                span,
-                prefix,
-                op,
-                arg,
-            }) if arg.is_member() => {
-                let mut arg = arg.take().member().unwrap();
+            Expr::Update(UpdateExpr { arg, .. }) if arg.is_member() => {
+                let old_access_type = self.private_access_type;
+
+                self.private_access_type = PrivateAccessType::Update;
                 arg.visit_mut_with(self);
-
-                let n = match &arg.prop {
-                    MemberProp::PrivateName(n) => n,
-                    _ => {
-                        *e = Expr::Update(UpdateExpr {
-                            span: *span,
-                            prefix: *prefix,
-                            op: *op,
-                            arg: Box::new(Expr::Member(arg)),
-                        });
-                        e.visit_mut_children_with(self);
-                        return;
-                    }
-                };
-
-                let obj = arg.obj.clone();
-
-                let (mark, kind, class_name) = self.private.get(&n.id);
-                if mark == Mark::root() {
-                    return;
-                }
-
-                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
-
-                let var = alias_ident_for(&obj, "_ref");
-
-                let this = if matches!(*obj, Expr::This(..)) {
-                    ThisExpr { span: DUMMY_SP }.as_arg()
-                } else if kind.is_static {
-                    obj.as_arg()
-                } else {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: var.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-                    AssignExpr {
-                        span: obj.span(),
-                        left: PatOrExpr::Pat(var.clone().into()),
-                        op: op!("="),
-                        right: obj,
-                    }
-                    .as_arg()
-                };
-                // Used iff !prefix
-                let old_var = Ident {
-                    // be more like babel
-                    sym: (String::from("_this") + &ident.sym).into(),
-                    span: ident.span.apply_mark(Mark::fresh(Mark::root())),
-                    optional: false,
-                };
-                if !*prefix {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: old_var.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-                }
-
-                let value = {
-                    let arg = Box::new(self.visit_mut_private_get(&mut arg, Some(var)).0);
-                    let left = Box::new(Expr::Unary(UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!(unary, "+"),
-                        arg,
-                    }));
-                    let left = if *prefix {
-                        left
-                    } else {
-                        Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(old_var.clone().into()),
-                            op: op!("="),
-                            right: left,
-                        }))
-                    };
-
-                    BinExpr {
-                        span: DUMMY_SP,
-                        left,
-                        op: match op {
-                            op!("++") => op!(bin, "+"),
-                            op!("--") => op!(bin, "-"),
-                        },
-                        right: Box::new(Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: 1.0,
-                            raw: None,
-                        }))),
-                    }
-                    .as_arg()
-                };
-
-                let expr = if kind.is_static {
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(
-                            class_static_private_field_spec_set,
-                            "classStaticPrivateFieldSpecSet"
-                        ),
-                        args: vec![this, class_name.clone().as_arg(), ident.as_arg(), value],
-
-                        type_args: Default::default(),
-                    })
-                } else {
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(class_private_field_set, "classPrivateFieldSet"),
-                        args: vec![this, ident.as_arg(), value],
-
-                        type_args: Default::default(),
-                    })
-                };
-
-                if *prefix {
-                    *e = expr;
-                } else {
-                    *e = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: vec![Box::new(expr), Box::new(Expr::Ident(old_var))],
-                    });
-                }
+                self.private_access_type = old_access_type;
             }
 
             Expr::Assign(AssignExpr {
@@ -449,9 +336,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 ..
             }) => {
                 right.visit_mut_with(self);
-                self.in_assign_pat = true;
+                let old_access_type = self.private_access_type;
+
+                self.private_access_type = PrivateAccessType::DestructureSet;
                 left.visit_mut_with(self);
-                self.in_assign_pat = false;
+                self.private_access_type = old_access_type;
             }
 
             // Actually this is a call and we should bind `this`.
@@ -596,16 +485,17 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
         if let Pat::Expr(expr) = &p {
             if let Expr::Member(me) = &**expr {
                 if let MemberProp::PrivateName(..) = &me.prop {
-                    self.in_assign_pat = true;
+                    let old_access_type = self.private_access_type;
+                    self.private_access_type = PrivateAccessType::DestructureSet;
                     p.visit_mut_children_with(self);
-                    self.in_assign_pat = false;
+                    self.private_access_type = old_access_type;
 
                     return;
                 }
             }
         }
 
-        self.in_assign_pat = false;
+        self.private_access_type = Default::default();
         p.visit_mut_children_with(self);
     }
 }
@@ -618,7 +508,7 @@ pub(super) fn visit_private_in_expr(
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: vec![],
-        in_assign_pat: false,
+        private_access_type: Default::default(),
         c: config,
     };
 
@@ -659,23 +549,44 @@ impl<'a> PrivateAccessVisitor<'a> {
         let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
         if kind.is_static {
-            if self.in_assign_pat {
-                let set = helper!(
-                    class_static_private_field_destructure,
-                    "classStaticPrivateFieldDestructureSet"
-                );
+            match self.private_access_type {
+                PrivateAccessType::DestructureSet => {
+                    let set = helper!(
+                        class_static_private_field_destructure,
+                        "classStaticPrivateFieldDestructureSet"
+                    );
 
-                return (
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: set,
-                        args: vec![obj.clone().as_arg(), ident.as_arg()],
+                    return (
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: set,
+                            args: vec![obj.clone().as_arg(), ident.as_arg()],
 
-                        type_args: Default::default(),
-                    }
-                    .make_member(quote_ident!("value")),
-                    Some(*obj),
-                );
+                            type_args: Default::default(),
+                        }
+                        .make_member(quote_ident!("value")),
+                        Some(*obj),
+                    );
+                }
+                PrivateAccessType::Update => {
+                    let set = helper!(
+                        class_static_private_field_update,
+                        "classStaticPrivateFieldUpdate"
+                    );
+
+                    return (
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: set,
+                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+
+                            type_args: Default::default(),
+                        }
+                        .make_member(quote_ident!("value")),
+                        Some(*obj),
+                    );
+                }
+                _ => {}
             }
 
             if kind.is_method() {
@@ -714,23 +625,41 @@ impl<'a> PrivateAccessVisitor<'a> {
                 Some(Expr::Ident(class_name.clone())),
             )
         } else {
-            if self.in_assign_pat {
-                let set = helper!(
-                    class_private_field_destructure,
-                    "classPrivateFieldDestructureSet"
-                );
+            match self.private_access_type {
+                PrivateAccessType::DestructureSet => {
+                    let set = helper!(
+                        class_private_field_destructure,
+                        "classPrivateFieldDestructureSet"
+                    );
 
-                return (
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: set,
-                        args: vec![obj.clone().as_arg(), ident.as_arg()],
+                    return (
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: set,
+                            args: vec![obj.clone().as_arg(), ident.as_arg()],
 
-                        type_args: Default::default(),
-                    }
-                    .make_member(quote_ident!("value")),
-                    Some(*obj),
-                );
+                            type_args: Default::default(),
+                        }
+                        .make_member(quote_ident!("value")),
+                        Some(*obj),
+                    );
+                }
+                PrivateAccessType::Update => {
+                    let set = helper!(class_private_field_update, "classPrivateFieldUpdate");
+
+                    return (
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: set,
+                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+
+                            type_args: Default::default(),
+                        }
+                        .make_member(quote_ident!("value")),
+                        Some(*obj),
+                    );
+                }
+                _ => {}
             }
 
             let get = if self.c.private_as_properties {
