@@ -67,6 +67,20 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.other_ident_syms.insert(ident.sym.clone());
         }
     }
+
+    fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
+        match p {
+            MemberProp::Computed(..) => p.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
+        match p {
+            PropName::Computed(..) => p.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
 }
 
 #[cfg(test)]
