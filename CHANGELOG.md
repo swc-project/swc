@@ -7,6 +7,12 @@
 
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
+### Refactor
+
+
+
+- **(es/minifier)** Cleanup (#4489) ([50b2049](https://github.com/swc-project/swc/commit/50b20496cdd1d5fb2dd119c633b5dc7608cb638c))
+
 ## [1.2.174] - 2022-04-30
 
 ### Bug Fixes
