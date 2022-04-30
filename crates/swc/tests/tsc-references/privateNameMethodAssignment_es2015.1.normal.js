@@ -3,7 +3,6 @@ var _method = /*#__PURE__*/ new WeakSet();
 // @target: es2015
 class A3 {
     constructor(a, b){
-        var _b, _this_method;
         swcHelpers.classPrivateMethodInit(this, _method);
         swcHelpers.classPrivateFieldSet(this, _method, ()=>{} // Error, not writable 
         );
@@ -14,7 +13,8 @@ class A3 {
             x: ()=>{}
         }); //Error, not writable 
         let x = swcHelpers.classPrivateMethodGet(this, _method, method);
-        swcHelpers.classPrivateFieldSet(_b = b, _method, (_this_method = +swcHelpers.classPrivateMethodGet(_b, _method, method)) + 1), _this_method; //Error, not writable 
+        swcHelpers.classPrivateFieldUpdate(b, _method).value++ //Error, not writable 
+        ;
     }
 }
 function method() {}

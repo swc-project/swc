@@ -7,7 +7,6 @@ var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
-    var _this_quux;
     swcHelpers.classPrivateMethodInit(this, _foo);
     swcHelpers.classPrivateMethodInit(this, _bar);
     swcHelpers.classPrivateMethodInit(this, _baz);
@@ -23,7 +22,7 @@ var A = function A() {
     swcHelpers.classPrivateMethodGet(this, _bar, bar).call(this, 30);
     swcHelpers.classPrivateMethodGet(this, _baz, baz).call(this, 30);
     swcHelpers.classPrivateFieldSet(this, _quux, swcHelpers.classPrivateFieldGet(this, _quux) + 1);
-    swcHelpers.classPrivateFieldSet(this, _quux, (_this_quux = +swcHelpers.classPrivateFieldGet(this, _quux)) + 1), _this_quux;
+    swcHelpers.classPrivateFieldUpdate(this, _quux).value++;
 };
 function foo(a) {}
 function bar(a) {
