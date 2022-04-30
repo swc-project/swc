@@ -98,13 +98,22 @@ impl Fold for AsyncArrowsInClass {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::{chain, Mark};
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
+    fn tr() -> impl Fold {
+        chain!(
+            resolver(Mark::new(), Mark::new(), false),
+            async_arrows_in_class()
+        )
+    }
+
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| async_arrows_in_class(),
+        |_| tr(),
         async_arrows,
         r#"
         class Foo {
@@ -131,7 +140,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| async_arrows_in_class(),
+        |_| tr(),
         callback,
         r#"
         class Foo {
@@ -151,7 +160,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| async_arrows_in_class(),
+        |_| tr(),
         this,
         r#"
         class Foo {
@@ -175,7 +184,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| async_arrows_in_class(),
+        |_| tr(),
         non_async_arrow,
         r#"
         class Foo {
@@ -193,7 +202,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| async_arrows_in_class(),
+        |_| tr(),
         non_class_async_arrow,
         "let x = async () => await 1;",
         "let x = async () => await 1;"
