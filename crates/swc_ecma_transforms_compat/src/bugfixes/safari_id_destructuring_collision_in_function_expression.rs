@@ -70,7 +70,7 @@ mod tests {
     use swc_common::{chain, Mark};
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_base::resolver;
-    use swc_ecma_transforms_testing::{test, HygieneVisualizer};
+    use swc_ecma_transforms_testing::{test, HygieneTester};
 
     use super::*;
 
@@ -143,7 +143,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| chain!(tr(), HygieneVisualizer),
+        |_| chain!(tr(), HygieneTester),
         issue_4488_1,
         "
         export default function _typeof() {

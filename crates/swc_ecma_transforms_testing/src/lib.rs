@@ -616,6 +616,17 @@ impl VisitMut for Normalizer {
     }
 }
 
+/// Converts `foo#1` to `foo__1` so it can be verified by the test.
+pub struct HygieneTester;
+impl Fold for HygieneTester {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
+        Ident {
+            sym: format!("{}__{}", ident.sym, ident.span.ctxt.as_u32()).into(),
+            ..ident
+        }
+    }
+}
+
 pub struct HygieneVisualizer;
 impl Fold for HygieneVisualizer {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
