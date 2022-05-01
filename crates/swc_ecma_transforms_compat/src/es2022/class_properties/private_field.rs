@@ -560,7 +560,11 @@ impl<'a> PrivateAccessVisitor<'a> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: vec![
+                                obj.clone().as_arg(),
+                                class_name.clone().as_arg(),
+                                ident.as_arg(),
+                            ],
 
                             type_args: Default::default(),
                         }
@@ -578,7 +582,11 @@ impl<'a> PrivateAccessVisitor<'a> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: vec![
+                                obj.clone().as_arg(),
+                                class_name.clone().as_arg(),
+                                ident.as_arg(),
+                            ],
 
                             type_args: Default::default(),
                         }

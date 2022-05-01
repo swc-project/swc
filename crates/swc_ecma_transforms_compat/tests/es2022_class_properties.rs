@@ -2773,8 +2773,8 @@ var Foo = function () {
       {
           key: "test",
           value: function test() {
-              _classStaticPrivateFieldUpdate(Foo, _x).value++;
-              ++_classStaticPrivateFieldUpdate(Foo, _x).value;
+              _classStaticPrivateFieldUpdate(Foo, Foo, _x).value++;
+              ++_classStaticPrivateFieldUpdate(Foo, Foo, _x).value;
           }
       }
   ]);

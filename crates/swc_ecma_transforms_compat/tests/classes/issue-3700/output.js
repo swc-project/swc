@@ -27,10 +27,10 @@ let A = /*#__PURE__*/ function() {
         {
             key: "bar",
             value: function bar() {
-                let d = _classStaticPrivateFieldUpdate(this, _d).value++;
-                d = ++_classStaticPrivateFieldUpdate(this, _d).value;
-                let e = _classStaticPrivateFieldUpdate(A, _d).value++;
-                e = ++_classStaticPrivateFieldUpdate(A, _d).value;
+                let d = _classStaticPrivateFieldUpdate(this, A, _d).value++;
+                d = ++_classStaticPrivateFieldUpdate(this, A, _d).value;
+                let e = _classStaticPrivateFieldUpdate(A, A, _d).value++;
+                e = ++_classStaticPrivateFieldUpdate(A, A, _d).value;
                 console.log(d, e);
             }
         }
