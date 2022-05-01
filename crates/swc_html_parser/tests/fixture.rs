@@ -5,10 +5,17 @@ use std::{fs, path::PathBuf};
 use swc_common::{errors::Handler, input::SourceFileInput, Spanned};
 use serde_json::{Map, Value};
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
+use serde_json::Value;
+use swc_common::{
+    errors::Handler,
+    input::{SourceFileInput, StringInput},
+    BytePos, Span, Spanned,
+};
 use swc_html_ast::*;
 use swc_html_parser::{
-    lexer::Lexer,
-    parser::{PResult, Parser, ParserConfig},
+    error::ErrorKind,
+    lexer::{Lexer, State},
+    parser::{input::ParserInput, PResult, Parser, ParserConfig},
 };
 use swc_html_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
@@ -233,6 +240,13 @@ fn span_visualizer(input: PathBuf) {
 //         }
 //     }
 // }
+static IGNORED_TOKENIZER_TESTS: &[&str] = &[
+    "Correct Doctype case with EOF",
+    "Repeated attr",
+    "Comment, two central dashes",
+    "Unfinished comment",
+    "Unfinished comment after start of nested comment",
+];
 
 #[testing::fixture("tests/html5lib-tests/tokenizer/**/*.test")]
 fn html5lib_test_tokenizer(input: PathBuf) {
@@ -245,16 +259,289 @@ fn html5lib_test_tokenizer(input: PathBuf) {
     match obj.get(&"tests".to_string()) {
         Some(&Value::Array(ref list)) => {
             for test in list.iter() {
-                let input = test.get("input").expect("failed to get input in test");
-                let lexer = Lexer::new(
-                    input.to_string(),
-                    ParserConfig {
-                        ..Default::default()
-                    },
-                );
+                let description = test
+                    .get("description")
+                    .expect("failed to get input in test");
 
-                println!("{:?}", input);
-                unreachable!();
+                if IGNORED_TOKENIZER_TESTS
+                    .contains(&description.as_str().expect("failed to convert to str"))
+                {
+                    continue;
+                }
+
+                let states = if let Some(initial_states) = test.get("initialStates") {
+                    let mut states = vec![];
+                    let json_states: Vec<String> = serde_json::from_value(initial_states.clone())
+                        .expect("failed to get input in test");
+
+                    for json_state in json_states {
+                        match &*json_state {
+                            "Data state" => {
+                                states.push(State::Data);
+                            }
+                            "PLAINTEXT state" => {
+                                states.push(State::PlainText);
+                            }
+                            "RCDATA state" => {
+                                states.push(State::Rcdata);
+                            }
+                            "RAWTEXT state" => {
+                                states.push(State::Rawtext);
+                            }
+                            "Script data state" => {
+                                states.push(State::ScriptData);
+                            }
+                            "CDATA section state" => {
+                                states.push(State::CdataSection);
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+                    }
+
+                    states
+                } else {
+                    vec![State::Data]
+                };
+
+                for state in states.iter() {
+                    eprintln!("==== ==== Description ==== ====\n{}\n", description);
+
+                    let json_input = test["input"].clone();
+                    let input: String =
+                        serde_json::from_value(json_input).expect("failed to get input in test");
+
+                    // TODO handle `doubleEscaped`
+
+                    eprintln!("==== ==== Input ==== ====\n{}\n", input);
+
+                    let json_output = test["output"].clone();
+                    let output = json_output.to_string();
+
+                    eprintln!("==== ==== Output ==== ====\n{}\n", output);
+
+                    let mut lexer = Lexer::new(
+                        StringInput::new(&input, BytePos(0), BytePos(input.len() as u32)),
+                        ParserConfig {
+                            ..Default::default()
+                        },
+                    );
+
+                    lexer.set_input_state(state.clone());
+
+                    if let Some(last_start_tag) = test.get("lastStartTag") {
+                        let last_start_tag: String = serde_json::from_value(last_start_tag.clone())
+                            .expect("failed to get lastStartTag in test");
+
+                        lexer.last_start_tag_token = Some(Token::StartTag {
+                            tag_name: last_start_tag.into(),
+                            raw_tag_name: None,
+                            self_closing: false,
+                            attributes: vec![],
+                        });
+                    }
+
+                    let mut actual_tokens = vec![];
+
+                    loop {
+                        match lexer.next() {
+                            Ok(TokenAndSpan { token, .. }) => {
+                                let mut new_token = token.clone();
+
+                                match new_token {
+                                    Token::Doctype {
+                                        ref mut raw_keyword,
+                                        ref mut raw_name,
+                                        ref mut raw_public_keyword,
+                                        ref mut raw_system_keyword,
+                                        ..
+                                    } => {
+                                        *raw_keyword = None;
+                                        *raw_name = None;
+                                        *raw_public_keyword = None;
+                                        *raw_system_keyword = None;
+                                    }
+                                    Token::StartTag {
+                                        ref mut raw_tag_name,
+                                        ref mut attributes,
+                                        ..
+                                    } => {
+                                        *raw_tag_name = None;
+
+                                        for attribute in attributes {
+                                            attribute.raw_name = None;
+                                            attribute.raw_value = None;
+                                        }
+                                    }
+                                    Token::EndTag {
+                                        ref mut raw_tag_name,
+                                        ref mut attributes,
+                                        ..
+                                    } => {
+                                        *raw_tag_name = None;
+                                        *attributes = vec![];
+                                    }
+                                    Token::Character { ref mut raw, .. } => {
+                                        *raw = None;
+                                    }
+                                    _ => {}
+                                }
+
+                                actual_tokens.push(new_token);
+                            }
+                            Err(error) => match error.kind() {
+                                ErrorKind::Eof => {
+                                    break;
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
+                            },
+                        };
+                    }
+
+                    let mut expected_tokens: Vec<Token> = vec![];
+
+                    for output_tokens in json_output.as_array() {
+                        for output_token in output_tokens {
+                            match output_token {
+                                Value::Array(token_parts) => {
+                                    let tokens = match &*token_parts[0].as_str().expect("failed") {
+                                        "DOCTYPE" => {
+                                            let name: Option<String> =
+                                                serde_json::from_value(token_parts[1].clone())
+                                                    .expect("failed to deserialize");
+                                            let public_id: Option<String> =
+                                                serde_json::from_value(token_parts[2].clone())
+                                                    .expect("failed to deserialize");
+                                            let system_id: Option<String> =
+                                                serde_json::from_value(token_parts[3].clone())
+                                                    .expect("failed to deserialize");
+                                            let correctness: bool =
+                                                serde_json::from_value(token_parts[4].clone())
+                                                    .expect("failed to deserialize");
+
+                                            vec![Token::Doctype {
+                                                raw_keyword: None,
+                                                name: name.map(|v| v.into()),
+                                                raw_name: None,
+                                                force_quirks: !correctness,
+                                                raw_public_keyword: None,
+                                                public_quote: None,
+                                                public_id: public_id.map(|v| v.into()),
+                                                raw_system_keyword: None,
+                                                system_quote: None,
+                                                system_id: system_id.map(|v| v.into()),
+                                            }]
+                                        }
+                                        "StartTag" => {
+                                            let tag_name: String =
+                                                serde_json::from_value(token_parts[1].clone())
+                                                    .expect("failed to deserialize");
+                                            let mut attributes = vec![];
+
+                                            if let Some(json_attributes) =
+                                                token_parts.get(2).clone()
+                                            {
+                                                let obj_attributes: Value =
+                                                    serde_json::from_value(json_attributes.clone())
+                                                        .expect("failed to deserialize");
+
+                                                match obj_attributes {
+                                                    Value::Object(obj) => {
+                                                        for key in obj.keys() {
+                                                            let json_value = obj.get(key).expect(
+                                                                "failed to get value for  \
+                                                                 attribute",
+                                                            );
+                                                            let value: Option<String> =
+                                                                serde_json::from_value(
+                                                                    json_value.clone(),
+                                                                )
+                                                                .expect("failed to deserialize");
+
+                                                            attributes.push(AttributeToken {
+                                                                name: key.clone().into(),
+                                                                raw_name: None,
+                                                                value: value.map(|v| v.into()),
+                                                                raw_value: None,
+                                                            })
+                                                        }
+                                                    }
+                                                    _ => {
+                                                        unreachable!();
+                                                    }
+                                                }
+                                            }
+
+                                            vec![Token::StartTag {
+                                                tag_name: tag_name.into(),
+                                                raw_tag_name: None,
+                                                self_closing: false,
+                                                attributes,
+                                            }]
+                                        }
+                                        "EndTag" => {
+                                            let tag_name: String =
+                                                serde_json::from_value(token_parts[1].clone())
+                                                    .expect("failed to deserialize");
+
+                                            vec![Token::EndTag {
+                                                tag_name: tag_name.into(),
+                                                raw_tag_name: None,
+                                                self_closing: false,
+                                                attributes: vec![],
+                                            }]
+                                        }
+                                        "Character" => {
+                                            let characters: String =
+                                                serde_json::from_value(token_parts[1].clone())
+                                                    .expect("failed to deserialize");
+
+                                            let mut value = vec![];
+
+                                            for c in characters.chars() {
+                                                value.push(Token::Character {
+                                                    value: c,
+                                                    raw: None,
+                                                })
+                                            }
+
+                                            value
+                                        }
+                                        "Comment" => {
+                                            let data: String =
+                                                serde_json::from_value(token_parts[1].clone())
+                                                    .expect("failed to deserialize");
+
+                                            vec![Token::Comment { data: data.into() }]
+                                        }
+                                        _ => {
+                                            unreachable!("unknown token {}", token_parts[0])
+                                        }
+                                    };
+
+                                    expected_tokens.extend(tokens);
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
+                            }
+                        }
+                    }
+
+                    let expected = serde_json::to_string(&expected_tokens)
+                        .expect("failed to serialize expected tokens");
+                    let actual = serde_json::to_string(&actual_tokens)
+                        .expect("failed to serialize actual tokens");
+
+                    if let Some(_errors) = test.get("errors") {
+                        // TODO test errors
+                    }
+
+                    assert_eq!(expected, actual);
+                }
             }
         }
 
