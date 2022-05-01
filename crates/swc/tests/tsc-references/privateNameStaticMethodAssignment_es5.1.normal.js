@@ -11,9 +11,9 @@ var A3 = function A3(a, b) {
     var ref;
     ref = {
         x: function() {}
-    }, swcHelpers.classStaticPrivateFieldDestructureSet(A3, _method).value = ref.x, ref; //Error, not writable 
+    }, swcHelpers.classStaticPrivateFieldDestructureSet(A3, A3, _method).value = ref.x, ref; //Error, not writable 
     var x = swcHelpers.classStaticPrivateMethodGet(A3, A3, method);
-    swcHelpers.classStaticPrivateFieldUpdate(b, _method).value++ //Error, not writable 
+    swcHelpers.classStaticPrivateFieldUpdate(b, A3, _method).value++ //Error, not writable 
     ;
 };
 function method() {}

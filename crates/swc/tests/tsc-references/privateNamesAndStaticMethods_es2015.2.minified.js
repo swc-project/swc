@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 class A {
     constructor(){
-        swcHelpers.classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1), swcHelpers.classStaticPrivateFieldUpdate(A, _quux).value++;
+        swcHelpers.classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1), swcHelpers.classStaticPrivateFieldUpdate(A, A, _quux).value++;
     }
 }
 var _quux = {

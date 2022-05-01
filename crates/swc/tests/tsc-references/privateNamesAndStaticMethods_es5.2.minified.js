@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A), swcHelpers.classStaticPrivateMethodGet(A, A, foo).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1), swcHelpers.classStaticPrivateFieldUpdate(A, _quux).value++;
+    swcHelpers.classCallCheck(this, A), swcHelpers.classStaticPrivateMethodGet(A, A, foo).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1), swcHelpers.classStaticPrivateFieldUpdate(A, A, _quux).value++;
 }, _quux = {
     get: function() {
         return swcHelpers.classStaticPrivateFieldSpecGet(this, A, __quux);

@@ -11,7 +11,7 @@ var A = function A() {
     swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30);
     swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30);
     swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1);
-    swcHelpers.classStaticPrivateFieldUpdate(A, _quux).value++;
+    swcHelpers.classStaticPrivateFieldUpdate(A, A, _quux).value++;
 };
 var _quux = {
     get: get_quux,
