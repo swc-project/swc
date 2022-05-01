@@ -17,6 +17,8 @@ export type TerserEcmaVersion = 5 | 2015 | 2016 | string | number;
 export interface JsMinifyOptions {
   compress?: TerserCompressOptions | boolean,
 
+  format?: JsFormatOptions & ToSnakeCaseProperties<JsFormatOptions>,
+
   mangle?: TerserMangleOptions | boolean,
 
   ecma?: TerserEcmaVersion,
@@ -36,6 +38,151 @@ export interface JsMinifyOptions {
   outputPath?: string
 
   inlineSourcesContent?: boolean
+}
+
+/**
+ * @example ToSnakeCase<'indentLevel'> == 'indent_level'
+ */
+type ToSnakeCase<T extends string> = T extends `${infer A}${infer B}`
+  ? `${A extends Lowercase<A> ? A : `_${Lowercase<A>}`}${ToSnakeCase<B>}`
+  : T
+
+/**
+ * @example ToSnakeCaseProperties<{indentLevel: 3}> == {indent_level: 3}
+ */
+type ToSnakeCaseProperties<T> = {
+  [K in keyof T as (K extends string ? ToSnakeCase<K> : K)]: T[K]
+}
+
+/**
+ * These properties are mostly not implemented yet,
+ * but it exists to support passing terser config to swc minify
+ * without modification.
+ */
+export interface JsFormatOptions {
+  /**
+   * Currently noop.
+   * @default false
+   * @alias ascii_only
+   */
+  asciiOnly?: boolean
+
+  /**
+   * Currently noop.
+   * @default false
+   */
+  beautify?: boolean
+
+  /**
+   * Currently noop.
+   * @default false
+   */
+  braces?: boolean
+
+  /**
+   * - `false`: removes all comments
+   * - `'some'`: preserves some comments
+   * - `'all'`: preserves all comments
+   * @default false
+   */
+  comments?: false | 'some' | 'all'
+
+  /**
+   * Currently noop.
+   * @default 5
+   */
+  ecma?: TerserEcmaVersion
+
+  /**
+   * Currently noop.
+   * @alias indent_level
+   */
+  indentLevel?: number
+
+  /**
+   * Currently noop.
+   * @alias indent_start
+   */
+  indentStart?: number
+
+  /**
+   * Currently noop.
+   * @alias inline_script
+   */
+  inlineScript?: number
+
+  /**
+   * Currently noop.
+   * @alias keep_numbers
+   */
+  keepNumbers?: number
+
+  /**
+   * Currently noop.
+   * @alias keep_quoted_props
+   */
+  keepQuotedProps?: boolean
+
+  /**
+   * Currently noop.
+   * @alias max_line_len
+   */
+  maxLineLen?: number | false
+
+  /**
+   * Currently noop.
+   */
+  preamble?: string
+
+  /**
+   * Currently noop.
+   * @alias quote_keys
+   */
+  quoteKeys?: boolean
+
+  /**
+   * Currently noop.
+   * @alias quote_style
+   */
+  quoteStyle?: boolean
+
+  /**
+   * Currently noop.
+   * @alias preserve_annotations
+   */
+  preserveAnnotations?: boolean
+
+  /**
+   * Currently noop.
+   */
+  safari10?: boolean
+
+  /**
+   * Currently noop.
+   */
+  semicolons?: boolean
+
+  /**
+   * Currently noop.
+   */
+  shebang?: boolean
+
+  /**
+   * Currently noop.
+   */
+  webkit?: boolean
+
+  /**
+   * Currently noop.
+   * @alias wrap_iife
+   */
+  wrapIife?: boolean
+
+  /**
+   * Currently noop.
+   * @alias wrap_func_args
+   */
+  wrapFuncArgs?: boolean
 }
 
 export interface TerserCompressOptions {
