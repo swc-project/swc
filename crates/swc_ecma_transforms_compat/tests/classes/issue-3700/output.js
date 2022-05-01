@@ -20,6 +20,7 @@ let A = /*#__PURE__*/ function() {
                 a = ++_classPrivateFieldUpdate(this, _a).value;
                 let b = _classPrivateFieldUpdate(this, _c).value++;
                 b = ++_classPrivateFieldUpdate(this, _c).value;
+                console.log(a, b);
             }
         }
     ], [
@@ -30,6 +31,7 @@ let A = /*#__PURE__*/ function() {
                 d = ++_classStaticPrivateFieldUpdate(this, _d).value;
                 let e = _classStaticPrivateFieldUpdate(A, _d).value++;
                 e = ++_classStaticPrivateFieldUpdate(A, _d).value;
+                console.log(d, e);
             }
         }
     ]);
@@ -50,8 +52,11 @@ function set_c(v) {
     _classPrivateFieldSet(this, _a, v);
 }
 function get_d() {
-    return _classPrivateFieldGet(this, _a);
+    return _classStaticPrivateFieldSpecGet(this, A, _b);
 }
 function set_d(v) {
-    _classPrivateFieldSet(this, _a, v);
+    _classStaticPrivateFieldSpecSet(this, A, _b, v);
 }
+const a = new A();
+a.foo();
+A.bar();
