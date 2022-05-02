@@ -1,4 +1,4 @@
-const testDecorator = <T extends {}>(target: T, key: keyof T) => {
+const testDecorator = <T>(target: T, key: keyof T) => {
     const privateField = Symbol();
     // We define getters and setters for the property on the prototype of the class
     // A real application might use this to intercept changes to the decorated property.
