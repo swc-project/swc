@@ -437,6 +437,14 @@ where
         }
     }
 
+    fn flush_code_points_consumed_as_character_reference(&mut self) {
+        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.drain(..) {
+                self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
+            }
+        }
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         if self.finished {
             return Err(ErrorKind::Eof);
@@ -5214,15 +5222,7 @@ where
                     // Flush code points consumed as a character reference. Reconsume in the
                     // return state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
+                        self.flush_code_points_consumed_as_character_reference();
                         self.state = self.return_state.clone();
                         self.reconsume();
                     }
@@ -5327,18 +5327,13 @@ where
                                 self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
                             }
 
-                            let mut temporary_buffer = String::new();
+                            self.temporary_buffer = Some("".into());
 
-                            temporary_buffer.push_str(&entity.characters);
-
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
+                            if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                                temporary_buffer.push_str(&entity.characters);
                             }
 
-                            self.temporary_buffer = Some(temporary_buffer);
+                            self.flush_code_points_consumed_as_character_reference();
                             self.state = self.return_state.clone();
                         }
                     }
@@ -5346,15 +5341,7 @@ where
                     // Flush code points consumed as a character reference. Switch to the
                     // ambiguous ampersand state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
+                        self.flush_code_points_consumed_as_character_reference();
                         self.state = State::AmbiguousAmpersand;
                     }
                 }
@@ -5461,16 +5448,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
+                        self.flush_code_points_consumed_as_character_reference();
                         self.state = self.return_state.clone();
                         self.reconsume();
                     }
@@ -5492,16 +5470,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
+                        self.flush_code_points_consumed_as_character_reference();
                         self.state = self.return_state.clone();
                         self.reconsume();
                     }
@@ -5730,7 +5699,7 @@ where
                 // buffer.
                 // Flush code points consumed as a character reference.
                 // Switch to the return state.
-                let mut temporary_buffer = String::new();
+                self.temporary_buffer = Some("".into());
 
                 let c = match char::from_u32(cr) {
                     Some(c) => c,
@@ -5739,10 +5708,11 @@ where
                     }
                 };
 
-                temporary_buffer.push(c);
+                if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                    temporary_buffer.push(c);
+                }
 
-                self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
-                self.temporary_buffer = Some(temporary_buffer);
+                self.flush_code_points_consumed_as_character_reference();
                 self.state = self.return_state.clone();
             }
         }
