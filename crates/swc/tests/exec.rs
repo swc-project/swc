@@ -63,6 +63,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         if let Some(ext) = entry.extension() {
             if ext == "ts" {
                 let ts = Syntax::Typescript(TsConfig {
+                    decorators: true,
                     ..Default::default()
                 });
                 return vec![ts, default_es];
