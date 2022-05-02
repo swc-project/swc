@@ -167,13 +167,20 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                     &Options {
                         config: Config {
                             jsc: JscConfig {
+                                target: Some(EsVersion::Es2021),
                                 syntax: Some(Syntax::Typescript(TsConfig {
                                     decorators: true,
                                     ..Default::default()
                                 })),
                                 ..Default::default()
                             },
-                            module: Some(ModuleConfig::CommonJs(Default::default())),
+                            module: match input.extension() {
+                                Some(ext) if ext == "ts" => {
+                                    Some(ModuleConfig::CommonJs(Default::default()))
+                                }
+                                Some(ext) if ext == "mjs" => None,
+                                _ => None,
+                            },
                             ..Default::default()
                         },
                         ..Default::default()
@@ -181,7 +188,13 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                 )
                 .context("failed to process file")?;
 
-            let res = stdout_of(&res.code, NodeModuleType::CommonJs)?;
+            let res = stdout_of(
+                &res.code,
+                match input.extension() {
+                    Some(ext) if ext == "mjs" => NodeModuleType::Module,
+                    _ => NodeModuleType::CommonJs,
+                },
+            )?;
 
             Ok(res)
         },
