@@ -34,6 +34,7 @@ where
     character_reference_code: Option<Vec<(u8, u32)>>,
     temporary_buffer: Option<String>,
     doctype_keyword: Option<String>,
+    at_eof: bool,
 }
 
 impl<I> Lexer<I>
@@ -60,6 +61,7 @@ where
             character_reference_code: None,
             temporary_buffer: None,
             doctype_keyword: None,
+            at_eof: false,
         }
     }
 }
@@ -370,6 +372,11 @@ where
         }
 
         while self.pending_tokens.is_empty() {
+        if self.at_eof {
+            return Err(ErrorKind::Eof);
+        }
+
+        while self.pending_tokens.is_empty() && !self.at_eof {
             self.run()?;
         }
 
@@ -378,6 +385,7 @@ where
         match token_and_span.token {
             Token::Eof => {
                 self.finished = true;
+                self.at_eof = true;
 
                 return Err(ErrorKind::Eof);
             }
@@ -3531,7 +3539,7 @@ where
                     // U+0021 EXCLAMATION MARK (!)
                     // Switch to the comment end bang state.
                     Some('!') => {
-                        self.state = State::CommentEndDash;
+                        self.state = State::CommentEndBang;
                     }
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -3564,6 +3572,7 @@ where
 
                             new_data.push_str(data);
                             new_data.push('-');
+                            new_data.push('-');
 
                             *data = new_data.into();
                         }
@@ -3586,6 +3595,7 @@ where
                             let mut new_data = String::new();
 
                             new_data.push_str(data);
+                            new_data.push('-');
                             new_data.push('-');
                             new_data.push('!');
 
@@ -3621,6 +3631,7 @@ where
                             let mut new_data = String::new();
 
                             new_data.push_str(data);
+                            new_data.push('-');
                             new_data.push('-');
                             new_data.push('!');
 
@@ -3743,8 +3754,8 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypeName);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
-                            name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                            raw_keyword: None,
+                            name: None,
                             raw_name: None,
                             force_quirks: true,
                             raw_public_keyword: None,
@@ -5035,6 +5046,10 @@ where
                             value: ']',
                             raw: None,
                         });
+                        self.emit_token(Token::Character {
+                            value: ']',
+                            raw: None,
+                        });
                         self.state = State::CdataSection;
                         self.reconsume();
                     }
@@ -5578,8 +5593,6 @@ where
                 let c = match char::from_u32(cr) {
                     Some(c) => c,
                     _ => {
-                        println!("CHAR {:?}", cr);
-
                         unreachable!();
                     }
                 };
