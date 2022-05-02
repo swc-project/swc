@@ -3,6 +3,7 @@
   "span": {
     "start": 0,
     "end": 34,
+    "end": 16,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -12,6 +13,7 @@
       "span": {
         "start": 0,
         "end": 25,
+        "end": 16,
         "ctxt": 0
       },
       "tagName": "html",
@@ -36,6 +38,7 @@
           "span": {
             "start": 0,
             "end": 25,
+            "end": 16,
             "ctxt": 0
           },
           "tagName": "body",
@@ -47,6 +50,7 @@
               "span": {
                 "start": 0,
                 "end": 25,
+                "end": 8,
                 "ctxt": 0
               },
               "tagName": "select",
@@ -63,6 +67,20 @@
                   "value": "foobar"
                 }
               ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 8,
+                "end": 16,
+                "ctxt": 0
+              },
+              "tagName": "keygen",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
               "content": null
             }
           ],

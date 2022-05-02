@@ -3,6 +3,7 @@
   "span": {
     "start": 0,
     "end": 45,
+    "end": 34,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -12,6 +13,7 @@
       "span": {
         "start": 0,
         "end": 45,
+        "end": 25,
         "ctxt": 0
       },
       "tagName": "html",
@@ -23,6 +25,7 @@
           "span": {
             "start": 0,
             "end": 7,
+            "end": 1,
             "ctxt": 0
           },
           "tagName": "head",
@@ -36,6 +39,7 @@
           "span": {
             "start": 0,
             "end": 45,
+            "end": 25,
             "ctxt": 0
           },
           "tagName": "body",
@@ -47,6 +51,19 @@
               "span": {
                 "start": 0,
                 "end": 45,
+              "type": "Text",
+              "span": {
+                "start": 0,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "A BC"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1,
+                "end": 25,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -58,6 +75,7 @@
                   "span": {
                     "start": 0,
                     "end": 45,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -69,6 +87,8 @@
                       "span": {
                         "start": 7,
                         "end": 45,
+                        "start": 8,
+                        "end": 12,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -145,6 +165,17 @@
                         }
                       ],
                       "content": null
+                      "children": [],
+                      "content": null
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 19,
+                        "end": 25,
+                        "ctxt": 0
+                      },
+                      "value": " "
                     }
                   ],
                   "content": null
