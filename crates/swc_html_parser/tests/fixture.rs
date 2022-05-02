@@ -242,8 +242,6 @@ fn span_visualizer(input: PathBuf) {
 // }
 static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "Repeated attr",
-    "Start tag in script HTML comment",
-    "End tag in script HTML comment",
     "- in script HTML comment double escaped",
     "-- in script HTML comment double escaped",
     "--- in script HTML comment double escaped",
@@ -256,7 +254,6 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "Entity in attribute without semicolon ending in 1",
     "Entity in attribute without semicolon ending in i",
     "Duplicate different-case attributes",
-    "Doctype html x>text",
     "EOF in script HTML comment double escaped after dash",
     "EOF in script HTML comment double escaped after dash dash",
     "EOF in script HTML comment - double escaped",

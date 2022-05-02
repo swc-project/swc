@@ -2039,7 +2039,7 @@ where
                     // Switch to the script data double escaped less-than sign state. Emit a
                     // U+003C LESS-THAN SIGN character token.
                     Some(c @ '<') => {
-                        self.state = State::ScriptDataEscapedLessThanSign;
+                        self.state = State::ScriptDataDoubleEscapedLessThanSign;
                         self.emit_token(Token::Character {
                             value: c,
                             raw: Some(c.to_string().into()),
@@ -3937,6 +3937,8 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#after-doctype-name-state
             State::AfterDoctypeName => {
+                let cur_pos = self.input.cur_pos();
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -3983,7 +3985,6 @@ where
                     // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
                     // in the bogus DOCTYPE state.
                     Some(c) => {
-                        let cur_pos = self.input.cur_pos();
                         let mut first_six_chars = String::new();
 
                         first_six_chars.push(c);
@@ -4021,8 +4022,8 @@ where
                                 }
                             }
                             _ => {
+                                self.cur_pos = cur_pos;
                                 self.input.reset_to(cur_pos);
-
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
@@ -5147,6 +5148,7 @@ where
                             || temporary_buffer.len() > 33
                         {
                             if let Some(cur_pos) = cur_pos {
+                                self.cur_pos = cur_pos;
                                 self.input.reset_to(cur_pos);
 
                                 if *c != ';' {
