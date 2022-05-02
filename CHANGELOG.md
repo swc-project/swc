@@ -8,6 +8,9 @@
 - **(es/bugfixes)** Fix handling of syntax context (#4490) ([a444726](https://github.com/swc-project/swc/commit/a444726fe3014c1a241439d8126188c0c5fe5212))
 
 
+- **(es/compat)** Support updating a private field with bigint value (#4136) ([1e1d081](https://github.com/swc-project/swc/commit/1e1d081805e51d494d2d22568b656698a28849f0))
+
+
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
 
