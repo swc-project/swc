@@ -250,9 +250,6 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "--- spaced in script HTML comment double escaped",
     "Entity without trailing semicolon (1)",
     "Entity without trailing semicolon (2)",
-    "Entity in attribute without semicolon ending in x",
-    "Entity in attribute without semicolon ending in 1",
-    "Entity in attribute without semicolon ending in i",
     "Duplicate different-case attributes",
     "EOF in script HTML comment double escaped after dash",
     "EOF in script HTML comment double escaped after dash dash",
@@ -266,12 +263,6 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "<a a a>",
     "<a a=''A>",
     "<a a=''a>",
-    "Undefined named entity in a double-quoted attribute value ending in semicolon and whose name \
-     starts with a known entity name.",
-    "Undefined named entity in a single-quoted attribute value ending in semicolon and whose name \
-     starts with a known entity name.",
-    "Undefined named entity in an unquoted attribute value ending in semicolon and whose name \
-     starts with a known entity name.",
     "Raw NUL replacement",
     "NUL in CDATA section",
     "NUL in script HTML comment",
