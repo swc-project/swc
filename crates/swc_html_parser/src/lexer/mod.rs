@@ -35,6 +35,7 @@ where
     temporary_buffer: Option<String>,
     doctype_keyword: Option<String>,
     at_eof: bool,
+    last_emitted_error_pos: Option<BytePos>,
 }
 
 impl<I> Lexer<I>
@@ -62,6 +63,7 @@ where
             temporary_buffer: None,
             doctype_keyword: None,
             at_eof: false,
+            last_emitted_error_pos: None,
         }
     }
 }
@@ -233,17 +235,24 @@ where
         // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
         // characters are control-character-in-input-stream parse errors.
         if let Some(c) = self.cur {
-            let code = c as u32;
-
-            if code >= 0xd800 && code <= 0xdfff {
-                self.emit_error(ErrorKind::SurrogateInInputStream);
-            } else if code != 0x00 && is_control(code) {
-                self.emit_error(ErrorKind::ControlCharacterInInputStream);
-            } else if is_noncharacter(code) {
-                self.emit_error(ErrorKind::NoncharacterInInputStream);
-            }
-
             self.input.bump();
+
+            if self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos)
+            {
+                let code = c as u32;
+
+                if (0xd800..=0xdfff).contains(&code) {
+                    self.emit_error(ErrorKind::SurrogateInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                } else if code != 0x00 && is_control(code) {
+                    self.emit_error(ErrorKind::ControlCharacterInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                } else if is_noncharacter(code) {
+                    self.emit_error(ErrorKind::NoncharacterInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                }
+            }
         }
     }
 
@@ -3214,6 +3223,7 @@ where
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
                     lexer.cur_token = Some(Token::Comment { data: "".into() });
                     lexer.state = State::BogusComment;
+                    lexer.cur_pos = cur_pos;
                     lexer.input.reset_to(cur_pos);
                 };
 
@@ -5574,9 +5584,6 @@ where
                 } else {
                     unreachable!();
                 };
-
-                println!("{:?}", value);
-                println!("{:?}", is_noncharacter(value));
 
                 // Check the character reference code:
                 let cr = match value {
