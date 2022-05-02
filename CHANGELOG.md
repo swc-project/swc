@@ -28,6 +28,9 @@
 
 - **(es/parser)** Reject private field called `#constructor` (#4491) ([857e798](https://github.com/swc-project/swc/commit/857e798194e18ec874ddd51c27d136ca1e5298b8))
 
+
+- **(es/preset-env)** Update data (#4497) ([5c5337d](https://github.com/swc-project/swc/commit/5c5337d342b442c7ebbe1293b7ab705d74e482bc))
+
 ### Refactor
 
 
