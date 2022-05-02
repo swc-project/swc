@@ -92,7 +92,7 @@
                     "end": 146,
                     "ctxt": 0
                   },
-                  "value": "\n    let foo = \"<!--<script-->\";\n\n    console.log(foo);\n"
+                  "value": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
                 }
               ],
               "content": null

@@ -398,6 +398,9 @@ where
     }
 
     fn run(&mut self) -> LexResult<()> {
+        println!("State: {:?}", self.state);
+        println!("Next: {:?}", self.next());
+
         match self.state {
             // https://html.spec.whatwg.org/multipage/parsing.html#data-state
             State::Data => {
@@ -1966,11 +1969,12 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         } else {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -1980,11 +1984,12 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         } else {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -2242,11 +2247,12 @@ where
                             self.state = State::ScriptDataEscaped;
                         } else {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -2256,11 +2262,12 @@ where
                             self.state = State::ScriptDataEscaped;
                         } else {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
