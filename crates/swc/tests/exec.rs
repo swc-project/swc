@@ -1,5 +1,5 @@
 use std::{
-    fs::{self, create_dir_all, rename},
+    fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -128,7 +128,6 @@ fn run_fixture_test(entry: PathBuf) {
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);
-    let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
     let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
 
     eprintln!(
