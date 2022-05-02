@@ -632,10 +632,108 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 .expect("failed to serialize expected tokens");
 
             if let Some(json_errors) = test.get("errors") {
-                let expect_errors = json_errors.as_array().expect("failed to deserialize error");
+                let expected_errors = json_errors.as_array().expect("failed to deserialize error");
                 let actual_errors = lexer.take_errors();
 
-                // assert_eq!(actual_errors.len(), expect_errors.len());
+                assert_eq!(actual_errors.len(), expected_errors.len());
+
+                for (i, expected_error) in expected_errors.iter().enumerate() {
+                    let actual_code = actual_errors[i].kind();
+                    let expected_code = match expected_error
+                        .as_object()
+                        .expect("failed to get error code")
+                        .get("code")
+                    {
+                        Some(expected_code) => match expected_code.as_str() {
+                            Some("eof-in-doctype") => ErrorKind::EofInDoctype,
+                            Some("eof-in-comment") => ErrorKind::EofInComment,
+                            Some("eof-in-cdata") => ErrorKind::EofInCdata,
+                            Some("eof-in-tag") => ErrorKind::EofInTag,
+                            Some("eof-before-tag-name") => ErrorKind::EofBeforeTagName,
+                            Some("eof-in-script-html-comment-like-text") => {
+                                ErrorKind::EofInScriptHtmlCommentLikeText
+                            }
+                            Some("unknown-named-character-reference") => {
+                                ErrorKind::UnknownNamedCharacterReference
+                            }
+                            Some("incorrectly-opened-comment") => {
+                                ErrorKind::IncorrectlyOpenedComment
+                            }
+                            Some("abrupt-closing-of-empty-comment") => {
+                                ErrorKind::AbruptClosingOfEmptyComment
+                            }
+                            Some("abrupt-doctype-public-identifier") => {
+                                ErrorKind::AbruptDoctypePublicIdentifier
+                            }
+                            Some("abrupt-doctype-system-identifier") => {
+                                ErrorKind::AbruptDoctypeSystemIdentifier
+                            }
+                            Some("absence-of-digits-in-numeric-character-reference") => {
+                                ErrorKind::AbsenceOfDigitsInNumericCharacterReference
+                            }
+                            Some("surrogate-character-reference") => {
+                                ErrorKind::SurrogateCharacterReference
+                            }
+                            Some("nested-comment") => ErrorKind::NestedComment,
+                            Some("end-tag-with-trailing-solidus") => {
+                                ErrorKind::EndTagWithTrailingSolidus
+                            }
+                            Some("null-character-reference") => ErrorKind::NullCharacterReference,
+                            Some("cdata-in-html-content") => ErrorKind::CdataInHtmlContent,
+                            Some("character-reference-outside-unicode-range") => {
+                                ErrorKind::CharacterReferenceOutsideUnicodeRange
+                            }
+                            Some("control-character-in-input-stream") => {
+                                ErrorKind::ControlCharacterInInputStream
+                            }
+                            Some("control-character-reference") => {
+                                ErrorKind::ControlCharacterReference
+                            }
+                            Some("noncharacter-character-reference") => {
+                                ErrorKind::NoncharacterCharacterReference
+                            }
+                            Some("unexpected-equals-sign-before-attribute-name") => {
+                                ErrorKind::UnexpectedEqualsSignBeforeAttributeName
+                            }
+                            Some("unexpected-question-mark-instead-of-tag-name") => {
+                                ErrorKind::UnexpectedQuestionMarkInsteadOfTagName
+                            }
+                            Some("unexpected-null-character") => ErrorKind::UnexpectedNullCharacter,
+                            Some("unexpected-solidus-in-tag") => ErrorKind::UnexpectedSolidusInTag,
+                            Some("unexpected-character-in-attribute-name") => {
+                                ErrorKind::UnexpectedCharacterInAttributeName
+                            }
+                            Some("unexpected-character-in-unquoted-attribute-value") => {
+                                ErrorKind::UnexpectedCharacterInUnquotedAttributeValue
+                            }
+                            Some("duplicate-attribute") => ErrorKind::DuplicateAttribute,
+                            Some("end-tag-with-attributes") => ErrorKind::EndTagWithAttributes,
+                            Some("missing-whitespace-before-doctype-name") => {
+                                ErrorKind::MissingWhitespaceBeforeDoctypeName
+                            }
+                            Some("missing-attribute-value") => ErrorKind::MissingAttributeValue,
+                            Some("missing-end-tag-name") => ErrorKind::MissingEndTagName,
+                            Some("missing-doctype-name") => ErrorKind::MissingDoctypeName,
+                            Some("missing-whitespace-between-attributes") => {
+                                ErrorKind::MissingWhitespaceBetweenAttributes
+                            }
+                            Some("missing-semicolon-after-character-reference") => {
+                                ErrorKind::MissingSemicolonAfterCharacterReference
+                            }
+                            Some("invalid-first-character-of-tag-name") => {
+                                ErrorKind::InvalidFirstCharacterOfTagName
+                            }
+                            _ => {
+                                unreachable!("unknown error {:?}", expected_code);
+                            }
+                        },
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    assert_eq!(actual_code, &expected_code);
+                }
             } else {
                 let errors = lexer.take_errors();
 

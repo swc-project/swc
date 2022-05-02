@@ -274,11 +274,57 @@ where
         self.pending_tokens.push(token_and_span);
     }
 
+    fn leave_attribute_name_state(&mut self) {
+        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
+            &self.cur_token
+        {
+            let last_attribute = match attributes.last() {
+                Some(attribute) => attribute,
+                _ => {
+                    return;
+                }
+            };
+
+            let mut has_duplicate = false;
+
+            for (i, attribute) in attributes.iter().enumerate() {
+                if i == attributes.len() - 1 {
+                    continue;
+                }
+
+                if attribute.name == last_attribute.name {
+                    has_duplicate = true;
+
+                    break;
+                }
+            }
+
+            if has_duplicate {
+                self.emit_error(ErrorKind::DuplicateAttribute);
+            }
+        }
+    }
+
     fn emit_cur_token(&mut self) {
         let token = self.cur_token.clone();
 
         match token {
             Some(token) => {
+                if let Token::EndTag {
+                    attributes,
+                    self_closing,
+                    ..
+                } = &token
+                {
+                    if !attributes.is_empty() {
+                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                    }
+
+                    if *self_closing {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                    }
+                }
+
                 self.emit_token(token);
             }
             _ => {
@@ -2385,17 +2431,20 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.leave_attribute_name_state();
                         self.skip_next_lf(c);
                         self.state = State::AfterAttributeName;
                         self.reconsume();
                     }
                     Some('/' | '>') | None => {
+                        self.leave_attribute_name_state();
                         self.state = State::AfterAttributeName;
                         self.reconsume();
                     }
                     // U+003D EQUALS SIGN (=)
                     // Switch to the before attribute value state.
                     Some('=') => {
+                        self.leave_attribute_name_state();
                         self.state = State::BeforeAttributeValue;
                     }
                     // ASCII upper alpha
@@ -2599,7 +2648,7 @@ where
                     // This is a missing-attribute-value parse error. Switch to the data state.
                     // Emit the current tag token.
                     Some('>') => {
-                        self.emit_error(ErrorKind::MissingEndTagName);
+                        self.emit_error(ErrorKind::MissingAttributeValue);
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -5512,6 +5561,9 @@ where
                     unreachable!();
                 };
 
+                println!("{:?}", value);
+                println!("{:?}", is_noncharacter(value));
+
                 // Check the character reference code:
                 let cr = match value {
                     // If the number is 0x00, then this is a null-character-reference
@@ -5661,6 +5713,8 @@ fn is_spacy(c: char) -> bool {
 fn is_control(cp: u32) -> bool {
     (cp != 0x20 && cp != 0x0a && cp != 0x0d && cp != 0x09 && cp != 0x0c && cp >= 0x01 && cp <= 0x1f)
         || (0x7f..=0x9f).contains(&cp)
+fn is_control(c: u32) -> bool {
+    matches!(c, c @ 0x00..=0x1f | c @ 0x7f..=0x9f if !matches!(c, 0x09 | 0x0a | 0x0c | 0x0d | 0x20))
 }
 
 #[inline(always)]
@@ -5685,6 +5739,7 @@ fn is_noncharacter(c: u32) -> bool {
                 ..='\u{FDEF}'
                     | '\u{FFFE}'
                     | '\u{FFFF}'
+                    | '\u{1FFFE}'
                     | '\u{1FFFF}'
                     | '\u{2FFFE}'
                     | '\u{2FFFF}'

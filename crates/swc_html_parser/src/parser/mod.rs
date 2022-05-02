@@ -195,18 +195,6 @@ where
                         ));
                     }
                 }
-                Token::EndTag { attributes, .. } if !attributes.is_empty() => {
-                    self.errors.push(Error::new(
-                        token_and_info.span,
-                        ErrorKind::EndTagWithAttributes,
-                    ));
-                }
-                Token::EndTag { self_closing, .. } if *self_closing => {
-                    self.errors.push(Error::new(
-                        token_and_info.span,
-                        ErrorKind::EndTagWithTrailingSolidus,
-                    ));
-                }
                 _ => {}
             }
         }
