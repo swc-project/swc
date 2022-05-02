@@ -257,8 +257,6 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "Entity in attribute without semicolon ending in i",
     "Duplicate different-case attributes",
     "Doctype html x>text",
-    "End tag with incorrect name in RCDATA or RAWTEXT",
-    "End tag with incorrect name in RCDATA or RAWTEXT (starting like correct name)",
     "EOF in script HTML comment double escaped after dash",
     "EOF in script HTML comment double escaped after dash dash",
     "EOF in script HTML comment - double escaped",
