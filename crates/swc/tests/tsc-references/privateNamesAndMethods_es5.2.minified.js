@@ -8,7 +8,7 @@ var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = n
     }), swcHelpers.classPrivateFieldInit(this, __quux, {
         writable: !0,
         value: void 0
-    }), swcHelpers.classPrivateMethodGet(this, _foo, foo).call(this, 30), swcHelpers.classPrivateMethodGet(this, _bar, bar).call(this, 30), swcHelpers.classPrivateMethodGet(this, _baz, baz).call(this, 30), swcHelpers.classPrivateFieldSet(this, _quux, swcHelpers.classPrivateFieldGet(this, _quux) + 1), swcHelpers.classPrivateFieldSet(this, _quux, +swcHelpers.classPrivateFieldGet(this, _quux) + 1);
+    }), swcHelpers.classPrivateMethodGet(this, _foo, foo).call(this, 30), swcHelpers.classPrivateMethodGet(this, _bar, bar).call(this, 30), swcHelpers.classPrivateMethodGet(this, _baz, baz).call(this, 30), swcHelpers.classPrivateFieldSet(this, _quux, swcHelpers.classPrivateFieldGet(this, _quux) + 1), swcHelpers.classPrivateFieldUpdate(this, _quux).value++;
 };
 function foo(a) {}
 function bar(a) {

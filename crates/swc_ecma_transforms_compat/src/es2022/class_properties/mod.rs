@@ -880,7 +880,7 @@ impl<C: Comments> ClassProperties<C> {
         private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
             vars: vec![],
-            in_assign_pat: false,
+            private_access_type: Default::default(),
             c: self.c,
         });
 
@@ -891,7 +891,7 @@ impl<C: Comments> ClassProperties<C> {
         members.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
             vars: vec![],
-            in_assign_pat: false,
+            private_access_type: Default::default(),
             c: self.c,
         });
 

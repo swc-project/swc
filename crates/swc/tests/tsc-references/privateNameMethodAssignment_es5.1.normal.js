@@ -4,7 +4,6 @@ var _method = /*#__PURE__*/ new WeakSet();
 var A3 = function A3(a, b) {
     "use strict";
     swcHelpers.classCallCheck(this, A3);
-    var _b, _this_method;
     swcHelpers.classPrivateMethodInit(this, _method);
     swcHelpers.classPrivateFieldSet(this, _method, function() {} // Error, not writable 
     );
@@ -16,6 +15,7 @@ var A3 = function A3(a, b) {
         x: function() {}
     }, swcHelpers.classPrivateFieldDestructureSet(this, _method).value = ref.x, ref; //Error, not writable 
     var x = swcHelpers.classPrivateMethodGet(this, _method, method);
-    swcHelpers.classPrivateFieldSet(_b = b, _method, (_this_method = +swcHelpers.classPrivateMethodGet(_b, _method, method)) + 1), _this_method; //Error, not writable 
+    swcHelpers.classPrivateFieldUpdate(b, _method).value++ //Error, not writable 
+    ;
 };
 function method() {}
