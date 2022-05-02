@@ -16,6 +16,7 @@ use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
 
 mod metadata;
+mod tsc;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum EnumKind {
