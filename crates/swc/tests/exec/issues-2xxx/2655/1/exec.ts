@@ -1,3 +1,5 @@
+let calledSetterProperty = false;
+
 const testDecorator = <T>(target: T, key: keyof T) => {
     const privateField = Symbol();
     // We define getters and setters for the property on the prototype of the class
@@ -9,6 +11,7 @@ const testDecorator = <T>(target: T, key: keyof T) => {
             return (target as any)[privateField]
         },
         set: function (newValue) {
+            calledSetterProperty = true;
             console.log(`called setter for property ${key} with newValue ${newValue}.`)
             return (target as any)[privateField] = newValue
         }
@@ -27,6 +30,10 @@ const instance = new TestClass();
 // TSC console output:
 //    "called testDecorator!"
 //    "called setter for property testProp with newValue hello"
+
+if (!calledSetterProperty) {
+    throw new Error("Expected setter to be called!");
+}
 
 instance.testProp = "goodbye";
 // SWC console output:
