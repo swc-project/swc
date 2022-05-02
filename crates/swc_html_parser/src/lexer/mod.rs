@@ -356,11 +356,13 @@ where
     }
 
     fn emit_temporary_buffer(&mut self) {
+    fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
                 self.emit_token(Token::Character {
                     value: c,
                     raw: None,
+                    raw: Some(c.to_string().into()),
                 });
             }
         }
@@ -905,6 +907,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -926,6 +929,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -948,6 +952,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -1034,6 +1039,7 @@ where
                             raw: None,
                         });
                         self.emit_temporary_buffer();
+                        self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::Rcdata;
                         self.reconsume();
                     }
@@ -1124,6 +1130,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1145,6 +1152,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1167,6 +1175,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1253,6 +1262,7 @@ where
                             raw: None,
                         });
                         self.emit_temporary_buffer();
+                        self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::Rawtext;
                         self.reconsume()
                     }
@@ -1357,6 +1367,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1378,6 +1389,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1400,6 +1412,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1486,6 +1499,7 @@ where
                             raw: None,
                         });
                         self.emit_temporary_buffer();
+                        self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::ScriptData;
                         self.reconsume()
                     }
@@ -1791,6 +1805,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1812,6 +1827,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1834,6 +1850,7 @@ where
                                 raw: None,
                             });
                             self.emit_temporary_buffer();
+                            self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1920,6 +1937,7 @@ where
                             raw: None,
                         });
                         self.emit_temporary_buffer();
+                        self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::ScriptDataEscaped;
                         self.reconsume()
                     }
@@ -2039,13 +2057,14 @@ where
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
+                    // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
                     }
-                    // end-of-file token. Anything else
+                    // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
                         self.emit_token(Token::Character {
@@ -3775,8 +3794,8 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
-                            name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                            raw_keyword: None,
+                            name: None,
                             raw_name: None,
                             force_quirks: true,
                             raw_public_keyword: None,
@@ -5083,7 +5102,7 @@ where
                     // Flush code points consumed as a character reference. Reconsume in the
                     // return state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                             for c in temporary_buffer.drain(..) {
                                 self.flush_code_point_consumed_as_character_reference(
                                     c,
@@ -5109,6 +5128,7 @@ where
                 let mut cur_pos: Option<BytePos> = None;
 
                 // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
+                // TODO refactor me and speedy
                 while let Some(c) = &self.consume_next_char() {
                     if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                         temporary_buffer.push(*c);
@@ -5123,9 +5143,15 @@ where
                         // We stop when:
                         // - not ascii alphabetic
                         // - we consume more characters than the longest entity
-                        if !c.is_ascii_alphabetic() || temporary_buffer.len() > 33 {
+                        if !matches!(c, 'A'..='Z' | 'a'..='z' | '1'..='9')
+                            || temporary_buffer.len() > 33
+                        {
                             if let Some(cur_pos) = cur_pos {
                                 self.input.reset_to(cur_pos);
+
+                                if *c != ';' {
+                                    temporary_buffer.pop();
+                                }
                             }
 
                             break;
@@ -5156,7 +5182,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                                 for c in temporary_buffer.drain(..) {
                                     self.flush_code_point_consumed_as_character_reference(
                                         c,
@@ -5204,7 +5230,7 @@ where
                     // Flush code points consumed as a character reference. Switch to the
                     // ambiguous ampersand state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                             for c in temporary_buffer.drain(..) {
                                 self.flush_code_point_consumed_as_character_reference(
                                     c,
@@ -5320,7 +5346,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
 
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                             for c in temporary_buffer.drain(..) {
                                 self.flush_code_point_consumed_as_character_reference(
                                     c,

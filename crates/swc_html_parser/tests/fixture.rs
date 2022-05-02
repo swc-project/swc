@@ -255,9 +255,31 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "Entity in attribute without semicolon ending in x",
     "Entity in attribute without semicolon ending in 1",
     "Entity in attribute without semicolon ending in i",
+    "Duplicate different-case attributes",
+    "Doctype html x>text",
+    "End tag with incorrect name in RCDATA or RAWTEXT",
+    "End tag with incorrect name in RCDATA or RAWTEXT (starting like correct name)",
+    "EOF in script HTML comment double escaped after dash",
+    "EOF in script HTML comment double escaped after dash dash",
+    "EOF in script HTML comment - double escaped",
+    "</script> in script HTML comment - double escaped",
+    "</script> in script HTML comment - double escaped with nested <script>",
+    "</script> in script HTML comment - double escaped with abrupt end",
+    "Incomplete end tag in script HTML comment double escaped",
+    "Unclosed end tag in script HTML comment double escaped",
+    "<a a A>",
+    "<a a a>",
+    "<a a=''A>",
+    "<a a=''a>",
+    "Undefined named entity in a double-quoted attribute value ending in semicolon and whose name \
+     starts with a known entity name.",
+    "Undefined named entity in a single-quoted attribute value ending in semicolon and whose name \
+     starts with a known entity name.",
+    "Undefined named entity in an unquoted attribute value ending in semicolon and whose name \
+     starts with a known entity name.",
 ];
 
-#[testing::fixture("tests/html5lib-tests/tokenizer/**/test1.test")]
+#[testing::fixture("tests/html5lib-tests/tokenizer/**/*.test")]
 fn html5lib_test_tokenizer(input: PathBuf) {
     let filename = input.to_str().expect("failed to parse path");
     let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
@@ -321,7 +343,10 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     let input: String =
                         serde_json::from_value(json_input).expect("failed to get input in test");
 
-                    // TODO handle `doubleEscaped`
+                    if let Some(double_escaped) = test.get("doubleEscaped") {
+                        // TODO handle `doubleEscaped`
+                        continue;
+                    }
 
                     eprintln!("==== ==== Input ==== ====\n{}\n", input);
 
@@ -330,8 +355,10 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
                     eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
+                    // TODO keep `\r` in raw when we implement it
+                    let lexer_input = input.replace("\r\n", "\n").replace('\r', "\n");
                     let mut lexer = Lexer::new(
-                        StringInput::new(&input, BytePos(0), BytePos(input.len() as u32)),
+                        StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32)),
                         ParserConfig {
                             ..Default::default()
                         },
@@ -399,9 +426,11 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     Token::EndTag {
                                         ref mut raw_tag_name,
                                         ref mut attributes,
+                                        ref mut self_closing,
                                         ..
                                     } => {
                                         *raw_tag_name = None;
+                                        *self_closing = false;
                                         *attributes = vec![];
                                     }
                                     Token::Character { ref mut raw, .. } => {
