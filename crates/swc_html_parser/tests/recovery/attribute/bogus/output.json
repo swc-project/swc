@@ -2,25 +2,16 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 10,
+    "end": 0,
     "ctxt": 0
   },
   "mode": "no-quirks",
   "children": [
     {
-      "type": "Comment",
-      "span": {
-        "start": 0,
-        "end": 10,
-        "ctxt": 0
-      },
-      "data": " test>"
-    },
-    {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 10,
+        "end": 0,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 10,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -44,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 10,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "body",

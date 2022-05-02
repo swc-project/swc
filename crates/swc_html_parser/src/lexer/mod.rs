@@ -34,7 +34,6 @@ where
     character_reference_code: Option<Vec<(u8, u32)>>,
     temporary_buffer: Option<String>,
     doctype_keyword: Option<String>,
-    at_eof: bool,
     last_emitted_error_pos: Option<BytePos>,
 }
 
@@ -62,7 +61,6 @@ where
             character_reference_code: None,
             temporary_buffer: None,
             doctype_keyword: None,
-            at_eof: false,
             last_emitted_error_pos: None,
         }
     }
@@ -430,13 +428,11 @@ where
         }
     }
 
-    fn emit_temporary_buffer(&mut self) {
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
                 self.emit_token(Token::Character {
                     value: c,
-                    raw: None,
                     raw: Some(c.to_string().into()),
                 });
             }
@@ -456,12 +452,7 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        while self.pending_tokens.is_empty() {
-        if self.at_eof {
-            return Err(ErrorKind::Eof);
-        }
-
-        while self.pending_tokens.is_empty() && !self.at_eof {
+        while self.pending_tokens.is_empty() && !self.finished {
             self.run()?;
         }
 
@@ -470,7 +461,6 @@ where
         match token_and_span.token {
             Token::Eof => {
                 self.finished = true;
-                self.at_eof = true;
 
                 return Err(ErrorKind::Eof);
             }
@@ -983,18 +973,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rcdata;
-                            self.reconsume();
                             anything_else(self);
                         }
                     }
@@ -1006,18 +984,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rcdata;
-                            self.reconsume();
                             anything_else(self);
                         }
                     }
@@ -1030,18 +996,6 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rcdata;
-                            self.reconsume();
                             anything_else(self);
                         }
                     }
@@ -1118,18 +1072,6 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // RCDATA state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.emit_temporary_buffer_as_character_tokens();
-                        self.state = State::Rcdata;
-                        self.reconsume();
                         anything_else(self);
                     }
                 }
@@ -1219,18 +1161,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rawtext;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1242,18 +1172,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rawtext;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1266,18 +1184,6 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::Rawtext;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1354,18 +1260,6 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // RAWTEXT state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.emit_temporary_buffer_as_character_tokens();
-                        self.state = State::Rawtext;
-                        self.reconsume()
                         anything_else(self);
                     }
                 }
@@ -1469,18 +1363,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptData;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1492,18 +1374,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptData;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1516,18 +1386,6 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptData;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1604,18 +1462,6 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // script data state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.emit_temporary_buffer_as_character_tokens();
-                        self.state = State::ScriptData;
-                        self.reconsume()
                         anything_else(self);
                     }
                 }
@@ -1917,18 +1763,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1940,18 +1774,6 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -1964,18 +1786,6 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.emit_temporary_buffer_as_character_tokens();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
                             anything_else(self);
                         }
                     }
@@ -2052,18 +1862,6 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // script data escaped state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.emit_temporary_buffer_as_character_tokens();
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume()
                         anything_else(self);
                     }
                 }
@@ -5667,9 +5465,6 @@ fn is_spacy(c: char) -> bool {
 }
 
 #[inline(always)]
-fn is_control(cp: u32) -> bool {
-    (cp != 0x20 && cp != 0x0a && cp != 0x0d && cp != 0x09 && cp != 0x0c && cp >= 0x01 && cp <= 0x1f)
-        || (0x7f..=0x9f).contains(&cp)
 fn is_control(c: u32) -> bool {
     matches!(c, c @ 0x00..=0x1f | c @ 0x7f..=0x9f if !matches!(c, 0x09 | 0x0a | 0x0c | 0x0d | 0x20))
 }

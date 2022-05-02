@@ -2,16 +2,13 @@
 
 use std::{fs, mem::take, path::PathBuf};
 
-use swc_common::{errors::Handler, input::SourceFileInput, Spanned};
-use serde_json::{Map, Value};
-use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet,
     errors::Handler,
     input::{SourceFileInput, StringInput},
-    BytePos, Span, Spanned,
+    BytePos, Spanned,
 };
 use swc_html_ast::*;
 use swc_html_parser::{
@@ -227,30 +224,7 @@ fn span_visualizer(input: PathBuf) {
             ..Default::default()
         },
     )
-// fn make_test(input: String, expect: Value, opts: TokenizerOpts) ->
-// TestDescAndFn {     let splitted = splits(&input, 3);
-//
-//     for input in splitted.into_iter() {
-//         let output = tokenize(input.clone(), opts.clone());
-//         let expect_toks = json_to_tokens(&expect, opts.exact_errors);
-//
-//         if output != expect_toks {
-//             panic!(
-//                 "\ninput: {:?}\ngot: {:?}\nexpected: {:?}",
-//                 input, output, expect
-//             );
-//         }
-//     }
-// }
-static IGNORED_TOKENIZER_TESTS: &[&str] = &[
-    "Raw NUL replacement",
-    "NUL in CDATA section",
-    "NUL in script HTML comment",
-    "NUL in script HTML comment - double escaped",
-    "leading U+FEFF must pass through",
-    "--!NUL in comment ",
-    "Text after bogus character reference",
-];
+}
 
 fn unescape(s: &str) -> Option<String> {
     let mut out = String::with_capacity(s.len());
@@ -366,8 +340,10 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
             // TODO keep `\r` in raw when we implement them in AST or implement an option
             let lexer_input = input.replace("\r\n", "\n").replace('\r', "\n");
+            let lexer_str_input =
+                StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32));
             let mut lexer = Lexer::new(
-                StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32)),
+                lexer_str_input,
                 ParserConfig {
                     ..Default::default()
                 },
@@ -640,11 +616,9 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 assert_eq!(actual_errors.len(), expected_errors.len());
 
                 for expected_error in expected_errors.iter() {
-                    let expected_code = match expected_error
-                        .as_object()
-                        .expect("failed to get error code")
-                        .get("code")
-                    {
+                    let obj_expected_code =
+                        expected_error.as_object().expect("failed to get error");
+                    let expected_code = match obj_expected_code.get("code") {
                         Some(expected_code) => match expected_code.as_str() {
                             Some("eof-in-doctype") => ErrorKind::EofInDoctype,
                             Some("eof-in-comment") => ErrorKind::EofInComment,
@@ -768,6 +742,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         }
                     };
 
+                    // TODO validate error positions
                     assert_eq!(
                         !actual_errors
                             .iter()
