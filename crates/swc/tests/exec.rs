@@ -66,7 +66,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                     decorators: true,
                     ..Default::default()
                 });
-                return vec![ts, default_es];
+                return vec![ts];
             }
         }
 
