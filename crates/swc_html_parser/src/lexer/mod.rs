@@ -398,9 +398,6 @@ where
     }
 
     fn run(&mut self) -> LexResult<()> {
-        println!("State: {:?}", self.state);
-        println!("Next: {:?}", self.next());
-
         match self.state {
             // https://html.spec.whatwg.org/multipage/parsing.html#data-state
             State::Data => {
@@ -5132,12 +5129,14 @@ where
                 // when it's consumed.
                 // The shortest entity - `&GT`
                 // The longest entity - `&CounterClockwiseContourIntegral;`
+                let initial_cur_pos = self.input.cur_pos();
+                let initial_buffer = self.temporary_buffer.clone();
                 let mut entity: Option<&Entity> = None;
-                let mut cur_pos: Option<BytePos> = None;
-                let mut swap_temporary_buffer = None;
+                let mut entity_cur_pos: Option<BytePos> = None;
+                let mut entity_temporary_buffer = None;
 
                 // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
-                // TODO refactor me and speedy
+                // and speedy
                 while let Some(c) = &self.consume_next_char() {
                     if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                         temporary_buffer.push(*c);
@@ -5146,8 +5145,8 @@ where
 
                         if let Some(found_entity) = found_entity {
                             entity = Some(found_entity);
-                            cur_pos = Some(self.input.cur_pos());
-                            swap_temporary_buffer = Some(temporary_buffer.clone());
+                            entity_cur_pos = Some(self.input.cur_pos());
+                            entity_temporary_buffer = Some(temporary_buffer.clone());
                         }
 
                         // We stop when:
@@ -5159,13 +5158,14 @@ where
                     }
                 }
 
-                if let Some(cur_pos) = cur_pos {
-                    self.cur_pos = cur_pos;
-                    self.input.reset_to(cur_pos);
-                }
-
-                if let Some(swap_temporary_buffer) = swap_temporary_buffer {
-                    self.temporary_buffer = Some(swap_temporary_buffer);
+                if entity.is_some() {
+                    self.cur_pos = entity_cur_pos.unwrap();
+                    self.input.reset_to(entity_cur_pos.unwrap());
+                    self.temporary_buffer = Some(entity_temporary_buffer.unwrap());
+                } else {
+                    self.cur_pos = initial_cur_pos;
+                    self.input.reset_to(initial_cur_pos);
+                    self.temporary_buffer = initial_buffer;
                 }
 
                 let is_last_semicolon =
