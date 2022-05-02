@@ -272,8 +272,47 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
      starts with a known entity name.",
     "Undefined named entity in an unquoted attribute value ending in semicolon and whose name \
      starts with a known entity name.",
+    "Raw NUL replacement",
+    "NUL in CDATA section",
+    "NUL in script HTML comment",
+    "NUL in script HTML comment - double escaped",
+    "leading U+FEFF must pass through",
+    "--!NUL in comment ",
+    "Text after bogus character reference",
 ];
 
+fn unescape(s: &str) -> Option<String> {
+    let mut out = String::with_capacity(s.len());
+    let mut it = s.chars().peekable();
+
+    loop {
+        match it.next() {
+            None => return Some(out),
+            Some('\\') => {
+                if it.peek() != Some(&'u') {
+                    panic!("can't understand escape");
+                }
+
+                drop(it.next());
+
+                let hex: String = it.by_ref().take(4).collect();
+
+                match u32::from_str_radix(&hex, 16).ok().and_then(char::from_u32) {
+                    // TODO fix me surrogate paris
+                    // Some of the tests use lone surrogates, but we have no
+                    // way to represent them in the UTF-8 input to our parser.
+                    // Since these can only come from script, we will catch
+                    // them there.
+                    None => return None,
+                    Some(c) => out.push(c),
+                }
+            }
+            Some(c) => out.push(c),
+        }
+    }
+}
+
+// TODO we need to enable `preserve_order` for serde, but we can't https://github.com/tkaitchuck/aHash/issues/95, so we sort attributes
 #[testing::fixture("tests/html5lib-tests/tokenizer/**/*.test")]
 fn html5lib_test_tokenizer(input: PathBuf) {
     let filename = input.to_str().expect("failed to parse path");
@@ -335,12 +374,16 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     eprintln!("==== ==== Description ==== ====\n{}\n", description);
 
                     let json_input = test["input"].clone();
-                    let input: String =
+                    let mut input: String =
                         serde_json::from_value(json_input).expect("failed to get input in test");
 
-                    if let Some(double_escaped) = test.get("doubleEscaped") {
-                        // TODO handle `doubleEscaped`
-                        continue;
+                    if let Some(..) = test.get("doubleEscaped") {
+                        input = match unescape(&input) {
+                            Some(unescaped) => unescaped,
+                            _ => {
+                                continue;
+                            }
+                        };
                     }
 
                     eprintln!("==== ==== Input ==== ====\n{}\n", input);
@@ -350,7 +393,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
                     eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
-                    // TODO keep `\r` in raw when we implement it
+                    // TODO keep `\r` in raw when we implement them in AST
                     let lexer_input = input.replace("\r\n", "\n").replace('\r', "\n");
                     let mut lexer = Lexer::new(
                         StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32)),
@@ -404,8 +447,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     } => {
                                         *raw_tag_name = None;
 
-                                        // TODO we need to enable `preserve_order` for serde,
-                                        // but we can't https://github.com/tkaitchuck/aHash/issues/95
                                         attributes
                                             .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
 
@@ -534,8 +575,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                                 self_closing = value;
                                             }
 
-                                            // TODO we need to enable `preserve_order` for serde,
-                                            // but we can't https://github.com/tkaitchuck/aHash/issues/95
                                             attributes.sort_by(|a, b| {
                                                 a.name.partial_cmp(&b.name).unwrap()
                                             });
@@ -601,11 +640,20 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     let actual = serde_json::to_string(&actual_tokens)
                         .expect("failed to serialize actual tokens");
 
-                    if let Some(_errors) = test.get("errors") {
-                        // TODO test errors
+                    if let Some(json_errors) = test.get("errors") {
+                        let expect_errors =
+                            json_errors.as_array().expect("failed to deserialize error");
+                        let actual_errors = lexer.take_errors();
+
+                        // TODO fix me
+                        // assert_eq!(actual_errors.len(), expect_errors.len());
+                    } else {
+                        let errors = lexer.take_errors();
+
+                        assert_eq!(errors.len(), 0);
                     }
 
-                    assert_eq!(expected, actual);
+                    assert_eq!(actual, expected);
                 }
             }
         }
