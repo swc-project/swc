@@ -14,33 +14,6 @@ pub fn static_blocks() -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl ClassStaticBlock {
-    fn visit_mut_class_for_static_block(&mut self, class: &mut Class) {
-        let mut private_names = AHashSet::default();
-        for member in &class.body {
-            if let ClassMember::PrivateProp(private_property) = member {
-                private_names.insert(private_property.key.id.sym.clone());
-            }
-        }
-
-        for member in class.body.iter_mut() {
-            if let ClassMember::StaticBlock(static_block) = member {
-                let static_block_private_id: JsWord = {
-                    let mut id_value: JsWord = "_".into();
-                    let mut count = 0;
-                    while private_names.contains(&id_value) {
-                        count += 1;
-                        id_value = format!("_{}", count).into();
-                    }
-                    private_names.insert(id_value.clone());
-                    id_value
-                };
-                *member = ClassMember::PrivateProp(
-                    self.visit_mut_static_block(static_block.take(), static_block_private_id),
-                )
-            };
-        }
-    }
-
     fn visit_mut_static_block(
         &mut self,
         static_block: StaticBlock,
@@ -87,18 +60,32 @@ impl ClassStaticBlock {
 impl VisitMut for ClassStaticBlock {
     noop_visit_mut_type!();
 
-    fn visit_mut_decl(&mut self, declaration: &mut Decl) {
-        declaration.visit_mut_children_with(self);
+    fn visit_mut_class(&mut self, class: &mut Class) {
+        class.visit_mut_children_with(self);
 
-        if let Decl::Class(class_declaration) = declaration {
-            self.visit_mut_class_for_static_block(&mut class_declaration.class);
+        let mut private_names = AHashSet::default();
+        for member in &class.body {
+            if let ClassMember::PrivateProp(private_property) = member {
+                private_names.insert(private_property.key.id.sym.clone());
+            }
         }
-    }
 
-    fn visit_mut_expr(&mut self, expression: &mut Expr) {
-        expression.visit_mut_children_with(self);
-        if let Expr::Class(class_expression) = expression {
-            self.visit_mut_class_for_static_block(&mut class_expression.class);
+        for member in class.body.iter_mut() {
+            if let ClassMember::StaticBlock(static_block) = member {
+                let static_block_private_id: JsWord = {
+                    let mut id_value: JsWord = "_".into();
+                    let mut count = 0;
+                    while private_names.contains(&id_value) {
+                        count += 1;
+                        id_value = format!("_{}", count).into();
+                    }
+                    private_names.insert(id_value.clone());
+                    id_value
+                };
+                *member = ClassMember::PrivateProp(
+                    self.visit_mut_static_block(static_block.take(), static_block_private_id),
+                )
+            };
         }
     }
 }
