@@ -262,6 +262,12 @@ where
     }
 
     #[inline]
+    fn reconsume_in_state(&mut self, state: State) {
+        self.state = state;
+        self.reconsume();
+    }
+
+    #[inline]
     fn consume_next_char(&mut self) -> Option<char> {
         // The next input character is the first character in the input stream that has
         // not yet been consumed or explicitly ignored by the requirements in this
@@ -686,8 +692,7 @@ where
                             attributes: vec![],
                         });
 
-                        self.state = State::TagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::TagName);
                     }
                     // U+003F QUESTION MARK (?)
                     // This is an unexpected-question-mark-instead-of-tag-name parse error.
@@ -696,9 +701,7 @@ where
                     Some('?') => {
                         self.emit_error(ErrorKind::UnexpectedQuestionMarkInsteadOfTagName);
                         self.cur_token = Some(Token::Comment { data: "".into() });
-
-                        self.state = State::BogusComment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusComment);
                     }
                     // EOF
                     // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
@@ -722,8 +725,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Data;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Data);
                     }
                 }
             }
@@ -741,9 +743,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::TagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::TagName);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-end-tag-name parse error. Switch to the data state.
@@ -776,8 +776,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.cur_token = Some(Token::Comment { data: "".into() });
-                        self.state = State::BogusComment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusComment);
                     }
                 }
             }
@@ -918,8 +917,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Rcdata;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rcdata);
                     }
                 }
             }
@@ -937,9 +935,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::RcdataEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::RcdataEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -953,8 +949,7 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::Rcdata;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rcdata);
                     }
                 }
             }
@@ -970,8 +965,7 @@ where
                         raw: None,
                     });
                     lexer.emit_temporary_buffer_as_character_tokens();
-                    lexer.state = State::Rcdata;
-                    lexer.reconsume();
+                    lexer.reconsume_in_state(State::Rcdata);
                 };
 
                 // Consume the next input character:
@@ -1159,8 +1153,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Rawtext;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rawtext);
                     }
                 }
             }
@@ -1178,9 +1171,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::RawtextEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::RawtextEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1194,8 +1185,7 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::Rawtext;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rawtext);
                     }
                 }
             }
@@ -1211,8 +1201,7 @@ where
                         raw: None,
                     });
                     lexer.emit_temporary_buffer_as_character_tokens();
-                    lexer.state = State::Rawtext;
-                    lexer.reconsume();
+                    lexer.reconsume_in_state(State::Rawtext);
                 };
 
                 // Consume the next input character:
@@ -1414,8 +1403,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1433,9 +1421,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::ScriptDataEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1449,8 +1435,7 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1466,8 +1451,7 @@ where
                         raw: None,
                     });
                     lexer.emit_temporary_buffer_as_character_tokens();
-                    lexer.state = State::ScriptData;
-                    lexer.reconsume();
+                    lexer.reconsume_in_state(State::ScriptData);
                 };
 
                 // Consume the next input character:
@@ -1653,8 +1637,7 @@ where
                     // Anything else
                     // Reconsume in the script data state.
                     _ => {
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1675,8 +1658,7 @@ where
                     // Anything else
                     // Reconsume in the script data state.
                     _ => {
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1859,8 +1841,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptDataDoubleEscapeStart;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscapeStart);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
@@ -1870,8 +1851,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
@@ -1889,9 +1869,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::ScriptDataEscapedEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscapedEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1905,8 +1883,7 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
@@ -1922,8 +1899,7 @@ where
                         raw: None,
                     });
                     lexer.emit_temporary_buffer_as_character_tokens();
-                    lexer.state = State::ScriptDataEscaped;
-                    lexer.reconsume();
+                    lexer.reconsume_in_state(State::ScriptDataEscaped);
                 };
 
                 // Consume the next input character:
@@ -2167,8 +2143,7 @@ where
                     // Anything else
                     // Reconsume in the script data escaped state.
                     _ => {
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
@@ -2365,8 +2340,7 @@ where
                     // Anything else
                     // Reconsume in the script data double escaped state.
                     _ => {
-                        self.state = State::ScriptDataDoubleEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscaped);
                     }
                 }
             }
@@ -2445,8 +2419,7 @@ where
                     // Anything else
                     // Reconsume in the script data double escaped state.
                     _ => {
-                        self.state = State::ScriptDataDoubleEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscaped);
                     }
                 }
             }
@@ -2467,8 +2440,7 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some('/') | Some('>') | None => {
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // This is an unexpected-equals-sign-before-attribute-name parse error.
@@ -2516,8 +2488,7 @@ where
                             }
                         }
 
-                        self.state = State::AttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeName);
                     }
                 }
             }
@@ -2559,13 +2530,11 @@ where
                     Some(c) if is_spacy(c) => {
                         self.leave_attribute_name_state();
                         self.skip_next_lf(c);
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
                         self.leave_attribute_name_state();
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // Switch to the before attribute value state.
@@ -2705,8 +2674,7 @@ where
                                 _ => {}
                             }
                         }
-                        self.state = State::AttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeName);
                     }
                 }
             }
@@ -2743,8 +2711,7 @@ where
                     // Anything else
                     // Reconsume in the attribute value (unquoted) state.
                     _ => {
-                        self.state = State::AttributeValueUnquoted;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeValueUnquoted);
                     }
                 }
             }
@@ -3169,8 +3136,7 @@ where
                     // the before attribute name state.
                     _ => {
                         self.emit_error(ErrorKind::MissingWhitespaceBetweenAttributes);
-                        self.state = State::BeforeAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeAttributeName);
                     }
                 }
             }
@@ -3206,8 +3172,7 @@ where
                     // attribute name state.
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedSolidusInTag);
-                        self.state = State::BeforeAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeAttributeName);
                     }
                 }
             }
@@ -3421,8 +3386,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3466,8 +3430,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3568,8 +3531,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3585,8 +3547,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3602,8 +3563,7 @@ where
                     // Anything else
                     // Reconsume in the comment end dash state.
                     _ => {
-                        self.state = State::CommentEndDash;
-                        self.reconsume()
+                        self.reconsume_in_state(State::CommentEndDash);
                     }
                 }
             }
@@ -3615,15 +3575,13 @@ where
                     // EOF
                     // Reconsume in the comment end state.
                     Some('>') | None => {
-                        self.state = State::CommentEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CommentEnd);
                     }
                     // Anything else
                     // This is a nested-comment parse error. Reconsume in the comment end state.
                     _ => {
                         self.emit_error(ErrorKind::NestedComment);
-                        self.state = State::CommentEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CommentEnd);
                     }
                 }
             }
@@ -3659,8 +3617,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3715,8 +3672,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3776,8 +3732,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3798,8 +3753,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Reconsume in the before DOCTYPE name state.
                     Some('>') => {
-                        self.state = State::BeforeDoctypeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeDoctypeName);
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
@@ -3829,8 +3783,7 @@ where
                     // in the before DOCTYPE name state.
                     _ => {
                         self.emit_error(ErrorKind::MissingWhitespaceBeforeDoctypeName);
-                        self.state = State::BeforeDoctypeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeDoctypeName);
                     }
                 }
             }
@@ -4153,8 +4106,7 @@ where
                                     *force_quirks = true;
                                 }
 
-                                self.state = State::BogusDoctype;
-                                self.reconsume();
+                                self.reconsume_in_state(State::BogusDoctype);
                             }
                         }
                     }
@@ -4255,8 +4207,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4348,8 +4299,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4600,8 +4550,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4684,8 +4633,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4784,8 +4732,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4876,8 +4823,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -5078,8 +5024,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -5155,8 +5100,7 @@ where
                             value: ']',
                             raw: None,
                         });
-                        self.state = State::CdataSection;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CdataSection);
                     }
                 }
             }
@@ -5189,8 +5133,7 @@ where
                             value: ']',
                             raw: None,
                         });
-                        self.state = State::CdataSection;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CdataSection);
                     }
                 }
             }
@@ -5205,8 +5148,7 @@ where
                     // ASCII alphanumeric
                     // Reconsume in the named character reference state.
                     Some(c) if c.is_ascii_alphanumeric() => {
-                        self.state = State::NamedCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NamedCharacterReference);
                     }
                     // U+0023 NUMBER SIGN (#)
                     // Append the current input character to the temporary buffer. Switch to the
@@ -5223,8 +5165,7 @@ where
                     // return state.
                     _ => {
                         self.flush_code_points_consumed_as_character_reference();
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5396,14 +5337,12 @@ where
                     // the return state.
                     Some(';') => {
                         self.emit_error(ErrorKind::UnknownNamedCharacterReference);
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                     // Anything else
                     // Reconsume in the return state.
                     _ => {
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5427,8 +5366,7 @@ where
                     // Anything else
                     // Reconsume in the decimal character reference start state.
                     _ => {
-                        self.state = State::DecimalCharacterReferenceStart;
-                        self.reconsume();
+                        self.reconsume_in_state(State::DecimalCharacterReferenceStart);
                     }
                 }
             }
@@ -5439,8 +5377,7 @@ where
                     // ASCII hex digit
                     // Reconsume in the hexadecimal character reference state.
                     Some(c) if c.is_ascii_hexdigit() => {
-                        self.state = State::HexademicalCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::HexademicalCharacterReference);
                     }
                     // Anything else
                     // This is an absence-of-digits-in-numeric-character-reference parse error.
@@ -5449,8 +5386,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
                         self.flush_code_points_consumed_as_character_reference();
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5461,8 +5397,7 @@ where
                     // ASCII digit
                     // Reconsume in the decimal character reference state.
                     Some(c) if c.is_ascii_digit() => {
-                        self.state = State::DecimalCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::DecimalCharacterReference);
                     }
                     // Anything else
                     // This is an absence-of-digits-in-numeric-character-reference parse error.
@@ -5471,8 +5406,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
                         self.flush_code_points_consumed_as_character_reference();
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5526,8 +5460,7 @@ where
                     // Reconsume in the numeric character reference end state.
                     _ => {
                         self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
-                        self.state = State::NumericCharacterReferenceEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NumericCharacterReferenceEnd);
                     }
                 }
             }
@@ -5555,8 +5488,7 @@ where
                     // Reconsume in the numeric character reference end state.
                     _ => {
                         self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
-                        self.state = State::NumericCharacterReferenceEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NumericCharacterReferenceEnd);
                     }
                 }
             }
