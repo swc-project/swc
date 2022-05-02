@@ -129,15 +129,7 @@ fn run_fixture_test(entry: PathBuf) {
 
     let matrix = create_matrix(&entry);
     let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
-    let expected_stdout = stdout_of(
-        &input_code,
-        if entry.extension().unwrap() == "mjs" {
-            NodeModuleType::Module
-        } else {
-            NodeModuleType::CommonJs
-        },
-    )
-    .expect("failed to get stdout");
+    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
 
     eprintln!(
         "----- {} -----\n{}\n-----",
@@ -154,6 +146,47 @@ fn run_fixture_test(entry: PathBuf) {
     // Test was successful.
 
     unignore(&entry);
+}
+
+fn get_expected_stdout(input: &Path) -> Result<String, Error> {
+    let cm = Arc::new(SourceMap::default());
+    let c = Compiler::new(cm.clone());
+
+    try_with_handler(
+        cm.clone(),
+        HandlerOpts {
+            color: ColorConfig::Always,
+            skip_filename: true,
+        },
+        |handler| {
+            let fm = cm.load_file(input).context("failed to load file")?;
+
+            let res = c
+                .process_js_file(
+                    fm,
+                    handler,
+                    &Options {
+                        config: Config {
+                            jsc: JscConfig {
+                                syntax: Some(Syntax::Typescript(TsConfig {
+                                    decorators: true,
+                                    ..Default::default()
+                                })),
+                                ..Default::default()
+                            },
+                            module: Some(ModuleConfig::CommonJs(Default::default())),
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                )
+                .context("failed to process file")?;
+
+            let res = stdout_of(&res.code, NodeModuleType::CommonJs)?;
+
+            Ok(res)
+        },
+    )
 }
 
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
