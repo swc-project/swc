@@ -1,10 +1,10 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 pub struct TscDecorator {
-    appended_stmts: Vec<Stmt>,
+    appended_exprs: Vec<Box<Expr>>,
 }
 
 impl TscDecorator {
@@ -12,27 +12,37 @@ impl TscDecorator {
     where
         T: StmtLike + VisitMutWith<Self>,
     {
-        let old_appended_stmts = self.appended_stmts.take();
+        let old_appended_exprs = self.appended_exprs.take();
 
         let mut new = vec![];
 
         for mut s in stmts.take() {
-            debug_assert!(self.appended_stmts.is_empty());
+            debug_assert!(self.appended_exprs.is_empty());
 
             s.visit_mut_with(self);
 
             new.push(s);
-            new.extend(
-                self.appended_stmts
-                    .drain(..)
-                    .into_iter()
-                    .map(|s| T::from_stmt(s)),
-            );
+
+            if !self.appended_exprs.is_empty() {
+                let expr = if self.appended_exprs.len() == 1 {
+                    self.appended_exprs.pop().unwrap()
+                } else {
+                    Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: self.appended_exprs.drain(..).collect(),
+                    }))
+                };
+
+                new.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr,
+                })))
+            }
         }
 
         *stmts = new;
 
-        self.appended_stmts = old_appended_stmts;
+        self.appended_exprs = old_appended_exprs;
     }
 }
 

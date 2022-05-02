@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::vec_box)]
 
 pub use self::{
     decorators::decorators, export_default_from::export_default_from,
