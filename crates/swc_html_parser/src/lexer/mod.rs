@@ -5127,7 +5127,7 @@ where
                 // The longest entity - `&CounterClockwiseContourIntegral;`
                 let mut entity: Option<&Entity> = None;
                 let mut cur_pos: Option<BytePos> = None;
-                let mut swap_temporary_buffer = String::new();
+                let mut swap_temporary_buffer = None;
 
                 // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
                 // TODO refactor me and speedy
@@ -5140,22 +5140,25 @@ where
                         if let Some(found_entity) = found_entity {
                             entity = Some(found_entity);
                             cur_pos = Some(self.input.cur_pos());
-                            swap_temporary_buffer = temporary_buffer.clone();
+                            swap_temporary_buffer = Some(temporary_buffer.clone());
                         }
 
                         // We stop when:
                         // - not ascii alphanumeric
                         // - we consume more characters than the longest entity
                         if !c.is_ascii_alphanumeric() || temporary_buffer.len() > 33 {
-                            if let Some(cur_pos) = cur_pos {
-                                self.cur_pos = cur_pos;
-                                self.input.reset_to(cur_pos);
-                                self.temporary_buffer = Some(swap_temporary_buffer);
-                            }
-
                             break;
                         }
                     }
+                }
+
+                if let Some(cur_pos) = cur_pos {
+                    self.cur_pos = cur_pos;
+                    self.input.reset_to(cur_pos);
+                }
+
+                if let Some(swap_temporary_buffer) = swap_temporary_buffer {
+                    self.temporary_buffer = Some(swap_temporary_buffer);
                 }
 
                 let is_last_semicolon =

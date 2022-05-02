@@ -248,8 +248,6 @@ static IGNORED_TOKENIZER_TESTS: &[&str] = &[
     "- spaced in script HTML comment double escaped",
     "-- spaced in script HTML comment double escaped",
     "--- spaced in script HTML comment double escaped",
-    "Entity without trailing semicolon (1)",
-    "Entity without trailing semicolon (2)",
     "Duplicate different-case attributes",
     "EOF in script HTML comment double escaped after dash",
     "EOF in script HTML comment double escaped after dash dash",
