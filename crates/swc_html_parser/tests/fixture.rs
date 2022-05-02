@@ -635,6 +635,8 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let expected_errors = json_errors.as_array().expect("failed to deserialize error");
                 let actual_errors = lexer.take_errors();
 
+                println!("{:?}", actual_errors);
+
                 assert_eq!(actual_errors.len(), expected_errors.len());
 
                 for (i, expected_error) in expected_errors.iter().enumerate() {
@@ -688,6 +690,9 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                             }
                             Some("control-character-reference") => {
                                 ErrorKind::ControlCharacterReference
+                            }
+                            Some("noncharacter-in-input-stream") => {
+                                ErrorKind::NoncharacterInInputStream
                             }
                             Some("noncharacter-character-reference") => {
                                 ErrorKind::NoncharacterCharacterReference
