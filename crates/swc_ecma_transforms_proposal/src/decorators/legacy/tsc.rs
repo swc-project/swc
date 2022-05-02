@@ -23,21 +23,18 @@ impl TscDecorator {
 
             new.push(s);
 
-            if !self.appended_exprs.is_empty() {
-                let expr = if self.appended_exprs.len() == 1 {
-                    self.appended_exprs.pop().unwrap()
-                } else {
-                    Box::new(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: self.appended_exprs.drain(..).collect(),
-                    }))
-                };
-
-                new.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr,
-                })))
-            }
+            new.extend(
+                self.appended_exprs
+                    .drain(..)
+                    .into_iter()
+                    .map(|expr| {
+                        Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr,
+                        })
+                    })
+                    .map(T::from_stmt),
+            );
         }
 
         *stmts = new;
