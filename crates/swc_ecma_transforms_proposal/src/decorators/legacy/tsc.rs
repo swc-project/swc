@@ -1,17 +1,38 @@
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 pub struct TscDecorator {
-    extra_stmts: Vec<Stmt>,
+    appended_stmts: Vec<Stmt>,
 }
 
 impl TscDecorator {
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + VisitMutWith<Self>,
     {
-        for s in stmts.iter_mut() {}
+        let old_appended_stmts = self.appended_stmts.take();
+
+        let mut new = vec![];
+
+        for mut s in stmts.take() {
+            debug_assert!(self.appended_stmts.is_empty());
+
+            s.visit_mut_with(self);
+
+            new.push(s);
+            new.extend(
+                self.appended_stmts
+                    .drain(..)
+                    .into_iter()
+                    .map(|s| T::from_stmt(s)),
+            );
+        }
+
+        *stmts = new;
+
+        self.appended_stmts = old_appended_stmts;
     }
 }
 
