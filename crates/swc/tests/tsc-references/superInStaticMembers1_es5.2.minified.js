@@ -464,41 +464,29 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), _$_Reflect = function Reflect7() {
-    "use strict";
-    swcHelpers.classCallCheck(this, Reflect7);
-}, _$__ = {
-    writable: !0,
-    value: function() {
-        var C = function(B) {
-            "use strict";
-            swcHelpers.inherits(C, B);
-            var _super = swcHelpers.createSuper(C);
-            function C() {
-                return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
-            }
-            return C;
-        }(B);
-        C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
-    }()
-}, _$_Reflect = function Reflect8() {
-    "use strict";
-    swcHelpers.classCallCheck(this, Reflect8);
-}, _$__ = {
-    writable: !0,
-    value: function() {
-        var _$_Reflect, _$__, C = function(B) {
-            "use strict";
-            swcHelpers.inherits(C, B);
-            var _super = swcHelpers.createSuper(C);
-            function C() {
-                return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
-            }
-            return C;
-        }(B);
-        _superprop_get_w().call(_this);
-    }()
-};
+_superprop_get_w().call(_this), function() {
+    var C = function(B) {
+        "use strict";
+        swcHelpers.inherits(C, B);
+        var _super = swcHelpers.createSuper(C);
+        function C() {
+            return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+        }
+        return C;
+    }(B);
+    C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+}(), function() {
+    var C = function(B) {
+        "use strict";
+        swcHelpers.inherits(C, B);
+        var _super = swcHelpers.createSuper(C);
+        function C() {
+            return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+        }
+        return C;
+    }(B);
+    _superprop_get_w().call(_this);
+}();
 var C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
