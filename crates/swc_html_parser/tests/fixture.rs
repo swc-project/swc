@@ -1,12 +1,14 @@
 #![allow(clippy::needless_update)]
 
-use std::{fs, path::PathBuf};
+use std::{fs, mem::take, path::PathBuf};
 
 use swc_common::{errors::Handler, input::SourceFileInput, Spanned};
 use serde_json::{Map, Value};
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use serde_json::Value;
+use swc_atoms::JsWord;
 use swc_common::{
+    collections::AHashSet,
     errors::Handler,
     input::{SourceFileInput, StringInput},
     BytePos, Span, Spanned,
@@ -241,12 +243,6 @@ fn span_visualizer(input: PathBuf) {
 //     }
 // }
 static IGNORED_TOKENIZER_TESTS: &[&str] = &[
-    "Repeated attr",
-    "Duplicate different-case attributes",
-    "<a a A>",
-    "<a a a>",
-    "<a a=''A>",
-    "<a a=''a>",
     "Raw NUL replacement",
     "NUL in CDATA section",
     "NUL in script HTML comment",
@@ -422,17 +418,30 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     } => {
                                         *raw_tag_name = None;
 
-                                        attributes
-                                            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+                                        let mut new_attributes = vec![];
+                                        let mut already_seen: AHashSet<JsWord> = Default::default();
 
-                                        for attribute in attributes {
+                                        for mut attribute in take(attributes) {
+                                            if already_seen.contains(&attribute.name) {
+                                                continue;
+                                            }
+
+                                            already_seen.insert(attribute.name.clone());
+
                                             if attribute.value.is_none() {
                                                 attribute.value = Some("".into());
                                             }
 
                                             attribute.raw_name = None;
                                             attribute.raw_value = None;
+
+                                            new_attributes.push(attribute);
                                         }
+
+                                        new_attributes
+                                            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
+                                        *attributes = new_attributes;
                                     }
                                     Token::EndTag {
                                         ref mut raw_tag_name,
