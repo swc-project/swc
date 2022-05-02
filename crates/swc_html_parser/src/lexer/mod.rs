@@ -952,6 +952,20 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#rcdata-end-tag-name-state
             State::RcdataEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.state = State::Rcdata;
+                    lexer.reconsume();
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -979,6 +993,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1001,6 +1016,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1024,6 +1040,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rcdata;
                             self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1111,6 +1128,7 @@ where
                         self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::Rcdata;
                         self.reconsume();
+                        anything_else(self);
                     }
                 }
             }
@@ -1175,6 +1193,20 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
             State::RawtextEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.state = State::Rawtext;
+                    lexer.reconsume();
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1202,6 +1234,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1224,6 +1257,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1247,6 +1281,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::Rawtext;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1334,6 +1369,7 @@ where
                         self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::Rawtext;
                         self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -1412,6 +1448,20 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-end-tag-name-state
             State::ScriptDataEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.state = State::ScriptData;
+                    lexer.reconsume();
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1439,6 +1489,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1461,6 +1512,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1484,6 +1536,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptData;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1571,6 +1624,7 @@ where
                         self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::ScriptData;
                         self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -1850,6 +1904,20 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-escaped-end-tag-name-state
             State::ScriptDataEscapedEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.state = State::ScriptDataEscaped;
+                    lexer.reconsume();
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1877,6 +1945,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1899,6 +1968,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1922,6 +1992,7 @@ where
                             self.emit_temporary_buffer_as_character_tokens();
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -2009,6 +2080,7 @@ where
                         self.emit_temporary_buffer_as_character_tokens();
                         self.state = State::ScriptDataEscaped;
                         self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -2443,6 +2515,29 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
+                let anything_else = |lexer: &mut Lexer<I>, c: char| {
+                    if let Some(ref mut token) = lexer.cur_token {
+                        match token {
+                            Token::StartTag { attributes, .. }
+                            | Token::EndTag { attributes, .. } => {
+                                if let Some(attribute) = attributes.last_mut() {
+                                    let mut new_name = String::new();
+                                    let mut raw_new_name = String::new();
+
+                                    new_name.push_str(&attribute.name);
+                                    raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                                    new_name.push(c);
+                                    raw_new_name.push(c);
+
+                                    attribute.name = new_name.into();
+                                    attribute.raw_name = Some(raw_new_name.into());
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -2530,50 +2625,12 @@ where
                     Some(c @ '"') | Some(c @ '\'') | Some(c @ '<') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInAttributeName);
 
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(c);
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                     // Anything else
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(c);
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                 }
 
@@ -2947,6 +3004,37 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
+                let anything_else = |lexer: &mut Lexer<I>, c: char| {
+                    if let Some(ref mut token) = lexer.cur_token {
+                        match token {
+                            Token::StartTag { attributes, .. }
+                            | Token::EndTag { attributes, .. } => {
+                                if let Some(attribute) = attributes.last_mut() {
+                                    let mut new_value = String::new();
+
+                                    if let Some(value) = &attribute.value {
+                                        new_value.push_str(value);
+                                    }
+
+                                    new_value.push(c);
+
+                                    let mut raw_new_value = String::new();
+
+                                    if let Some(raw_value) = &attribute.raw_value {
+                                        raw_new_value.push_str(raw_value);
+                                    }
+
+                                    raw_new_value.push(c);
+
+                                    attribute.value = Some(new_value.into());
+                                    attribute.raw_value = Some(raw_new_value.into());
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -3018,34 +3106,7 @@ where
                     | Some(c @ '`') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInUnquotedAttributeValue);
 
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -3058,34 +3119,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                 }
             }
