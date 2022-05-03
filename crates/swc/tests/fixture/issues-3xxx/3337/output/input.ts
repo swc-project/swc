@@ -7,5 +7,5 @@ var Schema = function Schema() {
 };
 swcHelpers.__decorate([
     joiful.string().guid().required(),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String)
+    swcHelpers.__metadata("design:type", String)
 ], Schema.prototype, "id", void 0);

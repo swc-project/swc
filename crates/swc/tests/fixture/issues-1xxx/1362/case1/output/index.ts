@@ -22,23 +22,23 @@ class AppController {
 exports.AppController = AppController;
 swcHelpers.__decorate([
     (0, _common).Get(),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [])
+    swcHelpers.__metadata("design:type", Function),
+    swcHelpers.__metadata("design:paramtypes", [])
 ], AppController.prototype, "getHello", null);
 swcHelpers.__decorate([
     (0, _common).Post(),
     function(target, key) {
         return (0, _common).Body()(target, key, 0);
     },
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+    swcHelpers.__metadata("design:type", Function),
+    swcHelpers.__metadata("design:paramtypes", [
         typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto
     ])
 ], AppController.prototype, "create", null);
 swcHelpers.__decorate([
     (0, _common).Controller(),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+    swcHelpers.__metadata("design:type", Function),
+    swcHelpers.__metadata("design:paramtypes", [
         typeof _appService.AppService === "undefined" ? Object : _appService.AppService
     ])
 ], AppController);

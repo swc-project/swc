@@ -14,8 +14,8 @@ swcHelpers.__decorate([
             nullable: true
         })(target, key, 0);
     },
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+    swcHelpers.__metadata("design:type", Function),
+    swcHelpers.__metadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName1", null);
@@ -25,8 +25,8 @@ swcHelpers.__decorate([
             nullable: true
         })(target, key, 0);
     },
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+    swcHelpers.__metadata("design:type", Function),
+    swcHelpers.__metadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName2", null);

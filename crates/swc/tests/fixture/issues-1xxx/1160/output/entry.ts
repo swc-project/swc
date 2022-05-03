@@ -9,7 +9,7 @@ class Xpto {
 }
 swcHelpers.__decorate([
     Decorator(),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String)
+    swcHelpers.__metadata("design:type", String)
 ], Xpto.prototype, "value", void 0);
 function Decorator() {
     return function(...args) {};

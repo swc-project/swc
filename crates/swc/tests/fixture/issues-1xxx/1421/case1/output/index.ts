@@ -13,5 +13,5 @@ var User = function User() {
 };
 swcHelpers.__decorate([
     column(),
-    typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String)
+    swcHelpers.__metadata("design:type", String)
 ], User.prototype, "currency", void 0);
