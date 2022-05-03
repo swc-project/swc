@@ -28,12 +28,13 @@ where
     return_state: State,
     errors: Vec<Error>,
     in_foreign_node: bool,
-    last_start_tag_token: Option<Token>,
+    pub last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
-    character_reference_code: Option<u32>,
+    character_reference_code: Option<Vec<(u8, u32)>>,
     temporary_buffer: Option<String>,
     doctype_keyword: Option<String>,
+    last_emitted_error_pos: Option<BytePos>,
 }
 
 impl<I> Lexer<I>
@@ -60,6 +61,7 @@ where
             character_reference_code: None,
             temporary_buffer: None,
             doctype_keyword: None,
+            last_emitted_error_pos: None,
         }
     }
 }
@@ -226,14 +228,41 @@ where
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        if self.cur.is_some() {
+        // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
+        // occurrences of noncharacters are noncharacter-in-input-stream parse errors
+        // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
+        // characters are control-character-in-input-stream parse errors.
+        if let Some(c) = self.cur {
             self.input.bump();
+
+            if self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos)
+            {
+                let code = c as u32;
+
+                if (0xd800..=0xdfff).contains(&code) {
+                    self.emit_error(ErrorKind::SurrogateInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                } else if code != 0x00 && is_control(code) {
+                    self.emit_error(ErrorKind::ControlCharacterInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                } else if is_noncharacter(code) {
+                    self.emit_error(ErrorKind::NoncharacterInInputStream);
+                    self.last_emitted_error_pos = Some(self.input.cur_pos());
+                }
+            }
         }
     }
 
     #[inline]
     fn reconsume(&mut self) {
         self.input.reset_to(self.cur_pos);
+    }
+
+    #[inline]
+    fn reconsume_in_state(&mut self, state: State) {
+        self.state = state;
+        self.reconsume();
     }
 
     #[inline]
@@ -272,11 +301,57 @@ where
         self.pending_tokens.push(token_and_span);
     }
 
+    fn leave_attribute_name_state(&mut self) {
+        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
+            &self.cur_token
+        {
+            let last_attribute = match attributes.last() {
+                Some(attribute) => attribute,
+                _ => {
+                    return;
+                }
+            };
+
+            let mut has_duplicate = false;
+
+            for (i, attribute) in attributes.iter().enumerate() {
+                if i == attributes.len() - 1 {
+                    continue;
+                }
+
+                if attribute.name == last_attribute.name {
+                    has_duplicate = true;
+
+                    break;
+                }
+            }
+
+            if has_duplicate {
+                self.emit_error(ErrorKind::DuplicateAttribute);
+            }
+        }
+    }
+
     fn emit_cur_token(&mut self) {
         let token = self.cur_token.clone();
 
         match token {
             Some(token) => {
+                if let Token::EndTag {
+                    attributes,
+                    self_closing,
+                    ..
+                } = &token
+                {
+                    if !attributes.is_empty() {
+                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                    }
+
+                    if *self_closing {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                    }
+                }
+
                 self.emit_token(token);
             }
             _ => {
@@ -353,13 +428,21 @@ where
         }
     }
 
-    fn emit_temporary_buffer(&mut self) {
+    fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
                 self.emit_token(Token::Character {
                     value: c,
-                    raw: None,
+                    raw: Some(c.to_string().into()),
                 });
+            }
+        }
+    }
+
+    fn flush_code_points_consumed_as_character_reference(&mut self) {
+        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.drain(..) {
+                self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
             }
         }
     }
@@ -369,7 +452,7 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        while self.pending_tokens.is_empty() {
+        while self.pending_tokens.is_empty() && !self.finished {
             self.run()?;
         }
 
@@ -599,8 +682,7 @@ where
                             attributes: vec![],
                         });
 
-                        self.state = State::TagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::TagName);
                     }
                     // U+003F QUESTION MARK (?)
                     // This is an unexpected-question-mark-instead-of-tag-name parse error.
@@ -609,9 +691,7 @@ where
                     Some('?') => {
                         self.emit_error(ErrorKind::UnexpectedQuestionMarkInsteadOfTagName);
                         self.cur_token = Some(Token::Comment { data: "".into() });
-
-                        self.state = State::BogusComment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusComment);
                     }
                     // EOF
                     // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
@@ -635,8 +715,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Data;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Data);
                     }
                 }
             }
@@ -654,9 +733,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::TagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::TagName);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is a missing-end-tag-name parse error. Switch to the data state.
@@ -689,8 +766,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.cur_token = Some(Token::Comment { data: "".into() });
-                        self.state = State::BogusComment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusComment);
                     }
                 }
             }
@@ -831,8 +907,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Rcdata;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rcdata);
                     }
                 }
             }
@@ -850,9 +925,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::RcdataEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::RcdataEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -866,13 +939,25 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::Rcdata;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rcdata);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#rcdata-end-tag-name-state
             State::RcdataEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.reconsume_in_state(State::Rcdata);
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -888,17 +973,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rcdata;
-                            self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -909,17 +984,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rcdata;
-                            self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -931,17 +996,7 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rcdata;
-                            self.reconsume();
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1017,17 +1072,7 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // RCDATA state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.state = State::Rcdata;
-                        self.reconsume();
+                        anything_else(self);
                     }
                 }
             }
@@ -1050,8 +1095,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::Rawtext;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rawtext);
                     }
                 }
             }
@@ -1069,9 +1113,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::RawtextEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::RawtextEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1085,13 +1127,25 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::Rawtext;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Rawtext);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
             State::RawtextEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.reconsume_in_state(State::Rawtext);
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1107,17 +1161,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rawtext;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1128,17 +1172,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rawtext;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1150,17 +1184,7 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::Rawtext;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1236,17 +1260,7 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // RAWTEXT state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.state = State::Rawtext;
-                        self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -1283,8 +1297,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1302,9 +1315,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::ScriptDataEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1318,13 +1329,25 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-end-tag-name-state
             State::ScriptDataEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.reconsume_in_state(State::ScriptData);
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1340,17 +1363,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptData;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1361,17 +1374,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptData;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1383,17 +1386,7 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptData;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1469,17 +1462,7 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // script data state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.state = State::ScriptData;
-                        self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -1500,8 +1483,7 @@ where
                     // Anything else
                     // Reconsume in the script data state.
                     _ => {
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1522,8 +1504,7 @@ where
                     // Anything else
                     // Reconsume in the script data state.
                     _ => {
-                        self.state = State::ScriptData;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptData);
                     }
                 }
             }
@@ -1706,8 +1687,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptDataDoubleEscapeStart;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscapeStart);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
@@ -1717,8 +1697,7 @@ where
                             value: '<',
                             raw: None,
                         });
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
@@ -1736,9 +1715,7 @@ where
                             self_closing: false,
                             attributes: vec![],
                         });
-
-                        self.state = State::ScriptDataEscapedEndTagName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscapedEndTagName);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1752,13 +1729,25 @@ where
                             value: '/',
                             raw: None,
                         });
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-escaped-end-tag-name-state
             State::ScriptDataEscapedEndTagName => {
+                let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.emit_token(Token::Character {
+                        value: '<',
+                        raw: None,
+                    });
+                    lexer.emit_token(Token::Character {
+                        value: '/',
+                        raw: None,
+                    });
+                    lexer.emit_temporary_buffer_as_character_tokens();
+                    lexer.reconsume_in_state(State::ScriptDataEscaped);
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -1774,17 +1763,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::BeforeAttributeName;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+002F SOLIDUS (/)
@@ -1795,17 +1774,7 @@ where
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::SelfClosingStartTag;
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -1817,17 +1786,7 @@ where
                             self.state = State::Data;
                             self.emit_cur_token();
                         } else {
-                            self.emit_token(Token::Character {
-                                value: '<',
-                                raw: None,
-                            });
-                            self.emit_token(Token::Character {
-                                value: '/',
-                                raw: None,
-                            });
-                            self.emit_temporary_buffer();
-                            self.state = State::ScriptDataEscaped;
-                            self.reconsume()
+                            anything_else(self);
                         }
                     }
                     // ASCII upper alpha
@@ -1903,17 +1862,7 @@ where
                     // buffer (in the order they were added to the buffer). Reconsume in the
                     // script data escaped state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
-                        self.emit_temporary_buffer();
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume()
+                        anything_else(self);
                     }
                 }
             }
@@ -1940,11 +1889,12 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         } else {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -1954,11 +1904,12 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         } else {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -1990,8 +1941,7 @@ where
                     // Anything else
                     // Reconsume in the script data escaped state.
                     _ => {
-                        self.state = State::ScriptDataEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
             }
@@ -2013,7 +1963,7 @@ where
                     // Switch to the script data double escaped less-than sign state. Emit a
                     // U+003C LESS-THAN SIGN character token.
                     Some(c @ '<') => {
-                        self.state = State::ScriptDataEscapedLessThanSign;
+                        self.state = State::ScriptDataDoubleEscapedLessThanSign;
                         self.emit_token(Token::Character {
                             value: c,
                             raw: Some(c.to_string().into()),
@@ -2031,13 +1981,14 @@ where
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
+                    // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
                     }
-                    // end-of-file token. Anything else
+                    // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
                         self.emit_token(Token::Character {
@@ -2187,8 +2138,7 @@ where
                     // Anything else
                     // Reconsume in the script data double escaped state.
                     _ => {
-                        self.state = State::ScriptDataDoubleEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscaped);
                     }
                 }
             }
@@ -2215,11 +2165,12 @@ where
                             self.state = State::ScriptDataEscaped;
                         } else {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -2229,11 +2180,12 @@ where
                             self.state = State::ScriptDataEscaped;
                         } else {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
                         }
+
+                        self.emit_token(Token::Character {
+                            value: c,
+                            raw: Some(c.to_string().into()),
+                        });
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -2265,8 +2217,7 @@ where
                     // Anything else
                     // Reconsume in the script data double escaped state.
                     _ => {
-                        self.state = State::ScriptDataDoubleEscaped;
-                        self.reconsume();
+                        self.reconsume_in_state(State::ScriptDataDoubleEscaped);
                     }
                 }
             }
@@ -2287,8 +2238,7 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some('/') | Some('>') | None => {
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // This is an unexpected-equals-sign-before-attribute-name parse error.
@@ -2336,13 +2286,35 @@ where
                             }
                         }
 
-                        self.state = State::AttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeName);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
+                let anything_else = |lexer: &mut Lexer<I>, c: char| {
+                    if let Some(ref mut token) = lexer.cur_token {
+                        match token {
+                            Token::StartTag { attributes, .. }
+                            | Token::EndTag { attributes, .. } => {
+                                if let Some(attribute) = attributes.last_mut() {
+                                    let mut new_name = String::new();
+                                    let mut raw_new_name = String::new();
+
+                                    new_name.push_str(&attribute.name);
+                                    raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                                    new_name.push(c);
+                                    raw_new_name.push(c);
+
+                                    attribute.name = new_name.into();
+                                    attribute.raw_name = Some(raw_new_name.into());
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -2354,17 +2326,18 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.leave_attribute_name_state();
                         self.skip_next_lf(c);
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
-                        self.state = State::AfterAttributeName;
-                        self.reconsume();
+                        self.leave_attribute_name_state();
+                        self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // Switch to the before attribute value state.
                     Some('=') => {
+                        self.leave_attribute_name_state();
                         self.state = State::BeforeAttributeValue;
                     }
                     // ASCII upper alpha
@@ -2427,50 +2400,12 @@ where
                     Some(c @ '"') | Some(c @ '\'') | Some(c @ '<') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInAttributeName);
 
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(c);
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                     // Anything else
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(c);
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                 }
 
@@ -2537,8 +2472,7 @@ where
                                 _ => {}
                             }
                         }
-                        self.state = State::AttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeName);
                     }
                 }
             }
@@ -2568,15 +2502,14 @@ where
                     // This is a missing-attribute-value parse error. Switch to the data state.
                     // Emit the current tag token.
                     Some('>') => {
-                        self.emit_error(ErrorKind::MissingEndTagName);
+                        self.emit_error(ErrorKind::MissingAttributeValue);
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
                     // Anything else
                     // Reconsume in the attribute value (unquoted) state.
                     _ => {
-                        self.state = State::AttributeValueUnquoted;
-                        self.reconsume();
+                        self.reconsume_in_state(State::AttributeValueUnquoted);
                     }
                 }
             }
@@ -2844,6 +2777,37 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
+                let anything_else = |lexer: &mut Lexer<I>, c: char| {
+                    if let Some(ref mut token) = lexer.cur_token {
+                        match token {
+                            Token::StartTag { attributes, .. }
+                            | Token::EndTag { attributes, .. } => {
+                                if let Some(attribute) = attributes.last_mut() {
+                                    let mut new_value = String::new();
+
+                                    if let Some(value) = &attribute.value {
+                                        new_value.push_str(value);
+                                    }
+
+                                    new_value.push(c);
+
+                                    let mut raw_new_value = String::new();
+
+                                    if let Some(raw_value) = &attribute.raw_value {
+                                        raw_new_value.push_str(raw_value);
+                                    }
+
+                                    raw_new_value.push(c);
+
+                                    attribute.value = Some(new_value.into());
+                                    attribute.raw_value = Some(raw_new_value.into());
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                };
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -2915,34 +2879,7 @@ where
                     | Some(c @ '`') => {
                         self.emit_error(ErrorKind::UnexpectedCharacterInUnquotedAttributeValue);
 
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2955,34 +2892,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        anything_else(self, c);
                     }
                 }
             }
@@ -3024,8 +2934,7 @@ where
                     // the before attribute name state.
                     _ => {
                         self.emit_error(ErrorKind::MissingWhitespaceBetweenAttributes);
-                        self.state = State::BeforeAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeAttributeName);
                     }
                 }
             }
@@ -3061,8 +2970,7 @@ where
                     // attribute name state.
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedSolidusInTag);
-                        self.state = State::BeforeAttributeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeAttributeName);
                     }
                 }
             }
@@ -3120,6 +3028,7 @@ where
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
                     lexer.cur_token = Some(Token::Comment { data: "".into() });
                     lexer.state = State::BogusComment;
+                    lexer.cur_pos = cur_pos;
                     lexer.input.reset_to(cur_pos);
                 };
 
@@ -3275,8 +3184,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3320,8 +3228,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3422,8 +3329,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3439,8 +3345,7 @@ where
                     // Anything else
                     // Reconsume in the comment state.
                     _ => {
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3456,8 +3361,7 @@ where
                     // Anything else
                     // Reconsume in the comment end dash state.
                     _ => {
-                        self.state = State::CommentEndDash;
-                        self.reconsume()
+                        self.reconsume_in_state(State::CommentEndDash);
                     }
                 }
             }
@@ -3469,15 +3373,13 @@ where
                     // EOF
                     // Reconsume in the comment end state.
                     Some('>') | None => {
-                        self.state = State::CommentEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CommentEnd);
                     }
                     // Anything else
                     // This is a nested-comment parse error. Reconsume in the comment end state.
                     _ => {
                         self.emit_error(ErrorKind::NestedComment);
-                        self.state = State::CommentEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CommentEnd);
                     }
                 }
             }
@@ -3513,8 +3415,7 @@ where
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3531,7 +3432,7 @@ where
                     // U+0021 EXCLAMATION MARK (!)
                     // Switch to the comment end bang state.
                     Some('!') => {
-                        self.state = State::CommentEndDash;
+                        self.state = State::CommentEndBang;
                     }
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -3564,12 +3465,12 @@ where
 
                             new_data.push_str(data);
                             new_data.push('-');
+                            new_data.push('-');
 
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3586,6 +3487,7 @@ where
                             let mut new_data = String::new();
 
                             new_data.push_str(data);
+                            new_data.push('-');
                             new_data.push('-');
                             new_data.push('!');
 
@@ -3622,13 +3524,13 @@ where
 
                             new_data.push_str(data);
                             new_data.push('-');
+                            new_data.push('-');
                             new_data.push('!');
 
                             *data = new_data.into();
                         }
 
-                        self.state = State::Comment;
-                        self.reconsume();
+                        self.reconsume_in_state(State::Comment);
                     }
                 }
             }
@@ -3649,8 +3551,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Reconsume in the before DOCTYPE name state.
                     Some('>') => {
-                        self.state = State::BeforeDoctypeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeDoctypeName);
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
@@ -3680,8 +3581,7 @@ where
                     // in the before DOCTYPE name state.
                     _ => {
                         self.emit_error(ErrorKind::MissingWhitespaceBeforeDoctypeName);
-                        self.state = State::BeforeDoctypeName;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BeforeDoctypeName);
                     }
                 }
             }
@@ -3743,8 +3643,8 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypeName);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
-                            name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                            raw_keyword: None,
+                            name: None,
                             raw_name: None,
                             force_quirks: true,
                             raw_public_keyword: None,
@@ -3764,8 +3664,8 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
-                            name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                            raw_keyword: None,
+                            name: None,
                             raw_name: None,
                             force_quirks: true,
                             raw_public_keyword: None,
@@ -3907,6 +3807,8 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#after-doctype-name-state
             State::AfterDoctypeName => {
+                let cur_pos = self.input.cur_pos();
+
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0009 CHARACTER TABULATION (tab)
@@ -3953,7 +3855,6 @@ where
                     // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
                     // in the bogus DOCTYPE state.
                     Some(c) => {
-                        let cur_pos = self.input.cur_pos();
                         let mut first_six_chars = String::new();
 
                         first_six_chars.push(c);
@@ -3991,8 +3892,8 @@ where
                                 }
                             }
                             _ => {
+                                self.cur_pos = cur_pos;
                                 self.input.reset_to(cur_pos);
-
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
@@ -4003,8 +3904,7 @@ where
                                     *force_quirks = true;
                                 }
 
-                                self.state = State::BogusDoctype;
-                                self.reconsume();
+                                self.reconsume_in_state(State::BogusDoctype);
                             }
                         }
                     }
@@ -4105,8 +4005,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4198,8 +4097,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4450,8 +4348,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4534,8 +4431,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4634,8 +4530,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4726,8 +4621,7 @@ where
                             *force_quirks = true;
                         }
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -4928,8 +4822,7 @@ where
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
 
-                        self.state = State::BogusDoctype;
-                        self.reconsume();
+                        self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
             }
@@ -5005,8 +4898,7 @@ where
                             value: ']',
                             raw: None,
                         });
-                        self.state = State::CdataSection;
-                        self.reconsume();
+                        self.reconsume_in_state(State::CdataSection);
                     }
                 }
             }
@@ -5035,8 +4927,11 @@ where
                             value: ']',
                             raw: None,
                         });
-                        self.state = State::CdataSection;
-                        self.reconsume();
+                        self.emit_token(Token::Character {
+                            value: ']',
+                            raw: None,
+                        });
+                        self.reconsume_in_state(State::CdataSection);
                     }
                 }
             }
@@ -5051,8 +4946,7 @@ where
                     // ASCII alphanumeric
                     // Reconsume in the named character reference state.
                     Some(c) if c.is_ascii_alphanumeric() => {
-                        self.state = State::NamedCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NamedCharacterReference);
                     }
                     // U+0023 NUMBER SIGN (#)
                     // Append the current input character to the temporary buffer. Switch to the
@@ -5068,17 +4962,8 @@ where
                     // Flush code points consumed as a character reference. Reconsume in the
                     // return state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.flush_code_points_consumed_as_character_reference();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5090,10 +4975,14 @@ where
                 // when it's consumed.
                 // The shortest entity - `&GT`
                 // The longest entity - `&CounterClockwiseContourIntegral;`
+                let initial_cur_pos = self.input.cur_pos();
+                let initial_buffer = self.temporary_buffer.clone();
                 let mut entity: Option<&Entity> = None;
-                let mut cur_pos: Option<BytePos> = None;
+                let mut entity_cur_pos: Option<BytePos> = None;
+                let mut entity_temporary_buffer = None;
 
                 // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
+                // and speedy
                 while let Some(c) = &self.consume_next_char() {
                     if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                         temporary_buffer.push(*c);
@@ -5101,21 +4990,28 @@ where
                         let found_entity = HTML_ENTITIES.get(temporary_buffer);
 
                         if let Some(found_entity) = found_entity {
-                            cur_pos = Some(self.input.cur_pos());
                             entity = Some(found_entity);
+                            entity_cur_pos = Some(self.input.cur_pos());
+                            entity_temporary_buffer = Some(temporary_buffer.clone());
                         }
 
                         // We stop when:
-                        // - not ascii alphabetic
+                        // - not ascii alphanumeric
                         // - we consume more characters than the longest entity
-                        if !c.is_ascii_alphabetic() || temporary_buffer.len() > 33 {
-                            if let Some(cur_pos) = cur_pos {
-                                self.input.reset_to(cur_pos);
-                            }
-
+                        if !c.is_ascii_alphanumeric() || temporary_buffer.len() > 33 {
                             break;
                         }
                     }
+                }
+
+                if entity.is_some() {
+                    self.cur_pos = entity_cur_pos.unwrap();
+                    self.input.reset_to(entity_cur_pos.unwrap());
+                    self.temporary_buffer = Some(entity_temporary_buffer.unwrap());
+                } else {
+                    self.cur_pos = initial_cur_pos;
+                    self.input.reset_to(initial_cur_pos);
+                    self.temporary_buffer = initial_buffer;
                 }
 
                 let is_last_semicolon =
@@ -5141,7 +5037,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                                 for c in temporary_buffer.drain(..) {
                                     self.flush_code_point_consumed_as_character_reference(
                                         c,
@@ -5170,18 +5066,13 @@ where
                                 self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
                             }
 
-                            let mut temporary_buffer = String::new();
+                            self.temporary_buffer = Some("".into());
 
-                            temporary_buffer.push_str(&entity.characters);
-
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
+                            if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                                temporary_buffer.push_str(&entity.characters);
                             }
 
-                            self.temporary_buffer = Some(temporary_buffer);
+                            self.flush_code_points_consumed_as_character_reference();
                             self.state = self.return_state.clone();
                         }
                     }
@@ -5189,15 +5080,7 @@ where
                     // Flush code points consumed as a character reference. Switch to the
                     // ambiguous ampersand state.
                     _ => {
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
+                        self.flush_code_points_consumed_as_character_reference();
                         self.state = State::AmbiguousAmpersand;
                     }
                 }
@@ -5252,20 +5135,18 @@ where
                     // the return state.
                     Some(';') => {
                         self.emit_error(ErrorKind::UnknownNamedCharacterReference);
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                     // Anything else
                     // Reconsume in the return state.
                     _ => {
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-state
             State::NumericCharacterReference => {
-                self.character_reference_code = Some(0);
+                self.character_reference_code = Some(vec![(0, 0)]);
 
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -5283,8 +5164,7 @@ where
                     // Anything else
                     // Reconsume in the decimal character reference start state.
                     _ => {
-                        self.state = State::DecimalCharacterReferenceStart;
-                        self.reconsume();
+                        self.reconsume_in_state(State::DecimalCharacterReferenceStart);
                     }
                 }
             }
@@ -5295,8 +5175,7 @@ where
                     // ASCII hex digit
                     // Reconsume in the hexadecimal character reference state.
                     Some(c) if c.is_ascii_hexdigit() => {
-                        self.state = State::HexademicalCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::HexademicalCharacterReference);
                     }
                     // Anything else
                     // This is an absence-of-digits-in-numeric-character-reference parse error.
@@ -5304,18 +5183,8 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.flush_code_points_consumed_as_character_reference();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5326,8 +5195,7 @@ where
                     // ASCII digit
                     // Reconsume in the decimal character reference state.
                     Some(c) if c.is_ascii_digit() => {
-                        self.state = State::DecimalCharacterReference;
-                        self.reconsume();
+                        self.reconsume_in_state(State::DecimalCharacterReference);
                     }
                     // Anything else
                     // This is an absence-of-digits-in-numeric-character-reference parse error.
@@ -5335,18 +5203,8 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-
-                        if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
-                            for c in temporary_buffer.drain(..) {
-                                self.flush_code_point_consumed_as_character_reference(
-                                    c,
-                                    &c.to_string(),
-                                );
-                            }
-                        }
-
-                        self.state = self.return_state.clone();
-                        self.reconsume();
+                        self.flush_code_points_consumed_as_character_reference();
+                        self.reconsume_in_state(self.return_state.clone());
                     }
                 }
             }
@@ -5358,10 +5216,9 @@ where
                     // Multiply the character reference code by 16. Add a numeric version of the
                     // current input character (subtract 0x0030 from the character's code point)
                     // to the character reference code.
-                    Some(c) if c.is_ascii_digit() => match self.character_reference_code {
+                    Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            self.character_reference_code =
-                                Some(character_reference_code * 16 + (c as u32 - 0x30));
+                            character_reference_code.push((16, c as u32 - 0x30));
                         }
                         _ => {
                             unreachable!();
@@ -5371,10 +5228,9 @@ where
                     // Multiply the character reference code by 16. Add a numeric version of the
                     // current input character as a hexadecimal digit (subtract 0x0037 from the
                     // character's code point) to the character reference code.
-                    Some(c) if is_upper_hex_digit(c) => match self.character_reference_code {
+                    Some(c) if is_upper_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            self.character_reference_code =
-                                Some(character_reference_code * 16 + (c as u32 - 0x37));
+                            character_reference_code.push((16, c as u32 - 0x37));
                         }
                         _ => {
                             unreachable!();
@@ -5384,10 +5240,9 @@ where
                     // Multiply the character reference code by 16. Add a numeric version of the
                     // current input character as a hexadecimal digit (subtract 0x0057 from the
                     // character's code point) to the character reference code.
-                    Some(c) if is_lower_hex_digit(c) => match self.character_reference_code {
+                    Some(c) if is_lower_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            self.character_reference_code =
-                                Some(character_reference_code * 16 + (c as u32 - 0x57));
+                            character_reference_code.push((16, c as u32 - 0x57));
                         }
                         _ => {
                             unreachable!();
@@ -5403,8 +5258,7 @@ where
                     // Reconsume in the numeric character reference end state.
                     _ => {
                         self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
-                        self.state = State::NumericCharacterReferenceEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NumericCharacterReferenceEnd);
                     }
                 }
             }
@@ -5416,10 +5270,9 @@ where
                     // Multiply the character reference code by 10. Add a numeric version of the
                     // current input character (subtract 0x0030 from the character's code point)
                     // to the character reference code.
-                    Some(c) if c.is_ascii_digit() => match self.character_reference_code {
+                    Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            self.character_reference_code =
-                                Some(character_reference_code * 10 + (c as u32 - 0x30));
+                            character_reference_code.push((10, c as u32 - 0x30));
                         }
                         _ => {
                             unreachable!();
@@ -5433,141 +5286,164 @@ where
                     // Reconsume in the numeric character reference end state.
                     _ => {
                         self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
-                        self.state = State::NumericCharacterReferenceEnd;
-                        self.reconsume();
+                        self.reconsume_in_state(State::NumericCharacterReferenceEnd);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
             State::NumericCharacterReferenceEnd => {
-                // Check the character reference code:
-                match self.character_reference_code {
-                    Some(cr) => {
-                        let cr = match cr {
-                            // If the number is 0x00, then this is a null-character-reference
-                            // parse error. Set the character
-                            // reference code to 0xFFFD.
-                            0 => {
-                                self.emit_error(ErrorKind::NullCharacterReference);
+                let value = if let Some(chars) = self.character_reference_code.take() {
+                    let mut i: u32 = 0;
 
-                                0xfffd
+                    for (base, value) in chars.iter() {
+                        if let Some(result) = i.checked_mul(*base as u32) {
+                            i = result;
+
+                            if let Some(result) = i.checked_add(*value) {
+                                i = result;
+                            } else {
+                                i = 0x110000;
+
+                                break;
                             }
-                            // If the number is greater than 0x10FFFF, then this is a
-                            // character-reference-outside-unicode-range parse error. Set the
-                            // character reference code to
-                            // 0xFFFD.
-                            cr if cr > 0x10ffff => {
-                                self.emit_error(ErrorKind::CharacterReferenceOutsideUnicodeRange);
+                        } else {
+                            i = 0x110000;
 
-                                0xfffd
-                            }
-                            // If the number is a surrogate, then this is a
-                            // surrogate-character-reference parse error. Set the character
-                            // reference code to 0xFFFD.
-                            //
-                            // If the number is a noncharacter, then this is a
-                            // noncharacter-character-reference parse error.
-                            cr if is_noncharacter(cr) => {
-                                self.emit_error(ErrorKind::NoncharacterCharacterReference);
-
-                                cr
-                            }
-                            // If the number is 0x0D, or a control that's not ASCII whitespace,
-                            // then
-                            // this is a control-character-reference parse error. If the number
-                            // is one of the numbers in the
-                            // first column of the following table, then find the
-                            // row with that number in the first column, and set the character
-                            // reference code to the number in
-                            // the second column of that row.
-                            cr if cr == 0x0d || is_control(cr) => {
-                                self.emit_error(ErrorKind::ControlCharacterReference);
-
-                                match cr {
-                                    // 0x80	0x20AC	EURO SIGN (€)
-                                    0x80 => 0x20ac,
-                                    // 0x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
-                                    0x82 => 0x201a,
-                                    // 0x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
-                                    0x83 => 0x0192,
-                                    // 0x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
-                                    0x84 => 0x201e,
-                                    // 0x85	0x2026	HORIZONTAL ELLIPSIS (…)
-                                    0x85 => 0x2026,
-                                    // 0x86	0x2020	DAGGER (†)
-                                    0x86 => 0x2020,
-                                    // 0x87	0x2021	DOUBLE DAGGER (‡)
-                                    0x87 => 0x2021,
-                                    // 0x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
-                                    0x88 => 0x02c6,
-                                    // 0x89	0x2030	PER MILLE SIGN (‰)
-                                    0x89 => 0x2030,
-                                    // 0x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
-                                    0x8a => 0x0160,
-                                    // 0x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
-                                    0x8b => 0x2039,
-                                    // 0x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
-                                    0x8c => 0x0152,
-                                    // 0x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
-                                    0x8e => 0x017d,
-                                    // 0x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
-                                    0x91 => 0x2018,
-                                    // 0x92	0x2018	RIGHT SINGLE QUOTATION MARK (’)
-                                    0x92 => 0x2019,
-                                    // 0x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
-                                    0x93 => 0x201c,
-                                    // 0x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
-                                    0x94 => 0x201d,
-                                    // 0x95	0x2022	BULLET (•)
-                                    0x95 => 0x2022,
-                                    // 0x96	0x2013	EN DASH (–)
-                                    0x96 => 0x2013,
-                                    // 0x97	0x2014	EM DASH (—)
-                                    0x97 => 0x2014,
-                                    // 0x98	0x02DC	SMALL TILDE (˜)
-                                    0x98 => 0x02dc,
-                                    // 0x99	0x2122	TRADE MARK SIGN (™)
-                                    0x99 => 0x2122,
-                                    // 0x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
-                                    0x9a => 0x0161,
-                                    // 0x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
-                                    0x9b => 0x203a,
-                                    // 0x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
-                                    0x9c => 0x0153,
-                                    // 0x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
-                                    0x9e => 0x017e,
-                                    // 0x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
-                                    0x9f => 0x0178,
-                                    _ => cr,
-                                }
-                            }
-                            _ => cr,
-                        };
-
-                        // Set the temporary buffer to the empty string. Append a code point
-                        // equal to the character reference
-                        // code to the temporary buffer. Flush code
-                        // points consumed as a character reference. Switch to the return
-                        // state.
-                        let mut temporary_buffer = String::new();
-
-                        let c = match char::from_u32(cr) {
-                            Some(c) => c,
-                            _ => {
-                                unreachable!();
-                            }
-                        };
-
-                        temporary_buffer.push(c);
-
-                        self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
-                        self.temporary_buffer = Some(temporary_buffer);
-                        self.state = self.return_state.clone();
+                            break;
+                        }
                     }
-                    None => {
+
+                    i
+                } else {
+                    unreachable!();
+                };
+
+                // Check the character reference code:
+                let cr = match value {
+                    // If the number is 0x00, then this is a null-character-reference
+                    // parse error. Set the character
+                    // reference code to 0xFFFD.
+                    0 => {
+                        self.emit_error(ErrorKind::NullCharacterReference);
+
+                        0xfffd
+                    }
+                    // If the number is greater than 0x10FFFF, then this is a
+                    // character-reference-outside-unicode-range parse error. Set the
+                    // character reference code to
+                    // 0xFFFD.
+                    cr if cr > 0x10ffff => {
+                        self.emit_error(ErrorKind::CharacterReferenceOutsideUnicodeRange);
+
+                        0xfffd
+                    }
+                    // If the number is a surrogate, then this is a
+                    // surrogate-character-reference parse error. Set the character
+                    // reference code to 0xFFFD.
+                    cr if is_surrogate(cr) => {
+                        self.emit_error(ErrorKind::SurrogateCharacterReference);
+
+                        0xfffd
+                    }
+                    // If the number is a noncharacter, then this is a
+                    // noncharacter-character-reference parse error.
+                    cr if is_noncharacter(cr) => {
+                        self.emit_error(ErrorKind::NoncharacterCharacterReference);
+
+                        cr
+                    }
+                    // If the number is 0x0D, or a control that's not ASCII whitespace,
+                    // then
+                    // this is a control-character-reference parse error. If the number
+                    // is one of the numbers in the
+                    // first column of the following table, then find the
+                    // row with that number in the first column, and set the character
+                    // reference code to the number in
+                    // the second column of that row.
+                    cr if cr == 0x0d || is_control(cr) => {
+                        self.emit_error(ErrorKind::ControlCharacterReference);
+
+                        match cr {
+                            // 0x80	0x20AC	EURO SIGN (€)
+                            0x80 => 0x20ac,
+                            // 0x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+                            0x82 => 0x201a,
+                            // 0x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+                            0x83 => 0x0192,
+                            // 0x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+                            0x84 => 0x201e,
+                            // 0x85	0x2026	HORIZONTAL ELLIPSIS (…)
+                            0x85 => 0x2026,
+                            // 0x86	0x2020	DAGGER (†)
+                            0x86 => 0x2020,
+                            // 0x87	0x2021	DOUBLE DAGGER (‡)
+                            0x87 => 0x2021,
+                            // 0x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+                            0x88 => 0x02c6,
+                            // 0x89	0x2030	PER MILLE SIGN (‰)
+                            0x89 => 0x2030,
+                            // 0x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+                            0x8a => 0x0160,
+                            // 0x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+                            0x8b => 0x2039,
+                            // 0x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+                            0x8c => 0x0152,
+                            // 0x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+                            0x8e => 0x017d,
+                            // 0x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+                            0x91 => 0x2018,
+                            // 0x92	0x2018	RIGHT SINGLE QUOTATION MARK (’)
+                            0x92 => 0x2019,
+                            // 0x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+                            0x93 => 0x201c,
+                            // 0x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+                            0x94 => 0x201d,
+                            // 0x95	0x2022	BULLET (•)
+                            0x95 => 0x2022,
+                            // 0x96	0x2013	EN DASH (–)
+                            0x96 => 0x2013,
+                            // 0x97	0x2014	EM DASH (—)
+                            0x97 => 0x2014,
+                            // 0x98	0x02DC	SMALL TILDE (˜)
+                            0x98 => 0x02dc,
+                            // 0x99	0x2122	TRADE MARK SIGN (™)
+                            0x99 => 0x2122,
+                            // 0x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+                            0x9a => 0x0161,
+                            // 0x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+                            0x9b => 0x203a,
+                            // 0x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+                            0x9c => 0x0153,
+                            // 0x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+                            0x9e => 0x017e,
+                            // 0x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+                            0x9f => 0x0178,
+                            _ => cr,
+                        }
+                    }
+                    _ => value,
+                };
+
+                // Set the temporary buffer to the empty string.
+                // Append a code point equal to the character reference code to the temporary
+                // buffer.
+                // Flush code points consumed as a character reference.
+                // Switch to the return state.
+                self.temporary_buffer = Some("".into());
+
+                let c = match char::from_u32(cr) {
+                    Some(c) => c,
+                    _ => {
                         unreachable!();
                     }
+                };
+
+                if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                    temporary_buffer.push(c);
                 }
+
+                self.flush_code_points_consumed_as_character_reference();
+                self.state = self.return_state.clone();
             }
         }
 
@@ -5589,9 +5465,13 @@ fn is_spacy(c: char) -> bool {
 }
 
 #[inline(always)]
-fn is_control(cp: u32) -> bool {
-    (cp != 0x20 && cp != 0x0a && cp != 0x0d && cp != 0x09 && cp != 0x0c && cp >= 0x01 && cp <= 0x1f)
-        || (0x7f..=0x9f).contains(&cp)
+fn is_control(c: u32) -> bool {
+    matches!(c, c @ 0x00..=0x1f | c @ 0x7f..=0x9f if !matches!(c, 0x09 | 0x0a | 0x0c | 0x0d | 0x20))
+}
+
+#[inline(always)]
+fn is_surrogate(c: u32) -> bool {
+    matches!(c, 0xd800..=0xdfff)
 }
 
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
@@ -5611,6 +5491,7 @@ fn is_noncharacter(c: u32) -> bool {
                 ..='\u{FDEF}'
                     | '\u{FFFE}'
                     | '\u{FFFF}'
+                    | '\u{1FFFE}'
                     | '\u{1FFFF}'
                     | '\u{2FFFE}'
                     | '\u{2FFFF}'
