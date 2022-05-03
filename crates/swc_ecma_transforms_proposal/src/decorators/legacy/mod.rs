@@ -90,7 +90,7 @@ impl TscDecorator {
 
         self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: helper!(ts_decorate, "__decorate"),
+            callee: helper!(ts, ts_decorate, "__decorate"),
             args: vec![decorators, target, key, desc],
             type_args: Default::default(),
         })));
