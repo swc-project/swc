@@ -5645,6 +5645,7 @@ fn legacy_only(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: false,
+                    use_define_for_class_fields: false,
                 })
             )
         },
@@ -5668,6 +5669,7 @@ fn legacy_metadata(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
+                    use_define_for_class_fields: false,
                 })
             )
         },
