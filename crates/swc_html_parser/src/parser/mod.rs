@@ -6238,14 +6238,13 @@ where
     //    2. Increment outer loop counter by 1.
     //
     //    3. Let formatting element be the last element in the list of active
-    // formatting    elements that:
+    // formatting elements that:
     //
     //        is between the end of the list and the last marker in the list, if
-    // any, or        the start of the list otherwise, and has the tag name
-    // subject.
+    // any, or the start of the list otherwise, and has the tag name subject.
     //
     //        If there is no such element, then return and instead act as described
-    // in the        "any other end tag" entry above.
+    // in the "any other end tag" entry above.
     //
     //    4. If formatting element is not in the stack of open elements, then this
     // is a    parse error; remove the element from the list, and return.
@@ -6254,23 +6253,23 @@ where
     // is    not in scope, then this is a parse error; return.
     //
     //    6. If formatting element is not the current node, this is a parse error.
-    // (But do    not return.)
+    // (But do not return.)
     //
     //    7. Let furthest block be the topmost node in the stack of open elements
-    // that is    lower in the stack than formatting element, and is an element
-    // in the special    category. There might not be one.
+    // that is lower in the stack than formatting element, and is an element
+    // in the special category. There might not be one.
     //
     //    8. If there is no furthest block, then the UA must first pop all the nodes
-    // from    the bottom of the stack of open elements, from the current node
-    // up to and    including formatting element, then remove formatting element
-    // from the list of    active formatting elements, and finally return.
+    // from the bottom of the stack of open elements, from the current node
+    // up to and including formatting element, then remove formatting element
+    // from the list of active formatting elements, and finally return.
     //
     //    9. Let common ancestor be the element immediately above formatting element
-    // in    the stack of open elements.
+    // in the stack of open elements.
     //
     //    10. Let a bookmark note the position of formatting element in the list of
-    // active    formatting elements relative to the elements on either side of
-    // it in the    list.
+    // active formatting elements relative to the elements on either side of
+    // it in the list.
     //
     //    11. Let node and last node be furthest block.
     //
@@ -6633,10 +6632,13 @@ where
         for child in children.iter() {
             let previous_parent = child.parent.replace(Some(Rc::downgrade(new_parent)));
 
-            assert!(Rc::ptr_eq(
-                node,
-                &previous_parent.unwrap().upgrade().expect("dangling weak")
-            ))
+            // It is possible when new created element doesn't have parent
+            if let Some(previous_parent) = previous_parent {
+                assert!(Rc::ptr_eq(
+                    node,
+                    &previous_parent.upgrade().expect("dangling weak")
+                ));
+            }
         }
 
         new_children.extend(std::mem::take(&mut *children));
