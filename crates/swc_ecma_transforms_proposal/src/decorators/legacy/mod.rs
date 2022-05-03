@@ -173,6 +173,7 @@ impl VisitMut for TscDecorator {
             if !self.constructor_exprs.is_empty() {
                 let mut c = default_constructor(n.super_class.is_some());
                 inject_after_super(&mut c, self.constructor_exprs.take());
+                n.body.insert(0, ClassMember::Constructor(c));
             }
         }
 
