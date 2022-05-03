@@ -27,15 +27,13 @@ impl VisitMut for ParamMetadata {
                     match param {
                         ParamOrTsParamProp::TsParamProp(p) => {
                             for decorator in p.decorators.drain(..) {
-                                let new_dec =
-                                    self.create_param_decorator(idx, decorator.expr, true);
+                                let new_dec = self.create_param_decorator(idx, decorator.expr);
                                 decorators.push(new_dec);
                             }
                         }
                         ParamOrTsParamProp::Param(param) => {
                             for decorator in param.decorators.drain(..) {
-                                let new_dec =
-                                    self.create_param_decorator(idx, decorator.expr, true);
+                                let new_dec = self.create_param_decorator(idx, decorator.expr);
                                 decorators.push(new_dec);
                             }
                         }
@@ -52,7 +50,7 @@ impl VisitMut for ParamMetadata {
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         for (idx, param) in m.function.params.iter_mut().enumerate() {
             for decorator in param.decorators.drain(..) {
-                let new_dec = self.create_param_decorator(idx, decorator.expr, false);
+                let new_dec = self.create_param_decorator(idx, decorator.expr);
                 m.function.decorators.push(new_dec);
             }
         }
@@ -60,12 +58,7 @@ impl VisitMut for ParamMetadata {
 }
 
 impl ParamMetadata {
-    fn create_param_decorator(
-        &self,
-        param_index: usize,
-        decorator_expr: Box<Expr>,
-        is_constructor: bool,
-    ) -> Decorator {
+    fn create_param_decorator(&self, param_index: usize, decorator_expr: Box<Expr>) -> Decorator {
         Decorator {
             span: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
