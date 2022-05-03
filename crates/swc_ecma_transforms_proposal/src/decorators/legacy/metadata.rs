@@ -68,48 +68,11 @@ impl ParamMetadata {
     ) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Fn(FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!("target").into(),
-                        },
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!("key").into(),
-                        },
-                    ],
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: decorator_expr.as_callee(),
-                                args: vec![
-                                    quote_ident!("target").as_arg(),
-                                    if is_constructor {
-                                        quote_ident!("undefined").as_arg()
-                                    } else {
-                                        quote_ident!("key").as_arg()
-                                    },
-                                    param_index.as_arg(),
-                                ],
-                                type_args: Default::default(),
-                            }))),
-                        })],
-                    }),
-                    decorators: Default::default(),
-                    span: Default::default(),
-                    is_generator: Default::default(),
-                    is_async: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
+            expr: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(ts, ts_param, "__param"),
+                args: vec![param_index.as_arg(), decorator_expr.as_arg()],
+                type_args: Default::default(),
             })),
         }
     }

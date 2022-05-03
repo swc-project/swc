@@ -315,6 +315,7 @@ define_helpers!(Helpers {
 
     ts_decorate: (),
     ts_metadata: (),
+    ts_param: (),
 });
 
 pub fn inject_helpers() -> impl Fold + VisitMut {
