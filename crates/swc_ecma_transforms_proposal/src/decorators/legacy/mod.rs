@@ -200,10 +200,11 @@ impl VisitMut for TscDecorator {
     fn visit_mut_class(&mut self, n: &mut Class) {
         let old_constructor_stmts = self.constructor_exprs.take();
 
+        n.visit_mut_with(&mut ParamMetadata);
+
         if self.metadata {
             let i = self.class_name.clone();
 
-            n.visit_mut_with(&mut ParamMetadata);
             n.visit_mut_with(&mut Metadata {
                 enums: &self.enums,
                 class_name: i.as_ref(),
