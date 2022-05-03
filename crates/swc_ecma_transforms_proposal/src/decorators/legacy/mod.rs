@@ -178,6 +178,29 @@ impl VisitMut for TscDecorator {
         }
 
         self.constructor_exprs = old_constructor_stmts;
+
+        if let Some(class_name) = self.class_name.clone() {
+            if !n.decorators.is_empty() {
+                let decorators = ArrayLit {
+                    span: DUMMY_SP,
+                    elems: n
+                        .decorators
+                        .take()
+                        .into_iter()
+                        .map(|v| v.expr.as_arg())
+                        .map(Some)
+                        .collect(),
+                }
+                .as_arg();
+
+                self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(ts, ts_decorate, "__decorate"),
+                    args: vec![decorators, class_name.as_arg()],
+                    type_args: Default::default(),
+                })));
+            }
+        }
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
