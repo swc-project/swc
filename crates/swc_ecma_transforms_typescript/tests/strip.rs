@@ -968,7 +968,7 @@ test!(
         }
       }
     ",
-    r#"var _class, _descriptor, _dec;
+    r#"
     function DefineAction() {
         return (target, property)=>{
             console.log(target, property);
@@ -979,22 +979,15 @@ test!(
             this.action = new Subject();
         }
     }
-    let Child = ((_class = class Child extends Base {
+    class Child extends Base {
         callApi() {
             console.log(this.action);
         }
-        constructor(...args){
-            super(...args);
-            _initializerDefineProperty(this, "action", _descriptor, this);
-        }
-    }) || _class, _dec = DefineAction(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "action", [
-        _dec
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: null
-    }), _class);
+    }
+    __decorate([
+        DefineAction()
+    ], Child.prototype, "action", void 0);
+    
     "#,
     ok_if_code_eq
 );
