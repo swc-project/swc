@@ -10,3 +10,5 @@ class FormulaRuleEntity {
     static readonly NAME = 'cat';
 
 }
+
+console.log('PASS')
