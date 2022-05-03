@@ -4,7 +4,6 @@
             "syntax": "typescript",
             "decorators": true
         },
-        "target": "es2016",
         "transform": {
             "useDefineForClassFields": false
         }
