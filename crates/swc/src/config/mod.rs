@@ -528,7 +528,7 @@ impl Options {
                 decorators(decorators::Config {
                     legacy: transform.legacy_decorator,
                     emit_metadata: transform.decorator_metadata,
-                    use_define_for_class_props: !assumptions.set_public_class_fields
+                    use_define_for_class_fields: !assumptions.set_public_class_fields
                 }),
                 syntax.decorators()
             ),

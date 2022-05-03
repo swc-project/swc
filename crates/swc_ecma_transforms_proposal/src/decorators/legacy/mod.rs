@@ -3,8 +3,8 @@ use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, prepend_stmts, prop_name_to_expr,
-    prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike,
+    constructor::inject_after_super, default_constructor, prop_name_to_expr_value, quote_ident,
+    undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -19,10 +19,10 @@ enum EnumKind {
     Num,
 }
 
-pub(super) fn new(metadata: bool, use_define_for_class_props: bool) -> TscDecorator {
+pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecorator {
     TscDecorator {
         metadata,
-        use_define_for_class_props,
+        use_define_for_class_fields,
         enums: Default::default(),
         appended_exprs: Default::default(),
         class_name: Default::default(),
@@ -32,7 +32,7 @@ pub(super) fn new(metadata: bool, use_define_for_class_props: bool) -> TscDecora
 
 pub(super) struct TscDecorator {
     metadata: bool,
-    use_define_for_class_props: bool,
+    use_define_for_class_fields: bool,
 
     enums: AHashMap<JsWord, EnumKind>,
 
@@ -243,7 +243,7 @@ impl VisitMut for TscDecorator {
             }
         }
 
-        if !self.use_define_for_class_props && c.is_static && c.value.is_some() {
+        if !self.use_define_for_class_fields && c.is_static && c.value.is_some() {
             if let Some(init) = c.value.take() {
                 self.constructor_exprs
                     .push(Box::new(Expr::Assign(AssignExpr {

@@ -59,7 +59,7 @@ pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
         Either::Left(as_folder(self::legacy::new(
             c.emit_metadata,
-            c.use_define_for_class_props,
+            c.use_define_for_class_fields,
         )))
     } else {
         if c.emit_metadata {
@@ -79,7 +79,7 @@ pub struct Config {
     #[serde(default)]
     pub emit_metadata: bool,
 
-    pub use_define_for_class_props: bool,
+    pub use_define_for_class_fields: bool,
 }
 
 #[derive(Debug, Default)]
