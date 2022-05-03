@@ -4,9 +4,7 @@ let MyClass = class MyClass {
 };
 __decorate([
     Run,
-    function(target, key) {
-        return Arg()(target, key, 1);
-    },
+    __param(1, Arg()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Inter === "undefined" ? Object : Inter,

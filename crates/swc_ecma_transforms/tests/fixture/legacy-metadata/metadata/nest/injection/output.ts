@@ -31,12 +31,8 @@ __decorate([
 ], AppController.prototype, "getHello", null);
 __decorate([
     Get('/callback'),
-    function(target, key) {
-        return Res()(target, key, 0);
-    },
-    function(target, key) {
-        return Session()(target, key, 1);
-    },
+    __param(0, Res()),
+    __param(1, Session()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,

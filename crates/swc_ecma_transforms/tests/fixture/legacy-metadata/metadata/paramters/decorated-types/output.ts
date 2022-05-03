@@ -4,9 +4,7 @@ class MyClass {
     constructor(parameter: Injected){}
 }
 MyClass = __decorate([
-    function(target, key) {
-        return inject()(target, undefined, 0);
-    },
+    __param(0, inject()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected
@@ -18,9 +16,7 @@ class MyOtherClass {
     method(param: Injected, schema: Schema) {}
 }
 __decorate([
-    function(target, key) {
-        return demo()(target, key, 0);
-    },
+    __param(0, demo()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         String,
@@ -29,12 +25,8 @@ __decorate([
 ], MyOtherClass.prototype, "methodUndecorated", null);
 __decorate([
     decorate('named'),
-    function(target, key) {
-        return inject()(target, key, 0);
-    },
-    function(target, key) {
-        return arg()(target, key, 1);
-    },
+    __param(0, inject()),
+    __param(1, arg()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
@@ -42,12 +34,8 @@ __decorate([
     ])
 ], MyOtherClass.prototype, "method", null);
 MyOtherClass = __decorate([
-    function(target, key) {
-        return inject()(target, undefined, 0);
-    },
-    function(target, key) {
-        return inject('KIND')(target, undefined, 1);
-    },
+    __param(0, inject()),
+    __param(1, inject('KIND')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
@@ -60,9 +48,7 @@ let DecoratedClass = class DecoratedClass {
 };
 __decorate([
     decorate('example'),
-    function(target, key) {
-        return inject()(target, key, 0);
-    },
+    __param(0, inject()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         String
@@ -70,12 +56,8 @@ __decorate([
 ], DecoratedClass.prototype, "method", null);
 DecoratedClass = __decorate([
     Decorate,
-    function(target, key) {
-        return inject()(target, undefined, 0);
-    },
-    function(target, key) {
-        return inject()(target, undefined, 1);
-    },
+    __param(0, inject()),
+    __param(1, inject()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
