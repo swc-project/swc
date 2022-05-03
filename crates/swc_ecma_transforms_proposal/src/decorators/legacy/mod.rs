@@ -157,15 +157,6 @@ impl Legacy {
 
 impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
-        if self.metadata {
-            let i = c.ident.clone();
-
-            c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata {
-                enums: &self.enums,
-                class_name: i.as_ref(),
-            });
-        }
-
         let cls_ident = private_ident!("_class");
         let cls_name = c.ident.clone();
 
@@ -845,6 +836,20 @@ impl Visit for TscDecorator {
 }
 
 impl VisitMut for TscDecorator {
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        if self.metadata {
+            let i = self.class_name.clone();
+
+            n.visit_mut_with(&mut ParamMetadata);
+            n.visit_mut_with(&mut Metadata {
+                enums: &self.enums,
+                class_name: i.as_ref(),
+            });
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         let old = self.class_name.take();
         self.class_name = Some(n.ident.clone());
