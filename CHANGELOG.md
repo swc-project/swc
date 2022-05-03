@@ -52,6 +52,12 @@
 
 - **(es/minifier)** Cleanup (#4489) ([50b2049](https://github.com/swc-project/swc/commit/50b20496cdd1d5fb2dd119c633b5dc7608cb638c))
 
+### Testing
+
+
+
+- **(es/decorators)** Migrate some tests to file-based fixture tests (#4510) ([8629e0c](https://github.com/swc-project/swc/commit/8629e0c665bf493c480ebb81112667fc0b4abc83))
+
 ## [1.2.174] - 2022-04-30
 
 ### Bug Fixes
