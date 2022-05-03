@@ -28,9 +28,7 @@ swcHelpers.__decorate([
 ], AppController.prototype, "getHello", null);
 swcHelpers.__decorate([
     (0, _common).Post(),
-    function(target, key) {
-        return (0, _common).Body()(target, key, 0);
-    },
+    swcHelpers.__param(0, (0, _common).Body()),
     swcHelpers.__metadata("design:type", Function),
     swcHelpers.__metadata("design:paramtypes", [
         typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto

@@ -9,22 +9,18 @@ class Foo {
     }
 }
 swcHelpers.__decorate([
-    function(target, key) {
-        return Arg('GraphQLArgName', {
-            nullable: true
-        })(target, key, 0);
-    },
+    swcHelpers.__param(0, Arg('GraphQLArgName', {
+        nullable: true
+    })),
     swcHelpers.__metadata("design:type", Function),
     swcHelpers.__metadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName1", null);
 swcHelpers.__decorate([
-    function(target, key) {
-        return Arg('GraphQLArgName', {
-            nullable: true
-        })(target, key, 0);
-    },
+    swcHelpers.__param(0, Arg('GraphQLArgName', {
+        nullable: true
+    })),
     swcHelpers.__metadata("design:type", Function),
     swcHelpers.__metadata("design:paramtypes", [
         Boolean
