@@ -2225,6 +2225,7 @@ class Example {
 
 // legacy_class_prototype_properties_string_literal_properties
 test_exec!(
+    ignore,
     syntax(false),
     |t| chain!(
         decorators(decorators::Config {
@@ -2431,6 +2432,7 @@ const inst = {
 
 // legacy_class_prototype_properties_return_descriptor
 test_exec!(
+    ignore,
     syntax(false),
     |t| chain!(
         decorators(decorators::Config {
@@ -3540,6 +3542,7 @@ const inst = {
 
 // legacy_class_prototype_properties_child_classes_properties
 test_exec!(
+    ignore,
     syntax(false),
     |t| chain!(
         decorators(decorators::Config {
