@@ -20,6 +20,7 @@ let AppController = class AppController {
         this.appService = appService;
     }
 };
+exports.AppController = AppController;
 swcHelpers.__decorate([
     (0, _common).Get(),
     swcHelpers.__metadata("design:type", Function),
@@ -42,4 +43,3 @@ exports.AppController = AppController = swcHelpers.__decorate([
         typeof _appService.AppService === "undefined" ? Object : _appService.AppService
     ])
 ], AppController);
-exports.AppController = AppController;

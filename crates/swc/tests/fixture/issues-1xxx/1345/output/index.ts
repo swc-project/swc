@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var AccountMemberView = function AccountMemberView() {
+export var AccountMemberView = function AccountMemberView() {
     "use strict";
     swcHelpers.classCallCheck(this, AccountMemberView);
 };
@@ -53,4 +53,3 @@ AccountMemberView = swcHelpers.__decorate([
         expression: '\n    SELECT\n        m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick="F") as accountCnt,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick="T") as accountQuickCnt\n    FROM TBLMEMBER m\n    '
     })
 ], AccountMemberView);
-export { AccountMemberView };
