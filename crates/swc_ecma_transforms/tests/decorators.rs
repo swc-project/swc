@@ -4284,57 +4284,6 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     ok_if_code_eq
 );
 
-test!(
-    ts(),
-    |_| decorators(Config {
-        legacy: true,
-        emit_metadata: true,
-    }),
-    issue_1160_1,
-    "
-    enum MyEnum {
-      x = \"xxx\",
-      y = \"yyy\"
-    }
-
-    class Xpto {
-      @Decorator()
-      value!: MyEnum;
-    }
-
-    function Decorator() {
-      return function (...args) {};
-    }
-    ",
-    "
-    var _class, _descriptor, _dec, _dec1;
-    enum MyEnum {
-        x = \"xxx\",
-        y = \"yyy\"
-    }
-    let Xpto = ((_class = class Xpto {
-        constructor(){
-            _initializerDefineProperty(this, \"value\", _descriptor, this);
-        }
-    }) || _class, _dec = Decorator(), _dec1 = typeof Reflect !== \"undefined\" && typeof \
-     Reflect.metadata === \"function\" && Reflect.metadata(\"design:type\", String), _descriptor \
-     = _applyDecoratedDescriptor(_class.prototype, \"value\", [
-        _dec,
-        _dec1
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: null
-    }), _class);
-    function Decorator() {
-        return function(...args) {
-        };
-    }
-",
-    ok_if_code_eq
-);
-
 // decorators_legacy_interop_local_define_property
 test!(
     // See: https://github.com/swc-project/swc/issues/421
