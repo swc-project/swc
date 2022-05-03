@@ -5695,8 +5695,31 @@ fn fixture_exec(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/fixture/legacy-only/**/input.ts")]
+fn legacy_only(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        ts(),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, true),
+                decorators(Config {
+                    legacy: true,
+                    emit_metadata: false,
+                })
+            )
+        },
+        &input,
+        &output,
+    );
+}
+
 #[testing::fixture("tests/fixture/legacy-metadata/**/input.ts")]
-fn fixture_compare(input: PathBuf) {
+fn legacy_metadata(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
     test_fixture(
