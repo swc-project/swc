@@ -4855,31 +4855,6 @@ eval: function _eval() {
 test!(
     ts(),
     |_| decorators(decorators::Config {
-        legacy: true,
-        ..Default::default()
-    }),
-    swc_node_210,
-    "
-    class Foo{
-      @dec
-      [foo]() {
-      }
-    }
-    ",
-    "
-    var _class;
-    let Foo = ((_class = class Foo {
-        [foo]() {
-        }
-    }) || _class, _applyDecoratedDescriptor(_class.prototype, foo, [
-        dec
-    ], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
-    "
-);
-
-test!(
-    ts(),
-    |_| decorators(decorators::Config {
         ..Default::default()
     }),
     issue_846_1,
@@ -4943,41 +4918,6 @@ test!(
         };
     }, SomeClass);
   "
-);
-
-test!(
-    syntax(false),
-    |_| decorators(Config {
-        legacy: true,
-        ..Default::default()
-    }),
-    issue_1869_1,
-    "
-    @someClassDecorator
-    class TestClass {
-        static Something = 'hello';
-
-        static SomeProperties = {
-            firstProp: TestClass.Something,
-        };
-    }
-
-    function someClassDecorator(c) {
-        return c;
-    }
-    ",
-    "
-    var _class;
-    let TestClass = _class = someClassDecorator((_class = class TestClass {
-        static Something = 'hello';
-        static SomeProperties = {
-            firstProp: TestClass.Something
-        };
-    }) || _class) || _class;
-    function someClassDecorator(c) {
-        return c;
-    }
-    "
 );
 
 test_exec!(
