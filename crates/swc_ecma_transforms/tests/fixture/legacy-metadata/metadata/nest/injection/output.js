@@ -1,15 +1,10 @@
-var _class, _descriptor, _dec, _dec1, _descriptor1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11;
 import { AppService } from './app.service';
 import { Session, Res } from '@nestjs/common';
 import * as express from 'express';
-var _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    typeof AppService === "undefined" ? Object : AppService
-]), _dec13 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec14 = Controller();
-export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_class = class AppController {
-    constructor(private appService: AppService){
-        _initializerDefineProperty(this, "appService", _descriptor, this);
-        _initializerDefineProperty(this, "appService2", _descriptor1, this);
-    }
+export let AppController = class AppController {
+    constructor(private appService: AppService){}
+    appService: AppService;
+    private appService2: AppService;
     getHello(): string {
         return this.appService.getHello();
     }
@@ -20,37 +15,38 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
         session.user = user;
         return res.redirect(state.returnUrl ?? '/');
     }
-}) || _class, _dec = Inject(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec2 = Inject(), _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _descriptor = _applyDecoratedDescriptor(_class.prototype, "appService", [
-    _dec,
-    _dec1
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: null
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "appService2", [
-    _dec2,
-    _dec3
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: null
-}), _dec4 = Get(), _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
-    _dec4,
-    _dec5,
-    _dec6
-], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _dec7 = Get('/callback'), _dec8 = function(target, key) {
-    return Res()(target, key, 0);
-}, _dec9 = function(target, key) {
-    return Session()(target, key, 1);
-}, _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
-    typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
-]), _applyDecoratedDescriptor(_class.prototype, "callback", [
-    _dec7,
-    _dec8,
-    _dec9,
-    _dec10,
-    _dec11
-], Object.getOwnPropertyDescriptor(_class.prototype, "callback"), _class.prototype), _class)) || _class) || _class) || _class;
+};
+__decorate([
+    Inject(),
+    __metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
+], AppController.prototype, "appService", void 0);
+__decorate([
+    Inject(),
+    __metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
+], AppController.prototype, "appService2", void 0);
+__decorate([
+    Get(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [])
+], AppController.prototype, "getHello", null);
+__decorate([
+    Get('/callback'),
+    function(target, key) {
+        return Res()(target, key, 0);
+    },
+    function(target, key) {
+        return Session()(target, key, 1);
+    },
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [
+        typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
+        typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
+    ])
+], AppController.prototype, "callback", null);
+AppController = __decorate([
+    Controller(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [
+        typeof AppService === "undefined" ? Object : AppService
+    ])
+], AppController);

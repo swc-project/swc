@@ -1,25 +1,14 @@
-var _class, _descriptor, _dec, _descriptor1, _dec1;
-let Example = ((_class = class Example {
+class Example {
     constructor(){
-        _initializerDefineProperty(this, "bar", _descriptor, this);
-        _initializerDefineProperty(this, "baz", _descriptor1, this);
+        this.bar = '1';
+        this.baz = '2';
     }
-}) || _class, _dec = foo(), _dec1 = foo(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "bar", [
-    _dec
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return '1';
-    }
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "baz", [
-    _dec1
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return '2';
-    }
-}), _class);
+    bar;
+    baz;
+}
+__decorate([
+    foo()
+], Example.prototype, "bar", void 0);
+__decorate([
+    foo()
+], Example.prototype, "baz", void 0);

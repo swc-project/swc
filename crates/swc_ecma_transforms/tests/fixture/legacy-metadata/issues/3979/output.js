@@ -1,17 +1,11 @@
-var _class, _descriptor;
-let A = ((_class = class A {
+class A {
+    x;
     constructor();
     constructor(){
-        _initializerDefineProperty(this, "x", _descriptor, this);
+        this.x = 1;
         console.log(123);
     }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "x", [
+}
+__decorate([
     foo
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return 1;
-    }
-}), _class);
+], A.prototype, "x", void 0);

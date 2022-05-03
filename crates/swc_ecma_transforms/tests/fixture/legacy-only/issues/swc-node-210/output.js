@@ -1,6 +1,8 @@
-var _class;
-let Foo = ((_class = class Foo {
-    [foo]() {}
-}) || _class, _applyDecoratedDescriptor(_class.prototype, foo, [
+var _key;
+class Foo {
+    [_key]() {}
+}
+_key = foo;
+__decorate([
     dec
-], Object.getOwnPropertyDescriptor(_class.prototype, foo), _class.prototype), _class);
+], Foo.prototype, _key, null);

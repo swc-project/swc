@@ -1,10 +1,12 @@
-var _class;
-let TestClass = _class = someClassDecorator((_class = class TestClass {
+let TestClass = class TestClass {
     static Something = 'hello';
     static SomeProperties = {
         firstProp: TestClass.Something
     };
-}) || _class) || _class;
+};
+TestClass = __decorate([
+    someClassDecorator
+], TestClass);
 function someClassDecorator(c) {
     return c;
 }
