@@ -16,23 +16,29 @@ enum EnumKind {
     Num,
 }
 
-pub(super) fn new(metadata: bool) -> TscDecorator {
+pub(super) fn new(metadata: bool, use_define_for_class_props: bool) -> TscDecorator {
     TscDecorator {
         metadata,
+        use_define_for_class_props,
         enums: Default::default(),
         appended_exprs: Default::default(),
         class_name: Default::default(),
+        constructor_stmts: Default::default(),
     }
 }
 
 pub(super) struct TscDecorator {
     metadata: bool,
+    use_define_for_class_props: bool,
 
     enums: AHashMap<JsWord, EnumKind>,
 
     appended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
+
+    /// Only used if `use_define_for_class_props` is false.
+    constructor_stmts: Vec<Stmt>,
 }
 
 impl TscDecorator {
