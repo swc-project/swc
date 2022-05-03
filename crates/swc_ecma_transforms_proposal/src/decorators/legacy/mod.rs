@@ -239,11 +239,17 @@ impl VisitMut for TscDecorator {
                 }
                 .as_arg();
 
-                self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
+                let decorated = Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate, "__decorate"),
-                    args: vec![decorators, class_name.as_arg()],
+                    args: vec![decorators, class_name.clone().as_arg()],
                     type_args: Default::default(),
+                }));
+                self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(class_name.into()),
+                    right: decorated,
                 })));
             }
         }
