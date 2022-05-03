@@ -28,7 +28,7 @@ macro_rules! helper_expr {
         use swc_ecma_utils::{quote_ident, ExprFactory};
 
         debug_assert!(
-            !$s.starts_with("_"),
+            $s.starts_with("__") || !$s.starts_with("_"),
             "helper! macro should not invoked with '_' prefix"
         );
         let mark = $crate::enable_helper!($field_name);
