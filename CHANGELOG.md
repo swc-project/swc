@@ -26,6 +26,9 @@
 - **(html/parser)** Fix parsing of `select` (#4504) ([b8588c4](https://github.com/swc-project/swc/commit/b8588c4a4511373abf53ed303f975b7c9eeaec61))
 
 
+- **(html/parser)** Fix parsing of a table with a table (#4506) ([efe87bc](https://github.com/swc-project/swc/commit/efe87bcbf65c5fe7ebf8dd219842ca792f823292))
+
+
 - **(node/types)** Add types for `jsc.minify.format` (#4492) ([3ed1538](https://github.com/swc-project/swc/commit/3ed1538bfe3cc8fb008b34c7a78dc239115f4159))
 
 ### Features
