@@ -388,40 +388,43 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_module_item(&mut self, module_item: &mut ModuleItem) {
         match module_item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(n)) => match &mut n.decl {
-                Decl::Class(decl) => {
-                    let convert_to_let = !decl.class.decorators.is_empty();
-                    decl.visit_mut_with(self);
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(n)) => {
+                let export_decl_span = n.span;
 
-                    if convert_to_let {
-                        let d = VarDeclarator {
-                            span: DUMMY_SP,
-                            name: decl.ident.clone().into(),
-                            init: Some(Box::new(Expr::Class(ClassExpr {
-                                ident: Some(decl.ident.clone()),
-                                class: decl.class.take(),
-                            }))),
-                            definite: Default::default(),
-                        };
-                        self.exports
-                            .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                match &mut n.decl {
+                    Decl::Class(decl) => {
+                        let convert_to_let = !decl.class.decorators.is_empty();
+                        decl.visit_mut_with(self);
+
+                        if convert_to_let {
+                            let d = VarDeclarator {
                                 span: DUMMY_SP,
-                                orig: ModuleExportName::Ident(decl.ident.clone()),
-                                exported: None,
-                                is_type_only: Default::default(),
-                            }));
-                        *module_item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
-                            declare: Default::default(),
-                            decls: vec![d],
-                        })));
+                                name: decl.ident.clone().into(),
+                                init: Some(Box::new(Expr::Class(ClassExpr {
+                                    ident: Some(decl.ident.clone()),
+                                    class: decl.class.take(),
+                                }))),
+                                definite: Default::default(),
+                            };
+
+                            let let_decl = Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Let,
+                                declare: Default::default(),
+                                decls: vec![d],
+                            });
+                            *module_item =
+                                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                    span: export_decl_span,
+                                    decl: let_decl,
+                                }));
+                        }
+                    }
+                    _ => {
+                        module_item.visit_mut_children_with(self);
                     }
                 }
-                _ => {
-                    module_item.visit_mut_children_with(self);
-                }
-            },
+            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(n)) => match &mut n.decl {
                 DefaultDecl::Class(decl) => {
                     let convert_to_let = !decl.class.decorators.is_empty();
