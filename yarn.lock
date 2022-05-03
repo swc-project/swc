@@ -1538,9 +1538,9 @@
   integrity sha512-P45vAh0hR9dISIceSv6MkypjT0WduLWB4U8LPoCneeAw7mA1U7liS0Uu1PeiafxQVMWg8SNyIJFDcSg/haLJgg==
 
 "@swc/helpers@^0.3.8":
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.3.11.tgz#e29622c58a359521134b152079521783d9aebe9a"
-  integrity sha512-wNDXTy2Ru2WpI/AXbYw/VylziJ2zvIdJyyZ/+gP6E0wFMCXDSTr2H51pfzGflpcBpb0Hx31nSxwl7ZuLIRLFfA==
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.3.13.tgz#b9af856aaa3804fefdd1544632dde35b7b6ff978"
+  integrity sha512-A1wswJhnqaLRn8uYVQ8YiNTtY5i/JIPmV08EXXjjTresIkUVUEUaFv/wXVhGXfRNYMvHPkuoMR1Nb6NgpxGjNg==
   dependencies:
     tslib "^2.4.0"
 
