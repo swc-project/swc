@@ -9,6 +9,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
+use super::contains_decorator;
 
 mod metadata;
 
@@ -259,6 +260,10 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         let old = self.class_name.take();
+        if contains_decorator(n) && n.ident.is_none() {
+            n.ident = Some(private_ident!("_class"));
+        }
+
         if let Some(ident) = &n.ident {
             self.class_name = Some(ident.clone());
         }
