@@ -2082,7 +2082,7 @@ class Example {
 
 // legacy_class_static_properties_mutate_descriptor
 test_exec!(
-    // I tested using typeescript playground and node js
+    // I tested using typescript playground and node js
     ignore,
     syntax(false),
     |t| chain!(
@@ -2921,6 +2921,8 @@ const inst = {
 
 // legacy_class_static_properties_return_descriptor
 test_exec!(
+    // I tested using typescript playground and node js
+    ignore,
     syntax(false),
     |t| chain!(
         decorators(decorators::Config {
