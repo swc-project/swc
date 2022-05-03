@@ -264,6 +264,36 @@ impl VisitMut for TscDecorator {
         self.class_name = old;
     }
 
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        match n {
+            Decl::Class(decl) => {
+                let convert_to_let = !decl.class.decorators.is_empty();
+                decl.visit_mut_with(self);
+
+                if convert_to_let {
+                    let d = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: decl.ident.clone().into(),
+                        init: Some(Box::new(Expr::Class(ClassExpr {
+                            ident: Some(decl.ident.clone()),
+                            class: decl.class.take(),
+                        }))),
+                        definite: Default::default(),
+                    };
+                    *n = Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        declare: Default::default(),
+                        decls: vec![d],
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         let old = self.class_name.take();
         if contains_decorator(n) && n.ident.is_none() {
