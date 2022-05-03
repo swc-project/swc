@@ -2,7 +2,11 @@ use std::mem::take;
 
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::move_map::MoveMap, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap,
+    util::{move_map::MoveMap, take::Take},
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -25,20 +29,10 @@ enum EnumKind {
 }
 
 #[derive(Debug)]
-pub(super) struct Legacy {
-    uninitialized_vars: Vec<VarDeclarator>,
-    initialized_vars: Vec<VarDeclarator>,
-    exports: Vec<ExportSpecifier>,
-}
+pub(super) struct Legacy {}
 
 pub(super) fn new(metadata: bool) -> Legacy {
-    Legacy {
-        metadata,
-        uninitialized_vars: Default::default(),
-        initialized_vars: Default::default(),
-        exports: Default::default(),
-        enums: Default::default(),
-    }
+    Legacy {}
 }
 
 /// TODO: VisitMut
@@ -80,41 +74,6 @@ impl Fold for Legacy {
         e
     }
 
-    fn fold_module(&mut self, m: Module) -> Module {
-        // Collect required information.
-        // For example, value type of enum affects codegen
-        m.visit_with(self);
-
-        let mut m = m.fold_children_with(self);
-
-        if !self.uninitialized_vars.is_empty() {
-            prepend(
-                &mut m.body,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.uninitialized_vars),
-                    declare: false,
-                }))
-                .into(),
-            );
-        }
-
-        if !self.exports.is_empty() {
-            let decl = ModuleDecl::ExportNamed(NamedExport {
-                span: DUMMY_SP,
-                specifiers: take(&mut self.exports),
-                src: None,
-                type_only: false,
-                asserts: None,
-            });
-
-            m.body.push(decl.into());
-        }
-
-        m
-    }
-
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children_with(self);
 
@@ -153,24 +112,6 @@ impl Fold for Legacy {
 
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
-    }
-
-    fn fold_script(&mut self, s: Script) -> Script {
-        let mut s = s.fold_children_with(self);
-
-        if !self.uninitialized_vars.is_empty() {
-            prepend(
-                &mut s.body,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.uninitialized_vars),
-                    declare: false,
-                })),
-            );
-        }
-
-        s
     }
 
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
