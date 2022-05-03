@@ -52,6 +52,7 @@ impl TscDecorator {
     where
         T: StmtLike + VisitMutWith<Self>,
     {
+        let old_vars = self.vars.take();
         let old_appended_exprs = self.appended_exprs.take();
 
         let mut new = vec![];
@@ -60,6 +61,15 @@ impl TscDecorator {
             debug_assert!(self.appended_exprs.is_empty());
 
             s.visit_mut_with(self);
+
+            if !self.vars.is_empty() {
+                new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                }))));
+            }
 
             new.push(s);
 
@@ -80,6 +90,7 @@ impl TscDecorator {
         *stmts = new;
 
         self.appended_exprs = old_appended_exprs;
+        self.vars = old_vars;
     }
 
     fn key(&mut self, k: &mut PropName) -> Expr {
