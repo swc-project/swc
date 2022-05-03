@@ -7524,36 +7524,38 @@ where
             }
             InsertionPosition::BeforeSibling(node) => {
                 if let Some((parent, i)) = self.get_parent_and_index(node) {
-                    let mut children = parent.children.borrow_mut();
+                    if i > 0 {
+                        let mut children = parent.children.borrow_mut();
 
-                    if let Some(previous) = children.get(i - 1) {
-                        if let Data::Text(text) = &previous.data {
-                            let mut new_value = String::new();
+                        if let Some(previous) = children.get(i - 1) {
+                            if let Data::Text(text) = &previous.data {
+                                let mut new_value = String::new();
 
-                            new_value.push_str(&*text.value);
+                                new_value.push_str(&*text.value);
 
-                            match &token_and_info.token {
-                                Token::Character { value, .. } => {
-                                    new_value.push(*value);
+                                match &token_and_info.token {
+                                    Token::Character { value, .. } => {
+                                        new_value.push(*value);
+                                    }
+                                    _ => {
+                                        unreachable!();
+                                    }
                                 }
-                                _ => {
-                                    unreachable!();
-                                }
+
+                                let first_pos = text.span.lo;
+                                let last_pos = self.input.last_pos()?;
+
+                                children[i - 1] = Node::new(Data::Text(Text {
+                                    span: swc_common::Span::new(
+                                        first_pos,
+                                        last_pos,
+                                        Default::default(),
+                                    ),
+                                    value: new_value.into(),
+                                }));
+
+                                return Ok(());
                             }
-
-                            let first_pos = text.span.lo;
-                            let last_pos = self.input.last_pos()?;
-
-                            children[i - 1] = Node::new(Data::Text(Text {
-                                span: swc_common::Span::new(
-                                    first_pos,
-                                    last_pos,
-                                    Default::default(),
-                                ),
-                                value: new_value.into(),
-                            }));
-
-                            return Ok(());
                         }
                     }
                 }
