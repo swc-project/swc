@@ -1,23 +1,11 @@
-use std::mem::take;
-
-use smallvec::SmallVec;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashMap,
-    util::{move_map::MoveMap, take::Take},
-    DUMMY_SP,
-};
+use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    alias_if_required, default_constructor, ident::IdentLike, member_expr, prepend, private_ident,
-    prop_name_to_expr, prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory,
-    ModuleItemLike, StmtLike,
-};
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_utils::{prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
-use super::{contains_decorator, DecoratorFinder};
 
 mod metadata;
 

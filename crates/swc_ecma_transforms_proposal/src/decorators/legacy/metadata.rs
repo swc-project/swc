@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::EnumKind;
 
