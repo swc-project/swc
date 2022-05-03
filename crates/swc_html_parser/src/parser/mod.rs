@@ -2587,7 +2587,7 @@ where
                             self.close_p_element();
                         }
 
-                        self.insert_character(token_and_info)?;
+                        self.insert_html_element(token_and_info)?;
                     }
                     // A start tag whose tag name is "plaintext"
                     //
@@ -5061,7 +5061,7 @@ where
                             _ => {}
                         }
 
-                        self.insert_character(token_and_info)?;
+                        self.insert_html_element(token_and_info)?;
                     }
                     // A start tag whose tag name is "optgroup"
                     //
