@@ -1,10 +1,9 @@
 class ProductController {
-    findById(
-    @foo()
-    id: number) {
+    findById(id: number) {
     // ...
     }
 }
 __decorate([
-    bar()
+    bar(),
+    __param(0, foo())
 ], ProductController.prototype, "findById", null);
