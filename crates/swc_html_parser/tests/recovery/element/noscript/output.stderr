@@ -1,0 +1,6 @@
+
+  x Misplaced doctype
+   ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
+ 1 | <head><noscript><!doctype html><!--foo--></noscript>
+   :                 ^^^^^^^^^^^^^^^
+   `----
