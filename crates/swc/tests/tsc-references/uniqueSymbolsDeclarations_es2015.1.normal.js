@@ -248,8 +248,13 @@ Math.random() * 2 ? N["s"] : "a";
     [s]: "a",
     [N.s]: "b"
 });
+var _key, _key1, _key2, _key3;
 class C1 {
 }
+_key = s;
+_key1 = N.s;
+_key2 = s;
+_key3 = N.s;
 const o4 = {
     method1 () {
         return s; // return type should not widen due to contextual type

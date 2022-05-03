@@ -1,9 +1,14 @@
+import * as swcHelpers from "@swc/helpers";
 var N;
 (function(N) {
-    @foo
     class C1 {
     }
+    swcHelpers.__decorate([
+        foo
+    ], C1);
 })(N || (N = {}));
-@foo
 class C2 {
 }
+swcHelpers.__decorate([
+    foo
+], C2);

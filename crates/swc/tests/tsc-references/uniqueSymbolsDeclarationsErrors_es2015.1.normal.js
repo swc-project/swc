@@ -18,8 +18,11 @@ export const classExpression = class {
 export function funcInferredReturnType(obj1) {
     return obj1;
 }
+var _key, _key1;
 export class ClassWithPrivateNamedProperties {
 }
+_key = s;
+_key1 = s;
 let _s = s, _s1 = s;
 export class ClassWithPrivateNamedMethods {
     [_s]() {}

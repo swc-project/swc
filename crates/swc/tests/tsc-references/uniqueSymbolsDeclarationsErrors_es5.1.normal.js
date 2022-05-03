@@ -25,10 +25,13 @@ export var classExpression = /*#__PURE__*/ function() {
 export function funcInferredReturnType(obj1) {
     return obj1;
 }
+var _key, _key1;
 export var ClassWithPrivateNamedProperties = function ClassWithPrivateNamedProperties() {
     "use strict";
     swcHelpers.classCallCheck(this, ClassWithPrivateNamedProperties);
 };
+_key = s;
+_key1 = s;
 var _s = s, _s1 = s;
 export var ClassWithPrivateNamedMethods = /*#__PURE__*/ function() {
     "use strict";

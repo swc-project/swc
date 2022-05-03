@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 var swcHelpers = require("@swc/helpers");
 const CD = ()=>{};
 const PD = ()=>{};
-@CD
 class ServiceError extends Error {
     constructor(...args){
         super(...args);
@@ -17,6 +16,9 @@ exports.ServiceError = ServiceError;
 swcHelpers.__decorate([
     PD
 ], ServiceError.prototype, "code", void 0);
+swcHelpers.__decorate([
+    CD
+], ServiceError);
 (function(ServiceError1) {
     let Code;
     (function(Code) {

@@ -3,5 +3,7 @@
 // @target: es2015
 "use strict";
 const x = 1;
+var _key;
 class C {
 }
+_key = x;

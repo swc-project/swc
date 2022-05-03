@@ -109,7 +109,7 @@ var C1 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C1);
 };
-regeneratorRuntime.mark(function method4() {
+N.s, N.s, regeneratorRuntime.mark(function method4() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

@@ -1,7 +1,9 @@
+var _key;
 //@target: ES6
 //@declaration: true
 class C {
     constructor(){
-        this[Symbol.toPrimitive] = "";
+        this[_key] = "";
     }
 }
+_key = Symbol.toPrimitive;

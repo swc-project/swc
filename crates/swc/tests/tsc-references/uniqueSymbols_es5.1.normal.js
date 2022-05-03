@@ -399,10 +399,15 @@ Math.random() * 2 ? N["s"] : "a";
 var _obj;
 // computed property names
 (_obj = {}, swcHelpers.defineProperty(_obj, s, "a"), swcHelpers.defineProperty(_obj, N.s, "b"), _obj);
+var _key, _key1, _key2, _key3;
 var C1 = function C1() {
     "use strict";
     swcHelpers.classCallCheck(this, C1);
 };
+_key = s;
+_key1 = N.s;
+_key2 = s;
+_key3 = N.s;
 var o3 = {
     method1: function method1() {
         return s; // return type should not widen due to contextual type

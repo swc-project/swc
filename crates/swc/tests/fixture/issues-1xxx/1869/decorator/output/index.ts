@@ -7,6 +7,9 @@ TestClass.Something = "hello";
 TestClass.SomeProperties = {
     firstProp: TestClass.Something
 };
+swcHelpers.__decorate([
+    someClassDecorator
+], TestClass);
 function someClassDecorator(c) {
     return c;
 }

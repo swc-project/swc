@@ -1,6 +1,8 @@
+var _key;
 //@target: ES5
 class C {
     constructor(){
-        this[Symbol.toStringTag] = "";
+        this[_key] = "";
     }
 }
+_key = Symbol.toStringTag;

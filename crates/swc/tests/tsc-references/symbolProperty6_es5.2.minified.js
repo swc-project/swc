@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
-var _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = function() {
+var _key, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C), this[Symbol.iterator] = 0;
+        swcHelpers.classCallCheck(this, C), this[_key] = 0;
     }
     return C.prototype[_toPrimitive] = function() {}, swcHelpers.createClass(C, [
         {
@@ -13,3 +13,4 @@ var _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = fu
         }
     ]), C;
 }();
+_key = Symbol.iterator;

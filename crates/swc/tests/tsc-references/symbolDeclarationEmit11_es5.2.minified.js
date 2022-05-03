@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _iterator = Symbol.iterator, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive, C = function() {
+var _key, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive, C = function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
@@ -17,4 +17,4 @@ var _iterator = Symbol.iterator, _isConcatSpreadable = Symbol.isConcatSpreadable
         }
     ]), C;
 }();
-C[_iterator] = 0;
+C[_key] = 0, _key = Symbol.iterator;
