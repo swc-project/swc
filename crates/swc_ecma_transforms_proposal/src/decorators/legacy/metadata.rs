@@ -1,38 +1,39 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap,
+    util::{move_map::MoveMap, take::Take},
+    Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::EnumKind;
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
-/// TODO: VisitMut
-impl Fold for ParamMetadata {
-    noop_fold_type!();
+impl VisitMut for ParamMetadata {
+    fn visit_mut_class(&mut self, mut cls: &mut Class) {
+        cls.visit_mut_children_with(self);
 
-    fn fold_class(&mut self, mut cls: Class) -> Class {
-        cls = cls.fold_children_with(self);
-        let mut decorators = cls.decorators;
+        let mut decorators = cls.decorators.take();
 
-        cls.body = cls.body.move_map(|m| match m {
+        cls.body = cls.body.take().move_map(|m| match m {
             ClassMember::Constructor(mut c) => {
                 for (idx, param) in c.params.iter_mut().enumerate() {
                     //
                     match param {
                         ParamOrTsParamProp::TsParamProp(p) => {
                             for decorator in p.decorators.drain(..) {
-                                let new_dec =
-                                    self.create_param_decorator(idx, decorator.expr, true);
+                                let new_dec = self.create_param_decorator(idx, decorator.expr);
                                 decorators.push(new_dec);
                             }
                         }
                         ParamOrTsParamProp::Param(param) => {
                             for decorator in param.decorators.drain(..) {
-                                let new_dec =
-                                    self.create_param_decorator(idx, decorator.expr, true);
+                                let new_dec = self.create_param_decorator(idx, decorator.expr);
                                 decorators.push(new_dec);
                             }
                         }
@@ -44,73 +45,27 @@ impl Fold for ParamMetadata {
             _ => m,
         });
         cls.decorators = decorators;
-
-        cls
     }
 
-    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         for (idx, param) in m.function.params.iter_mut().enumerate() {
             for decorator in param.decorators.drain(..) {
-                let new_dec = self.create_param_decorator(idx, decorator.expr, false);
+                let new_dec = self.create_param_decorator(idx, decorator.expr);
                 m.function.decorators.push(new_dec);
             }
         }
-
-        m
     }
 }
 
 impl ParamMetadata {
-    fn create_param_decorator(
-        &self,
-        param_index: usize,
-        decorator_expr: Box<Expr>,
-        is_constructor: bool,
-    ) -> Decorator {
+    fn create_param_decorator(&self, param_index: usize, decorator_expr: Box<Expr>) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Fn(FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!("target").into(),
-                        },
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!("key").into(),
-                        },
-                    ],
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: decorator_expr.as_callee(),
-                                args: vec![
-                                    quote_ident!("target").as_arg(),
-                                    if is_constructor {
-                                        quote_ident!("undefined").as_arg()
-                                    } else {
-                                        quote_ident!("key").as_arg()
-                                    },
-                                    param_index.as_arg(),
-                                ],
-                                type_args: Default::default(),
-                            }))),
-                        })],
-                    }),
-                    decorators: Default::default(),
-                    span: Default::default(),
-                    is_generator: Default::default(),
-                    is_async: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
+            expr: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(ts, ts_param, "__param"),
+                args: vec![param_index.as_arg(), decorator_expr.as_arg()],
+                type_args: Default::default(),
             })),
         }
     }
@@ -123,15 +78,12 @@ pub(super) struct Metadata<'a> {
     pub(super) class_name: Option<&'a Ident>,
 }
 
-/// TODO: VisitMut
-impl Fold for Metadata<'_> {
-    noop_fold_type!();
-
-    fn fold_class(&mut self, mut c: Class) -> Class {
-        c = c.fold_children_with(self);
+impl VisitMut for Metadata<'_> {
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        c.visit_mut_children_with(self);
 
         if c.decorators.is_empty() {
-            return c;
+            return;
         }
 
         let constructor = c.body.iter().find_map(|m| match m {
@@ -139,7 +91,7 @@ impl Fold for Metadata<'_> {
             _ => None,
         });
         if constructor.is_none() {
-            return c;
+            return;
         }
 
         {
@@ -176,12 +128,11 @@ impl Fold for Metadata<'_> {
             );
             c.decorators.push(dec);
         }
-        c
     }
 
-    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.decorators.is_empty() {
-            return m;
+            return;
         }
 
         {
@@ -210,16 +161,15 @@ impl Fold for Metadata<'_> {
             );
             m.function.decorators.push(dec);
         }
-        m
     }
 
-    fn fold_class_prop(&mut self, mut p: ClassProp) -> ClassProp {
+    fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         if p.decorators.is_empty() {
-            return p;
+            return;
         }
 
         if p.type_ann.is_none() {
-            return p;
+            return;
         }
         if let Some(name) = p
             .type_ann
@@ -244,7 +194,7 @@ impl Fold for Metadata<'_> {
                     },
                 );
                 p.decorators.push(dec);
-                return p;
+                return;
             }
         }
 
@@ -253,7 +203,6 @@ impl Fold for Metadata<'_> {
             serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
         p.decorators.push(dec);
-        p
     }
 }
 
@@ -261,56 +210,11 @@ impl Metadata<'_> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Bin(BinExpr {
+            expr: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                left: Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: Box::new(Expr::Ident(quote_ident!("Reflect"))),
-                        })),
-                        op: op!("!=="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "undefined".into(),
-                            raw: None,
-                        }))),
-                    })),
-                    op: op!("&&"),
-                    right: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: member_expr!(DUMMY_SP, Reflect.metadata),
-                        })),
-                        op: op!("==="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "function".into(),
-                            raw: None,
-                        }))),
-                    })),
-                })),
-                op: op!("&&"),
-                right: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, Reflect.metadata).as_callee(),
-                    args: vec![
-                        Str {
-                            span: DUMMY_SP,
-                            value: design.into(),
-                            raw: None,
-                        }
-                        .as_arg(),
-                        type_arg,
-                    ],
-
-                    type_args: Default::default(),
-                })),
+                callee: helper!(ts, ts_metadata, "__metadata"),
+                args: vec![design.as_arg(), type_arg],
+                type_args: Default::default(),
             })),
         }
     }

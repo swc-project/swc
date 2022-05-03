@@ -1,5 +1,7 @@
-var _class;
+import * as swcHelpers from "@swc/helpers";
 import { Entity, BaseEntity } from 'typeorm';
-var _dec = Entity();
-export let Location = _class = _dec((_class = class Location extends BaseEntity {
-}) || _class) || _class;
+export let Location = class Location extends BaseEntity {
+};
+Location = swcHelpers.__decorate([
+    Entity()
+], Location);

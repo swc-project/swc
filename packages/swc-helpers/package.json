@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.3.10",
+    "version": "0.3.13",
     "description": "External helpers for the swc project.",
     "esnext": "src/index.js",
     "module": "src/index.js",
@@ -27,5 +27,8 @@
     "devDependencies": {
         "@swc/cli": "^0.1.36",
         "@swc/core": "^1.2.58"
+    },
+    "dependencies": {
+        "tslib": "^2.4.0"
     }
 }

@@ -138,6 +138,7 @@ impl Load for Loader {
                 .fold_with(&mut decorators(decorators::Config {
                     legacy: true,
                     emit_metadata: Default::default(),
+                    use_define_for_class_fields: false,
                 }))
                 .fold_with(&mut strip(top_level_mark))
                 .fold_with(&mut react::<SingleThreadedComments>(

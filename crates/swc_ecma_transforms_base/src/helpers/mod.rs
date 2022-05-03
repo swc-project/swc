@@ -312,6 +312,10 @@ define_helpers!(Helpers {
         is_native_reflect_construct,
         possible_constructor_return
     ),
+
+    ts_decorate: (),
+    ts_metadata: (),
+    ts_param: (),
 });
 
 pub fn inject_helpers() -> impl Fold + VisitMut {
@@ -444,7 +448,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &v.name {
-            if &*i.id.sym != "_typeof" {
+            if &*i.id.sym != "_typeof" && !i.id.sym.starts_with("__") {
                 self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
             }
         }
