@@ -4975,7 +4975,7 @@ fn fixture_exec(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/legacy-only/**/input.ts")]
 fn legacy_only(input: PathBuf) {
-    let output = input.with_file_name("output.js");
+    let output = input.with_file_name("output.ts");
 
     test_fixture(
         ts(),
@@ -4999,7 +4999,7 @@ fn legacy_only(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/legacy-metadata/**/input.ts")]
 fn legacy_metadata(input: PathBuf) {
-    let output = input.with_file_name("output.js");
+    let output = input.with_file_name("output.ts");
 
     test_fixture(
         ts(),
