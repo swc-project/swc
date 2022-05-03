@@ -865,6 +865,23 @@ impl VisitMut for TscDecorator {
         self.class_name = old;
     }
 
+    fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
+        c.visit_mut_children_with(self);
+
+        if let Some(class_name) = self.class_name.clone() {
+            if !c.function.decorators.is_empty() {
+                let key = prop_name_to_expr_value(c.key.clone());
+
+                self.add_decorate_call(
+                    c.function.decorators.drain(..).map(|d| d.expr),
+                    class_name.make_member(quote_ident!("prototype")).as_arg(),
+                    key.as_arg(),
+                    Lit::Null(Null::dummy()).as_arg(),
+                );
+            }
+        }
+    }
+
     fn visit_mut_class_prop(&mut self, c: &mut ClassProp) {
         c.visit_mut_children_with(self);
 
