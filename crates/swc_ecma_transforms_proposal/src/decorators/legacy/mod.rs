@@ -44,47 +44,6 @@ pub(super) fn new(metadata: bool) -> Legacy {
     }
 }
 
-impl Visit for Legacy {
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        let enum_kind = e
-            .members
-            .iter()
-            .map(|member| member.init.as_ref())
-            .map(|init| match init {
-                Some(e) => match &**e {
-                    Expr::Lit(lit) => match lit {
-                        Lit::Str(_) => EnumKind::Str,
-                        Lit::Num(_) => EnumKind::Num,
-                        _ => EnumKind::Mixed,
-                    },
-                    _ => EnumKind::Mixed,
-                },
-                None => EnumKind::Num,
-            })
-            .fold(None, |opt: Option<EnumKind>, item| {
-                //
-                let a = match item {
-                    EnumKind::Mixed => return Some(EnumKind::Mixed),
-                    _ => item,
-                };
-
-                let b = match opt {
-                    Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
-                    Some(v) => v,
-                    None => return Some(item),
-                };
-                if a == b {
-                    Some(a)
-                } else {
-                    Some(EnumKind::Mixed)
-                }
-            });
-        if let Some(kind) = enum_kind {
-            self.enums.insert(e.id.sym.clone(), kind);
-        }
-    }
-}
-
 /// TODO: VisitMut
 impl Fold for Legacy {
     fn fold_decl(&mut self, decl: Decl) -> Decl {

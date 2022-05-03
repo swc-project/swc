@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike};
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith};
 
 pub struct TscDecorator {
     appended_exprs: Vec<Box<Expr>>,
@@ -72,6 +72,47 @@ impl TscDecorator {
     }
 }
 
+impl Visit for TscDecorator {
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        let enum_kind = e
+            .members
+            .iter()
+            .map(|member| member.init.as_ref())
+            .map(|init| match init {
+                Some(e) => match &**e {
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(_) => EnumKind::Str,
+                        Lit::Num(_) => EnumKind::Num,
+                        _ => EnumKind::Mixed,
+                    },
+                    _ => EnumKind::Mixed,
+                },
+                None => EnumKind::Num,
+            })
+            .fold(None, |opt: Option<EnumKind>, item| {
+                //
+                let a = match item {
+                    EnumKind::Mixed => return Some(EnumKind::Mixed),
+                    _ => item,
+                };
+
+                let b = match opt {
+                    Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
+                    Some(v) => v,
+                    None => return Some(item),
+                };
+                if a == b {
+                    Some(a)
+                } else {
+                    Some(EnumKind::Mixed)
+                }
+            });
+        if let Some(kind) = enum_kind {
+            self.enums.insert(e.id.sym.clone(), kind);
+        }
+    }
+}
+
 impl VisitMut for TscDecorator {
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         let old = self.class_name.take();
@@ -110,8 +151,20 @@ impl VisitMut for TscDecorator {
         }
     }
 
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_with(self);
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_likes(s)
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        n.visit_with(self);
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
