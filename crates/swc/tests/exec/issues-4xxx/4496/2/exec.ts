@@ -4,6 +4,11 @@ let id = 1;
 
 function dec() {
     console.log(id)
+    return () => id++
+}
+
+function key() {
+    console.log(id)
     return id++
 }
 
@@ -14,12 +19,13 @@ class Foo {
     prop1: number
 
     @dec
-    [dec()]: number
+    [key()]: number
 
     @dec
     @dec
-    [dec()]: number
+    [key()]: number
 
     @dec
     prop2: number
 }
+

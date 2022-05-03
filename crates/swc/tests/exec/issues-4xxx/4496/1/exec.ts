@@ -4,9 +4,8 @@ let id = 1;
 
 function dec() {
     console.log(id)
-    return id++
+    return () => id++
 }
-
 
 @dec
 class Foo {
