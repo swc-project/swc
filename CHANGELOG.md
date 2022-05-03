@@ -20,6 +20,9 @@
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
 
+- **(html/parser)** Fix bugs (#4502) ([fca84eb](https://github.com/swc-project/swc/commit/fca84eb0f27cec0821b1dd63a331de9b7d1118b4))
+
+
 - **(node/types)** Add types for `jsc.minify.format` (#4492) ([3ed1538](https://github.com/swc-project/swc/commit/3ed1538bfe3cc8fb008b34c7a78dc239115f4159))
 
 ### Features

@@ -61,11 +61,10 @@
  58 | |   <div>&#X24;</div>
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
- 61 | |   <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Child
@@ -141,11 +140,10 @@
  58 | |   <div>&#X24;</div>
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
- 61 | |   <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Element
@@ -209,11 +207,10 @@
  58 | |   <div>&#X24;</div>
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
- 61 | |   <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Child
@@ -290,11 +287,10 @@
  58 | |   <div>&#X24;</div>
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
- 61 | |   <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Element
@@ -357,11 +353,10 @@
  58 | |   <div>&#X24;</div>
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
- 61 | |   <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Child
@@ -2010,56 +2005,18 @@
 
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
- 60 | <div>I'm &notin; I tell you</div>
-    :                                  ^
- 61 | <div>I'm &notit; I tell you</div>
+ 60 | ,-> <div>I'm &notin; I tell you</div>
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
- 60 | <div>I'm &notin; I tell you</div>
-    :                                  ^
- 61 | <div>I'm &notit; I tell you</div>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | <div>I'm &notit; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | <div>I'm &notit; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | <div>I'm &notit; I tell you</div>
-    :      ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | <div>I'm &notit; I tell you</div>
-    :      ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | ,-> <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/entity/input.html:61:1]
- 61 | ,-> <div>I'm &notit; I tell you</div>
- 62 | |   
- 63 | |   </body>
- 64 | |   </html>
- 65 | `-> 
+ 60 | ,-> <div>I'm &notin; I tell you</div>
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----

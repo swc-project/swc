@@ -180,34 +180,13 @@ where
             // When a start tag token is emitted with its self-closing flag set,
             // if the flag is not acknowledged when it is processed by the tree
             // construction stage, that is a parse error.
-            //
-            // When an end tag token is emitted with attributes, that is an
-            // end-tag-with-attributes parse error.
-            //
-            // When an end tag token is emitted with its self-closing flag set, that is an
-            // end-tag-with-trailing-solidus parse error.
-            match &token_and_info.token {
-                Token::StartTag { self_closing, .. } => {
-                    if *self_closing && !token_and_info.acknowledged {
-                        self.errors.push(Error::new(
-                            token_and_info.span,
-                            ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus,
-                        ));
-                    }
-                }
-                Token::EndTag { attributes, .. } if !attributes.is_empty() => {
+            if let Token::StartTag { self_closing, .. } = &token_and_info.token {
+                if *self_closing && !token_and_info.acknowledged {
                     self.errors.push(Error::new(
                         token_and_info.span,
-                        ErrorKind::EndTagWithAttributes,
+                        ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus,
                     ));
                 }
-                Token::EndTag { self_closing, .. } if *self_closing => {
-                    self.errors.push(Error::new(
-                        token_and_info.span,
-                        ErrorKind::EndTagWithTrailingSolidus,
-                    ));
-                }
-                _ => {}
             }
         }
 
