@@ -26,11 +26,9 @@ enum EnumKind {
 
 #[derive(Debug)]
 pub(super) struct Legacy {
-    metadata: bool,
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
-    enums: AHashMap<JsWord, EnumKind>,
 }
 
 pub(super) fn new(metadata: bool) -> Legacy {
@@ -793,6 +791,10 @@ impl Legacy {
 }
 
 pub struct TscDecorator {
+    metadata: bool,
+
+    enums: AHashMap<JsWord, EnumKind>,
+
     appended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
