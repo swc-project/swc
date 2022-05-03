@@ -3,8 +3,8 @@ use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, prepend_stmts, prop_name_to_expr_value,
-    quote_ident, undefined, ExprFactory, StmtLike,
+    constructor::inject_after_super, default_constructor, prepend_stmts, prop_name_to_expr,
+    prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -240,6 +240,28 @@ impl VisitMut for TscDecorator {
                     key.as_arg(),
                     undefined(DUMMY_SP).as_arg(),
                 );
+            }
+        }
+
+        if !self.use_define_for_class_props && c.is_static && c.value.is_some() {
+            if let Some(init) = c.value.take() {
+                self.constructor_exprs
+                    .push(Box::new(Expr::Assign(AssignExpr {
+                        span: c.span,
+                        op: op!("="),
+                        left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            prop: match &c.key {
+                                PropName::Ident(i) => MemberProp::Ident(i.clone()),
+                                _ => MemberProp::Computed(ComputedPropName {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(prop_name_to_expr_value(c.key.clone())),
+                                }),
+                            },
+                        }))),
+                        right: init,
+                    })));
             }
         }
     }
