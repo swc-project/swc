@@ -77,3 +77,4 @@ export { default as typeOf } from './_type_of';
 export { default as unsupportedIterableToArray } from './_unsupported_iterable_to_array';
 export { default as wrapAsyncGenerator } from './_wrap_async_generator';
 export { default as wrapNativeSuper } from './_wrap_native_super';
+export { __decorate } from 'tslib'

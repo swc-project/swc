@@ -27,5 +27,8 @@
     "devDependencies": {
         "@swc/cli": "^0.1.36",
         "@swc/core": "^1.2.58"
+    },
+    "dependencies": {
+        "tslib": "^2.4.0"
     }
 }
