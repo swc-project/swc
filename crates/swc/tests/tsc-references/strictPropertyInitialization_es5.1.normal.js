@@ -34,6 +34,9 @@ var _d = /*#__PURE__*/ new WeakMap(), _e = /*#__PURE__*/ new WeakMap(), _f1 = /*
 var C4 = function C4() {
     "use strict";
     swcHelpers.classCallCheck(this, C4);
+    this.a = 0;
+    this.b = 0;
+    this.c = "abc";
     swcHelpers.classPrivateFieldInit(this, _d, {
         writable: true,
         value: 0
@@ -46,9 +49,6 @@ var C4 = function C4() {
         writable: true,
         value: "abc"
     });
-    this.a = 0;
-    this.b = 0;
-    this.c = "abc";
 };
 var _b = /*#__PURE__*/ new WeakMap();
 // Assignment in constructor satisfies strict initialization check

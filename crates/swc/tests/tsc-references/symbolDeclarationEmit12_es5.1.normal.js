@@ -3,7 +3,6 @@ import * as swcHelpers from "@swc/helpers";
 //@declaration: true
 var M;
 (function(M1) {
-    var _key;
     var _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive;
     var C = /*#__PURE__*/ function() {
         "use strict";
@@ -30,5 +29,4 @@ var M;
         return C;
     }();
     M1.C = C;
-    _key = Symbol.iterator;
 })(M || (M = {}));

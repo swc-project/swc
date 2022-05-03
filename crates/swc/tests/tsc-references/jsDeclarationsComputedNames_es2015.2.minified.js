@@ -1,4 +1,3 @@
-var _key, _key1;
 let TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = {
     [TopLevelSym]: (x = 12)=>x
@@ -9,10 +8,10 @@ module.exports = {
         })=>arg.x
     }
 };
-let TopLevelSym = Symbol(), InnerSym = Symbol();
+let TopLevelSym = Symbol(), InnerSym = Symbol(), _InnerSym = InnerSym;
 export class MyClass {
     constructor(_p = InnerSym){
-        this[_key1] = "ok";
+        this[_InnerSym] = "ok";
     }
 }
-MyClass[_key] = 12, _key = TopLevelSym, _key1 = InnerSym;
+MyClass[TopLevelSym] = 12;

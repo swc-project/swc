@@ -8,16 +8,16 @@ class C {
         console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, C, _m)), console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
     }
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _a, {
+        this.a = 123, swcHelpers.classPrivateFieldInit(this, _a, {
             writable: !0,
             value: 10
-        }), swcHelpers.classPrivateFieldInit(this, _b, {
+        }), this.c = "hello", swcHelpers.classPrivateFieldInit(this, _b, {
             writable: !0,
             value: void 0
         }), swcHelpers.classPrivateFieldInit(this, _something, {
             writable: !0,
             value: ()=>1234
-        }), this.a = 123, this.c = "hello";
+        });
     }
 }
 var _m = {

@@ -13,10 +13,12 @@ class C {
         console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
     }
     constructor(){
+        this.a = 123;
         swcHelpers.classPrivateFieldInit(this, _a, {
             writable: true,
             value: 10
         });
+        this.c = "hello";
         swcHelpers.classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
@@ -25,8 +27,6 @@ class C {
             writable: true,
             value: ()=>1234
         });
-        this.a = 123;
-        this.c = "hello";
     }
 }
 var _m = {

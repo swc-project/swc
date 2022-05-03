@@ -4,8 +4,6 @@
 "use strict";
 import * as swcHelpers from "@swc/helpers";
 var x = 1;
-var _key;
 var C = function C() {
     swcHelpers.classCallCheck(this, C);
 };
-_key = x;

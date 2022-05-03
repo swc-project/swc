@@ -1,5 +1,4 @@
-var _key, _key1;
-let _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
+let _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 //@target: ES6
 class C {
     [_toPrimitive]() {}
@@ -7,8 +6,6 @@ class C {
         return 0;
     }
     constructor(){
-        this[_key] = 0;
+        this[_iterator] = 0;
     }
 }
-_key = Symbol.iterator;
-_key1 = Symbol.unscopables;

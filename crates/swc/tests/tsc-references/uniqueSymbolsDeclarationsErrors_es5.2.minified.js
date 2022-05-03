@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _key, _key1, obj = {
+export var obj = {
     method1: function(p) {
         return p;
     },
@@ -7,7 +7,6 @@ var _key, _key1, obj = {
         return p;
     }
 };
-export { _key1 as _key };
 export var classExpression = function() {
     "use strict";
     function _class() {

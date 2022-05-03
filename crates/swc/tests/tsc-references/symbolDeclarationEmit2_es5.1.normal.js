@@ -1,10 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var _key;
+var _toPrimitive = Symbol.toPrimitive;
 //@target: ES6
 //@declaration: true
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
-    this[_key] = "";
+    this[_toPrimitive] = "";
 };
-_key = Symbol.toPrimitive;

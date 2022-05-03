@@ -1,9 +1,8 @@
-var _key;
+let _toPrimitive = Symbol.toPrimitive;
 //@target: ES6
 //@declaration: true
 class C {
     constructor(){
-        this[_key] = "";
+        this[_toPrimitive] = "";
     }
 }
-_key = Symbol.toPrimitive;

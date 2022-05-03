@@ -1,5 +1,3 @@
-var _key;
 //@target: ES6
 class C {
 }
-_key = Symbol.toPrimitive;

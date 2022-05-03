@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es5, esnext
 // @useDefineForClassFields: true
 var x = "p";
-var _key;
+var _x = x;
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
@@ -10,14 +10,13 @@ var A = /*#__PURE__*/ function() {
         this.y = y;
         this.a = this.y;
         this["computed"] = 13;
-        this[_key] = 14;
+        this[_x] = 14;
         this.z = this.y;
     }
     var _proto = A.prototype;
     _proto.m = function m() {};
     return A;
 }();
-_key = x;
 var B = function B() {
     "use strict";
     swcHelpers.classCallCheck(this, B);

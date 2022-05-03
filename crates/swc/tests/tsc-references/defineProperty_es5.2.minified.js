@@ -1,13 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
-var _key, A = function() {
+var A = function() {
     "use strict";
     function A(y) {
-        swcHelpers.classCallCheck(this, A), this.y = y, this.a = this.y, this.computed = 13, this[_key] = 14, this.z = this.y;
+        swcHelpers.classCallCheck(this, A), this.y = y, this.a = this.y, this.computed = 13, this.p = 14, this.z = this.y;
     }
     return A.prototype.m = function() {}, A;
-}();
-_key = "p";
-var B = function() {
+}(), B = function() {
     "use strict";
     swcHelpers.classCallCheck(this, B);
 }, C = function(B1) {

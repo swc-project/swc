@@ -8,23 +8,19 @@ class C {
 class D {
     constructor(x2){
         this.x = x2;
-        this.a = x // error
-        ;
+        this.a = x;
     }
 }
 class E {
     constructor(x){
         this.x = x;
-        this.a = this.x // ok
-        ;
+        this.a = this.x;
     }
 }
 class F {
     constructor(x3){
         this.x = x3;
-        this.a = this.x // ok
-        ;
-        this.b = x // error
-        ;
+        this.a = this.x;
+        this.b = x;
     }
 }

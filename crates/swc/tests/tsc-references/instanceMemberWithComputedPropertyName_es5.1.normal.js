@@ -2,13 +2,12 @@
 "use strict";
 import * as swcHelpers from "@swc/helpers";
 var x = 1;
-var _key;
+var _x = x;
 var C = function C() {
     swcHelpers.classCallCheck(this, C);
-    this[_key] = true;
+    this[_x] = true;
     var ref = {
         a: 1,
         b: 2
     }, a = ref.a, b = ref.b;
 };
-_key = x;

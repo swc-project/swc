@@ -21,13 +21,11 @@ module.exports = (_obj = {}, swcHelpers.defineProperty(_obj, TopLevelSym, functi
 // @filename: index2.js
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
-var _key, _key1;
+var _InnerSym = InnerSym;
 export var MyClass = function MyClass() {
     "use strict";
     var _p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : InnerSym;
     swcHelpers.classCallCheck(this, MyClass);
-    this[_key1] = "ok";
+    this[_InnerSym] = "ok";
 };
-MyClass[_key] = 12;
-_key = TopLevelSym;
-_key1 = InnerSym;
+MyClass[TopLevelSym] = 12;

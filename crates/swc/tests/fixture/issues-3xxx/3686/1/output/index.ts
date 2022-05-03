@@ -9,8 +9,8 @@ class ServiceError extends Error {
     constructor(...args){
         super(...args);
         this.code = ServiceError.Code.badResponse;
-        this.name = "ServiceError.BadResponse";
     }
+    name = "ServiceError.BadResponse";
 }
 exports.ServiceError = ServiceError;
 swcHelpers.__decorate([
@@ -31,11 +31,8 @@ swcHelpers.__decorate([
         Code[Code["badResponse"] = 422] = "badResponse";
     })(Code = ServiceError1.Code || (ServiceError1.Code = {}));
     class ServiceNotFound extends ServiceError {
-        constructor(...args){
-            super(...args);
-            this.code = 404;
-            this.name = "ServiceError.ServiceNotFound";
-        }
+        code = 404;
+        name = "ServiceError.ServiceNotFound";
     }
     ServiceError1.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
