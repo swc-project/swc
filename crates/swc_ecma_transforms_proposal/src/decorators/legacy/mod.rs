@@ -243,7 +243,7 @@ impl VisitMut for TscDecorator {
             }
         }
 
-        if !self.use_define_for_class_fields && c.is_static && c.value.is_some() {
+        if !self.use_define_for_class_fields && !c.is_static {
             if let Some(init) = c.value.take() {
                 self.constructor_exprs
                     .push(Box::new(Expr::Assign(AssignExpr {
