@@ -421,7 +421,8 @@ test!(
         chain!(
             decorators(decorators::Config {
                 legacy: true,
-                emit_metadata: false
+                emit_metadata: false,
+                use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
@@ -473,7 +474,8 @@ test!(
         chain!(
             decorators(decorators::Config {
                 legacy: true,
-                emit_metadata: false
+                emit_metadata: false,
+                use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
