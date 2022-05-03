@@ -18,6 +18,12 @@
     `----
 
   x End tag with trailing solidus
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :          ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x End tag with trailing solidus
     ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:29:1]
  29 | <div>test</div/>
     :          ^^^^^^^
