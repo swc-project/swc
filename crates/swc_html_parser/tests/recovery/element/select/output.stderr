@@ -10,3 +10,9 @@
  1 | <select><div>foo</div>bar</select>
    :                 ^^^^^^
    `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/select/input.html:2:1]
+ 2 | <select><keygen>
+   :         ^^^^^^^^
+   `----
