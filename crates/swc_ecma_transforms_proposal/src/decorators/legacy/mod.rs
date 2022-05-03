@@ -29,6 +29,7 @@ pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecor
         appended_exprs: Default::default(),
         class_name: Default::default(),
         constructor_exprs: Default::default(),
+        exports: Default::default(),
     }
 }
 
@@ -46,6 +47,8 @@ pub(super) struct TscDecorator {
 
     /// Only used if `use_define_for_class_props` is false.
     constructor_exprs: Vec<Box<Expr>>,
+
+    exports: Vec<ExportSpecifier>,
 }
 
 impl TscDecorator {
@@ -384,7 +387,19 @@ impl VisitMut for TscDecorator {
     }
 
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_likes(s)
+        self.visit_mut_stmt_likes(s);
+
+        if !self.exports.is_empty() {
+            s.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: self.exports.take(),
+                    src: None,
+                    type_only: Default::default(),
+                    asserts: Default::default(),
+                },
+            )));
+        }
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
