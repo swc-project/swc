@@ -1,8 +1,12 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap,
+    util::{move_map::MoveMap, take::Take},
+    Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 use super::EnumKind;
 
@@ -10,14 +14,12 @@ use super::EnumKind;
 pub(super) struct ParamMetadata;
 
 impl VisitMut for ParamMetadata {
-    noop_fold_type!();
-
     fn visit_mut_class(&mut self, mut cls: &mut Class) {
         cls.visit_mut_children_with(self);
 
-        let mut decorators = cls.decorators;
+        let mut decorators = cls.decorators.take();
 
-        cls.body = cls.body.move_map(|m| match m {
+        cls.body = cls.body.take().move_map(|m| match m {
             ClassMember::Constructor(mut c) => {
                 for (idx, param) in c.params.iter_mut().enumerate() {
                     //
@@ -119,15 +121,12 @@ pub(super) struct Metadata<'a> {
     pub(super) class_name: Option<&'a Ident>,
 }
 
-/// TODO: VisitMut
-impl Fold for Metadata<'_> {
-    noop_fold_type!();
-
-    fn fold_class(&mut self, mut c: Class) -> Class {
-        c = c.fold_children_with(self);
+impl VisitMut for Metadata<'_> {
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        c.visit_mut_children_with(self);
 
         if c.decorators.is_empty() {
-            return c;
+            return;
         }
 
         let constructor = c.body.iter().find_map(|m| match m {
@@ -135,7 +134,7 @@ impl Fold for Metadata<'_> {
             _ => None,
         });
         if constructor.is_none() {
-            return c;
+            return;
         }
 
         {
@@ -172,12 +171,11 @@ impl Fold for Metadata<'_> {
             );
             c.decorators.push(dec);
         }
-        c
     }
 
-    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.decorators.is_empty() {
-            return m;
+            return;
         }
 
         {
@@ -206,16 +204,15 @@ impl Fold for Metadata<'_> {
             );
             m.function.decorators.push(dec);
         }
-        m
     }
 
-    fn fold_class_prop(&mut self, mut p: ClassProp) -> ClassProp {
+    fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         if p.decorators.is_empty() {
-            return p;
+            return;
         }
 
         if p.type_ann.is_none() {
-            return p;
+            return;
         }
         if let Some(name) = p
             .type_ann
@@ -240,7 +237,7 @@ impl Fold for Metadata<'_> {
                     },
                 );
                 p.decorators.push(dec);
-                return p;
+                return;
             }
         }
 
@@ -249,7 +246,6 @@ impl Fold for Metadata<'_> {
             serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
         p.decorators.push(dec);
-        p
     }
 }
 

@@ -11,7 +11,7 @@ use swc_ecma_utils::{
     prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory,
     IdentExt,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
 mod legacy;
 
@@ -57,7 +57,7 @@ mod legacy;
 /// ```
 pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
-        Either::Left(self::legacy::new(c.emit_metadata))
+        Either::Left(as_folder(self::legacy::new(c.emit_metadata)))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")
