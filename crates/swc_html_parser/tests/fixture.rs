@@ -238,8 +238,6 @@ fn unescape(s: &str) -> Option<String> {
                     panic!("can't understand escape");
                 }
 
-                drop(it.next());
-
                 let hex: String = it.by_ref().take(4).collect();
 
                 match u32::from_str_radix(&hex, 16).ok().and_then(char::from_u32) {
