@@ -2,19 +2,19 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 use super::EnumKind;
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
-/// TODO: VisitMut
-impl Fold for ParamMetadata {
+impl VisitMut for ParamMetadata {
     noop_fold_type!();
 
-    fn fold_class(&mut self, mut cls: Class) -> Class {
-        cls = cls.fold_children_with(self);
+    fn visit_mut_class(&mut self, mut cls: &mut Class) {
+        cls.visit_mut_children_with(self);
+
         let mut decorators = cls.decorators;
 
         cls.body = cls.body.move_map(|m| match m {
@@ -44,19 +44,15 @@ impl Fold for ParamMetadata {
             _ => m,
         });
         cls.decorators = decorators;
-
-        cls
     }
 
-    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         for (idx, param) in m.function.params.iter_mut().enumerate() {
             for decorator in param.decorators.drain(..) {
                 let new_dec = self.create_param_decorator(idx, decorator.expr, false);
                 m.function.decorators.push(new_dec);
             }
         }
-
-        m
     }
 }
 
