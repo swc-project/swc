@@ -295,9 +295,9 @@ impl VisitMut for TscDecorator {
         c.visit_mut_children_with(self);
 
         if let Some(class_name) = self.class_name.clone() {
-            let key = self.key(&mut c.key);
-
             if !c.decorators.is_empty() {
+                let key = self.key(&mut c.key);
+
                 let target = if c.is_static {
                     class_name.as_arg()
                 } else {
@@ -310,27 +310,27 @@ impl VisitMut for TscDecorator {
                     key.as_arg(),
                     undefined(DUMMY_SP).as_arg(),
                 );
-            }
 
-            if !self.use_define_for_class_fields && !c.is_static {
-                if let Some(init) = c.value.take() {
-                    self.constructor_exprs
-                        .push(Box::new(Expr::Assign(AssignExpr {
-                            span: c.span,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                prop: match &c.key {
-                                    PropName::Ident(i) => MemberProp::Ident(i.clone()),
-                                    _ => MemberProp::Computed(ComputedPropName {
-                                        span: DUMMY_SP,
-                                        expr: Box::new(prop_name_to_expr_value(c.key.clone())),
-                                    }),
-                                },
-                            }))),
-                            right: init,
-                        })));
+                if !self.use_define_for_class_fields && !c.is_static {
+                    if let Some(init) = c.value.take() {
+                        self.constructor_exprs
+                            .push(Box::new(Expr::Assign(AssignExpr {
+                                span: c.span,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                    prop: match &c.key {
+                                        PropName::Ident(i) => MemberProp::Ident(i.clone()),
+                                        _ => MemberProp::Computed(ComputedPropName {
+                                            span: DUMMY_SP,
+                                            expr: Box::new(prop_name_to_expr_value(c.key.clone())),
+                                        }),
+                                    },
+                                }))),
+                                right: init,
+                            })));
+                    }
                 }
             }
         }
