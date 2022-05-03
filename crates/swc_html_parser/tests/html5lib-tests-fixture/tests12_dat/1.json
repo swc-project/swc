@@ -1,0 +1,340 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 222,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 222,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 21,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 15,
+            "end": 222,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 21,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "foo"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 24,
+                "end": 185,
+                "ctxt": 0
+              },
+              "tagName": "math",
+              "namespace": "http://www.w3.org/1998/Math/MathML",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 30,
+                    "end": 43,
+                    "ctxt": 0
+                  },
+                  "tagName": "mtext",
+                  "namespace": "http://www.w3.org/1998/Math/MathML",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 37,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "tagName": "i",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 40,
+                            "end": 43,
+                            "ctxt": 0
+                          },
+                          "value": "baz"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 55,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "tagName": "annotation-xml",
+                  "namespace": "http://www.w3.org/1998/Math/MathML",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 71,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "tagName": "svg",
+                      "namespace": "http://www.w3.org/2000/svg",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 76,
+                            "end": 89,
+                            "ctxt": 0
+                          },
+                          "tagName": "desc",
+                          "namespace": "http://www.w3.org/2000/svg",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Element",
+                              "span": {
+                                "start": 82,
+                                "end": 89,
+                                "ctxt": 0
+                              },
+                              "tagName": "b",
+                              "namespace": "http://www.w3.org/1999/xhtml",
+                              "attributes": [],
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "span": {
+                                    "start": 85,
+                                    "end": 89,
+                                    "ctxt": 0
+                                  },
+                                  "value": "eggs"
+                                }
+                              ],
+                              "content": null
+                            }
+                          ],
+                          "content": null
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 100,
+                            "end": 145,
+                            "ctxt": 0
+                          },
+                          "tagName": "g",
+                          "namespace": "http://www.w3.org/2000/svg",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Element",
+                              "span": {
+                                "start": 103,
+                                "end": 145,
+                                "ctxt": 0
+                              },
+                              "tagName": "foreignObject",
+                              "namespace": "http://www.w3.org/2000/svg",
+                              "attributes": [],
+                              "children": [
+                                {
+                                  "type": "Element",
+                                  "span": {
+                                    "start": 118,
+                                    "end": 125,
+                                    "ctxt": 0
+                                  },
+                                  "tagName": "p",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [],
+                                  "children": [
+                                    {
+                                      "type": "Text",
+                                      "span": {
+                                        "start": 121,
+                                        "end": 125,
+                                        "ctxt": 0
+                                      },
+                                      "value": "spam"
+                                    }
+                                  ],
+                                  "content": null
+                                },
+                                {
+                                  "type": "Element",
+                                  "span": {
+                                    "start": 125,
+                                    "end": 145,
+                                    "ctxt": 0
+                                  },
+                                  "tagName": "table",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [],
+                                  "children": [
+                                    {
+                                      "type": "Element",
+                                      "span": {
+                                        "start": 0,
+                                        "end": 145,
+                                        "ctxt": 0
+                                      },
+                                      "tagName": "tbody",
+                                      "namespace": "http://www.w3.org/1999/xhtml",
+                                      "attributes": [],
+                                      "children": [
+                                        {
+                                          "type": "Element",
+                                          "span": {
+                                            "start": 132,
+                                            "end": 145,
+                                            "ctxt": 0
+                                          },
+                                          "tagName": "tr",
+                                          "namespace": "http://www.w3.org/1999/xhtml",
+                                          "attributes": [],
+                                          "children": [
+                                            {
+                                              "type": "Element",
+                                              "span": {
+                                                "start": 136,
+                                                "end": 145,
+                                                "ctxt": 0
+                                              },
+                                              "tagName": "td",
+                                              "namespace": "http://www.w3.org/1999/xhtml",
+                                              "attributes": [],
+                                              "children": [
+                                                {
+                                                  "type": "Element",
+                                                  "span": {
+                                                    "start": 140,
+                                                    "end": 145,
+                                                    "ctxt": 0
+                                                  },
+                                                  "tagName": "img",
+                                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                                  "attributes": [],
+                                                  "children": [],
+                                                  "content": null
+                                                }
+                                              ],
+                                              "content": null
+                                            }
+                                          ],
+                                          "content": null
+                                        }
+                                      ],
+                                      "content": null
+                                    }
+                                  ],
+                                  "content": null
+                                }
+                              ],
+                              "content": null
+                            }
+                          ],
+                          "content": null
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 178,
+                            "end": 185,
+                            "ctxt": 0
+                          },
+                          "tagName": "g",
+                          "namespace": "http://www.w3.org/2000/svg",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 181,
+                                "end": 185,
+                                "ctxt": 0
+                              },
+                              "value": "quux"
+                            }
+                          ],
+                          "content": null
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 219,
+                "end": 222,
+                "ctxt": 0
+              },
+              "value": "bar"
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

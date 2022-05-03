@@ -1,0 +1,93 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 22,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 22,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 8,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 22,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 22,
+                "ctxt": 0
+              },
+              "tagName": "option",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 8,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "tagName": "span",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 14,
+                        "end": 22,
+                        "ctxt": 0
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

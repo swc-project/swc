@@ -1,0 +1,105 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 77,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 55,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 10,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 55,
+            "ctxt": 0
+          },
+          "tagName": "frameset",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 10,
+                "end": 17,
+                "ctxt": 0
+              },
+              "tagName": "frame",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 17,
+                "end": 34,
+                "ctxt": 0
+              },
+              "tagName": "frameset",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 27,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "tagName": "frame",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 45,
+                "end": 55,
+                "ctxt": 0
+              },
+              "tagName": "noframes",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

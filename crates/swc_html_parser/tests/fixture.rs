@@ -752,3 +752,77 @@ fn html5lib_test_tokenizer(input: PathBuf) {
         }
     }
 }
+
+#[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
+fn html5lib_test_tree_construction(input: PathBuf) {
+    testing::run_test2(false, |_cm, handler| {
+        let filename = input.file_name().expect("failed to get filename");
+        let base_json_path = input
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .join("html5lib-tests-fixture")
+            .join(filename.to_str().unwrap().replace('.', "_"));
+
+        let lexer_input = fs::read_to_string(input).expect("Something went wrong reading the file");
+
+        let mut counter = 0;
+        let mut tests = lexer_input.split("\n\n#data\n");
+
+        fs::create_dir_all(base_json_path.clone())
+            .expect("failed to create directory for fixtures");
+
+        while let Some(test) = tests.next() {
+            // TODO improve errors tests
+            // TODO improve visualizer DOM test
+            // TODO improve test for enabled/disabled test
+            // TODO improve test for parsing `<template>`
+            let html_path = base_json_path.join(counter.to_string() + ".html");
+            let json_path = base_json_path.join(counter.to_string() + ".json");
+
+            let data_end = test
+                .find("#errors\n")
+                .expect("failed to get errors in test");
+            let mut data = &test[..data_end];
+
+            if data.ends_with("\n") {
+                data = data
+                    .strip_suffix("\n")
+                    .expect("failed to strip last line in test");
+            }
+
+            fs::write(html_path, data).expect("Something went wrong when writing to the file");
+
+            let lexer_str_input = StringInput::new(&data, BytePos(0), BytePos(data.len() as u32));
+            let lexer = Lexer::new(lexer_str_input, Default::default());
+            let mut parser = Parser::new(lexer, Default::default());
+            let document: PResult<Document> = parser.parse_document();
+
+            match document {
+                Ok(document) => {
+                    let actual_json = serde_json::to_string_pretty(&document)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize document");
+
+                    actual_json.compare_to_file(&json_path).unwrap();
+                }
+                Err(err) => {
+                    let mut d = err.to_diagnostics(&handler);
+
+                    d.note(&format!("current token = {}", parser.dump_cur()));
+                    d.emit();
+
+                    return Err(());
+                }
+            }
+
+            counter += 1;
+        }
+
+        return Ok(());
+    })
+    .unwrap();
+}

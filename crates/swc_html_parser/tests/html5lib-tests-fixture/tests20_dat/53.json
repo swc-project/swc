@@ -1,0 +1,105 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 58,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 58,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 6,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 53,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 0,
+                "end": 53,
+                "ctxt": 0
+              },
+              "tagName": "math",
+              "namespace": "http://www.w3.org/1998/Math/MathML",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 6,
+                    "end": 53,
+                    "ctxt": 0
+                  },
+                  "tagName": "annotation-xml",
+                  "namespace": "http://www.w3.org/1998/Math/MathML",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "encoding",
+                      "value": "application/svg+xml"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 53,
+            "end": 58,
+            "ctxt": 0
+          },
+          "tagName": "div",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

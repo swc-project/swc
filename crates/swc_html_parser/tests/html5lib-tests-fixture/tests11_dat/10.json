@@ -1,0 +1,545 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 580,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 574,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 21,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 15,
+            "end": 574,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 21,
+                "end": 574,
+                "ctxt": 0
+              },
+              "tagName": "svg",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 26,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "tagName": "altGlyph",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 38,
+                    "end": 53,
+                    "ctxt": 0
+                  },
+                  "tagName": "altGlyphDef",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 53,
+                    "end": 69,
+                    "ctxt": 0
+                  },
+                  "tagName": "altGlyphItem",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 69,
+                    "end": 85,
+                    "ctxt": 0
+                  },
+                  "tagName": "animateColor",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 85,
+                    "end": 102,
+                    "ctxt": 0
+                  },
+                  "tagName": "animateMotion",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 102,
+                    "end": 122,
+                    "ctxt": 0
+                  },
+                  "tagName": "animateTransform",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 122,
+                    "end": 134,
+                    "ctxt": 0
+                  },
+                  "tagName": "clipPath",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 134,
+                    "end": 145,
+                    "ctxt": 0
+                  },
+                  "tagName": "feBlend",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 145,
+                    "end": 162,
+                    "ctxt": 0
+                  },
+                  "tagName": "feColorMatrix",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 162,
+                    "end": 185,
+                    "ctxt": 0
+                  },
+                  "tagName": "feComponentTransfer",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 185,
+                    "end": 200,
+                    "ctxt": 0
+                  },
+                  "tagName": "feComposite",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 200,
+                    "end": 220,
+                    "ctxt": 0
+                  },
+                  "tagName": "feConvolveMatrix",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 220,
+                    "end": 241,
+                    "ctxt": 0
+                  },
+                  "tagName": "feDiffuseLighting",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 241,
+                    "end": 262,
+                    "ctxt": 0
+                  },
+                  "tagName": "feDisplacementMap",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 262,
+                    "end": 280,
+                    "ctxt": 0
+                  },
+                  "tagName": "feDistantLight",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 280,
+                    "end": 291,
+                    "ctxt": 0
+                  },
+                  "tagName": "feFlood",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 291,
+                    "end": 302,
+                    "ctxt": 0
+                  },
+                  "tagName": "feFuncA",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 302,
+                    "end": 313,
+                    "ctxt": 0
+                  },
+                  "tagName": "feFuncB",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 313,
+                    "end": 324,
+                    "ctxt": 0
+                  },
+                  "tagName": "feFuncG",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 324,
+                    "end": 335,
+                    "ctxt": 0
+                  },
+                  "tagName": "feFuncR",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 335,
+                    "end": 353,
+                    "ctxt": 0
+                  },
+                  "tagName": "feGaussianBlur",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 353,
+                    "end": 364,
+                    "ctxt": 0
+                  },
+                  "tagName": "feImage",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 364,
+                    "end": 375,
+                    "ctxt": 0
+                  },
+                  "tagName": "feMerge",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 375,
+                    "end": 390,
+                    "ctxt": 0
+                  },
+                  "tagName": "feMergeNode",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 390,
+                    "end": 406,
+                    "ctxt": 0
+                  },
+                  "tagName": "feMorphology",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 406,
+                    "end": 418,
+                    "ctxt": 0
+                  },
+                  "tagName": "feOffset",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 418,
+                    "end": 434,
+                    "ctxt": 0
+                  },
+                  "tagName": "fePointLight",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 434,
+                    "end": 456,
+                    "ctxt": 0
+                  },
+                  "tagName": "feSpecularLighting",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 456,
+                    "end": 471,
+                    "ctxt": 0
+                  },
+                  "tagName": "feSpotLight",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 471,
+                    "end": 481,
+                    "ctxt": 0
+                  },
+                  "tagName": "feTile",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 481,
+                    "end": 497,
+                    "ctxt": 0
+                  },
+                  "tagName": "feTurbulence",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 497,
+                    "end": 514,
+                    "ctxt": 0
+                  },
+                  "tagName": "foreignObject",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 514,
+                    "end": 526,
+                    "ctxt": 0
+                  },
+                  "tagName": "glyphRef",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 526,
+                    "end": 544,
+                    "ctxt": 0
+                  },
+                  "tagName": "linearGradient",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 544,
+                    "end": 562,
+                    "ctxt": 0
+                  },
+                  "tagName": "radialGradient",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 562,
+                    "end": 574,
+                    "ctxt": 0
+                  },
+                  "tagName": "textPath",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}
