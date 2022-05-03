@@ -95,7 +95,7 @@ impl TscDecorator {
 
     fn key(&mut self, k: &mut PropName) -> Expr {
         match k {
-            PropName::Computed(k) => {
+            PropName::Computed(k) if !k.expr.is_lit() => {
                 let var_name = private_ident!(k.span, "_key");
 
                 // Declare var
@@ -116,10 +116,12 @@ impl TscDecorator {
 
                 k.expr = Box::new(Expr::Ident(var_name.clone()));
 
-                Expr::Ident(var_name)
+                return Expr::Ident(var_name);
             }
-            _ => prop_name_to_expr_value(k.clone()),
+            _ => {}
         }
+
+        prop_name_to_expr_value(k.clone())
     }
 
     /// Creates `__decorator` calls.
