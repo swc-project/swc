@@ -3,8 +3,8 @@ use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, prop_name_to_expr_value, quote_ident,
-    undefined, ExprFactory, StmtLike,
+    constructor::inject_after_super, default_constructor, private_ident, prop_name_to_expr_value,
+    quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -24,6 +24,7 @@ pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecor
         metadata,
         use_define_for_class_fields,
         enums: Default::default(),
+        vars: Default::default(),
         appended_exprs: Default::default(),
         class_name: Default::default(),
         constructor_exprs: Default::default(),
@@ -36,6 +37,8 @@ pub(super) struct TscDecorator {
 
     enums: AHashMap<JsWord, EnumKind>,
 
+    /// Used for computed keys, and this variables are not initialized.
+    vars: Vec<VarDeclarator>,
     appended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
@@ -77,6 +80,35 @@ impl TscDecorator {
         *stmts = new;
 
         self.appended_exprs = old_appended_exprs;
+    }
+
+    fn key(&mut self, k: &mut PropName) -> Expr {
+        match k {
+            PropName::Computed(k) => {
+                let var_name = private_ident!(k.span, "_key");
+
+                // Declare var
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(var_name.clone().into()),
+                    init: None,
+                    definite: Default::default(),
+                });
+
+                // Initialize var
+                self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(var_name.clone().into()),
+                    right: k.expr.take(),
+                })));
+
+                k.expr = Box::new(Expr::Ident(var_name.clone()));
+
+                Expr::Ident(var_name)
+            }
+            _ => prop_name_to_expr_value(k.clone()),
+        }
     }
 
     /// Creates `__decorator` calls.
@@ -228,12 +260,13 @@ impl VisitMut for TscDecorator {
 
         if let Some(class_name) = self.class_name.clone() {
             if !c.function.decorators.is_empty() {
+                let key = self.key(&mut c.key);
+
                 let target = if c.is_static {
                     class_name.as_arg()
                 } else {
                     class_name.make_member(quote_ident!("prototype")).as_arg()
                 };
-                let key = prop_name_to_expr_value(c.key.clone());
 
                 self.add_decorate_call(
                     c.function.decorators.drain(..).map(|d| d.expr),
@@ -249,14 +282,14 @@ impl VisitMut for TscDecorator {
         c.visit_mut_children_with(self);
 
         if let Some(class_name) = self.class_name.clone() {
+            let key = self.key(&mut c.key);
+
             if !c.decorators.is_empty() {
                 let target = if c.is_static {
                     class_name.as_arg()
                 } else {
                     class_name.make_member(quote_ident!("prototype")).as_arg()
                 };
-
-                let key = prop_name_to_expr_value(c.key.clone());
 
                 self.add_decorate_call(
                     c.decorators.drain(..).map(|d| d.expr),
@@ -265,27 +298,27 @@ impl VisitMut for TscDecorator {
                     undefined(DUMMY_SP).as_arg(),
                 );
             }
-        }
 
-        if !self.use_define_for_class_fields && !c.is_static {
-            if let Some(init) = c.value.take() {
-                self.constructor_exprs
-                    .push(Box::new(Expr::Assign(AssignExpr {
-                        span: c.span,
-                        op: op!("="),
-                        left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                            prop: match &c.key {
-                                PropName::Ident(i) => MemberProp::Ident(i.clone()),
-                                _ => MemberProp::Computed(ComputedPropName {
-                                    span: DUMMY_SP,
-                                    expr: Box::new(prop_name_to_expr_value(c.key.clone())),
-                                }),
-                            },
-                        }))),
-                        right: init,
-                    })));
+            if !self.use_define_for_class_fields && !c.is_static {
+                if let Some(init) = c.value.take() {
+                    self.constructor_exprs
+                        .push(Box::new(Expr::Assign(AssignExpr {
+                            span: c.span,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                prop: match &c.key {
+                                    PropName::Ident(i) => MemberProp::Ident(i.clone()),
+                                    _ => MemberProp::Computed(ComputedPropName {
+                                        span: DUMMY_SP,
+                                        expr: Box::new(prop_name_to_expr_value(c.key.clone())),
+                                    }),
+                                },
+                            }))),
+                            right: init,
+                        })));
+                }
             }
         }
     }
