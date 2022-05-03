@@ -6136,7 +6136,7 @@ let A = ((_class = class A {
 );
 
 #[testing::fixture("tests/fixture/decorator/**/exec.ts")]
-fn fixture(input: PathBuf) {
+fn fixture_exec(input: PathBuf) {
     let code = fs::read_to_string(&input).expect("failed to read file");
 
     swc_ecma_transforms_testing::exec_tr(
@@ -6159,5 +6159,29 @@ fn fixture(input: PathBuf) {
             )
         },
         &code,
+    );
+}
+
+#[testing::fixture("tests/fixture/ts-decorator/**/input.ts")]
+fn fixture_compare(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        ts(),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, true),
+                decorators(Config {
+                    legacy: true,
+                    emit_metadata: true,
+                    use_define_for_class_fields: false,
+                })
+            )
+        },
+        &input,
+        &output,
     );
 }
