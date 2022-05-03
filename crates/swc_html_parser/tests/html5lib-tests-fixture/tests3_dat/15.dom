@@ -1,0 +1,6 @@
+#document
+| <html>
+|   <head>
+|     <title>
+|       "foo<span>bar</em><i>baz"
+|   <body>

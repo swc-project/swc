@@ -1,0 +1,10 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       "a"
+|     <table>
+|       <caption>
+|         "b"

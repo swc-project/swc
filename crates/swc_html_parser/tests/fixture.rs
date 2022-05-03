@@ -795,21 +795,30 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let mut counter = 0;
 
         while let Some(test) = tests.next() {
-            let html_path = dir.join(counter.to_string() + ".html");
-
             let data_start = if counter == 0 { 6 } else { 0 };
             let data_end = test
                 .find("#errors\n")
                 .expect("failed to get errors in test");
             let mut data = &test[data_start..data_end];
-
             if data.ends_with("\n") {
                 data = data
                     .strip_suffix("\n")
                     .expect("failed to strip last line in test");
             }
 
+            let html_path = dir.join(counter.to_string() + ".html");
+
             fs::write(html_path, data).expect("Something went wrong when writing to the file");
+
+            let document_start = test
+                .find("#document\n")
+                .expect("failed to get errors in test");
+            let dom_snapshot = &test[document_start..];
+
+            let dom_snapshot_path = dir.join(counter.to_string() + ".dom");
+
+            fs::write(dom_snapshot_path, dom_snapshot)
+                .expect("Something went wrong when writing to the file");
 
             counter += 1;
         }

@@ -1,0 +1,19 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <colgroup>
+|         <col>
+|       <tbody>
+|       <colgroup>
+|         <col>
+|       <tbody>
+|         <tr>
+|       <colgroup>
+|         <col>
+|       <tbody>
+|         <tr>
+|           <td>
+|       <colgroup>
+|         <col>

@@ -1,0 +1,42 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <math math>
+|       <math altglyph>
+|       <math altglyphdef>
+|       <math altglyphitem>
+|       <math animatecolor>
+|       <math animatemotion>
+|       <math animatetransform>
+|       <math clippath>
+|       <math feblend>
+|       <math fecolormatrix>
+|       <math fecomponenttransfer>
+|       <math fecomposite>
+|       <math feconvolvematrix>
+|       <math fediffuselighting>
+|       <math fedisplacementmap>
+|       <math fedistantlight>
+|       <math feflood>
+|       <math fefunca>
+|       <math fefuncb>
+|       <math fefuncg>
+|       <math fefuncr>
+|       <math fegaussianblur>
+|       <math feimage>
+|       <math femerge>
+|       <math femergenode>
+|       <math femorphology>
+|       <math feoffset>
+|       <math fepointlight>
+|       <math fespecularlighting>
+|       <math fespotlight>
+|       <math fetile>
+|       <math feturbulence>
+|       <math foreignobject>
+|       <math glyphref>
+|       <math lineargradient>
+|       <math radialgradient>
+|       <math textpath>

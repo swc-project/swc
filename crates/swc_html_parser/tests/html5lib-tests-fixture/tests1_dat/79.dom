@@ -1,0 +1,20 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       href="blah"
+|       "aba"
+|     <a>
+|       href="blah"
+|       "x"
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <a>
+|               href="foo"
+|               "br"
+|     <a>
+|       href="blah"
+|       "aoe"
