@@ -5,7 +5,8 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::EnumKind;
@@ -253,56 +254,11 @@ impl Metadata<'_> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Bin(BinExpr {
+            expr: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                left: Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: Box::new(Expr::Ident(quote_ident!("Reflect"))),
-                        })),
-                        op: op!("!=="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "undefined".into(),
-                            raw: None,
-                        }))),
-                    })),
-                    op: op!("&&"),
-                    right: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: member_expr!(DUMMY_SP, Reflect.metadata),
-                        })),
-                        op: op!("==="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "function".into(),
-                            raw: None,
-                        }))),
-                    })),
-                })),
-                op: op!("&&"),
-                right: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, Reflect.metadata).as_callee(),
-                    args: vec![
-                        Str {
-                            span: DUMMY_SP,
-                            value: design.into(),
-                            raw: None,
-                        }
-                        .as_arg(),
-                        type_arg,
-                    ],
-
-                    type_args: Default::default(),
-                })),
+                callee: helper!(ts, ts_metadata, "__metadata"),
+                args: vec![design.as_arg(), type_arg],
+                type_args: Default::default(),
             })),
         }
     }

@@ -124,7 +124,7 @@ impl TscDecorator {
         prop_name_to_expr_value(k.clone())
     }
 
-    /// Creates `__decorator` calls.
+    /// Creates `__decorate` calls.
     fn add_decorate_call(
         &mut self,
         decorators: impl IntoIterator<Item = Box<Expr>>,
