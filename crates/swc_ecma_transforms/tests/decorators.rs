@@ -2426,37 +2426,6 @@ const inst = {
 "#
 );
 
-// legacy_decl_to_expression_method_decorators
-test!(
-    syntax(false),
-    |_| decorators(Config {
-        legacy: true,
-        ..Default::default()
-    }),
-    legacy_decl_to_expression_method_decorators,
-    r#"
-export default class A {
-  @dec foo() {}
-}
-class B {
-  @dec foo() {}
-}
-"#,
-    r#"
-var _class, _class1;
-let A = ((_class = class A{
-     foo() {
-    }
-}) || _class, _applyDecoratedDescriptor(_class.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class.prototype, "foo"), _class.prototype), _class);
-let B = ((_class1 = class B{
-     foo() {
-    }
-}) || _class1, _applyDecoratedDescriptor(_class1.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class1.prototype, "foo"), _class1.prototype), _class1);
-export { A as default }
-
-"#
-);
-
 // legacy_class_prototype_properties_return_descriptor
 test_exec!(
     syntax(false),
@@ -3785,89 +3754,6 @@ class Foo {
 }
 
 "#
-);
-
-test!(
-    syntax(false),
-    |_| decorators(Config {
-        legacy: true,
-        ..Default::default()
-    }),
-    issue_591_1,
-    "
-export class Example {
-  @foo() bar = '1';
-  @foo() baz = '2';
-}",
-    "
-    var _class, _descriptor, _dec, _descriptor1, _dec1;
-    export let Example = ((_class = class Example {
-        constructor(){
-            _initializerDefineProperty(this, \"bar\", _descriptor, this);
-            _initializerDefineProperty(this, \"baz\", _descriptor1, this);
-        }
-    }) || _class, _dec = foo(), _dec1 = foo(), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, \"bar\", [
-        _dec
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: function() {
-            return '1';
-        }
-    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, \"baz\", [
-        _dec1
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: function() {
-            return '2';
-        }
-    }), _class);
-    "
-);
-
-test!(
-    syntax(false),
-    |_| decorators(Config {
-        legacy: true,
-        ..Default::default()
-    }),
-    issue_591_2,
-    "class Example {
-  @foo() bar = '1';
-  @foo() baz = '2';
-}",
-    "
-    var _class, _descriptor, _dec, _descriptor1, _dec1;
-    let Example = ((_class = class Example {
-        constructor(){
-            _initializerDefineProperty(this, \"bar\", _descriptor, this);
-            _initializerDefineProperty(this, \"baz\", _descriptor1, this);
-        }
-    }) || _class, _dec = foo(), _dec1 = foo(), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, \"bar\", [
-        _dec
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: function() {
-            return '1';
-        }
-    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, \"baz\", [
-        _dec1
-    ], {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        initializer: function() {
-            return '2';
-        }
-    }), _class);
-    "
 );
 
 test!(
