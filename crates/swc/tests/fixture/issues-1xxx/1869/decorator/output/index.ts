@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
-var _TestClass;
-var _class;
-var TestClass = _class = someClassDecorator((_class = (_TestClass = function TestClass() {
+var TestClass = function TestClass() {
     "use strict";
     swcHelpers.classCallCheck(this, TestClass);
-}, _TestClass.Something = "hello", _TestClass.SomeProperties = {
-    firstProp: _TestClass.Something
-}, _TestClass)) || _class) || _class;
+};
+TestClass.Something = "hello";
+TestClass.SomeProperties = {
+    firstProp: TestClass.Something
+};
 function someClassDecorator(c) {
     return c;
 }

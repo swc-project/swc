@@ -19,7 +19,8 @@ var C = /*#__PURE__*/ function() {
         this.m3 = function() {};
         this.quim = this.baz // should error
         ;
-        this.baz = this.foo;
+        this.baz = this.foo // should error
+        ;
         this.quid = this.baz // ok
         ;
     }
@@ -55,7 +56,8 @@ var E = function E(foo2) {
     this.foo2 = foo2;
     this.bar = function() {
         return _this.foo1 + _this.foo2;
-    };
+    } // both ok
+    ;
     this.foo1 = "";
 };
 var F1 = function F1() {

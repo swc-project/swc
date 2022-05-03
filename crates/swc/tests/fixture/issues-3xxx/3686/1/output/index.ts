@@ -2,28 +2,21 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ServiceError = void 0;
 var swcHelpers = require("@swc/helpers");
-var _class, _descriptor;
 const CD = ()=>{};
 const PD = ()=>{};
-let ServiceError = _class = CD(((_class = class ServiceError extends Error {
-    name = "ServiceError.BadResponse";
+@CD
+class ServiceError extends Error {
     constructor(...args){
         super(...args);
-        swcHelpers.initializerDefineProperty(this, "code", _descriptor, this);
+        this.code = ServiceError.Code.badResponse;
+        this.name = "ServiceError.BadResponse";
     }
-}) || _class, _descriptor = swcHelpers.applyDecoratedDescriptor(_class.prototype, "code", [
-    PD
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return ServiceError.Code.badResponse;
-    }
-}), _class)) || _class;
+}
 exports.ServiceError = ServiceError;
+swcHelpers.__decorate([
+    PD
+], ServiceError.prototype, "code", void 0);
 (function(ServiceError1) {
     let Code;
     (function(Code) {
@@ -36,8 +29,11 @@ exports.ServiceError = ServiceError;
         Code[Code["badResponse"] = 422] = "badResponse";
     })(Code = ServiceError1.Code || (ServiceError1.Code = {}));
     class ServiceNotFound extends ServiceError {
-        code = 404;
-        name = "ServiceError.ServiceNotFound";
+        constructor(...args){
+            super(...args);
+            this.code = 404;
+            this.name = "ServiceError.ServiceNotFound";
+        }
     }
     ServiceError1.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
@@ -46,4 +42,4 @@ exports.ServiceError = ServiceError;
         };
     }
     ServiceError1.toMessageBody = toMessageBody;
-})(ServiceError || (exports.ServiceError = ServiceError = {}));
+})(ServiceError || (ServiceError = {}));

@@ -9,9 +9,9 @@ module.exports = (_obj = {}, swcHelpers.defineProperty(_obj, TopLevelSym, functi
     };
     return arg.x;
 })), _obj);
-var TopLevelSym = Symbol(), InnerSym = Symbol(), _InnerSym = InnerSym;
+var TopLevelSym = Symbol(), InnerSym = Symbol();
 export var MyClass = function() {
     "use strict";
-    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], swcHelpers.classCallCheck(this, MyClass), this[_InnerSym] = "ok";
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], swcHelpers.classCallCheck(this, MyClass), this[InnerSym] = "ok";
 };
 MyClass[TopLevelSym] = 12;

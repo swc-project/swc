@@ -24,7 +24,8 @@ class C {
         this.m3 = function() {};
         this.quim = this.baz // should error
         ;
-        this.baz = this.foo;
+        this.baz = this.foo // should error
+        ;
         this.quid = this.baz // ok
         ;
     }
@@ -40,6 +41,7 @@ class E {
     constructor(foo2){
         this.foo2 = foo2;
         this.bar = ()=>this.foo1 + this.foo2
+         // both ok
         ;
         this.foo1 = '';
     }

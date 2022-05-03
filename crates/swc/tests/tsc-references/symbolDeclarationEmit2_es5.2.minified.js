@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _toPrimitive = Symbol.toPrimitive, C = function() {
+var C = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C), this[_toPrimitive] = "";
+    swcHelpers.classCallCheck(this, C), this[Symbol.toPrimitive] = "";
 };

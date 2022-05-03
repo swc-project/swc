@@ -6,12 +6,10 @@ var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
-        this.a = 123;
         swcHelpers.classPrivateFieldInit(this, _a, {
             writable: true,
             value: 10
         });
-        this.c = "hello";
         swcHelpers.classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
@@ -22,6 +20,8 @@ var C = /*#__PURE__*/ function() {
                 return 1234;
             }
         });
+        this.a = 123;
+        this.c = "hello";
     }
     var _proto = C.prototype;
     _proto.method = function method() {

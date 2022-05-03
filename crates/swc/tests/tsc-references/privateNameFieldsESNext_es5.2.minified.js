@@ -2,10 +2,10 @@ import * as swcHelpers from "@swc/helpers";
 var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C), this.a = 123, swcHelpers.classPrivateFieldInit(this, _a, {
+        swcHelpers.classCallCheck(this, C), swcHelpers.classPrivateFieldInit(this, _a, {
             writable: !0,
             value: 10
-        }), this.c = "hello", swcHelpers.classPrivateFieldInit(this, _b, {
+        }), swcHelpers.classPrivateFieldInit(this, _b, {
             writable: !0,
             value: void 0
         }), swcHelpers.classPrivateFieldInit(this, _something, {
@@ -13,7 +13,7 @@ var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = func
             value: function() {
                 return 1234;
             }
-        });
+        }), this.a = 123, this.c = "hello";
     }
     return C.prototype.method = function() {
         console.log(swcHelpers.classPrivateFieldGet(this, _a)), swcHelpers.classPrivateFieldSet(this, _a, "hello"), console.log(swcHelpers.classPrivateFieldGet(this, _b));

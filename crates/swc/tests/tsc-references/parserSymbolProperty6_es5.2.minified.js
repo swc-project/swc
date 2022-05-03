@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _toStringTag = Symbol.toStringTag, C = function() {
+var C = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C), this[_toStringTag] = "";
+    swcHelpers.classCallCheck(this, C), this[Symbol.toStringTag] = "";
 };

@@ -20,12 +20,11 @@ module.exports = {
 // @filename: index2.js
 const TopLevelSym = Symbol();
 const InnerSym = Symbol();
-let _InnerSym = InnerSym;
 export class MyClass {
     /**
      * @param {typeof TopLevelSym | typeof InnerSym} _p
      */ constructor(_p = InnerSym){
-        this[_InnerSym] = "ok";
+        this[InnerSym] = "ok";
     // switch on _p
     }
 }
