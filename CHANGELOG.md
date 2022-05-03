@@ -17,6 +17,9 @@
 - **(es/compat)** Visit default export in `static_block` (#4500) ([c4b156c](https://github.com/swc-project/swc/commit/c4b156ce1f4910189cc796c483c7bab92ebd290d))
 
 
+- **(es/decorators)** Make legacy decorator identical to `tsc` (#4496) ([f30ffdf](https://github.com/swc-project/swc/commit/f30ffdf200555ba59afe88c3dc4ba6fa89d76fe6))
+
+
 - **(html/parser)** Fix adoption agency algorithm (#4487) ([00358e1](https://github.com/swc-project/swc/commit/00358e10fc00e9118e933da8a8674e347d0d60f0))
 
 
