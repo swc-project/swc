@@ -195,11 +195,17 @@ impl VisitMut for TscDecorator {
 
         if let Some(class_name) = self.class_name.clone() {
             if !c.decorators.is_empty() {
+                let target = if c.is_static {
+                    class_name.as_arg()
+                } else {
+                    class_name.make_member(quote_ident!("prototype")).as_arg()
+                };
+
                 let key = prop_name_to_expr_value(c.key.clone());
 
                 self.add_decorate_call(
                     c.decorators.drain(..).map(|d| d.expr),
-                    class_name.make_member(quote_ident!("prototype")).as_arg(),
+                    target,
                     key.as_arg(),
                     undefined(DUMMY_SP).as_arg(),
                 );
