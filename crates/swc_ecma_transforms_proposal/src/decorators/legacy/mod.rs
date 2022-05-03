@@ -2,7 +2,10 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike};
+use swc_ecma_utils::{
+    constructor::inject_after_super, default_constructor, prepend_stmts, prop_name_to_expr_value,
+    quote_ident, undefined, ExprFactory, StmtLike,
+};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
@@ -23,7 +26,7 @@ pub(super) fn new(metadata: bool, use_define_for_class_props: bool) -> TscDecora
         enums: Default::default(),
         appended_exprs: Default::default(),
         class_name: Default::default(),
-        constructor_stmts: Default::default(),
+        constructor_exprs: Default::default(),
     }
 }
 
@@ -38,7 +41,7 @@ pub(super) struct TscDecorator {
     class_name: Option<Ident>,
 
     /// Only used if `use_define_for_class_props` is false.
-    constructor_stmts: Vec<Stmt>,
+    constructor_exprs: Vec<Box<Expr>>,
 }
 
 impl TscDecorator {
@@ -146,6 +149,8 @@ impl Visit for TscDecorator {
 
 impl VisitMut for TscDecorator {
     fn visit_mut_class(&mut self, n: &mut Class) {
+        let old_constructor_stmts = self.constructor_exprs.take();
+
         if self.metadata {
             let i = self.class_name.clone();
 
@@ -157,6 +162,21 @@ impl VisitMut for TscDecorator {
         }
 
         n.visit_mut_children_with(self);
+
+        if !self.constructor_exprs.is_empty() {
+            for m in &mut n.body {
+                if let ClassMember::Constructor(c @ Constructor { body: Some(..), .. }) = m {
+                    inject_after_super(c, self.constructor_exprs.take());
+                }
+            }
+
+            if !self.constructor_exprs.is_empty() {
+                let mut c = default_constructor(n.super_class.is_some());
+                inject_after_super(&mut c, self.constructor_exprs.take());
+            }
+        }
+
+        self.constructor_exprs = old_constructor_stmts;
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
