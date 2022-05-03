@@ -1,0 +1,102 @@
+
+  x Document
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   : ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   : ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :            ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :            ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                ^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                     ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                     ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                           ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                           ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                                      ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                                      ^^^^^^^^
+   `----
