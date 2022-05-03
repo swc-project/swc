@@ -15,7 +15,6 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_module::common_js;
-use swc_ecma_transforms_optimization::simplify::inlining;
 use swc_ecma_transforms_proposal::{decorators, decorators::Config};
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::strip;
@@ -2710,36 +2709,6 @@ class Example {
 "#
 );
 
-// legacy_regression_8041
-test!(
-    syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
-    legacy_regression_8041,
-    r#"
-export default class {
-  @foo
-  bar() {}
-}
-
-"#,
-    r#"
-    var _class;
-    let _class1 = ((_class = class {
-        bar() {
-        }
-    }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
-        foo
-    ], Object.getOwnPropertyDescriptor(_class.prototype, "bar"), _class.prototype), _class);
-    export { _class1 as default };
-"#
-);
-
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
     syntax(false),
@@ -3812,159 +3781,6 @@ expect(logs).toEqual([0, 1])
 const c = new ProductController();
 c.findById(100);
 "
-);
-
-test!(
-    ts(),
-    |_| decorators(Config {
-        legacy: true,
-        emit_metadata: true,
-        use_define_for_class_fields: false,
-    }),
-    legacy_metadata_type_serialization,
-    "import { Service } from './service';
-    import { Decorate } from './Decorate';
-
-    const sym = Symbol();
-
-    @Decorate()
-    class Sample {
-      constructor(
-        private p0: String,
-        p1: Number,
-        p2: 10,
-        p3: 'ABC',
-        p4: boolean,
-        p5: string,
-        p6: number,
-        p7: Object,
-        p8: () => any,
-        p9: 'abc' | 'def',
-        p10: String | Number,
-        p11: Function,
-        p12: null,
-        p13: undefined,
-        p14: any,
-        p15: (abc: any) => void,
-        p16: false,
-        p17: true,
-        p18: string = 'abc'
-      ) {}
-
-      @Decorate
-      method(
-        @Arg() p0: Symbol,
-        p1: typeof sym,
-        p2: string | null,
-        p3: never,
-        p4: string | never,
-        p5: (string | null),
-        p6: Maybe<string>,
-        p7: Object | string,
-        p8: string & MyStringType,
-        p9: string[],
-        p10: [string, number],
-        p11: void,
-        p12: this is number,
-        p13: null | undefined,
-        p14: (string | (string | null)),
-        p15: Object,
-        p16: any,
-        p17: bigint,
-      ) {}
-
-      /**
-       * Member Expression
-       */
-      @Decorate()
-      method2(
-        p0: Decorate.Name = 'abc',
-        p1: Decorate.Name
-      ) {}
-
-      /**
-       * Assignments
-       */
-      @Decorate()
-      assignments(
-        p0: string = 'abc'
-      ) {}
-    }",
-    r##"var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8;
-import { Service } from './service';
-import { Decorate } from './Decorate';
-const sym = Symbol();
-var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    typeof String === "undefined" ? Object : String,
-    typeof Number === "undefined" ? Object : Number,
-    Number,
-    String,
-    Boolean,
-    String,
-    Number,
-    typeof Object === "undefined" ? Object : Object,
-    Function,
-    String,
-    Object,
-    typeof Function === "undefined" ? Object : Function,
-    void 0,
-    void 0,
-    Object,
-    Function,
-    Boolean,
-    Boolean,
-    String
-]), _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = Decorate();
-let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
-    constructor(private p0: String, p1: Number, p2: 10, p3: 'ABC', p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: 'abc' | 'def', p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: false, p17: true, p18: string = 'abc'){
-    }
-    method(p0: Symbol, p1: typeof sym, p2: string | null, p3: never, p4: string | never, p5: (string | null), p6: Maybe<string>, p7: Object | string, p8: string & MyStringType, p9: string[], p10: [string, number], p11: void, p12: this is number, p13: null | undefined, p14: (string | (string | null)), p15: Object, p16: any, p17: bigint) {
-    }
-    method2(p0: Decorate.Name. = 'abc', p1: Decorate.Name.) {
-    }
-    assignments(p0: string = 'abc') {
-    }
-}) || _class, _dec = function(target, key) {
-    return Arg()(target, key, 0);
-}, _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    typeof Symbol === "undefined" ? Object : Symbol,
-    Object,
-    Object,
-    void 0,
-    String,
-    Object,
-    typeof Maybe === "undefined" ? Object : Maybe,
-    Object,
-    Object,
-    Array,
-    Array,
-    void 0,
-    Boolean,
-    Object,
-    Object,
-    typeof Object === "undefined" ? Object : Object,
-    Object,
-    Number
-]), _applyDecoratedDescriptor(_class.prototype, "method", [
-    Decorate,
-    _dec,
-    _dec1,
-    _dec2
-], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name,
-    typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
-]), _applyDecoratedDescriptor(_class.prototype, "method2", [
-    _dec3,
-    _dec4,
-    _dec5
-], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    String
-]), _applyDecoratedDescriptor(_class.prototype, "assignments", [
-    _dec6,
-    _dec7,
-    _dec8
-], Object.getOwnPropertyDescriptor(_class.prototype, "assignments"), _class.prototype), _class)) || _class) || _class) || _class;"##,
-    ok_if_code_eq
 );
 
 // decorators_legacy_interop_local_define_property
