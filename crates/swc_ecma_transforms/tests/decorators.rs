@@ -5882,7 +5882,7 @@ fn fixture_exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/ts-decorator/**/input.ts")]
+#[testing::fixture("tests/fixture/legacy-metadata/**/input.ts")]
 fn fixture_compare(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
