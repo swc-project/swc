@@ -6,7 +6,7 @@ class MyClass1 {
         this.param1 = param1;
     }
 }
-swcHelpers.__decorate([
+MyClass1 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },
@@ -20,7 +20,7 @@ class MyClass2 {
         this.param1 = param1;
     }
 }
-swcHelpers.__decorate([
+MyClass2 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },
@@ -34,7 +34,7 @@ class MyClass3 {
         this.param1 = param1;
     }
 }
-swcHelpers.__decorate([
+MyClass3 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },
@@ -48,7 +48,7 @@ class MyClass4 {
         this.param1 = param1;
     }
 }
-swcHelpers.__decorate([
+MyClass4 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },
@@ -62,7 +62,7 @@ class MyClass5 {
         this.param1 = param1;
     }
 }
-swcHelpers.__decorate([
+MyClass5 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },
@@ -77,7 +77,7 @@ class MyClass6 {
         this.param2 = param2;
     }
 }
-swcHelpers.__decorate([
+MyClass6 = swcHelpers.__decorate([
     function(target, key) {
         return Inject()(target, undefined, 0);
     },

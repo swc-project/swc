@@ -10,6 +10,6 @@ exports.default = _class;
 function test(constructor) {
     console.log(constructor);
 }
-swcHelpers.__decorate([
+_class = swcHelpers.__decorate([
     test
 ], _class);

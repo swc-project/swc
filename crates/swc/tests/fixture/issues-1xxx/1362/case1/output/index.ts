@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.AppController = void 0;
 var swcHelpers = require("@swc/helpers");
 var _common = require("@nestjs/common");
 var _appService = require("./app.service");
 var _createUserDto = require("./dtos/CreateUserDto");
-class AppController {
+let AppController = class AppController {
     async getHello() {
         const result = await this.appService.getHello();
         return result;
@@ -18,7 +19,7 @@ class AppController {
     constructor(appService){
         this.appService = appService;
     }
-}
+};
 exports.AppController = AppController;
 swcHelpers.__decorate([
     (0, _common).Get(),
@@ -35,7 +36,7 @@ swcHelpers.__decorate([
         typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto
     ])
 ], AppController.prototype, "create", null);
-swcHelpers.__decorate([
+exports.AppController = AppController = swcHelpers.__decorate([
     (0, _common).Controller(),
     swcHelpers.__metadata("design:type", Function),
     swcHelpers.__metadata("design:paramtypes", [

@@ -2,21 +2,22 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ServiceError = void 0;
 var swcHelpers = require("@swc/helpers");
 const CD = ()=>{};
 const PD = ()=>{};
-class ServiceError extends Error {
+let ServiceError = class ServiceError extends Error {
     constructor(...args){
         super(...args);
         this.code = ServiceError.Code.badResponse;
     }
     name = "ServiceError.BadResponse";
-}
+};
 exports.ServiceError = ServiceError;
 swcHelpers.__decorate([
     PD
 ], ServiceError.prototype, "code", void 0);
-swcHelpers.__decorate([
+exports.ServiceError = ServiceError = swcHelpers.__decorate([
     CD
 ], ServiceError);
 (function(ServiceError1) {
@@ -41,4 +42,4 @@ swcHelpers.__decorate([
         };
     }
     ServiceError1.toMessageBody = toMessageBody;
-})(ServiceError || (ServiceError = {}));
+})(ServiceError || (exports.ServiceError = ServiceError = {}));

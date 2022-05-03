@@ -4,6 +4,6 @@ function test(constructor) {
 }
 export default class _class {
 };
-swcHelpers.__decorate([
+_class = swcHelpers.__decorate([
     test
 ], _class);

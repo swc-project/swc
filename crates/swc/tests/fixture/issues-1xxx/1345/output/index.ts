@@ -47,7 +47,7 @@ swcHelpers.__decorate([
     ViewColumn(),
     swcHelpers.__metadata("design:type", Number)
 ], AccountMemberView.prototype, "accountQuickCnt", void 0);
-swcHelpers.__decorate([
+AccountMemberView = swcHelpers.__decorate([
     ViewEntity({
         name: "AccountMemberView",
         expression: '\n    SELECT\n        m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick="F") as accountCnt,\n        (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick="T") as accountQuickCnt\n    FROM TBLMEMBER m\n    '
