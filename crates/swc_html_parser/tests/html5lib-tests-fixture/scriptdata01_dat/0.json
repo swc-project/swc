@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 36,
+    "end": 30,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 36,
+        "end": 30,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 36,
+            "end": 30,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,16 +46,16 @@
               "type": "Text",
               "span": {
                 "start": 0,
-                "end": 9,
+                "end": 3,
                 "ctxt": 0
               },
-              "value": "#data\nFOO"
+              "value": "FOO"
             },
             {
               "type": "Element",
               "span": {
-                "start": 9,
-                "end": 24,
+                "start": 3,
+                "end": 18,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -65,8 +65,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 17,
-                    "end": 24,
+                    "start": 11,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "value": "'Hello'"
@@ -77,8 +77,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 33,
-                "end": 36,
+                "start": 27,
+                "end": 30,
                 "ctxt": 0
               },
               "value": "BAR"

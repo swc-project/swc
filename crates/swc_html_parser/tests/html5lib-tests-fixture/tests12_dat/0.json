@@ -2,16 +2,27 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 231,
+    "end": 225,
     "ctxt": 0
   },
   "mode": "no-quirks",
   "children": [
     {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 231,
+        "end": 225,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 1,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 231,
+            "start": 15,
+            "end": 225,
             "ctxt": 0
           },
           "tagName": "body",
@@ -43,19 +54,10 @@
           "attributes": [],
           "children": [
             {
-              "type": "Text",
-              "span": {
-                "start": 0,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "#data\n"
-            },
-            {
               "type": "Element",
               "span": {
-                "start": 27,
-                "end": 231,
+                "start": 21,
+                "end": 225,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -65,8 +67,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 30,
-                    "end": 33,
+                    "start": 24,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": "foo"
@@ -74,8 +76,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 33,
-                    "end": 194,
+                    "start": 27,
+                    "end": 188,
                     "ctxt": 0
                   },
                   "tagName": "math",
@@ -85,8 +87,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 39,
-                        "end": 52,
+                        "start": 33,
+                        "end": 46,
                         "ctxt": 0
                       },
                       "tagName": "mtext",
@@ -96,8 +98,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 46,
-                            "end": 52,
+                            "start": 40,
+                            "end": 46,
                             "ctxt": 0
                           },
                           "tagName": "i",
@@ -107,8 +109,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 49,
-                                "end": 52,
+                                "start": 43,
+                                "end": 46,
                                 "ctxt": 0
                               },
                               "value": "baz"
@@ -122,8 +124,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 64,
-                        "end": 194,
+                        "start": 58,
+                        "end": 188,
                         "ctxt": 0
                       },
                       "tagName": "annotation-xml",
@@ -133,8 +135,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 80,
-                            "end": 194,
+                            "start": 74,
+                            "end": 188,
                             "ctxt": 0
                           },
                           "tagName": "svg",
@@ -144,8 +146,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 85,
-                                "end": 98,
+                                "start": 79,
+                                "end": 92,
                                 "ctxt": 0
                               },
                               "tagName": "desc",
@@ -155,8 +157,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 91,
-                                    "end": 98,
+                                    "start": 85,
+                                    "end": 92,
                                     "ctxt": 0
                                   },
                                   "tagName": "b",
@@ -166,8 +168,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 94,
-                                        "end": 98,
+                                        "start": 88,
+                                        "end": 92,
                                         "ctxt": 0
                                       },
                                       "value": "eggs"
@@ -181,8 +183,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 109,
-                                "end": 154,
+                                "start": 103,
+                                "end": 148,
                                 "ctxt": 0
                               },
                               "tagName": "g",
@@ -192,8 +194,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 112,
-                                    "end": 154,
+                                    "start": 106,
+                                    "end": 148,
                                     "ctxt": 0
                                   },
                                   "tagName": "foreignObject",
@@ -203,8 +205,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 127,
-                                        "end": 134,
+                                        "start": 121,
+                                        "end": 128,
                                         "ctxt": 0
                                       },
                                       "tagName": "p",
@@ -214,8 +216,8 @@
                                         {
                                           "type": "Text",
                                           "span": {
-                                            "start": 130,
-                                            "end": 134,
+                                            "start": 124,
+                                            "end": 128,
                                             "ctxt": 0
                                           },
                                           "value": "spam"
@@ -226,8 +228,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 134,
-                                        "end": 154,
+                                        "start": 128,
+                                        "end": 148,
                                         "ctxt": 0
                                       },
                                       "tagName": "table",
@@ -238,7 +240,7 @@
                                           "type": "Element",
                                           "span": {
                                             "start": 0,
-                                            "end": 154,
+                                            "end": 148,
                                             "ctxt": 0
                                           },
                                           "tagName": "tbody",
@@ -248,8 +250,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 141,
-                                                "end": 154,
+                                                "start": 135,
+                                                "end": 148,
                                                 "ctxt": 0
                                               },
                                               "tagName": "tr",
@@ -259,8 +261,8 @@
                                                 {
                                                   "type": "Element",
                                                   "span": {
-                                                    "start": 145,
-                                                    "end": 154,
+                                                    "start": 139,
+                                                    "end": 148,
                                                     "ctxt": 0
                                                   },
                                                   "tagName": "td",
@@ -270,8 +272,8 @@
                                                     {
                                                       "type": "Element",
                                                       "span": {
-                                                        "start": 149,
-                                                        "end": 154,
+                                                        "start": 143,
+                                                        "end": 148,
                                                         "ctxt": 0
                                                       },
                                                       "tagName": "img",
@@ -301,8 +303,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 187,
-                                "end": 194,
+                                "start": 181,
+                                "end": 188,
                                 "ctxt": 0
                               },
                               "tagName": "g",
@@ -312,8 +314,8 @@
                                 {
                                   "type": "Text",
                                   "span": {
-                                    "start": 190,
-                                    "end": 194,
+                                    "start": 184,
+                                    "end": 188,
                                     "ctxt": 0
                                   },
                                   "value": "quux"
@@ -333,8 +335,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 228,
-                    "end": 231,
+                    "start": 222,
+                    "end": 225,
                     "ctxt": 0
                   },
                   "value": "bar"
