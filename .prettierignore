@@ -31,6 +31,7 @@ output.js
 output.full.js
 output.mjs
 index.g.js
+output.json
 output.ts
 output.css
 output.min.css
