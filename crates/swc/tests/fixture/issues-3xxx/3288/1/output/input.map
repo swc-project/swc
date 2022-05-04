@@ -1,0 +1,11 @@
+{
+  "mappings": "eAAe,WAAY;IACvB,OAAO,oBAAI,CAAC;CACf,CAAA",
+  "names": [],
+  "sources": [
+    "../../input/input.js"
+  ],
+  "sourcesContent": [
+    "export default function () {\n    return \"📣❓\";\n}"
+  ],
+  "version": 3
+}

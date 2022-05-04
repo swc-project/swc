@@ -1,0 +1,5 @@
+export default function() {
+    return "\uD83D\uDCE3\u2753";
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2lucHV0L2lucHV0LmpzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uICgpIHtcbiAgICByZXR1cm4gXCLwn5Oj4p2TXCI7XG59Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJlQUFlLFdBQVk7SUFDdkIsT0FBTyxvQkFBSSxDQUFDO0NBQ2YsQ0FBQSJ9
