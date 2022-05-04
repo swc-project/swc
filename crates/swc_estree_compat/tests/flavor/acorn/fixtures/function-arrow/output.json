@@ -1,374 +1,437 @@
 {
-    "body": [
+  "body": [
+    {
+      "declarations": [
         {
-            "declarations": [
-                {
-                    "end": 72,
-                    "id": {
-                        "end": 5,
-                        "loc": {
-                            "end": {
-                                "column": 5,
-                                "line": 1
-                            },
-                            "start": {
-                                "column": 4,
-                                "line": 1
-                            }
-                        },
-                        "name": "a",
-                        "range": [4, 5],
-                        "start": 4,
-                        "type": "Identifier"
-                    },
-                    "init": {
-                        "elements": [
-                            {
-                                "end": 24,
-                                "loc": {
-                                    "end": {
-                                        "column": 14,
-                                        "line": 2
-                                    },
-                                    "start": {
-                                        "column": 4,
-                                        "line": 2
-                                    }
-                                },
-                                "range": [14, 24],
-                                "raw": "'Hydrogen'",
-                                "start": 14,
-                                "type": "Literal",
-                                "value": "Hydrogen"
-                            },
-                            {
-                                "end": 38,
-                                "loc": {
-                                    "end": {
-                                        "column": 12,
-                                        "line": 3
-                                    },
-                                    "start": {
-                                        "column": 4,
-                                        "line": 3
-                                    }
-                                },
-                                "range": [30, 38],
-                                "raw": "'Helium'",
-                                "start": 30,
-                                "type": "Literal",
-                                "value": "Helium"
-                            },
-                            {
-                                "end": 53,
-                                "loc": {
-                                    "end": {
-                                        "column": 13,
-                                        "line": 4
-                                    },
-                                    "start": {
-                                        "column": 4,
-                                        "line": 4
-                                    }
-                                },
-                                "range": [44, 53],
-                                "raw": "'Lithium'",
-                                "start": 44,
-                                "type": "Literal",
-                                "value": "Lithium"
-                            },
-                            {
-                                "end": 70,
-                                "loc": {
-                                    "end": {
-                                        "column": 15,
-                                        "line": 5
-                                    },
-                                    "start": {
-                                        "column": 4,
-                                        "line": 5
-                                    }
-                                },
-                                "range": [59, 70],
-                                "raw": "'Beryllium'",
-                                "start": 59,
-                                "type": "Literal",
-                                "value": "Beryllium"
-                            }
-                        ],
-                        "end": 72,
-                        "loc": {
-                            "end": {
-                                "column": 1,
-                                "line": 6
-                            },
-                            "start": {
-                                "column": 8,
-                                "line": 1
-                            }
-                        },
-                        "range": [8, 72],
-                        "start": 8,
-                        "type": "ArrayExpression"
-                    },
-                    "loc": {
-                        "end": {
-                            "column": 1,
-                            "line": 6
-                        },
-                        "start": {
-                            "column": 4,
-                            "line": 1
-                        }
-                    },
-                    "range": [4, 72],
-                    "start": 4,
-                    "type": "VariableDeclarator"
-                }
-            ],
-            "end": 73,
-            "kind": "var",
+          "end": 72,
+          "id": {
+            "end": 5,
             "loc": {
-                "end": {
-                    "column": 2,
-                    "line": 6
-                },
-                "start": {
-                    "column": 0,
-                    "line": 1
-                }
+              "end": {
+                "column": 5,
+                "line": 1
+              },
+              "start": {
+                "column": 4,
+                "line": 1
+              }
             },
-            "range": [0, 73],
-            "start": 0,
-            "type": "VariableDeclaration"
-        },
-        {
-            "declarations": [
-                {
-                    "end": 103,
-                    "id": {
-                        "end": 80,
-                        "loc": {
-                            "end": {
-                                "column": 6,
-                                "line": 7
-                            },
-                            "start": {
-                                "column": 4,
-                                "line": 7
-                            }
-                        },
-                        "name": "a3",
-                        "range": [78, 80],
-                        "start": 78,
-                        "type": "Identifier"
-                    },
-                    "init": {
-                        "arguments": [
-                            {
-                                "async": false,
-                                "body": {
-                                    "computed": false,
-                                    "end": 102,
-                                    "loc": {
-                                        "end": {
-                                            "column": 28,
-                                            "line": 7
-                                        },
-                                        "start": {
-                                            "column": 20,
-                                            "line": 7
-                                        }
-                                    },
-                                    "object": {
-                                        "end": 95,
-                                        "loc": {
-                                            "end": {
-                                                "column": 21,
-                                                "line": 7
-                                            },
-                                            "start": {
-                                                "column": 20,
-                                                "line": 7
-                                            }
-                                        },
-                                        "name": "s",
-                                        "range": [94, 95],
-                                        "start": 94,
-                                        "type": "Identifier"
-                                    },
-                                    "optional": false,
-                                    "property": {
-                                        "end": 102,
-                                        "loc": {
-                                            "end": {
-                                                "column": 28,
-                                                "line": 7
-                                            },
-                                            "start": {
-                                                "column": 22,
-                                                "line": 7
-                                            }
-                                        },
-                                        "name": "length",
-                                        "range": [96, 102],
-                                        "start": 96,
-                                        "type": "Identifier"
-                                    },
-                                    "range": [94, 102],
-                                    "start": 94,
-                                    "type": "MemberExpression"
-                                },
-                                "end": 102,
-                                "expression": true,
-                                "generator": false,
-                                "loc": {
-                                    "end": {
-                                        "column": 28,
-                                        "line": 7
-                                    },
-                                    "start": {
-                                        "column": 15,
-                                        "line": 7
-                                    }
-                                },
-                                "params": [
-                                    {
-                                        "end": 90,
-                                        "loc": {
-                                            "end": {
-                                                "column": 16,
-                                                "line": 7
-                                            },
-                                            "start": {
-                                                "column": 15,
-                                                "line": 7
-                                            }
-                                        },
-                                        "name": "s",
-                                        "range": [89, 90],
-                                        "start": 89,
-                                        "type": "Identifier"
-                                    }
-                                ],
-                                "range": [89, 102],
-                                "start": 89,
-                                "type": "ArrowFunctionExpression"
-                            }
-                        ],
-                        "callee": {
-                            "computed": false,
-                            "end": 88,
-                            "loc": {
-                                "end": {
-                                    "column": 14,
-                                    "line": 7
-                                },
-                                "start": {
-                                    "column": 9,
-                                    "line": 7
-                                }
-                            },
-                            "object": {
-                                "end": 84,
-                                "loc": {
-                                    "end": {
-                                        "column": 10,
-                                        "line": 7
-                                    },
-                                    "start": {
-                                        "column": 9,
-                                        "line": 7
-                                    }
-                                },
-                                "name": "a",
-                                "range": [83, 84],
-                                "start": 83,
-                                "type": "Identifier"
-                            },
-                            "optional": false,
-                            "property": {
-                                "end": 88,
-                                "loc": {
-                                    "end": {
-                                        "column": 14,
-                                        "line": 7
-                                    },
-                                    "start": {
-                                        "column": 11,
-                                        "line": 7
-                                    }
-                                },
-                                "name": "map",
-                                "range": [85, 88],
-                                "start": 85,
-                                "type": "Identifier"
-                            },
-                            "range": [83, 88],
-                            "start": 83,
-                            "type": "MemberExpression"
-                        },
-                        "end": 103,
-                        "loc": {
-                            "end": {
-                                "column": 29,
-                                "line": 7
-                            },
-                            "start": {
-                                "column": 9,
-                                "line": 7
-                            }
-                        },
-                        "optional": false,
-                        "range": [83, 103],
-                        "start": 83,
-                        "type": "CallExpression"
-                    },
-                    "loc": {
-                        "end": {
-                            "column": 29,
-                            "line": 7
-                        },
-                        "start": {
-                            "column": 4,
-                            "line": 7
-                        }
-                    },
-                    "range": [78, 103],
-                    "start": 78,
-                    "type": "VariableDeclarator"
-                }
+            "name": "a",
+            "range": [
+              4,
+              5
             ],
-            "end": 104,
-            "kind": "var",
-            "loc": {
-                "end": {
-                    "column": 30,
-                    "line": 7
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "elements": [
+              {
+                "end": 24,
+                "loc": {
+                  "end": {
+                    "column": 14,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 2
+                  }
                 },
-                "start": {
-                    "column": 0,
-                    "line": 7
-                }
+                "range": [
+                  14,
+                  24
+                ],
+                "raw": "'Hydrogen'",
+                "start": 14,
+                "type": "Literal",
+                "value": "Hydrogen"
+              },
+              {
+                "end": 38,
+                "loc": {
+                  "end": {
+                    "column": 12,
+                    "line": 3
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 3
+                  }
+                },
+                "range": [
+                  30,
+                  38
+                ],
+                "raw": "'Helium'",
+                "start": 30,
+                "type": "Literal",
+                "value": "Helium"
+              },
+              {
+                "end": 53,
+                "loc": {
+                  "end": {
+                    "column": 13,
+                    "line": 4
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 4
+                  }
+                },
+                "range": [
+                  44,
+                  53
+                ],
+                "raw": "'Lithium'",
+                "start": 44,
+                "type": "Literal",
+                "value": "Lithium"
+              },
+              {
+                "end": 70,
+                "loc": {
+                  "end": {
+                    "column": 15,
+                    "line": 5
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 5
+                  }
+                },
+                "range": [
+                  59,
+                  70
+                ],
+                "raw": "'Beryllium'",
+                "start": 59,
+                "type": "Literal",
+                "value": "Beryllium"
+              }
+            ],
+            "end": 72,
+            "loc": {
+              "end": {
+                "column": 1,
+                "line": 6
+              },
+              "start": {
+                "column": 8,
+                "line": 1
+              }
             },
-            "range": [74, 104],
-            "start": 74,
-            "type": "VariableDeclaration"
+            "range": [
+              8,
+              72
+            ],
+            "start": 8,
+            "type": "ArrayExpression"
+          },
+          "loc": {
+            "end": {
+              "column": 1,
+              "line": 6
+            },
+            "start": {
+              "column": 4,
+              "line": 1
+            }
+          },
+          "range": [
+            4,
+            72
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
         }
-    ],
-    "end": 105,
-    "loc": {
+      ],
+      "end": 73,
+      "kind": "var",
+      "loc": {
         "end": {
-            "column": 0,
-            "line": 8
+          "column": 2,
+          "line": 6
         },
         "start": {
-            "column": 0,
-            "line": 1
+          "column": 0,
+          "line": 1
         }
+      },
+      "range": [
+        0,
+        73
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
     },
-    "range": [0, 105],
-    "sourceType": "script",
-    "start": 0,
-    "type": "Program"
+    {
+      "declarations": [
+        {
+          "end": 103,
+          "id": {
+            "end": 80,
+            "loc": {
+              "end": {
+                "column": 6,
+                "line": 7
+              },
+              "start": {
+                "column": 4,
+                "line": 7
+              }
+            },
+            "name": "a3",
+            "range": [
+              78,
+              80
+            ],
+            "start": 78,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "async": false,
+                "body": {
+                  "computed": false,
+                  "end": 102,
+                  "loc": {
+                    "end": {
+                      "column": 28,
+                      "line": 7
+                    },
+                    "start": {
+                      "column": 20,
+                      "line": 7
+                    }
+                  },
+                  "object": {
+                    "end": 95,
+                    "loc": {
+                      "end": {
+                        "column": 21,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 20,
+                        "line": 7
+                      }
+                    },
+                    "name": "s",
+                    "range": [
+                      94,
+                      95
+                    ],
+                    "start": 94,
+                    "type": "Identifier"
+                  },
+                  "optional": false,
+                  "property": {
+                    "end": 102,
+                    "loc": {
+                      "end": {
+                        "column": 28,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 22,
+                        "line": 7
+                      }
+                    },
+                    "name": "length",
+                    "range": [
+                      96,
+                      102
+                    ],
+                    "start": 96,
+                    "type": "Identifier"
+                  },
+                  "range": [
+                    94,
+                    102
+                  ],
+                  "start": 94,
+                  "type": "MemberExpression"
+                },
+                "end": 102,
+                "expression": true,
+                "generator": false,
+                "loc": {
+                  "end": {
+                    "column": 28,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 15,
+                    "line": 7
+                  }
+                },
+                "params": [
+                  {
+                    "end": 90,
+                    "loc": {
+                      "end": {
+                        "column": 16,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 15,
+                        "line": 7
+                      }
+                    },
+                    "name": "s",
+                    "range": [
+                      89,
+                      90
+                    ],
+                    "start": 89,
+                    "type": "Identifier"
+                  }
+                ],
+                "range": [
+                  89,
+                  102
+                ],
+                "start": 89,
+                "type": "ArrowFunctionExpression"
+              }
+            ],
+            "callee": {
+              "computed": false,
+              "end": 88,
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 7
+                },
+                "start": {
+                  "column": 9,
+                  "line": 7
+                }
+              },
+              "object": {
+                "end": 84,
+                "loc": {
+                  "end": {
+                    "column": 10,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 9,
+                    "line": 7
+                  }
+                },
+                "name": "a",
+                "range": [
+                  83,
+                  84
+                ],
+                "start": 83,
+                "type": "Identifier"
+              },
+              "optional": false,
+              "property": {
+                "end": 88,
+                "loc": {
+                  "end": {
+                    "column": 14,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 11,
+                    "line": 7
+                  }
+                },
+                "name": "map",
+                "range": [
+                  85,
+                  88
+                ],
+                "start": 85,
+                "type": "Identifier"
+              },
+              "range": [
+                83,
+                88
+              ],
+              "start": 83,
+              "type": "MemberExpression"
+            },
+            "end": 103,
+            "loc": {
+              "end": {
+                "column": 29,
+                "line": 7
+              },
+              "start": {
+                "column": 9,
+                "line": 7
+              }
+            },
+            "optional": false,
+            "range": [
+              83,
+              103
+            ],
+            "start": 83,
+            "type": "CallExpression"
+          },
+          "loc": {
+            "end": {
+              "column": 29,
+              "line": 7
+            },
+            "start": {
+              "column": 4,
+              "line": 7
+            }
+          },
+          "range": [
+            78,
+            103
+          ],
+          "start": 78,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 104,
+      "kind": "var",
+      "loc": {
+        "end": {
+          "column": 30,
+          "line": 7
+        },
+        "start": {
+          "column": 0,
+          "line": 7
+        }
+      },
+      "range": [
+        74,
+        104
+      ],
+      "start": 74,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 105,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 8
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  "range": [
+    0,
+    105
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
 }

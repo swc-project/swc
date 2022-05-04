@@ -1,122 +1,143 @@
 {
-    "body": [
-        {
-            "end": 23,
-            "expression": {
-                "end": 22,
-                "left": {
-                    "computed": false,
-                    "end": 15,
-                    "loc": {
-                        "end": {
-                            "column": 15,
-                            "line": 1
-                        },
-                        "start": {
-                            "column": 0,
-                            "line": 1
-                        }
-                    },
-                    "object": {
-                        "end": 7,
-                        "loc": {
-                            "end": {
-                                "column": 7,
-                                "line": 1
-                            },
-                            "start": {
-                                "column": 0,
-                                "line": 1
-                            }
-                        },
-                        "name": "process",
-                        "range": [0, 7],
-                        "start": 0,
-                        "type": "Identifier"
-                    },
-                    "optional": false,
-                    "property": {
-                        "end": 15,
-                        "loc": {
-                            "end": {
-                                "column": 15,
-                                "line": 1
-                            },
-                            "start": {
-                                "column": 8,
-                                "line": 1
-                            }
-                        },
-                        "name": "browser",
-                        "range": [8, 15],
-                        "start": 8,
-                        "type": "Identifier"
-                    },
-                    "range": [0, 15],
-                    "start": 0,
-                    "type": "MemberExpression"
-                },
-                "loc": {
-                    "end": {
-                        "column": 22,
-                        "line": 1
-                    },
-                    "start": {
-                        "column": 0,
-                        "line": 1
-                    }
-                },
-                "operator": "=",
-                "range": [0, 22],
-                "right": {
-                    "end": 22,
-                    "loc": {
-                        "end": {
-                            "column": 22,
-                            "line": 1
-                        },
-                        "start": {
-                            "column": 18,
-                            "line": 1
-                        }
-                    },
-                    "range": [18, 22],
-                    "raw": "true",
-                    "start": 18,
-                    "type": "Literal",
-                    "value": true
-                },
-                "start": 0,
-                "type": "AssignmentExpression"
+  "body": [
+    {
+      "end": 23,
+      "expression": {
+        "end": 22,
+        "left": {
+          "computed": false,
+          "end": 15,
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 1
             },
+            "start": {
+              "column": 0,
+              "line": 1
+            }
+          },
+          "object": {
+            "end": 7,
             "loc": {
-                "end": {
-                    "column": 23,
-                    "line": 1
-                },
-                "start": {
-                    "column": 0,
-                    "line": 1
-                }
+              "end": {
+                "column": 7,
+                "line": 1
+              },
+              "start": {
+                "column": 0,
+                "line": 1
+              }
             },
-            "range": [0, 23],
+            "name": "process",
+            "range": [
+              0,
+              7
+            ],
             "start": 0,
-            "type": "ExpressionStatement"
-        }
-    ],
-    "end": 24,
-    "loc": {
-        "end": {
-            "column": 0,
-            "line": 2
+            "type": "Identifier"
+          },
+          "optional": false,
+          "property": {
+            "end": 15,
+            "loc": {
+              "end": {
+                "column": 15,
+                "line": 1
+              },
+              "start": {
+                "column": 8,
+                "line": 1
+              }
+            },
+            "name": "browser",
+            "range": [
+              8,
+              15
+            ],
+            "start": 8,
+            "type": "Identifier"
+          },
+          "range": [
+            0,
+            15
+          ],
+          "start": 0,
+          "type": "MemberExpression"
         },
-        "start": {
+        "loc": {
+          "end": {
+            "column": 22,
+            "line": 1
+          },
+          "start": {
             "column": 0,
             "line": 1
+          }
+        },
+        "operator": "=",
+        "range": [
+          0,
+          22
+        ],
+        "right": {
+          "end": 22,
+          "loc": {
+            "end": {
+              "column": 22,
+              "line": 1
+            },
+            "start": {
+              "column": 18,
+              "line": 1
+            }
+          },
+          "range": [
+            18,
+            22
+          ],
+          "raw": "true",
+          "start": 18,
+          "type": "Literal",
+          "value": true
+        },
+        "start": 0,
+        "type": "AssignmentExpression"
+      },
+      "loc": {
+        "end": {
+          "column": 23,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
         }
+      },
+      "range": [
+        0,
+        23
+      ],
+      "start": 0,
+      "type": "ExpressionStatement"
+    }
+  ],
+  "end": 24,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 2
     },
-    "range": [0, 24],
-    "sourceType": "script",
-    "start": 0,
-    "type": "Program"
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  "range": [
+    0,
+    24
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
 }

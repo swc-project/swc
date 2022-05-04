@@ -1,89 +1,104 @@
 {
-    "body": [
+  "body": [
+    {
+      "declarations": [
         {
-            "declarations": [
-                {
-                    "end": 32,
-                    "id": {
-                        "end": 9,
-                        "loc": {
-                            "end": {
-                                "column": 9,
-                                "line": 1
-                            },
-                            "start": {
-                                "column": 6,
-                                "line": 1
-                            }
-                        },
-                        "name": "str",
-                        "range": [6, 9],
-                        "start": 6,
-                        "type": "Identifier"
-                    },
-                    "init": {
-                        "end": 32,
-                        "loc": {
-                            "end": {
-                                "column": 5,
-                                "line": 3
-                            },
-                            "start": {
-                                "column": 12,
-                                "line": 1
-                            }
-                        },
-                        "range": [12, 32],
-                        "raw": "\"string\\\ntest\\\ntest\"",
-                        "start": 12,
-                        "type": "Literal",
-                        "value": "stringtesttest"
-                    },
-                    "loc": {
-                        "end": {
-                            "column": 5,
-                            "line": 3
-                        },
-                        "start": {
-                            "column": 6,
-                            "line": 1
-                        }
-                    },
-                    "range": [6, 32],
-                    "start": 6,
-                    "type": "VariableDeclarator"
-                }
-            ],
-            "end": 33,
-            "kind": "const",
+          "end": 32,
+          "id": {
+            "end": 9,
             "loc": {
-                "end": {
-                    "column": 6,
-                    "line": 3
-                },
-                "start": {
-                    "column": 0,
-                    "line": 1
-                }
+              "end": {
+                "column": 9,
+                "line": 1
+              },
+              "start": {
+                "column": 6,
+                "line": 1
+              }
             },
-            "range": [0, 33],
-            "start": 0,
-            "type": "VariableDeclaration"
+            "name": "str",
+            "range": [
+              6,
+              9
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 32,
+            "loc": {
+              "end": {
+                "column": 5,
+                "line": 3
+              },
+              "start": {
+                "column": 12,
+                "line": 1
+              }
+            },
+            "range": [
+              12,
+              32
+            ],
+            "raw": "\"string\\\ntest\\\ntest\"",
+            "start": 12,
+            "type": "Literal",
+            "value": "stringtesttest"
+          },
+          "loc": {
+            "end": {
+              "column": 5,
+              "line": 3
+            },
+            "start": {
+              "column": 6,
+              "line": 1
+            }
+          },
+          "range": [
+            6,
+            32
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
         }
-    ],
-    "end": 34,
-    "loc": {
+      ],
+      "end": 33,
+      "kind": "const",
+      "loc": {
         "end": {
-            "column": 0,
-            "line": 4
+          "column": 6,
+          "line": 3
         },
         "start": {
-            "column": 0,
-            "line": 1
+          "column": 0,
+          "line": 1
         }
+      },
+      "range": [
+        0,
+        33
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 34,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
     },
-    "range": [0, 34],
-    "sourceType": "script",
-    "start": 0,
-    "type": "Program"
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  "range": [
+    0,
+    34
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
 }

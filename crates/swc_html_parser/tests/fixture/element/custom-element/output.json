@@ -1,605 +1,605 @@
 {
-    "type": "Document",
-    "span": {
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 778,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
         "start": 0,
-        "end": 778,
+        "end": 767,
         "ctxt": 0
-    },
-    "mode": "no-quirks",
-    "children": [
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
         {
-            "type": "Element",
-            "span": {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 167,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 767,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
                 "start": 0,
-                "end": 767,
+                "end": 167,
                 "ctxt": 0
-            },
-            "tagName": "html",
-            "namespace": "http://www.w3.org/1999/xhtml",
-            "attributes": [],
-            "children": [
+              },
+              "tagName": "popup-info",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
                 {
-                    "type": "Element",
-                    "span": {
-                        "start": 0,
-                        "end": 167,
-                        "ctxt": 0
-                    },
-                    "tagName": "head",
-                    "namespace": "http://www.w3.org/1999/xhtml",
-                    "attributes": [],
-                    "children": [],
-                    "content": null
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "img",
+                  "value": "img/alt.png"
                 },
                 {
-                    "type": "Element",
-                    "span": {
-                        "start": 0,
-                        "end": 767,
-                        "ctxt": 0
-                    },
-                    "tagName": "body",
-                    "namespace": "http://www.w3.org/1999/xhtml",
-                    "attributes": [],
-                    "children": [
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 0,
-                                "end": 167,
-                                "ctxt": 0
-                            },
-                            "tagName": "popup-info",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "img",
-                                    "value": "img/alt.png"
-                                },
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "data-text",
-                                    "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
-                                }
-                            ],
-                            "children": [],
-                            "content": null
-                        },
-                        {
-                            "type": "Text",
-                            "span": {
-                                "start": 180,
-                                "end": 182,
-                                "ctxt": 0
-                            },
-                            "value": "\n\n"
-                        },
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 182,
-                                "end": 213,
-                                "ctxt": 0
-                            },
-                            "tagName": "custom-square",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "l",
-                                    "value": "100"
-                                },
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "c",
-                                    "value": "red"
-                                }
-                            ],
-                            "children": [],
-                            "content": null
-                        },
-                        {
-                            "type": "Text",
-                            "span": {
-                                "start": 229,
-                                "end": 231,
-                                "ctxt": 0
-                            },
-                            "value": "\n\n"
-                        },
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 231,
-                                "end": 257,
-                                "ctxt": 0
-                            },
-                            "tagName": "app-drawer",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "open",
-                                    "value": null
-                                },
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "disabled",
-                                    "value": null
-                                }
-                            ],
-                            "children": [],
-                            "content": null
-                        },
-                        {
-                            "type": "Text",
-                            "span": {
-                                "start": 270,
-                                "end": 272,
-                                "ctxt": 0
-                            },
-                            "value": "\n\n"
-                        },
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 272,
-                                "end": 504,
-                                "ctxt": 0
-                            },
-                            "tagName": "share-buttons",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [],
-                            "children": [
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 287,
-                                        "end": 292,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 292,
-                                        "end": 343,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "social-button",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [
-                                        {
-                                            "type": "Attribute",
-                                            "span": {
-                                                "start": 0,
-                                                "end": 0,
-                                                "ctxt": 0
-                                            },
-                                            "namespace": null,
-                                            "prefix": null,
-                                            "name": "type",
-                                            "value": "twitter"
-                                        }
-                                    ],
-                                    "children": [
-                                        {
-                                            "type": "Element",
-                                            "span": {
-                                                "start": 322,
-                                                "end": 343,
-                                                "ctxt": 0
-                                            },
-                                            "tagName": "a",
-                                            "namespace": "http://www.w3.org/1999/xhtml",
-                                            "attributes": [
-                                                {
-                                                    "type": "Attribute",
-                                                    "span": {
-                                                        "start": 0,
-                                                        "end": 0,
-                                                        "ctxt": 0
-                                                    },
-                                                    "namespace": null,
-                                                    "prefix": null,
-                                                    "name": "href",
-                                                    "value": "..."
-                                                }
-                                            ],
-                                            "children": [
-                                                {
-                                                    "type": "Text",
-                                                    "span": {
-                                                        "start": 336,
-                                                        "end": 343,
-                                                        "ctxt": 0
-                                                    },
-                                                    "value": "Twitter"
-                                                }
-                                            ],
-                                            "content": null
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 363,
-                                        "end": 368,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 368,
-                                        "end": 415,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "social-button",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [
-                                        {
-                                            "type": "Attribute",
-                                            "span": {
-                                                "start": 0,
-                                                "end": 0,
-                                                "ctxt": 0
-                                            },
-                                            "namespace": null,
-                                            "prefix": null,
-                                            "name": "type",
-                                            "value": "fb"
-                                        }
-                                    ],
-                                    "children": [
-                                        {
-                                            "type": "Element",
-                                            "span": {
-                                                "start": 393,
-                                                "end": 415,
-                                                "ctxt": 0
-                                            },
-                                            "tagName": "a",
-                                            "namespace": "http://www.w3.org/1999/xhtml",
-                                            "attributes": [
-                                                {
-                                                    "type": "Attribute",
-                                                    "span": {
-                                                        "start": 0,
-                                                        "end": 0,
-                                                        "ctxt": 0
-                                                    },
-                                                    "namespace": null,
-                                                    "prefix": null,
-                                                    "name": "href",
-                                                    "value": "..."
-                                                }
-                                            ],
-                                            "children": [
-                                                {
-                                                    "type": "Text",
-                                                    "span": {
-                                                        "start": 407,
-                                                        "end": 415,
-                                                        "ctxt": 0
-                                                    },
-                                                    "value": "Facebook"
-                                                }
-                                            ],
-                                            "content": null
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 435,
-                                        "end": 440,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 440,
-                                        "end": 483,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "social-button",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [
-                                        {
-                                            "type": "Attribute",
-                                            "span": {
-                                                "start": 0,
-                                                "end": 0,
-                                                "ctxt": 0
-                                            },
-                                            "namespace": null,
-                                            "prefix": null,
-                                            "name": "type",
-                                            "value": "plus"
-                                        }
-                                    ],
-                                    "children": [
-                                        {
-                                            "type": "Element",
-                                            "span": {
-                                                "start": 467,
-                                                "end": 483,
-                                                "ctxt": 0
-                                            },
-                                            "tagName": "a",
-                                            "namespace": "http://www.w3.org/1999/xhtml",
-                                            "attributes": [
-                                                {
-                                                    "type": "Attribute",
-                                                    "span": {
-                                                        "start": 0,
-                                                        "end": 0,
-                                                        "ctxt": 0
-                                                    },
-                                                    "namespace": null,
-                                                    "prefix": null,
-                                                    "name": "href",
-                                                    "value": "..."
-                                                }
-                                            ],
-                                            "children": [
-                                                {
-                                                    "type": "Text",
-                                                    "span": {
-                                                        "start": 481,
-                                                        "end": 483,
-                                                        "ctxt": 0
-                                                    },
-                                                    "value": "G+"
-                                                }
-                                            ],
-                                            "content": null
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 503,
-                                        "end": 504,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n"
-                                }
-                            ],
-                            "content": null
-                        },
-                        {
-                            "type": "Text",
-                            "span": {
-                                "start": 520,
-                                "end": 522,
-                                "ctxt": 0
-                            },
-                            "value": "\n\n"
-                        },
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 522,
-                                "end": 579,
-                                "ctxt": 0
-                            },
-                            "tagName": "x-foo-with-markup",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [],
-                            "children": [
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 541,
-                                        "end": 546,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 546,
-                                        "end": 574,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "b",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [],
-                                    "children": [
-                                        {
-                                            "type": "Text",
-                                            "span": {
-                                                "start": 549,
-                                                "end": 574,
-                                                "ctxt": 0
-                                            },
-                                            "value": "I'm an x-foo-with-markup!"
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 578,
-                                        "end": 579,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n"
-                                }
-                            ],
-                            "content": null
-                        },
-                        {
-                            "type": "Text",
-                            "span": {
-                                "start": 599,
-                                "end": 601,
-                                "ctxt": 0
-                            },
-                            "value": "\n\n"
-                        },
-                        {
-                            "type": "Element",
-                            "span": {
-                                "start": 601,
-                                "end": 767,
-                                "ctxt": 0
-                            },
-                            "tagName": "template",
-                            "namespace": "http://www.w3.org/1999/xhtml",
-                            "attributes": [
-                                {
-                                    "type": "Attribute",
-                                    "span": {
-                                        "start": 0,
-                                        "end": 0,
-                                        "ctxt": 0
-                                    },
-                                    "namespace": null,
-                                    "prefix": null,
-                                    "name": "id",
-                                    "value": "x-foo-from-template"
-                                }
-                            ],
-                            "children": [
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 636,
-                                        "end": 641,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 641,
-                                        "end": 681,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "style",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [],
-                                    "children": [
-                                        {
-                                            "type": "Text",
-                                            "span": {
-                                                "start": 648,
-                                                "end": 681,
-                                                "ctxt": 0
-                                            },
-                                            "value": "\n        p { color: green; }\n    "
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 689,
-                                        "end": 694,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n    "
-                                },
-                                {
-                                    "type": "Element",
-                                    "span": {
-                                        "start": 694,
-                                        "end": 762,
-                                        "ctxt": 0
-                                    },
-                                    "tagName": "p",
-                                    "namespace": "http://www.w3.org/1999/xhtml",
-                                    "attributes": [],
-                                    "children": [
-                                        {
-                                            "type": "Text",
-                                            "span": {
-                                                "start": 697,
-                                                "end": 762,
-                                                "ctxt": 0
-                                            },
-                                            "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
-                                        }
-                                    ],
-                                    "content": null
-                                },
-                                {
-                                    "type": "Text",
-                                    "span": {
-                                        "start": 766,
-                                        "end": 767,
-                                        "ctxt": 0
-                                    },
-                                    "value": "\n"
-                                }
-                            ],
-                            "content": null
-                        }
-                    ],
-                    "content": null
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "data-text",
+                  "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
                 }
-            ],
-            "content": null
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 180,
+                "end": 182,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 182,
+                "end": 213,
+                "ctxt": 0
+              },
+              "tagName": "custom-square",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "l",
+                  "value": "100"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "c",
+                  "value": "red"
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 229,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 231,
+                "end": 257,
+                "ctxt": 0
+              },
+              "tagName": "app-drawer",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "open",
+                  "value": null
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "disabled",
+                  "value": null
+                }
+              ],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 270,
+                "end": 272,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 272,
+                "end": 504,
+                "ctxt": 0
+              },
+              "tagName": "share-buttons",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 287,
+                    "end": 292,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 292,
+                    "end": 343,
+                    "ctxt": 0
+                  },
+                  "tagName": "social-button",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "type",
+                      "value": "twitter"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 322,
+                        "end": 343,
+                        "ctxt": 0
+                      },
+                      "tagName": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "namespace": null,
+                          "prefix": null,
+                          "name": "href",
+                          "value": "..."
+                        }
+                      ],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 336,
+                            "end": 343,
+                            "ctxt": 0
+                          },
+                          "value": "Twitter"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 363,
+                    "end": 368,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 368,
+                    "end": 415,
+                    "ctxt": 0
+                  },
+                  "tagName": "social-button",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "type",
+                      "value": "fb"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 393,
+                        "end": 415,
+                        "ctxt": 0
+                      },
+                      "tagName": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "namespace": null,
+                          "prefix": null,
+                          "name": "href",
+                          "value": "..."
+                        }
+                      ],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 407,
+                            "end": 415,
+                            "ctxt": 0
+                          },
+                          "value": "Facebook"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 435,
+                    "end": 440,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 440,
+                    "end": 483,
+                    "ctxt": 0
+                  },
+                  "tagName": "social-button",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "type",
+                      "value": "plus"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 467,
+                        "end": 483,
+                        "ctxt": 0
+                      },
+                      "tagName": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [
+                        {
+                          "type": "Attribute",
+                          "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                          },
+                          "namespace": null,
+                          "prefix": null,
+                          "name": "href",
+                          "value": "..."
+                        }
+                      ],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 481,
+                            "end": 483,
+                            "ctxt": 0
+                          },
+                          "value": "G+"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 503,
+                    "end": 504,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 520,
+                "end": 522,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 522,
+                "end": 579,
+                "ctxt": 0
+              },
+              "tagName": "x-foo-with-markup",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 541,
+                    "end": 546,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 546,
+                    "end": 574,
+                    "ctxt": 0
+                  },
+                  "tagName": "b",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 549,
+                        "end": 574,
+                        "ctxt": 0
+                      },
+                      "value": "I'm an x-foo-with-markup!"
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 578,
+                    "end": 579,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 599,
+                "end": 601,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 601,
+                "end": 767,
+                "ctxt": 0
+              },
+              "tagName": "template",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "id",
+                  "value": "x-foo-from-template"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 636,
+                    "end": 641,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 641,
+                    "end": 681,
+                    "ctxt": 0
+                  },
+                  "tagName": "style",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 648,
+                        "end": 681,
+                        "ctxt": 0
+                      },
+                      "value": "\n        p { color: green; }\n    "
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 689,
+                    "end": 694,
+                    "ctxt": 0
+                  },
+                  "value": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 694,
+                    "end": 762,
+                    "ctxt": 0
+                  },
+                  "tagName": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 697,
+                        "end": 762,
+                        "ctxt": 0
+                      },
+                      "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 766,
+                    "end": 767,
+                    "ctxt": 0
+                  },
+                  "value": "\n"
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
         }
-    ]
+      ],
+      "content": null
+    }
+  ]
 }
