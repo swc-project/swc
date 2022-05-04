@@ -43,3 +43,4 @@ benches/
 # TODO: Enable formatting
 helpers/
 packages/swc-helpers
+node-swc/__tests__
