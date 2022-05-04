@@ -3,6 +3,8 @@
 
 # Generated
 CHANGELOG.md
+target/
+node_modules/
 
 # Space sensitive
 crates/swc_css_parser/tests/
