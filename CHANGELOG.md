@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Configure `prettier` (#4523) ([a6d404a](https://github.com/swc-project/swc/commit/a6d404a8c28ab82f15d9f7fbd849e27713a49872))
+
+## [1.2.177] - 2022-05-04
+
 ### Bug Fixes
 
 
