@@ -1,146 +1,125 @@
 {
-  "body": [
-    {
-      "declarations": [
+    "body": [
         {
-          "end": 28,
-          "id": {
-            "end": 9,
+            "declarations": [
+                {
+                    "end": 28,
+                    "id": {
+                        "end": 9,
+                        "loc": {
+                            "end": {
+                                "column": 9,
+                                "line": 1
+                            },
+                            "start": {
+                                "column": 6,
+                                "line": 1
+                            }
+                        },
+                        "name": "foo",
+                        "range": [6, 9],
+                        "start": 6,
+                        "type": "Identifier"
+                    },
+                    "init": {
+                        "arguments": [
+                            {
+                                "end": 27,
+                                "loc": {
+                                    "end": {
+                                        "column": 27,
+                                        "line": 1
+                                    },
+                                    "start": {
+                                        "column": 20,
+                                        "line": 1
+                                    }
+                                },
+                                "range": [20, 27],
+                                "raw": "'acorn'",
+                                "start": 20,
+                                "type": "Literal",
+                                "value": "acorn"
+                            }
+                        ],
+                        "callee": {
+                            "end": 19,
+                            "loc": {
+                                "end": {
+                                    "column": 19,
+                                    "line": 1
+                                },
+                                "start": {
+                                    "column": 12,
+                                    "line": 1
+                                }
+                            },
+                            "name": "require",
+                            "range": [12, 19],
+                            "start": 12,
+                            "type": "Identifier"
+                        },
+                        "end": 28,
+                        "loc": {
+                            "end": {
+                                "column": 28,
+                                "line": 1
+                            },
+                            "start": {
+                                "column": 12,
+                                "line": 1
+                            }
+                        },
+                        "optional": false,
+                        "range": [12, 28],
+                        "start": 12,
+                        "type": "CallExpression"
+                    },
+                    "loc": {
+                        "end": {
+                            "column": 28,
+                            "line": 1
+                        },
+                        "start": {
+                            "column": 6,
+                            "line": 1
+                        }
+                    },
+                    "range": [6, 28],
+                    "start": 6,
+                    "type": "VariableDeclarator"
+                }
+            ],
+            "end": 29,
+            "kind": "const",
             "loc": {
-              "end": {
-                "column": 9,
-                "line": 1
-              },
-              "start": {
-                "column": 6,
-                "line": 1
-              }
-            },
-            "name": "foo",
-            "range": [
-              6,
-              9
-            ],
-            "start": 6,
-            "type": "Identifier"
-          },
-          "init": {
-            "arguments": [
-              {
-                "end": 27,
-                "loc": {
-                  "end": {
-                    "column": 27,
-                    "line": 1
-                  },
-                  "start": {
-                    "column": 20,
-                    "line": 1
-                  }
-                },
-                "range": [
-                  20,
-                  27
-                ],
-                "raw": "'acorn'",
-                "start": 20,
-                "type": "Literal",
-                "value": "acorn"
-              }
-            ],
-            "callee": {
-              "end": 19,
-              "loc": {
                 "end": {
-                  "column": 19,
-                  "line": 1
+                    "column": 29,
+                    "line": 1
                 },
                 "start": {
-                  "column": 12,
-                  "line": 1
+                    "column": 0,
+                    "line": 1
                 }
-              },
-              "name": "require",
-              "range": [
-                12,
-                19
-              ],
-              "start": 12,
-              "type": "Identifier"
             },
-            "end": 28,
-            "loc": {
-              "end": {
-                "column": 28,
-                "line": 1
-              },
-              "start": {
-                "column": 12,
-                "line": 1
-              }
-            },
-            "optional": false,
-            "range": [
-              12,
-              28
-            ],
-            "start": 12,
-            "type": "CallExpression"
-          },
-          "loc": {
-            "end": {
-              "column": 28,
-              "line": 1
-            },
-            "start": {
-              "column": 6,
-              "line": 1
-            }
-          },
-          "range": [
-            6,
-            28
-          ],
-          "start": 6,
-          "type": "VariableDeclarator"
+            "range": [0, 29],
+            "start": 0,
+            "type": "VariableDeclaration"
         }
-      ],
-      "end": 29,
-      "kind": "const",
-      "loc": {
+    ],
+    "end": 30,
+    "loc": {
         "end": {
-          "column": 29,
-          "line": 1
+            "column": 0,
+            "line": 2
         },
         "start": {
-          "column": 0,
-          "line": 1
+            "column": 0,
+            "line": 1
         }
-      },
-      "range": [
-        0,
-        29
-      ],
-      "start": 0,
-      "type": "VariableDeclaration"
-    }
-  ],
-  "end": 30,
-  "loc": {
-    "end": {
-      "column": 0,
-      "line": 2
     },
-    "start": {
-      "column": 0,
-      "line": 1
-    }
-  },
-  "range": [
-    0,
-    30
-  ],
-  "sourceType": "script",
-  "start": 0,
-  "type": "Program"
+    "range": [0, 30],
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program"
 }

@@ -1,186 +1,159 @@
 {
-  "body": [
-    {
-      "async": false,
-      "body": {
-        "body": [
-          {
-            "argument": {
-              "end": 50,
-              "left": {
-                "end": 41,
-                "loc": {
-                  "end": {
-                    "column": 15,
-                    "line": 2
-                  },
-                  "start": {
-                    "column": 9,
-                    "line": 2
-                  }
-                },
-                "name": "number",
-                "range": [
-                  35,
-                  41
+    "body": [
+        {
+            "async": false,
+            "body": {
+                "body": [
+                    {
+                        "argument": {
+                            "end": 50,
+                            "left": {
+                                "end": 41,
+                                "loc": {
+                                    "end": {
+                                        "column": 15,
+                                        "line": 2
+                                    },
+                                    "start": {
+                                        "column": 9,
+                                        "line": 2
+                                    }
+                                },
+                                "name": "number",
+                                "range": [35, 41],
+                                "start": 35,
+                                "type": "Identifier"
+                            },
+                            "loc": {
+                                "end": {
+                                    "column": 24,
+                                    "line": 2
+                                },
+                                "start": {
+                                    "column": 9,
+                                    "line": 2
+                                }
+                            },
+                            "operator": "*",
+                            "range": [35, 50],
+                            "right": {
+                                "end": 50,
+                                "loc": {
+                                    "end": {
+                                        "column": 24,
+                                        "line": 2
+                                    },
+                                    "start": {
+                                        "column": 18,
+                                        "line": 2
+                                    }
+                                },
+                                "name": "number",
+                                "range": [44, 50],
+                                "start": 44,
+                                "type": "Identifier"
+                            },
+                            "start": 35,
+                            "type": "BinaryExpression"
+                        },
+                        "end": 51,
+                        "loc": {
+                            "end": {
+                                "column": 25,
+                                "line": 2
+                            },
+                            "start": {
+                                "column": 2,
+                                "line": 2
+                            }
+                        },
+                        "range": [28, 51],
+                        "start": 28,
+                        "type": "ReturnStatement"
+                    }
                 ],
-                "start": 35,
+                "end": 53,
+                "loc": {
+                    "end": {
+                        "column": 1,
+                        "line": 3
+                    },
+                    "start": {
+                        "column": 24,
+                        "line": 1
+                    }
+                },
+                "range": [24, 53],
+                "start": 24,
+                "type": "BlockStatement"
+            },
+            "end": 53,
+            "expression": false,
+            "generator": false,
+            "id": {
+                "end": 15,
+                "loc": {
+                    "end": {
+                        "column": 15,
+                        "line": 1
+                    },
+                    "start": {
+                        "column": 9,
+                        "line": 1
+                    }
+                },
+                "name": "square",
+                "range": [9, 15],
+                "start": 9,
                 "type": "Identifier"
-              },
-              "loc": {
+            },
+            "loc": {
                 "end": {
-                  "column": 24,
-                  "line": 2
+                    "column": 1,
+                    "line": 3
                 },
                 "start": {
-                  "column": 9,
-                  "line": 2
+                    "column": 0,
+                    "line": 1
                 }
-              },
-              "operator": "*",
-              "range": [
-                35,
-                50
-              ],
-              "right": {
-                "end": 50,
-                "loc": {
-                  "end": {
-                    "column": 24,
-                    "line": 2
-                  },
-                  "start": {
-                    "column": 18,
-                    "line": 2
-                  }
-                },
-                "name": "number",
-                "range": [
-                  44,
-                  50
-                ],
-                "start": 44,
-                "type": "Identifier"
-              },
-              "start": 35,
-              "type": "BinaryExpression"
             },
-            "end": 51,
-            "loc": {
-              "end": {
-                "column": 25,
-                "line": 2
-              },
-              "start": {
-                "column": 2,
-                "line": 2
-              }
-            },
-            "range": [
-              28,
-              51
+            "params": [
+                {
+                    "end": 22,
+                    "loc": {
+                        "end": {
+                            "column": 22,
+                            "line": 1
+                        },
+                        "start": {
+                            "column": 16,
+                            "line": 1
+                        }
+                    },
+                    "name": "number",
+                    "range": [16, 22],
+                    "start": 16,
+                    "type": "Identifier"
+                }
             ],
-            "start": 28,
-            "type": "ReturnStatement"
-          }
-        ],
-        "end": 53,
-        "loc": {
-          "end": {
-            "column": 1,
-            "line": 3
-          },
-          "start": {
-            "column": 24,
-            "line": 1
-          }
-        },
-        "range": [
-          24,
-          53
-        ],
-        "start": 24,
-        "type": "BlockStatement"
-      },
-      "end": 53,
-      "expression": false,
-      "generator": false,
-      "id": {
-        "end": 15,
-        "loc": {
-          "end": {
-            "column": 15,
-            "line": 1
-          },
-          "start": {
-            "column": 9,
-            "line": 1
-          }
-        },
-        "name": "square",
-        "range": [
-          9,
-          15
-        ],
-        "start": 9,
-        "type": "Identifier"
-      },
-      "loc": {
+            "range": [0, 53],
+            "start": 0,
+            "type": "FunctionDeclaration"
+        }
+    ],
+    "end": 54,
+    "loc": {
         "end": {
-          "column": 1,
-          "line": 3
+            "column": 0,
+            "line": 4
         },
         "start": {
-          "column": 0,
-          "line": 1
+            "column": 0,
+            "line": 1
         }
-      },
-      "params": [
-        {
-          "end": 22,
-          "loc": {
-            "end": {
-              "column": 22,
-              "line": 1
-            },
-            "start": {
-              "column": 16,
-              "line": 1
-            }
-          },
-          "name": "number",
-          "range": [
-            16,
-            22
-          ],
-          "start": 16,
-          "type": "Identifier"
-        }
-      ],
-      "range": [
-        0,
-        53
-      ],
-      "start": 0,
-      "type": "FunctionDeclaration"
-    }
-  ],
-  "end": 54,
-  "loc": {
-    "end": {
-      "column": 0,
-      "line": 4
     },
-    "start": {
-      "column": 0,
-      "line": 1
-    }
-  },
-  "range": [
-    0,
-    54
-  ],
-  "sourceType": "script",
-  "start": 0,
-  "type": "Program"
+    "range": [0, 54],
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program"
 }

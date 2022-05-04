@@ -1,107 +1,107 @@
 {
-  "type": "File",
-  "start": 0,
-  "end": 13,
-  "loc": {
-    "start": {
-      "line": 1,
-      "column": 0
-    },
-    "end": {
-      "line": 2,
-      "column": 0
-    }
-  },
-  "errors": [],
-  "program": {
-    "type": "Program",
+    "type": "File",
     "start": 0,
     "end": 13,
     "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 0
-      }
-    },
-    "sourceType": "script",
-    "interpreter": null,
-    "body": [
-      {
-        "type": "VariableDeclaration",
-        "start": 0,
-        "end": 12,
-        "loc": {
-          "start": {
+        "start": {
             "line": 1,
             "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 12
-          }
         },
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "start": 6,
-            "end": 11,
-            "loc": {
-              "start": {
+        "end": {
+            "line": 2,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 13,
+        "loc": {
+            "start": {
                 "line": 1,
-                "column": 6
-              },
-              "end": {
-                "line": 1,
-                "column": 11
-              }
+                "column": 0
             },
-            "id": {
-              "type": "Identifier",
-              "start": 6,
-              "end": 7,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 6
-                },
-                "end": {
-                  "line": 1,
-                  "column": 7
-                },
-                "identifierName": "n"
-              },
-              "name": "n"
-            },
-            "init": {
-              "type": "NumericLiteral",
-              "start": 10,
-              "end": 11,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 10
-                },
-                "end": {
-                  "line": 1,
-                  "column": 11
-                }
-              },
-              "extra": {
-                "rawValue": 1,
-                "raw": "1"
-              },
-              "value": 1
+            "end": {
+                "line": 2,
+                "column": 0
             }
-          }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "VariableDeclaration",
+                "start": 0,
+                "end": 12,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 1,
+                        "column": 12
+                    }
+                },
+                "declarations": [
+                    {
+                        "type": "VariableDeclarator",
+                        "start": 6,
+                        "end": 11,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 6
+                            },
+                            "end": {
+                                "line": 1,
+                                "column": 11
+                            }
+                        },
+                        "id": {
+                            "type": "Identifier",
+                            "start": 6,
+                            "end": 7,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 6
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 7
+                                },
+                                "identifierName": "n"
+                            },
+                            "name": "n"
+                        },
+                        "init": {
+                            "type": "NumericLiteral",
+                            "start": 10,
+                            "end": 11,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 10
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 11
+                                }
+                            },
+                            "extra": {
+                                "rawValue": 1,
+                                "raw": "1"
+                            },
+                            "value": 1
+                        }
+                    }
+                ],
+                "kind": "const"
+            }
         ],
-        "kind": "const"
-      }
-    ],
-    "directives": []
-  },
-  "comments": []
+        "directives": []
+    },
+    "comments": []
 }
