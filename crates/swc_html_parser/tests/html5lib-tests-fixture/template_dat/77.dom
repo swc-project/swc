@@ -3,8 +3,7 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
+|       <i>
+|       <menu>
 |         <i>
-|         <menu>
-|           <i>
-|             "Foo"
+|           "Foo"

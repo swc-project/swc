@@ -5,10 +5,10 @@
 |   <body>
 |     <table>
 |       <caption>
-|         <svg svg>
-|           <svg g>
+|         <svg>
+|           <g>
 |             "foo"
-|           <svg g>
+|           <g>
 |             "bar"
 |         <p>
 |           "baz"

@@ -2,5 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg svg>
-|       "]>a"
+|     <svg>
+|       <!-- [CDATA[] -->
+|       "a"

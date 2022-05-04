@@ -4,6 +4,5 @@
 |   <body>
 |     "FOO"
 |     <script>
-|       type="text/plain"
 |       "'<!-- <sCrIpt\'"
 |     "BAR"

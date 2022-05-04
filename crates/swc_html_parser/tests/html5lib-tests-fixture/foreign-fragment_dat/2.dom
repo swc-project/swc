@@ -1,3 +1,6 @@
 #document
-| <svg font>
-| "X"
+| <html>
+|   <head>
+|   <body>
+|     <font>
+|     "X"

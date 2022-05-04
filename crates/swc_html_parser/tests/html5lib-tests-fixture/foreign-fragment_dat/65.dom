@@ -1,3 +1,6 @@
 #document
-| <p>
-|   <foo>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       <foo>

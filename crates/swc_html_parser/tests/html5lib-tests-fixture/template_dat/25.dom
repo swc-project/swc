@@ -5,5 +5,4 @@
 |     <select>
 |       <option>
 |       <template>
-|         content
-|           <option>
+|         <option>

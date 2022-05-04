@@ -3,9 +3,5 @@
 | <html>
 |   <head>
 |   <body>
-|     xlink:href="foo"
-|     xml:lang="en"
-|     <math math>
-|       <math mi>
-|         xlink href="foo"
-|         xml lang="en"
+|     <math>
+|       <mi>

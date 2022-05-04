@@ -4,17 +4,17 @@
 |   <head>
 |   <body>
 |     "foo"
-|     <math math>
-|       <math mtext>
+|     <math>
+|       <mtext>
 |         <i>
 |           "baz"
-|       <math annotation-xml>
-|         <svg svg>
-|           <svg desc>
+|       <annotation-xml>
+|         <svg>
+|           <desc>
 |             <b>
 |               "eggs"
-|           <svg g>
-|             <svg foreignObject>
+|           <g>
+|             <foreignObject>
 |               <p>
 |                 "spam"
 |               <table>
@@ -22,6 +22,6 @@
 |                   <tr>
 |                     <td>
 |                       <img>
-|           <svg g>
+|           <g>
 |             "quux"
 |     "bar"

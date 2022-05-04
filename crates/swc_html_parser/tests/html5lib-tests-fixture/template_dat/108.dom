@@ -1,8 +1,13 @@
 #document
-| <template>
-|   content
-|     <form>
-|       <input>
-|         name="q"
-|     <div>
-|       "second"
+| <html>
+|   <head>
+|     <template>
+|       <form>
+|         <input>
+|         <div>
+|           "second"
+|     "
+"
+|   <body>
+|     "#document-fragment
+template"

@@ -3,8 +3,8 @@
 |   <head>
 |   <body>
 |     <div>
-|       <svg svg>
-|         <svg path>
-|           <svg foreignObject>
+|       <svg>
+|         <path>
+|           <foreignObject>
 |             <p>
 |               "a"

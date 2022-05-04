@@ -4,5 +4,4 @@
 |   <body>
 |     <div>
 |       <template>
-|         content
-|           "Hello"
+|         "Hello"

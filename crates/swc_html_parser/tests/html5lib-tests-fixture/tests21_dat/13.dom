@@ -3,5 +3,5 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg svg>
-|       "foo]]"
+|     <svg>
+|       <!-- [CDATA[foo]]]] -->

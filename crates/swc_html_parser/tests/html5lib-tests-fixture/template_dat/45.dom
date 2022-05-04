@@ -3,7 +3,6 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
-|         <tr>
-|         <tr>
-|           <td>
+|       <tr>
+|       <tr>
+|         <td>

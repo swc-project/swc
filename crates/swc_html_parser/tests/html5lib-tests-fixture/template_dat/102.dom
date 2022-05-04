@@ -8,7 +8,6 @@
 |           <td>
 |             <select>
 |               <template>
-|                 content
-|                   "Foo"
+|                 "Foo"
 |       <caption>
 |         "A"

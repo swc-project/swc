@@ -6,9 +6,7 @@
 |     <dummy>
 |       <table>
 |         <template>
-|           content
-|             <table>
-|               <template>
-|                 content
-|                   <table>
-|                     <script>
+|           <table>
+|             <template>
+|               <table>
+|                 <script>

@@ -1,4 +1,7 @@
 #document
-| <svg svg>
-| <br>
-| <foo>
+| <html>
+|   <head>
+|   <body>
+|     <svg>
+|   <br>
+|   <foo>

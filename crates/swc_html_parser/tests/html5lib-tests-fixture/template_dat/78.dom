@@ -3,8 +3,6 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
-|         <div>
-|           "Foo"
-|         <template>
-|           content
+|       <div>
+|         "Foo"
+|       <template>

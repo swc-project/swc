@@ -1,4 +1,6 @@
 #document
-| <font>
-|   color=""
-| "X"
+| <html>
+|   <head>
+|   <body>
+|     <font>
+|     "X"

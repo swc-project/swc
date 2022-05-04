@@ -4,5 +4,4 @@
 |   <body>
 |     <table>
 |       <template>
-|         content
-|           <thead>
+|         <thead>

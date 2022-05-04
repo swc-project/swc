@@ -196,7 +196,7 @@ fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
         .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.html")]
+#[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
     test_pass(
         input,
@@ -206,7 +206,7 @@ fn pass(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/recovery/**/input.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
     test_recovery(
         input,
@@ -216,8 +216,8 @@ fn recovery(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/fixture/**/input.html")]
-#[testing::fixture("tests/recovery/**/input.html")]
+#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     test_span_visualizer(
         input,
@@ -753,6 +753,115 @@ fn html5lib_test_tokenizer(input: PathBuf) {
     }
 }
 
+struct DomVisualizer<'a> {
+    dom_buf: &'a mut String,
+    indent: usize,
+}
+
+impl DomVisualizer<'_> {
+    fn get_ident(&self) -> String {
+        let mut indent = String::new();
+
+        indent.push_str("| ");
+        indent.push_str(&"  ".repeat(self.indent));
+
+        indent
+    }
+}
+
+impl Visit for DomVisualizer<'_> {
+    fn visit_document(&mut self, n: &Document) {
+        let mut document = String::new();
+
+        document.push_str("#document");
+        document.push('\n');
+
+        self.dom_buf.push_str(&document);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_document_type(&mut self, n: &DocumentType) {
+        let mut document_type = String::new();
+
+        document_type.push_str(&self.get_ident());
+        document_type.push_str("<!DOCTYPE ");
+
+        if let Some(name) = &n.name {
+            document_type.push_str(&name);
+        }
+
+        if let Some(public_id) = &n.public_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(&public_id);
+            document_type.push('"');
+        }
+
+        if let Some(system_id) = &n.system_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(&system_id);
+            document_type.push('"');
+        }
+
+        document_type.push('>');
+        document_type.push('\n');
+
+        self.dom_buf.push_str(&document_type);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_element(&mut self, n: &Element) {
+        let mut element = String::new();
+
+        element.push_str(&self.get_ident());
+        element.push('<');
+        element.push_str(&n.tag_name);
+        element.push('>');
+        element.push('\n');
+
+        self.dom_buf.push_str(&element);
+
+        let old_indent = self.indent;
+
+        self.indent += 1;
+
+        n.visit_children_with(self);
+
+        self.indent = old_indent;
+    }
+
+    fn visit_text(&mut self, n: &Text) {
+        let mut text = String::new();
+
+        text.push_str(&self.get_ident());
+        text.push('"');
+        text.push_str(&n.value);
+        text.push('"');
+        text.push('\n');
+
+        self.dom_buf.push_str(&text);
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_comment(&mut self, n: &Comment) {
+        let mut comment = String::new();
+
+        comment.push_str(&self.get_ident());
+        comment.push_str("<!-- ");
+        comment.push_str(&n.data);
+        comment.push_str(" -->");
+        comment.push('\n');
+
+        self.dom_buf.push_str(&comment);
+
+        n.visit_children_with(self);
+    }
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -817,7 +926,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let dom_snapshot_path = dir.join(counter.to_string() + ".dom");
 
-            fs::write(dom_snapshot_path, dom_snapshot)
+            fs::write(dom_snapshot_path, dom_snapshot.to_owned() + "\n")
                 .expect("Something went wrong when writing to the file");
 
             counter += 1;
@@ -826,7 +935,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve visualizer DOM test
     // TODO improve test for enabled/disabled js
     // TODO improve errors tests
     // TODO improve test for parsing `<template>`
@@ -836,10 +944,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             return Ok(());
         }
 
-        let json_path = input
-            .parent()
-            .unwrap()
-            .join(input.file_stem().unwrap().to_str().unwrap().to_owned() + ".json");
+        let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
+        let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let mut parser = Parser::new(lexer, Default::default());
@@ -853,6 +959,19 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     .expect("failed to serialize document");
 
                 actual_json.compare_to_file(&json_path).unwrap();
+
+                let mut dom_buf = String::new();
+
+                document.visit_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                let dir = input.parent().unwrap().to_path_buf();
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .unwrap();
 
                 Ok(())
             }

@@ -3,6 +3,6 @@
 | <html>
 |   <head>
 |     <noscript>
-|       "<iframe>"
 |   <body>
-|     "X"
+|     <iframe>
+|       "</noscript>X"

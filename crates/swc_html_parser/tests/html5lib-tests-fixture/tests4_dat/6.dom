@@ -1,3 +1,6 @@
 #document
-| <title>
-|   "setting head's innerHTML"
+| <html>
+|   <head>
+|     <title>
+|       "setting head's innerHTML"
+|   <body>

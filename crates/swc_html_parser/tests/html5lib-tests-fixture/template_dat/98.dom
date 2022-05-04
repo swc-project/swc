@@ -2,8 +2,7 @@
 | <html>
 |   <head>
 |     <template>
-|       content
-|         <object>
+|       <object>
 |   <body>
 |     <span>
 |       "Foo"

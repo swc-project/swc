@@ -3,7 +3,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       <math mi>
+|     <math>
+|       <mi>
 |         "foo"
 |     <table>

@@ -3,7 +3,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg svg>
-|       <svg g>
+|     <svg>
+|       <g>
 |         "foo"
 |     <table>

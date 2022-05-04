@@ -2,9 +2,7 @@
 | <html>
 |   <head>
 |     <template>
-|       content
-|         <template>
-|           content
-|             <script>
-|               "var i"
+|       <template>
+|         <script>
+|           "var i"
 |   <body>

@@ -1,6 +1,5 @@
 #document
 | <html>
-|   class="foo"
 |   <head>
 |     <noscript>
 |       <!-- foo -->

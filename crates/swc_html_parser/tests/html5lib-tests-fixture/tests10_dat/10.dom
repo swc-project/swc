@@ -7,8 +7,8 @@
 |       <tbody>
 |         <tr>
 |           <td>
-|             <svg svg>
-|               <svg g>
+|             <svg>
+|               <g>
 |                 "foo"
-|               <svg g>
+|               <g>
 |                 "bar"

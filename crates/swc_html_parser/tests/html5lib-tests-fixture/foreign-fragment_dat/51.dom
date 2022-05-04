@@ -1,3 +1,6 @@
 #document
-| <plaintext>
-|   "<foo>"
+| <html>
+|   <head>
+|   <body>
+|     <plaintext>
+|       "<foo>"

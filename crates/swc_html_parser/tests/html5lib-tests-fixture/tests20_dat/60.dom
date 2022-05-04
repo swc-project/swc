@@ -2,6 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       <math annotation-xml>
+|     <math>
+|       <annotation-xml>
 |         "c"

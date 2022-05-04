@@ -3,8 +3,4 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg svg>
-|       contentscripttype=""
-|       contentstyletype=""
-|       externalresourcesrequired=""
-|       filterres=""
+|     <svg>

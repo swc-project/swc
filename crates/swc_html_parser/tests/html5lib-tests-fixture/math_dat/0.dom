@@ -1,5 +1,8 @@
 #document
-| <math math>
-|   <math tr>
-|     <math td>
-|       <math mo>
+| <html>
+|   <head>
+|   <body>
+|     <math>
+|       <tr>
+|         <td>
+|           <mo>

@@ -2,6 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       <math mtext>
-|         <math mglyph>
+|     <math>
+|       <mtext>
+|         <mglyph>

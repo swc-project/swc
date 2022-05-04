@@ -1,4 +1,5 @@
 #document
-| <head>
-| <body>
-|   "X"
+| <html>
+|   <head>
+|   <body>
+|     "X"

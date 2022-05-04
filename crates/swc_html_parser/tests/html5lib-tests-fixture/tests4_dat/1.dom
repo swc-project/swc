@@ -1,2 +1,5 @@
 #document
-| "direct textarea content"
+| <html>
+|   <head>
+|   <body>
+|     "direct textarea content"

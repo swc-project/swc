@@ -1,5 +1,8 @@
 #document
-| <svg svg>
-|   <svg tr>
-|     <svg td>
-|       <svg title>
+| <html>
+|   <head>
+|   <body>
+|     <svg>
+|       <tr>
+|         <td>
+|           <title>

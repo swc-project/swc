@@ -3,9 +3,7 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
-|         <tr>
-|         <template>
-|           content
-|         <tr>
-|           <td>
+|       <tr>
+|       <template>
+|       <tr>
+|         <td>

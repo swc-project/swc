@@ -3,7 +3,6 @@
 | <html>
 |   <head>
 |     <template>
-|       content
-|         <plaintext>
-|           "a</template>b"
+|       <plaintext>
+|         "a</template>b"
 |   <body>

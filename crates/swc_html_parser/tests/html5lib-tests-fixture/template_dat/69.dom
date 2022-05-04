@@ -3,11 +3,9 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
-|         <thead>
-|         <template>
-|           content
-|             <tr>
-|         <tbody>
-|           <tr>
-|         <tfoot>
+|       <thead>
+|       <template>
+|         <tr>
+|       <tbody>
+|         <tr>
+|       <tfoot>

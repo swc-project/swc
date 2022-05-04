@@ -3,8 +3,8 @@
 |   <head>
 |   <body>
 |     <p>
-|       id="status"
 |       <noscript>
-|         "<strong>A</strong>"
+|         <strong>
+|           "A"
 |       <span>
 |         "B"

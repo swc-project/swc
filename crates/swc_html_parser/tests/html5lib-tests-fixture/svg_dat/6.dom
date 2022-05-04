@@ -1,4 +1,7 @@
 #document
-| <svg svg>
-|   <svg thead>
-|     <svg title>
+| <html>
+|   <head>
+|   <body>
+|     <svg>
+|       <thead>
+|         <title>

@@ -3,14 +3,14 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       <math mi>
+|     <math>
+|       <mi>
 |         "foo"
-|       <math mi>
+|       <mi>
 |         "bar"
-|     <p>
-|       "baz"
 |     <table>
 |       <colgroup>
+|     <p>
+|       "baz"
 |     <p>
 |       "quux"

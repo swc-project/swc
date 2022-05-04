@@ -3,7 +3,6 @@
 |   <head>
 |   <body>
 |     <template>
-|       content
-|         <script>
-|           "var i = 1;"
-|         <td>
+|       <script>
+|         "var i = 1;"
+|       <td>

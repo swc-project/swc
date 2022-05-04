@@ -4,8 +4,6 @@
 |   <body>
 |     <table>
 |       <template>
-|         content
-|           <tr>
-|             <template>
-|               content
-|                 <td>
+|         <tr>
+|           <template>
+|             <td>

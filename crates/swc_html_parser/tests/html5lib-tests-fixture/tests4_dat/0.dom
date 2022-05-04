@@ -1,2 +1,5 @@
 #document
-| "direct div content"
+| <html>
+|   <head>
+|   <body>
+|     "direct div content"

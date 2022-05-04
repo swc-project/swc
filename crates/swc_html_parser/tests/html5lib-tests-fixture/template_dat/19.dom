@@ -4,5 +4,4 @@
 |   <body>
 |     <select>
 |       <template>
-|         content
-|           <option>
+|         <option>

@@ -2,6 +2,5 @@
 | <html>
 |   <head>
 |     <template>
-|       content
-|         "Hello"
+|       "Hello"
 |   <body>

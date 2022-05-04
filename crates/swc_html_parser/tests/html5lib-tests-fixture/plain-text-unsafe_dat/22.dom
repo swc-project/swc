@@ -1,4 +1,6 @@
 #document
 | <html>
 |   <head>
-|   <frameset>
+|   <body>
+|     <svg>
+|   <p>

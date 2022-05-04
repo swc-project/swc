@@ -3,9 +3,9 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg svg>
-|       <svg g>
+|     <svg>
+|       <g>
 |         "foo"
-|       <svg g>
+|       <g>
 |         "bar"
 |     <table>

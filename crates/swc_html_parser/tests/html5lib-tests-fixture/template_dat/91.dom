@@ -2,9 +2,7 @@
 | <html>
 |   <head>
 |     <template>
-|       content
-|         <template>
-|           content
-|             <tbody>
-|             <select>
+|       <template>
+|         <tbody>
+|         <select>
 |   <body>

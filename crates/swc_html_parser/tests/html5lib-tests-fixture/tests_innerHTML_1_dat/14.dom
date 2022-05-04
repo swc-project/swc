@@ -1,4 +1,5 @@
 #document
-| <a>
-| <tbody>
-|   <tr>
+| <html>
+|   <head>
+|   <body>
+|     <a>

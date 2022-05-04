@@ -1,3 +1,6 @@
 #document
-| <svg g>
-|   "X"
+| <html>
+|   <head>
+|   <body>
+|     <g>
+|       "X"

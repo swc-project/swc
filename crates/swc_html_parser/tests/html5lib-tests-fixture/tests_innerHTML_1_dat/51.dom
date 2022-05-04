@@ -1,7 +1,9 @@
 #document
-| <td>
-|   <a>
-|   <table>
-|     <tbody>
-|       <tr>
-|       <tr>
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|     <table>
+|       <tbody>
+|         <tr>
+|         <tr>

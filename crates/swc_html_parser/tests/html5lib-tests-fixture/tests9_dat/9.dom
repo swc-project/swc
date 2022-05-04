@@ -3,10 +3,10 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       <math mi>
+|     <math>
+|       <mi>
 |         "foo"
-|       <math mi>
+|       <mi>
 |         "bar"
 |     <table>
 |       <tbody>

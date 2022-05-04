@@ -3,8 +3,4 @@
 | <html>
 |   <head>
 |   <body>
-|     <math math>
-|       contentscripttype=""
-|       contentstyletype=""
-|       externalresourcesrequired=""
-|       filterres=""
+|     <math>

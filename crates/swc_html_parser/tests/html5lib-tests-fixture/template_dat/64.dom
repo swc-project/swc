@@ -2,8 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     a="b"
 |     <template>
-|       content
-|         <div>
-|         <div>
+|       <div>
+|       <div>

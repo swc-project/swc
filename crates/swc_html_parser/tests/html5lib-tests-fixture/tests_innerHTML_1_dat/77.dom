@@ -1,6 +1,9 @@
 #document
-| <table>
-|   <tbody>
-|     <tr>
-|       <td>
-|       <td>
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|           <td>
