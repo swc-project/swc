@@ -1,7 +1,7 @@
 class Example {
     constructor(){
-        this.bar = '1';
-        this.baz = '2';
+        this.bar = "1";
+        this.baz = "2";
     }
     bar;
     baz;

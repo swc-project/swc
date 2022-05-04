@@ -1,6 +1,6 @@
 export default class X {
     constructor(){
-        this.prop = '';
+        this.prop = "";
     }
     prop: string;
 };
