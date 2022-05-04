@@ -30,5 +30,6 @@ scripts/npm
 # Downloaded
 benches/
 
-# TODO
+# TODO: Enable formatting
+helpers/
 packages/swc-helpers
