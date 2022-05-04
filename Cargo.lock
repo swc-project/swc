@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.175"
+version = "1.2.176"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3483,7 +3483,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.95.0"
+version = "0.95.1"
 dependencies = [
  "ahash",
  "arrayvec",
