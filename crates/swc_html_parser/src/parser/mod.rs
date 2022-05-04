@@ -6638,7 +6638,6 @@ where
                     node,
                     &previous_parent.upgrade().expect("dangling weak")
                 ));
-                ))
             }
         }
 
