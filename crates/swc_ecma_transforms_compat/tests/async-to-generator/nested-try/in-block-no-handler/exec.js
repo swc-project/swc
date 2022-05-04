@@ -1,20 +1,14 @@
 const { async } = require("regenerator-runtime");
 
-
-
 async function f() {
     try {
-
         try {
-            throw 'Test'
+            throw "Test";
         } finally {
-
         }
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 }
 
-
-
-f()
+f();

@@ -1,9 +1,6 @@
-
 const UnknownNativeClass = Array;
 
+class Foo extends UnknownNativeClass {}
 
-class Foo extends UnknownNativeClass {
-}
-
-new Foo()
-console.log('PASS')
+new Foo();
+console.log("PASS");
