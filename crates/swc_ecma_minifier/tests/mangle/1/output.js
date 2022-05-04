@@ -1,7 +1,7 @@
 "use strict";
 var a = (this && this.__importDefault) || function(a) {
-    return (a && a.__esModule) ? a : {
-        "default": a
+    return a && a.__esModule ? a : {
+        default: a
     };
 };
 Object.defineProperty(exports, "__esModule", {

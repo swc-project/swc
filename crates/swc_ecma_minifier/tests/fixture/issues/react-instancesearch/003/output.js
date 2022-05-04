@@ -1,12 +1,12 @@
-import algoliasearchHelper from 'algoliasearch-helper';
-import createStore from './createStore';
-import { HIGHLIGHT_TAGS } from './highlight';
-import { hasMultipleIndices } from './indexUtils';
-import { version as ReactVersion } from 'react';
-import version from './version';
-import { defer } from './utils';
+import algoliasearchHelper from "algoliasearch-helper";
+import createStore from "./createStore";
+import { HIGHLIGHT_TAGS } from "./highlight";
+import { hasMultipleIndices } from "./indexUtils";
+import { version as ReactVersion } from "react";
+import version from "./version";
+import { defer } from "./utils";
 function addAlgoliaAgents(searchClient) {
-    'function' == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
+    "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
 }
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
@@ -24,7 +24,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
-    addAlgoliaAgents(searchClient), helper.on('search', function() {
+    addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
             const { resultsFacetValues , ...partialState } = store.getState();
             store.setState({
@@ -32,9 +32,9 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 isSearchStalled: !0
             });
         }, stalledSearchDelay));
-    }).on('result', handleSearchSuccess({
+    }).on("result", handleSearchSuccess({
         indexId: indexName
-    })).on('error', handleSearchError);
+    })).on("error", handleSearchError);
     let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state;
     const widgetsManager = function(onWidgetsUpdate) {
         const widgets = [];
@@ -61,7 +61,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
         }), search();
     });
     !function(client, results) {
-        if (results && (client.transporter && !client._cacheHydrated || client._useCache && 'function' == typeof client.addAlgoliaAgent)) {
+        if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
                 client._cacheHydrated = !0;
                 const baseMethod = client.search;
@@ -69,19 +69,19 @@ export default function createInstantSearchManager({ indexName , initialState ={
                     const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
                             params: function(parameters) {
-                                const isObjectOrArray = (value)=>'[object Object]' === Object.prototype.toString.call(value) || '[object Array]' === Object.prototype.toString.call(value)
+                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
                                 , encode = (format, ...args)=>{
                                     let i = 0;
                                     return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
                                     );
                                 };
-                                return Object.keys(parameters).map((key)=>encode('%s=%s', key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
-                                ).join('&');
+                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
+                                ).join("&");
                             }(request.params)
                         })
                     );
                     return client.transporter.responsesCache.get({
-                        method: 'search',
+                        method: "search",
                         args: [
                             requestsWithSerializedParams,
                             ...methodArgs
@@ -153,9 +153,9 @@ export default function createInstantSearchManager({ indexName , initialState ={
             }), derivedParameters.forEach(({ indexId , parameters  })=>{
                 const derivedHelper = helper.derive(()=>parameters
                 );
-                derivedHelper.on('result', handleSearchSuccess({
+                derivedHelper.on("result", handleSearchSuccess({
                     indexId
-                })).on('error', handleSearchError);
+                })).on("error", handleSearchError);
             }), helper.setState(mainParameters), helper.search();
         }
     }
@@ -195,7 +195,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
     function hydrateSearchClientWithMultiIndexRequest(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                                 indexName: request.index,
@@ -229,7 +229,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
     function hydrateSearchClientWithSingleIndexRequest(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.rawResults.map((request)=>({
                             indexName: request.index,

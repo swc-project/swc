@@ -524,10 +524,10 @@
             }
         });
     }(jQuery, this), function($, window, undefined) {
-        '$:nomunge';
-        var fake_onhashchange, str_hashchange = 'hashchange', doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = 'on' + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
+        "$:nomunge";
+        var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
-            return '#' + (url = url || location.href).replace(/^[^#]*#?(.*)$/, '$1');
+            return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
         }
         $.fn[str_hashchange] = function(fn) {
             return fn ? this.bind(str_hashchange, fn) : this.trigger(str_hashchange);
@@ -546,18 +546,18 @@
             }, history_set = fn_retval, history_get = fn_retval;
             function poll() {
                 var hash = get_fragment(), history_hash = history_get(last_hash);
-                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, '') + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
+                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, "") + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
             }
             return self.start = function() {
                 timeout_id || poll();
             }, self.stop = function() {
                 timeout_id && clearTimeout(timeout_id), timeout_id = undefined;
             }, !window.attachEvent || window.addEventListener || supports_onhashchange || (self.start = function() {
-                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one('load', function() {
+                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one("load", function() {
                     iframe_src || history_set(get_fragment()), poll();
-                }).attr('src', iframe_src || 'javascript:0').insertAfter('body')[0].contentWindow, doc.onpropertychange = function() {
+                }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, doc.onpropertychange = function() {
                     try {
-                        'title' === event.propertyName && (iframe.document.title = doc.title);
+                        "title" === event.propertyName && (iframe.document.title = doc.title);
                     } catch (e) {}
                 });
             }, self.stop = fn_retval, history_get = function() {
@@ -568,7 +568,7 @@
             }), self;
         }();
     }(jQuery, this), $5 = jQuery, window3.matchMedia = window3.matchMedia || (refNode = (docElem = (doc1 = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody1 = doc1.createElement("body"), div1 = doc1.createElement("div"), div1.id = "mq-test-1", div1.style.cssText = "position:absolute;top:-100em", fakeBody1.style.background = "none", fakeBody1.appendChild(div1), function(q) {
-        return div1.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>", docElem.insertBefore(fakeBody1, refNode), bool = 42 === div1.offsetWidth, docElem.removeChild(fakeBody1), {
+        return div1.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody1, refNode), bool = 42 === div1.offsetWidth, docElem.removeChild(fakeBody1), {
             matches: bool,
             media: q
         };
@@ -1191,8 +1191,8 @@
         (diff1 = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $13(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler1, 250 - diff1));
     }, lastCall = 0, function($, window) {
         var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
-            "0": !0,
-            "180": !0
+            0: !0,
+            180: !0
         };
         function handler() {
             var orientation = get_orientation();
@@ -1200,7 +1200,7 @@
         }
         $.support.orientation && (ww = window.innerWidth || win.width(), wh = window.innerHeight || win.height(), landscape_threshold = 50, initial_orientation_is_landscape = ww > wh && ww - wh > landscape_threshold, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
-            "90": !0
+            90: !0
         })), $.event.special.orientationchange = $.extend({}, $.event.special.orientationchange, {
             setup: function() {
                 if ($.support.orientation && !$.event.special.orientationchange.disabled) return !1;
@@ -1452,7 +1452,7 @@
         },
         _parse: function(html, fileUrl) {
             var page, all = $16("<div></div>");
-            return all.get(0).innerHTML = html, (page = all.find(":jqmData(role='page'), :jqmData(role='dialog')").first()).length || (page = $16("<div data-" + this._getNs() + "role='page'>" + (html.split(/<\/?body[^>]*>/gmi)[1] || "") + "</div>")), page.attr("data-" + this._getNs() + "url", $16.mobile.path.convertUrlToDataUrl(fileUrl)).attr("data-" + this._getNs() + "external-page", !0), page;
+            return all.get(0).innerHTML = html, (page = all.find(":jqmData(role='page'), :jqmData(role='dialog')").first()).length || (page = $16("<div data-" + this._getNs() + "role='page'>" + (html.split(/<\/?body[^>]*>/gim)[1] || "") + "</div>")), page.attr("data-" + this._getNs() + "url", $16.mobile.path.convertUrlToDataUrl(fileUrl)).attr("data-" + this._getNs() + "external-page", !0), page;
         },
         _setLoadedTitle: function(page, html) {
             var newPageTitle = html.match(/<title[^>]*>([^<]*)/) && RegExp.$1;
@@ -1832,7 +1832,7 @@
     }, $29.mobile.page.prototype.options.degradeInputs = $29.mobile.degradeInputs, $29.mobile.degradeInputsWithin = function(target) {
         (target = $29(target)).find("input").not($29.mobile.page.prototype.keepNativeSelector()).each(function() {
             var html, hasType, findstr, repstr, element = $29(this), type = this.getAttribute("type"), optType = $29.mobile.degradeInputs[type] || "text";
-            $29.mobile.degradeInputs[type] && (findstr = (hasType = (html = $29("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = " type=\"" + optType + "\" data-" + $29.mobile.ns + "type=\"" + type + "\"" + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            $29.mobile.degradeInputs[type] && (findstr = (hasType = (html = $29("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $29.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -1852,7 +1852,7 @@
             _enhance: function() {
                 this._super(), this.options.dialog && this.element.addClass("ui-dialog").wrapInner($("<div/>", {
                     role: "dialog",
-                    "class": "ui-dialog-contain ui-overlay-shadow" + (this.options.corners ? " ui-corner-all" : "")
+                    class: "ui-dialog-contain ui-overlay-shadow" + (this.options.corners ? " ui-corner-all" : "")
                 }));
             },
             _setOptions: function(options) {
@@ -1866,7 +1866,7 @@
                 var dst, btn = this._headerCloseButton;
                 "none" == (location = "left" === location ? "left" : "right" === location ? "right" : "none") ? btn && (btn.remove(), btn = null) : btn ? (btn.removeClass("ui-btn-left ui-btn-right").addClass("ui-btn-" + location), text && btn.text(text)) : (dst = this._inner.find(":jqmData(role='header')").first(), btn = $("<a></a>", {
                     href: "#",
-                    "class": "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" + location
+                    class: "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" + location
                 }).attr("data-" + $.mobile.ns + "rel", "back").text(text || this.options.closeBtnText || "").prependTo(dst)), this._headerCloseButton = btn;
             }
         });
@@ -1892,7 +1892,7 @@
                 var elem = this.element, opts = this.options;
                 elem.addClass("ui-dialog").wrapInner($("<div/>", {
                     role: "dialog",
-                    "class": "ui-dialog-contain ui-overlay-shadow" + (opts.corners ? " ui-corner-all" : "")
+                    class: "ui-dialog-contain ui-overlay-shadow" + (opts.corners ? " ui-corner-all" : "")
                 })), $.extend(this, {
                     _isCloseable: !1,
                     _inner: elem.children(),
@@ -1913,7 +1913,7 @@
                 "none" == (location = "left" === location ? "left" : "right" === location ? "right" : "none") ? btn && (btn.remove(), btn = null) : btn ? (btn.removeClass("ui-btn-left ui-btn-right").addClass("ui-btn-" + location), text && btn.text(text)) : (dst = this._inner.find(":jqmData(role='header')").first(), btn = $("<a></a>", {
                     role: "button",
                     href: "#",
-                    "class": "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" + location
+                    class: "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" + location
                 }).text(text || this.options.closeBtnText || "").prependTo(dst), this._on(btn, {
                     click: "close"
                 })), this._headerCloseButton = btn;
@@ -1978,11 +1978,11 @@
             ] : []).concat(currentOpts.collapsedIcon ? [
                 "ui-icon-" + currentOpts.collapsedIcon
             ] : []).join(" ")), hasIcon && anchor.addClass([
-                iconposClass1(undefined7 !== opts.iconpos ? opts.iconpos : currentOpts.iconpos)
+                iconposClass1(undefined7 !== opts.iconpos ? opts.iconpos : currentOpts.iconpos), 
             ].concat(isCollapsed ? [
-                "ui-icon-" + (undefined7 !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon)
+                "ui-icon-" + (undefined7 !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon), 
             ] : [
-                "ui-icon-" + (undefined7 !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon)
+                "ui-icon-" + (undefined7 !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon), 
             ]).join(" "))), undefined7 !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined7 !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), hasCorners !== undefined7 && elem.toggleClass("ui-corner-all", hasCorners), undefined7 !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
         },
         _setOptions: function(options) {
@@ -2436,7 +2436,7 @@
                     isToggleSwitch ? "ui-slider-switch" : "",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
-                    miniClass
+                    miniClass, 
                 ].join(""), domHandle.className = "ui-slider-handle", domSlider.appendChild(domHandle), handle.attr({
                     role: "slider",
                     "aria-valuemin": min,
@@ -2466,7 +2466,7 @@
                     for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), options = control.find("option"), i = 0, optionsCount = options.length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", sliderImg = document1.createElement("span"), sliderImg.className = [
                         "ui-slider-label ui-slider-label-",
                         side,
-                        activeClass
+                        activeClass, 
                     ].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), $(sliderImg).prependTo(slider);
                     self._labels = $(".ui-slider-label", slider);
                 }
@@ -2564,7 +2564,7 @@
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
-                    miniClass
+                    miniClass, 
                 ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(self.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
                     if (data = val, tol = 8, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - tol || data.pageX > left + width + tol) return;
                     percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
@@ -2626,7 +2626,7 @@
             },
             _setOption: function(key, value) {
                 this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = (popup || (popup = $("<div></div>", {
-                    "class": "ui-slider-popup ui-shadow ui-corner-all"
+                    class: "ui-slider-popup ui-shadow ui-corner-all"
                 })), popup.clone()).addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
             },
             refresh: function() {
@@ -3415,7 +3415,7 @@
                     role: "button",
                     text: o.closeText,
                     href: "#",
-                    "class": "ui-btn ui-corner-all ui-btn-left ui-btn-icon-notext ui-icon-delete"
+                    class: "ui-btn ui-corner-all ui-btn-left ui-btn-icon-notext ui-icon-delete"
                 }).appendTo(header)), $.extend(this, {
                     selectId: selectId,
                     menuId: menuId,
@@ -3527,7 +3527,7 @@
             var classes = existingClasses || [];
             return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
                 "ui-icon-" + options.icon,
-                "ui-btn-icon-" + options.iconpos
+                "ui-btn-icon-" + options.iconpos, 
             ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
         }
         function classNameToOptions(classes) {
@@ -4147,7 +4147,7 @@
                 "overlay" !== o.display && (0 === $("body > :mobile-panel").add($.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([
                     this._getPanelClasses(),
                     o.classes.panelOpen,
-                    o.classes.animate
+                    o.classes.animate, 
                 ].join(" ")).off("swipeleft.panel swiperight.panel").off("panelbeforeopen").off("panelhide").off("keyup.panel").off("updatelayout"), this._modal && this._modal.remove();
             }
         });
@@ -4328,7 +4328,7 @@
                     "collapsibleset",
                     "selectmenu",
                     "controlgroup",
-                    "listview"
+                    "listview", 
                 ];
                 for(idx = recognizedWidgets.length - 1; idx > -1; idx--)widget = recognizedWidgets[idx], $.mobile[widget] && (widget = this.element.data("mobile-" + widget)) && $.isFunction(widget.refresh) && widget.refresh();
             },
@@ -4364,7 +4364,7 @@
                 "collapsibleset",
                 "selectmenu",
                 "controlgroup",
-                "listview"
+                "listview", 
             ], createHandlers = {};
             for(this._super(), $38.extend(this, {
                 _widget: null
