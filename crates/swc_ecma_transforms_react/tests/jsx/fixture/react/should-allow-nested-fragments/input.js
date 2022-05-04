@@ -1,12 +1,12 @@
 <div>
-  <  >
     <>
-      <span>Hello</span>
-      <span>world</span>
+        <>
+            <span>Hello</span>
+            <span>world</span>
+        </>
+        <>
+            <span>Goodbye</span>
+            <span>world</span>
+        </>
     </>
-    <>
-      <span>Goodbye</span>
-      <span>world</span>
-    </>
-  </>
-</div>
+</div>;

@@ -1,1 +1,1 @@
-var div = <Component {...props} foo="bar" />
+var div = <Component {...props} foo="bar" />;
