@@ -1,5 +1,4 @@
 function foo() {
-        return XXX
-    }
-    var XXX = 1;
-    
+    return XXX;
+}
+var XXX = 1;

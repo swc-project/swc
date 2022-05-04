@@ -3,4 +3,4 @@
         return new Bar();
     }
     class Bar {}
-    })();
+})();

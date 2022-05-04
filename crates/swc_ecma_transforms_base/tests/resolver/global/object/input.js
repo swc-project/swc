@@ -1,3 +1,3 @@
 function foo(Object) {
-    Object.defineProperty()
+    Object.defineProperty();
 }

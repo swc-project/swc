@@ -1,3 +1,5 @@
 function foo(e) {
-    e: { break e; }
+    e: {
+        break e;
+    }
 }

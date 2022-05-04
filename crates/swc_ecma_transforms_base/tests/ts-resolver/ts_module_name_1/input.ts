@@ -1,10 +1,6 @@
-
-    module Top {
-        module A {
-            export function b() {
-                
-            }
-        }
-        A.b()
+module Top {
+    module A {
+        export function b() {}
     }
-    
+    A.b();
+}
