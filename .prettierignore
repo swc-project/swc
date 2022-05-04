@@ -20,10 +20,12 @@ output.js
 output.css
 output.min.css
 output.html
+index.g.js
 
 # Generated
 crates/swc_ecma_preset_env/data
 crates/swc/tests/tsc-references
+scripts/npm
 
 # Downloaded
 benches/
