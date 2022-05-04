@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/parser)** Fix a bug of unwrapping element without parent (#4505) ([597c0c6](https://github.com/swc-project/swc/commit/597c0c672a9111b1a0b6e7219edb577866252343))
+
 ### Features
 
 
