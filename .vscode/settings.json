@@ -17,6 +17,7 @@
   },
   "editor.formatOnSave": true,
   "git.ignoreLimitWarning": true,
+  "git.autoRepositoryDetection": false,
   "eslint.enable": false,
   "cSpell.allowCompoundWords": true,
   "cSpell.caseSensitive": true,
@@ -24,5 +25,5 @@
   "rust-analyzer.checkOnSave.features": [
     // We use this to make IDE faster
     "rust-analyzer"
-  ]
+  ],
 }
