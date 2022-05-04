@@ -1,7 +1,5 @@
 // File to parse input as an AST using acorn
 
-
-
 const parserOptions = {
     ranges: true,
     locations: true,
@@ -11,5 +9,5 @@ const parserOptions = {
 };
 
 const acorn = require("acorn");
-const res = acorn.parse(process.argv[1], parserOptions)
+const res = acorn.parse(process.argv[1], parserOptions);
 console.log(JSON.stringify(res, void 0, 2));
