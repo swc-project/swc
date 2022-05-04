@@ -92,7 +92,7 @@ jobs:
           yarn global add qunit failonlyreporter
 
           # Download three.js
-          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
+          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r140 tests/integration/three-js/repo
 
           swc -C isModule=unknown --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
 
