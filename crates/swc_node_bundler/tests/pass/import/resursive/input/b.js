@@ -1,1 +1,1 @@
-import './c'
+import "./c";

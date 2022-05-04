@@ -1,3 +1,3 @@
-export { a } from './a';
+export { a } from "./a";
 
-console.log('entry');
+console.log("entry");

@@ -1,1 +1,1 @@
-export const arr = [0, 1, 2, 3]
+export const arr = [0, 1, 2, 3];

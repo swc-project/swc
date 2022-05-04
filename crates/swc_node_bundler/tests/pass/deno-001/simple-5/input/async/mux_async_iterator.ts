@@ -1,4 +1,3 @@
 import { deferred } from "./deferred";
 
-export function MuxAsyncIterator() {
-}
+export function MuxAsyncIterator() {}

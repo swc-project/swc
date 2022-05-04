@@ -1,3 +1,3 @@
-import { c } from './c'
+import { c } from "./c";
 
 c();

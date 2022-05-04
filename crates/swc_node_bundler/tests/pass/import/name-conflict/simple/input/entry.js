@@ -1,4 +1,4 @@
-import { bar } from './a';
+import { bar } from "./a";
 
 const foo = 5;
 

@@ -2,7 +2,6 @@ var common4;
 
 try {
     common4 = 4;
-} catch (e) {
-}
+} catch (e) {}
 
-export { common4 }
+export { common4 };

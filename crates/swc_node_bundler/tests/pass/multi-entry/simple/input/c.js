@@ -1,6 +1,6 @@
-import { foo } from './d';
+import { foo } from "./d";
 
-console.log('loading c.js');
+console.log("loading c.js");
 
 export function c() {
     foo();
