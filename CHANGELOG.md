@@ -1,6 +1,40 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/parser)** Reject accessors named `constructor` (#4520) ([0e0ded1](https://github.com/swc-project/swc/commit/0e0ded121cbf0e43bc061030c8933d4079a898b2))
+
+
+- **(plugin)** Expose `Pos` (#4516) ([c0432e4](https://github.com/swc-project/swc/commit/c0432e46df1fa15d8819859211913796e59d9192))
+
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Fix lints (#4519) ([33f58fa](https://github.com/swc-project/swc/commit/33f58faa0bb4f87ee13e38a704ca929efc21430b))
+
+### Testing
+
+
+
+- **(html/parser)** Add tests (#4507) ([202a6e4](https://github.com/swc-project/swc/commit/202a6e4a0100e5ddc3a3c920b447aca803fffbae))
+
+## [1.2.176] - 2022-05-04
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Revert a wrong patch about private properties ([97e0e27](https://github.com/swc-project/swc/commit/97e0e271d57ae2c2f6a4d8a09032885ca9a27be9))
+
+
+- **(es/compat)** Fix the position of inserted statements in `class_properties` (#4511) ([9e45882](https://github.com/swc-project/swc/commit/9e45882b8407e46573b363ea47ddbbc7cf9c82e4))
+
+## [1.2.175] - 2022-05-03
+
 ### Bug Fixes
 
 
