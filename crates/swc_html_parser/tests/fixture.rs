@@ -1,3 +1,4 @@
+#![deny(warnings)]
 #![allow(clippy::needless_update)]
 
 use std::{fs, mem::take, path::PathBuf};
@@ -260,14 +261,10 @@ fn unescape(s: &str) -> Option<String> {
 fn html5lib_test_tokenizer(input: PathBuf) {
     let filename = input.to_str().expect("failed to parse path");
     let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
-    let obj: Value = serde_json::from_str(&contents)
-        .ok()
-        .expect("json parse error");
+    let obj: Value = serde_json::from_str(&contents).expect("json parse error");
     let tests = match obj.get(&"tests".to_string()) {
         Some(&Value::Array(ref tests)) => tests,
-        _ => {
-            return ();
-        }
+        _ => return,
     };
 
     for test in tests.iter() {
@@ -447,7 +444,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
             let mut expected_tokens: Vec<Token> = vec![];
 
-            for output_tokens in json_output.as_array() {
+            if let Some(output_tokens) = json_output.as_array() {
                 for output_token in output_tokens {
                     match output_token {
                         Value::Array(token_parts) => {
@@ -485,7 +482,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                             .expect("failed to deserialize");
                                     let mut attributes = vec![];
 
-                                    if let Some(json_attributes) = token_parts.get(2).clone() {
+                                    if let Some(json_attributes) = token_parts.get(2) {
                                         let obj_attributes: Value =
                                             serde_json::from_value(json_attributes.clone())
                                                 .expect("failed to deserialize");
@@ -516,7 +513,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
                                     let mut self_closing = false;
 
-                                    if let Some(json_self_closing) = token_parts.get(3).clone() {
+                                    if let Some(json_self_closing) = token_parts.get(3) {
                                         let value: bool =
                                             serde_json::from_value(json_self_closing.clone())
                                                 .expect("failed to deserialize");
@@ -741,14 +738,9 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     };
 
                     // TODO validate error positions
-                    assert_eq!(
-                        !actual_errors
-                            .iter()
-                            .filter(|&error| *error.kind() == expected_code)
-                            .collect::<Vec<_>>()
-                            .is_empty(),
-                        true
-                    );
+                    assert!(actual_errors
+                        .iter()
+                        .any(|error| *error.kind() == expected_code));
                 }
             } else {
                 let errors = lexer.take_errors();
