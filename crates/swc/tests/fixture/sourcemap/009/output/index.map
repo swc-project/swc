@@ -1,5 +1,5 @@
 {
-  "mappings": "AAMAA;AANA;;;;;GAKG,CACHA,OAAO,CAACC,GAAG,CAAC,IAAIC,KAAK,EAAE,CAACC,KAAK,CAAC",
+  "mappings": "AAMAA;AANA;;;;;GAKG,CACHA,OAAO,CAACC,GAAG,CAAC,IAAIC,KAAK,EAAE,CAACC,KAAK,CAAC,CAAC",
   "names": [
     "console",
     "log",
@@ -10,7 +10,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "/**\n * This is a\n * long\n * license\n * header\n */\nconsole.log(new Error().stack)"
+    "/**\n * This is a\n * long\n * license\n * header\n */\nconsole.log(new Error().stack);\n"
   ],
   "version": 3
 }

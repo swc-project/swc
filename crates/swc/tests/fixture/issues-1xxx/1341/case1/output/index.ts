@@ -12,7 +12,7 @@ class A {
                     return function(x) {
                         return _ref.apply(this, arguments);
                     };
-                })()('a'); // this is undefined
+                })()("a"); // this is undefined
             // return await Promise.all(['a', 'b'].map(async (x) => x + this.val)); // this is undefined
             } catch (e) {
                 throw e;
@@ -20,7 +20,7 @@ class A {
         })();
     }
     constructor(){
-        this.val = '1';
+        this.val = "1";
     }
 }
 new A().foo();

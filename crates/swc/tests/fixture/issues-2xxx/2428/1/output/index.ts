@@ -9,7 +9,7 @@ class Foo {
     }
 }
 swcHelpers.__decorate([
-    swcHelpers.__param(0, Arg('GraphQLArgName', {
+    swcHelpers.__param(0, Arg("GraphQLArgName", {
         nullable: true
     })),
     swcHelpers.__metadata("design:type", Function),
@@ -18,7 +18,7 @@ swcHelpers.__decorate([
     ])
 ], Foo.prototype, "fnName1", null);
 swcHelpers.__decorate([
-    swcHelpers.__param(0, Arg('GraphQLArgName', {
+    swcHelpers.__param(0, Arg("GraphQLArgName", {
         nullable: true
     })),
     swcHelpers.__metadata("design:type", Function),

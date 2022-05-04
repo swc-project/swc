@@ -11,7 +11,7 @@
     "../../input/index.ts"
   ],
   "sourcesContent": [
-    "namespace A {\n    export const v = 25;\n    export function a() {\n        console.log(v);\n    }\n}"
+    "namespace A {\n    export const v = 25;\n    export function a() {\n        console.log(v);\n    }\n}\n"
   ],
   "version": 3
 }
