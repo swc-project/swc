@@ -24,7 +24,7 @@ jobs:
     name: Check license
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -52,7 +52,7 @@ jobs:
           - macos-10.15
           - windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -62,7 +62,7 @@ jobs:
         with:
           profile: minimal
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"
@@ -318,12 +318,12 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
       # Source map format
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"

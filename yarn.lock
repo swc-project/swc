@@ -1432,10 +1432,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@napi-rs/cli@^2.4.5":
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/@napi-rs/cli/-/cli-2.4.5.tgz#0f33e54e08c2e875c729697eb81f1c36342f0205"
-  integrity sha512-CLa3PSHh4Y760OXkHidzfHavVtfbQyfMhj3sWpta3SZjbWMk0tbdPhRez9y8KVApVVWjBxz5agEeFMfxxr+KTg==
+"@napi-rs/cli@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-2.7.0.tgz#afcfc6f8476f1c2c259c626270841bd24fc52588"
+  integrity sha512-bQb+r9/xW8LFRbpEN7A/4fX8LnEWbI0JzyOzXGDpO+cI8dXRxX7OPySOpzT2nBgP1brA2Ydkw/t9lyxLN9TlxQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
