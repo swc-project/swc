@@ -1,2 +1,9 @@
 # Bundler cache files
 tests/.cache
+
+# Generated
+CHANGELOG.md
+
+# Testing
+output.js
+output/
