@@ -23,3 +23,5 @@ output.html
 crates/swc_ecma_preset_env/data
 crates/swc/tests/tsc-references
 
+# Downloaded
+benches/
