@@ -1,5 +1,5 @@
 @decorator
-class Class { }
+class Class {}
 
 function decorator(cls) {
     console.log(cls.name);
