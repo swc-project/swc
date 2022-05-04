@@ -7,6 +7,9 @@
 
 - **(html/parser)** Fix a bug of unwrapping element without parent (#4505) ([597c0c6](https://github.com/swc-project/swc/commit/597c0c672a9111b1a0b6e7219edb577866252343))
 
+
+- **(node)** Fix tls allocation issue (#4514) ([3d5c0fa](https://github.com/swc-project/swc/commit/3d5c0fa966f96c7e463c5de8819c4c8eea65f3aa))
+
 ### Features
 
 
