@@ -10,7 +10,6 @@ const Bar = ()=>{
                 var _jsx1 = 2;
                 return /*#__PURE__*/ _jsx("div", {});
             }
-            ;
             return /*#__PURE__*/ _jsx("span", {});
         };
     };
