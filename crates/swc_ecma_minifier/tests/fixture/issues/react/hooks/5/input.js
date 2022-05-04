@@ -1,17 +1,11 @@
-
-
-
-const CONST_1 = 'const1';
-const CONST_2 = 'const2';
+const CONST_1 = "const1";
+const CONST_2 = "const2";
 
 function useHook1() {
     const [v1, v1_set] = useState(undefined);
 
     useEffect(() => {
-        if (
-            GLOBALS.get(CONST_1) &&
-            GLOBALS.get(CONST_2)
-        ) {
+        if (GLOBALS.get(CONST_1) && GLOBALS.get(CONST_2)) {
             v1_set(true);
         } else {
             v1_set(false);
@@ -21,18 +15,13 @@ function useHook1() {
     return v1;
 }
 
-
 function useHook2() {
     const [a1, a1_set] = useState({});
     useEffect(() => {
-        a1_set(
-            JSON.parse(GLOBALS.get(CONST1) || '{}') ,
-        );
+        a1_set(JSON.parse(GLOBALS.get(CONST1) || "{}"));
     }, []);
     return a1;
 }
-
-
 
 export function HeaderCTA() {
     const varB = useHook2();
@@ -44,12 +33,8 @@ export function HeaderCTA() {
     }
 
     if (varA) {
-        return (
-            use(varB.field)
-        );
+        return use(varB.field);
     }
 
-    return (
-        pure()
-    );
+    return pure();
 }

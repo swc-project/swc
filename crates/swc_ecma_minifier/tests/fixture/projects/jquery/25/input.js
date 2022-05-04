@@ -1,11 +1,14 @@
 export const obj = {
     domManip: function (args, table, callback) {
-
         // Flatten any nested arrays
         args = core_concat.apply([], args);
 
-        var first, node, hasScripts,
-            scripts, doc, fragment,
+        var first,
+            node,
+            hasScripts,
+            scripts,
+            doc,
+            fragment,
             i = 0,
             l = this.length,
             set = this,
@@ -14,18 +17,35 @@ export const obj = {
             isFunction = jQuery.isFunction(value);
 
         // We can't cloneNode fragments that contain checked, in WebKit
-        if (isFunction || !(l <= 1 || typeof value !== "string" || jQuery.support.checkClone || !rchecked.test(value))) {
+        if (
+            isFunction ||
+            !(
+                l <= 1 ||
+                typeof value !== "string" ||
+                jQuery.support.checkClone ||
+                !rchecked.test(value)
+            )
+        ) {
             return this.each(function (index) {
                 var self = set.eq(index);
                 if (isFunction) {
-                    args[0] = value.call(this, index, table ? self.html() : undefined);
+                    args[0] = value.call(
+                        this,
+                        index,
+                        table ? self.html() : undefined
+                    );
                 }
                 self.domManip(args, table, callback);
             });
         }
 
         if (l) {
-            fragment = jQuery.buildFragment(args, this[0].ownerDocument, false, this);
+            fragment = jQuery.buildFragment(
+                args,
+                this[0].ownerDocument,
+                false,
+                this
+            );
             first = fragment.firstChild;
 
             if (fragment.childNodes.length === 1) {
@@ -52,9 +72,9 @@ export const obj = {
                     }
 
                     callback.call(
-                        table && jQuery.nodeName(this[i], "table") ?
-                            findOrAppend(this[i], "tbody") :
-                            this[i],
+                        table && jQuery.nodeName(this[i], "table")
+                            ? findOrAppend(this[i], "tbody")
+                            : this[i],
                         node,
                         i
                     );
@@ -69,9 +89,11 @@ export const obj = {
                     // Evaluate executable scripts on first document insertion
                     for (i = 0; i < hasScripts; i++) {
                         node = scripts[i];
-                        if (rscriptType.test(node.type || "") &&
-                            !jQuery._data(node, "globalEval") && jQuery.contains(doc, node)) {
-
+                        if (
+                            rscriptType.test(node.type || "") &&
+                            !jQuery._data(node, "globalEval") &&
+                            jQuery.contains(doc, node)
+                        ) {
                             if (node.src) {
                                 // Hope ajax is available...
                                 jQuery.ajax({
@@ -80,10 +102,17 @@ export const obj = {
                                     dataType: "script",
                                     async: false,
                                     global: false,
-                                    "throws": true
+                                    throws: true,
                                 });
                             } else {
-                                jQuery.globalEval((node.text || node.textContent || node.innerHTML || "").replace(rcleanScript, ""));
+                                jQuery.globalEval(
+                                    (
+                                        node.text ||
+                                        node.textContent ||
+                                        node.innerHTML ||
+                                        ""
+                                    ).replace(rcleanScript, "")
+                                );
                             }
                         }
                     }
@@ -95,5 +124,5 @@ export const obj = {
         }
 
         return this;
-    }
-}
+    },
+};

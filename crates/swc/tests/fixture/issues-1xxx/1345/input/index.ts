@@ -1,8 +1,7 @@
 /** 등록된 계좌+회원의 정보  */
 @ViewEntity({
     name: "AccountMemberView",
-    expression:
-    `
+    expression: `
     SELECT
         m.tmcode, m.mid, m.accea, m.qaccea, m.endday, m.quick_endday,
         (SELECT COUNT(*) FROM TBLACCOUNT a WHERE m.mid = a.mid AND a.use_quick="F") as accountCnt,

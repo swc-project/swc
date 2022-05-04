@@ -1,3 +1,3 @@
-import { common } from './common';
+import { common } from "./common";
 
-console.log(common, 'a.js')
+console.log(common, "a.js");

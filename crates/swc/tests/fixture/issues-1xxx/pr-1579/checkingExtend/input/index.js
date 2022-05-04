@@ -1,2 +1,2 @@
 const a = {};
-const {...b} = a;
+const { ...b } = a;

@@ -9,4 +9,4 @@ import "core-js/modules/es.symbol.description.js";
 import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/web.queue-microtask.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";

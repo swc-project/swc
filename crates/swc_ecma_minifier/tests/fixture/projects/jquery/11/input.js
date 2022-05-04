@@ -1,13 +1,20 @@
 jQuery.support = (function () {
-
-    var support, all, a,
-        input, select, fragment,
-        opt, eventName, isSupported, i,
+    var support,
+        all,
+        a,
+        input,
+        select,
+        fragment,
+        opt,
+        eventName,
+        isSupported,
+        i,
         div = document.createElement("div");
 
     // Setup
     div.setAttribute("className", "t");
-    div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+    div.innerHTML =
+        "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
 
     // Support tests won't run in some limited or non-browser environments
     all = div.getElementsByTagName("*");
@@ -66,7 +73,9 @@ jQuery.support = (function () {
 
         // Makes sure cloning an html5 element does not cause problems
         // Where outerHTML is undefined, this still works
-        html5Clone: document.createElement("nav").cloneNode(true).outerHTML !== "<:nav></:nav>",
+        html5Clone:
+            document.createElement("nav").cloneNode(true).outerHTML !==
+            "<:nav></:nav>",
 
         // jQuery.support.boxModel DEPRECATED in 1.8 since we don't support Quirks Mode
         boxModel: document.compatMode === "CSS1Compat",
@@ -78,7 +87,7 @@ jQuery.support = (function () {
         shrinkWrapBlocks: false,
         reliableMarginRight: true,
         boxSizingReliable: true,
-        pixelPosition: false
+        pixelPosition: false,
     };
 
     // Make sure checked status is properly cloned
@@ -119,7 +128,9 @@ jQuery.support = (function () {
     support.appendChecked = input.checked;
 
     // WebKit doesn't clone checked state correctly in fragments
-    support.checkClone = fragment.cloneNode(true).cloneNode(true).lastChild.checked;
+    support.checkClone = fragment
+        .cloneNode(true)
+        .cloneNode(true).lastChild.checked;
 
     // Support: IE<9
     // Opera does not clone events (and typeof div.attachEvent === undefined).
@@ -135,9 +146,10 @@ jQuery.support = (function () {
     // Support: IE<9 (lack submit/change bubble), Firefox 17+ (lack focusin event)
     // Beware of CSP restrictions (https://developer.mozilla.org/en/Security/CSP), test/csp.php
     for (i in { submit: true, change: true, focusin: true }) {
-        div.setAttribute(eventName = "on" + i, "t");
+        div.setAttribute((eventName = "on" + i), "t");
 
-        support[i + "Bubbles"] = eventName in window || div.attributes[eventName].expando === false;
+        support[i + "Bubbles"] =
+            eventName in window || div.attributes[eventName].expando === false;
     }
 
     div.style.backgroundClip = "content-box";
@@ -146,8 +158,11 @@ jQuery.support = (function () {
 
     // Run tests that need a body at doc ready
     jQuery(function () {
-        var container, marginDiv, tds,
-            divReset = "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;",
+        var container,
+            marginDiv,
+            tds,
+            divReset =
+                "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;",
             body = document.getElementsByTagName("body")[0];
 
         if (!body) {
@@ -156,7 +171,8 @@ jQuery.support = (function () {
         }
 
         container = document.createElement("div");
-        container.style.cssText = "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
+        container.style.cssText =
+            "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px";
 
         body.appendChild(container).appendChild(div);
 
@@ -170,25 +186,30 @@ jQuery.support = (function () {
         div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
         tds = div.getElementsByTagName("td");
         tds[0].style.cssText = "padding:0;margin:0;border:0;display:none";
-        isSupported = (tds[0].offsetHeight === 0);
+        isSupported = tds[0].offsetHeight === 0;
 
         tds[0].style.display = "";
         tds[1].style.display = "none";
 
         // Support: IE8
         // Check if empty table cells still have offsetWidth/Height
-        support.reliableHiddenOffsets = isSupported && (tds[0].offsetHeight === 0);
+        support.reliableHiddenOffsets =
+            isSupported && tds[0].offsetHeight === 0;
 
         // Check box-sizing and margin behavior
         div.innerHTML = "";
-        div.style.cssText = "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;";
-        support.boxSizing = (div.offsetWidth === 4);
-        support.doesNotIncludeMarginInBodyOffset = (body.offsetTop !== 1);
+        div.style.cssText =
+            "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;";
+        support.boxSizing = div.offsetWidth === 4;
+        support.doesNotIncludeMarginInBodyOffset = body.offsetTop !== 1;
 
         // Use window.getComputedStyle because jsdom on node.js will break without it.
         if (window.getComputedStyle) {
-            support.pixelPosition = (window.getComputedStyle(div, null) || {}).top !== "1%";
-            support.boxSizingReliable = (window.getComputedStyle(div, null) || { width: "4px" }).width === "4px";
+            support.pixelPosition =
+                (window.getComputedStyle(div, null) || {}).top !== "1%";
+            support.boxSizingReliable =
+                (window.getComputedStyle(div, null) || { width: "4px" })
+                    .width === "4px";
 
             // Check if div with explicit width and no margin-right incorrectly
             // gets computed margin-right based on width of container. (#3333)
@@ -199,8 +220,9 @@ jQuery.support = (function () {
             marginDiv.style.marginRight = marginDiv.style.width = "0";
             div.style.width = "1px";
 
-            support.reliableMarginRight =
-                !parseFloat((window.getComputedStyle(marginDiv, null) || {}).marginRight);
+            support.reliableMarginRight = !parseFloat(
+                (window.getComputedStyle(marginDiv, null) || {}).marginRight
+            );
         }
 
         if (typeof div.style.zoom !== core_strundefined) {
@@ -209,15 +231,16 @@ jQuery.support = (function () {
             // elements when setting their display to 'inline' and giving
             // them layout
             div.innerHTML = "";
-            div.style.cssText = divReset + "width:1px;padding:1px;display:inline;zoom:1";
-            support.inlineBlockNeedsLayout = (div.offsetWidth === 3);
+            div.style.cssText =
+                divReset + "width:1px;padding:1px;display:inline;zoom:1";
+            support.inlineBlockNeedsLayout = div.offsetWidth === 3;
 
             // Support: IE6
             // Check if elements with layout shrink-wrap their children
             div.style.display = "block";
             div.innerHTML = "<div></div>";
             div.firstChild.style.width = "5px";
-            support.shrinkWrapBlocks = (div.offsetWidth !== 3);
+            support.shrinkWrapBlocks = div.offsetWidth !== 3;
 
             if (support.inlineBlockNeedsLayout) {
                 // Prevent IE 6 from affecting layout for positioned elements #11048

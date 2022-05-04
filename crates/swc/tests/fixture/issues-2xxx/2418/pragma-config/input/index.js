@@ -1,3 +1,3 @@
-import {h} from "preact";
+import { h } from "preact";
 
 module.exports = <div></div>;

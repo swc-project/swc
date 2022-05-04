@@ -1,4 +1,4 @@
-import { B } from '~/subfolder/B';
+import { B } from "~/subfolder/B";
 
 console.log(B);
 

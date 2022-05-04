@@ -12,10 +12,10 @@
                 });
             };
             a.r(b), a.d(b, {
-                "__N_SSG": function() {
+                __N_SSG: function() {
                     return f;
                 },
-                "default": function() {
+                default: function() {
                     return d;
                 }
             });
@@ -26,7 +26,7 @@
                 "/static",
                 function() {
                     return c(2943);
-                }
+                }, 
             ]);
         }
     },
@@ -38,5 +38,5 @@
         ], function() {
             return a(a.s = 7139);
         }), _N_E = a.O();
-    }
+    }, 
 ]);

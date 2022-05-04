@@ -1,4 +1,4 @@
 function foo(bar) {
-  const { foo } = bar;
-  return foo;
+    const { foo } = bar;
+    return foo;
 }

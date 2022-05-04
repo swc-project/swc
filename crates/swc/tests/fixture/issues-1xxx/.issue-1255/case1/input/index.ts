@@ -1,3 +1,3 @@
-import { main } from './foo'
+import { main } from "./foo";
 
-main()
+main();

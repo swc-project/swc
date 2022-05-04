@@ -16,8 +16,10 @@ interface I<T, U extends T, V extends U> {
     foo<W extends V>(x: W): T;
 }
 
-function foo<T, U extends T>(x: T, y: U): V { // error
-    function bar<V extends T, W extends U>(): X { // error
+function foo<T, U extends T>(x: T, y: U): V {
+    // error
+    function bar<V extends T, W extends U>(): X {
+        // error
         function baz<X extends W, Y extends V>(a: X, b: Y): T {
             x = y;
             return y;
@@ -25,8 +27,10 @@ function foo<T, U extends T>(x: T, y: U): V { // error
     }
 }
 
-function foo2<U extends T, T>(x: T, y: U): W { // error
-    function bar<V extends T, W extends U>(): Y { // error
+function foo2<U extends T, T>(x: T, y: U): W {
+    // error
+    function bar<V extends T, W extends U>(): Y {
+        // error
         function baz<X extends W, Y extends V>(a: X, b: Y): T {
             x = y;
             return y;
@@ -35,19 +39,21 @@ function foo2<U extends T, T>(x: T, y: U): W { // error
 }
 
 var f3 = <T, U extends T>(x: T, y: U) => {
-    function bar<V extends T, W extends U>(r: X, s: Y) { // error
+    function bar<V extends T, W extends U>(r: X, s: Y) {
+        // error
         var g = <X extends W, Y extends V>(a: X, b: Y): T => {
             x = y;
             return y;
-        }
+        };
     }
-}
+};
 
-var f4 = <U extends T, T>(x: V, y: X) => { // error
+var f4 = <U extends T, T>(x: V, y: X) => {
+    // error
     function bar<V extends T, W extends U>() {
         var g = <X extends W, Y extends V>(a: X, b: Y): T => {
             x = y;
             return y;
-        }
+        };
     }
-}
+};

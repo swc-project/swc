@@ -1,6 +1,6 @@
 "asad".at();
 "ads".replaceAll();
 
-globalThis.a
+globalThis.a;
 
 Promise.allSettled([]);

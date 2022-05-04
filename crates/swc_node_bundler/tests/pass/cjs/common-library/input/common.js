@@ -1,3 +1,1 @@
-module.exports = class Common {
-
-}
+module.exports = class Common {};

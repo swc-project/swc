@@ -1,2 +1,2 @@
-export const importSomething = ()=>import('lodash')
+export const importSomething = ()=>import("lodash")
 ;

@@ -1,9 +1,9 @@
 class A {
-  static #foo;
+    static #foo;
 
-  test() {
-    let A = function fn(A) {
-      return #foo in A;
-    };
-  }
+    test() {
+        let A = function fn(A) {
+            return #foo in A;
+        };
+    }
 }

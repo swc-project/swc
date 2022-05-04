@@ -178,7 +178,7 @@ export var sendTransactions = function() {
                     transaction.recentBlockhash = block.blockhash;
                     (_transaction = transaction).setSigners.apply(_transaction, [
                         // fee payed by the wallet owner
-                        wallet.publicKey, 
+                        wallet.publicKey
                     ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
                         return s.publicKey;
                     }))));
@@ -350,7 +350,7 @@ export var sendTransaction = function() {
                         ;
                         (_transaction2 = transaction).setSigners.apply(_transaction2, [
                             // fee payed by the wallet owner
-                            wallet.publicKey, 
+                            wallet.publicKey
                         ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
                             return s.publicKey;
                         }))));
@@ -455,7 +455,7 @@ export var sendTransactionWithRetry = function() {
                         ;
                         (_transaction4 = transaction).setSigners.apply(_transaction4, [
                             // fee payed by the wallet owner
-                            wallet.publicKey, 
+                            wallet.publicKey
                         ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
                             return s.publicKey;
                         }))));

@@ -1,4 +1,3 @@
+import * as a from "./a";
 
-import * as a from './a';
-
-console.log(a[foo()])
+console.log(a[foo()]);

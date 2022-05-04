@@ -7,7 +7,7 @@ class F {
     }
     static #x = (_tmp = 0, _brand_check_x.add(this), _tmp);
     static #y = (_tmp1 = (()=>{
-        throw 'error';
+        throw "error";
     })(), _brand_check_y.add(this), _tmp1);
     static  #z() {}
 }

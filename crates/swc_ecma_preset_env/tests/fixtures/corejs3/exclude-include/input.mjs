@@ -1,8 +1,8 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 async function a() {
-  await 1;
+    await 1;
 }
 
-(() => {})
+() => {};

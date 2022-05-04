@@ -1,2 +1,2 @@
-import React from 'react';
-React.createElement('div');
+import React from "react";
+React.createElement("div");

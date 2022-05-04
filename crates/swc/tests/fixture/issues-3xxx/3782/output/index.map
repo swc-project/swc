@@ -12,7 +12,7 @@
     "../../input/index.ts"
   ],
   "sourcesContent": [
-    "// index.ts\nexport * as get from \"./get\";\n\n// get/index.ts\n\nexport const byID = (id: string): Promise<string> => {\n    // Do some async stuff\n    return new Promise((resolve) =>\n        setTimeout(() => {\n            resolve(\"result\");\n        }, 2000)\n    );\n};"
+    "// index.ts\nexport * as get from \"./get\";\n\n// get/index.ts\n\nexport const byID = (id: string): Promise<string> => {\n    // Do some async stuff\n    return new Promise((resolve) =>\n        setTimeout(() => {\n            resolve(\"result\");\n        }, 2000)\n    );\n};\n"
   ],
   "version": 3
 }

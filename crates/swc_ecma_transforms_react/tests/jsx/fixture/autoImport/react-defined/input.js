@@ -1,5 +1,5 @@
 import * as react from "react";
-var y = react.createElement("div", {foo: 1});
+var y = react.createElement("div", { foo: 1 });
 var x = (
     <div>
         <div key="1" />

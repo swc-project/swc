@@ -1,3 +1,3 @@
-import styles from 'foo/index';
+import styles from "foo/index";
 
-console.log(styles)
+console.log(styles);

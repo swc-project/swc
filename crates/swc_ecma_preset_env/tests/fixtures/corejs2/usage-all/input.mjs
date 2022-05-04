@@ -15,4 +15,6 @@ _arr9[Symbol2.iterator]();
 _arr9[Symbol.iterator2]();
 
 G.assign; // static method
-function H(WeakMap) { var blah = new WeakMap(); } // shadowed
+function H(WeakMap) {
+    var blah = new WeakMap();
+} // shadowed

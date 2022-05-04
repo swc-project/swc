@@ -1,10 +1,10 @@
-import { Debounce } from 'lodash-decorators';
+import { Debounce } from "lodash-decorators";
 class Person {
     private static debounceTime: number = 500 as const;
 
     @Debounce(Person.debounceTime)
     save() {
-        console.log('Hello World!');
+        console.log("Hello World!");
     }
 }
 

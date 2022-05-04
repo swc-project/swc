@@ -1,6 +1,6 @@
 (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
     [
-        732, 
+        732
     ],
     {
         2911: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
@@ -397,7 +397,7 @@
                             }) : state.loaded ? _react.default.createElement((obj = state.loaded) && obj.__esModule ? obj.default : obj, props) : null;
                         }, [
                             props,
-                            state, 
+                            state
                         ]);
                     };
                     return LoadableComponent.preload = function() {
@@ -459,7 +459,7 @@
                     (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(this, Welcome);
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
-                        this, 
+                        this
                     ].concat(args)), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), "state", {
                         name: null
                     }), _this;
@@ -481,7 +481,7 @@
                             return name ? (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
                                 children: [
                                     "Welcome, ",
-                                    name, 
+                                    name
                                 ]
                             }) : null;
                         }
@@ -498,7 +498,7 @@
                 loadableGenerated: {
                     webpack: function() {
                         return [
-                            9087, 
+                            9087
                         ];
                     },
                     modules: [
@@ -535,7 +535,7 @@
         __webpack_require__.O(0, [
             774,
             888,
-            179, 
+            179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 5279);
         }), _N_E = __webpack_require__.O();

@@ -10,7 +10,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "describe(\"multiline comments\", () => {\n    it(\"test1\", () => {\n        expect(false).toBe(true);\n    });\n\n    it(\"test2\", () => {\n        /**/\n        expect(false).toBe(true);\n    });\n\n    it(\"test3\", () => {\n        /*\n         *\n         */\n        expect(false).toBe(true);\n    });\n\n    it(\"test4\", () => {\n        expect(false).toBe(true);\n    });\n});"
+    "describe(\"multiline comments\", () => {\n    it(\"test1\", () => {\n        expect(false).toBe(true);\n    });\n\n    it(\"test2\", () => {\n        /**/\n        expect(false).toBe(true);\n    });\n\n    it(\"test3\", () => {\n        /*\n         *\n         */\n        expect(false).toBe(true);\n    });\n\n    it(\"test4\", () => {\n        expect(false).toBe(true);\n    });\n});\n"
   ],
   "version": 3
 }

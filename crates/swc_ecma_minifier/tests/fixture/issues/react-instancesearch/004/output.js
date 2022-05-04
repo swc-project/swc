@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
-import algoliasearchHelper from 'algoliasearch-helper';
-import createWidgetsManager from './createWidgetsManager';
-import { HIGHLIGHT_TAGS } from './highlight';
-import { hasMultipleIndices } from './indexUtils';
-import { version as ReactVersion } from 'react';
-import version from './version';
+import algoliasearchHelper from "algoliasearch-helper";
+import createWidgetsManager from "./createWidgetsManager";
+import { HIGHLIGHT_TAGS } from "./highlight";
+import { hasMultipleIndices } from "./indexUtils";
+import { version as ReactVersion } from "react";
+import version from "./version";
 function addAlgoliaAgents(searchClient) {
-    'function' == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")")), searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")")));
+    "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")")), searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")")));
 }
 var _obj, isMultiIndexContext = function(widget) {
     return hasMultipleIndices({
@@ -73,9 +73,9 @@ export default function createInstantSearchManager(param1) {
                 var indexId = param.indexId, parameters = param.parameters, derivedHelper = helper.derive(function() {
                     return parameters;
                 });
-                derivedHelper.on('result', handleSearchSuccess({
+                derivedHelper.on("result", handleSearchSuccess({
                     indexId: indexId
-                })).on('error', handleSearchError);
+                })).on("error", handleSearchError);
             }), helper.setState(mainParameters), helper.search();
         }
     }, handleSearchSuccess = function(param) {
@@ -99,7 +99,7 @@ export default function createInstantSearchManager(param1) {
         var error = param.error, currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
         helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1), currentState.resultsFacetValues;
         var partialState = swcHelpers.objectWithoutProperties(currentState, [
-            "resultsFacetValues"
+            "resultsFacetValues", 
         ]);
         store.setState(swcHelpers.objectSpread({}, partialState, {
             isSearchStalled: nextIsSearchStalled,
@@ -109,7 +109,7 @@ export default function createInstantSearchManager(param1) {
     }, hydrateSearchClientWithMultiIndexRequest = function(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.reduce(function(acc, result) {
                         return acc.concat(result.rawResults.map(function(request) {
@@ -145,7 +145,7 @@ export default function createInstantSearchManager(param1) {
     }, hydrateSearchClientWithSingleIndexRequest = function(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.rawResults.map(function(request) {
                         return {
@@ -171,18 +171,18 @@ export default function createInstantSearchManager(param1) {
             results: results.rawResults
         })));
     }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
-    addAlgoliaAgents(searchClient), helper.on('search', function() {
+    addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
             var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
-                "resultsFacetValues"
+                "resultsFacetValues", 
             ]));
             store.setState(swcHelpers.objectSpread({}, partialState, {
                 isSearchStalled: !0
             }));
         }, stalledSearchDelay));
-    }).on('result', handleSearchSuccess({
+    }).on("result", handleSearchSuccess({
         indexId: indexName
-    })).on('error', handleSearchError);
+    })).on("error", handleSearchError);
     var results1, state1, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
         var metadata = getMetadata(store.getState().widgets);
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
@@ -191,7 +191,7 @@ export default function createInstantSearchManager(param1) {
         })), search();
     });
     !function(client, results) {
-        if (results && (client.transporter && !client._cacheHydrated || client._useCache && 'function' == typeof client.addAlgoliaAgent)) {
+        if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
                 client._cacheHydrated = !0;
                 var baseMethod = client.search;
@@ -208,12 +208,12 @@ export default function createInstantSearchManager(param1) {
                                 });
                             }, Object.keys(parameters).map(function(key) {
                                 var value;
-                                return encode('%s=%s', key, (value = parameters[key], '[object Object]' === Object.prototype.toString.call(value) || '[object Array]' === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
-                            }).join('&'))
+                                return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                            }).join("&"))
                         });
                     });
                     return client.transporter.responsesCache.get({
-                        method: 'search',
+                        method: "search",
                         args: [
                             requestsWithSerializedParams
                         ].concat(swcHelpers.toConsumableArray(methodArgs))

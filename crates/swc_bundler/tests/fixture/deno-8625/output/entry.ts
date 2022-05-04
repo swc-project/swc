@@ -1,8 +1,8 @@
 function Foo(name) {
-    return 'foo' + name;
+    return "foo" + name;
 }
 const mod = {
     Foo: Foo
 };
-const bar = Foo('bar');
+const bar = Foo("bar");
 console.log(mod, bar);

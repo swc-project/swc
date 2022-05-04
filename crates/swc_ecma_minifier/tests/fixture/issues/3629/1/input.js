@@ -1,5 +1,5 @@
-const a = 'a' === 'a';
+const a = "a" === "a";
 if (a) {
-    console.log('Hey!');
+    console.log("Hey!");
 }
 console.log(a);

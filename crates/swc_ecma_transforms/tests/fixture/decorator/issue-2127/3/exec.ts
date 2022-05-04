@@ -1,4 +1,4 @@
-const returnValue = "asdasd"
+const returnValue = "asdasd";
 class TestClass2 {
     @deco public declare testProperty: Date;
 }
@@ -10,6 +10,6 @@ function deco(target: any, key: string) {
         configurable: true,
     });
 }
-console.log(TestClass2.prototype.testProperty)
-const instance = new TestClass2()
-expect(instance.testProperty).toBe(returnValue)
+console.log(TestClass2.prototype.testProperty);
+const instance = new TestClass2();
+expect(instance.testProperty).toBe(returnValue);

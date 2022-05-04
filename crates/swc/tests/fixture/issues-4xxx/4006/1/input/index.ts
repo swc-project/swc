@@ -1,9 +1,13 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement } from "lit";
 
 export class App extends LitElement {
     name: string;
 
-    static styles = css`p { color: blue }`;
+    static styles = css`
+        p {
+            color: blue;
+        }
+    `;
 
     static properties = {
         name: { type: String },
@@ -11,11 +15,11 @@ export class App extends LitElement {
 
     constructor() {
         super();
-        this.name = 'Somebody';
+        this.name = "Somebody";
     }
 
     render() {
         return html`<p>Hello, ${this.name}!</p>`;
     }
 }
-customElements.define('app', App);
+customElements.define("app", App);

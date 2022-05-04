@@ -6,7 +6,16 @@
 
 import WebSocket from "ws";
 
-import { Bucket, ClientEvent, Emitter, GatewayCloseCode, GatewayOp, ShardEvent, Status, Timers } from "../../utils";
+import {
+    Bucket,
+    ClientEvent,
+    Emitter,
+    GatewayCloseCode,
+    GatewayOp,
+    ShardEvent,
+    Status,
+    Timers,
+} from "../../utils";
 import { Heartbeat, Session } from "./connection";
 import { Serialization } from "./serialization";
 import { Compression } from "./compression";
@@ -158,7 +167,8 @@ export class Shard extends Emitter {
      */
     send(data, prioritized = false) {
         if (this.connected) {
-            let _i = 0, _w = 1;
+            let _i = 0,
+                _w = 1;
             const func = () => {
                 if (++_i < _w) {
                     return;
@@ -186,7 +196,9 @@ export class Shard extends Emitter {
     destroy({ code = 1000, emit = true, log = true, reset = false } = {}) {
         if (log) {
             this._debug(
-                `Destroying; Code = ${code}, Resetting? = ${reset ? "yes" : "no"}`
+                `Destroying; Code = ${code}, Resetting? = ${
+                    reset ? "yes" : "no"
+                }`
             );
         }
 
@@ -199,7 +211,9 @@ export class Shard extends Emitter {
             if (this.#ws.readyState === WebSocket.OPEN) {
                 this.#ws.close(code);
             } else {
-                this._debug(`Ws State: ${connectionStates[this.#ws.readyState]}`);
+                this._debug(
+                    `Ws State: ${connectionStates[this.#ws.readyState]}`
+                );
                 this._cleanupConnection();
 
                 try {
@@ -244,7 +258,9 @@ export class Shard extends Emitter {
     connect() {
         /* Step 0 - Check if a connection already exists. If so identify the session. */
         if (this.connected) {
-            this._debug("A connection is already present, attempting to identify.");
+            this._debug(
+                "A connection is already present, attempting to identify."
+            );
             this.session.identify();
             return;
         }
@@ -339,7 +355,9 @@ export class Shard extends Emitter {
 
         if (pak.s !== null) {
             if (this.#seq !== -1 && pak.s > this.#seq + 1) {
-                this._debug(`Non-consecutive sequence [${this.#seq} => ${pak.s}]`);
+                this._debug(
+                    `Non-consecutive sequence [${this.#seq} => ${pak.s}]`
+                );
             }
 
             this.#seq = pak.s;
@@ -422,7 +440,9 @@ export class Shard extends Emitter {
         );
 
         if (this.#queue.length) {
-            this._debug(`${this.#queue.length} packets waiting... sending all now.`);
+            this._debug(
+                `${this.#queue.length} packets waiting... sending all now.`
+            );
             while (this.#queue.length) {
                 const pk = this.#queue.shift();
                 if (!pk) {
@@ -494,7 +514,11 @@ export class Shard extends Emitter {
      * @private
      */
     _cleanupConnection() {
-        this.#ws.onopen = this.#ws.onclose = this.#ws.onerror = this.#ws.onmessage = null;
+        this.#ws.onopen =
+            this.#ws.onclose =
+            this.#ws.onerror =
+            this.#ws.onmessage =
+                null;
     }
 
     /**

@@ -1,5 +1,5 @@
 class User {
-    currency: 'usd' | 'eur' | 'yen';
+    currency: "usd" | "eur" | "yen";
 }
 __decorate([
     column(),

@@ -15,13 +15,13 @@
                 EditorView: function() {
                     return EditorView;
                 },
-                "__endComposition": function() {
+                __endComposition: function() {
                     return endComposition;
                 },
-                "__parseFromClipboard": function() {
+                __parseFromClipboard: function() {
                     return parseFromClipboard;
                 },
-                "__serializeForClipboard": function() {
+                __serializeForClipboard: function() {
                     return serializeForClipboard;
                 }
             });
@@ -35,7 +35,7 @@
                 var chrome = !ie && /Chrome\/(\d+)/.exec(navigator.userAgent);
                 result1.chrome = !!chrome, result1.chrome_version = chrome && +chrome[1], result1.safari = !ie && /Apple Computer/.test(navigator.vendor), result1.ios = result1.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2), result1.mac = result1.ios || /Mac/.test(navigator.platform), result1.android = /Android \d/.test(navigator.userAgent), result1.webkit = "webkitFontSmoothing" in document.documentElement.style, result1.webkit_version = result1.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
-                    0
+                    0, 
                 ])[1];
             }
             var domIndex = function(node) {
@@ -605,7 +605,7 @@
                         offset: pos
                     };
                 }, CompositionViewDesc.prototype.ignoreMutation = function(mut) {
-                    return 'characterData' === mut.type && mut.target.nodeValue == mut.oldValue;
+                    return "characterData" === mut.type && mut.target.nodeValue == mut.oldValue;
                 }, Object.defineProperties(CompositionViewDesc.prototype, prototypeAccessors$2), CompositionViewDesc;
             }(ViewDesc1), MarkViewDesc1 = function(ViewDesc) {
                 function MarkViewDesc(parent, mark, dom, contentDOM) {
@@ -839,11 +839,11 @@
             }
             OuterDecoLevel.prototype = Object.create(null);
             var noDeco = [
-                new OuterDecoLevel
+                new OuterDecoLevel()
             ];
             function computeOuterDeco(outerDeco, node, needsWrap) {
                 if (0 == outerDeco.length) return noDeco;
-                for(var top = needsWrap ? noDeco[0] : new OuterDecoLevel, result = [
+                for(var top = needsWrap ? noDeco[0] : new OuterDecoLevel(), result = [
                     top
                 ], i = 0; i < outerDeco.length; i++){
                     var attrs = outerDeco[i].type.attrs;
@@ -894,7 +894,7 @@
                 this.top = top, this.lock = lockedNode, this.index = 0, this.stack = [], this.changed = !1, this.preMatch = preMatch1(top.node.content, top.children);
             };
             function preMatch1(frag, descs) {
-                for(var fI = frag.childCount, dI = descs.length, matched = new Map; fI > 0 && dI > 0; dI--){
+                for(var fI = frag.childCount, dI = descs.length, matched = new Map(); fI > 0 && dI > 0; dI--){
                     var desc = descs[dI - 1], node = desc.node;
                     if (node) {
                         if (node != frag.child(fI - 1)) break;
@@ -1519,7 +1519,7 @@
                     result1.ie && result1.ie_version <= 11 && mutations.some(function(m) {
                         return "childList" == m.type && m.removedNodes.length || "characterData" == m.type && m.oldValue.length > m.target.nodeValue.length;
                     }) ? this$1.flushSoon() : this$1.flush();
-                }), this.currentSelection = new SelectionState, useCharData && (this.onCharData = function(e) {
+                }), this.currentSelection = new SelectionState(), useCharData && (this.onCharData = function(e) {
                     this$1.queue.push({
                         target: e.target,
                         type: "characterData",
@@ -2247,7 +2247,7 @@
                     var result = f(view.state);
                     result && result != empty1 && found.push(result);
                 }), view.cursorWrapper && found.push(DecorationSet.create(view.state.doc, [
-                    view.cursorWrapper.deco
+                    view.cursorWrapper.deco, 
                 ])), DecorationGroup.from(found);
             }
             DecorationGroup.prototype.map = function(mapping, doc) {
@@ -2742,5 +2742,5 @@
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));
             }, Object.defineProperties(EditorView.prototype, prototypeAccessors$21);
         }
-    }
+    }, 
 ]);

@@ -1,3 +1,3 @@
-import { A } from './lib';
+import { A } from "./lib";
 
-console.log(A)
+console.log(A);

@@ -1,5 +1,3 @@
+class Foo {}
 
-
-class Foo { }
-
-class Bar extends Foo { }
+class Bar extends Foo {}

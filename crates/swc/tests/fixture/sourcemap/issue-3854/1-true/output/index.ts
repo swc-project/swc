@@ -172,7 +172,7 @@ class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
     }
     buildListItem(seqNextElement) {
         return {
-            id: (0, _builderUtils).hash('bodyStage', swcHelpers.classPrivateFieldGet(this, _nodes1), swcHelpers.classPrivateFieldGet(this, _companions), swcHelpers.classPrivateFieldGet(this, _commercialsEndOfStage), swcHelpers.classPrivateFieldGet(this, _header)),
+            id: (0, _builderUtils).hash("bodyStage", swcHelpers.classPrivateFieldGet(this, _nodes1), swcHelpers.classPrivateFieldGet(this, _companions), swcHelpers.classPrivateFieldGet(this, _commercialsEndOfStage), swcHelpers.classPrivateFieldGet(this, _header)),
             nodes: seqNextElement.array(swcHelpers.classPrivateFieldGet(this, _nodes1)),
             header: seqNextElement.maybe(swcHelpers.classPrivateFieldGet(this, _header)),
             companions: seqNextElement.array(swcHelpers.classPrivateFieldGet(this, _companions)),
@@ -258,7 +258,7 @@ class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
         super(...args);
         swcHelpers.classPrivateFieldInit(this, _variant, {
             writable: true,
-            value: 'full'
+            value: "full"
         });
         swcHelpers.classPrivateFieldInit(this, _opener, {
             writable: true,
@@ -273,7 +273,7 @@ class ArticleSourceSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
         return this;
     }
     buildListItem(seqNextElement) {
-        const id = (0, _builderUtils).hash('article-source', swcHelpers.classPrivateFieldGet(this, _nodes2));
+        const id = (0, _builderUtils).hash("article-source", swcHelpers.classPrivateFieldGet(this, _nodes2));
         return {
             id,
             nodes: seqNextElement.array(swcHelpers.classPrivateFieldGet(this, _nodes2))

@@ -1,13 +1,13 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "dynamicImport": true
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "dynamicImport": true
+        },
+        "target": "es2020",
+        "loose": true
     },
-    "target": "es2020",
-    "loose": true
-  },
-  "module": {
-    "type": "commonjs"
-  }
+    "module": {
+        "type": "commonjs"
+    }
 }

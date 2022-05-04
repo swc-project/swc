@@ -1,31 +1,27 @@
-
-
 let id = 1;
 
 function dec() {
-    console.log(id)
-    return () => id++
+    console.log(id);
+    return () => id++;
 }
 
 function key() {
-    console.log(id)
-    return id++
+    console.log(id);
+    return id++;
 }
-
 
 @dec
 class Foo {
     @dec
-    prop1: number
+    prop1: number;
 
     @dec
-    [key()]: number
+    [key()]: number;
 
     @dec
     @dec
-    [key()]: number
+    [key()]: number;
 
     @dec
-    prop2: number
+    prop2: number;
 }
-

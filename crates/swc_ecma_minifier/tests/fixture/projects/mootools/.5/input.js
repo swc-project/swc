@@ -3,4 +3,4 @@ export const obj = {
         if (!this[key] || this.hasOwnProperty(key)) this[key] = value;
         return this;
     },
-}
+};

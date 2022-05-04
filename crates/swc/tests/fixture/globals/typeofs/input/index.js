@@ -1,3 +1,1 @@
-
-
 console.log(typeof window);

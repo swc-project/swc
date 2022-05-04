@@ -1,9 +1,9 @@
-
-    let Test = 2;
-    test(class Test {
+let Test = 2;
+test(
+    class Test {
         hi() {
             console.log(Test);
         }
-    });
-    Test = 4;
-    
+    }
+);
+Test = 4;

@@ -32,13 +32,13 @@ function __swcpack_require__(mod) {
     return cache;
 }
 var load = __swcpack_require__.bind(void 0, function(module, exports) {
-    console.log('a');
+    console.log("a");
 });
 var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
-    console.log('b');
+    console.log("b");
 });
 var load2 = __swcpack_require__.bind(void 0, function(module, exports) {
-    console.log('c');
+    console.log("c");
 });
 load();
 load1();

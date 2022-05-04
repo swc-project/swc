@@ -1,4 +1,4 @@
-import type { Foo } from './foo.ts';
+import type { Foo } from "./foo.ts";
 //            ^^^ <---- (a)
 function _bar(...Foo: Foo) {
     //                    ^^^ <---- (b)

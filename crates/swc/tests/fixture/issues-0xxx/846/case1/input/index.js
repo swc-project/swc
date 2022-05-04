@@ -1,11 +1,11 @@
 class SomeClass {
     @dec
-    someMethod() { }
+    someMethod() {}
 }
 
 class OtherClass extends SomeClass {
     @dec
     anotherMethod() {
-        super.someMethod()
+        super.someMethod();
     }
 }

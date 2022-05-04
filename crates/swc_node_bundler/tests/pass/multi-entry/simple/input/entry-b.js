@@ -1,3 +1,3 @@
-import { foo } from './d'
+import { foo } from "./d";
 
 foo();

@@ -1,5 +1,10 @@
 jQuery.extend = jQuery.fn.extend = function () {
-    var src, copyIsArray, copy, name, options, clone,
+    var src,
+        copyIsArray,
+        copy,
+        name,
+        options,
+        clone,
         target = arguments[0] || {},
         i = 1,
         length = arguments.length,
@@ -38,11 +43,15 @@ jQuery.extend = jQuery.fn.extend = function () {
                 }
 
                 // Recurse if we're merging plain objects or arrays
-                if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+                if (
+                    deep &&
+                    copy &&
+                    (jQuery.isPlainObject(copy) ||
+                        (copyIsArray = jQuery.isArray(copy)))
+                ) {
                     if (copyIsArray) {
                         copyIsArray = false;
                         clone = src && jQuery.isArray(src) ? src : [];
-
                     } else {
                         clone = src && jQuery.isPlainObject(src) ? src : {};
                     }

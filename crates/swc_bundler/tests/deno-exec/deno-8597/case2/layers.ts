@@ -1,4 +1,4 @@
-import { serialization } from './core';
+import { serialization } from "./core";
 
 export class Constraint extends serialization.Class {
     getConfig() {

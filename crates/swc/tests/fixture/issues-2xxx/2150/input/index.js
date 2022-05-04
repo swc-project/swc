@@ -1,4 +1,4 @@
 var obj = {
-	fn (){}
+    fn() {},
 };
 console.log(obj.fn.name);

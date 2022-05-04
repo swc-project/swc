@@ -1,4 +1,3 @@
 export class ATestForSwc {
-  testMethod() {
-  }
+    testMethod() {}
 }

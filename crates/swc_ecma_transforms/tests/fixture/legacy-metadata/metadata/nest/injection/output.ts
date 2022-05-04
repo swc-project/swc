@@ -1,6 +1,6 @@
-import { AppService } from './app.service';
-import { Session, Res } from '@nestjs/common';
-import * as express from 'express';
+import { AppService } from "./app.service";
+import { Session, Res } from "@nestjs/common";
+import * as express from "express";
 export let AppController = class AppController {
     constructor(private appService: AppService){}
     appService: AppService;
@@ -13,7 +13,7 @@ export let AppController = class AppController {
         const user = await this.getUserInfo(token.access_token);
         session.oauth2Token = token;
         session.user = user;
-        return res.redirect(state.returnUrl ?? '/');
+        return res.redirect(state.returnUrl ?? "/");
     }
 };
 __decorate([
@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:paramtypes", [])
 ], AppController.prototype, "getHello", null);
 __decorate([
-    Get('/callback'),
+    Get("/callback"),
     __param(0, Res()),
     __param(1, Session()),
     __metadata("design:type", Function),

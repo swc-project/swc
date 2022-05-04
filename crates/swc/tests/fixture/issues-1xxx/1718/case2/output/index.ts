@@ -7,7 +7,7 @@ function _scanUser() {
         yield Promise.all(groups.map(function() {
             var _ref = swcHelpers.asyncToGenerator(function*({ users  }) {
                 for (const user of users){
-                    console.log('user', user);
+                    console.log("user", user);
                     yield new Promise((resolve)=>setTimeout(resolve, 30)
                     );
                 }
@@ -37,5 +37,5 @@ scanUser([
             14,
             15
         ]
-    }, 
+    }
 ]);

@@ -1,7 +1,7 @@
 var foo = function () {
-  return () => <this />;
+    return () => <this />;
 };
 
 var bar = function () {
-  return () => <this.foo />;
+    return () => <this.foo />;
 };

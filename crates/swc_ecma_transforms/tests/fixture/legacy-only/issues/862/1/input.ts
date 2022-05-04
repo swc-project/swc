@@ -1,6 +1,6 @@
 @Entity()
 export class Product extends TimestampedEntity {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn("uuid")
     public id!: string;
 
     @Column()

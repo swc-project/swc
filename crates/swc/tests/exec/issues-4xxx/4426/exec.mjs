@@ -1,1 +1,1 @@
-console.log(await Promise.resolve(false) || 2)
+console.log((await Promise.resolve(false)) || 2);

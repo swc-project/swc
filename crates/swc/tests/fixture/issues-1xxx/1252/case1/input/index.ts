@@ -1,4 +1,4 @@
 export const then = <R>(callback: (...args: TupleReturns<Ws>) => R) => {
-    let returns: R
-    let called: boolean
-}
+    let returns: R;
+    let called: boolean;
+};

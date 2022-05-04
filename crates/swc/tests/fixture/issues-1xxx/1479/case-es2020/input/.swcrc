@@ -1,9 +1,9 @@
 {
-  "jsc": {
-    "target": "es2020",
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true
+    "jsc": {
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
     }
-  }
 }

@@ -1,8 +1,8 @@
 function A() {
-    return 'a'
+    return "a";
 }
-const b = 'b'
-const c = 'c'
+const b = "b";
+const c = "c";
 export function d() {
-    return <A val={b}>{c}</A>
+    return <A val={b}>{c}</A>;
 }

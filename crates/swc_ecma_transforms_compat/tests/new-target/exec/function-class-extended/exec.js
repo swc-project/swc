@@ -2,14 +2,14 @@
 
 const targets = [];
 function Foo() {
-  targets.push(new.target);
+    targets.push(new.target);
 }
 
 function Bar() {
-  Foo.call(this);
+    Foo.call(this);
 }
 
-new Foo;
+new Foo();
 new Bar();
 
 expect(targets[0]).toBe(Foo);

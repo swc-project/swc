@@ -19,7 +19,7 @@ class Foo {
         } // should not replace
         , _class.p2 = new function _target() {
             this.constructor;
-        } // should not replace
+        }() // should not replace
         , _class.p3 = function() {
             void 0;
         } // should replace

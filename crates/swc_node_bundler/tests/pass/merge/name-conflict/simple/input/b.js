@@ -1,5 +1,5 @@
 export const b = foo();
 
 function foo() {
-  return 2;
+    return 2;
 }

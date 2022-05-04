@@ -1,1 +1,5 @@
-{"throws":"importSource cannot be set when runtime is classic.","runtime":"automatic","importSource":"foo"}
+{
+    "throws": "importSource cannot be set when runtime is classic.",
+    "runtime": "automatic",
+    "importSource": "foo"
+}

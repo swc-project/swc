@@ -1,5 +1,5 @@
-if (typeof (/./) !== 'function') {
+if (typeof /./ !== "function") {
     _.isFunction = function (obj) {
-        return typeof obj === 'function';
+        return typeof obj === "function";
     };
 }

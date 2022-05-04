@@ -1,8 +1,8 @@
 "use strict";
 const foo = (bar, baz) => {
-    return baz
-}
+    return baz;
+};
 
 const bar = (a, b, c) => {
-    return c
-}
+    return c;
+};

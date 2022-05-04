@@ -1458,7 +1458,7 @@ export function foo(global, env, buffer) {
             if (!d) a = 1;
             else {
                 e = T1(g1[a >> 2]);
-                a = T1(C1(T1(e - T1(g1[b >> 2])))) < T1(.0000999999974);
+                a = T1(C1(T1(e - T1(g1[b >> 2])))) < T1(0.0000999999974);
             }
         } else a = 0;
         return a | 0;
@@ -1468,7 +1468,7 @@ export function foo(global, env, buffer) {
         b = T1(b);
         var c = 0;
         if (Sb(a) | 0) c = Sb(b) | 0;
-        else c = T1(C1(T1(a - b))) < T1(.0000999999974);
+        else c = T1(C1(T1(a - b))) < T1(0.0000999999974);
         return c | 0;
     }
     function Md(a, b) {
@@ -1512,9 +1512,9 @@ export function foo(global, env, buffer) {
                 break;
             }
             if (!d) {
-                if (e > T1(.5)) e = T1(1.0);
+                if (e > T1(0.5)) e = T1(1.0);
                 else {
-                    d = Ld(e, T1(.5)) | 0;
+                    d = Ld(e, T1(0.5)) | 0;
                     e = d ? T1(1.0) : T1(0.0);
                 }
                 a = T1(a + e);
@@ -2265,7 +2265,7 @@ export function foo(global, env, buffer) {
                     switch(Z | 0){
                         case 1:
                             q = 0;
-                            x = T1(v * T1(.5));
+                            x = T1(v * T1(0.5));
                             f = T1(0.0);
                             break d;
                         case 2:
@@ -2293,7 +2293,7 @@ export function foo(global, env, buffer) {
                         case 4:
                             f = T1(v / T1(k >>> 0));
                             q = 0;
-                            x = T1(f * T1(.5));
+                            x = T1(f * T1(0.5));
                             break d;
                         default:
                             q = 0;
@@ -2423,7 +2423,7 @@ export function foo(global, env, buffer) {
                                 e = T1(x - T1(Pe(s, Ka, Ea)));
                                 do if ((c1[(Ke(s, Ka) | 0) + 4 >> 2] | 0) == 3) {
                                     if ((c1[(Le(s, Ka) | 0) + 4 >> 2] | 0) != 3) break;
-                                    e = T1(u + T1(cC(T1(0.0), T1(e * T1(.5)))));
+                                    e = T1(u + T1(cC(T1(0.0), T1(e * T1(0.5)))));
                                     break f;
                                 }
                                 while (0)
@@ -2440,7 +2440,7 @@ export function foo(global, env, buffer) {
                                         e = u;
                                         break f;
                                     case 2:
-                                        e = T1(u + T1(e * T1(.5)));
+                                        e = T1(u + T1(e * T1(0.5)));
                                         break f;
                                     default:
                                         e = T1(u + e);
@@ -2477,7 +2477,7 @@ export function foo(global, env, buffer) {
                             z = T1(0.0);
                             break;
                         case 2:
-                            u = T1(u + T1(e * T1(.5)));
+                            u = T1(u + T1(e * T1(0.5)));
                             z = T1(0.0);
                             break;
                         case 4:
@@ -2491,7 +2491,7 @@ export function foo(global, env, buffer) {
                                 z = q ? z : T1(0.0);
                                 break g;
                             } else {
-                                u = T1(u + T1(e * T1(.5)));
+                                u = T1(u + T1(e * T1(0.5)));
                                 z = T1(0.0);
                                 break g;
                             }
@@ -2565,7 +2565,7 @@ export function foo(global, env, buffer) {
                                             g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
                                             break i;
                                         case 2:
-                                            Ma = T1(f + T1(T1(y - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2])) * T1(.5)));
+                                            Ma = T1(f + T1(T1(y - T1(g1[r + 908 + (c1[C >> 2] << 2) >> 2])) * T1(0.5)));
                                             g1[r + 400 + (c1[B >> 2] << 2) >> 2] = Ma;
                                             break i;
                                         case 4:
@@ -3568,7 +3568,7 @@ export function foo(global, env, buffer) {
             if (!(Ne(b, s) | 0) ? (c1[a + 8 >> 2] | 0) == 1 : 0) {
                 w = c1[976 + (s << 2) >> 2] | 0;
                 v = T1(g1[a + 908 + (w << 2) >> 2]);
-                v = T1(T1(v - T1(g1[b + 908 + (w << 2) >> 2])) * T1(.5));
+                v = T1(T1(v - T1(g1[b + 908 + (w << 2) >> 2])) * T1(0.5));
                 g1[b + 400 + (c1[1040 + (s << 2) >> 2] << 2) >> 2] = v;
                 break;
             }
@@ -3593,7 +3593,7 @@ export function foo(global, env, buffer) {
             if ((Je(a, b) | 0) == 2) {
                 w = c1[976 + (q << 2) >> 2] | 0;
                 v = T1(g1[a + 908 + (w << 2) >> 2]);
-                v = T1(T1(v - T1(g1[b + 908 + (w << 2) >> 2])) * T1(.5));
+                v = T1(T1(v - T1(g1[b + 908 + (w << 2) >> 2])) * T1(0.5));
                 g1[b + 400 + (c1[1040 + (q << 2) >> 2] << 2) >> 2] = v;
                 break;
             }
@@ -21295,7 +21295,7 @@ export function foo(global, env, buffer) {
                 if (!(n & (q | 0) == 0)) {
                     r = (((p >>> 0) / (o >>> 0) | 0) & 1 | 0) == 0 ? 9007199254740992.0 : 9007199254740994.0;
                     x = (o | 0) / 2 | 0;
-                    e = q >>> 0 < x >>> 0 ? .5 : n & (q | 0) == (x | 0) ? 1.0 : 1.5;
+                    e = q >>> 0 < x >>> 0 ? 0.5 : n & (q | 0) == (x | 0) ? 1.0 : 1.5;
                     if (C) {
                         x = (a1[B >> 0] | 0) == 45;
                         e = x ? -e : e;
@@ -22770,7 +22770,7 @@ export function foo(global, env, buffer) {
         jD,
         jD,
         jD,
-        jD
+        jD, 
     ];
     var mb = [
         kD
@@ -22903,7 +22903,7 @@ export function foo(global, env, buffer) {
         lD,
         lD,
         lD,
-        lD
+        lD, 
     ];
     var ob = [
         mD,
@@ -22937,7 +22937,7 @@ export function foo(global, env, buffer) {
         mD,
         mD,
         mD,
-        mD
+        mD, 
     ];
     var pb = [
         nD,
@@ -22971,7 +22971,7 @@ export function foo(global, env, buffer) {
         nD,
         nD,
         nD,
-        nD
+        nD, 
     ];
     var qb = [
         oD,

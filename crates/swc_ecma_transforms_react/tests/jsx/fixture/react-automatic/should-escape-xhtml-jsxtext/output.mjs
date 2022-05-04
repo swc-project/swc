@@ -23,7 +23,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /*#__PURE__*/ _jsxs("div", {
     children: [
         "this should parse as unicode: ",
-        '\u00a0 '
+        "\u00a0 "
     ]
 });
 /*#__PURE__*/ _jsx("div", {

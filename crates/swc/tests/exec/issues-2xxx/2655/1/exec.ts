@@ -1,27 +1,29 @@
 let calledSetterProperty = false;
 
-const testDecorator = <T extends {},>(target: T, key: keyof T) => {
+const testDecorator = <T extends {}>(target: T, key: keyof T) => {
     const privateField = Symbol();
     // We define getters and setters for the property on the prototype of the class
     // A real application might use this to intercept changes to the decorated property.
     // This is a simplified version of a pattern used by the @microsoft/fast-elements library.
     Reflect.defineProperty(target, key, {
         get: function () {
-            console.log(`called getter for property ${key}.`)
-            return (target as any)[privateField]
+            console.log(`called getter for property ${key}.`);
+            return (target as any)[privateField];
         },
         set: function (newValue) {
             calledSetterProperty = true;
-            console.log(`called setter for property ${key} with newValue ${newValue}.`)
-            return (target as any)[privateField] = newValue
-        }
-    })
+            console.log(
+                `called setter for property ${key} with newValue ${newValue}.`
+            );
+            return ((target as any)[privateField] = newValue);
+        },
+    });
     console.log("called testDecorator!");
 };
 
 class TestClass {
     @testDecorator
-    testProp = "hello"
+    testProp = "hello";
 }
 
 const instance = new TestClass();

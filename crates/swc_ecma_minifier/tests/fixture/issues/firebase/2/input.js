@@ -6,7 +6,7 @@ export function treeSubTree(tree, pathObj) {
     while (next !== null) {
         const childNode = safeGet(child.node.children, next) || {
             children: {},
-            childCount: 0
+            childCount: 0,
         };
         child = new Tree(next, child, childNode);
         path = pathPopFront(path);

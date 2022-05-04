@@ -1,1 +1,1 @@
-async function a(){}
+async function a() {}

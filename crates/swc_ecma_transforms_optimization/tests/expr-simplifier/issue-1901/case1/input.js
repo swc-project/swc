@@ -1,5 +1,5 @@
-const object = { a: true }
+const object = { a: true };
 
 export const mapContextToProps = () => {
-    return { ...object }
-}
+    return { ...object };
+};

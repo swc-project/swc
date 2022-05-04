@@ -1,1 +1,5 @@
-console.log(class { run() { } });
+console.log(
+    class {
+        run() {}
+    }
+);

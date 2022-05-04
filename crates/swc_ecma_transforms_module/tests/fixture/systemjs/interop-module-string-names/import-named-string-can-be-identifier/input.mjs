@@ -1,3 +1,3 @@
-import { "defaultImports" as bar} from "foo";
+import { "defaultImports" as bar } from "foo";
 
 bar;

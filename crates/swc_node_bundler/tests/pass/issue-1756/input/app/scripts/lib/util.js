@@ -1,1 +1,1 @@
-import '../../../shared/constants/app';
+import "../../../shared/constants/app";

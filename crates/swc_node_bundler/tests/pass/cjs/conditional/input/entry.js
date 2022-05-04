@@ -1,4 +1,3 @@
-
 if (foo()) {
-    require('./common');
+    require("./common");
 }

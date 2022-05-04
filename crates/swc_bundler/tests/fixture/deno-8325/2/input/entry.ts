@@ -1,3 +1,3 @@
-import entry from "./lib"
+import entry from "./lib";
 
 console.log(entry());

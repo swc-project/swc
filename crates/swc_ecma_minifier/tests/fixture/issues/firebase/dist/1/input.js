@@ -1,22 +1,30 @@
-'use strict';
+"use strict";
 
-var util = require('@firebase/util');
-var tslib = require('tslib');
-var component = require('@firebase/component');
-var modularAPIs = require('@firebase/app');
-var logger$1 = require('@firebase/logger');
+var util = require("@firebase/util");
+var tslib = require("tslib");
+var component = require("@firebase/component");
+var modularAPIs = require("@firebase/app");
+var logger$1 = require("@firebase/logger");
 
 function _interopNamespace(e) {
     if (e && e.__esModule) return e;
     var n = Object.create(null);
     if (e) {
         Object.keys(e).forEach(function (k) {
-            if (k !== 'default') {
+            if (k !== "default") {
                 var d = Object.getOwnPropertyDescriptor(e, k);
-                Object.defineProperty(n, k, d.get ? d : {
-                    enumerable: true,
-                    get: function () { return e[k]; }
-                });
+                Object.defineProperty(
+                    n,
+                    k,
+                    d.get
+                        ? d
+                        : {
+                              enumerable: true,
+                              get: function () {
+                                  return e[k];
+                              },
+                          }
+                );
             }
         });
     }
@@ -24,7 +32,7 @@ function _interopNamespace(e) {
     return Object.freeze(n);
 }
 
-var modularAPIs__namespace = /*#__PURE__*/_interopNamespace(modularAPIs);
+var modularAPIs__namespace = /*#__PURE__*/ _interopNamespace(modularAPIs);
 
 /**
  * @license
@@ -55,32 +63,45 @@ var FirebaseAppImpl = /** @class */ (function () {
         this._delegate = _delegate;
         this.firebase = firebase;
         // add itself to container
-        modularAPIs._addComponent(_delegate, new component.Component('app-compat', function () { return _this; }, "PUBLIC" /* PUBLIC */));
+        modularAPIs._addComponent(
+            _delegate,
+            new component.Component(
+                "app-compat",
+                function () {
+                    return _this;
+                },
+                "PUBLIC" /* PUBLIC */
+            )
+        );
         this.container = _delegate.container;
     }
-    Object.defineProperty(FirebaseAppImpl.prototype, "automaticDataCollectionEnabled", {
-        get: function () {
-            return this._delegate.automaticDataCollectionEnabled;
-        },
-        set: function (val) {
-            this._delegate.automaticDataCollectionEnabled = val;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    Object.defineProperty(
+        FirebaseAppImpl.prototype,
+        "automaticDataCollectionEnabled",
+        {
+            get: function () {
+                return this._delegate.automaticDataCollectionEnabled;
+            },
+            set: function (val) {
+                this._delegate.automaticDataCollectionEnabled = val;
+            },
+            enumerable: false,
+            configurable: true,
+        }
+    );
     Object.defineProperty(FirebaseAppImpl.prototype, "name", {
         get: function () {
             return this._delegate.name;
         },
         enumerable: false,
-        configurable: true
+        configurable: true,
     });
     Object.defineProperty(FirebaseAppImpl.prototype, "options", {
         get: function () {
             return this._delegate.options;
         },
         enumerable: false,
-        configurable: true
+        configurable: true,
     });
     FirebaseAppImpl.prototype.delete = function () {
         var _this = this;
@@ -106,19 +127,28 @@ var FirebaseAppImpl = /** @class */ (function () {
      * The service name is passed to this already
      * @internal
      */
-    FirebaseAppImpl.prototype._getService = function (name, instanceIdentifier) {
+    FirebaseAppImpl.prototype._getService = function (
+        name,
+        instanceIdentifier
+    ) {
         var _a;
-        if (instanceIdentifier === void 0) { instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME; }
+        if (instanceIdentifier === void 0) {
+            instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME;
+        }
         this._delegate.checkDestroyed();
         // Initialize instance if InstatiationMode is `EXPLICIT`.
         var provider = this._delegate.container.getProvider(name);
-        if (!provider.isInitialized() &&
-            ((_a = provider.getComponent()) === null || _a === void 0 ? void 0 : _a.instantiationMode) === "EXPLICIT" /* EXPLICIT */) {
+        if (
+            !provider.isInitialized() &&
+            ((_a = provider.getComponent()) === null || _a === void 0
+                ? void 0
+                : _a.instantiationMode) === "EXPLICIT" /* EXPLICIT */
+        ) {
             provider.initialize();
         }
         // getImmediate will always succeed because _getService is only called for registered components.
         return provider.getImmediate({
-            identifier: instanceIdentifier
+            identifier: instanceIdentifier,
         });
     };
     /**
@@ -131,8 +161,13 @@ var FirebaseAppImpl = /** @class */ (function () {
      * @param instanceIdentifier instance identifier in case multiple instances are allowed
      * @internal
      */
-    FirebaseAppImpl.prototype._removeServiceInstance = function (name, instanceIdentifier) {
-        if (instanceIdentifier === void 0) { instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME; }
+    FirebaseAppImpl.prototype._removeServiceInstance = function (
+        name,
+        instanceIdentifier
+    ) {
+        if (instanceIdentifier === void 0) {
+            instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME;
+        }
         this._delegate.container
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .getProvider(name)
@@ -152,11 +187,11 @@ var FirebaseAppImpl = /** @class */ (function () {
         return {
             name: this.name,
             automaticDataCollectionEnabled: this.automaticDataCollectionEnabled,
-            options: this.options
+            options: this.options,
         };
     };
     return FirebaseAppImpl;
-}());
+})();
 // TODO: investigate why the following needs to be commented out
 // Prevent dead-code elimination of these methods w/o invalid property
 // copying.
@@ -181,13 +216,16 @@ var FirebaseAppImpl = /** @class */ (function () {
  * limitations under the License.
  */
 var _a;
-var ERRORS = (_a = {},
-    _a["no-app" /* NO_APP */] = "No Firebase App '{$appName}' has been created - " +
-    'call Firebase App.initializeApp()',
-    _a["invalid-app-argument" /* INVALID_APP_ARGUMENT */] = 'firebase.{$appName}() takes either no argument or a ' +
-    'Firebase App instance.',
+var ERRORS =
+    ((_a = {}),
+    (_a["no-app" /* NO_APP */] =
+        "No Firebase App '{$appName}' has been created - " +
+        "call Firebase App.initializeApp()"),
+    (_a["invalid-app-argument" /* INVALID_APP_ARGUMENT */] =
+        "firebase.{$appName}() takes either no argument or a " +
+        "Firebase App instance."),
     _a);
-var ERROR_FACTORY = new util.ErrorFactory('app-compat', 'Firebase', ERRORS);
+var ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS);
 
 /**
  * @license
@@ -235,8 +273,8 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
             registerComponent: registerComponentCompat,
             removeApp: removeApp,
             useAsService: useAsService,
-            modularAPIs: modularAPIs__namespace
-        }
+            modularAPIs: modularAPIs__namespace,
+        },
     };
     // Inject a circular default export to allow Babel users who were previously
     // using:
@@ -249,10 +287,10 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
     //   import * as firebase from 'firebase';
     //   which becomes: var firebase = require('firebase');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    namespace['default'] = namespace;
+    namespace["default"] = namespace;
     // firebase.apps is a read-only getter.
-    Object.defineProperty(namespace, 'apps', {
-        get: getApps
+    Object.defineProperty(namespace, "apps", {
+        get: getApps,
     });
     /**
      * Called by App.delete() - but before any services associated with the App
@@ -267,19 +305,23 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
     function app(name) {
         name = name || modularAPIs__namespace._DEFAULT_ENTRY_NAME;
         if (!util.contains(apps, name)) {
-            throw ERROR_FACTORY.create("no-app" /* NO_APP */, { appName: name });
+            throw ERROR_FACTORY.create("no-app" /* NO_APP */, {
+                appName: name,
+            });
         }
         return apps[name];
     }
     // @ts-ignore
-    app['App'] = firebaseAppImpl;
+    app["App"] = firebaseAppImpl;
     /**
      * Create a new App instance (name must be unique).
      *
      * This function is idempotent. It can be called more than once and return the same instance using the same options and config.
      */
     function initializeAppCompat(options, rawConfig) {
-        if (rawConfig === void 0) { rawConfig = {}; }
+        if (rawConfig === void 0) {
+            rawConfig = {};
+        }
         var app = modularAPIs__namespace.initializeApp(options, rawConfig);
         if (util.contains(apps, app.name)) {
             return apps[app.name];
@@ -293,24 +335,33 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
      */
     function getApps() {
         // Make a copy so caller cannot mutate the apps list.
-        return Object.keys(apps).map(function (name) { return apps[name]; });
+        return Object.keys(apps).map(function (name) {
+            return apps[name];
+        });
     }
     function registerComponentCompat(component) {
         var componentName = component.name;
-        var componentNameWithoutCompat = componentName.replace('-compat', '');
-        if (modularAPIs__namespace._registerComponent(component) &&
-            component.type === "PUBLIC" /* PUBLIC */) {
+        var componentNameWithoutCompat = componentName.replace("-compat", "");
+        if (
+            modularAPIs__namespace._registerComponent(component) &&
+            component.type === "PUBLIC" /* PUBLIC */
+        ) {
             // create service namespace for public components
             // The Service namespace is an accessor function ...
             var serviceNamespace = function (appArg) {
-                if (appArg === void 0) { appArg = app(); }
+                if (appArg === void 0) {
+                    appArg = app();
+                }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                if (typeof appArg[componentNameWithoutCompat] !== 'function') {
+                if (typeof appArg[componentNameWithoutCompat] !== "function") {
                     // Invalid argument.
                     // This happens in the following case: firebase.storage('gs:/')
-                    throw ERROR_FACTORY.create("invalid-app-argument" /* INVALID_APP_ARGUMENT */, {
-                        appName: componentName
-                    });
+                    throw ERROR_FACTORY.create(
+                        "invalid-app-argument" /* INVALID_APP_ARGUMENT */,
+                        {
+                            appName: componentName,
+                        }
+                    );
                 }
                 // Forward service instance lookup to the FirebaseApp.
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -334,18 +385,21 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
                         args[_i] = arguments[_i];
                     }
                     var serviceFxn = this._getService.bind(this, componentName);
-                    return serviceFxn.apply(this, component.multipleInstances ? args : []);
+                    return serviceFxn.apply(
+                        this,
+                        component.multipleInstances ? args : []
+                    );
                 };
         }
         return component.type === "PUBLIC" /* PUBLIC */
             ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            namespace[componentNameWithoutCompat]
+              namespace[componentNameWithoutCompat]
             : null;
     }
     // Map the requested service to a registered service name
     // (used to map auth to serverAuth service when needed).
     function useAsService(app, name) {
-        if (name === 'serverAuth') {
+        if (name === "serverAuth") {
             return null;
         }
         var useService = name;
@@ -379,13 +433,16 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
  */
 function createFirebaseNamespace() {
     var namespace = createFirebaseNamespaceCore(FirebaseAppImpl);
-    namespace.INTERNAL = tslib.__assign(tslib.__assign({}, namespace.INTERNAL), {
-        createFirebaseNamespace: createFirebaseNamespace,
-        extendNamespace: extendNamespace,
-        createSubscribe: util.createSubscribe,
-        ErrorFactory: util.ErrorFactory,
-        deepExtend: util.deepExtend
-    });
+    namespace.INTERNAL = tslib.__assign(
+        tslib.__assign({}, namespace.INTERNAL),
+        {
+            createFirebaseNamespace: createFirebaseNamespace,
+            extendNamespace: extendNamespace,
+            createSubscribe: util.createSubscribe,
+            ErrorFactory: util.ErrorFactory,
+            deepExtend: util.deepExtend,
+        }
+    );
     /**
      * Patch the top-level firebase namespace with additional properties.
      *
@@ -414,7 +471,7 @@ var firebase$1 = createFirebaseNamespace();
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var logger = new logger$1.Logger('@firebase/app-compat');
+var logger = new logger$1.Logger("@firebase/app-compat");
 
 var name = "@firebase/app-compat";
 var version = "0.1.5";
@@ -459,11 +516,15 @@ function registerCoreComponents(variant) {
 // Firebase Lite detection
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if (util.isBrowser() && self.firebase !== undefined) {
-    logger.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
+    logger.warn(
+        "\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  "
+    );
     // eslint-disable-next-line
     var sdkVersion = self.firebase.SDK_VERSION;
-    if (sdkVersion && sdkVersion.indexOf('LITE') >= 0) {
-        logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
+    if (sdkVersion && sdkVersion.indexOf("LITE") >= 0) {
+        logger.warn(
+            "\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    "
+        );
     }
 }
 var firebase = firebase$1;

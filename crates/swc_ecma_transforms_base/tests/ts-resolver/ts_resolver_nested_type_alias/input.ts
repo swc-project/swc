@@ -1,4 +1,3 @@
-
 type Foo = {};
 
 function foo() {
@@ -6,4 +5,3 @@ function foo() {
     const foo = {} as Foo;
 }
 const bar = {} as Foo;
-    

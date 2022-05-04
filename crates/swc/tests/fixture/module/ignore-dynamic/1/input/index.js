@@ -1,12 +1,11 @@
-import foo from 'foo';
-
+import foo from "foo";
 
 async function foo() {
-    await import('foo');
+    await import("foo");
 
-    callback(() => import('foo'));
+    callback(() => import("foo"));
 }
 
-import('side-effect')
+import("side-effect");
 
-await import('awaited')
+await import("awaited");

@@ -1,8 +1,8 @@
 ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
     currentExtraStackFrame = stack;
 }, ReactDebugCurrentFrame.getCurrentStack = null, ReactDebugCurrentFrame.getStackAddendum = function() {
-    var stack = '';
+    var stack = "";
     currentExtraStackFrame && (stack += currentExtraStackFrame);
     var impl = ReactDebugCurrentFrame.getCurrentStack;
-    return impl && (stack += impl() || ''), stack;
+    return impl && (stack += impl() || ""), stack;
 };

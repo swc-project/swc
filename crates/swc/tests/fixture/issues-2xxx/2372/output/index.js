@@ -1,20 +1,20 @@
 "use strict";
 var _ = require("./");
-describe('example test that should fail due to compilation', ()=>{
+describe("example test that should fail due to compilation", ()=>{
     test.each([
         [
-            'a',
+            "a",
             1,
             1,
             2
         ],
         [
-            'b',
+            "b",
             2,
             2,
             4
         ], 
-    ])('for entry %s', (_1, a, b, expected)=>{
+    ])("for entry %s", (_1, a, b, expected)=>{
         const result = (0, _).sum(a, b);
         expect(result).toEqual(expected);
     });

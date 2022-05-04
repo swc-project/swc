@@ -1,2 +1,2 @@
-import { join } from 'path';
-console.log(join('a', 'b', 'c'))
+import { join } from "path";
+console.log(join("a", "b", "c"));
