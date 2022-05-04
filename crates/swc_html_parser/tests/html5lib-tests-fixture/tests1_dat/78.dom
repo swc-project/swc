@@ -3,11 +3,13 @@
 |   <head>
 |   <body>
 |     <a>
+|       href="blah"
 |       "abax"
 |       <table>
 |         <tbody>
 |           <tr>
 |             <td>
 |               <a>
+|                 href="foo"
 |                 "br"
 |       "aoe"

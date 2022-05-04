@@ -1,11 +1,8 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <b>
-|     <mglyph>
-|       <i>
-|       <malignmark>
-|         <u>
-|         <mo>
-|           "X"
+| <b>
+| <math mglyph>
+| <i>
+| <math malignmark>
+| <u>
+| <mo>
+|   "X"

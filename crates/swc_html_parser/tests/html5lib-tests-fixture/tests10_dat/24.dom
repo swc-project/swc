@@ -3,5 +3,9 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <g>
+|     xlink:href="foo"
+|     xml:lang="en"
+|     <svg svg>
+|       <svg g>
+|         xlink href="foo"
+|         xml lang="en"

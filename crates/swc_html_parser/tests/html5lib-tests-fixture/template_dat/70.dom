@@ -3,7 +3,10 @@
 |   <head>
 |   <body>
 |     <template>
-|       <template>
-|         <b>
-|           <template>
-|       "text"
+|       content
+|         <template>
+|           content
+|             <b>
+|               <template>
+|                 content
+|         "text"

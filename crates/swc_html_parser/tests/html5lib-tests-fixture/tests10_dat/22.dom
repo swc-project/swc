@@ -3,4 +3,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
+|     xlink:href="foo"
+|     <svg svg>
+|       xlink href="foo"

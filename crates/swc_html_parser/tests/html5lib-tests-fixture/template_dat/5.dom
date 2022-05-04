@@ -4,6 +4,7 @@
 |   <body>
 |     <div>
 |       <template>
-|         <div>
-|           <span>
+|         content
+|           <div>
+|             <span>
 |       <b>

@@ -1,5 +1,7 @@
 #document
 | <!DOCTYPE html>
 | <html>
+|   a="b"
+|   c="d"
 |   <head>
 |   <frameset>

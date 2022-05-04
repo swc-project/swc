@@ -3,4 +3,5 @@
 |   <head>
 |   <body>
 |     <template>
-|       <col>
+|       content
+|         <col>

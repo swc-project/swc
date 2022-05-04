@@ -1,7 +1,9 @@
 #document
 | <html>
+|   a="b"
 |   <head>
 |     <template>
-|       <div>
-|         <span>
+|       content
+|         <div>
+|           <span>
 |   <body>

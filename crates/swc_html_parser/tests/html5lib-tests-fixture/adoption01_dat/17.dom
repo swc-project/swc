@@ -1,11 +1,9 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <b>
-|       <em>
-|         <foo>
-|           <foob>
-|             <fooc>
-|     <aside>
-|       <b>
+| <b>
+|   <em>
+|     <foo>
+|       <foob>
+|         <fooc>
+| <aside>
+|   <b>
+

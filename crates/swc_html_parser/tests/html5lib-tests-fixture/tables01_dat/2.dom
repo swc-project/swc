@@ -5,3 +5,4 @@
 |     <table>
 |       <colgroup>
 |         <col>
+|           foo="bar"

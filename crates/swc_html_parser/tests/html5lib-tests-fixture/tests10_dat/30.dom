@@ -3,8 +3,8 @@
 |   <head>
 |   <body>
 |     <div>
-|       <svg>
-|         <path>
-|           <foreignObject>
-|             <math>
+|       <svg svg>
+|         <svg path>
+|           <svg foreignObject>
+|             <math math>
 |               "a"

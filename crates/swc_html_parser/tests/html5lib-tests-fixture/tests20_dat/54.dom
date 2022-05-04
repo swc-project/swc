@@ -2,6 +2,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <annotation-xml>
+|     <math math>
+|       <math annotation-xml>
+|         encoding="application/xhtml+xml"
 |         <div>

@@ -3,14 +3,14 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <g>
+|     <svg svg>
+|       <svg g>
 |         "foo"
-|       <g>
+|       <svg g>
 |         "bar"
-|     <table>
-|       <colgroup>
 |     <p>
 |       "baz"
+|     <table>
+|       <colgroup>
 |     <p>
 |       "quux"

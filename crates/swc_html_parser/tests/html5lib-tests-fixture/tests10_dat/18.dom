@@ -3,10 +3,10 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <g>
+|     <svg svg>
+|       <svg g>
 |         "foo"
-|       <g>
+|       <svg g>
 |         "bar"
-|   <p>
-|     "baz"
+|     <p>
+|       "baz"

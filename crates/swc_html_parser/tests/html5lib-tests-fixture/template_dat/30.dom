@@ -5,4 +5,5 @@
 |     <table>
 |       <thead>
 |         <template>
-|           <tr>
+|           content
+|             <tr>

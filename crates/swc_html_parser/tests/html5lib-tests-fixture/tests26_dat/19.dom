@@ -2,6 +2,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|   <br>
-|   <foo>
+|     <math math>
+|     <br>
+|     <foo>
+

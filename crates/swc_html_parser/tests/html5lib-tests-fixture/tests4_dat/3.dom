@@ -1,7 +1,2 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     "this is CDATA inside a "
-|     <style>
-|       " element"
+| "this is &#x0043;DATA inside a <style> element"

@@ -7,3 +7,4 @@
 |     <table>
 |       <form>
 |       <input>
+|         type="hidden"

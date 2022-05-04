@@ -5,6 +5,7 @@
 |     <ul>
 |       <li>
 |         <div>
+|           id="foo"
 |           "A"
 |       <li>
 |         "B"

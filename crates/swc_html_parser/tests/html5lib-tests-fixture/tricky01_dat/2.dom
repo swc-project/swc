@@ -6,8 +6,10 @@
 "
 |     <p>
 |       <font>
+|         size="7"
 |         "First paragraph."
 |     <font>
+|       size="7"
 |       "
 "
 |       <p>

@@ -2,10 +2,11 @@
 | <html>
 |   <head>
 |     <template>
-|       <svg>
-|         <foo>
-|           <template>
-|             <foreignObject>
-|               <div>
+|       content
+|         <svg svg>
+|           <svg foo>
+|             <svg template>
+|               <svg foreignObject>
+|                 <div>
 |   <body>
 |     <div>

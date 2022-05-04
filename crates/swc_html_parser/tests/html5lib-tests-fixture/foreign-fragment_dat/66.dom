@@ -1,6 +1,4 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <p>
-|     <foo>
+| <p>
+| <svg foo>
+

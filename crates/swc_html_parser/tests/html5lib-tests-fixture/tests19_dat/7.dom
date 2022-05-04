@@ -4,3 +4,4 @@
 |   <head>
 |   <body>
 |     <isindex>
+|       type="hidden"

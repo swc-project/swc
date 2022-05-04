@@ -3,4 +3,5 @@
 |   <head>
 |   <body>
 |     <div>
+|       foo="bar"
 |       "Hello"

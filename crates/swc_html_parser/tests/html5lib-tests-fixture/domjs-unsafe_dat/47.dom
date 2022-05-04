@@ -2,5 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|   <font>
+|     <svg svg>
+|     <font>
+|       color="red"

@@ -3,5 +3,6 @@
 | <html>
 |   <head>
 |     <script>
+|       type="text/x-foobar;baz"
 |       "X</SCRipt"
 |   <body>

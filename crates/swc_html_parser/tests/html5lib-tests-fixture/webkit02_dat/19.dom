@@ -2,7 +2,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <foreignObject>
-|       <title>
+|     <svg svg>
+|       <svg foreignObject>
+|       <svg title>
 |     "foo"

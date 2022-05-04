@@ -1,7 +1,4 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <math>
-|       <tfoot>
-|         <mo>
+| <math math>
+|   <math tfoot>
+|     <math mo>

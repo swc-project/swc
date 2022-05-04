@@ -3,6 +3,7 @@
 |   <head>
 |   <body>
 |     <template>
-|       <thead>
-|       <caption>
-|       <tbody>
+|       content
+|         <thead>
+|         <caption>
+|         <tbody>

@@ -8,11 +8,10 @@
 |         " def "
 |         <i>
 |           " ghi "
-|           <p>
-|             <i>
-|               <b>
-|                 " jkl "
-|               " mno "
-|             " pqr"
 |       <i>
 |       <p>
+|         <i>
+|           <b>
+|             " jkl "
+|           " mno "
+|         " pqr"

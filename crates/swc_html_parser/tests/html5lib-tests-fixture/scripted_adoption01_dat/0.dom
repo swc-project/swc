@@ -4,7 +4,10 @@
 |   <body>
 |     <p>
 |       <b>
+|         id="B"
 |         <script>
 |           "document.getElementById("A").id = "B""
 |     <b>
+|       id="A"
 |       "TEXT"
+

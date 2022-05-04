@@ -5,11 +5,11 @@
 |   <body>
 |     <li>
 |       "hello"
-|       <li>
-|         "world"
-|         <ul>
-|           "how"
-|           <li>
-|             "do"
-|         "you"
+|     <li>
+|       "world"
+|       <ul>
+|         "how"
+|         <li>
+|           "do"
+|       "you"
 |   <!-- do -->

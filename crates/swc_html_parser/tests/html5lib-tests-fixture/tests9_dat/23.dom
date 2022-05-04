@@ -3,4 +3,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
+|     xlink:href="foo"
+|     <math math>
+|       xlink href="foo"

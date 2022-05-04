@@ -6,7 +6,9 @@
 |     <title>
 |       "X"
 |     <meta>
+|       name="z"
 |     <link>
+|       rel="foo"
 |     <style>
 |       "
 x { content:"</style" } "

@@ -7,10 +7,10 @@
 |       <tbody>
 |         <tr>
 |           <td>
-|             <math>
-|               <mi>
+|             <math math>
+|               <math mi>
 |                 "foo"
-|               <mi>
+|               <math mi>
 |                 "bar"
 |             <p>
 |               "baz"

@@ -2,7 +2,9 @@
 | <html>
 |   <head>
 |     <template>
-|       <template>
-|         "Foo"
-|         <table>
+|       content
+|         <template>
+|           content
+|             "Foo"
+|             <table>
 |   <body>

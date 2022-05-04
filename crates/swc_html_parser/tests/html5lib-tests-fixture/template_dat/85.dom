@@ -2,6 +2,8 @@
 | <html>
 |   <head>
 |     <template>
-|       <template>
-|         <tbody>
+|       content
+|         <template>
+|           content
+|             <tbody>
 |   <body>

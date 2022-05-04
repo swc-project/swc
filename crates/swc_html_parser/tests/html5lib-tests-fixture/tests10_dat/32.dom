@@ -3,9 +3,9 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <desc>
+|     <svg svg>
+|       <svg desc>
 |         <div>
-|           <svg>
-|         <ul>
-|           "a"
+|           <svg svg>
+|           <ul>
+|             "a"

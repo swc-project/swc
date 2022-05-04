@@ -3,6 +3,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <mo>
+|     <math math>
+|       <math mo>
 |         "ab"

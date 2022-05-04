@@ -3,5 +3,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <mn>
+|     <math math>
+|       <math mn>
+|         definitionURL="foo"

@@ -4,3 +4,5 @@
 |   <head>
 |   <body>
 |     <input>
+|       type="button"
+

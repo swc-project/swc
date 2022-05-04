@@ -4,6 +4,7 @@
 |   <body>
 |     <div>
 |       <template>
-|         <tr>
-|           <td>
-|             "Foo"
+|         content
+|           <tr>
+|             <td>
+|               "Foo"

@@ -2,10 +2,10 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <mrow>
-|         <mrow>
-|           <mn>
+|     <math math>
+|       <math mrow>
+|         <math mrow>
+|           <math mn>
 |             "1"
-|         <mi>
+|         <math mi>
 |           "a"

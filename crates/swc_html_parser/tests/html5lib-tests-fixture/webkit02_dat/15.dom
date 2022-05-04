@@ -1,9 +1,8 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <b>
-|       <em>
+| <b>
+|   <em>
+|     <foo>
+|       <foo>
 |         <foo>
 |           <foo>
 |             <foo>
@@ -12,7 +11,5 @@
 |                   <foo>
 |                     <foo>
 |                       <foo>
-|                         <foo>
-|                           <foo>
-|     <aside>
-|       <b>
+| <aside>
+|   <b>

@@ -2,6 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <!-- [CDATA[foo
-bar]] -->
+|     <svg svg>
+|       "foo
+bar"

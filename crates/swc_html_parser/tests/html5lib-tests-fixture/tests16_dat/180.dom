@@ -2,5 +2,6 @@
 | <html>
 |   <head>
 |     <noscript>
-|       <!-- <noscript></noscript> -->
+|       "<!--<noscript>"
 |   <body>
+|     "-->"

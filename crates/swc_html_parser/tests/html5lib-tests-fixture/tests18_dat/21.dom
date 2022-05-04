@@ -3,7 +3,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <plaintext>
+|     <svg svg>
+|       <svg plaintext>
 |         "a"
 |       "b"

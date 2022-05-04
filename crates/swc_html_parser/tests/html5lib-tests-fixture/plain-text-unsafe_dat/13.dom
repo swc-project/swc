@@ -2,6 +2,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <foreignObject>
+|     <svg svg>
+|       <svg foreignObject>
 |         "fillertext"

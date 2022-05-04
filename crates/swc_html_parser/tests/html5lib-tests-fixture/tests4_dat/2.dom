@@ -1,10 +1,2 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     "textarea content with "
-|     <em>
-|       "pseudo"
-|     " "
-|     <foo>
-|       "markup"
+| "textarea content with <em>pseudo</em> <foo>markup"

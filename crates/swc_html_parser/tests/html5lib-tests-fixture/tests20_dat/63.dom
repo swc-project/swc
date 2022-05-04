@@ -2,7 +2,8 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <annotation-xml>
-|         <svg>
+|     <math math>
+|       <math annotation-xml>
+|         <svg svg>
 |           "x"
+

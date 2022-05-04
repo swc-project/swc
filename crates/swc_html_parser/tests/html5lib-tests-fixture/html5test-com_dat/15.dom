@@ -3,3 +3,5 @@
 |   <head>
 |   <body>
 |     <textarea>
+|       "<!--"
+|     "-->"

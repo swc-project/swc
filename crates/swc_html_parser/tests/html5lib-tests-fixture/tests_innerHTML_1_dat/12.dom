@@ -1,6 +1,4 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     <a>
-|       "a"
+| <a>
+| <caption>
+|   "a"

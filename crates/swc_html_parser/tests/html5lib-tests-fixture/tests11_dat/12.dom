@@ -3,5 +3,6 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <solidcolor>
+|     <svg svg>
+|       <svg solidcolor>
+

@@ -2,7 +2,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <svg>
-|       <foreignObject>
+|     <svg svg>
+|       <svg foreignObject>
 |         <div>
 |           <!-- [CDATA[foo]] -->

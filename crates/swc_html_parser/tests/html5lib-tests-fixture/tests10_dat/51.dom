@@ -2,7 +2,7 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <annotation-xml>
-|         <svg>
-|       <mi>
+|     <math math>
+|       <math annotation-xml>
+|         <svg svg>
+|       <math mi>

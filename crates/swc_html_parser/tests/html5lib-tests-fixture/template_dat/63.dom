@@ -5,4 +5,5 @@
 |     <table>
 |       <colgroup>
 |         <template>
-|           <col>
+|           content
+|             <col>

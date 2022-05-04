@@ -5,10 +5,10 @@
 |   <body>
 |     <table>
 |       <caption>
-|         <math>
-|           <mi>
+|         <math math>
+|           <math mi>
 |             "foo"
-|           <mi>
+|           <math mi>
 |             "bar"
 |           "baz"
 |     <p>

@@ -2,14 +2,15 @@
 | <html>
 |   <head>
 |   <body>
-|     <math>
-|       <annotation-xml>
-|         <svg>
-|           <foreignObject>
-|             <math>
-|               <mi>
-|                 <svg>
-|               <mo>
+|     <math math>
+|       <math annotation-xml>
+|         <svg svg>
+|           <svg foreignObject>
+|             <math math>
+|               <math mi>
+|                 <svg svg>
+|               <math mo>
 |             <span>
-|           <path>
-|       <mi>
+|           <svg path>
+|       <math mi>
+

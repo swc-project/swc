@@ -1,5 +1,4 @@
 #document
-| <html>
-|   <head>
-|   <body>
-|     "setting html's innerHTML"
+| <head>
+| <body>
+|   "setting html's innerHTML"
