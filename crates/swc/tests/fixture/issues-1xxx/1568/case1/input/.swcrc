@@ -1,21 +1,21 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false,
-      "decorators": false,
-      "dynamicImport": true
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false,
+            "dynamicImport": true
+        },
+        "target": "es5",
+        "loose": true,
+        "externalHelpers": false
     },
-    "target": "es5",
-    "loose": true,
-    "externalHelpers": false
-  },
-  "minify": false,
-  "env": {
-    "mode": "entry",
-    "coreJs": 3
-  },
-  "module": {
-    "type": "commonjs"
-  }
+    "minify": false,
+    "env": {
+        "mode": "entry",
+        "coreJs": 3
+    },
+    "module": {
+        "type": "commonjs"
+    }
 }

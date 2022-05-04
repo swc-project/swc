@@ -1,9 +1,6 @@
 {
-  "env": {
-    "mode": "entry",
-    "targets": [
-      "chrome 59",
-      "node 6"
-    ]
-  }
+    "env": {
+        "mode": "entry",
+        "targets": ["chrome 59", "node 6"]
+    }
 }

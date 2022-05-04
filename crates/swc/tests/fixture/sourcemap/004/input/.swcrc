@@ -1,11 +1,11 @@
 {
-  "jsc": {
-    "minify": {
-      "compress": true,
-      "mangle": true
-    }
-  },
-  "sourceMaps": true,
-  "inlineSourcesContent": true,
-  "inputSourceMap": true
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "mangle": true
+        }
+    },
+    "sourceMaps": true,
+    "inlineSourcesContent": true,
+    "inputSourceMap": true
 }

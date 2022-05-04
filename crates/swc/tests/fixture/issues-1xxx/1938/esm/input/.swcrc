@@ -1,10 +1,10 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true,
-      "dynamicImport": true,
-      "decorators": false
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true,
+            "decorators": false
+        }
     }
-  }
 }

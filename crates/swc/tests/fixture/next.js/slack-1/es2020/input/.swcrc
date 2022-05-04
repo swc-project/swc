@@ -1,5 +1,5 @@
 {
-  "jsc": {
-    "target": "es2020"
-  }
+    "jsc": {
+        "target": "es2020"
+    }
 }

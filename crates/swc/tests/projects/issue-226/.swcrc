@@ -1,9 +1,9 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "ecmascript",
-      "exportNamespaceFrom": true,
-      "exportDefaultFrom": true
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "exportNamespaceFrom": true,
+            "exportDefaultFrom": true
+        }
     }
-  }
 }

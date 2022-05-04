@@ -1,8 +1,8 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
     }
-  }
 }

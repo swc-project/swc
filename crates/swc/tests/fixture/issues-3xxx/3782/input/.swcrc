@@ -20,10 +20,5 @@
         "noInterop": true
     },
     "sourceMaps": true,
-    "exclude": [
-        "node_modules/.*",
-        ".*/node_modules",
-        "dist",
-        ".*.spec.ts"
-    ]
+    "exclude": ["node_modules/.*", ".*/node_modules", "dist", ".*.spec.ts"]
 }

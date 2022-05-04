@@ -6,9 +6,7 @@
         },
         "target": "es2020",
         "paths": {
-            "#lib/*": [
-                "lib/*"
-            ]
+            "#lib/*": ["lib/*"]
         },
         "baseUrl": "./src"
     },
