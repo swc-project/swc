@@ -1,4 +1,4 @@
-const foo = 'bar';
+const foo = "bar";
 const bar = 123;
 const mod = {
     foo: foo,

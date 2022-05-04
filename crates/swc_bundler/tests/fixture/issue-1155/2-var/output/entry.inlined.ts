@@ -1,4 +1,4 @@
-const a = 'a';
+const a = "a";
 function b() {
     return a;
 }
