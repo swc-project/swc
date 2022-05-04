@@ -46,3 +46,5 @@ helpers/
 packages/swc-helpers
 node-swc/__tests__
 node-swc/tests
+crates/swc/tests/srcmap/
+crates/swc/tests/stacktrace/
