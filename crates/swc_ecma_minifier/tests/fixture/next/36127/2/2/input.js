@@ -5,7 +5,7 @@
  * @returns {(code: Code) => code is number}
  */
 function regexCheck(regex) {
-    return check
+    return check;
 
     /**
      * Check whether a code matches the bound regex.
@@ -14,18 +14,17 @@ function regexCheck(regex) {
      * @returns {code is number} Whether the character code matches the bound regex
      */
     function check(code) {
-        return code !== null && regex.test(String.fromCharCode(code))
+        return code !== null && regex.test(String.fromCharCode(code));
     }
 }
 
-
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
-console.log(regexCheck('Foo'));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));

@@ -1,6 +1,14 @@
 Y.Loader.prototype._rollup = function () {
-    var i, j, m, s, r = this.required, roll,
-        info = this.moduleInfo, rolled, c, smod;
+    var i,
+        j,
+        m,
+        s,
+        r = this.required,
+        roll,
+        info = this.moduleInfo,
+        rolled,
+        c,
+        smod;
 
     // find and cache rollup modules
     if (this.dirty || !this.rollups) {
@@ -17,14 +25,14 @@ Y.Loader.prototype._rollup = function () {
     }
 
     // make as many passes as needed to pick up rollup rollups
-    for (; ;) {
+    for (;;) {
         rolled = false;
 
         // go through the rollup candidates
         for (i in this.rollups) {
             if (this.rollups.hasOwnProperty(i)) {
                 // there can be only one, unless forced
-                if (!r[i] && ((!this.loaded[i]) || this.forceMap[i])) {
+                if (!r[i] && (!this.loaded[i] || this.forceMap[i])) {
                     m = this.getModule(i);
                     s = m.supersedes || [];
                     roll = false;
@@ -50,7 +58,7 @@ Y.Loader.prototype._rollup = function () {
                             // use the rollup module
                         } else if (r[s[j]] && m.type === smod.type) {
                             c++;
-                            roll = (c >= m.rollup);
+                            roll = c >= m.rollup;
                             if (roll) {
                                 break;
                             }

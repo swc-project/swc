@@ -1,12 +1,12 @@
 export const E = {
     _addLangPack: function (lang, m, packName) {
         var name = m.name,
-            packPath, conf,
+            packPath,
+            conf,
             existing = this.moduleInfo[packName];
 
         if (!existing) {
-
-            packPath = _path((m.pkg || name), packName, JS, true);
+            packPath = _path(m.pkg || name, packName, JS, true);
 
             conf = {
                 path: packPath,
@@ -14,7 +14,7 @@ export const E = {
                 langPack: true,
                 ext: m.ext,
                 group: m.group,
-                supersedes: []
+                supersedes: [],
             };
             if (m.root) {
                 conf.root = m.root;
@@ -38,4 +38,4 @@ export const E = {
 
         return this.moduleInfo[packName];
     },
-}
+};

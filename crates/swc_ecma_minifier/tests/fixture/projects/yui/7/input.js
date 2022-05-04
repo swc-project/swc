@@ -1,22 +1,26 @@
 export const E = {
     _sort: function () {
-
         // create an indexed list
         var s = YObject.keys(this.required),
             // loaded = this.loaded,
             //TODO Move this out of scope
             done = {},
-            p = 0, l, a, b, j, k, moved, doneKey;
+            p = 0,
+            l,
+            a,
+            b,
+            j,
+            k,
+            moved,
+            doneKey;
 
         // keep going until we make a pass without moving anything
-        for (; ;) {
-
+        for (;;) {
             l = s.length;
             moved = false;
 
             // start the loop after items that are already sorted
             for (j = p; j < l; j++) {
-
                 // check the next module on the list to see if its
                 // dependencies have been met
                 a = s[j];
@@ -27,7 +31,6 @@ export const E = {
                     doneKey = a + s[k];
 
                     if (!done[doneKey] && this._requires(a, s[k])) {
-
                         // extract the dependency so we can move it up
                         b = s.splice(k, 1);
 
@@ -60,9 +63,8 @@ export const E = {
             if (!moved) {
                 break;
             }
-
         }
 
         this.sorted = s;
     },
-}
+};

@@ -5,12 +5,10 @@ push({
                 if (/$/)
                     try {
                         return eval(a);
-                    } catch (b) { }
+                    } catch (b) {}
             }
             function Rb(a) {
-                return p()
-                    ? JSON
-                    : za();
+                return p() ? JSON : za();
             }
             h.get = function (a) {
                 return null == a ? null : Rb(a);
@@ -18,7 +16,6 @@ push({
         })();
     },
     "App.jsx": function () {
-
         var shadowmap_pars_vertex = "";
         var shadowmap_vertex = "";
         var shadowmask_pars_fragment = "";
@@ -85,5 +82,4 @@ push({
             x: ShaderChunk.meshphysical_frag,
         };
     },
-},
-);
+});

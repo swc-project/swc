@@ -11,8 +11,13 @@ export const obj = {
             curOffset = curElem.offset(),
             curCSSTop = jQuery.css(elem, "top"),
             curCSSLeft = jQuery.css(elem, "left"),
-            calculatePosition = (position === "absolute" || position === "fixed") && jQuery.inArray("auto", [curCSSTop, curCSSLeft]) > -1,
-            props = {}, curPosition = {}, curTop, curLeft;
+            calculatePosition =
+                (position === "absolute" || position === "fixed") &&
+                jQuery.inArray("auto", [curCSSTop, curCSSLeft]) > -1,
+            props = {},
+            curPosition = {},
+            curTop,
+            curLeft;
 
         // need to be able to calculate position if either top or left is auto and position is either absolute or fixed
         if (calculatePosition) {
@@ -29,10 +34,10 @@ export const obj = {
         }
 
         if (options.top != null) {
-            props.top = (options.top - curOffset.top) + curTop;
+            props.top = options.top - curOffset.top + curTop;
         }
         if (options.left != null) {
-            props.left = (options.left - curOffset.left) + curLeft;
+            props.left = options.left - curOffset.left + curLeft;
         }
 
         if ("using" in options) {
@@ -40,5 +45,5 @@ export const obj = {
         } else {
             curElem.css(props);
         }
-    }
-}
+    },
+};

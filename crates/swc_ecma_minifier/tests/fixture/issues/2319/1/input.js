@@ -1,6 +1,5 @@
 function foo(l, r) {
-
-    var lightGreeting
+    var lightGreeting;
 
     if (l > 0) {
         var greeting = "hello";
@@ -9,10 +8,10 @@ function foo(l, r) {
     }
 
     if (r > 0) {
-        lightGreeting = greeting.substr(0, 2)
+        lightGreeting = greeting.substr(0, 2);
     }
 
-    return lightGreeting
+    return lightGreeting;
 }
 
 module.exports = foo;

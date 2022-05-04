@@ -1,6 +1,5 @@
 export const obj = {
     ready: function (wait) {
-
         // Abort if there are pending holds or we're already ready
         if (wait === true ? --jQuery.readyWait : jQuery.isReady) {
             return;
@@ -27,4 +26,4 @@ export const obj = {
             jQuery(document).trigger("ready").off("ready");
         }
     },
-}
+};
