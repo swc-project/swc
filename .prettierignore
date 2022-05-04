@@ -7,6 +7,7 @@ target/
 node_modules/
 
 # Space sensitive
+crates/jsdoc/tests/
 crates/swc_css_codegen/tests/
 crates/swc_css_lints/tests/
 crates/swc_css_minifier/tests/
