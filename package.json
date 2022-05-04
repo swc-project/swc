@@ -70,6 +70,21 @@
         ],
         "*.rs": [
             "rustfmt --"
+        ],
+        "exec.js": [
+            "prettier --write"
+        ],
+        "exec.ts": [
+            "prettier --write"
+        ],
+        "input.js": [
+            "prettier --write"
+        ],
+        "input.ts": [
+            "prettier --write"
+        ],
+        "input.tsx": [
+            "prettier --write"
         ]
     },
     "devDependencies": {
