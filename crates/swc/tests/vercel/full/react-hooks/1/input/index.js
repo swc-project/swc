@@ -1,8 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React from "react";
+import { useRouter } from "next/router";
 
-import { useProject } from '@swr/use-project';
-import useTeam from '@swr/use-team';
+import { useProject } from "@swr/use-project";
+import useTeam from "@swr/use-team";
 
 export default function MyComp() {
     const { project: projectName } = useRouter().query;
@@ -11,7 +11,5 @@ export default function MyComp() {
     const projectId = projectInfo?.id;
     let { data: branches } = useProjectBranches(projectId);
 
-    return (
-        <></>
-    );
+    return <></>;
 }

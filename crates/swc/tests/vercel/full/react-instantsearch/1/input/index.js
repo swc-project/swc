@@ -7,7 +7,7 @@ export default function createStore(initialState) {
         },
         setState(nextState) {
             state = nextState;
-            listeners.forEach(listener => listener());
+            listeners.forEach((listener) => listener());
         },
         subscribe(listener) {
             listeners.push(listener);
