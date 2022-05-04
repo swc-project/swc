@@ -71,19 +71,16 @@
         "*.rs": [
             "rustfmt --"
         ],
-        "exec.js": [
+        "*.js": [
             "prettier --write"
         ],
-        "exec.ts": [
+        "*.ts": [
             "prettier --write"
         ],
-        "input.js": [
+        "*.jsx": [
             "prettier --write"
         ],
-        "input.ts": [
-            "prettier --write"
-        ],
-        "input.tsx": [
+        "*.tsx": [
             "prettier --write"
         ]
     },
