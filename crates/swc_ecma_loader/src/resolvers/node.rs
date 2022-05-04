@@ -55,9 +55,7 @@ fn find_package_root(path: &Path) -> Option<PathBuf> {
     None
 }
 
-pub fn to_absolute_path(path: impl AsRef<Path>) -> Result<PathBuf, Error> {
-    let path = path.as_ref();
-
+pub fn to_absolute_path(path: &Path) -> Result<PathBuf, Error> {
     let absolute_path = if path.is_absolute() {
         path.to_path_buf()
     } else {
