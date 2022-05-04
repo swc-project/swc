@@ -7,7 +7,7 @@ import "core-js/modules/es.object.from-entries.js";
 import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/web.immediate.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 const foo = {
     a: true
 };
