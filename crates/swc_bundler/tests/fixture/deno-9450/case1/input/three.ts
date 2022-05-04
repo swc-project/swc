@@ -1,4 +1,4 @@
-export let value = "old"
+export let value = "old";
 
 export function setValue() {
     value = "new";

@@ -1,5 +1,5 @@
-import { foo } from './temp2.ts';
+import { foo } from "./temp2.ts";
 
 console.log({
-    foo
+    foo,
 });

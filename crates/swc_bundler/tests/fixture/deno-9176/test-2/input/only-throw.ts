@@ -1,6 +1,5 @@
-
-import { MyError } from './my-error';
+import { MyError } from "./my-error";
 
 export function example() {
-    throw new MyError()
+    throw new MyError();
 }

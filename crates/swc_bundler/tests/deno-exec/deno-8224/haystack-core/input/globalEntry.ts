@@ -14,13 +14,13 @@
  * @module
  */
 
-import * as hs from './index'
-import {} from './core/Array'
+import * as hs from "./index";
+import {} from "./core/Array";
 
-if (typeof window !== 'undefined' && window !== null) {
-	const anyWindow = window as any
-	anyWindow.hs = hs
+if (typeof window !== "undefined" && window !== null) {
+    const anyWindow = window as any;
+    anyWindow.hs = hs;
 } else {
-	const anyGlobal = global as any
-	anyGlobal.hs = hs
+    const anyGlobal = global as any;
+    anyGlobal.hs = hs;
 }

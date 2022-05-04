@@ -1,1 +1,1 @@
-export { a as b } from './a';
+export { a as b } from "./a";

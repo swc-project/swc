@@ -1,3 +1,3 @@
-import { a } from './lib'
+import { a } from "./lib";
 
-a()
+a();

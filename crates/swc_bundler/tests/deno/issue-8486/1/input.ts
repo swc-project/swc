@@ -6,14 +6,14 @@ export async function myCLI(): Promise<void> {
             // file: new log.handlers.FileHandler("DEBUG", {
             //     filename: 'my.log'
             // }),
-            console: new log.handlers.ConsoleHandler("INFO")
+            console: new log.handlers.ConsoleHandler("INFO"),
         },
         loggers: {
             default: {
                 level: "DEBUG",
-                handlers: ["console", "file"]
-            }
-        }
+                handlers: ["console", "file"],
+            },
+        },
     });
 
     log.info("Ok!");

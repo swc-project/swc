@@ -1,2 +1,2 @@
-export { foo } from './foo';
+export { foo } from "./foo";
 export { isWater } from "./things";
