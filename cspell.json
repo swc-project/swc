@@ -156,7 +156,5 @@
         "variadic",
         "vercel"
     ],
-    "flagWords": [
-        "actally"
-    ]
+    "flagWords": ["actally"]
 }
