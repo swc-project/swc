@@ -2,26 +2,26 @@
 import { unitTest, assertEquals } from "./test_util.ts";
 
 unitTest(function customEventInitializedWithDetail(): void {
-  const type = "touchstart";
-  const detail = { message: "hello" };
-  const customEventInit = {
-    bubbles: true,
-    cancelable: true,
-    detail,
-  } as CustomEventInit;
-  const event = new CustomEvent(type, customEventInit);
+    const type = "touchstart";
+    const detail = { message: "hello" };
+    const customEventInit = {
+        bubbles: true,
+        cancelable: true,
+        detail,
+    } as CustomEventInit;
+    const event = new CustomEvent(type, customEventInit);
 
-  assertEquals(event.bubbles, true);
-  assertEquals(event.cancelable, true);
-  assertEquals(event.currentTarget, null);
-  assertEquals(event.detail, detail);
-  assertEquals(event.isTrusted, false);
-  assertEquals(event.target, null);
-  assertEquals(event.type, type);
+    assertEquals(event.bubbles, true);
+    assertEquals(event.cancelable, true);
+    assertEquals(event.currentTarget, null);
+    assertEquals(event.detail, detail);
+    assertEquals(event.isTrusted, false);
+    assertEquals(event.target, null);
+    assertEquals(event.type, type);
 });
 
 unitTest(function toStringShouldBeWebCompatibility(): void {
-  const type = "touchstart";
-  const event = new CustomEvent(type, {});
-  assertEquals(event.toString(), "[object CustomEvent]");
+    const type = "touchstart";
+    const event = new CustomEvent(type, {});
+    assertEquals(event.toString(), "[object CustomEvent]");
 });

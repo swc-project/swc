@@ -2,8 +2,8 @@
 import { unitTest, assertEquals, assert } from "./test_util.ts";
 
 unitTest(function testDomError() {
-  const de = new DOMException("foo", "bar");
-  assert(de);
-  assertEquals(de.message, "foo");
-  assertEquals(de.name, "bar");
+    const de = new DOMException("foo", "bar");
+    assert(de);
+    assertEquals(de.message, "foo");
+    assertEquals(de.name, "bar");
 });
