@@ -1,1 +1,1 @@
-import { module } from '@src/config'
+import { module } from "@src/config";

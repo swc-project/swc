@@ -1,8 +1,7 @@
-
-console.log(value.debug)
+console.log(value.debug);
 
 if (value.debug) {
-    console.log('Pass')
+    console.log("Pass");
 }
 
-console.log(value)
+console.log(value);

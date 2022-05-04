@@ -1,9 +1,9 @@
 function foo() {
-  let arr = []
-  arr = [1, 2, 3]
+    let arr = [];
+    arr = [1, 2, 3];
 
-  // NOTE: `return { arr }` works fine
-  return { arr: arr }
+    // NOTE: `return { arr }` works fine
+    return { arr: arr };
 }
 
-foo()
+foo();

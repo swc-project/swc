@@ -1,5 +1,3 @@
+await foo();
 
-
-await foo()
-
-export { }
+export {};

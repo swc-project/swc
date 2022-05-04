@@ -4,7 +4,13 @@ import { AbortSignal } from "./misc/AbortSignal";
 import { DiscordAPIError, DiscordHTTPError } from "../../errors";
 import { AsyncQueue, ClientEvent, sleep, Snowflake, Timers } from "../../utils";
 
-const headers = ["x-ratelimit-limit", "x-ratelimit-remaining", "x-ratelimit-reset-after", "x-ratelimit-reset", "via"];
+const headers = [
+    "x-ratelimit-limit",
+    "x-ratelimit-remaining",
+    "x-ratelimit-reset-after",
+    "x-ratelimit-reset",
+    "via",
+];
 
 export class RequestHandler {
     /**
@@ -85,7 +91,9 @@ export class RequestHandler {
     static makeRoute(method, url) {
         const route = url
             .replace(/\/([a-z-]+)\/(?:\d{17,19})/g, (match, p) =>
-                ["channels", "guilds", "webhooks"].includes(p) ? match : `/${p}/:id`
+                ["channels", "guilds", "webhooks"].includes(p)
+                    ? match
+                    : `/${p}/:id`
             )
             .replace(/\/reactions\/[^/]+/g, "/reactions/:id")
             .replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token")
@@ -144,7 +152,7 @@ export class RequestHandler {
                 this.rest.client.emit(ClientEvent.LIMITED, {
                     limit: this.limit,
                     method: request.method,
-                    url
+                    url,
                 });
 
                 await sleep(this._untilReset);
@@ -167,13 +175,19 @@ export class RequestHandler {
      */
     async _make(url, request, tries = 0) {
         const signal = new AbortSignal();
-        const timeout = Timers.setTimeout(() => signal.abort(), this.rest.options.timeout);
+        const timeout = Timers.setTimeout(
+            () => signal.abort(),
+            this.rest.options.timeout
+        );
 
         let res;
         try {
             res = await fetch(url, { ...request, signal });
         } catch (e) {
-            if (e.name === "AbortError" && tries !== this.rest.options.retries) {
+            if (
+                e.name === "AbortError" &&
+                tries !== this.rest.options.retries
+            ) {
                 return this._make(url, options, tries++);
             }
 
@@ -184,7 +198,10 @@ export class RequestHandler {
 
         let _retry = 0;
         if (res.headers) {
-            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers),
+            const [limit, remaining, reset, retry, cf] = getHeaders(
+                    res,
+                    headers
+                ),
                 _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
 
             this.remaining = remaining ? ~~remaining : 1;
@@ -207,7 +224,10 @@ export class RequestHandler {
         }
 
         if (res.status === 429) {
-            this.rest.client.emit(ClientEvent.LIMITED, `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`);
+            this.rest.client.emit(
+                ClientEvent.LIMITED,
+                `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`
+            );
             await sleep(_retry);
             return this._make(url, request, tries++);
         }
@@ -217,12 +237,24 @@ export class RequestHandler {
                 return this._make(url, request, tries++);
             }
 
-            throw new DiscordHTTPError(res.statusText, res.constructor.name, res.status, request.method, url);
+            throw new DiscordHTTPError(
+                res.statusText,
+                res.constructor.name,
+                res.status,
+                request.method,
+                url
+            );
         }
 
         if (res.status >= 400 && res.status < 500) {
             const data = await RequestHandler.parseResponse(res);
-            throw new DiscordAPIError(data.message, data.code, res.status, request.method, url);
+            throw new DiscordAPIError(
+                data.message,
+                data.code,
+                res.status,
+                request.method,
+                url
+            );
         }
 
         return null;
@@ -236,5 +268,5 @@ export class RequestHandler {
  * @return {string[]} The header values.
  */
 function getHeaders(res, headers) {
-    return headers.map(headerName => res.headers.get(headerName));
+    return headers.map((headerName) => res.headers.get(headerName));
 }

@@ -1,7 +1,5 @@
-const f = (...characters: Array<string>): number =>
-	characters.length
+const f = (...characters: Array<string>): number => characters.length;
 
-const g = (str: string): number =>
-	f(...str)
+const g = (str: string): number => f(...str);
 
-g("meow")
+g("meow");

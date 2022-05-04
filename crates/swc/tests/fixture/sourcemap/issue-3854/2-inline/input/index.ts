@@ -1,6 +1,6 @@
-import { AbstractBuilder, AbstractSeqBuilder } from './AbstractBuilders';
-import { hash, mapBuildArg, mapBuildArgs } from './Builder.utils';
-import { image } from './ElementBuilder';
+import { AbstractBuilder, AbstractSeqBuilder } from "./AbstractBuilders";
+import { hash, mapBuildArg, mapBuildArgs } from "./Builder.utils";
+import { image } from "./ElementBuilder";
 
 import type {
     Body,
@@ -12,28 +12,42 @@ import type {
     Stage,
     ArticleSource,
     ArticleSources,
-} from '@paper/models';
-import type { BuildArg, BuildArgs, CreateBuilder, SeqElement, SeqNextElementConverter } from './types';
+} from "@paper/models";
+import type {
+    BuildArg,
+    BuildArgs,
+    CreateBuilder,
+    SeqElement,
+    SeqNextElementConverter,
+} from "./types";
 
 /**
  * @deprecated use {Builder.body.node.img()}
  */
-export * from './BodyNodesBuilder';
-export * as node from './BodyNodesBuilder';
+export * from "./BodyNodesBuilder";
+export * as node from "./BodyNodesBuilder";
 
 export const create: CreateBuilder<BodyBuilder> = () => new BodyBuilder();
-export const trustBox: CreateBuilder<TrustBoxBuilder> = () => new TrustBoxBuilder();
+export const trustBox: CreateBuilder<TrustBoxBuilder> = () =>
+    new TrustBoxBuilder();
 export const opener: CreateBuilder<OpenerBuilder> = () => new OpenerBuilder();
-export const stage: CreateBuilder<BodyStageBuilder> = () => new BodyStageBuilder();
-export const header: CreateBuilder<BodyHeaderBuilder> = () => new BodyHeaderBuilder();
-export const source: CreateBuilder<ArticleSourceBuilder, BuildArgs<RichText.Node>> = (
-    nodes: BuildArgs<RichText.Node> = [],
-) => new ArticleSourceBuilder(...nodes);
-export const sources: CreateBuilder<ArticleSourcesBuilder> = () => new ArticleSourcesBuilder();
+export const stage: CreateBuilder<BodyStageBuilder> = () =>
+    new BodyStageBuilder();
+export const header: CreateBuilder<BodyHeaderBuilder> = () =>
+    new BodyHeaderBuilder();
+export const source: CreateBuilder<
+    ArticleSourceBuilder,
+    BuildArgs<RichText.Node>
+> = (nodes: BuildArgs<RichText.Node> = []) =>
+    new ArticleSourceBuilder(...nodes);
+export const sources: CreateBuilder<ArticleSourcesBuilder> = () =>
+    new ArticleSourcesBuilder();
 
 export const seq = {
-    stage: (() => new BodyStageSeqBuilder()) as CreateBuilder<BodyStageSeqBuilder>,
-    source: (() => new ArticleSourceSeqBuilder()) as CreateBuilder<ArticleSourceSeqBuilder>,
+    stage: (() =>
+        new BodyStageSeqBuilder()) as CreateBuilder<BodyStageSeqBuilder>,
+    source: (() =>
+        new ArticleSourceSeqBuilder()) as CreateBuilder<ArticleSourceSeqBuilder>,
 } as const;
 
 class BodyBuilder extends AbstractBuilder<Body> {
@@ -95,9 +109,9 @@ class TrustBoxBuilder extends AbstractBuilder<TrustBox> {
 }
 
 class OpenerBuilder extends AbstractBuilder<Opener> {
-    #element: Opener['element'] = image().build();
+    #element: Opener["element"] = image().build();
 
-    element(element: BuildArg<Opener['element']>): this {
+    element(element: BuildArg<Opener["element"]>): this {
         this.#element = mapBuildArg(element);
         return this;
     }
@@ -130,18 +144,28 @@ class BodyStageSeqBuilder extends AbstractSeqBuilder<BodyStage> {
         return this;
     }
 
-    commercialsEndOfStage(commercialsEndOfStage: SeqElement<BuildArgs<RichText.Node>>): this {
+    commercialsEndOfStage(
+        commercialsEndOfStage: SeqElement<BuildArgs<RichText.Node>>
+    ): this {
         this.#commercialsEndOfStage = commercialsEndOfStage.map(mapBuildArgs);
         return this;
     }
 
     buildListItem(seqNextElement: SeqNextElementConverter): BodyStage {
         return {
-            id: hash('bodyStage', this.#nodes, this.#companions, this.#commercialsEndOfStage, this.#header),
+            id: hash(
+                "bodyStage",
+                this.#nodes,
+                this.#companions,
+                this.#commercialsEndOfStage,
+                this.#header
+            ),
             nodes: seqNextElement.array(this.#nodes),
             header: seqNextElement.maybe(this.#header),
             companions: seqNextElement.array(this.#companions),
-            commercialsEndOfStage: seqNextElement.array(this.#commercialsEndOfStage),
+            commercialsEndOfStage: seqNextElement.array(
+                this.#commercialsEndOfStage
+            ),
         };
     }
 }
@@ -166,7 +190,9 @@ class BodyStageBuilder extends AbstractBuilder<BodyStage> {
         return this;
     }
 
-    commercialsEndOfStage(commercialsEndOfStage: BuildArgs<RichText.Node>): this {
+    commercialsEndOfStage(
+        commercialsEndOfStage: BuildArgs<RichText.Node>
+    ): this {
         this.#seqBuilder.commercialsEndOfStage([commercialsEndOfStage]);
         return this;
     }
@@ -177,10 +203,10 @@ class BodyStageBuilder extends AbstractBuilder<BodyStage> {
 }
 
 class BodyHeaderBuilder extends AbstractBuilder<BodyHeader> {
-    #variant: BodyHeader['variant'] = 'full';
+    #variant: BodyHeader["variant"] = "full";
     #opener?: Opener = undefined;
 
-    variant(variant: BodyHeader['variant']): this {
+    variant(variant: BodyHeader["variant"]): this {
         this.#variant = variant;
         return this;
     }
@@ -207,7 +233,7 @@ class ArticleSourceSeqBuilder extends AbstractSeqBuilder<ArticleSource> {
     }
 
     buildListItem(seqNextElement: SeqNextElementConverter): ArticleSource {
-        const id = hash('article-source', this.#nodes);
+        const id = hash("article-source", this.#nodes);
         return {
             id,
             nodes: seqNextElement.array(this.#nodes),

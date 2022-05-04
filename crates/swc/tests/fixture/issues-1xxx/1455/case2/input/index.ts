@@ -1,6 +1,6 @@
 const obj = {
     find({ platform }) {
-        return { platform }
+        return { platform };
     },
     byPlatform: async function (platform) {
         const result = await this.find({ platform: { $eq: platform } });
@@ -8,4 +8,4 @@ const obj = {
     },
 };
 
-obj.byPlatform('foo').then(v => console.log(v))
+obj.byPlatform("foo").then((v) => console.log(v));

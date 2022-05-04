@@ -1,4 +1,4 @@
 beforeEach(() => {
-    require('x')
-    jest.mock('someNode')
-})
+    require("x");
+    jest.mock("someNode");
+});

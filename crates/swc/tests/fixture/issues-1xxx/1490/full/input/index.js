@@ -16,20 +16,19 @@ class CanvasElement extends Element {
 
 class ColouredCanvasElement extends CanvasElement {
     createFacets(hidden) {
-        hidden = super.createFacets(hidden);  ///
+        hidden = super.createFacets(hidden); ///
 
         ///
     }
 }
 
-class ColouredSquare extends ColouredCanvasElement { }
+class ColouredSquare extends ColouredCanvasElement {}
 
 const bugExample = () => {
-
     const colouredSquare = new ColouredSquare(),
         hidden = false;
 
     colouredSquare.createFacets(hidden);
-}
+};
 
-bugExample()
+bugExample();

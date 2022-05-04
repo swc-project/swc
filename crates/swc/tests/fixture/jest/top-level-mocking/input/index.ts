@@ -1,3 +1,3 @@
-require('x');
+require("x");
 jest.enableAutomock();
 jest.disableAutomock();
