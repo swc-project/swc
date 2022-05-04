@@ -7,6 +7,12 @@
 
 - **(plugin)** Expose `Pos` (#4516) ([c0432e4](https://github.com/swc-project/swc/commit/c0432e46df1fa15d8819859211913796e59d9192))
 
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Fix lints (#4519) ([33f58fa](https://github.com/swc-project/swc/commit/33f58faa0bb4f87ee13e38a704ca929efc21430b))
+
 ### Testing
 
 
