@@ -26,11 +26,12 @@ output/
 output.js
 output.full.js
 output.mjs
+index.g.js
+output.ts
 output.css
 output.min.css
 output.html
 output.min.html
-index.g.js
 
 # Generated
 crates/swc_ecma_preset_env/data
