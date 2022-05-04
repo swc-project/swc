@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+var _Reflect, __, _Reflect1, __1;
 class Reflect1 {
 }
 // @target: es5, es2015, es2021, es2022, esnext
@@ -66,7 +67,7 @@ C._ = [
         swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(), 
 ];
-var __32 = {
+var __2 = {
     writable: true,
     value: (()=>{
         var { Reflect  } = {
@@ -75,7 +76,7 @@ var __32 = {
         super.w();
     })()
 };
-var __1 = {
+var __111 = {
     writable: true,
     value: (()=>{
         var [Reflect] = [
@@ -410,21 +411,20 @@ _Reflect = class Reflect {
         C1._ = swcHelpers.get(swcHelpers.getPrototypeOf(C1), "w", C1).call(C1);
     })()
 }, _Reflect;
-_Reflect = class Reflect {
-}, __ = {
+_Reflect1 = class Reflect {
+}, __1 = {
     writable: true,
     value: (()=>{
-        var _Reflect, __;
         class C extends B {
         }
-        var __33 = {
+        var __ = {
             writable: true,
             value: (()=>{
                 super.w();
             })()
         };
     })()
-}, _Reflect;
+}, _Reflect1;
 (function Reflect() {}); // no collision
 class C extends B {
 }
@@ -439,7 +439,6 @@ var __31 = {
     })()
 };
 (function Reflect() {
-    var _Reflect, __;
     class C2 extends B {
     }
     C2._ = swcHelpers.get(swcHelpers.getPrototypeOf(C2), "w", C2).call(C2);

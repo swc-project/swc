@@ -5967,6 +5967,35 @@ var _prop2 = {
 
 test!(
     syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    issue_4473,
+    "
+var test1 = class X {
+  [Symbol.toStringTag]() {}
+}
+
+function a() {
+  const b = class Y {
+    x() {
+    }
+  }
+}
+",
+    "
+let _toStringTag;
+var test1 = (_toStringTag = Symbol.toStringTag, class X {
+    [_toStringTag]() {}
+});
+function a() {
+    const b = class Y {
+        x() {}
+    };
+}
+"
+);
+
+test!(
+    syntax(),
     |t| class_properties(
         Some(t.comments.clone()),
         class_properties::Config {

@@ -5,6 +5,17 @@
 
 
 
+- **(es/compat)** Revert a wrong patch about private properties ([97e0e27](https://github.com/swc-project/swc/commit/97e0e271d57ae2c2f6a4d8a09032885ca9a27be9))
+
+
+- **(es/compat)** Fix the position of inserted statements in `class_properties` (#4511) ([9e45882](https://github.com/swc-project/swc/commit/9e45882b8407e46573b363ea47ddbbc7cf9c82e4))
+
+## [1.2.175] - 2022-05-03
+
+### Bug Fixes
+
+
+
 - **(css/prefixer)** Add prefix for `print-color-adjust` (#4503) ([90ac93a](https://github.com/swc-project/swc/commit/90ac93af12b9fb8d50f15ce98a7af5c5ce21d77b))
 
 

@@ -1,6 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _this = this, _superprop_get_w = ()=>super.w
 ;
+var _Reflect, __, _Reflect1, __1;
 // @target: es5, es2015, es2021, es2022, esnext
 // @noTypesAndSymbols: true
 // @filename: external.ts
@@ -83,7 +84,7 @@ C._ = [
         swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     }(), 
 ];
-var _$__22 = {
+var __2 = {
     writable: true,
     value: function() {
         var Reflect = {
@@ -92,7 +93,7 @@ var _$__22 = {
         _superprop_get_w().call(_this);
     }()
 };
-var __1 = {
+var __111 = {
     writable: true,
     value: function() {
         var Reflect = null; // collision (es2015-es2021 only)
@@ -223,7 +224,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__1 = {
+var __11 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -242,7 +243,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__2 = {
+var __12 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -259,7 +260,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__3 = {
+var __13 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -296,7 +297,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__4 = {
+var __14 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -325,7 +326,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__5 = {
+var __15 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -352,36 +353,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__6 = {
-    writable: true,
-    value: function() {
-        _superprop_get_w().call(_this);
-    }()
-};
-(function(Reflect) {})(Reflect || (Reflect = {}));
-var C = /*#__PURE__*/ function(B) {
-    "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
-    function C() {
-        swcHelpers.classCallCheck(this, C);
-        return _super.apply(this, arguments);
-    }
-    return C;
-}(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
-(function(Reflect) {})(Reflect || (Reflect = {}));
-var C = /*#__PURE__*/ function(B) {
-    "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
-    function C() {
-        swcHelpers.classCallCheck(this, C);
-        return _super.apply(this, arguments);
-    }
-    return C;
-}(B);
-var _$__7 = {
+var __16 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -410,7 +382,36 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__8 = {
+var __17 = {
+    writable: true,
+    value: function() {
+        _superprop_get_w().call(_this);
+    }()
+};
+(function(Reflect) {})(Reflect || (Reflect = {}));
+var C = /*#__PURE__*/ function(B) {
+    "use strict";
+    swcHelpers.inherits(C, B);
+    var _super = swcHelpers.createSuper(C);
+    function C() {
+        swcHelpers.classCallCheck(this, C);
+        return _super.apply(this, arguments);
+    }
+    return C;
+}(B);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+(function(Reflect) {})(Reflect || (Reflect = {}));
+var C = /*#__PURE__*/ function(B) {
+    "use strict";
+    swcHelpers.inherits(C, B);
+    var _super = swcHelpers.createSuper(C);
+    function C() {
+        swcHelpers.classCallCheck(this, C);
+        return _super.apply(this, arguments);
+    }
+    return C;
+}(B);
+var __18 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -437,7 +438,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__9 = {
+var __19 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -464,7 +465,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__10 = {
+var __20 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -491,7 +492,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__11 = {
+var __21 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -518,7 +519,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__12 = {
+var __22 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -545,7 +546,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__13 = {
+var __23 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -572,7 +573,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__14 = {
+var __24 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -599,7 +600,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__15 = {
+var __25 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -626,7 +627,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__16 = {
+var __26 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -653,7 +654,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__17 = {
+var __27 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -680,7 +681,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__18 = {
+var __28 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -707,7 +708,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__19 = {
+var __29 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
@@ -742,16 +743,16 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__20 = {
+var __30 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
     }()
 };
-_$_Reflect = function Reflect() {
+_Reflect = function Reflect() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);
-}, _$__ = {
+}, __ = {
     writable: true,
     value: function() {
         var C = /*#__PURE__*/ function(B) {
@@ -766,16 +767,15 @@ _$_Reflect = function Reflect() {
         }(B);
         C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     }()
-}, _$_Reflect;
-_$_Reflect = function Reflect() {
+}, _Reflect;
+_Reflect1 = function Reflect() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);
-}, _$__ = {
+}, __1 = {
     writable: true,
     value: function() {
         var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w()
         ;
-        var _$_Reflect, _$__;
         var C = /*#__PURE__*/ function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
@@ -786,14 +786,14 @@ _$_Reflect = function Reflect() {
             }
             return C;
         }(B);
-        var _$__23 = {
+        var __ = {
             writable: true,
             value: function() {
                 _superprop_get_w1().call(_this1);
             }()
         };
     }()
-}, _$_Reflect;
+}, _Reflect1;
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -817,14 +817,13 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var _$__21 = {
+var __31 = {
     writable: true,
     value: function() {
         _superprop_get_w().call(_this);
     }()
 };
 (function Reflect() {
-    var _$_Reflect, _$__;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
         swcHelpers.inherits(C, B);
@@ -850,7 +849,7 @@ var _$__21 = {
         }
         return C;
     }(B);
-    var _$__ = {
+    var __ = {
         writable: true,
         value: function() {
             _superprop_get_w2().call(_this2);
