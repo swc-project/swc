@@ -7607,7 +7607,7 @@ where
     }
 
     fn append_node(&self, parent: &RcNode, child: RcNode) {
-        let previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
+        let _previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
 
         // TODO fix me
         // Invariant: child cannot have existing parent
