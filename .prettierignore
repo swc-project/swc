@@ -45,3 +45,4 @@ benches/
 helpers/
 packages/swc-helpers
 node-swc/__tests__
+node-swc/tests
