@@ -168,6 +168,8 @@ where
                 token,
             };
 
+            println!("{:?}", token_and_info);
+
             self.tree_construction_dispatcher(&mut token_and_info)?;
 
             // Re-emit errors from tokenizer
@@ -3390,14 +3392,16 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
                         self.insert_html_element(token_and_info)?;
 
+                        // To prevent parsing more tokens in lexer we setup state before taking
+                        self.input.set_input_state(State::Rcdata);
+
                         match self.input.cur()? {
                             Some(Token::Character { value, .. }) if *value == '\x0A' => {
                                 bump!(self);
                             }
                             _ => {}
-                        }
+                        };
 
-                        self.input.set_input_state(State::Rcdata);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::Text;
