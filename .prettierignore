@@ -1,5 +1,5 @@
 # Bundler cache files
-tests/.cache
+.cache/
 
 # Generated
 CHANGELOG.md
