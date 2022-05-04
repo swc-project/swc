@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(plugin)** Expose `Pos` (#4516) ([c0432e4](https://github.com/swc-project/swc/commit/c0432e46df1fa15d8819859211913796e59d9192))
+
+### Testing
+
+
+
+- **(html/parser)** Add tests (#4507) ([202a6e4](https://github.com/swc-project/swc/commit/202a6e4a0100e5ddc3a3c920b447aca803fffbae))
+
+## [1.2.176] - 2022-05-04
+
 ### Bug Fixes
 
 
