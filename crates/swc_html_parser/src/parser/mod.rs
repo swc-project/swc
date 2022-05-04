@@ -2425,8 +2425,7 @@ where
 
                                     // Pop elements from the stack of open elements until an li
                                     // element has been popped from the stack.
-                                    self.open_elements_stack
-                                        .generate_implied_end_tags_with_exclusion("li");
+                                    self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                                     // Jump to the step labeled done below.
                                     break;
