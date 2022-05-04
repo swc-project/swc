@@ -299,3 +299,27 @@ fn issue_4112() {
         })
         .unwrap()
 }
+
+#[test]
+fn issue_3288_1() {
+    let input="eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2lucHV0L2lucHV0LmpzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uICgpIHtcbiAgICByZXR1cm4gXCLwn5Oj4p2TXCI7XG59Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJlQUFlLFdBQVk7SUFDdkIsT0FBTyxvQkFBSSxDQUFDO0NBQ2YsQ0FBQSJ9";
+
+    let decoded_map =
+        base64::decode(input).expect("Unable to decode source map from emitted file.");
+    eprintln!("decoded map {:?}", decoded_map);
+
+    let s = sourcemap::SourceMap::from_slice(&decoded_map).unwrap();
+    eprintln!("{:#?}", s);
+}
+
+#[test]
+fn issue_3288_2() {
+    let input="eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2lucHV0L2lucHV0LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uICgpIHtcbiAgICByZXR1cm4gXCLwn5Oj4p2TXCI7XG59Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJlQUFlLFdBQVk7SUFDdkIsT0FBTyxvQkFBSSxDQUFDO0NBQ2YsQ0FBQSJ9";
+
+    let decoded_map =
+        base64::decode(input).expect("Unable to decode source map from emitted file.");
+    eprintln!("decoded map {:?}", decoded_map);
+
+    let s = sourcemap::SourceMap::from_slice(&decoded_map).unwrap();
+    eprintln!("{:#?}", s);
+}
