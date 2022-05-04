@@ -7,3 +7,5 @@ CHANGELOG.md
 # Testing
 output.js
 output/
+output.css
+output.min.css
