@@ -1,3 +1,3 @@
 for (const { padStart } of foo) {
-  console.log('b'.padEnd(5));
+    console.log("b".padEnd(5));
 }

@@ -8,16 +8,18 @@ var { entries } = Object;
 
 const [{ exec }] = something;
 
-const { 'trim': foo } = '1';
+const { trim: foo } = "1";
 
-const { foo: { filter } } = { foo: [] }
+const {
+    foo: { filter },
+} = { foo: [] };
 
-const { includes } = '';
+const { includes } = "";
 
 var bar = Array;
-const { from } = bar; 
+const { from } = bar;
 
-const { ['o' + 'f']: fuz } = Array; 
+const { ["o" + "f"]: fuz } = Array;
 
-let forEach = 'sort';
+let forEach = "sort";
 ({ forEach } = zzz);

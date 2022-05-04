@@ -1,2 +1,2 @@
-import 'core-js/proposals';
-import 'regenerator-runtime/runtime';
+import "core-js/proposals";
+import "regenerator-runtime/runtime";

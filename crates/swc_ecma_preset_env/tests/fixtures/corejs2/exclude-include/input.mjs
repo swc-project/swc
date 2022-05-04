@@ -1,7 +1,7 @@
 import "@swc/polyfill";
 
 async function a() {
-  await 1;
+    await 1;
 }
 
-(() => {})
+() => {};
