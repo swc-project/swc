@@ -32,7 +32,7 @@ function __swcpack_require__(mod) {
     return cache;
 }
 var load = __swcpack_require__.bind(void 0, function(module, exports) {
-    console.log('foo');
-    console.log('bar');
+    console.log("foo");
+    console.log("bar");
 });
 if (foo()) load();

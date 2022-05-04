@@ -1,8 +1,8 @@
-console.log('loading d.js');
+console.log("loading d.js");
 function foo() {
-    console.log('d.js');
+    console.log("d.js");
 }
-console.log('loading c.js');
+console.log("loading c.js");
 function c() {
     foo();
 }

@@ -1,4 +1,4 @@
-console.log('c');
+console.log("c");
 class A {
     method() {
         return new B();
