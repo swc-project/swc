@@ -1,9 +1,9 @@
 class A {
-    #a = 123n
+    #a = 123n;
     foo() {
-        this.#a++
-        console.log(this.#a)
+        this.#a++;
+        console.log(this.#a);
     }
 }
 
-(new A).foo()
+new A().foo();

@@ -29,5 +29,5 @@ class Test {
 console.log(new Test().member);
 
 if (new Test().member === undefined) {
-    throw new Error(`wrong`)
+    throw new Error(`wrong`);
 }
