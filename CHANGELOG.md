@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Preserve extensions (#4524) ([f3b262e](https://github.com/swc-project/swc/commit/f3b262e340cdd5aaa5ce4008936e3ba696f3dc06))
+
 ### Miscellaneous Tasks
 
 
