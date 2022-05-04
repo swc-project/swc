@@ -3392,7 +3392,7 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
                         self.insert_html_element(token_and_info)?;
 
-                        // To prevent parsing more tokens in lexer we setup state before taking
+                        // To prevent parsing more tokens in lexer we set state before taking
                         self.input.set_input_state(State::Rcdata);
 
                         match self.input.cur()? {
