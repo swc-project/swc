@@ -2,16 +2,27 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 51,
+    "end": 36,
     "ctxt": 0
   },
   "mode": "no-quirks",
   "children": [
     {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 51,
+        "end": 36,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 8,
+            "end": 18,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 51,
+            "end": 36,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,59 +56,70 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 25,
+                "start": 15,
+                "end": 21,
                 "ctxt": 0
               },
-              "tagName": "select",
+              "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
                   "type": "Text",
                   "span": {
-                    "start": 13,
-                    "end": 25,
+                    "start": 18,
+                    "end": 21,
                     "ctxt": 0
                   },
-                  "value": "foobar"
+                  "value": "foo"
                 }
               ],
               "content": null
             },
             {
-              "type": "Text",
-              "span": {
-                "start": 34,
-                "end": 35,
-                "ctxt": 0
-              },
-              "value": "\n"
-            },
-            {
               "type": "Element",
               "span": {
-                "start": 35,
-                "end": 43,
+                "start": 21,
+                "end": 36,
                 "ctxt": 0
               },
-              "tagName": "select",
+              "tagName": "main",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
-              "content": null
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 43,
-                "end": 51,
-                "ctxt": 0
-              },
-              "tagName": "keygen",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 27,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "bar"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 30,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "tagName": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 33,
+                        "end": 36,
+                        "ctxt": 0
+                      },
+                      "value": "baz"
+                    }
+                  ],
+                  "content": null
+                }
+              ],
               "content": null
             }
           ],
