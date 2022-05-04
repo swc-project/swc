@@ -4,7 +4,7 @@
 # Generated
 CHANGELOG.md
 
-# Parser
+# Space sensitive
 crates/swc_css_parser/tests/
 crates/swc_css_codegen/tests/
 crates/swc_ecma_parser/tests/
@@ -18,4 +18,8 @@ output.js
 output.css
 output.min.css
 output.html
+
+# Generated
+crates/swc_ecma_preset_env/data
+crates/swc/tests/tsc-references
 
