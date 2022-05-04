@@ -1,4 +1,4 @@
-import baz from './A'
-import { foo } from './A'
+import baz from "./A";
+import { foo } from "./A";
 
-console.log(baz, foo)
+console.log(baz, foo);

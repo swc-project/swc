@@ -1,6 +1,6 @@
 export default class A {
-    @dec foo() { }
+    @dec foo() {}
 }
 class B {
-    @dec foo() { }
+    @dec foo() {}
 }

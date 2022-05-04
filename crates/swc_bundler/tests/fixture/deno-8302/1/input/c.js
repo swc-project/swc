@@ -1,5 +1,5 @@
-import { a } from './a';
-import { A } from './lib';
+import { a } from "./a";
+import { A } from "./lib";
 
 console.log(a, A);
 

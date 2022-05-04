@@ -1,6 +1,4 @@
-
-    interface X {
-        get foo(): string;
-        set foo(v: string | number);
-    }
-    
+interface X {
+    get foo(): string;
+    set foo(v: string | number);
+}

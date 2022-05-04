@@ -1,4 +1,4 @@
 /** @jsx dom */
 /** @jsxFrag DomFrag */
 
-<></>
+<></>;

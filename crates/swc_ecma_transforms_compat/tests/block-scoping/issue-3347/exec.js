@@ -4,15 +4,15 @@ const myFunction = () => {
         }
 
         if (j === 1) {
-            console.log("before set timeout, j is:", j)
+            console.log("before set timeout, j is:", j);
 
             setTimeout(() => {
-                console.log("in timeout: j is", j)
-            }, 50)
+                console.log("in timeout: j is", j);
+            }, 50);
         }
     }
 
-    return null
-}
+    return null;
+};
 
-myFunction()
+myFunction();

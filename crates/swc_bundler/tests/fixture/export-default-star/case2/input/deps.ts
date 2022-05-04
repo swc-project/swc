@@ -1,2 +1,2 @@
-export * from './lib1';
+export * from "./lib1";
 export default null;

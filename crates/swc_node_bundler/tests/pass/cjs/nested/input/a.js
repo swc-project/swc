@@ -1,1 +1,1 @@
-module.exports = require('./b')
+module.exports = require("./b");

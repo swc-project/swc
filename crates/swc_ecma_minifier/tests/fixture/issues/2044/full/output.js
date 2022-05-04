@@ -1,7 +1,7 @@
 !function(fn) {
     return fn();
 }(function(module, exports) {
-    Object.defineProperty(exports, '__esModule', {
+    Object.defineProperty(exports, "__esModule", {
         value: !0
     });
 }), function(fn) {
@@ -10,14 +10,14 @@
     module.exports = {
         findConfig: function(from) {
             return function(dir) {
-                throw new Error('');
+                throw new Error("");
             };
         }
     };
 }), function(fn) {
     fn();
 }(function(module, exports) {
-    Object.defineProperty(exports, '__esModule', {
+    Object.defineProperty(exports, "__esModule", {
         value: !0
     });
 }), function(fn) {

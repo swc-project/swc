@@ -283,4 +283,4 @@ import "core-js/modules/esnext.weak-set.of.js";
 import "core-js/modules/web.url-search-params.js";
 import "core-js/modules/web.url.js";
 import "core-js/modules/web.url.to-json.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";

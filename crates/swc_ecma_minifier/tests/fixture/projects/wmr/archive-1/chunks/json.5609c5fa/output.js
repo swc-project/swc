@@ -4,7 +4,7 @@ const json = {
     bar: "bar"
 };
 function JSONView() {
-    const [fetched, setFetched, ] = l(null);
+    const [fetched, setFetched] = l(null);
     return y(()=>{
         fetch("./pages/foo.json").then((r)=>r.json()
         ).then((r)=>setFetched(r)

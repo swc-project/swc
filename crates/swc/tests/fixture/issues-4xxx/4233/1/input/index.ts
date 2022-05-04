@@ -2,9 +2,9 @@ function foo() {
     try {
     } catch (e) {
         // hi
-        baz()
-        throw e
+        baz();
+        throw e;
     }
 }
 
-foo()
+foo();

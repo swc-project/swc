@@ -1,5 +1,5 @@
 {
-    "test":".*.js$",
+    "test": ".*.js$",
     "module": {
         "type": "commonjs"
     }

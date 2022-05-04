@@ -1,11 +1,11 @@
 {
-  "sourceMaps": true,
-  "inlineSourcesContent": true,
-  "jsc": {
-    "transform": {
-      "hidden": {
-        "jest": true
-      }
+    "sourceMaps": true,
+    "inlineSourcesContent": true,
+    "jsc": {
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
     }
-  }
 }

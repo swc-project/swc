@@ -11,5 +11,5 @@ const mod1 = {
     a: a1
 };
 const k = globalThis.value ? mod : mod1;
-const { a: a2 ,  } = k;
+const { a: a2  } = k;
 export { a2 as a, b as b };

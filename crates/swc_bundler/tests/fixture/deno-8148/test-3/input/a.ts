@@ -1,1 +1,1 @@
-export const [a, b, c] = [1, 2, 3]
+export const [a, b, c] = [1, 2, 3];

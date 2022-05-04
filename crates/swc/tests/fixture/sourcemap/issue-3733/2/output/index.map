@@ -1,11 +1,11 @@
 {
-  "mappings": "CAAC,EAAE,CAAA,KAAK",
+  "mappings": "CAAC,EAAE,CAAC,CAAC,KAAK",
   "names": [],
   "sources": [
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "a()/*?*/"
+    "a(); /*?*/\n"
   ],
   "version": 3
 }

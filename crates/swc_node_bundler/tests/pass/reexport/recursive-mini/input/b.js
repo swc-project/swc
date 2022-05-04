@@ -1,5 +1,5 @@
 const d = 1;
 
-export { d }
+export { d };
 
-console.log('d')
+console.log("d");

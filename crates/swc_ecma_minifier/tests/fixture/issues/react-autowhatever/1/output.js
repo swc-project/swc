@@ -1,8 +1,8 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Item from './Item';
-import compareObjects from './compareObjects';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Item from "./Item";
+import compareObjects from "./compareObjects";
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -66,25 +66,25 @@ var ItemsList = function(Component1) {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
                 return compareObjects(nextProps, this.props, [
-                    'itemProps'
+                    "itemProps"
                 ]);
             }
         },
         {
             key: "render",
             value: function() {
-                var _this = this, _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = 'function' == typeof itemProps;
+                var _this = this, _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = "function" == typeof itemProps;
                 return _jsx("ul", _objectSpread({
                     role: "listbox"
-                }, theme("".concat(sectionPrefix, "items-list"), 'itemsList'), {
+                }, theme("".concat(sectionPrefix, "items-list"), "itemsList"), {
                     children: items.map(function(item, itemIndex) {
                         var isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
                             sectionIndex: sectionIndex,
                             itemIndex: itemIndex
                         }) : itemProps, allItemProps = _objectSpread({
                             id: getItemId(sectionIndex, itemIndex),
-                            'aria-selected': isHighlighted
-                        }, theme(itemKey, 'item', 0 === itemIndex && 'itemFirst', isHighlighted && 'itemHighlighted'), itemPropsObj);
+                            "aria-selected": isHighlighted
+                        }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
                         return isHighlighted && (allItemProps.ref = _this.storeHighlightedItemReference), _jsx(Item, _objectSpread({}, allItemProps, {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
@@ -96,7 +96,7 @@ var ItemsList = function(Component1) {
                     })
                 }));
             }
-        }
+        }, 
     ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
 }(Component);
 ItemsList.propTypes = {

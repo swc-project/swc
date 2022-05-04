@@ -1,5 +1,5 @@
 class A {
-  static {
-    this.abc = 123
-  }
+    static {
+        this.abc = 123;
+    }
 }

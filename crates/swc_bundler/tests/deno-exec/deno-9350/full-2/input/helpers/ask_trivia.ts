@@ -1,14 +1,12 @@
 import { TRIVIA } from "types";
 import { getUserInput, printQuestion } from "./mod.ts";
 
-export async function askTriviaQuestion(
-  selectedTrivia: TRIVIA,
-): Promise<void> {
-  printQuestion(selectedTrivia.question);
+export async function askTriviaQuestion(selectedTrivia: TRIVIA): Promise<void> {
+    printQuestion(selectedTrivia.question);
 
-  await getUserInput();
+    await getUserInput();
 
-  console.log("The correct answer is:", selectedTrivia.correctAnswer);
+    console.log("The correct answer is:", selectedTrivia.correctAnswer);
 
-  console.log("Source:", selectedTrivia.source.name, "\n");
+    console.log("Source:", selectedTrivia.source.name, "\n");
 }

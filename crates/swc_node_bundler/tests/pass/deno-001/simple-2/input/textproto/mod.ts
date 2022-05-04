@@ -5,5 +5,4 @@
 
 // FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 
-export class TextProtoReader {
-}
+export class TextProtoReader {}

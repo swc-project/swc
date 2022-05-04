@@ -1,2 +1,6 @@
-function b() { return 'b' }
-export function c() { return b() }
+function b() {
+    return "b";
+}
+export function c() {
+    return b();
+}

@@ -1,14 +1,13 @@
 function createConstructor(callback) {
-    let klass
+    let klass;
     return (...args) => {
         if (klass === undefined) {
-            klass = callback()
+            klass = callback();
         }
-        return new klass(...args)
-    }
+        return new klass(...args);
+    };
 }
 
-const constructor = createConstructor(() => class {
-})
+const constructor = createConstructor(() => class {});
 
-console.log(constructor())
+console.log(constructor());

@@ -1,1 +1,1 @@
-({ notafunction: null })?.notafunction();
+({ notafunction: null }?.notafunction());

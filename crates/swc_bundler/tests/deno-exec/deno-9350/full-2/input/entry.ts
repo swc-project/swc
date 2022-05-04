@@ -5,9 +5,9 @@ import { getNumericInput, printQuestion } from "./helpers/mod.ts";
 const args = parse(Deno.args);
 
 if (args.stats) {
-  printStats();
+    printStats();
 } else {
-  printQuestion("How many times have you played");
+    printQuestion("How many times have you played");
 
-  console.log(await getNumericInput());
+    console.log(await getNumericInput());
 }

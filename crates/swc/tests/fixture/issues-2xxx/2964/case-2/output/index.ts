@@ -11,10 +11,10 @@ var /* istanbul ignore next */ badIstanbul = (test)=>{
     const { value  } = test, pixelParams = swcHelpers.objectWithoutProperties(test, [
         "value"
     ]);
-    console.log('fail');
+    console.log("fail");
 };
 /* istanbul ignore next: UI-5137 */ const downloadDocument = ()=>{
-    console.log('fail');
+    console.log("fail");
 };
 exports.downloadDocument = downloadDocument;
 exports.badIstanbul = badIstanbul;

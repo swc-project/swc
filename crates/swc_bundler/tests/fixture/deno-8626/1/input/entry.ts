@@ -1,3 +1,3 @@
-import * as foo from "./mod.ts"
+import * as foo from "./mod.ts";
 
-console.log(foo)
+console.log(foo);

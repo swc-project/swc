@@ -1,1 +1,1 @@
-export default 'unused';
+export default "unused";

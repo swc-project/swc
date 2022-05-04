@@ -1,20 +1,22 @@
 import * as swcHelpers from "@swc/helpers";
-import algoliasearchHelper from 'algoliasearch-helper';
-import createWidgetsManager from './createWidgetsManager';
-import { HIGHLIGHT_TAGS } from './highlight';
-import { hasMultipleIndices } from './indexUtils';
-import { version as ReactVersion } from 'react';
-import version from './version';
+import algoliasearchHelper from "algoliasearch-helper";
+import createWidgetsManager from "./createWidgetsManager";
+import { HIGHLIGHT_TAGS } from "./highlight";
+import { hasMultipleIndices } from "./indexUtils";
+import { version as ReactVersion } from "react";
+import version from "./version";
 function addAlgoliaAgents(searchClient) {
-    if (typeof searchClient.addAlgoliaAgent === 'function') {
+    if (typeof searchClient.addAlgoliaAgent === "function") {
         searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")"));
-        searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")"));
+        searchClient.addAlgoliaAgent(
+            "react-instantsearch (".concat(version, ")")
+        );
     }
 }
 var isMultiIndexContext = function (widget) {
     return hasMultipleIndices({
         ais: widget.props.contextValue,
-        multiIndexContext: widget.props.indexContextValue
+        multiIndexContext: widget.props.indexContextValue,
     });
 };
 var isTargetedIndexEqualIndex = function (widget, indexId) {
@@ -44,10 +46,19 @@ var sortIndexWidgetsFirst = function (firstWidget, secondWidget) {
 // consider updating it also in `serializeQueryParameters` from `@algolia/transporter`.
 function serializeQueryParameters(parameters) {
     var isObjectOrArray = function (value) {
-        return Object.prototype.toString.call(value) === '[object Object]' || Object.prototype.toString.call(value) === '[object Array]';
+        return (
+            Object.prototype.toString.call(value) === "[object Object]" ||
+            Object.prototype.toString.call(value) === "[object Array]"
+        );
     };
     var encode = function (format) {
-        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        for (
+            var _len = arguments.length,
+                args = new Array(_len > 1 ? _len - 1 : 0),
+                _key = 1;
+            _key < _len;
+            _key++
+        ) {
             args[_key - 1] = arguments[_key];
         }
         var i = 0;
@@ -55,9 +66,17 @@ function serializeQueryParameters(parameters) {
             return encodeURIComponent(args[i++]);
         });
     };
-    return Object.keys(parameters).map(function (key) {
-        return encode('%s=%s', key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key]);
-    }).join('&');
+    return Object.keys(parameters)
+        .map(function (key) {
+            return encode(
+                "%s=%s",
+                key,
+                isObjectOrArray(parameters[key])
+                    ? JSON.stringify(parameters[key])
+                    : parameters[key]
+            );
+        })
+        .join("&");
 }
 var _obj;
 /**
@@ -69,8 +88,12 @@ var _obj;
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
  */ export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, initialState = _initialState === void 0 ? {
-    } : _initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
+    var indexName = param.indexName,
+        _initialState = param.initialState,
+        initialState = _initialState === void 0 ? {} : _initialState,
+        searchClient = param.searchClient,
+        resultsState = param.resultsState,
+        stalledSearchDelay = param.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;
         var listeners = [];
@@ -89,7 +112,7 @@ var _obj;
                 return function unsubscribe() {
                     listeners.splice(listeners.indexOf(listener), 1);
                 };
-            }
+            },
         };
     };
     var skipSearch = function skipSearch() {
@@ -105,63 +128,103 @@ var _obj;
         search();
     };
     var getMetadata = function getMetadata(state) {
-        return widgetsManager.getWidgets().filter(function (widget) {
-            return Boolean(widget.getMetadata);
-        }).map(function (widget) {
-            return widget.getMetadata(state);
-        });
+        return widgetsManager
+            .getWidgets()
+            .filter(function (widget) {
+                return Boolean(widget.getMetadata);
+            })
+            .map(function (widget) {
+                return widget.getMetadata(state);
+            });
     };
     var getSearchParameters = function getSearchParameters() {
-        var sharedParameters = widgetsManager.getWidgets().filter(function (widget) {
-            return Boolean(widget.getSearchParameters);
-        }).filter(function (widget) {
-            return !isMultiIndexContext(widget) && !isIndexWidget(widget);
-        }).reduce(function (res, widget) {
-            return widget.getSearchParameters(res);
-        }, initialSearchParameters);
-        var mainParameters = widgetsManager.getWidgets().filter(function (widget) {
-            return Boolean(widget.getSearchParameters);
-        }).filter(function (widget) {
-            var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName);
-            var subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
-            return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
-        })// We have to sort the `Index` widgets first so the `index` parameter
+        var sharedParameters = widgetsManager
+            .getWidgets()
+            .filter(function (widget) {
+                return Boolean(widget.getSearchParameters);
+            })
+            .filter(function (widget) {
+                return !isMultiIndexContext(widget) && !isIndexWidget(widget);
+            })
+            .reduce(function (res, widget) {
+                return widget.getSearchParameters(res);
+            }, initialSearchParameters);
+        var mainParameters = widgetsManager
+            .getWidgets()
+            .filter(function (widget) {
+                return Boolean(widget.getSearchParameters);
+            })
+            .filter(function (widget) {
+                var targetedIndexEqualMainIndex =
+                    isMultiIndexContext(widget) &&
+                    isTargetedIndexEqualIndex(widget, indexName);
+                var subIndexEqualMainIndex =
+                    isIndexWidget(widget) &&
+                    isIndexWidgetEqualIndex(widget, indexName);
+                return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
+            }) // We have to sort the `Index` widgets first so the `index` parameter
             // is correctly set in the `reduce` function for the following widgets
-            .sort(sortIndexWidgetsFirst).reduce(function (res, widget) {
+            .sort(sortIndexWidgetsFirst)
+            .reduce(function (res, widget) {
                 return widget.getSearchParameters(res);
             }, sharedParameters);
-        var derivedIndices = widgetsManager.getWidgets().filter(function (widget) {
-            return Boolean(widget.getSearchParameters);
-        }).filter(function (widget) {
-            var targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName);
-            var subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
-            return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
-        })// We have to sort the `Index` widgets first so the `index` parameter
+        var derivedIndices = widgetsManager
+            .getWidgets()
+            .filter(function (widget) {
+                return Boolean(widget.getSearchParameters);
+            })
+            .filter(function (widget) {
+                var targetedIndexNotEqualMainIndex =
+                    isMultiIndexContext(widget) &&
+                    !isTargetedIndexEqualIndex(widget, indexName);
+                var subIndexNotEqualMainIndex =
+                    isIndexWidget(widget) &&
+                    !isIndexWidgetEqualIndex(widget, indexName);
+                return (
+                    targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex
+                );
+            }) // We have to sort the `Index` widgets first so the `index` parameter
             // is correctly set in the `reduce` function for the following widgets
-            .sort(sortIndexWidgetsFirst).reduce(function (indices, widget) {
-                var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId;
+            .sort(sortIndexWidgetsFirst)
+            .reduce(function (indices, widget) {
+                var indexId = isMultiIndexContext(widget)
+                    ? widget.props.indexContextValue.targetedIndex
+                    : widget.props.indexId;
                 var widgets = indices[indexId] || [];
-                return swcHelpers.objectSpread({
-                }, indices, swcHelpers.defineProperty({
-                }, indexId, widgets.concat(widget)));
-            }, {
-            });
-        var derivedParameters = Object.keys(derivedIndices).map(function (indexId) {
+                return swcHelpers.objectSpread(
+                    {},
+                    indices,
+                    swcHelpers.defineProperty(
+                        {},
+                        indexId,
+                        widgets.concat(widget)
+                    )
+                );
+            }, {});
+        var derivedParameters = Object.keys(derivedIndices).map(function (
+            indexId
+        ) {
             return {
-                parameters: derivedIndices[indexId].reduce(function (res, widget) {
+                parameters: derivedIndices[indexId].reduce(function (
+                    res,
+                    widget
+                ) {
                     return widget.getSearchParameters(res);
-                }, sharedParameters),
-                indexId: indexId
+                },
+                sharedParameters),
+                indexId: indexId,
             };
         });
         return {
             mainParameters: mainParameters,
-            derivedParameters: derivedParameters
+            derivedParameters: derivedParameters,
         };
     };
     var search = function search() {
         if (!skip) {
-            var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters, derivedParameters = ref.derivedParameters;
+            var ref = getSearchParameters(helper.state),
+                mainParameters = ref.mainParameters,
+                derivedParameters = ref.derivedParameters;
             // We have to call `slice` because the method `detach` on the derived
             // helpers mutates the value `derivedHelpers`. The `forEach` loop does
             // not iterate on each value and we're not able to correctly clear the
@@ -184,13 +247,19 @@ var _obj;
                 derivedHelper.detach();
             });
             derivedParameters.forEach(function (param) {
-                var indexId = param.indexId, parameters = param.parameters;
+                var indexId = param.indexId,
+                    parameters = param.parameters;
                 var derivedHelper = helper.derive(function () {
                     return parameters;
                 });
-                derivedHelper.on('result', handleSearchSuccess({
-                    indexId: indexId
-                })).on('error', handleSearchError);
+                derivedHelper
+                    .on(
+                        "result",
+                        handleSearchSuccess({
+                            indexId: indexId,
+                        })
+                    )
+                    .on("error", handleSearchError);
             });
             helper.setState(mainParameters);
             helper.search();
@@ -201,17 +270,18 @@ var _obj;
         return function (event) {
             var state = store.getState();
             var isDerivedHelpersEmpty = !helper.derivedHelpers.length;
-            var results = state.results ? state.results : {
-            };
+            var results = state.results ? state.results : {};
             // Switching from mono index to multi index and vice versa must reset the
             // results to an empty object, otherwise we keep reference of stalled and
             // unused results.
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {
-            } : results;
+            results =
+                !isDerivedHelpersEmpty && results.getFacetByName ? {} : results;
             if (!isDerivedHelpersEmpty) {
-                results = swcHelpers.objectSpread({
-                }, results, swcHelpers.defineProperty({
-                }, indexId, event.results));
+                results = swcHelpers.objectSpread(
+                    {},
+                    results,
+                    swcHelpers.defineProperty({}, indexId, event.results)
+                );
             } else {
                 results = event.results;
             }
@@ -222,14 +292,19 @@ var _obj;
                 stalledSearchTimer = null;
                 nextIsSearchStalled = false;
             }
-            var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
-            store.setState(swcHelpers.objectSpread({
-            }, partialState, {
-                results: results,
-                isSearchStalled: nextIsSearchStalled,
-                searching: false,
-                error: null
-            }));
+            var resultsFacetValues = currentState.resultsFacetValues,
+                partialState = swcHelpers.objectWithoutProperties(
+                    currentState,
+                    ["resultsFacetValues"]
+                );
+            store.setState(
+                swcHelpers.objectSpread({}, partialState, {
+                    results: results,
+                    isSearchStalled: nextIsSearchStalled,
+                    searching: false,
+                    error: null,
+                })
+            );
         };
     };
     var handleSearchError = function handleSearchError(param) {
@@ -240,22 +315,31 @@ var _obj;
             clearTimeout(stalledSearchTimer);
             nextIsSearchStalled = false;
         }
-        var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
-        store.setState(swcHelpers.objectSpread({
-        }, partialState, {
-            isSearchStalled: nextIsSearchStalled,
-            error: error,
-            searching: false
-        }));
+        var resultsFacetValues = currentState.resultsFacetValues,
+            partialState = swcHelpers.objectWithoutProperties(currentState, [
+                "resultsFacetValues",
+            ]);
+        store.setState(
+            swcHelpers.objectSpread({}, partialState, {
+                isSearchStalled: nextIsSearchStalled,
+                error: error,
+                searching: false,
+            })
+        );
     };
     var handleNewSearch = function handleNewSearch() {
         if (!stalledSearchTimer) {
             stalledSearchTimer = setTimeout(function () {
-                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, ["resultsFacetValues"]);
-                store.setState(swcHelpers.objectSpread({
-                }, partialState, {
-                    isSearchStalled: true
-                }));
+                var _ref = store.getState(),
+                    resultsFacetValues = _ref.resultsFacetValues,
+                    partialState = swcHelpers.objectWithoutProperties(_ref, [
+                        "resultsFacetValues",
+                    ]);
+                store.setState(
+                    swcHelpers.objectSpread({}, partialState, {
+                        isSearchStalled: true,
+                    })
+                );
             }, stalledSearchDelay);
         }
     };
@@ -266,7 +350,10 @@ var _obj;
         // Disable cache hydration on:
         // - Algoliasearch API Client < v4 with cache disabled
         // - Third party clients (detected by the `addAlgoliaAgent` function missing)
-        if ((!client.transporter || client._cacheHydrated) && (!client._useCache || typeof client.addAlgoliaAgent !== 'function')) {
+        if (
+            (!client.transporter || client._cacheHydrated) &&
+            (!client._useCache || typeof client.addAlgoliaAgent !== "function")
+        ) {
             return;
         }
         // Algoliasearch API Client >= v4
@@ -280,25 +367,38 @@ var _obj;
             client._cacheHydrated = true;
             var baseMethod = client.search;
             client.search = function (requests) {
-                for (var _len = arguments.length, methodArgs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                for (
+                    var _len = arguments.length,
+                        methodArgs = new Array(_len > 1 ? _len - 1 : 0),
+                        _key = 1;
+                    _key < _len;
+                    _key++
+                ) {
                     methodArgs[_key - 1] = arguments[_key];
                 }
-                var requestsWithSerializedParams = requests.map(function (request) {
-                    return swcHelpers.objectSpread({
-                    }, request, {
-                        params: serializeQueryParameters(request.params)
+                var requestsWithSerializedParams = requests.map(function (
+                    request
+                ) {
+                    return swcHelpers.objectSpread({}, request, {
+                        params: serializeQueryParameters(request.params),
                     });
                 });
-                return client.transporter.responsesCache.get({
-                    method: 'search',
-                    args: [
-                        requestsWithSerializedParams
-                    ].concat(swcHelpers.toConsumableArray(methodArgs))
-                }, function () {
-                    return baseMethod.apply(void 0, [
-                        requests
-                    ].concat(swcHelpers.toConsumableArray(methodArgs)));
-                });
+                return client.transporter.responsesCache.get(
+                    {
+                        method: "search",
+                        args: [requestsWithSerializedParams].concat(
+                            swcHelpers.toConsumableArray(methodArgs)
+                        ),
+                    },
+                    function () {
+                        return baseMethod.apply(
+                            void 0,
+                            [requests].concat(
+                                swcHelpers.toConsumableArray(methodArgs)
+                            )
+                        );
+                    }
+                );
             };
         }
         if (Array.isArray(results.results)) {
@@ -307,169 +407,238 @@ var _obj;
         }
         hydrateSearchClientWithSingleIndexRequest(client, results);
     };
-    var hydrateSearchClientWithMultiIndexRequest = function hydrateSearchClientWithMultiIndexRequest(client, results) {
-        // Algoliasearch API Client >= v4
-        // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: 'search',
-                args: [
-                    results.reduce(function (acc, result) {
-                        return acc.concat(result.rawResults.map(function (request) {
-                            return {
-                                indexName: request.index,
-                                params: request.params
-                            };
-                        }));
+    var hydrateSearchClientWithMultiIndexRequest =
+        function hydrateSearchClientWithMultiIndexRequest(client, results) {
+            // Algoliasearch API Client >= v4
+            // Populate the cache with the data from the server
+            if (client.transporter) {
+                client.transporter.responsesCache.set(
+                    {
+                        method: "search",
+                        args: [
+                            results.reduce(function (acc, result) {
+                                return acc.concat(
+                                    result.rawResults.map(function (request) {
+                                        return {
+                                            indexName: request.index,
+                                            params: request.params,
+                                        };
+                                    })
+                                );
+                            }, []),
+                        ],
+                    },
+                    {
+                        results: results.reduce(function (acc, result) {
+                            return acc.concat(result.rawResults);
+                        }, []),
+                    }
+                );
+                return;
+            }
+            // Algoliasearch API Client < v4
+            // Prior to client v4 we didn't have a proper API to hydrate the client
+            // cache from the outside. The following code populates the cache with
+            // a single-index result. You can find more information about the
+            // computation of the key inside the client (see link below).
+            // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+            var key = "/1/indexes/*/queries_body_".concat(
+                JSON.stringify({
+                    requests: results.reduce(function (acc, result) {
+                        return acc.concat(
+                            result.rawResults.map(function (request) {
+                                return {
+                                    indexName: request.index,
+                                    params: request.params,
+                                };
+                            })
+                        );
                     }, []),
-                ]
-            }, {
-                results: results.reduce(function (acc, result) {
-                    return acc.concat(result.rawResults);
-                }, [])
-            });
-            return;
-        }
-        // Algoliasearch API Client < v4
-        // Prior to client v4 we didn't have a proper API to hydrate the client
-        // cache from the outside. The following code populates the cache with
-        // a single-index result. You can find more information about the
-        // computation of the key inside the client (see link below).
-        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-        var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
-            requests: results.reduce(function (acc, result) {
-                return acc.concat(result.rawResults.map(function (request) {
-                    return {
-                        indexName: request.index,
-                        params: request.params
-                    };
-                }));
-            }, [])
-        }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
-            results: results.reduce(function (acc, result) {
-                return acc.concat(result.rawResults);
-            }, [])
-        })));
-    };
-    var hydrateSearchClientWithSingleIndexRequest = function hydrateSearchClientWithSingleIndexRequest(client, results) {
-        // Algoliasearch API Client >= v4
-        // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: 'search',
-                args: [
-                    results.rawResults.map(function (request) {
+                })
+            );
+            client.cache = swcHelpers.objectSpread(
+                {},
+                client.cache,
+                swcHelpers.defineProperty(
+                    {},
+                    key,
+                    JSON.stringify({
+                        results: results.reduce(function (acc, result) {
+                            return acc.concat(result.rawResults);
+                        }, []),
+                    })
+                )
+            );
+        };
+    var hydrateSearchClientWithSingleIndexRequest =
+        function hydrateSearchClientWithSingleIndexRequest(client, results) {
+            // Algoliasearch API Client >= v4
+            // Populate the cache with the data from the server
+            if (client.transporter) {
+                client.transporter.responsesCache.set(
+                    {
+                        method: "search",
+                        args: [
+                            results.rawResults.map(function (request) {
+                                return {
+                                    indexName: request.index,
+                                    params: request.params,
+                                };
+                            }),
+                        ],
+                    },
+                    {
+                        results: results.rawResults,
+                    }
+                );
+                return;
+            }
+            // Algoliasearch API Client < v4
+            // Prior to client v4 we didn't have a proper API to hydrate the client
+            // cache from the outside. The following code populates the cache with
+            // a single-index result. You can find more information about the
+            // computation of the key inside the client (see link below).
+            // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+            var key = "/1/indexes/*/queries_body_".concat(
+                JSON.stringify({
+                    requests: results.rawResults.map(function (request) {
                         return {
                             indexName: request.index,
-                            params: request.params
+                            params: request.params,
                         };
                     }),
-                ]
-            }, {
-                results: results.rawResults
-            });
-            return;
-        }
-        // Algoliasearch API Client < v4
-        // Prior to client v4 we didn't have a proper API to hydrate the client
-        // cache from the outside. The following code populates the cache with
-        // a single-index result. You can find more information about the
-        // computation of the key inside the client (see link below).
-        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-        var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
-            requests: results.rawResults.map(function (request) {
-                return {
-                    indexName: request.index,
-                    params: request.params
-                };
-            })
-        }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
-            results: results.rawResults
-        })));
-    };
+                })
+            );
+            client.cache = swcHelpers.objectSpread(
+                {},
+                client.cache,
+                swcHelpers.defineProperty(
+                    {},
+                    key,
+                    JSON.stringify({
+                        results: results.rawResults,
+                    })
+                )
+            );
+        };
     var hydrateResultsState = function hydrateResultsState(results) {
         if (!results) {
             return null;
         }
         if (Array.isArray(results.results)) {
             return results.results.reduce(function (acc, result) {
-                return swcHelpers.objectSpread({
-                }, acc, swcHelpers.defineProperty({
-                }, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-            }, {
-            });
+                return swcHelpers.objectSpread(
+                    {},
+                    acc,
+                    swcHelpers.defineProperty(
+                        {},
+                        result._internalIndexId,
+                        new algoliasearchHelper.SearchResults(
+                            new algoliasearchHelper.SearchParameters(
+                                result.state
+                            ),
+                            result.rawResults
+                        )
+                    )
+                );
+            }, {});
         }
-        return new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults);
+        return new algoliasearchHelper.SearchResults(
+            new algoliasearchHelper.SearchParameters(results.state),
+            results.rawResults
+        );
     };
     var onWidgetsUpdate = // Called whenever a widget has been rendered with new props.
         function onWidgetsUpdate() {
             var metadata = getMetadata(store.getState().widgets);
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
-                metadata: metadata,
-                searching: true
-            }));
+            store.setState(
+                swcHelpers.objectSpread({}, store.getState(), {
+                    metadata: metadata,
+                    searching: true,
+                })
+            );
             // Since the `getSearchParameters` method of widgets also depends on props,
             // the result search parameters might have changed.
             search();
         };
     var transitionState = function transitionState(nextSearchState) {
         var searchState = store.getState().widgets;
-        return widgetsManager.getWidgets().filter(function (widget) {
-            return Boolean(widget.transitionState);
-        }).reduce(function (res, widget) {
-            return widget.transitionState(searchState, res);
-        }, nextSearchState);
+        return widgetsManager
+            .getWidgets()
+            .filter(function (widget) {
+                return Boolean(widget.transitionState);
+            })
+            .reduce(function (res, widget) {
+                return widget.transitionState(searchState, res);
+            }, nextSearchState);
     };
-    var onExternalStateUpdate = function onExternalStateUpdate(nextSearchState) {
+    var onExternalStateUpdate = function onExternalStateUpdate(
+        nextSearchState
+    ) {
         var metadata = getMetadata(nextSearchState);
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
-            widgets: nextSearchState,
-            metadata: metadata,
-            searching: true
-        }));
+        store.setState(
+            swcHelpers.objectSpread({}, store.getState(), {
+                widgets: nextSearchState,
+                metadata: metadata,
+                searching: true,
+            })
+        );
         search();
     };
     var onSearchForFacetValues = function onSearchForFacetValues(param) {
-        var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits, maxFacetHits = _maxFacetHits === void 0 ? 10 : _maxFacetHits;
+        var facetName = param.facetName,
+            query = param.query,
+            _maxFacetHits = param.maxFacetHits,
+            maxFacetHits = _maxFacetHits === void 0 ? 10 : _maxFacetHits;
         // The values 1, 100 are the min / max values that the engine accepts.
         // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
         var maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
-            searchingForFacetValues: true
-        }));
-        helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then(function (content) {
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
-                error: null,
-                searchingForFacetValues: false,
-                resultsFacetValues: swcHelpers.objectSpread({
-                }, store.getState().resultsFacetValues, (_obj = {
-                }, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
-            }));
-        }, function (error) {
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
-                searchingForFacetValues: false,
-                error: error
-            }));
-        }).catch(function (error) {
-            // Since setState is synchronous, any error that occurs in the render of a
-            // component will be swallowed by this promise.
-            // This is a trick to make the error show up correctly in the console.
-            // See http://stackoverflow.com/a/30741722/969302
-            setTimeout(function () {
-                throw error;
+        store.setState(
+            swcHelpers.objectSpread({}, store.getState(), {
+                searchingForFacetValues: true,
+            })
+        );
+        helper
+            .searchForFacetValues(facetName, query, maxFacetHitsWithinRange)
+            .then(
+                function (content) {
+                    store.setState(
+                        swcHelpers.objectSpread({}, store.getState(), {
+                            error: null,
+                            searchingForFacetValues: false,
+                            resultsFacetValues: swcHelpers.objectSpread(
+                                {},
+                                store.getState().resultsFacetValues,
+                                ((_obj = {}),
+                                swcHelpers.defineProperty(
+                                    _obj,
+                                    facetName,
+                                    content.facetHits
+                                ),
+                                swcHelpers.defineProperty(_obj, "query", query),
+                                _obj)
+                            ),
+                        })
+                    );
+                },
+                function (error) {
+                    store.setState(
+                        swcHelpers.objectSpread({}, store.getState(), {
+                            searchingForFacetValues: false,
+                            error: error,
+                        })
+                    );
+                }
+            )
+            .catch(function (error) {
+                // Since setState is synchronous, any error that occurs in the render of a
+                // component will be swallowed by this promise.
+                // This is a trick to make the error show up correctly in the console.
+                // See http://stackoverflow.com/a/30741722/969302
+                setTimeout(function () {
+                    throw error;
+                });
             });
-        });
     };
     var updateIndex = function updateIndex(newIndex) {
         initialSearchParameters = initialSearchParameters.setIndex(newIndex);
@@ -477,15 +646,24 @@ var _obj;
     };
     var getWidgetsIds = function getWidgetsIds() {
         return store.getState().metadata.reduce(function (res, meta) {
-            return typeof meta.id !== 'undefined' ? res.concat(meta.id) : res;
+            return typeof meta.id !== "undefined" ? res.concat(meta.id) : res;
         }, []);
     };
-    var helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({
-    }, HIGHLIGHT_TAGS));
+    var helper = algoliasearchHelper(
+        searchClient,
+        indexName,
+        swcHelpers.objectSpread({}, HIGHLIGHT_TAGS)
+    );
     addAlgoliaAgents(searchClient);
-    helper.on('search', handleNewSearch).on('result', handleSearchSuccess({
-        indexId: indexName
-    })).on('error', handleSearchError);
+    helper
+        .on("search", handleNewSearch)
+        .on(
+            "result",
+            handleSearchSuccess({
+                indexId: indexName,
+            })
+        )
+        .on("error", handleSearchError);
     var skip = false;
     var stalledSearchTimer = null;
     var initialSearchParameters = helper.state;
@@ -498,7 +676,7 @@ var _obj;
         error: null,
         searching: false,
         isSearchStalled: true,
-        searchingForFacetValues: false
+        searchingForFacetValues: false,
     });
     return {
         store: store,
@@ -511,38 +689,50 @@ var _obj;
         updateClient: updateClient,
         updateIndex: updateIndex,
         clearCache: clearCache,
-        skipSearch: skipSearch
+        skipSearch: skipSearch,
     };
-};
+}
 function hydrateMetadata(resultsState) {
     if (!resultsState) {
         return [];
     }
     // add a value noop, which gets replaced once the widgets are mounted
     return resultsState.metadata.map(function (datum) {
-        return swcHelpers.objectSpread({
-            value: function () {
-                return {
-                };
-            }
-        }, datum, {
-            items: datum.items && datum.items.map(function (item) {
-                return swcHelpers.objectSpread({
-                    value: function () {
-                        return {
-                        };
-                    }
-                }, item, {
-                    items: item.items && item.items.map(function (nestedItem) {
-                        return swcHelpers.objectSpread({
-                            value: function () {
-                                return {
-                                };
+        return swcHelpers.objectSpread(
+            {
+                value: function () {
+                    return {};
+                },
+            },
+            datum,
+            {
+                items:
+                    datum.items &&
+                    datum.items.map(function (item) {
+                        return swcHelpers.objectSpread(
+                            {
+                                value: function () {
+                                    return {};
+                                },
+                            },
+                            item,
+                            {
+                                items:
+                                    item.items &&
+                                    item.items.map(function (nestedItem) {
+                                        return swcHelpers.objectSpread(
+                                            {
+                                                value: function () {
+                                                    return {};
+                                                },
+                                            },
+                                            nestedItem
+                                        );
+                                    }),
                             }
-                        }, nestedItem);
-                    })
-                });
-            })
-        });
+                        );
+                    }),
+            }
+        );
     });
 }

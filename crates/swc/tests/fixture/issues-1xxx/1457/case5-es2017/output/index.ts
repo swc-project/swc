@@ -1,6 +1,6 @@
-import { setGlobalOptions } from '@typegoose/typegoose';
-import * as typegoose from '@typegoose/typegoose';
-import { schemas } from './schemas';
+import { setGlobalOptions } from "@typegoose/typegoose";
+import * as typegoose from "@typegoose/typegoose";
+import { schemas } from "./schemas";
 // typegoose.mongoose.set('debug', true);
 setGlobalOptions({
     options: {
@@ -8,8 +8,8 @@ setGlobalOptions({
     },
     schemaOptions: {
         timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at'
+            createdAt: "created_at",
+            updatedAt: "updated_at"
         }
     }
 });

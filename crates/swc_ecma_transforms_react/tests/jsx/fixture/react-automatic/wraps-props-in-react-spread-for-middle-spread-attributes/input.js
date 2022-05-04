@@ -1,1 +1,1 @@
-<Component y={2} { ... x } z />
+<Component y={2} {...x} z />;

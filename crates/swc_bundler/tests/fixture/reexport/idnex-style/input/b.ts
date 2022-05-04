@@ -1,3 +1,3 @@
-export class B { }
+export class B {}
 
-export function utilForB() { }
+export function utilForB() {}

@@ -1,6 +1,8 @@
 class Foo {
-    static #_ = (() => { this.bar = "3"; })();
+    static #_ = (() => {
+        this.bar = "3";
+    })();
 }
 
-console.log(Foo.bar)
-console.log(new Foo().bar)
+console.log(Foo.bar);
+console.log(new Foo().bar);

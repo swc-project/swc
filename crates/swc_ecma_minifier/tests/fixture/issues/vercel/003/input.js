@@ -1,17 +1,14 @@
-import { a, b } from './utils';
+import { a, b } from "./utils";
 
-if (typeof window !== 'undefined') {
-    require('intersection-observer');
+if (typeof window !== "undefined") {
+    require("intersection-observer");
 }
 
 const manager = (function makeManager() {
     const c = new Map();
 
     function d(e) {
-        return (
-            f(e) ||
-            new IntersectionObserver(g, e)
-        );
+        return f(e) || new IntersectionObserver(g, e);
     }
 
     function f(g = {}) {
@@ -25,9 +22,7 @@ const manager = (function makeManager() {
     }
 
     function j(k) {
-        return !c.has(k)
-            ? c.set(k, new Map()).get(k)
-            : c.get(k);
+        return !c.has(k) ? c.set(k, new Map()).get(k) : c.get(k);
     }
 
     function l(m, n, o) {

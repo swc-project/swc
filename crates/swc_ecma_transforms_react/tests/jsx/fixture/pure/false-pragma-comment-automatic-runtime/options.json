@@ -1,1 +1,5 @@
-{"throws":"pragma and pragmaFrag cannot be set when runtime is automatic","pure":false,"runtime":"automatic"}
+{
+    "throws": "pragma and pragmaFrag cannot be set when runtime is automatic",
+    "pure": false,
+    "runtime": "automatic"
+}

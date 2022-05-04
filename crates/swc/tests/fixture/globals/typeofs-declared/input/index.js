@@ -1,3 +1,3 @@
-const window = 'foo';
+const window = "foo";
 
 console.log(typeof window);

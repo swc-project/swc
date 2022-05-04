@@ -1,7 +1,7 @@
 class App {
     constructor() {
-        console.log('Hello from app')
+        console.log("Hello from app");
     }
 }
 
-const app = new App;
+const app = new App();

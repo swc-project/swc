@@ -8,11 +8,11 @@ enum Foo2 {
 
 console.log(Foo.hello, Foo2.hello);
 
-console.log(Hello.en, Hello["ja-JP"], Hello[`ko-KR`], Hello['zh-CN']);
+console.log(Hello.en, Hello["ja-JP"], Hello[`ko-KR`], Hello["zh-CN"]);
 
 const enum Hello {
     en = "hello",
-    'ja-JP' = "こんにちは",
-    "ko-KR" = '안녕하세요',
+    "ja-JP" = "こんにちは",
+    "ko-KR" = "안녕하세요",
     "zh-CN" = `你好`,
 }

@@ -10,7 +10,7 @@ export function EnvironmentsSelector() {
     return (0, use_team.ZP)().teamSlug, (projectId = null == projectInfo ? void 0 : projectInfo.id, token = (0, authenticate.LP)(), teamId = null == (team = (0, use_team.ZP)().team) ? void 0 : team.id, (0, index_esm.ZP)(projectId ? "".concat(api_endpoints.Ms, "/git-branches").concat((0, qs.c)({
         projectId: projectId,
         teamId: teamId
-    })) : '', function(endpoint) {
+    })) : "", function(endpoint) {
         return (0, fetch_api.Z)(endpoint, token, {
             throwOnHTTPError: !0
         });

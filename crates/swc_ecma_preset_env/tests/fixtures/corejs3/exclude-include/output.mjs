@@ -34,7 +34,7 @@ import "core-js/modules/web.queue-microtask.js";
 import "core-js/modules/web.url-search-params.js";
 import "core-js/modules/web.url.js";
 import "core-js/modules/web.url.to-json.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 async function a() {
     await 1;
 }

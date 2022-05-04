@@ -2,11 +2,11 @@
 
 const targets = [];
 class Foo {
-  constructor() {
-    targets.push(new.target);
-  }
+    constructor() {
+        targets.push(new.target);
+    }
 }
 
-new Foo;
+new Foo();
 
 expect(targets[0]).toBe(Foo);

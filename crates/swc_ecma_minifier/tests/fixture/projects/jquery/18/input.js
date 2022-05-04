@@ -17,4 +17,4 @@ export const obj = {
             tweeners[prop].unshift(callback);
         }
     },
-}
+};

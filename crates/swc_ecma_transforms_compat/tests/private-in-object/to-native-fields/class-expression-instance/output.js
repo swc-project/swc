@@ -5,5 +5,5 @@ function fn() {
         method(obj) {
             return _brand_check_priv.has(obj);
         }
-    });
+    })();
 }

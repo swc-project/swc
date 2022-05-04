@@ -1,5 +1,5 @@
-import { e as d } from './e';
+import { e as d } from "./e";
 
-export { d }
+export { d };
 
-console.log('d')
+console.log("d");

@@ -1,1 +1,1 @@
-export { example } from "./only-throw"
+export { example } from "./only-throw";

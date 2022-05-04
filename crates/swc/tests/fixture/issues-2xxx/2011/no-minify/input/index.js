@@ -1,4 +1,4 @@
-class ClassA { }
+class ClassA {}
 
 module.exports = class ClassB {
     static MyA = ClassA;
@@ -6,4 +6,4 @@ module.exports = class ClassB {
     it() {
         this.bb = new ClassB.MyA();
     }
-}
+};

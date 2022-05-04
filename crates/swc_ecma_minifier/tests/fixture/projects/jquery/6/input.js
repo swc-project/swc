@@ -8,7 +8,7 @@ export const obj = {
             }
 
             len = arr.length;
-            i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
+            i = i ? (i < 0 ? Math.max(0, len + i) : i) : 0;
 
             for (; i < len; i++) {
                 // Skip accessing in sparse arrays
@@ -20,4 +20,4 @@ export const obj = {
 
         return -1;
     },
-}
+};

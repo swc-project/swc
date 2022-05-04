@@ -1,5 +1,5 @@
-import { foo } from './common'
+import { foo } from "./common";
 
-console.log('b', foo);
+console.log("b", foo);
 
 export const b = foo + 2;

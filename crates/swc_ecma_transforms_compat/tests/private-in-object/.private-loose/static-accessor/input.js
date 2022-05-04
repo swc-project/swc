@@ -1,7 +1,7 @@
 class Foo {
-  static get #foo() {}
+    static get #foo() {}
 
-  test(other) {
-    return #foo in other;
-  }
+    test(other) {
+        return #foo in other;
+    }
 }

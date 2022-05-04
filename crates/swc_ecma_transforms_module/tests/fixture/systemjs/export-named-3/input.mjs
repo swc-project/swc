@@ -1,2 +1,2 @@
-export {foo as bar};
+export { foo as bar };
 var foo;

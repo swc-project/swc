@@ -1,3 +1,3 @@
 const Component = () => {
-    return <pre>|    |    |</pre>;
+    return <pre>| | |</pre>;
 };

@@ -1,4 +1,4 @@
 class Example {
-    @foo() bar = '1';
-    @foo() baz = '2';
+    @foo() bar = "1";
+    @foo() baz = "2";
 }

@@ -1,1 +1,1 @@
-import './tfjs' 
+import "./tfjs";

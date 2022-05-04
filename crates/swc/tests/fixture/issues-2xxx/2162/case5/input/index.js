@@ -1,7 +1,7 @@
 function test() {
     return (
         <>
-            <A b="\u54e6"/>
+            <A b="\u54e6" />
         </>
     );
 }

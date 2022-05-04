@@ -1,5 +1,3 @@
-
-
 export const foo = {
-    arr: []
+    arr: [],
 };

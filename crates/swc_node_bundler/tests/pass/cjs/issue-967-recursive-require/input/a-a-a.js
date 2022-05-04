@@ -1,3 +1,3 @@
 module.exports = {
-    default: 'a-a-a'
-}
+    default: "a-a-a",
+};

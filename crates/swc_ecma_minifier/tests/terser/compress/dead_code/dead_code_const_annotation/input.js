@@ -3,5 +3,5 @@ var unused;
 if (CONST_FOO_ANN) {
     console.log("unreachable");
     var moo;
-    function bar() { }
+    function bar() {}
 }

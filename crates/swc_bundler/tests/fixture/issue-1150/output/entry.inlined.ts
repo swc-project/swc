@@ -12,7 +12,7 @@ class A {
     #a;
     #c;
     constructor(o = {}){
-        const { a: a2 = a , c ,  } = o;
+        const { a: a2 = a , c  } = o;
         this.#a = a2;
         this.#c = c;
     }

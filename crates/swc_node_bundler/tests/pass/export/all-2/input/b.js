@@ -1,3 +1,3 @@
-import { Root } from './c'
+import { Root } from "./c";
 
-export class B extends Root { }
+export class B extends Root {}

@@ -1,7 +1,7 @@
 class Store {
     constructor(){
         this.doSomething = ()=>{
-            console.log('run');
+            console.log("run");
         };
         this.doSomething();
     }

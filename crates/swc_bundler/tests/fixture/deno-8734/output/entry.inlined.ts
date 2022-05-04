@@ -1,6 +1,6 @@
 const m = "test";
 if (!m) {
-    throw new Error('b');
+    throw new Error("b");
 }
 class Comparator {
     constructor(comp, optionsOrLoose = {}){}
@@ -12,10 +12,10 @@ class Comparator {
         const m1 = m2[1];
         console.log(m1);
         if (!m2[2]) {
-            console.log('other');
+            console.log("other");
         }
     }
 }
-const x = new Comparator('boo');
-x.parse('test');
+const x = new Comparator("boo");
+x.parse("test");
 export { Comparator as Comparator };

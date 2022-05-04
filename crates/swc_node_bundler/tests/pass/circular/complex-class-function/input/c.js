@@ -1,7 +1,7 @@
-import './b';
+import "./b";
 
 export function getC() {
     return C;
 }
 
-export class C { }
+export class C {}

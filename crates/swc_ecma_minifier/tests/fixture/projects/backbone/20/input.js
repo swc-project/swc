@@ -7,10 +7,14 @@ export const E = {
         var i, l, id, model, attrs, existing, sort;
         var at = options.at;
         var targetModel = this.model;
-        var sortable = this.comparator && (at == null) && options.sort !== false;
+        var sortable = this.comparator && at == null && options.sort !== false;
         var sortAttr = _.isString(this.comparator) ? this.comparator : null;
-        var toAdd = [], toRemove = [], modelMap = {};
-        var add = options.add, merge = options.merge, remove = options.remove;
+        var toAdd = [],
+            toRemove = [],
+            modelMap = {};
+        var add = options.add,
+            merge = options.merge,
+            remove = options.remove;
         var order = !sortable && add && remove ? [] : false;
 
         // Turn bare objects into model references, and prevent invalid models
@@ -25,13 +29,14 @@ export const E = {
 
             // If a duplicate is found, prevent it from being added and
             // optionally merge it into the existing model.
-            if (existing = this.get(id)) {
+            if ((existing = this.get(id))) {
                 if (remove) modelMap[existing.cid] = true;
                 if (merge) {
                     attrs = attrs === model ? model.attributes : attrs;
                     if (options.parse) attrs = existing.parse(attrs, options);
                     existing.set(attrs, options);
-                    if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
+                    if (sortable && !sort && existing.hasChanged(sortAttr))
+                        sort = true;
                 }
                 models[i] = existing;
 
@@ -43,7 +48,7 @@ export const E = {
 
                 // Listen to added models' events, and index models for lookup by
                 // `id` and by `cid`.
-                model.on('all', this._onModelEvent, this);
+                model.on("all", this._onModelEvent, this);
                 this._byId[model.cid] = model;
                 if (model.id != null) this._byId[model.id] = model;
             }
@@ -53,7 +58,8 @@ export const E = {
         // Remove nonexistent models if appropriate.
         if (remove) {
             for (i = 0, l = this.length; i < l; ++i) {
-                if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+                if (!modelMap[(model = this.models[i]).cid])
+                    toRemove.push(model);
             }
             if (toRemove.length) this.remove(toRemove, options);
         }
@@ -81,12 +87,13 @@ export const E = {
         // Unless silenced, it's time to fire all appropriate add/sort events.
         if (!options.silent) {
             for (i = 0, l = toAdd.length; i < l; i++) {
-                (model = toAdd[i]).trigger('add', model, this, options);
+                (model = toAdd[i]).trigger("add", model, this, options);
             }
-            if (sort || (order && order.length)) this.trigger('sort', this, options);
+            if (sort || (order && order.length))
+                this.trigger("sort", this, options);
         }
 
         // Return the added (or merged) model (or models).
         return singular ? models[0] : models;
-    }
-}
+    },
+};

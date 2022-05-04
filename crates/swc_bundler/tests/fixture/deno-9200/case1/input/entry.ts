@@ -1,2 +1,2 @@
-import { foo } from './deps'
-foo()
+import { foo } from "./deps";
+foo();

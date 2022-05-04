@@ -6,6 +6,6 @@ class Store extends BaseStore {
 
     @action
     doSomething = () => {
-        console.log('run');
-    }
+        console.log("run");
+    };
 }

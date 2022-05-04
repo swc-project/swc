@@ -1,4 +1,4 @@
-export default /* glsl */`
+export default /* glsl */ `
 // Analytical approximation of the DFG LUT, one half of the
 // split-sum approximation used in indirect specular lighting.
 // via 'environmentBRDF' from "Physically Based Shading on Mobile"

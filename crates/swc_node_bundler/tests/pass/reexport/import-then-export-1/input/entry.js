@@ -1,2 +1,2 @@
-import { b } from './a'
-console.log(b)
+import { b } from "./a";
+console.log(b);

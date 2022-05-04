@@ -6,25 +6,27 @@ function internalData(elem, name, data, pvt /* Internal Use Only */) {
         return;
     }
 
-    var thisCache, ret,
+    var thisCache,
+        ret,
         internalKey = jQuery.expando,
         getByName = typeof name === "string",
-
         // We have to handle DOM nodes and JS objects differently because IE6-7
         // can't GC object references properly across the DOM-JS boundary
         isNode = elem.nodeType,
-
         // Only DOM nodes need the global jQuery cache; JS object data is
         // attached directly to the object so GC can occur automatically
         cache = isNode ? jQuery.cache : elem,
-
         // Only defining an ID for JS objects if its cache already exists allows
         // the code to shortcut on the same path as a DOM node with no cache
         id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
 
     // Avoid doing any more work than we need to when trying to get data on an
     // object that has no data at all
-    if ((!id || !cache[id] || (!pvt && !cache[id].data)) && getByName && data === undefined) {
+    if (
+        (!id || !cache[id] || (!pvt && !cache[id].data)) &&
+        getByName &&
+        data === undefined
+    ) {
         return;
     }
 
@@ -78,13 +80,11 @@ function internalData(elem, name, data, pvt /* Internal Use Only */) {
     // Check for both converted-to-camel and non-converted data property names
     // If a data property was specified
     if (getByName) {
-
         // First Try to find as-is property data
         ret = thisCache[name];
 
         // Test for null|undefined property data
         if (ret == null) {
-
             // Try to find the camelCased property
             ret = thisCache[jQuery.camelCase(name)];
         }

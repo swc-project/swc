@@ -1,6 +1,6 @@
 function wrapper() {
-        function foo() {
-            return new Bar();
-        }
-        class Bar {}
+    function foo() {
+        return new Bar();
     }
+    class Bar {}
+}

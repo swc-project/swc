@@ -1,5 +1,5 @@
-console.log('loading d.js');
+console.log("loading d.js");
 
 export function foo() {
-    console.log('d.js')
+    console.log("d.js");
 }

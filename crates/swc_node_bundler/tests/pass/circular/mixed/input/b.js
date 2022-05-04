@@ -1,6 +1,4 @@
 import { A } from "./a";
-import './c';
+import "./c";
 
-export class B extends A {
-
-}
+export class B extends A {}

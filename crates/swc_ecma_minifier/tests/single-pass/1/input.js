@@ -24,11 +24,7 @@ condString ? exprString1 : exprBoolean1;
 function foo() {
     return "string";
 }
-var array = [
-    "1",
-    "2",
-    "3"
-];
+var array = ["1", "2", "3"];
 typeof condString ? exprAny1 : exprAny2;
 condString.toUpperCase ? exprBoolean1 : exprBoolean2;
 condString + "string" ? exprNumber1 : exprNumber2;
@@ -53,4 +49,6 @@ var resultIsNumber3 = condString + "string" ? exprNumber1 : exprNumber2;
 var resultIsString3 = foo() ? exprString1 : exprString2;
 var resultIsObject3 = array[1] ? exprIsObject1 : exprIsObject2;
 var resultIsStringOrBoolean3 = typeof condString ? exprString1 : exprBoolean1;
-var resultIsStringOrBoolean4 = condString.toUpperCase ? exprString1 : exprBoolean1;
+var resultIsStringOrBoolean4 = condString.toUpperCase
+    ? exprString1
+    : exprBoolean1;

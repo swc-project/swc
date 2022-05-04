@@ -1,6 +1,4 @@
-__webpack_require__.O = function (
-    result, chunkIds, fn, priority
-) {
+__webpack_require__.O = function (result, chunkIds, fn, priority) {
     /******/ if (chunkIds) {
         /******/ priority = priority || 0;
         /******/ for (
@@ -9,7 +7,7 @@ __webpack_require__.O = function (
             i--
         )
             deferred[i] = deferred[i - 1];
-        /******/ deferred[i] = [chunkIds, fn, priority,];
+        /******/ deferred[i] = [chunkIds, fn, priority];
         /******/ return;
         /******/
     }
@@ -22,22 +20,11 @@ __webpack_require__.O = function (
         /******/ for (var j = 0; j < chunkIds.length; j++) {
             /******/ if (
                 (priority & (1 === 0) || notFulfilled >= priority) &&
-                Object.keys(
-                    __webpack_require__.O
-                ).every(
-                    function (
-                        key
-                    ) {
-                        return __webpack_require__.O[key](
-                            chunkIds[j]
-                        );
-                    }
-                )
+                Object.keys(__webpack_require__.O).every(function (key) {
+                    return __webpack_require__.O[key](chunkIds[j]);
+                })
             ) {
-                /******/ chunkIds.splice(
-                    j--,
-                    1
-                );
+                /******/ chunkIds.splice(j--, 1);
                 /******/
             } else {
                 /******/ fulfilled = false;
@@ -47,12 +34,8 @@ __webpack_require__.O = function (
             /******/
         }
         /******/ if (fulfilled) {
-            /******/ deferred.splice(
-                i--,
-                1
-            );
-            /******/ var r = fn(
-            );
+            /******/ deferred.splice(i--, 1);
+            /******/ var r = fn();
             /******/ if (r !== undefined) result = r;
             /******/
         }

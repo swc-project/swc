@@ -1,3 +1,1 @@
-html`<p>This is my
-
-HTML</p>`;
+html`<p>This is my HTML</p>`;

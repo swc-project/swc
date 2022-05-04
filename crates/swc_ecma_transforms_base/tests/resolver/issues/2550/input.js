@@ -1,7 +1,7 @@
 let isNewPrefsActive = true;
 () =>
-({
-  isNewPrefsActive
-} && ({
-  a: 1
-}));
+    ({
+        isNewPrefsActive,
+    } && {
+        a: 1,
+    });

@@ -1,9 +1,9 @@
 function fn() {
-  return new class {
-    #priv;
+    return new (class {
+        #priv;
 
-    method(obj) {
-      return #priv in obj;
-    }
-  }
+        method(obj) {
+            return #priv in obj;
+        }
+    })();
 }

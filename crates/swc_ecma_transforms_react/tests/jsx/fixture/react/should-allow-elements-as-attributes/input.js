@@ -1,1 +1,1 @@
-<div attr=<div /> />
+<div attr=<div /> />;

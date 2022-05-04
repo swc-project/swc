@@ -1,14 +1,11 @@
-
 interface Foo {
-    name: string
+    name: string;
 }
 
 function foo() {
     interface Foo {
-        name: string
+        name: string;
     }
     const foo = {} as Foo;
 }
 const bar = {} as Foo;
-
-    

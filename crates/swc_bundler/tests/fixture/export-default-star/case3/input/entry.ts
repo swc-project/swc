@@ -1,2 +1,2 @@
-export * from './deps';
-export { default } from './deps';
+export * from "./deps";
+export { default } from "./deps";

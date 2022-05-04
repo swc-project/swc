@@ -1,5 +1,4 @@
 (function () {
-
     // Initial Setup
     // -------------
 
@@ -20,16 +19,16 @@
     // The top-level namespace. All public Backbone classes and modules will
     // be attached to this. Exported for both the browser and the server.
     var Backbone;
-    if (typeof exports !== 'undefined') {
+    if (typeof exports !== "undefined") {
         Backbone = exports;
     } else {
         Backbone = root.Backbone = {};
     }
 
     // Current version of the library. Keep in sync with `package.json`.
-    Backbone.VERSION = '1.1.0';
+    Backbone.VERSION = "1.1.0";
 
     // Require Underscore, if we're on the server, and it's not already present.
     var _ = root._;
     console.log(Backbone);
-})()
+})();

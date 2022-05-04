@@ -7,7 +7,7 @@ export let Product = class Product extends TimestampedEntity {
     discounts: Discount[];
 };
 __decorate([
-    PrimaryGeneratedColumn('uuid')
+    PrimaryGeneratedColumn("uuid")
 ], Product.prototype, "id", void 0);
 __decorate([
     Column()

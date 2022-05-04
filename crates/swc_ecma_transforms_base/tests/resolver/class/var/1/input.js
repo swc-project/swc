@@ -1,4 +1,4 @@
-var Foo = function (_Bar) {
+var Foo = (function (_Bar) {
     _inherits(Foo, _Bar);
     function Foo() {
         var _this;
@@ -7,4 +7,4 @@ var Foo = function (_Bar) {
         return _possibleConstructorReturn(_this);
     }
     return Foo;
-}(Bar);
+})(Bar);

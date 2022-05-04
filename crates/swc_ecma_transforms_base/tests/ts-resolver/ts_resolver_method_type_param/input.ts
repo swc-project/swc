@@ -1,10 +1,8 @@
-
-import { Nullable } from 'nullable';
-import { Another } from 'some';
+import { Nullable } from "nullable";
+import { Another } from "some";
 class A {
     do(): Nullable<Another> {
-    return null;
+        return null;
     }
 }
 new A();
-    

@@ -4,5 +4,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.displayA = displayA;
 function displayA() {
-    return 'Display A';
+    return "Display A";
 }

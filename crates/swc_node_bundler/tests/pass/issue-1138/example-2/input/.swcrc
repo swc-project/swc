@@ -1,7 +1,7 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript"
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        }
     }
-  }
 }

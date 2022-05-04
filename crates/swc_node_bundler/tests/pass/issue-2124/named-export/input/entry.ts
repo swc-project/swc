@@ -1,4 +1,4 @@
-import { memoize } from './util';
+import { memoize } from "./util";
 
 // Import directly from `lodash` instead and the module code is
 // included in the bundle

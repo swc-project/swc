@@ -1,4 +1,3 @@
-const a = import('./dep')
+const a = import("./dep");
 
-console.log(a)
-
+console.log(a);

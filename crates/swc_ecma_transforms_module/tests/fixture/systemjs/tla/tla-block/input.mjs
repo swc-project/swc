@@ -1,3 +1,3 @@
 if (maybe) {
-  await test;
+    await test;
 }

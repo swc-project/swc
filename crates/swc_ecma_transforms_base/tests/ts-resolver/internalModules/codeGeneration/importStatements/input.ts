@@ -1,6 +1,6 @@
 module A {
     export class Point {
-        constructor(public x: number, public y: number) { }
+        constructor(public x: number, public y: number) {}
     }
 
     export var Origin = new Point(0, 0);
@@ -29,6 +29,6 @@ module D {
 module E {
     import a = A;
     export function xDist(x: a.Point) {
-        return (a.Origin.x - x.x);
+        return a.Origin.x - x.x;
     }
 }

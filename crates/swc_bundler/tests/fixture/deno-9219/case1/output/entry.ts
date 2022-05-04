@@ -240,7 +240,7 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
 const args = parse(Deno.args, {
     boolean: [
         "help",
-        "verbose", 
+        "verbose"
     ],
     alias: {
         help: "h",

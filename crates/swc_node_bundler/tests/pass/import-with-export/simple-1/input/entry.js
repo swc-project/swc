@@ -1,5 +1,5 @@
-import { a } from './a';
+import { a } from "./a";
 
-export * from './a'
+export * from "./a";
 
 console.log(a);
