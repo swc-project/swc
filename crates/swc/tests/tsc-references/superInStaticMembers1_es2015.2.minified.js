@@ -171,22 +171,11 @@ class C extends B {
 C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
-super.w(), _Reflect = class {
-}, __ = {
-    writable: !0,
-    value: (()=>{
-        class C1 extends B {
-        }
-        C1._ = swcHelpers.get(swcHelpers.getPrototypeOf(C1), "w", C1).call(C1);
-    })()
-}, _Reflect = class {
-}, __ = {
-    writable: !0,
-    value: (()=>{
-        var _Reflect, __;
-        super.w();
-    })()
-};
+super.w(), (()=>{
+    class C1 extends B {
+    }
+    C1._ = swcHelpers.get(swcHelpers.getPrototypeOf(C1), "w", C1).call(C1);
+})(), super.w();
 class C extends B {
 }
 C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);

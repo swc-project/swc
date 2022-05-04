@@ -157,9 +157,12 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        let old = self.extra.take();
         self.visit_mut_stmt_like(n);
 
-        self.extra.take().prepend_with(n)
+        self.extra.take().prepend_with(n);
+
+        self.extra = old;
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
