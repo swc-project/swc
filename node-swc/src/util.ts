@@ -1,3 +1,4 @@
+
 //@ts-ignore
 export function wrapNativeSuper(Class) {
     var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -5,9 +6,7 @@ export function wrapNativeSuper(Class) {
     wrapNativeSuper = function wrapNativeSuper(Class) {
         if (Class === null || !_isNativeFunction(Class)) return Class;
         if (typeof Class !== "function") {
-            throw new TypeError(
-                "Super expression must either be null or a function"
-            );
+            throw new TypeError("Super expression must either be null or a function");
         }
         if (typeof _cache !== "undefined") {
             if (_cache.has(Class)) return _cache.get(Class);
@@ -15,19 +14,15 @@ export function wrapNativeSuper(Class) {
         }
         function Wrapper() {
             //@ts-ignore
-            return _construct(
-                Class,
-                arguments,
-                _getPrototypeOf(this).constructor
-            );
+            return _construct(Class, arguments, _getPrototypeOf(this).constructor);
         }
         Wrapper.prototype = Object.create(Class.prototype, {
             constructor: {
                 value: Wrapper,
                 enumerable: false,
                 writable: true,
-                configurable: true,
-            },
+                configurable: true
+            }
         });
         return _setPrototypeOf(Wrapper, Class);
     };
@@ -40,9 +35,7 @@ function isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Date.prototype.toString.call(
-            Reflect.construct(Date, [], function () {})
-        );
+        Date.prototype.toString.call(Reflect.construct(Date, [], function () { }));
         return true;
     } catch (e) {
         return false;
@@ -94,14 +87,13 @@ function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf
         ? Object.getPrototypeOf
         : function _getPrototypeOf(
-              //@ts-ignore
-              o
-          ) {
-              return o.__proto__ || Object.getPrototypeOf(o);
-          };
+            //@ts-ignore
+            o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
     return _getPrototypeOf(o);
 }
 
 module.exports = {
-    wrapNativeSuper,
+    wrapNativeSuper
 };
