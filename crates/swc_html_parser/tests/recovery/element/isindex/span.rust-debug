@@ -1,0 +1,18 @@
+
+  x Document
+   ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
