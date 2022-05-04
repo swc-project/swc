@@ -438,18 +438,20 @@ impl OpenElementsStack {
     // integration point, or an element in the HTML namespace, pop elements from
     // the stack of open elements.
     pub fn pop_until_in_foreign(&mut self) {
-        while let Some(node) = self.pop() {
+        while let Some(node) = self.items.last() {
             match &node.data {
                 Data::Element(Element { namespace, .. }) if *namespace == Namespace::HTML => {
                     break;
                 }
-                _ if is_mathml_text_integration_point(Some(&node))
-                    || is_html_integration_point(Some(&node)) =>
+                _ if is_mathml_text_integration_point(Some(node))
+                    || is_html_integration_point(Some(node)) =>
                 {
                     break;
                 }
                 _ => {}
             }
+
+            self.pop();
         }
     }
 }

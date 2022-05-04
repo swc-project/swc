@@ -1,0 +1,12 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   :                                       ^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
