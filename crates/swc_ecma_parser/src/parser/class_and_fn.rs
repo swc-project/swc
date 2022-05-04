@@ -889,6 +889,10 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
             }
 
+            if is_constructor(&key) {
+                self.emit_err(key_span, SyntaxError::ConstructorAccessor);
+            }
+
             return match i.sym {
                 js_word!("get") => self.make_method(
                     |p| {

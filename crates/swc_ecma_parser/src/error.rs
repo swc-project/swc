@@ -174,6 +174,7 @@ pub enum SyntaxError {
     PropertyNamedConstructor,
     PrivateConstructor,
     PrivateNameModifier(JsWord),
+    ConstructorAccessor,
     ReadOnlyMethod,
     GeneratorConstructor,
     DuplicateConstructor,
@@ -448,6 +449,7 @@ impl SyntaxError {
                 modifier
             )
             .into(),
+            SyntaxError::ConstructorAccessor => "Class constructor can't be an accessor.".into(),
 
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),
             SyntaxError::TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be \
