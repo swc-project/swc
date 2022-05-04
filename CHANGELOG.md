@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(html/parser)** Add tests (#4507) ([202a6e4](https://github.com/swc-project/swc/commit/202a6e4a0100e5ddc3a3c920b447aca803fffbae))
+
+## [1.2.176] - 2022-05-04
+
 ### Bug Fixes
 
 
