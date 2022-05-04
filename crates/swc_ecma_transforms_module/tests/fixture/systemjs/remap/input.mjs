@@ -3,9 +3,9 @@ test = 5;
 test++;
 
 (function () {
-  var test = 2;
-  test = 3;
-  test++;
+    var test = 2;
+    test = 3;
+    test++;
 })();
 
 var a = 2;
