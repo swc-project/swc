@@ -1,4 +1,8 @@
-(x = class {
-  #foo;
-  test(other) { return #foo in other }
-}) => {}
+(
+    x = class {
+        #foo;
+        test(other) {
+            return #foo in other;
+        }
+    }
+) => {};

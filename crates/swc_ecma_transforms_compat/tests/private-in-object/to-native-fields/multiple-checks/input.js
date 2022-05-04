@@ -1,11 +1,11 @@
 class A {
-  #x;
-  #m() {}
+    #x;
+    #m() {}
 
-  test() {
-    #x in this;
-    #m in this;
-    #x in this;
-    #m in this;
-  }
+    test() {
+        #x in this;
+        #m in this;
+        #x in this;
+        #m in this;
+    }
 }

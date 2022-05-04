@@ -1,7 +1,7 @@
 class Foo {
-  static #foo = 1;
+    static #foo = 1;
 
-  test(other) {
-    return #foo in other;
-  }
+    test(other) {
+        return #foo in other;
+    }
 }

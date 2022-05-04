@@ -1,11 +1,11 @@
 function Foo() {
-  new.target;
+    new.target;
 }
 
-Foo.prototype.test = function() {
-  new.target;
+Foo.prototype.test = function () {
+    new.target;
 };
 
-var Bar = function() {
-  new.target;
+var Bar = function () {
+    new.target;
 };

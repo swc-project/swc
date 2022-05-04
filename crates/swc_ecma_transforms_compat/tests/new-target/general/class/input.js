@@ -1,9 +1,9 @@
 class Foo {
-  constructor() {
-    new.target;
-  }
+    constructor() {
+        new.target;
+    }
 
-  test() {
-    new.target;
-  }
+    test() {
+        new.target;
+    }
 }
