@@ -17,7 +17,7 @@ use swc_html_parser::{
     lexer::{Lexer, State},
     parser::{input::ParserInput, PResult, Parser, ParserConfig},
 };
-use swc_html_visit::{Visit, VisitWith};
+use swc_html_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::NormalizedOutput;
 
 fn test_pass(input: PathBuf, config: ParserConfig) {
@@ -769,8 +769,8 @@ impl DomVisualizer<'_> {
     }
 }
 
-impl Visit for DomVisualizer<'_> {
-    fn visit_document(&mut self, n: &Document) {
+impl VisitMut for DomVisualizer<'_> {
+    fn visit_mut_document(&mut self, n: &mut Document) {
         let mut document = String::new();
 
         document.push_str("#document");
@@ -778,10 +778,10 @@ impl Visit for DomVisualizer<'_> {
 
         self.dom_buf.push_str(&document);
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
     }
 
-    fn visit_document_type(&mut self, n: &DocumentType) {
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         let mut document_type = String::new();
 
         document_type.push_str(&self.get_ident());
@@ -810,10 +810,10 @@ impl Visit for DomVisualizer<'_> {
 
         self.dom_buf.push_str(&document_type);
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
     }
 
-    fn visit_element(&mut self, n: &Element) {
+    fn visit_mut_element(&mut self, n: &mut Element) {
         let mut element = String::new();
 
         element.push_str(&self.get_ident());
@@ -833,38 +833,41 @@ impl Visit for DomVisualizer<'_> {
         element.push('>');
         element.push('\n');
 
+        n.attributes
+            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
         self.dom_buf.push_str(&element);
 
         let old_indent = self.indent;
 
         self.indent += 1;
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
 
         self.indent = old_indent;
     }
 
-    fn visit_attribute(&mut self, n: &Attribute) {
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
         let mut attribute = String::new();
 
         attribute.push_str(&self.get_ident());
         attribute.push_str(&n.name);
+        attribute.push('=');
+        attribute.push('"');
 
         if let Some(value) = &n.value {
-            attribute.push('=');
-            attribute.push('"');
             attribute.push_str(&value);
-            attribute.push('"');
         }
 
+        attribute.push('"');
         attribute.push('\n');
 
         self.dom_buf.push_str(&attribute);
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
     }
 
-    fn visit_text(&mut self, n: &Text) {
+    fn visit_mut_text(&mut self, n: &mut Text) {
         let mut text = String::new();
 
         text.push_str(&self.get_ident());
@@ -875,10 +878,10 @@ impl Visit for DomVisualizer<'_> {
 
         self.dom_buf.push_str(&text);
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
     }
 
-    fn visit_comment(&mut self, n: &Comment) {
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
         let mut comment = String::new();
 
         comment.push_str(&self.get_ident());
@@ -889,7 +892,7 @@ impl Visit for DomVisualizer<'_> {
 
         self.dom_buf.push_str(&comment);
 
-        n.visit_children_with(self);
+        n.visit_mut_children_with(self);
     }
 }
 
@@ -984,16 +987,26 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let document: PResult<Document> = parser.parse_document();
 
         match document {
-            Ok(document) => {
+            Ok(mut document) => {
                 let actual_json = serde_json::to_string_pretty(&document)
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
                 actual_json.compare_to_file(&json_path).unwrap();
 
+                // Skip scrippted test, because we don't support ECMA execution
+                if input
+                    .parent()
+                    .unwrap()
+                    .to_string_lossy()
+                    .contains("scripted")
+                {
+                    return Ok(());
+                }
+
                 let mut dom_buf = String::new();
 
-                document.visit_with(&mut DomVisualizer {
+                document.visit_mut_with(&mut DomVisualizer {
                     dom_buf: &mut dom_buf,
                     indent: 0,
                 });
