@@ -796,9 +796,21 @@ impl VisitMut for DomVisualizer<'_> {
             document_type.push('"');
             document_type.push_str(&public_id);
             document_type.push('"');
-        }
 
-        if let Some(system_id) = &n.system_id {
+            if let Some(system_id) = &n.system_id {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push_str(&system_id);
+                document_type.push('"');
+            } else {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push('"');
+            }
+        } else if let Some(system_id) = &n.system_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push('"');
             document_type.push(' ');
             document_type.push('"');
             document_type.push_str(&system_id);
