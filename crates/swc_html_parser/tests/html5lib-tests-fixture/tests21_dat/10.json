@@ -54,13 +54,13 @@
               "attributes": [],
               "children": [
                 {
-                  "type": "Comment",
+                  "type": "Text",
                   "span": {
                     "start": 5,
                     "end": 15,
                     "ctxt": 0
                   },
-                  "data": "[CDATA[]"
+                  "value": "]"
                 }
               ],
               "content": null

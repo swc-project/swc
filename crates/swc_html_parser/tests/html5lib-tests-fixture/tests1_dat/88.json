@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 24,
+        "end": 13,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 24,
+            "end": 13,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,23 +46,24 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 10,
+                "end": 13,
                 "ctxt": 0
               },
               "tagName": "textarea",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 10,
+                    "end": 13,
+                    "ctxt": 0
+                  },
+                  "value": "<p>"
+                }
+              ],
               "content": null
-            },
-            {
-              "type": "Text",
-              "span": {
-                "start": 13,
-                "end": 24,
-                "ctxt": 0
-              },
-              "value": "</textarea>"
             }
           ],
           "content": null

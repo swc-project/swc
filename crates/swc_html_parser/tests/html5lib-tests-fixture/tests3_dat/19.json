@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 44,
-                    "end": 60,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -79,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 48,
-                        "end": 60,
+                        "end": 56,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -98,24 +98,24 @@
                           "attributes": [],
                           "children": [],
                           "content": null
-                        },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 56,
-                            "end": 60,
-                            "ctxt": 0
-                          },
-                          "tagName": "li",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [],
-                          "children": [],
-                          "content": null
                         }
                       ],
                       "content": null
                     }
                   ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 56,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
                   "content": null
                 }
               ],

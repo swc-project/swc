@@ -97,7 +97,20 @@
                   "type": "Element",
                   "span": {
                     "start": 28,
-                    "end": 73,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 32,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -107,114 +120,98 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 32,
-                        "end": 73,
+                        "start": 36,
+                        "end": 41,
                         "ctxt": 0
                       },
-                      "tagName": "li",
+                      "tagName": "div",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 41,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 45,
+                        "end": 54,
+                        "ctxt": 0
+                      },
+                      "tagName": "address",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 54,
+                    "end": 65,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 58,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "tagName": "b",
                       "namespace": "http://www.w3.org/1999/xhtml",
                       "attributes": [],
                       "children": [
                         {
                           "type": "Element",
                           "span": {
-                            "start": 36,
-                            "end": 73,
+                            "start": 61,
+                            "end": 65,
                             "ctxt": 0
                           },
-                          "tagName": "div",
+                          "tagName": "em",
                           "namespace": "http://www.w3.org/1999/xhtml",
                           "attributes": [],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 41,
-                                "end": 73,
-                                "ctxt": 0
-                              },
-                              "tagName": "li",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Element",
-                                  "span": {
-                                    "start": 45,
-                                    "end": 73,
-                                    "ctxt": 0
-                                  },
-                                  "tagName": "address",
-                                  "namespace": "http://www.w3.org/1999/xhtml",
-                                  "attributes": [],
-                                  "children": [
-                                    {
-                                      "type": "Element",
-                                      "span": {
-                                        "start": 54,
-                                        "end": 73,
-                                        "ctxt": 0
-                                      },
-                                      "tagName": "li",
-                                      "namespace": "http://www.w3.org/1999/xhtml",
-                                      "attributes": [],
-                                      "children": [
-                                        {
-                                          "type": "Element",
-                                          "span": {
-                                            "start": 58,
-                                            "end": 65,
-                                            "ctxt": 0
-                                          },
-                                          "tagName": "b",
-                                          "namespace": "http://www.w3.org/1999/xhtml",
-                                          "attributes": [],
-                                          "children": [
-                                            {
-                                              "type": "Element",
-                                              "span": {
-                                                "start": 61,
-                                                "end": 65,
-                                                "ctxt": 0
-                                              },
-                                              "tagName": "em",
-                                              "namespace": "http://www.w3.org/1999/xhtml",
-                                              "attributes": [],
-                                              "children": [],
-                                              "content": null
-                                            }
-                                          ],
-                                          "content": null
-                                        },
-                                        {
-                                          "type": "Element",
-                                          "span": {
-                                            "start": 69,
-                                            "end": 73,
-                                            "ctxt": 0
-                                          },
-                                          "tagName": "li",
-                                          "namespace": "http://www.w3.org/1999/xhtml",
-                                          "attributes": [],
-                                          "children": [],
-                                          "content": null
-                                        }
-                                      ],
-                                      "content": null
-                                    }
-                                  ],
-                                  "content": null
-                                }
-                              ],
-                              "content": null
-                            }
-                          ],
+                          "children": [],
                           "content": null
                         }
                       ],
                       "content": null
                     }
                   ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 69,
+                    "end": 73,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
                   "content": null
                 }
               ],

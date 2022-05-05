@@ -46,27 +46,26 @@
               "type": "Element",
               "span": {
                 "start": 7,
+                "end": 11,
+                "ctxt": 0
+              },
+              "tagName": "li",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 11,
                 "end": 15,
                 "ctxt": 0
               },
               "tagName": "li",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "tagName": "li",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
+              "children": [],
               "content": null
             },
             {

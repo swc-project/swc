@@ -54,22 +54,13 @@
               "attributes": [],
               "children": [
                 {
-                  "type": "Comment",
-                  "span": {
-                    "start": 5,
-                    "end": 20,
-                    "ctxt": 0
-                  },
-                  "data": "[CDATA[</svg"
-                },
-                {
                   "type": "Text",
                   "span": {
-                    "start": 20,
+                    "start": 5,
                     "end": 21,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "</svg>a"
                 }
               ],
               "content": null

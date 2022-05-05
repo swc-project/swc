@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 15,
-                "end": 33,
+                "end": 29,
                 "ctxt": 0
               },
               "tagName": "li",
@@ -68,30 +68,29 @@
                   "type": "Element",
                   "span": {
                     "start": 19,
-                    "end": 33,
+                    "end": 29,
                     "ctxt": 0
                   },
                   "tagName": "menuitem",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 29,
-                        "end": 33,
-                        "ctxt": 0
-                      },
-                      "tagName": "li",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
+                  "children": [],
                   "content": null
                 }
               ],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 29,
+                "end": 33,
+                "ctxt": 0
+              },
+              "tagName": "li",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
               "content": null
             }
           ],
