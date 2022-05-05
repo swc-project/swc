@@ -77,7 +77,7 @@ where
     T: ?Sized,
 {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        (self.inner.as_owner() as *const Rc<dyn Erased>).hash(state);
+        (self.inner.as_owner() as *const dyn Erased).hash(state);
         (&***self as *const T).hash(state);
     }
 }
