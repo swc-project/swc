@@ -6,7 +6,7 @@ use rustc_hash::FxHashSet;
 use crate::{control_flow_graph::ControlFlowGraph, graph::DiGraphNode, node::Node, ptr::Ptr};
 
 pub trait FlowAnalyzer {
-    type Lattice: Any;
+    type Lattice: PartialEq + Any;
     type FlowJoiner: FlowJoiner<Self::Lattice>;
 
     type FlowBrancher: FlowBrancher<Self::Lattice>;
@@ -20,6 +20,8 @@ pub trait FlowAnalyzer {
     fn create_flow_brancher(&self) -> Self::FlowBrancher;
 
     fn create_initial_estimate_lattice(&self) -> Self::Lattice;
+
+    fn flow_through(&mut self, node: Node, input: Self::Lattice) -> Self::Lattice;
 }
 
 pub trait FlowJoiner<L> {
@@ -128,7 +130,7 @@ where
 
         if self.analyzer.is_forward() {
             let out_before = state.get_out();
-            state.set_out(self.flow_through(node.get_value(), state.get_in()));
+            state.set_out(self.analyzer.flow_through(node.get_value(), state.get_in()));
 
             let changed = out_before != state.get_out();
 
@@ -137,7 +139,7 @@ where
                     .analyzer
                     .create_flow_brancher(node.get_value(), state.get_out());
 
-                for out_edge in self.cfg.edges_directed(a, dir) {
+                for out_edge in self.cfg.edges_directed(a, Direction::Outgoing) {
                     let out_branch_before = out_edge.get_annotation();
                     out_edge.set_annotation(brancher.branch_flow(out_edge.get_value()));
 
@@ -150,7 +152,10 @@ where
             changed
         } else {
             let in_before = state.get_in();
-            state.set_in(self.flow_through(node.get_value(), state.get_out()));
+            state.set_in(
+                self.analyzer
+                    .flow_through(node.get_value(), state.get_out()),
+            );
 
             return in_before != state.get_in();
         }
@@ -163,13 +168,19 @@ where
     }
 }
 
-pub struct LinearFlowState<L> {
+pub struct LinearFlowState<L>
+where
+    L: PartialEq,
+{
     step_count: u32,
     in_: Rc<L>,
     out: Rc<L>,
 }
 
-impl<L> LinearFlowState<L> {
+impl<L> LinearFlowState<L>
+where
+    L: PartialEq,
+{
     pub fn new(in_: Rc<L>, out: Rc<L>) -> Self {
         LinearFlowState {
             step_count: 0,
