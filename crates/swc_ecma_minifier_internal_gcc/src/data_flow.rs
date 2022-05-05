@@ -22,25 +22,33 @@ pub trait FlowAnalyzer {
 
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
 
-    fn create_flow_brancher(&self, node: Node, output: Self::Lattice) -> Self::FlowBrancher;
+    fn create_flow_brancher(
+        &self,
+        node: Node,
+        output: LatticeWrapper<Self::Lattice>,
+    ) -> Self::FlowBrancher;
 
-    fn create_initial_estimate_lattice(&self) -> Self::Lattice;
+    fn create_initial_estimate_lattice(&self) -> LatticeWrapper<Self::Lattice>;
 
-    fn flow_through(&mut self, node: Node, input: Self::Lattice) -> Self::Lattice;
+    fn flow_through(
+        &mut self,
+        node: Node,
+        input: LatticeWrapper<Self::Lattice>,
+    ) -> LatticeWrapper<Self::Lattice>;
 }
 
 pub trait FlowJoiner {
     type Lattice;
 
-    fn join(&mut self, input: Self::Lattice);
+    fn join(&mut self, input: LatticeWrapper<Self::Lattice>);
 
-    fn finish(self) -> Self::Lattice;
+    fn finish(self) -> LatticeWrapper<Self::Lattice>;
 }
 
 pub trait FlowBrancher {
     type Lattice;
 
-    fn branch_flow(&mut self, branch: Branch) -> Self::Lattice;
+    fn branch_flow(&mut self, branch: Branch) -> LatticeWrapper<Self::Lattice>;
 }
 
 /**
@@ -143,7 +151,7 @@ where
             let out_before = state.get_out();
 
             let value = self.analyzer.flow_through(node.get_value(), state.get_in());
-            state.set_out(Rc::new(RefCell::new(value)));
+            state.set_out(value);
 
             let changed = out_before != state.get_out();
 
@@ -171,7 +179,7 @@ where
             let value = self
                 .analyzer
                 .flow_through(node.get_value(), state.get_out());
-            state.set_in(Rc::new(RefCell::new(value)));
+            state.set_in(value);
 
             return in_before != state.get_in();
         }
