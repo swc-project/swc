@@ -55,26 +55,6 @@ where
         }
     }
 
-    fn init(&mut self) {
-        // Is this really required? Seems like google closure compiler is reusing this?
-        self.work_queue.clear();
-
-        for node in self.cfg.node_weights() {
-            let in_ = Rc::new(self.analyzer.create_initial_estimate_lattice());
-            let out = Rc::new(self.analyzer.create_initial_estimate_lattice());
-
-            node.set_annotation(LinearFlowState::new(in_, out));
-
-            if !self.cfg.is_implicit_return(node) {
-                self.work_queue.add(node.clone());
-            }
-        }
-
-        if self.analyzer.is_branched() {
-            for edge in self.cfg.edge_weights_mut() {}
-        }
-    }
-
     pub fn analyze(&mut self) {
         self.init();
 
@@ -116,6 +96,30 @@ where
             self.join_inputs(self.cfg.get_implicit_return());
         }
     }
+
+    fn init(&mut self) {
+        // Is this really required? Seems like google closure compiler is reusing this?
+        self.work_queue.clear();
+
+        for node in self.cfg.node_weights() {
+            let in_ = Rc::new(self.analyzer.create_initial_estimate_lattice());
+            let out = Rc::new(self.analyzer.create_initial_estimate_lattice());
+
+            node.set_annotation(LinearFlowState::new(in_, out));
+
+            if !self.cfg.is_implicit_return(node) {
+                self.work_queue.add(node.clone());
+            }
+        }
+
+        if self.analyzer.is_branched() {
+            for edge in self.cfg.edge_weights_mut() {}
+        }
+    }
+
+    fn flow(&mut self, node: &DiGraphNode<Node>) -> bool {}
+
+    fn join_inputs(&mut self, node: &DiGraphNode<Node>) {}
 
     pub fn into_inner(self) -> A {
         self.analyzer
