@@ -2338,11 +2338,28 @@ where
 
                         self.insert_html_element(token_and_info)?;
 
+                        let mut is_cr = false;
+
                         match self.input.cur()? {
-                            Some(Token::Character { value, .. }) if *value == '\x0A' => {
+                            Some(Token::Character { value, .. })
+                                if matches!(*value, '\r' | '\n') =>
+                            {
+                                if *value == '\r' {
+                                    is_cr = true;
+                                }
+
                                 bump!(self);
                             }
                             _ => {}
+                        }
+
+                        if is_cr {
+                            match self.input.cur()? {
+                                Some(Token::Character { value, .. }) if *value == '\n' => {
+                                    bump!(self);
+                                }
+                                _ => {}
+                            }
                         }
 
                         self.frameset_ok = false;
