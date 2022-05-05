@@ -9,11 +9,15 @@ pub trait FlowAnalyzer {
     type Lattice: Any;
     type FlowJoiner: FlowJoiner<Self::Lattice>;
 
+    type FlowBrancher: FlowBrancher<Self::Lattice>;
+
     fn is_forward(&self) -> bool;
 
     fn is_branched(&self) -> bool;
 
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
+
+    fn create_flow_brancher(&self) -> Self::FlowBrancher;
 
     fn create_initial_estimate_lattice(&self) -> Self::Lattice;
 }
@@ -23,6 +27,8 @@ pub trait FlowJoiner<L> {
 
     fn finish(self) -> L;
 }
+
+pub trait FlowBrancher<L> {}
 
 /**
  * The maximum number of steps per individual CFG node before we assume the
@@ -68,9 +74,9 @@ where
             cur_state.step_count += 1;
             let cur_node_ix = self.cfg.node_ix(&cur_node);
 
-            self.join_inputs(cur_node);
+            self.join_inputs(&cur_node);
 
-            if self.flow(cur_node) {
+            if self.flow(&cur_node) {
                 // If there is a change in the current node, we want to grab the
                 // list of nodes that this node affects.
 
@@ -117,7 +123,38 @@ where
         }
     }
 
-    fn flow(&mut self, node: &DiGraphNode<Node>) -> bool {}
+    fn flow(&mut self, node: &DiGraphNode<Node>) -> bool {
+        let state: &LinearFlowState<A::Lattice> = node.get_annotation();
+
+        if self.analyzer.is_forward() {
+            let out_before = state.get_out();
+            state.set_out(self.flow_through(node.get_value(), state.get_in()));
+
+            let changed = out_before != state.get_out();
+
+            if self.analyzer.is_branched() {
+                let brancher = self
+                    .analyzer
+                    .create_flow_brancher(node.get_value(), state.get_out());
+
+                for out_edge in self.cfg.edges_directed(a, dir) {
+                    let out_branch_before = out_edge.get_annotation();
+                    out_edge.set_annotation(brancher.branch_flow(out_edge.get_value()));
+
+                    if !changed {
+                        changed = out_branch_before != out_edge.get_annotation();
+                    }
+                }
+            }
+
+            changed
+        } else {
+            let in_before = state.get_in();
+            state.set_in(self.flow_through(node.get_value(), state.get_out()));
+
+            return in_before != state.get_in();
+        }
+    }
 
     fn join_inputs(&mut self, node: &DiGraphNode<Node>) {}
 
