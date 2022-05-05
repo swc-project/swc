@@ -182,13 +182,8 @@ numbers/evaluate_4/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/getter_setter_mangler/input.js
-properties/const_prop_assign_pure/input.js
-properties/const_prop_assign_strict/input.js
 properties/dot_properties/input.js
-properties/evaluate_array_length/input.js
-properties/issue_2208_1/input.js
 properties/issue_2208_3/input.js
-properties/issue_2208_6/input.js
 properties/issue_2208_8/input.js
 properties/issue_2256/input.js
 properties/issue_3188_1/input.js

@@ -341,10 +341,15 @@ object/prop_func_to_concise_method_various/input.js
 parameters/default_arguments/input.js
 parameters/destructuring_arguments_3/input.js
 properties/computed_property/input.js
+properties/const_prop_assign_pure/input.js
+properties/const_prop_assign_strict/input.js
 properties/dont_mangle_computed_property_1/input.js
 properties/dont_mangle_computed_property_2/input.js
+properties/evaluate_array_length/input.js
+properties/issue_2208_1/input.js
 properties/issue_2208_4/input.js
 properties/issue_2208_5/input.js
+properties/issue_2208_6/input.js
 properties/issue_2208_7/input.js
 properties/issue_2208_9/input.js
 properties/issue_2513/input.js
