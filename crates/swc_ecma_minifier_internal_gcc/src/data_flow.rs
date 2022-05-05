@@ -150,7 +150,9 @@ where
         if self.analyzer.is_forward() {
             let out_before = state.get_out();
 
-            let value = self.analyzer.flow_through(node.get_value(), state.get_in());
+            let value = self
+                .analyzer
+                .flow_through(node.get_value(), state.get_in().clone());
             state.set_out(value);
 
             let changed = out_before != state.get_out();
@@ -158,13 +160,13 @@ where
             if self.analyzer.is_branched() {
                 let brancher = self
                     .analyzer
-                    .create_flow_brancher(node.get_value(), state.get_out());
+                    .create_flow_brancher(node.get_value(), state.get_out().clone());
 
-                for out_edge in self.cfg.edges_directed(a, Direction::Outgoing) {
+                for out_edge in self.cfg.edges_directed(node, Direction::Outgoing) {
                     let out_branch_before = out_edge.weight().get_annotation();
                     out_edge
                         .weight()
-                        .set_annotation(brancher.branch_flow(out_edge.get_value()));
+                        .set_annotation(brancher.branch_flow(**out_edge.weight()));
 
                     if !changed {
                         changed = out_branch_before != out_edge.weight().get_annotation();
