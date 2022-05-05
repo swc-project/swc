@@ -57,6 +57,14 @@ pub struct DiGraphEdge<E> {
     annotation: Rc<RefCell<Option<Box<dyn Any>>>>,
 }
 
+impl<E> std::ops::Deref for DiGraphEdge<E> {
+    type Target = E;
+
+    fn deref(&self) -> &Self::Target {
+        &self.data
+    }
+}
+
 impl<E> DiGraphEdge<E> {
     pub fn get_annotation<T>(&self) -> &T
     where
