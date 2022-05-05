@@ -146,7 +146,7 @@ where
                         .set_annotation(brancher.branch_flow(out_edge.get_value()));
 
                     if !changed {
-                        changed = out_branch_before != out_edge.get_annotation();
+                        changed = out_branch_before != out_edge.weight().get_annotation();
                     }
                 }
             }
@@ -175,8 +175,8 @@ where
     L: PartialEq,
 {
     step_count: u32,
-    in_: Rc<L>,
-    out: Rc<L>,
+    in_: L,
+    out: L,
 }
 
 impl<L> LinearFlowState<L>
@@ -195,20 +195,20 @@ where
         self.step_count
     }
 
-    pub fn get_in(&self) -> &Rc<L> {
+    pub fn get_in(&self) -> &L {
         &self.in_
     }
 
-    pub fn set_in(&mut self, in_: &Rc<L>) {
-        self.in_ = in_.clone();
+    pub fn set_in(&mut self, in_: L) {
+        self.in_ = in_;
     }
 
-    pub fn get_out(&self) -> &Rc<L> {
+    pub fn get_out(&self) -> &L {
         &self.out
     }
 
-    pub fn set_out(&mut self, out: &Rc<L>) {
-        self.out = out.clone();
+    pub fn set_out(&mut self, out: L) {
+        self.out = out;
     }
 }
 
