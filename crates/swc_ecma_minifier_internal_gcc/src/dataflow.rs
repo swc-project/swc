@@ -224,6 +224,12 @@ where
                 joiner.finish()
             }
         };
+
+        if self.analyzer.is_forward() {
+            state.set_in(result);
+        } else {
+            state.set_out(result);
+        }
     }
 
     fn get_input_from_edge(&mut self, e: EdgeReference<DiGraphEdge<Branch>>) -> Rc<A::Lattice> {
