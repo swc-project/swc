@@ -22,13 +22,13 @@ pub trait FlowAnalyzer {
         false
     }
 
-    fn create_flow_joiner(&self) -> Self::FlowJoiner;
-
-    fn create_flow_brancher(&self, node: Node, output: Rc<Self::Lattice>) -> Self::FlowBrancher;
-
     fn create_entry_lattice(&self) -> Rc<Self::Lattice>;
 
     fn create_initial_estimate_lattice(&self) -> Rc<Self::Lattice>;
+
+    fn create_flow_joiner(&self) -> Self::FlowJoiner;
+
+    fn create_flow_brancher(&self, node: Node, output: Rc<Self::Lattice>) -> Self::FlowBrancher;
 
     fn flow_through(&mut self, node: Node, input: Rc<Self::Lattice>) -> Rc<Self::Lattice>;
 }
