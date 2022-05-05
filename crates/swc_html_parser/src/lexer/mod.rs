@@ -27,12 +27,12 @@ where
     state: State,
     return_state: State,
     errors: Vec<Error>,
-    in_foreign_node: bool,
     pub last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
     character_reference_code: Option<Vec<(u8, u32)>>,
     temporary_buffer: Option<String>,
+    is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
     doctype_keyword: Option<String>,
     last_emitted_error_pos: Option<BytePos>,
 }
@@ -54,12 +54,12 @@ where
             state: State::Data,
             return_state: State::Data,
             errors: vec![],
-            in_foreign_node: false,
             last_start_tag_token: None,
             pending_tokens: vec![],
             cur_token: None,
             character_reference_code: None,
             temporary_buffer: None,
+            is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
             last_emitted_error_pos: None,
         }
@@ -205,12 +205,16 @@ where
         self.input.reset_to(state.pos);
     }
 
-    fn set_input_state(&mut self, state: State) {
-        self.state = state;
-    }
-
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
+    }
+
+    fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
+        self.is_adjusted_current_node_is_element_in_html_namespace = Some(value);
+    }
+
+    fn set_input_state(&mut self, state: State) {
+        self.state = state;
     }
 }
 
@@ -3108,7 +3112,7 @@ where
                                         Some(a2 @ 'a' | a2 @ 'A') => {
                                             match self.consume_next_char() {
                                                 Some('[') => {
-                                                    if self.in_foreign_node {
+                                                    if let Some(false) = self.is_adjusted_current_node_is_element_in_html_namespace {
                                                         self.state = State::CdataSection;
                                                     } else {
                                                         self.emit_error(
