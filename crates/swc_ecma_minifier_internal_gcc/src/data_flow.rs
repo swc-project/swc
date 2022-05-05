@@ -1,14 +1,18 @@
-use std::{collections::VecDeque, rc::Rc};
+use std::{any::Any, collections::VecDeque, rc::Rc};
 
 use rustc_hash::FxHashSet;
 
 use crate::{control_flow_graph::ControlFlowGraph, node::Node, ptr::Ptr};
 
 pub trait FlowAnalyzer {
-    type Lattice;
+    type Lattice: Any;
     type FlowJoiner: FlowJoiner<Self::Lattice>;
 
+    fn is_branched(&self) -> bool;
+
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
+
+    fn create_initial_estimate_lattice(&self) -> Self::Lattice;
 }
 
 pub trait FlowJoiner<L> {
@@ -42,6 +46,21 @@ where
     fn init(&mut self) {
         // Is this really required? Seems like google closure compiler is reusing this?
         self.work_queue.clear();
+
+        for node in self.cfg.node_weights() {
+            let in_ = Rc::new(self.analyzer.create_initial_estimate_lattice());
+            let out = Rc::new(self.analyzer.create_initial_estimate_lattice());
+
+            node.set_annotation(LinearFlowState::new(in_, out));
+
+            if !self.cfg.is_implicit_return(node) {
+                self.work_queue.add(node.get_value().clone());
+            }
+        }
+
+        if self.analyzer.is_branched() {
+            for edge in self.cfg.edge_weights_mut() {}
+        }
     }
 
     pub fn analyze(&mut self) {

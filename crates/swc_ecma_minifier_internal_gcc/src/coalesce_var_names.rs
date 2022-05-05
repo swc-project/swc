@@ -24,7 +24,7 @@ impl CoalesceVarsPass {
 
         let mut pass = Self {};
 
-        let cfg = ControlFlowGraph::analyze(&root);
+        let mut cfg = ControlFlowGraph::analyze(&root);
 
         let mut liveness = DataFlowAnalyzer::new(
             &cfg,
@@ -118,7 +118,7 @@ impl CoalesceVarsPass {
                 continue;
             }
 
-            let state: LinearFlowState<LiveVarLattice> = cfg_node.get_annotation();
+            let state: &LinearFlowState<LiveVarLattice> = cfg_node.get_annotation();
 
             // Check the live states and add edge when possible. An edge between
             // two variables means that they are alive at
