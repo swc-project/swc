@@ -54,6 +54,10 @@ pub trait FlowBrancher {
  */
 const MAX_STEPS_PER_NODE: u32 = 20000;
 
+/// Used with [FlowAnalyzer].
+///
+///
+/// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/DataFlowAnalysis.java#L350
 pub struct DataFlowAnalyzer<'a, A>
 where
     A: FlowAnalyzer,
