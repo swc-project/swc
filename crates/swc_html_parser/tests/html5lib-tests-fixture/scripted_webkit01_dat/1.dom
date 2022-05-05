@@ -1,0 +1,13 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     "1"
+|     <script>
+|       "document.write("<script>document.write('2')</scr"+ "ipt><script>document.write('3')</scr" + "ipt>")"
+|     <script>
+|       "document.write('2')"
+|     "2"
+|     <script>
+|       "document.write('3')"
+|     "34"

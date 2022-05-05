@@ -1,0 +1,15 @@
+#document
+| <b>
+|   <em>
+|     <foo>
+|       <foob>
+|         <foob>
+|           <foob>
+|             <foob>
+|               <fooc>
+|                 <fooc>
+|                   <fooc>
+|                     <fooc>
+|                       <food>
+| <aside>
+|   <b>

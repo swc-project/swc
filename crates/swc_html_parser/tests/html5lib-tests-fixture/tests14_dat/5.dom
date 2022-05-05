@@ -1,0 +1,7 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   123="456"
+|   789="012"
+|   <head>
+|   <body>

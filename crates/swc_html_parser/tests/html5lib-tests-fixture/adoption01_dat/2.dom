@@ -1,0 +1,10 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       "1"
+|     <button>
+|       <a>
+|         "2"
+|       "3"

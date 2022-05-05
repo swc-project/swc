@@ -1,0 +1,9 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <plaintext>
+|           "a</template>b"
+|   <body>

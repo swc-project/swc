@@ -1,0 +1,12 @@
+#document
+| <html>
+|   <head>
+|     <template>
+|       content
+|         <svg svg>
+|           <svg foo>
+|             <svg template>
+|               <svg foreignObject>
+|                 <div>
+|   <body>
+|     <div>

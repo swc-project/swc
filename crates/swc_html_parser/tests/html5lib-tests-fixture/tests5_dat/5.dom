@@ -1,0 +1,7 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <iframe>
+|       " <!--- "
+|     "->x --> x"

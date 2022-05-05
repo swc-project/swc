@@ -1,0 +1,6 @@
+#document
+| <html>
+|   <head>
+|     <script>
+|       "<!--<script </s"
+|   <body>

@@ -1,0 +1,16 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       "Hello"
+|     "
+"
+|     <script>
+|       "
+console.log("PASS");
+"
+|     "
+"
+|     <div>
+|       "Bye"

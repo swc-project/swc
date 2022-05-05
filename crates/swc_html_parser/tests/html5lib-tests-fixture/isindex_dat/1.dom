@@ -1,0 +1,9 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <isindex>
+|       action="B"
+|       foo="D"
+|       name="A"
+|       prompt="C"

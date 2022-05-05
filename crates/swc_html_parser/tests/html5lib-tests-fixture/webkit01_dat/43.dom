@@ -1,0 +1,13 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <li>
+|         <div>
+|           id="foo"
+|           "A"
+|       <li>
+|         "B"
+|         <div>
+|           "C"

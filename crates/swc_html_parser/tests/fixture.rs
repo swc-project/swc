@@ -17,7 +17,7 @@ use swc_html_parser::{
     lexer::{Lexer, State},
     parser::{input::ParserInput, PResult, Parser, ParserConfig},
 };
-use swc_html_visit::{Visit, VisitWith};
+use swc_html_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::NormalizedOutput;
 
 fn test_pass(input: PathBuf, config: ParserConfig) {
@@ -196,7 +196,7 @@ fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
         .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.html")]
+#[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
     test_pass(
         input,
@@ -206,7 +206,7 @@ fn pass(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/recovery/**/input.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
     test_recovery(
         input,
@@ -216,8 +216,8 @@ fn recovery(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/fixture/**/input.html")]
-#[testing::fixture("tests/recovery/**/input.html")]
+#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     test_span_visualizer(
         input,
@@ -751,4 +751,302 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             assert_eq!(actual, expected);
         }
     }
+}
+
+struct DomVisualizer<'a> {
+    dom_buf: &'a mut String,
+    indent: usize,
+}
+
+impl DomVisualizer<'_> {
+    fn get_ident(&self) -> String {
+        let mut indent = String::new();
+
+        indent.push_str("| ");
+        indent.push_str(&"  ".repeat(self.indent));
+
+        indent
+    }
+}
+
+impl VisitMut for DomVisualizer<'_> {
+    fn visit_mut_document(&mut self, n: &mut Document) {
+        let mut document = String::new();
+
+        document.push_str("#document");
+        document.push('\n');
+
+        self.dom_buf.push_str(&document);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
+        let mut document_type = String::new();
+
+        document_type.push_str(&self.get_ident());
+        document_type.push_str("<!DOCTYPE ");
+
+        if let Some(name) = &n.name {
+            document_type.push_str(&name);
+        }
+
+        if let Some(public_id) = &n.public_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(&public_id);
+            document_type.push('"');
+
+            if let Some(system_id) = &n.system_id {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push_str(&system_id);
+                document_type.push('"');
+            } else {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push('"');
+            }
+        } else if let Some(system_id) = &n.system_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push('"');
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(&system_id);
+            document_type.push('"');
+        }
+
+        document_type.push('>');
+        document_type.push('\n');
+
+        self.dom_buf.push_str(&document_type);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_element(&mut self, n: &mut Element) {
+        let mut element = String::new();
+
+        element.push_str(&self.get_ident());
+        element.push('<');
+
+        match n.namespace {
+            Namespace::SVG => {
+                element.push_str("svg ");
+            }
+            Namespace::MATHML => {
+                element.push_str("math ");
+            }
+            _ => {}
+        }
+
+        element.push_str(&n.tag_name);
+        element.push('>');
+        element.push('\n');
+
+        n.attributes
+            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
+        self.dom_buf.push_str(&element);
+
+        let old_indent = self.indent;
+
+        self.indent += 1;
+
+        n.visit_mut_children_with(self);
+
+        self.indent = old_indent;
+    }
+
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        let mut attribute = String::new();
+
+        attribute.push_str(&self.get_ident());
+
+        if let Some(prefix) = &n.prefix {
+            attribute.push_str(&prefix);
+            attribute.push(' ');
+        }
+
+        attribute.push_str(&n.name);
+        attribute.push('=');
+        attribute.push('"');
+
+        if let Some(value) = &n.value {
+            attribute.push_str(&value);
+        }
+
+        attribute.push('"');
+        attribute.push('\n');
+
+        self.dom_buf.push_str(&attribute);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_text(&mut self, n: &mut Text) {
+        let mut text = String::new();
+
+        text.push_str(&self.get_ident());
+        text.push('"');
+        text.push_str(&n.value);
+        text.push('"');
+        text.push('\n');
+
+        self.dom_buf.push_str(&text);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        let mut comment = String::new();
+
+        comment.push_str(&self.get_ident());
+        comment.push_str("<!-- ");
+        comment.push_str(&n.data);
+        comment.push_str(" -->");
+        comment.push('\n');
+
+        self.dom_buf.push_str(&comment);
+
+        n.visit_mut_children_with(self);
+    }
+}
+
+#[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
+fn html5lib_test_tree_construction(input: PathBuf) {
+    if input.extension().unwrap() == "dat" {
+        let mut tree_construction_base = None;
+        let mut tests_base = None;
+        let mut path_buf = input.to_path_buf();
+
+        while path_buf.pop() {
+            if path_buf.ends_with("tree-construction") {
+                tree_construction_base = Some(path_buf.clone());
+            }
+
+            if path_buf.ends_with("tests") {
+                tests_base = Some(path_buf.clone());
+
+                break;
+            }
+        }
+
+        let tree_construction_base = tree_construction_base.unwrap();
+        let relative_path_to_test = input
+            .strip_prefix(tree_construction_base)
+            .expect("failed to get relative filename")
+            .to_str()
+            .unwrap()
+            .replace('/', "_")
+            .replace('.', "_");
+        let tests_base = tests_base.unwrap();
+
+        let dir = tests_base
+            .join("html5lib-tests-fixture")
+            .join(&relative_path_to_test);
+
+        fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
+
+        let tests_file = fs::read_to_string(input).expect("Something went wrong reading the file");
+        let mut tests = tests_file.split("\n\n#data\n");
+
+        let mut counter = 0;
+
+        while let Some(test) = tests.next() {
+            let data_start = if counter == 0 { 6 } else { 0 };
+            let data_end = test
+                .find("#errors\n")
+                .expect("failed to get errors in test");
+            let mut data = &test[data_start..data_end];
+            if data.ends_with("\n") {
+                data = data
+                    .strip_suffix("\n")
+                    .expect("failed to strip last line in test");
+            }
+
+            let html_path = dir.join(counter.to_string() + ".html");
+
+            fs::write(html_path, data).expect("Something went wrong when writing to the file");
+
+            let document_start = test
+                .find("#document\n")
+                .expect("failed to get errors in test");
+            let dom_snapshot = &test[document_start..];
+
+            let dom_snapshot_path = dir.join(counter.to_string() + ".dom");
+
+            fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
+                .expect("Something went wrong when writing to the file");
+
+            counter += 1;
+        }
+
+        return;
+    }
+
+    // TODO improve test for enabled/disabled js
+    // TODO improve errors tests
+    // TODO improve test for parsing `<template>`
+    testing::run_test2(false, |cm, handler| {
+        // Type annotation
+        if false {
+            return Ok(());
+        }
+
+        let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
+        let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+        let mut parser = Parser::new(lexer, Default::default());
+
+        let document: PResult<Document> = parser.parse_document();
+
+        match document {
+            Ok(mut document) => {
+                let actual_json = serde_json::to_string_pretty(&document)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize document");
+
+                actual_json.compare_to_file(&json_path).unwrap();
+
+                // Skip scrippted test, because we don't support ECMA execution
+                if input
+                    .parent()
+                    .unwrap()
+                    .to_string_lossy()
+                    .contains("scripted")
+                {
+                    return Ok(());
+                }
+
+                let mut dom_buf = String::new();
+
+                document.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                // TODO fix me
+                // let dir = input.parent().unwrap().to_path_buf();
+                //
+                // NormalizedOutput::from(dom_buf)
+                //     .compare_to_file(&dir.join(file_stem + ".dom"))
+                //     .unwrap();
+
+                Ok(())
+            }
+            Err(err) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
+            }
+        }
+    })
+    .unwrap();
 }

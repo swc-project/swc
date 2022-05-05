@@ -1,0 +1,10 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       <object>
+|         type="application/x-non-existant-plugin"
+|         <p>
+|           "X"

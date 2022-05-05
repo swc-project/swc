@@ -1,0 +1,11 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "foo"
+|     <main>
+|       "bar"
+|       <p>
+|         "baz"

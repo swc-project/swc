@@ -1,0 +1,25 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     "
+"
+|     <p>
+|       <font>
+|         size="7"
+|         "First paragraph."
+|     <font>
+|       size="7"
+|       "
+"
+|       <p>
+|         "Second paragraph."
+|     "
+"
+|     <b>
+|     <p>
+|       <b>
+|         <i>
+|           "Bold and Italic"
+|       <i>
+|         " Italic"

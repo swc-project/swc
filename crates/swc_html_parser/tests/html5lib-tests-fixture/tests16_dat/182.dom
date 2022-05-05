@@ -1,0 +1,9 @@
+#document
+| <html>
+|   <head>
+|     <noscript>
+|       "<!--"
+|   <body>
+|     "X"
+|     <noscript>
+|       "-->"

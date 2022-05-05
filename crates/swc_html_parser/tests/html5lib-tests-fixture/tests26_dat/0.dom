@@ -1,0 +1,28 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <a>
+|       href="#1"
+|       <nobr>
+|         "1"
+|       <nobr>
+|     <nobr>
+|       <br>
+|       <a>
+|         href="#2"
+|     <a>
+|       href="#2"
+|       <nobr>
+|         "2"
+|       <nobr>
+|     <nobr>
+|       <br>
+|       <a>
+|         href="#3"
+|     <a>
+|       href="#3"
+|       <nobr>
+|         "3"
+|       <nobr>

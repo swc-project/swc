@@ -1,0 +1,6 @@
+#document
+| <html>
+|   <head>
+|     <title>
+|       "foo/title><link></head><body>X"
+|   <body>

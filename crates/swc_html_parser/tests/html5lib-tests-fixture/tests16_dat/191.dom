@@ -1,0 +1,6 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <iframe>
+|       "...<!--X->...<!--/X->..."

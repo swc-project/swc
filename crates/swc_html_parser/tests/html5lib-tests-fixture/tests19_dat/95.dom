@@ -1,0 +1,18 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <i>
+|       "a"
+|       <div>
+|         "b"
+|     <i>
+|       "c"
+|       <b>
+|         "d"
+|     <b>
+|       "e"
+|     <table>
+|       <tbody>
+|         <tr>

@@ -1,0 +1,12 @@
+#document
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       " abc "
+|       <b>
+|         " def "
+|         <i>
+|           " ghi "
+|           <p>
+|             " jkl"

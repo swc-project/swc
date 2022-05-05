@@ -1,0 +1,9 @@
+#document
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <ul>
+|       <p>
+|         "foo"
+|     "bar"
