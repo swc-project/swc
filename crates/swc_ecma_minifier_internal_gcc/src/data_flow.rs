@@ -17,7 +17,7 @@ pub trait FlowAnalyzer {
 
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
 
-    fn create_flow_brancher(&self) -> Self::FlowBrancher;
+    fn create_flow_brancher(&self, node: Node, output: Self::Lattice) -> Self::FlowBrancher;
 
     fn create_initial_estimate_lattice(&self) -> Self::Lattice;
 
