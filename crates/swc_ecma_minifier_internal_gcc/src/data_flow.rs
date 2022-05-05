@@ -1,4 +1,4 @@
-use std::{any::Any, cell::RefCell, collections::VecDeque, rc::Rc};
+use std::{any::Any, borrow::Borrow, cell::RefCell, collections::VecDeque, rc::Rc};
 
 use petgraph::{graph::EdgeReference, Direction};
 use rustc_hash::FxHashSet;
@@ -22,35 +22,27 @@ pub trait FlowAnalyzer {
 
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
 
-    fn create_flow_brancher(
-        &self,
-        node: Node,
-        output: LatticeWrapper<Self::Lattice>,
-    ) -> Self::FlowBrancher;
+    fn create_flow_brancher(&self, node: Node, output: Rc<Self::Lattice>) -> Self::FlowBrancher;
 
-    fn create_entry_lattice(&self) -> LatticeWrapper<Self::Lattice>;
+    fn create_entry_lattice(&self) -> Rc<Self::Lattice>;
 
-    fn create_initial_estimate_lattice(&self) -> LatticeWrapper<Self::Lattice>;
+    fn create_initial_estimate_lattice(&self) -> Rc<Self::Lattice>;
 
-    fn flow_through(
-        &mut self,
-        node: Node,
-        input: LatticeWrapper<Self::Lattice>,
-    ) -> LatticeWrapper<Self::Lattice>;
+    fn flow_through(&mut self, node: Node, input: Rc<Self::Lattice>) -> Rc<Self::Lattice>;
 }
 
 pub trait FlowJoiner {
     type Lattice;
 
-    fn join_flow(&mut self, input: LatticeWrapper<Self::Lattice>);
+    fn join_flow(&mut self, input: Rc<Self::Lattice>);
 
-    fn finish(self) -> LatticeWrapper<Self::Lattice>;
+    fn finish(self) -> Rc<Self::Lattice>;
 }
 
 pub trait FlowBrancher {
     type Lattice;
 
-    fn branch_flow(&mut self, branch: Branch) -> LatticeWrapper<Self::Lattice>;
+    fn branch_flow(&mut self, branch: Branch) -> Rc<Self::Lattice>;
 }
 
 /**
@@ -91,10 +83,10 @@ where
             let cur_state = cur_node.get_annotation::<LinearFlowState<A::Lattice>>();
 
             assert!(
-                cur_state.step_count < MAX_STEPS_PER_NODE,
+                cur_state.step_count() < MAX_STEPS_PER_NODE,
                 "Dataflow analysis appears to diverge around"
             );
-            cur_state.step_count += 1;
+            cur_state.0.borrow_mut().step_count += 1;
             let cur_node_ix = self.cfg.node_ix(&cur_node);
 
             self.join_inputs(&cur_node);
@@ -134,7 +126,9 @@ where
             let in_ = self.analyzer.create_initial_estimate_lattice();
             let out = self.analyzer.create_initial_estimate_lattice();
 
-            node.set_annotation(LinearFlowState::new(in_, out));
+            node.set_annotation(LinearFlowState(Rc::new(RefCell::new(
+                LinearFlowStateData::new(in_, out),
+            ))));
 
             if !self.cfg.is_implicit_return(node) {
                 self.work_queue.add(node.clone());
@@ -142,7 +136,9 @@ where
         }
 
         if self.analyzer.is_branched() {
-            for edge in self.cfg.edge_weights_mut() {}
+            for edge in self.cfg.edge_weights() {
+                todo!()
+            }
         }
     }
 
@@ -158,7 +154,7 @@ where
                 .flow_through(Node::clone(node), state.get_in().clone());
             state.set_out(value);
 
-            let changed = out_before != state.get_out();
+            let mut changed = out_before != state.get_out();
 
             if self.analyzer.is_branched() {
                 let brancher = self
@@ -229,10 +225,7 @@ where
         };
     }
 
-    fn get_input_from_edge(
-        &mut self,
-        e: EdgeReference<DiGraphEdge<Branch>>,
-    ) -> LatticeWrapper<A::Lattice> {
+    fn get_input_from_edge(&mut self, e: EdgeReference<DiGraphEdge<Branch>>) -> Rc<A::Lattice> {
         todo!()
     }
 
@@ -242,47 +235,54 @@ where
 }
 
 #[derive(Debug, PartialEq, Eq)]
-pub struct LinearFlowState<L>
+pub struct LinearFlowState<L>(Rc<RefCell<LinearFlowStateData<L>>>)
 where
-    L: PartialEq,
-{
-    step_count: u32,
-    in_: LatticeWrapper<L>,
-    out: LatticeWrapper<L>,
-}
-
-pub type LatticeWrapper<L> = Rc<RefCell<L>>;
+    L: PartialEq;
 
 impl<L> LinearFlowState<L>
 where
     L: PartialEq,
 {
-    pub fn new(in_: LatticeWrapper<L>, out: LatticeWrapper<L>) -> Self {
-        LinearFlowState {
+    pub fn step_count(&self) -> u32 {
+        RefCell::borrow(&self.0.borrow()).step_count
+    }
+
+    pub fn get_in(&self) -> Rc<L> {
+        RefCell::borrow(&self.0.borrow()).in_.clone()
+    }
+
+    pub fn set_in(&self, in_: Rc<L>) {
+        self.0.borrow_mut().in_ = in_;
+    }
+
+    pub fn get_out(&self) -> Rc<L> {
+        RefCell::borrow(&self.0.borrow()).out.clone()
+    }
+
+    pub fn set_out(&self, out: Rc<L>) {
+        self.0.borrow_mut().out = out;
+    }
+}
+#[derive(Debug, PartialEq, Eq)]
+struct LinearFlowStateData<L>
+where
+    L: PartialEq,
+{
+    step_count: u32,
+    in_: Rc<L>,
+    out: Rc<L>,
+}
+
+impl<L> LinearFlowStateData<L>
+where
+    L: PartialEq,
+{
+    pub fn new(in_: Rc<L>, out: Rc<L>) -> Self {
+        Self {
             step_count: 0,
             in_,
             out,
         }
-    }
-
-    pub fn step_count(&self) -> u32 {
-        self.step_count
-    }
-
-    pub fn get_in(&self) -> &LatticeWrapper<L> {
-        &self.in_
-    }
-
-    pub fn set_in(&mut self, in_: LatticeWrapper<L>) {
-        self.in_ = in_;
-    }
-
-    pub fn get_out(&self) -> &LatticeWrapper<L> {
-        &self.out
-    }
-
-    pub fn set_out(&mut self, out: LatticeWrapper<L>) {
-        self.out = out;
     }
 }
 
