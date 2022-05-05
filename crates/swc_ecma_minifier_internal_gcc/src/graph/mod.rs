@@ -29,7 +29,7 @@ impl<N> DiGraphNode<N> {
             .unwrap()
     }
 
-    pub fn set_annotation<T>(&mut self, annotation: T)
+    pub fn set_annotation<T>(&self, annotation: T)
     where
         T: Any,
     {
