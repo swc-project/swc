@@ -33,7 +33,6 @@ collapse_vars/issue_2437/input.js
 collapse_vars/issue_2497/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/noinline_annotation/input.js
-collapse_vars/pure_getters_chain/input.js
 collapse_vars/recursive_function_replacement/input.js
 collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
@@ -203,11 +202,8 @@ pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/unary/input.js
-pure_getters/collapse_vars_1_true/input.js
-pure_getters/collapse_vars_2_true/input.js
 pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_3/input.js
-pure_getters/issue_2313_6/input.js
 pure_getters/set_immutable_3/input.js
 pure_getters/set_immutable_5/input.js
 pure_getters/strict_reduce_vars/input.js
