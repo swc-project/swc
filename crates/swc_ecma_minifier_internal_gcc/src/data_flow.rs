@@ -1,11 +1,11 @@
 use std::{any::Any, cell::RefCell, collections::VecDeque, rc::Rc};
 
-use petgraph::Direction;
+use petgraph::{graph::EdgeReference, Direction};
 use rustc_hash::FxHashSet;
 
 use crate::{
     control_flow_graph::{Branch, ControlFlowGraph},
-    graph::DiGraphNode,
+    graph::{DiGraphEdge, DiGraphNode},
     node::Node,
     ptr::Ptr,
 };
@@ -227,6 +227,13 @@ where
                 joiner.finish()
             }
         };
+    }
+
+    fn get_input_from_edge(
+        &mut self,
+        e: EdgeReference<DiGraphEdge<Branch>>,
+    ) -> LatticeWrapper<A::Lattice> {
+        todo!()
     }
 
     pub fn into_inner(self) -> A {
