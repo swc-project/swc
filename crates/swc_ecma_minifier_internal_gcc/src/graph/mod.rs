@@ -1,4 +1,8 @@
-use std::{any::Any, cell::RefCell, rc::Rc};
+use std::{
+    any::Any,
+    cell::{Ref, RefCell},
+    rc::Rc,
+};
 
 use petgraph::graph::DiGraph;
 
@@ -17,16 +21,13 @@ impl<N> DiGraphNode<N> {
         &self.data
     }
 
-    pub fn get_annotation<T>(&self) -> &T
+    pub fn get_annotation<T>(&self) -> Ref<T>
     where
         T: Any,
     {
-        self.annotation
-            .borrow()
-            .as_ref()
-            .unwrap()
-            .downcast_ref::<T>()
-            .unwrap()
+        Ref::map(self.annotation.borrow(), |v| {
+            v.as_ref().unwrap().downcast_ref::<T>().unwrap()
+        })
     }
 
     pub fn set_annotation<T>(&self, annotation: T)
@@ -66,16 +67,13 @@ impl<E> std::ops::Deref for DiGraphEdge<E> {
 }
 
 impl<E> DiGraphEdge<E> {
-    pub fn get_annotation<T>(&self) -> &T
+    pub fn get_annotation<T>(&self) -> Ref<T>
     where
         T: Any,
     {
-        self.annotation
-            .borrow()
-            .as_ref()
-            .unwrap()
-            .downcast_ref::<T>()
-            .unwrap()
+        Ref::map(self.annotation.borrow(), |v| {
+            v.as_ref().unwrap().downcast_ref::<T>().unwrap()
+        })
     }
 
     pub fn set_annotation<T>(&self, annotation: T)

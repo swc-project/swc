@@ -9,7 +9,7 @@ use crate::{
     ptr::Ptr,
 };
 
-pub(crate) struct ControlFlowGraph<N> {
+pub struct ControlFlowGraph<N> {
     parent: LinkedDirectedGraph<N, Branch>,
 
     map: FxHashMap<Ptr<N>, NodeIndex>,

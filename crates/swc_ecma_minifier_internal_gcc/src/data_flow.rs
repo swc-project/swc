@@ -144,7 +144,7 @@ where
 
     fn flow(&mut self, node: &DiGraphNode<Node>) -> bool {
         let node_ix = self.cfg.node_ix(node);
-        let state: &LinearFlowState<A::Lattice> = node.get_annotation();
+        let state = node.get_annotation::<LinearFlowState<A::Lattice>>();
 
         if self.analyzer.is_forward() {
             let out_before = state.get_out();
@@ -157,13 +157,14 @@ where
             let mut changed = out_before != state.get_out();
 
             if self.analyzer.is_branched() {
-                let brancher = self
+                let mut brancher = self
                     .analyzer
                     .create_flow_brancher(Node::clone(node), state.get_out().clone());
 
                 for out_edge in self.cfg.edges_directed(node_ix, Direction::Outgoing) {
-                    let out_branch_before: &LinearFlowState<A::Lattice> =
-                        out_edge.weight().get_annotation();
+                    let out_branch_before = out_edge
+                        .weight()
+                        .get_annotation::<LinearFlowState<A::Lattice>>();
                     out_edge
                         .weight()
                         .set_annotation(brancher.branch_flow(**out_edge.weight()));
@@ -191,7 +192,7 @@ where
     }
 
     fn join_inputs(&mut self, node: &DiGraphNode<Node>) {
-        let state: &LinearFlowState<A::Lattice> = node.get_annotation();
+        let state = node.get_annotation::<LinearFlowState<A::Lattice>>();
         let node_ix = self.cfg.node_ix(node);
 
         if self.analyzer.is_forward() && self.cfg.get_entry() == node {
@@ -216,7 +217,7 @@ where
             1 => self.get_input_from_edge(in_edges[0]),
 
             _ => {
-                let joiner = self.analyzer.create_flow_joiner();
+                let mut joiner = self.analyzer.create_flow_joiner();
                 for in_edge in in_edges {
                     joiner.join_flow(self.get_input_from_edge(in_edge));
                 }
