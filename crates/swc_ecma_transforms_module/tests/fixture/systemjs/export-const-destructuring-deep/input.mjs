@@ -1,1 +1,5 @@
-export const { foo: { bar: [baz, qux] } } = {};
+export const {
+    foo: {
+        bar: [baz, qux],
+    },
+} = {};

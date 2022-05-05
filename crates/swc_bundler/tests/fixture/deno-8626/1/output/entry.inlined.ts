@@ -1,4 +1,4 @@
-const foo = 'bar';
+const foo = "bar";
 const mod = function() {
     return {
         foo: foo,

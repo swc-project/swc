@@ -1,3 +1,3 @@
-const Common = require('./common');
+const Common = require("./common");
 
-module.exports = class A extends Common { }
+module.exports = class A extends Common {};

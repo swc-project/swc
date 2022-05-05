@@ -4,5 +4,5 @@ class Service {
     }
 }
 (async ()=>{
-    await new Service().is('ABC');
+    await new Service().is("ABC");
 })();

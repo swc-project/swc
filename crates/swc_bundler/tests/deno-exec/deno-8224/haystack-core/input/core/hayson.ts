@@ -12,91 +12,91 @@
  * @module
  */
 
-import { Kind } from './Kind'
+import { Kind } from "./Kind";
 
-export type HaysonNumVal = number | string
+export type HaysonNumVal = number | string;
 
 export interface HaysonNum {
-	_kind?: Kind
-	val: HaysonNumVal
-	unit?: string
+    _kind?: Kind;
+    val: HaysonNumVal;
+    unit?: string;
 }
 
 export interface HaysonSingleton {
-	_kind?: Kind
+    _kind?: Kind;
 }
 
-export type HaysonMarker = HaysonSingleton
-export type HaysonNa = HaysonSingleton
-export type HaysonRemove = HaysonSingleton
+export type HaysonMarker = HaysonSingleton;
+export type HaysonNa = HaysonSingleton;
+export type HaysonRemove = HaysonSingleton;
 
 export interface HaysonRef {
-	_kind?: Kind
-	val: string
-	dis?: string
+    _kind?: Kind;
+    val: string;
+    dis?: string;
 }
 
 export interface HaysonKindVal {
-	_kind?: Kind
-	val: string
+    _kind?: Kind;
+    val: string;
 }
 
-export type HaysonUri = HaysonKindVal
-export type HaysonSymbol = HaysonKindVal
-export type HaysonTime = HaysonKindVal
-export type HaysonDate = HaysonKindVal
+export type HaysonUri = HaysonKindVal;
+export type HaysonSymbol = HaysonKindVal;
+export type HaysonTime = HaysonKindVal;
+export type HaysonDate = HaysonKindVal;
 
 export interface HaysonDateTime {
-	_kind?: Kind
-	val: string
-	tz?: string
+    _kind?: Kind;
+    val: string;
+    tz?: string;
 }
 
 export interface HaysonCoord {
-	_kind?: Kind
-	lat: number
-	lng: number
+    _kind?: Kind;
+    lat: number;
+    lng: number;
 }
 
 export interface HaysonXStr {
-	_kind?: Kind
-	type: string
-	val: string
+    _kind?: Kind;
+    type: string;
+    val: string;
 }
 
 export type HaysonVal =
-	| string
-	| number
-	| boolean
-	| HaysonNum
-	| HaysonSingleton
-	| HaysonRef
-	| HaysonTime
-	| HaysonDate
-	| HaysonUri
-	| HaysonDateTime
-	| HaysonSymbol
-	| HaysonCoord
-	| HaysonXStr
-	| HaysonList
-	| HaysonDict
-	| HaysonGrid
-	| null
+    | string
+    | number
+    | boolean
+    | HaysonNum
+    | HaysonSingleton
+    | HaysonRef
+    | HaysonTime
+    | HaysonDate
+    | HaysonUri
+    | HaysonDateTime
+    | HaysonSymbol
+    | HaysonCoord
+    | HaysonXStr
+    | HaysonList
+    | HaysonDict
+    | HaysonGrid
+    | null;
 
 export interface HaysonList extends Array<HaysonVal> {}
 
 export interface HaysonDict {
-	[prop: string]: HaysonVal
+    [prop: string]: HaysonVal;
 }
 
 export interface HaysonGrid {
-	_kind?: Kind
-	meta?: HaysonDict
-	cols?: { name: string; meta?: HaysonDict }[]
-	rows?: HaysonDict[]
+    _kind?: Kind;
+    meta?: HaysonDict;
+    cols?: { name: string; meta?: HaysonDict }[];
+    rows?: HaysonDict[];
 }
 
 /**
  * The MIME type for Haystack JSON (a.k.a Hayson)
  */
-export const HAYSON_MIME_TYPE = 'application/vnd.haystack+json'
+export const HAYSON_MIME_TYPE = "application/vnd.haystack+json";

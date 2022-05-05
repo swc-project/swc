@@ -17,4 +17,4 @@ export const E = {
             return queue || [];
         }
     },
-}
+};

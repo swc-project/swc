@@ -1,17 +1,17 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false,
-      "decorators": true,
-      "dynamicImport": false
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": true,
+            "dynamicImport": false
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        }
     },
-    "transform": {
-      "legacyDecorator": true,
-      "decoratorMetadata": true
+    "module": {
+        "type": "commonjs"
     }
-  },
-  "module": {
-    "type": "commonjs"
-  }
 }

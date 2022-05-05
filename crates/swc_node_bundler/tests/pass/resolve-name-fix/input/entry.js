@@ -1,1 +1,1 @@
-import assign from 'core-js';
+import assign from "core-js";

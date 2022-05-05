@@ -12,4 +12,4 @@ export const obj = {
         model.save(null, options);
         return model;
     },
-}
+};

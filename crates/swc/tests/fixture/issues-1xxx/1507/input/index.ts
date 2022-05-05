@@ -1,3 +1,3 @@
-import { Entity, BaseEntity } from 'typeorm'
+import { Entity, BaseEntity } from "typeorm";
 @Entity()
-export class Location extends BaseEntity { }
+export class Location extends BaseEntity {}

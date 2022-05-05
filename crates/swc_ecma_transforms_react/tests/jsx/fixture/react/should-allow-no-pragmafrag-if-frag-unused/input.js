@@ -1,3 +1,3 @@
 /** @jsx dom */
 
-<div>no fragment is used</div>
+<div>no fragment is used</div>;

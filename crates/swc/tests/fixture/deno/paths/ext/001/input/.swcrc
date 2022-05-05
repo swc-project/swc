@@ -2,9 +2,7 @@
     "jsc": {
         "baseUrl": ".",
         "paths": {
-            "@styles/*": [
-                "styles/*"
-            ]
+            "@styles/*": ["styles/*"]
         }
     }
 }

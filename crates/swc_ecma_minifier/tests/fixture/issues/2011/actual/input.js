@@ -23,7 +23,7 @@ function _defineProperty(obj, key, value) {
             value: value,
             enumerable: true,
             configurable: true,
-            writable: true
+            writable: true,
         });
     } else {
         obj[key] = value;
@@ -35,7 +35,7 @@ var ClassA = function ClassA() {
     _classCallCheck(this, ClassA);
 };
 module.exports = (function () {
-    var ClassB = /*#__PURE__*/ function () {
+    var ClassB = /*#__PURE__*/ (function () {
         "use strict";
         function ClassB() {
             _classCallCheck(this, ClassB);
@@ -45,11 +45,11 @@ module.exports = (function () {
                 key: "it",
                 value: function it() {
                     this.bb = new ClassB.MyA();
-                }
-            }
+                },
+            },
         ]);
         return ClassB;
-    }();
+    })();
     _defineProperty(ClassB, "MyA", ClassA);
     return ClassB;
 })();

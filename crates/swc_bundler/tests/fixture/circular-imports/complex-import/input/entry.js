@@ -1,4 +1,4 @@
-import { a } from './a';
-import { c } from './c';
+import { a } from "./a";
+import { c } from "./c";
 
-console.log(a, c)
+console.log(a, c);

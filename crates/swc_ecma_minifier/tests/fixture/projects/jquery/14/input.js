@@ -17,4 +17,4 @@ export const obj = {
             e.returnValue = false;
         }
     },
-}
+};

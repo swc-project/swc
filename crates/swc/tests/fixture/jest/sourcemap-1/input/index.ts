@@ -1,5 +1,5 @@
-import { css } from "linaria"
+import { css } from "linaria";
 
 export const Button = css`
     color: red;
-`
+`;

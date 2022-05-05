@@ -1,1 +1,1 @@
-export {foo as bar} from "foo";
+export { foo as bar } from "foo";

@@ -45,7 +45,7 @@ const m = (b)=>{
     return a.join(":");
 };
 const n = (a, b, c, d, e)=>{
-    return a[`${b}.${c}`] || a[`${b}.${d}`] || a[b] || a[c] || a[d] || e;
+    return (a[`${b}.${c}`] || a[`${b}.${d}`] || a[b] || a[c] || a[d] || e);
 };
 const o = (h, { messages: d , attributes: f  })=>{
     const c = {};

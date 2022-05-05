@@ -6,7 +6,7 @@ export function useProjectBranches(projectId, opts) {
     return (0, index_esm.ZP)(projectId ? "".concat(api_endpoints.Ms, "/git-branches").concat((0, qs.c)({
         projectId: projectId,
         teamId: teamId
-    })) : '', function(endpoint) {
+    })) : "", function(endpoint) {
         return (0, fetch_api.Z)(endpoint, token, {
             throwOnHTTPError: !0
         });

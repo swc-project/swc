@@ -1,7 +1,7 @@
-const foo = 'foo-';
+const foo = "foo-";
 
-console.log(foo)
+console.log(foo);
 const A = `${foo}bar`;
 const B = `${foo}bar2`;
 
-console.log("test", foo, A, B)
+console.log("test", foo, A, B);

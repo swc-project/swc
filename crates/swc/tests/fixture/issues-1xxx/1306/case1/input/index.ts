@@ -1,11 +1,11 @@
 class Animal {
-    readonly #name: string
+    readonly #name: string;
 
     constructor(name: string) {
-        this.#name = name
+        this.#name = name;
     }
 
     public noise() {
-        return this.#name.toUpperCase()
+        return this.#name.toUpperCase();
     }
 }

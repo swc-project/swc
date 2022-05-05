@@ -7,7 +7,7 @@ Content-Disposition: form-data; name="payload"\r
 Content-Type: text/plain\r
 \r
 CONTENT\r
---------------------------366796e1c748a2fb--`
+--------------------------366796e1c748a2fb--`;
 
 const boundary = "------------------------366796e1c748a2fb";
 
@@ -15,7 +15,7 @@ const stringReader = new StringReader(content);
 console.log(content);
 
 const multipartReader = new MultipartReader(stringReader, boundary);
-const formData = await multipartReader.readForm()
+const formData = await multipartReader.readForm();
 for (const entry of formData.entries()) {
     console.log("entry", entry);
 }

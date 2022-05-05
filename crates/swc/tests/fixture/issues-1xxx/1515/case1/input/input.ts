@@ -20,9 +20,11 @@ export namespace ServiceError {
         readonly name = "ServiceError.ServiceNotFound";
     }
 
-    export function toMessageBody(
-        error: unknown,
-    ): { code: number; message?: string; stack?: string } {
+    export function toMessageBody(error: unknown): {
+        code: number;
+        message?: string;
+        stack?: string;
+    } {
         return { code: ServiceError.Code.implementation };
     }
 }

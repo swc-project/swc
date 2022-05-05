@@ -1,6 +1,6 @@
-const ThingDecorator: PropertyDecorator = () => { }
+const ThingDecorator: PropertyDecorator = () => {};
 
 class Thing {
     @ThingDecorator
-    thing?: string | null
+    thing?: string | null;
 }

@@ -1,17 +1,17 @@
 function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
-    if (null == type) return '';
-    if ('function' == typeof type) {
+    if (null == type) return "";
+    if ("function" == typeof type) {
         var prototype;
         return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
     }
-    if ('string' == typeof type) return describeBuiltInComponentFrame(type);
+    if ("string" == typeof type) return describeBuiltInComponentFrame(type);
     switch(type){
         case exports.Suspense:
-            return describeBuiltInComponentFrame('Suspense');
+            return describeBuiltInComponentFrame("Suspense");
         case REACT_SUSPENSE_LIST_TYPE:
-            return describeBuiltInComponentFrame('SuspenseList');
+            return describeBuiltInComponentFrame("SuspenseList");
     }
-    if ('object' == typeof type) switch(type.$$typeof){
+    if ("object" == typeof type) switch(type.$$typeof){
         case REACT_FORWARD_REF_TYPE:
             return describeFunctionComponentFrame(type.render);
         case REACT_MEMO_TYPE:
@@ -24,5 +24,5 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
                 return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
             } catch (x) {}
     }
-    return '';
+    return "";
 }

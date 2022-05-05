@@ -1,3 +1,3 @@
-const a = require('./a');
+const a = require("./a");
 
-console.log(a)
+console.log(a);

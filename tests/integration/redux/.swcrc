@@ -1,9 +1,9 @@
 {
-    "test":".*.(js|ts)$",
+    "test": ".*.(js|ts)$",
     "jsc": {
-      "parser": {
-        "syntax": "typescript"
-      }
+        "parser": {
+            "syntax": "typescript"
+        }
     },
     "module": {
         "type": "commonjs"

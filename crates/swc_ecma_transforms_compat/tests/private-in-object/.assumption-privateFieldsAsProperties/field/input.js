@@ -1,7 +1,7 @@
 class Foo {
-  #foo = 1;
+    #foo = 1;
 
-  test(other) {
-    return #foo in other;
-  }
+    test(other) {
+        return #foo in other;
+    }
 }

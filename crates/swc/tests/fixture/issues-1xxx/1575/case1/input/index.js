@@ -1,7 +1,7 @@
-Vue.component('test', {
+Vue.component("test", {
     methods: {
         async onSend() {
-            if (this.msg === '') {
+            if (this.msg === "") {
             }
         },
     },

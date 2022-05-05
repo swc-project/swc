@@ -1,18 +1,15 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false,
-      "decorators": false
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false
+        }
+    },
+    "module": {
+        "type": "commonjs",
+        "lazy": {
+            "patterns": ["^test$", "^\\."]
+        }
     }
-  },
-  "module": {
-    "type": "commonjs",
-    "lazy": {
-      "patterns": [
-        "^test$",
-        "^\\."
-      ]
-    }
-  }
 }

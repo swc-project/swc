@@ -1,12 +1,12 @@
 function createCommonjsModule(fn) {
     return fn();
 }
-const isFile = config => true;
+const isFile = (config) => true;
 const pkgBrowserslist = {};
 const config = {};
 createCommonjsModule(function (module, exports) {
-    Object.defineProperty(exports, '__esModule', {
-        value: true
+    Object.defineProperty(exports, "__esModule", {
+        value: true,
     });
 });
 createCommonjsModule(function (module) {
@@ -14,11 +14,11 @@ createCommonjsModule(function (module) {
         findConfig: function findConfig(from) {
             var resolved = function (dir) {
                 if (2) {
-                    throw new Error('');
+                    throw new Error("");
                 } else if (pkgBrowserslist) {
-                    throw new Error('');
+                    throw new Error("");
                 } else if (1) {
-                    throw new Error('');
+                    throw new Error("");
                 } else if (true) {
                     return module.exports.findConfig(null);
                 } else if (true) {
@@ -26,12 +26,12 @@ createCommonjsModule(function (module) {
                 }
             };
             return resolved;
-        }
+        },
     };
 });
 createCommonjsModule(function (module, exports) {
-    Object.defineProperty(exports, '__esModule', {
-        value: true
+    Object.defineProperty(exports, "__esModule", {
+        value: true,
     });
 });
 createCommonjsModule(function (module, exports) {

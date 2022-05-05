@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 40,
+            "end": 43,
             "ctxt": 0
           },
           "tagName": "body",
@@ -130,21 +130,21 @@
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 40,
+                "end": 43,
+                "ctxt": 0
+              },
+              "tagName": "b",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
             }
           ],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 40,
-            "end": 43,
-            "ctxt": 0
-          },
-          "tagName": "b",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
           "content": null
         }
       ],

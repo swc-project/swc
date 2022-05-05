@@ -4,4 +4,4 @@
  * license
  * header
  */
-console.log(new Error().stack)
+console.log(new Error().stack);

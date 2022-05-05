@@ -1,12 +1,12 @@
 class Foo {
-  static #foo = "foo";
-  #bar = "bar";
+    static #foo = "foo";
+    #bar = "bar";
 
-  static test() {
-    return #foo in Foo;
-  }
+    static test() {
+        return #foo in Foo;
+    }
 
-  test() {
-    return #bar in this;
-  }
+    test() {
+        return #bar in this;
+    }
 }

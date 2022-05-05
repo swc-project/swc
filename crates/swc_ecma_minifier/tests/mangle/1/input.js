@@ -1,7 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+    (this && this.__importDefault) ||
+    function (mod) {
+        return mod && mod.__esModule ? mod : { default: mod };
+    };
 Object.defineProperty(exports, "__esModule", { value: true });
 const longlong1 = __importDefault(require("./config.json"));
 function setup({ config = longlong1.default } = {}) {
@@ -23,7 +25,7 @@ function setup({ config = longlong1.default } = {}) {
     return {
         longlong10,
         longlong2,
-        longlong100: config
+        longlong100: config,
     };
 }
 exports.default = setup;

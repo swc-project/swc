@@ -1,5 +1,5 @@
-!function (foo, { entries }) {} ({}, Object);
+!(function (foo, { entries }) {})({}, Object);
 
-new function (foo, { from }) {} ({}, Array);
+new (function (foo, { from }) {})({}, Array);
 
-(({ includes }) => { })('42');
+(({ includes }) => {})("42");

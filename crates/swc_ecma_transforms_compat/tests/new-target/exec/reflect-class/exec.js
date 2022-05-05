@@ -1,14 +1,12 @@
 const targets = [];
 class Foo {
-  constructor() {
-    targets.push(new.target);
-  }
+    constructor() {
+        targets.push(new.target);
+    }
 }
 
-class Bar extends Foo {
-}
-class Baz {
-}
+class Bar extends Foo {}
+class Baz {}
 
 Reflect.construct(Foo, []);
 Reflect.construct(Foo, [], Bar);

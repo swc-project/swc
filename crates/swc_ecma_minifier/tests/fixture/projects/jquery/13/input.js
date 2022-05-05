@@ -3,9 +3,10 @@ function internalRemoveData(elem, name, pvt) {
         return;
     }
 
-    var i, l, thisCache,
+    var i,
+        l,
+        thisCache,
         isNode = elem.nodeType,
-
         // See jQuery.data for more information
         cache = isNode ? jQuery.cache : elem,
         id = isNode ? elem[jQuery.expando] : jQuery.expando;
@@ -17,19 +18,15 @@ function internalRemoveData(elem, name, pvt) {
     }
 
     if (name) {
-
         thisCache = pvt ? cache[id] : cache[id].data;
 
         if (thisCache) {
-
             // Support array or space separated string names for data keys
             if (!jQuery.isArray(name)) {
-
                 // try the string as a key before any manipulation
                 if (name in thisCache) {
                     name = [name];
                 } else {
-
                     // split the camel cased version by spaces unless a key with the spaces exists
                     name = jQuery.camelCase(name);
                     if (name in thisCache) {

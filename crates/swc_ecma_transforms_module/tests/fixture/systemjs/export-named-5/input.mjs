@@ -1,2 +1,2 @@
-export {foo as default, bar};
+export { foo as default, bar };
 var foo, bar;

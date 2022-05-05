@@ -1,13 +1,13 @@
 {
-  "module": {
-    "type": "commonjs"
-  },
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false
+    "module": {
+        "type": "commonjs"
     },
-    "target": "es2016"
-  },
-  "sourceMaps": true
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "target": "es2016"
+    },
+    "sourceMaps": true
 }

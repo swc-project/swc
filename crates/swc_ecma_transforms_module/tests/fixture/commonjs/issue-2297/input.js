@@ -1,4 +1,4 @@
-import { bar } from './Bar';
+import { bar } from "./Bar";
 
 const makeX = (props) => {
     const _bar = props.bar;

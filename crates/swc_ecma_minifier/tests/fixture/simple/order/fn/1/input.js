@@ -1,6 +1,4 @@
-function foo() {
-}
+function foo() {}
 
-console.log('foo')
-function bar() {
-}
+console.log("foo");
+function bar() {}

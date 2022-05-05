@@ -1,3 +1,3 @@
 beforeEach(() => {
-    jest.mock('someNode')
-})
+    jest.mock("someNode");
+});

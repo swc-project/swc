@@ -4,6 +4,5 @@ async function runCounters() {
     }
 }
 
-
-runCounters()
-runCounters()
+runCounters();
+runCounters();

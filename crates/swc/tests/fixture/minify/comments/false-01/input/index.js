@@ -1,4 +1,3 @@
-
 /**
  * Utility functions for the foo package.
  * @module foo/util
@@ -8,13 +7,13 @@ export const foo = function () {
     /** 1 */
     console.log(
         /* 2 */
-        'Init foo'
+        "Init foo"
         /* 3 */
     );
     // 4
     console.log(
         // 5
-        'Init foo'
+        "Init foo"
         // 6
     );
-}
+};

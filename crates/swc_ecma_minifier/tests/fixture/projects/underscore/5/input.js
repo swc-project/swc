@@ -8,7 +8,11 @@ _.uniq = _.unique = function (array, isSorted, iterator, context) {
     var results = [];
     var seen = [];
     each(initial, function (value, index) {
-        if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
+        if (
+            isSorted
+                ? !index || seen[seen.length - 1] !== value
+                : !_.contains(seen, value)
+        ) {
             seen.push(value);
             results.push(array[index]);
         }

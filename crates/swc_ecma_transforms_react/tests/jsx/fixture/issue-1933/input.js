@@ -1,4 +1,2 @@
 /* @jsxImportSource react */
-const p = () => (
-    <div>Hello World</div>
-);
+const p = () => <div>Hello World</div>;

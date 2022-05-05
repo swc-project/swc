@@ -1,17 +1,15 @@
-
-class C {
-}
+class C {}
 
 class A extends C {
-  constructor() {
-    super();
-
-    class B extends C {
-      constructor() {
+    constructor() {
         super();
-      }
-    }
 
-    new B();
-  }
+        class B extends C {
+            constructor() {
+                super();
+            }
+        }
+
+        new B();
+    }
 }

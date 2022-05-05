@@ -10,7 +10,7 @@ export const E = {
             if (id = (attrs = models[i]) instanceof Model ? model = attrs : attrs[targetModel.prototype.idAttribute], existing = this.get(id)) remove && (modelMap[existing.cid] = !0), merge && (attrs = attrs === model ? model.attributes : attrs, options.parse && (attrs = existing.parse(attrs, options)), existing.set(attrs, options), sortable && !sort && existing.hasChanged(sortAttr) && (sort = !0)), models[i] = existing;
             else if (add) {
                 if (!(model = models[i] = this._prepareModel(attrs, options))) continue;
-                toAdd.push(model), model.on('all', this._onModelEvent, this), this._byId[model.cid] = model, null != model.id && (this._byId[model.id] = model);
+                toAdd.push(model), model.on("all", this._onModelEvent, this), this._byId[model.cid] = model, null != model.id && (this._byId[model.id] = model);
             }
             order && order.push(existing || model);
         }
@@ -29,8 +29,8 @@ export const E = {
         if (sort && this.sort({
             silent: !0
         }), !options.silent) {
-            for(i = 0, l = toAdd.length; i < l; i++)(model = toAdd[i]).trigger('add', model, this, options);
-            (sort || order && order.length) && this.trigger('sort', this, options);
+            for(i = 0, l = toAdd.length; i < l; i++)(model = toAdd[i]).trigger("add", model, this, options);
+            (sort || order && order.length) && this.trigger("sort", this, options);
         }
         return singular ? models[0] : models;
     }

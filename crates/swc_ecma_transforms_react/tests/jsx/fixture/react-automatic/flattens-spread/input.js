@@ -2,6 +2,6 @@
 
 <div {...props}>{contents}</div>;
 
-<img alt="" {...{src, title}} />;
+<img alt="" {...{ src, title }} />;
 
-<blockquote {...{cite}}>{items}</blockquote>;
+<blockquote {...{ cite }}>{items}</blockquote>;

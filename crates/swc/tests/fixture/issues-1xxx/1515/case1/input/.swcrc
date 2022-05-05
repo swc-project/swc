@@ -1,11 +1,11 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript"
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2018"
     },
-    "target": "es2018"
-  },
-  "module": {
-    "type": "commonjs"
-  }
+    "module": {
+        "type": "commonjs"
+    }
 }

@@ -1,3 +1,3 @@
 class User {
-    @column() currency!: 'usd' | 'eur' | 'yen';
+    @column() currency!: "usd" | "eur" | "yen";
 }

@@ -1,15 +1,13 @@
 (() => {
     "use strict";
 
-    var commonjsGlobal = globalThis
+    var commonjsGlobal = globalThis;
 
-    function createEventEmitter(value) {
-    }
+    function createEventEmitter(value) {}
 
     var index = somethingGlobal;
 
     const esm = index;
 
     esm();
-})()
-
+})();

@@ -1,4 +1,3 @@
-
 function wrapper(...args) {
     try {
         return target(...args);
@@ -7,4 +6,3 @@ function wrapper(...args) {
         }
     }
 }
-    

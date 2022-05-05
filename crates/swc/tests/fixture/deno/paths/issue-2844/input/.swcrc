@@ -6,18 +6,10 @@
         "target": "es2019",
         "baseUrl": "./src",
         "paths": {
-            "core/*": [
-                "core/*"
-            ],
-            "utils/*": [
-                "utils/*"
-            ],
-            "core": [
-                "core"
-            ],
-            "utils": [
-                "utils"
-            ]
+            "core/*": ["core/*"],
+            "utils/*": ["utils/*"],
+            "core": ["core"],
+            "utils": ["utils"]
         }
     },
     "module": {

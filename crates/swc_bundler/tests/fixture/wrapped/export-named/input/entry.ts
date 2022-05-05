@@ -1,3 +1,3 @@
-import * as foo from './a';
+import * as foo from "./a";
 
-console.log(foo)
+console.log(foo);

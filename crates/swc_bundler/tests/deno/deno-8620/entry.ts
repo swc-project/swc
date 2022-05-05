@@ -4,5 +4,4 @@
 /// <reference lib="ScriptHost" />
 /// <reference lib="dom.iterable" />
 /// <reference no-default-lib="true"/>
-import * as THREE from 'https://cdn.skypack.dev/three?dts';
-
+import * as THREE from "https://cdn.skypack.dev/three?dts";

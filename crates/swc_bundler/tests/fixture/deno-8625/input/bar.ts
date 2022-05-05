@@ -1,5 +1,5 @@
-import { Foo } from "./foo"
+import { Foo } from "./foo";
 
-const bar = Foo('bar')
+const bar = Foo("bar");
 
-export default bar
+export default bar;

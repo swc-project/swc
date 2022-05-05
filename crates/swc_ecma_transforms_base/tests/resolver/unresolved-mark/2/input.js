@@ -1,5 +1,3 @@
-
-
 foo();
 
 var foo;

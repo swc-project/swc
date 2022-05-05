@@ -1,7 +1,7 @@
 "use strict";
 (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
     [
-        808, 
+        808
     ],
     {
         2808: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -12,11 +12,11 @@
                 loadableGenerated: {
                     webpack: function() {
                         return [
-                            1383, 
+                            1383
                         ];
                     },
                     modules: [
-                        "../components/nested1.js -> ./nested2", 
+                        "../components/nested1.js -> ./nested2"
                     ]
                 }
             });

@@ -1,1 +1,1 @@
-const foo = import('foo');
+const foo = import("foo");

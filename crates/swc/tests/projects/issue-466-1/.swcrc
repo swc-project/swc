@@ -1,10 +1,10 @@
 {
-  "exclude": "invalid.ts$",
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false,
-      "decorators": false
+    "exclude": "invalid.ts$",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false
+        }
     }
-  }
 }

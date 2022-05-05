@@ -1,6 +1,6 @@
 class App {
     constructor(){
-        console.log('Hello from app');
+        console.log("Hello from app");
     }
 }
-new App;
+new App();

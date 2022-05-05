@@ -1,12 +1,10 @@
+const g = 20;
 
-    const g = 20;
-
-    function baz() {
-        {
-            class g {}
-            console.log(g);
-        }
-
-        return g;
+function baz() {
+    {
+        class g {}
+        console.log(g);
     }
-    
+
+    return g;
+}

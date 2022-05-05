@@ -1,1 +1,3 @@
-if(true){var h=Symbol.for;}
+if (true) {
+    var h = Symbol.for;
+}

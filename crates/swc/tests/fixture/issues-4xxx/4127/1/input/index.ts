@@ -3,6 +3,4 @@ function test(constructor: Function) {
 }
 
 @test
-export default class {
-
-}
+export default class {}

@@ -2,15 +2,15 @@ var a = [];
 
 a.values();
 
-''.replace()
+"".replace();
 
-''.includes();
+"".includes();
 
 /./gi.flags;
 
-''.indexOf();
+"".indexOf();
 
-a.__defineGetter__('foo', () => 42);
+a.__defineGetter__("foo", () => 42);
 
 a.trim;
 

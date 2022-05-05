@@ -1,1 +1,1 @@
-export * from './nats/internal-mod'
+export * from "./nats/internal-mod";

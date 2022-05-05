@@ -9,7 +9,7 @@
                 return this;
             }()) || "undefined" == typeof window || (global1 = window), (define = function(module, deps, payload) {
                 if ("string" != typeof module) {
-                    define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn\'t a string."), console.trace());
+                    define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
                     return;
                 }
                 2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
@@ -42,10 +42,10 @@
                 moduleName = normalizeModule(parentId, moduleName);
                 var module2 = define.modules[moduleName];
                 if (!module2) {
-                    if ('function' == typeof (module2 = define.payloads[moduleName])) {
+                    if ("function" == typeof (module2 = define.payloads[moduleName])) {
                         var exports = {}, mod = {
                             id: moduleName,
-                            uri: '',
+                            uri: "",
                             exports: exports,
                             packaged: !0
                         };
@@ -84,7 +84,7 @@
                     return exports.isMac ? exports.OS.MAC : exports.isLinux ? exports.OS.LINUX : exports.OS.WINDOWS;
                 };
                 var _navigator = "object" == typeof navigator ? navigator : {}, os = (/mac|win|linux/i.exec(_navigator.platform) || [
-                    "other"
+                    "other", 
                 ])[0].toLowerCase(), ua = _navigator.userAgent || "", appName = _navigator.appName || "";
                 exports.isWin = "win" == os, exports.isMac = "mac" == os, exports.isLinux = "linux" == os, exports.isIE = "Microsoft Internet Explorer" == appName || appName.indexOf("MSAppHost") >= 0 ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]), exports.isOldIE = exports.isIE && exports.isIE < 9, exports.isGecko = exports.isMozilla = ua.match(/ Gecko\/\d+/), exports.isOpera = "object" == typeof opera && "[object Opera]" == Object.prototype.toString.call(window.opera), exports.isWebKit = parseFloat(ua.split("WebKit/")[1]) || void 0, exports.isChrome = parseFloat(ua.split(" Chrome/")[1]) || void 0, exports.isEdge = parseFloat(ua.split(" Edge/")[1]) || void 0, exports.isAIR = ua.indexOf("AdobeAIR") >= 0, exports.isAndroid = ua.indexOf("Android") >= 0, exports.isChromeOS = ua.indexOf(" CrOS ") >= 0, exports.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream, exports.isIOS && (exports.isMac = !0), exports.isMobile = exports.isIOS || exports.isAndroid;
             }), ace.define("ace/lib/dom", [
@@ -243,20 +243,20 @@
                 var oop = require("./oop"), Keys = function() {
                     var name, i1, ret = {
                         MODIFIER_KEYS: {
-                            16: 'Shift',
-                            17: 'Ctrl',
-                            18: 'Alt',
-                            224: 'Meta',
-                            91: 'MetaLeft',
-                            92: 'MetaRight',
-                            93: 'ContextMenu'
+                            16: "Shift",
+                            17: "Ctrl",
+                            18: "Alt",
+                            224: "Meta",
+                            91: "MetaLeft",
+                            92: "MetaRight",
+                            93: "ContextMenu"
                         },
                         KEY_MODS: {
                             ctrl: 1,
                             alt: 2,
                             option: 2,
                             shift: 4,
-                            "super": 8,
+                            super: 8,
                             meta: 8,
                             command: 8,
                             cmd: 8,
@@ -290,7 +290,7 @@
                             103: "Numpad7",
                             104: "Numpad8",
                             105: "Numpad9",
-                            '-13': "NumpadEnter",
+                            "-13": "NumpadEnter",
                             112: "F1",
                             113: "F2",
                             114: "F3",
@@ -307,66 +307,66 @@
                             145: "Scrolllock"
                         },
                         PRINTABLE_KEYS: {
-                            32: ' ',
-                            48: '0',
-                            49: '1',
-                            50: '2',
-                            51: '3',
-                            52: '4',
-                            53: '5',
-                            54: '6',
-                            55: '7',
-                            56: '8',
-                            57: '9',
-                            59: ';',
-                            61: '=',
-                            65: 'a',
-                            66: 'b',
-                            67: 'c',
-                            68: 'd',
-                            69: 'e',
-                            70: 'f',
-                            71: 'g',
-                            72: 'h',
-                            73: 'i',
-                            74: 'j',
-                            75: 'k',
-                            76: 'l',
-                            77: 'm',
-                            78: 'n',
-                            79: 'o',
-                            80: 'p',
-                            81: 'q',
-                            82: 'r',
-                            83: 's',
-                            84: 't',
-                            85: 'u',
-                            86: 'v',
-                            87: 'w',
-                            88: 'x',
-                            89: 'y',
-                            90: 'z',
-                            107: '+',
-                            109: '-',
-                            110: '.',
-                            186: ';',
-                            187: '=',
-                            188: ',',
-                            189: '-',
-                            190: '.',
-                            191: '/',
-                            192: '`',
-                            219: '[',
-                            220: '\\',
-                            221: ']',
+                            32: " ",
+                            48: "0",
+                            49: "1",
+                            50: "2",
+                            51: "3",
+                            52: "4",
+                            53: "5",
+                            54: "6",
+                            55: "7",
+                            56: "8",
+                            57: "9",
+                            59: ";",
+                            61: "=",
+                            65: "a",
+                            66: "b",
+                            67: "c",
+                            68: "d",
+                            69: "e",
+                            70: "f",
+                            71: "g",
+                            72: "h",
+                            73: "i",
+                            74: "j",
+                            75: "k",
+                            76: "l",
+                            77: "m",
+                            78: "n",
+                            79: "o",
+                            80: "p",
+                            81: "q",
+                            82: "r",
+                            83: "s",
+                            84: "t",
+                            85: "u",
+                            86: "v",
+                            87: "w",
+                            88: "x",
+                            89: "y",
+                            90: "z",
+                            107: "+",
+                            109: "-",
+                            110: ".",
+                            186: ";",
+                            187: "=",
+                            188: ",",
+                            189: "-",
+                            190: ".",
+                            191: "/",
+                            192: "`",
+                            219: "[",
+                            220: "\\",
+                            221: "]",
                             222: "'",
-                            111: '/',
-                            106: '*'
+                            111: "/",
+                            106: "*"
                         }
                     };
                     for(i1 in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i1].toLowerCase(), ret[name] = parseInt(i1, 10);
                     for(i1 in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i1].toLowerCase(), ret[name] = parseInt(i1, 10);
-                    return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = '-', function() {
+                    return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
                         for(var mods = [
                             "cmd",
                             "ctrl",
@@ -386,7 +386,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module) {
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
@@ -656,14 +656,14 @@
                 }, exports.stringReverse = function(string) {
                     return string.split("").reverse().join("");
                 }, exports.stringRepeat = function(string, count) {
-                    for(var result = ''; count > 0;)1 & count && (result += string), (count >>= 1) && (string += string);
+                    for(var result = ""; count > 0;)1 & count && (result += string), (count >>= 1) && (string += string);
                     return result;
                 };
                 var trimBeginRegexp = /^\s\s*/, trimEndRegexp = /\s\s*$/;
                 exports.stringTrimLeft = function(string) {
-                    return string.replace(trimBeginRegexp, '');
+                    return string.replace(trimBeginRegexp, "");
                 }, exports.stringTrimRight = function(string) {
-                    return string.replace(trimEndRegexp, '');
+                    return string.replace(trimEndRegexp, "");
                 }, exports.copyObject = function(obj) {
                     var copy = {};
                     for(var key in obj)copy[key] = obj[key];
@@ -691,7 +691,7 @@
                 }, exports.arrayRemove = function(array, value) {
                     for(var i = 0; i <= array.length; i++)value === array[i] && array.splice(i, 1);
                 }, exports.escapeRegExp = function(str) {
-                    return str.replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1');
+                    return str.replace(/([.*+?^${}()|[\]\/\\])/g, "\\$1");
                 }, exports.escapeHTML = function(str) {
                     return ("" + str).replace(/&/g, "&#38;").replace(/"/g, "&#34;").replace(/'/g, "&#39;").replace(/</g, "&#60;");
                 }, exports.getMatchOffsets = function(string, regExp) {
@@ -756,14 +756,14 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/clipboard",
-                "ace/lib/keys"
+                "ace/lib/keys", 
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
                 exports.TextInput = function(parentNode, host) {
                     var closeTimeout, text2 = dom.createElement("textarea");
                     text2.className = "ace_text-input", text2.setAttribute("wrap", "off"), text2.setAttribute("autocorrect", "off"), text2.setAttribute("autocapitalize", "off"), text2.setAttribute("spellcheck", !1), text2.style.opacity = "0", parentNode.insertBefore(text2, parentNode.firstChild);
-                    var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = '';
+                    var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
                     isMobile || (text2.style.fontSize = "1px");
                     var commandMode = !1, ignoreFocusEvents = !1, lastValue = "", lastSelectionStart = 0, lastSelectionEnd = 0, lastRestoreEnd = 0;
                     try {
@@ -904,7 +904,7 @@
                                 0 === (text = text2).selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text2.selectionStart != lastSelectionStart && resetSelection();
                             }
                         }
-                    }, host), event.addListener(text2, "input", onInput, host), event.addListener(text2, "cut", onCut, host), event.addListener(text2, "copy", onCopy, host), event.addListener(text2, "paste", onPaste, host), 'oncut' in text2 && 'oncopy' in text2 && 'onpaste' in text2 || event.addListener(parentNode, "keydown", function(e) {
+                    }, host), event.addListener(text2, "input", onInput, host), event.addListener(text2, "cut", onCut, host), event.addListener(text2, "copy", onCopy, host), event.addListener(text2, "paste", onPaste, host), "oncut" in text2 && "oncopy" in text2 && "onpaste" in text2 || event.addListener(parentNode, "keydown", function(e) {
                         if ((!useragent.isMac || e.metaKey) && e.ctrlKey) switch(e.keyCode){
                             case 67:
                                 onCopy(e);
@@ -930,7 +930,7 @@
                     var syncComposition = lang.delayedCall(onCompositionUpdate, 50).schedule.bind(null, null);
                     function onContextMenuClose() {
                         clearTimeout(closeTimeout), closeTimeout = setTimeout(function() {
-                            tempStyle && (text2.style.cssText = tempStyle, tempStyle = ''), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
+                            tempStyle && (text2.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
                     event.addListener(text2, "compositionstart", function(e) {
@@ -1008,7 +1008,7 @@
                         "selectByLinesEnd",
                         "dragWait",
                         "dragWaitEnd",
-                        "focusWait"
+                        "focusWait", 
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), mouseHandler.selectByLines = this.extendSelectionBy.bind(mouseHandler, "getLineRange"), mouseHandler.selectByWords = this.extendSelectionBy.bind(mouseHandler, "getWordRange");
@@ -1148,7 +1148,7 @@
                 "ace/lib/dom",
                 "ace/lib/oop",
                 "ace/lib/event",
-                "ace/tooltip"
+                "ace/tooltip", 
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), oop = require("../lib/oop"), event = require("../lib/event"), Tooltip = require("../tooltip").Tooltip;
@@ -1209,7 +1209,7 @@
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), MouseEvent = exports.MouseEvent = function(domEvent, editor) {
@@ -1249,7 +1249,7 @@
                 "module",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), event = require("../lib/event"), useragent = require("../lib/useragent");
@@ -1260,7 +1260,7 @@
                         "dragWaitEnd",
                         "startDrag",
                         "dragReadyEnd",
-                        "onMouseDrag"
+                        "onMouseDrag", 
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
@@ -1328,7 +1328,7 @@
                                     range = editor.moveText(range, dragCursor, !0);
                             }
                             else {
-                                var dropData = dataTransfer.getData('Text');
+                                var dropData = dataTransfer.getData("Text");
                                 range = {
                                     start: dragCursor,
                                     end: editor.session.insert(dragCursor, dropData)
@@ -1346,26 +1346,26 @@
                     function canAccept(dataTransfer) {
                         var types = dataTransfer.types;
                         return !types || Array.prototype.some.call(types, function(type) {
-                            return 'text/plain' == type || 'Text' == type;
+                            return "text/plain" == type || "Text" == type;
                         });
                     }
                     function getDropEffect(e) {
                         var copyAllowed = [
-                            'copy',
-                            'copymove',
-                            'all',
-                            'uninitialized'
+                            "copy",
+                            "copymove",
+                            "all",
+                            "uninitialized", 
                         ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
                         try {
                             effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
                         } catch (e4) {}
                         var dropEffect = "none";
                         return copyModifierState && copyAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "copy" : [
-                            'move',
-                            'copymove',
-                            'linkmove',
-                            'all',
-                            'uninitialized'
+                            "move",
+                            "copymove",
+                            "linkmove",
+                            "all",
+                            "uninitialized", 
                         ].indexOf(effectAllowed) >= 0 ? dropEffect = "move" : copyAllowed.indexOf(effectAllowed) >= 0 && (dropEffect = "copy"), dropEffect;
                     }
                 }
@@ -1414,7 +1414,7 @@
                 "module",
                 "ace/mouse/mouse_event",
                 "ace/lib/event",
-                "ace/lib/dom"
+                "ace/lib/dom", 
             ], function(require, exports, module) {
                 "use strict";
                 var MouseEvent = require("./mouse_event").MouseEvent, event = require("../lib/event"), dom = require("../lib/dom");
@@ -1433,7 +1433,7 @@
                                             class: "ace_mobile-button",
                                             action: "selectall"
                                         },
-                                        "Select All"
+                                        "Select All", 
                                     ],
                                     selected && [
                                         "span",
@@ -1441,7 +1441,7 @@
                                             class: "ace_mobile-button",
                                             action: "copy"
                                         },
-                                        "Copy"
+                                        "Copy", 
                                     ],
                                     selected && [
                                         "span",
@@ -1449,7 +1449,7 @@
                                             class: "ace_mobile-button",
                                             action: "cut"
                                         },
-                                        "Cut"
+                                        "Cut", 
                                     ],
                                     clipboard && [
                                         "span",
@@ -1457,7 +1457,7 @@
                                             class: "ace_mobile-button",
                                             action: "paste"
                                         },
-                                        "Paste"
+                                        "Paste", 
                                     ],
                                     hasUndo && [
                                         "span",
@@ -1465,7 +1465,7 @@
                                             class: "ace_mobile-button",
                                             action: "undo"
                                         },
-                                        "Undo"
+                                        "Undo", 
                                     ],
                                     [
                                         "span",
@@ -1473,7 +1473,7 @@
                                             class: "ace_mobile-button",
                                             action: "find"
                                         },
-                                        "Find"
+                                        "Find", 
                                     ],
                                     [
                                         "span",
@@ -1481,8 +1481,8 @@
                                             class: "ace_mobile-button",
                                             action: "openCommandPallete"
                                         },
-                                        "Pallete"
-                                    ]
+                                        "Pallete", 
+                                    ], 
                                 ] : [
                                     "span"
                                 ]), contextMenu.firstChild);
@@ -1513,8 +1513,8 @@
                                         class: "ace_mobile-button",
                                         action: "more"
                                     },
-                                    "..."
-                                ]
+                                    "...", 
+                                ], 
                             ], editor.container);
                         }
                         var cursor = editor.selection.cursor, pagePos = editor.renderer.textToScreenCoordinates(cursor.row, cursor.column), leftOffset = editor.renderer.textToScreenCoordinates(0, 0).pageX, scrollLeft = editor.renderer.scrollLeft, rect = editor.container.getBoundingClientRect();
@@ -1593,16 +1593,16 @@
                 var dom = require("./dom");
                 exports.get = function(url, callback) {
                     var xhr = new XMLHttpRequest();
-                    xhr.open('GET', url, !0), xhr.onreadystatechange = function() {
+                    xhr.open("GET", url, !0), xhr.onreadystatechange = function() {
                         4 === xhr.readyState && callback(xhr.responseText);
                     }, xhr.send(null);
                 }, exports.loadScript = function(path, callback) {
-                    var head = dom.getDocumentHead(), s = document.createElement('script');
+                    var head = dom.getDocumentHead(), s = document.createElement("script");
                     s.src = path, head.appendChild(s), s.onload = s.onreadystatechange = function(_, isAbort) {
                         !isAbort && s.readyState && "loaded" != s.readyState && "complete" != s.readyState || (s = s.onload = s.onreadystatechange = null, isAbort || callback());
                     };
                 }, exports.qualifyURL = function(url) {
-                    var a = document.createElement('a');
+                    var a = document.createElement("a");
                     return a.href = url, a.href;
                 };
             }), ace.define("ace/lib/event_emitter", [
@@ -1677,7 +1677,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "no use strict";
                 var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {
@@ -1758,7 +1758,7 @@
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/dom",
-                "ace/lib/app_config"
+                "ace/lib/app_config", 
             ], function(require, exports, module3) {
                 "no use strict";
                 var lang = require("./lib/lang");
@@ -1862,7 +1862,7 @@
                 "ace/mouse/mouse_event",
                 "ace/mouse/dragdrop_handler",
                 "ace/mouse/touch_handler",
-                "ace/config"
+                "ace/config", 
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), DefaultHandlers = require("./default_handlers").DefaultHandlers, DefaultGutterHandler = require("./default_gutter_handler").GutterHandler, MouseEvent = require("./mouse_event").MouseEvent, DragdropHandler = require("./dragdrop_handler").DragdropHandler, addTouchListeners = require("./touch_handler").addTouchListeners, config = require("../config"), MouseHandler = function(editor) {
@@ -1875,7 +1875,7 @@
                         mouseTarget,
                         editor.renderer.scrollBarV && editor.renderer.scrollBarV.inner,
                         editor.renderer.scrollBarH && editor.renderer.scrollBarH.inner,
-                        editor.textInput && editor.textInput.getElement()
+                        editor.textInput && editor.textInput.getElement(), 
                     ].filter(Boolean), [
                         400,
                         300,
@@ -1990,7 +1990,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/event"
+                "ace/lib/event", 
             ], function(require, exports, module) {
                 "use strict";
                 var keyUtil = require("../lib/keys"), event = require("../lib/event"), KeyBinding = function(editor) {
@@ -2095,7 +2095,7 @@
                         4,
                         2,
                         0
-                    ]
+                    ], 
                 ], impTab_RTL = [
                     [
                         2,
@@ -2132,7 +2132,7 @@
                         3,
                         1,
                         1
-                    ]
+                    ], 
                 ], UnicodeTBL00 = [
                     18,
                     18,
@@ -2325,7 +2325,7 @@
                     4,
                     4,
                     4,
-                    4
+                    4, 
                 ], UnicodeTBL20 = [
                     8,
                     8,
@@ -2422,7 +2422,7 @@
                     4,
                     4,
                     4,
-                    8
+                    8, 
                 ];
                 function _invertLevel(lev, levels, _array) {
                     if (!(hiLevel < lev)) {
@@ -2470,7 +2470,7 @@
                         case 12:
                             for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
                             if (i < len) {
-                                var c = chars[ix], rtlCandidate = c >= 0x0591 && c <= 0x08FF || 0xFB1E == c;
+                                var c = chars[ix], rtlCandidate = c >= 0x0591 && c <= 0x08ff || 0xfb1e == c;
                                 if (wType = types[i], rtlCandidate && (1 == wType || 7 == wType)) return 1;
                             }
                             if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
@@ -2491,7 +2491,7 @@
                 }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
-                    return 0 == hi ? uc > 0x00BF ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066A == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205F ? UnicodeTBL20[0xFF & uc] : 0xFE == hi && uc >= 0xFE70 ? 7 : 4;
+                    return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
@@ -2500,7 +2500,7 @@
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
                         for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_AL = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
-                            if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xF0 & (newState = impTab[prevState][newClass]), newState &= 0x0F, levels[ix] = newLevel = impTab[newState][5], action > 0) {
+                            if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
                                 if (0x10 == action) {
                                     for(i = condPos; i < ix; i++)levels[i] = 1;
                                     condPos = -1;
@@ -2523,8 +2523,8 @@
                     }(chars1, levels1, chars1.length, textCharTypes);
                     for(var i2 = 0; i2 < logicalFromVisual.length; logicalFromVisual[i2] = i2, i2++);
                     _invertLevel(2, levels1, logicalFromVisual), _invertLevel(1, levels1, logicalFromVisual);
-                    for(var i2 = 0; i2 < logicalFromVisual.length - 1; i2++)3 === textCharTypes[i2] ? levels1[i2] = exports.AN : 1 === levels1[i2] && (textCharTypes[i2] > 7 && textCharTypes[i2] < 13 || 4 === textCharTypes[i2] || 18 === textCharTypes[i2]) ? levels1[i2] = exports.ON_R : i2 > 0 && '\u0644' === chars1[i2 - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars1[i2]) && (levels1[i2 - 1] = levels1[i2] = exports.R_H, i2++);
-                    chars1[chars1.length - 1] === exports.DOT && (levels1[chars1.length - 1] = exports.B), '\u202B' === chars1[0] && (levels1[0] = exports.RLE);
+                    for(var i2 = 0; i2 < logicalFromVisual.length - 1; i2++)3 === textCharTypes[i2] ? levels1[i2] = exports.AN : 1 === levels1[i2] && (textCharTypes[i2] > 7 && textCharTypes[i2] < 13 || 4 === textCharTypes[i2] || 18 === textCharTypes[i2]) ? levels1[i2] = exports.ON_R : i2 > 0 && "\u0644" === chars1[i2 - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars1[i2]) && (levels1[i2 - 1] = levels1[i2] = exports.R_H, i2++);
+                    chars1[chars1.length - 1] === exports.DOT && (levels1[chars1.length - 1] = exports.B), "\u202B" === chars1[0] && (levels1[0] = exports.RLE);
                     for(var i2 = 0; i2 < logicalFromVisual.length; i2++)bidiLevels[i2] = levels1[logicalFromVisual[i2]];
                     return {
                         logicalFromVisual: logicalFromVisual,
@@ -2542,7 +2542,7 @@
                 "exports",
                 "module",
                 "ace/lib/bidiutil",
-                "ace/lib/lang"
+                "ace/lib/lang", 
             ], function(require, exports, module) {
                 "use strict";
                 var bidiUtil = require("./lib/bidiutil"), lang = require("./lib/lang"), bidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\u202B]/, BidiHandler = function(session) {
@@ -2574,7 +2574,7 @@
                         } else this.line += this.showInvisibles ? endOfLine : bidiUtil.DOT;
                         var size, session = this.session, shift = 0;
                         this.line = this.line.replace(/\t|[\u1100-\u2029, \u202F-\uFFE6]/g, function(ch, i) {
-                            return '\t' === ch || session.isFullWidth(ch.charCodeAt(0)) ? (shift += (size = '\t' === ch ? session.getScreenTabSize(i + shift) : 2) - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
+                            return "\t" === ch || session.isFullWidth(ch.charCodeAt(0)) ? (shift += (size = "\t" === ch ? session.getScreenTabSize(i + shift) : 2) - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
                         }), this.isRtlDir && (this.fontMetrics.$main.textContent = this.line.charAt(this.line.length - 1) == bidiUtil.DOT ? this.line.substr(0, this.line.length - 1) : this.line, this.rtlLineOffset = this.contentWidth - this.fontMetrics.$main.getBoundingClientRect().width);
                     }, this.updateBidiMap = function() {
                         var textCharTypes = [];
@@ -2638,7 +2638,7 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), lang = require("./lib/lang"), EventEmitter = require("./lib/event_emitter").EventEmitter, Range = require("./range").Range, Selection = function(session) {
@@ -3044,11 +3044,11 @@
                         start: [
                             {
                                 token: "empty_line",
-                                regex: '^$'
+                                regex: "^$"
                             },
                             {
                                 defaultToken: "text"
-                            }
+                            }, 
                         ]
                     };
                 };
@@ -3215,7 +3215,7 @@
                 "ace/lib/oop",
                 "ace/mode/behaviour",
                 "ace/token_iterator",
-                "ace/lib/lang"
+                "ace/lib/lang", 
             ], function(require, exports, module) {
                 "use strict";
                 var context, oop = require("../../lib/oop"), Behaviour = require("../behaviour").Behaviour, TokenIterator = require("../../token_iterator").TokenIterator, lang = require("../../lib/lang"), SAFE_INSERT_IN_TOKENS = [
@@ -3223,14 +3223,14 @@
                     "paren.rparen",
                     "rparen",
                     "paren",
-                    "punctuation.operator"
+                    "punctuation.operator", 
                 ], SAFE_INSERT_BEFORE_TOKENS = [
                     "text",
                     "paren.rparen",
                     "rparen",
                     "paren",
                     "punctuation.operator",
-                    "comment"
+                    "comment", 
                 ], contextCache = {}, defaultQuotes = {
                     '"': '"',
                     "'": "'"
@@ -3256,37 +3256,37 @@
                             0,
                             selection.start.column + 1,
                             rowDiff,
-                            selection.end.column + (rowDiff ? 0 : 1)
+                            selection.end.column + (rowDiff ? 0 : 1), 
                         ]
                     };
                 }, CstyleBehaviour = function(options) {
                     this.add("braces", "insertion", function(state, action, editor, session, text) {
                         var cursor = editor.getCursorPosition(), line = session.doc.getLine(cursor.row);
-                        if ('{' == text) {
+                        if ("{" == text) {
                             initContext(editor);
                             var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
-                            if ("" !== selected && "{" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, '{', '}');
+                            if ("" !== selected && "{" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, "{", "}");
                             if (CstyleBehaviour.isSaneInsertion(editor, session)) return /[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options && options.braces ? (CstyleBehaviour.recordAutoInsert(editor, session, "}"), {
-                                text: '{}',
+                                text: "{}",
                                 selection: [
                                     1,
                                     1
                                 ]
                             }) : (CstyleBehaviour.recordMaybeInsert(editor, session, "{"), {
-                                text: '{',
+                                text: "{",
                                 selection: [
                                     1,
                                     1
                                 ]
                             });
-                        } else if ('}' == text) {
+                        } else if ("}" == text) {
                             initContext(editor);
                             var rightChar = line.substring(cursor.column, cursor.column + 1);
-                            if ('}' == rightChar && null !== session.$findOpeningBracket('}', {
+                            if ("}" == rightChar && null !== session.$findOpeningBracket("}", {
                                 column: cursor.column + 1,
                                 row: cursor.row
                             }) && CstyleBehaviour.isAutoInsertedClosing(cursor, line, text)) return CstyleBehaviour.popAutoInsertedClosing(), {
-                                text: '',
+                                text: "",
                                 selection: [
                                     1,
                                     1
@@ -3297,11 +3297,11 @@
                             var closing = "";
                             CstyleBehaviour.isMaybeInsertedClosing(cursor, line) && (closing = lang.stringRepeat("}", context.maybeInsertedBrackets), CstyleBehaviour.clearMaybeInsertedClosing());
                             var rightChar = line.substring(cursor.column, cursor.column + 1);
-                            if ('}' === rightChar) {
+                            if ("}" === rightChar) {
                                 var openBracePos = session.findMatchingBracket({
                                     row: cursor.row,
                                     column: cursor.column + 1
-                                }, '}');
+                                }, "}");
                                 if (!openBracePos) return null;
                                 var next_indent = this.$getIndent(session.getLine(openBracePos.row));
                             } else if (closing) var next_indent = this.$getIndent(line);
@@ -3311,41 +3311,41 @@
                             }
                             var indent = next_indent + session.getTabString();
                             return {
-                                text: '\n' + indent + '\n' + next_indent + closing,
+                                text: "\n" + indent + "\n" + next_indent + closing,
                                 selection: [
                                     1,
                                     indent.length,
                                     1,
-                                    indent.length
+                                    indent.length, 
                                 ]
                             };
                         } else CstyleBehaviour.clearMaybeInsertedClosing();
                     }), this.add("braces", "deletion", function(state, action, editor, session, range) {
                         var selected = session.doc.getTextRange(range);
-                        if (!range.isMultiLine() && '{' == selected) {
-                            if (initContext(editor), '}' == session.doc.getLine(range.start.row).substring(range.end.column, range.end.column + 1)) return range.end.column++, range;
+                        if (!range.isMultiLine() && "{" == selected) {
+                            if (initContext(editor), "}" == session.doc.getLine(range.start.row).substring(range.end.column, range.end.column + 1)) return range.end.column++, range;
                             context.maybeInsertedBrackets--;
                         }
                     }), this.add("parens", "insertion", function(state, action, editor, session, text) {
-                        if ('(' == text) {
+                        if ("(" == text) {
                             initContext(editor);
                             var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
-                            if ("" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, '(', ')');
+                            if ("" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, "(", ")");
                             if (CstyleBehaviour.isSaneInsertion(editor, session)) return CstyleBehaviour.recordAutoInsert(editor, session, ")"), {
-                                text: '()',
+                                text: "()",
                                 selection: [
                                     1,
                                     1
                                 ]
                             };
-                        } else if (')' == text) {
+                        } else if (")" == text) {
                             initContext(editor);
                             var cursor = editor.getCursorPosition(), line = session.doc.getLine(cursor.row);
-                            if (')' == line.substring(cursor.column, cursor.column + 1) && null !== session.$findOpeningBracket(')', {
+                            if (")" == line.substring(cursor.column, cursor.column + 1) && null !== session.$findOpeningBracket(")", {
                                 column: cursor.column + 1,
                                 row: cursor.row
                             }) && CstyleBehaviour.isAutoInsertedClosing(cursor, line, text)) return CstyleBehaviour.popAutoInsertedClosing(), {
-                                text: '',
+                                text: "",
                                 selection: [
                                     1,
                                     1
@@ -3354,27 +3354,27 @@
                         }
                     }), this.add("parens", "deletion", function(state, action, editor, session, range) {
                         var selected = session.doc.getTextRange(range);
-                        if (!range.isMultiLine() && '(' == selected && (initContext(editor), ')' == session.doc.getLine(range.start.row).substring(range.start.column + 1, range.start.column + 2))) return range.end.column++, range;
+                        if (!range.isMultiLine() && "(" == selected && (initContext(editor), ")" == session.doc.getLine(range.start.row).substring(range.start.column + 1, range.start.column + 2))) return range.end.column++, range;
                     }), this.add("brackets", "insertion", function(state, action, editor, session, text) {
-                        if ('[' == text) {
+                        if ("[" == text) {
                             initContext(editor);
                             var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
-                            if ("" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, '[', ']');
+                            if ("" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, "[", "]");
                             if (CstyleBehaviour.isSaneInsertion(editor, session)) return CstyleBehaviour.recordAutoInsert(editor, session, "]"), {
-                                text: '[]',
+                                text: "[]",
                                 selection: [
                                     1,
                                     1
                                 ]
                             };
-                        } else if (']' == text) {
+                        } else if ("]" == text) {
                             initContext(editor);
                             var cursor = editor.getCursorPosition(), line = session.doc.getLine(cursor.row);
-                            if (']' == line.substring(cursor.column, cursor.column + 1) && null !== session.$findOpeningBracket(']', {
+                            if ("]" == line.substring(cursor.column, cursor.column + 1) && null !== session.$findOpeningBracket("]", {
                                 column: cursor.column + 1,
                                 row: cursor.row
                             }) && CstyleBehaviour.isAutoInsertedClosing(cursor, line, text)) return CstyleBehaviour.popAutoInsertedClosing(), {
-                                text: '',
+                                text: "",
                                 selection: [
                                     1,
                                     1
@@ -3383,7 +3383,7 @@
                         }
                     }), this.add("brackets", "deletion", function(state, action, editor, session, range) {
                         var selected = session.doc.getTextRange(range);
-                        if (!range.isMultiLine() && '[' == selected && (initContext(editor), ']' == session.doc.getLine(range.start.row).substring(range.start.column + 1, range.start.column + 2))) return range.end.column++, range;
+                        if (!range.isMultiLine() && "[" == selected && (initContext(editor), "]" == session.doc.getLine(range.start.row).substring(range.start.column + 1, range.start.column + 2))) return range.end.column++, range;
                     }), this.add("string_dquotes", "insertion", function(state, action, editor, session, text) {
                         var quotes = session.$mode.$quotes || defaultQuotes;
                         if (1 == text.length && quotes[text]) {
@@ -4303,7 +4303,7 @@
                     3,
                     5,
                     3,
-                    2
+                    2, 
                 ], code = 0, str = [], i = 0; i < wordChars.length; i += 2)str.push(code += wordChars[i]), wordChars[i + 1] && str.push(45, code += wordChars[i + 1]);
                 exports.wordChars = String.fromCharCode.apply(null, str);
             }), ace.define("ace/mode/text", [
@@ -4317,7 +4317,7 @@
                 "ace/unicode",
                 "ace/lib/lang",
                 "ace/token_iterator",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var config = require("../config"), Tokenizer = require("../tokenizer").Tokenizer, TextHighlightRules = require("./text_highlight_rules").TextHighlightRules, CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour, unicode = require("../unicode"), lang = require("../lib/lang"), TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range, Mode1 = function() {
@@ -4430,7 +4430,7 @@
                             "checkOutdent",
                             "autoOutdent",
                             "transformAction",
-                            "getCompletions"
+                            "getCompletions", 
                         ], i = 0; i < delegations.length; i++)!function(scope) {
                             var functionName = delegations[i], defaultHandler = scope[functionName];
                             scope[delegations[i]] = function() {
@@ -4521,7 +4521,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter, Anchor = exports.Anchor = function(doc, row, column) {
@@ -4584,7 +4584,7 @@
                 "ace/apply_delta",
                 "ace/lib/event_emitter",
                 "ace/range",
-                "ace/anchor"
+                "ace/anchor", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), applyDelta = require("./apply_delta").applyDelta, EventEmitter = require("./lib/event_emitter").EventEmitter, Range = require("./range").Range, Anchor = require("./anchor").Anchor, Document = function(textOrLines) {
@@ -4646,7 +4646,7 @@
                     }, this.getLinesForRange = function(range) {
                         var lines;
                         if (range.start.row === range.end.row) lines = [
-                            this.getLine(range.start.row).substring(range.start.column, range.end.column)
+                            this.getLine(range.start.row).substring(range.start.column, range.end.column), 
                         ];
                         else {
                             (lines = this.getLines(range.start.row, range.end.row))[0] = (lines[0] || "").substring(range.start.column);
@@ -4809,7 +4809,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter, BackgroundTokenizer = function(tokenizer, editor) {
@@ -4874,7 +4874,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var lang = require("./lib/lang");
@@ -5070,9 +5070,9 @@
                     }, this.removeAll = function() {
                         return this.ranges.splice(0, this.ranges.length);
                     }, this.attach = function(session) {
-                        this.session && this.detach(), this.session = session, this.onChange = this.$onChange.bind(this), this.session.on('change', this.onChange);
+                        this.session && this.detach(), this.session = session, this.onChange = this.$onChange.bind(this), this.session.on("change", this.onChange);
                     }, this.detach = function() {
-                        this.session && (this.session.removeListener('change', this.onChange), this.session = null);
+                        this.session && (this.session.removeListener("change", this.onChange), this.session = null);
                     }, this.$onChange = function(delta) {
                         for(var start = delta.start, end = delta.end, startRow = start.row, endRow = end.row, ranges = this.ranges, i = 0, n = ranges.length; i < n; i++){
                             var r = ranges[i];
@@ -5102,7 +5102,7 @@
                 "exports",
                 "module",
                 "ace/range_list",
-                "ace/lib/oop"
+                "ace/lib/oop", 
             ], function(require, exports, module) {
                 "use strict";
                 var RangeList = require("../range_list").RangeList, oop = require("../lib/oop"), Fold = exports.Fold = function(range, placeholder) {
@@ -5152,7 +5152,7 @@
                 "ace/range",
                 "ace/edit_session/fold_line",
                 "ace/edit_session/fold",
-                "ace/token_iterator"
+                "ace/token_iterator", 
             ], function(require, exports, module) {
                 "use strict";
                 var Range = require("../range").Range, FoldLine = require("./fold_line").FoldLine, Fold = require("./fold").Fold, TokenIterator = require("../token_iterator").TokenIterator;
@@ -5435,11 +5435,11 @@
                         }
                     }, this.$setFolding = function(foldMode) {
                         if (this.$foldMode != foldMode) {
-                            if (this.$foldMode = foldMode, this.off('change', this.$updateFoldWidgets), this.off('tokenizerUpdate', this.$tokenizerUpdateFoldWidgets), this._signal("changeAnnotation"), !foldMode || "manual" == this.$foldStyle) {
+                            if (this.$foldMode = foldMode, this.off("change", this.$updateFoldWidgets), this.off("tokenizerUpdate", this.$tokenizerUpdateFoldWidgets), this._signal("changeAnnotation"), !foldMode || "manual" == this.$foldStyle) {
                                 this.foldWidgets = null;
                                 return;
                             }
-                            this.foldWidgets = [], this.getFoldWidget = foldMode.getFoldWidget.bind(foldMode, this, this.$foldStyle), this.getFoldWidgetRange = foldMode.getFoldWidgetRange.bind(foldMode, this, this.$foldStyle), this.$updateFoldWidgets = this.updateFoldWidgets.bind(this), this.$tokenizerUpdateFoldWidgets = this.tokenizerUpdateFoldWidgets.bind(this), this.on('change', this.$updateFoldWidgets), this.on('tokenizerUpdate', this.$tokenizerUpdateFoldWidgets);
+                            this.foldWidgets = [], this.getFoldWidget = foldMode.getFoldWidget.bind(foldMode, this, this.$foldStyle), this.getFoldWidgetRange = foldMode.getFoldWidgetRange.bind(foldMode, this, this.$foldStyle), this.$updateFoldWidgets = this.updateFoldWidgets.bind(this), this.$tokenizerUpdateFoldWidgets = this.tokenizerUpdateFoldWidgets.bind(this), this.on("change", this.$updateFoldWidgets), this.on("tokenizerUpdate", this.$tokenizerUpdateFoldWidgets);
                         }
                     }, this.getParentFoldRangeData = function(row, ignoreCurrent) {
                         var fw = this.foldWidgets;
@@ -5494,7 +5494,7 @@
                     }, this.updateFoldWidgets = function(delta) {
                         var firstRow = delta.start.row, len = delta.end.row - firstRow;
                         if (0 === len) this.foldWidgets[firstRow] = null;
-                        else if ('remove' == delta.action) this.foldWidgets.splice(firstRow, len + 1, null);
+                        else if ("remove" == delta.action) this.foldWidgets.splice(firstRow, len + 1, null);
                         else {
                             var args = Array(len + 1);
                             args.unshift(firstRow, 1), this.foldWidgets.splice.apply(this.foldWidgets, args);
@@ -5509,7 +5509,7 @@
                 "exports",
                 "module",
                 "ace/token_iterator",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range;
@@ -5620,7 +5620,7 @@
                 "ace/background_tokenizer",
                 "ace/search_highlight",
                 "ace/edit_session/folding",
-                "ace/edit_session/bracket_match"
+                "ace/edit_session/bracket_match", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), lang = require("./lib/lang"), BidiHandler = require("./bidihandler").BidiHandler, config = require("./config"), EventEmitter = require("./lib/event_emitter").EventEmitter, Selection = require("./selection").Selection, TextMode = require("./mode/text").Mode, Range = require("./range").Range, Document = require("./document").Document, BackgroundTokenizer = require("./background_tokenizer").BackgroundTokenizer, SearchHighlight = require("./search_highlight").SearchHighlight, EditSession = function(text, mode) {
@@ -5955,8 +5955,8 @@
                         for(var rowRange = range.collapseRows(), deleteRange = new Range(0, 0, 0, 0), size = this.getTabSize(), i = rowRange.start.row; i <= rowRange.end.row; ++i){
                             var line = this.getLine(i);
                             deleteRange.start.row = i, deleteRange.end.row = i;
-                            for(var j = 0; j < size && ' ' == line.charAt(j); ++j);
-                            j < size && '\t' == line.charAt(j) ? (deleteRange.start.column = j, deleteRange.end.column = j + 1) : (deleteRange.start.column = 0, deleteRange.end.column = j), this.remove(deleteRange);
+                            for(var j = 0; j < size && " " == line.charAt(j); ++j);
+                            j < size && "\t" == line.charAt(j) ? (deleteRange.start.column = j, deleteRange.end.column = j + 1) : (deleteRange.start.column = 0, deleteRange.end.column = j), this.remove(deleteRange);
                         }
                     }, this.$moveLines = function(firstRow, lastRow, dir) {
                         if (firstRow = this.getRowFoldStart(firstRow), lastRow = this.getRowFoldEnd(lastRow), dir < 0) {
@@ -6090,7 +6090,7 @@
                     };
                     var PLACEHOLDER_START = 3, PLACEHOLDER_BODY = 4;
                     function isFullWidth(c) {
-                        return !(c < 0x1100) && (c >= 0x1100 && c <= 0x115F || c >= 0x11A3 && c <= 0x11A7 || c >= 0x11FA && c <= 0x11FF || c >= 0x2329 && c <= 0x232A || c >= 0x2E80 && c <= 0x2E99 || c >= 0x2E9B && c <= 0x2EF3 || c >= 0x2F00 && c <= 0x2FD5 || c >= 0x2FF0 && c <= 0x2FFB || c >= 0x3000 && c <= 0x303E || c >= 0x3041 && c <= 0x3096 || c >= 0x3099 && c <= 0x30FF || c >= 0x3105 && c <= 0x312D || c >= 0x3131 && c <= 0x318E || c >= 0x3190 && c <= 0x31BA || c >= 0x31C0 && c <= 0x31E3 || c >= 0x31F0 && c <= 0x321E || c >= 0x3220 && c <= 0x3247 || c >= 0x3250 && c <= 0x32FE || c >= 0x3300 && c <= 0x4DBF || c >= 0x4E00 && c <= 0xA48C || c >= 0xA490 && c <= 0xA4C6 || c >= 0xA960 && c <= 0xA97C || c >= 0xAC00 && c <= 0xD7A3 || c >= 0xD7B0 && c <= 0xD7C6 || c >= 0xD7CB && c <= 0xD7FB || c >= 0xF900 && c <= 0xFAFF || c >= 0xFE10 && c <= 0xFE19 || c >= 0xFE30 && c <= 0xFE52 || c >= 0xFE54 && c <= 0xFE66 || c >= 0xFE68 && c <= 0xFE6B || c >= 0xFF01 && c <= 0xFF60 || c >= 0xFFE0 && c <= 0xFFE6);
+                        return !(c < 0x1100) && (c >= 0x1100 && c <= 0x115f || c >= 0x11a3 && c <= 0x11a7 || c >= 0x11fa && c <= 0x11ff || c >= 0x2329 && c <= 0x232a || c >= 0x2e80 && c <= 0x2e99 || c >= 0x2e9b && c <= 0x2ef3 || c >= 0x2f00 && c <= 0x2fd5 || c >= 0x2ff0 && c <= 0x2ffb || c >= 0x3000 && c <= 0x303e || c >= 0x3041 && c <= 0x3096 || c >= 0x3099 && c <= 0x30ff || c >= 0x3105 && c <= 0x312d || c >= 0x3131 && c <= 0x318e || c >= 0x3190 && c <= 0x31ba || c >= 0x31c0 && c <= 0x31e3 || c >= 0x31f0 && c <= 0x321e || c >= 0x3220 && c <= 0x3247 || c >= 0x3250 && c <= 0x32fe || c >= 0x3300 && c <= 0x4dbf || c >= 0x4e00 && c <= 0xa48c || c >= 0xa490 && c <= 0xa4c6 || c >= 0xa960 && c <= 0xa97c || c >= 0xac00 && c <= 0xd7a3 || c >= 0xd7b0 && c <= 0xd7c6 || c >= 0xd7cb && c <= 0xd7fb || c >= 0xf900 && c <= 0xfaff || c >= 0xfe10 && c <= 0xfe19 || c >= 0xfe30 && c <= 0xfe52 || c >= 0xfe54 && c <= 0xfe66 || c >= 0xfe68 && c <= 0xfe6b || c >= 0xff01 && c <= 0xff60 || c >= 0xffe0 && c <= 0xffe6);
                     }
                     this.$computeWrapSplits = function(tokens, wrapLimit, tabSize) {
                         if (0 == tokens.length) return [];
@@ -6366,7 +6366,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var lang = require("./lib/lang"), oop = require("./lib/oop"), Range = require("./range").Range, Search = function() {
@@ -6518,7 +6518,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module) {
                 "use strict";
                 var keyUtil = require("../lib/keys"), useragent = require("../lib/useragent"), KEY_MODS = keyUtil.KEY_MODS;
@@ -6535,7 +6535,7 @@
                     this.addCommand = function(command) {
                         this.commands[command.name] && this.removeCommand(command), this.commands[command.name] = command, command.bindKey && this._buildKeyHash(command);
                     }, this.removeCommand = function(command, keepCommand) {
-                        var name = command && ('string' == typeof command ? command : command.name);
+                        var name = command && ("string" == typeof command ? command : command.name);
                         command = this.commands[name], keepCommand || delete this.commands[name];
                         var ckb = this.commandKeyBinding;
                         for(var keyId in ckb){
@@ -6643,7 +6643,7 @@
                 "module",
                 "ace/lib/oop",
                 "ace/keyboard/hash_handler",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), MultiHashHandler = require("../keyboard/hash_handler").MultiHashHandler, EventEmitter = require("../lib/event_emitter").EventEmitter, CommandManager = function(platform, commands) {
@@ -6696,7 +6696,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/config",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module6) {
                 "use strict";
                 var lang = require("../lib/lang"), config = require("../config"), Range = require("../range").Range;
@@ -7732,7 +7732,7 @@
                             });
                         },
                         readOnly: !0
-                    }
+                    }, 
                 ];
                 for(var i4 = 1; i4 < 9; i4++)exports.commands.push({
                     name: "foldToLevel" + i4,
@@ -7765,7 +7765,7 @@
                 "ace/commands/default_commands",
                 "ace/config",
                 "ace/token_iterator",
-                "ace/clipboard"
+                "ace/clipboard", 
             ], function(require, exports, module7) {
                 "use strict";
                 require("./lib/fixoldbrowsers");
@@ -7826,7 +7826,7 @@
                     }, this.$mergeableCommands = [
                         "backspace",
                         "del",
-                        "insertstring"
+                        "insertstring", 
                     ], this.$historyTracker = function(e) {
                         if (this.$mergeUndoDeltas) {
                             var prev = this.prevOp, mergeableCommands = this.$mergeableCommands, shouldMerge = prev.command && e.command.name == prev.command.name;
@@ -7905,9 +7905,9 @@
                                         Array.isArray(ranges) ? 1 == ranges.length && (markerType = "ace_error_bracket") : ranges = [
                                             ranges
                                         ], 2 == ranges.length && (0 == Range.comparePoints(ranges[0].end, ranges[1].start) ? ranges = [
-                                            Range.fromPoints(ranges[0].start, ranges[1].end)
+                                            Range.fromPoints(ranges[0].start, ranges[1].end), 
                                         ] : 0 == Range.comparePoints(ranges[0].start, ranges[1].end) && (ranges = [
-                                            Range.fromPoints(ranges[1].start, ranges[0].end)
+                                            Range.fromPoints(ranges[1].start, ranges[0].end), 
                                         ])), session.$bracketHighlight = {
                                             ranges: ranges,
                                             markerIds: ranges.map(function(range) {
@@ -7932,18 +7932,18 @@
                                     }
                                     if (-1 !== token.type.indexOf("tag-open") && !(token = iterator.stepForward())) return;
                                     var tag = token.value, currentTag = token.value, depth = 0, prevToken = iterator.stepBackward();
-                                    if ('<' === prevToken.value) do prevToken = token, (token = iterator.stepForward()) && (-1 !== token.type.indexOf('tag-name') ? tag === (currentTag = token.value) && ('<' === prevToken.value ? depth++ : '</' === prevToken.value && depth--) : tag === currentTag && '/>' === token.value && depth--);
+                                    if ("<" === prevToken.value) do prevToken = token, (token = iterator.stepForward()) && (-1 !== token.type.indexOf("tag-name") ? tag === (currentTag = token.value) && ("<" === prevToken.value ? depth++ : "</" === prevToken.value && depth--) : tag === currentTag && "/>" === token.value && depth--);
                                     while (token && depth >= 0)
                                     else {
                                         do if (token = prevToken, prevToken = iterator.stepBackward(), token) {
-                                            if (-1 !== token.type.indexOf('tag-name')) tag === token.value && ('<' === prevToken.value ? depth++ : '</' === prevToken.value && depth--);
-                                            else if ('/>' === token.value) {
+                                            if (-1 !== token.type.indexOf("tag-name")) tag === token.value && ("<" === prevToken.value ? depth++ : "</" === prevToken.value && depth--);
+                                            else if ("/>" === token.value) {
                                                 for(var stepCount = 0, tmpToken = prevToken; tmpToken;){
-                                                    if (-1 !== tmpToken.type.indexOf('tag-name') && tmpToken.value === tag) {
+                                                    if (-1 !== tmpToken.type.indexOf("tag-name") && tmpToken.value === tag) {
                                                         depth--;
                                                         break;
                                                     }
-                                                    if ('<' === tmpToken.value) break;
+                                                    if ("<" === tmpToken.value) break;
                                                     tmpToken = iterator.stepBackward(), stepCount++;
                                                 }
                                                 for(var i = 0; i < stepCount; i++)iterator.stepForward();
@@ -8085,7 +8085,7 @@
                     }, this.insert = function(text, pasted) {
                         var session = this.session, mode = session.getMode(), cursor = this.getCursorPosition();
                         if (this.getBehavioursEnabled() && !pasted) {
-                            var transform = mode.transformAction(session.getState(cursor.row), 'insertion', this, session, text);
+                            var transform = mode.transformAction(session.getState(cursor.row), "insertion", this, session, text);
                             transform && (text === transform.text || this.inVirtualSelectionMode || (this.session.mergeUndoDeltas = !1, this.mergeNextCommand = !1), text = transform.text);
                         }
                         if ("\t" == text && (text = this.session.getTabString()), this.selection.isEmpty()) {
@@ -8221,7 +8221,7 @@
                         this.selection.isEmpty() && ("left" == dir ? this.selection.selectLeft() : this.selection.selectRight());
                         var range = this.getSelectionRange();
                         if (this.getBehavioursEnabled()) {
-                            var session = this.session, state = session.getState(range.start.row), new_range = session.getMode().transformAction(state, 'deletion', this, session, range);
+                            var session = this.session, state = session.getState(range.start.row), new_range = session.getMode().transformAction(state, "deletion", this, session, range);
                             if (0 === range.end.column) {
                                 var text = session.getTextRange(range);
                                 if ("\n" == text[text.length - 1]) {
@@ -8422,19 +8422,19 @@
                         [
                             "==",
                             "!="
-                        ]
+                        ], 
                     ], this.toggleWord = function() {
                         var reg, row = this.selection.getCursor().row, column = this.selection.getCursor().column;
                         this.selection.selectWord();
-                        var currentState = this.getSelectedText(), currWordStart = this.selection.getWordRange().start.column, wordParts = currentState.replace(/([a-z]+|[A-Z]+)(?=[A-Z_]|$)/g, '$1 ').split(/\s/), delta = column - currWordStart - 1;
+                        var currentState = this.getSelectedText(), currWordStart = this.selection.getWordRange().start.column, wordParts = currentState.replace(/([a-z]+|[A-Z]+)(?=[A-Z_]|$)/g, "$1 ").split(/\s/), delta = column - currWordStart - 1;
                         delta < 0 && (delta = 0);
                         var curLength = 0, itLength = 0, that = this;
                         currentState.match(/[A-Za-z0-9_]+/) && wordParts.forEach(function(item, i) {
                             itLength = curLength + item.length, delta >= curLength && delta <= itLength && (currentState = item, that.selection.clearSelection(), that.moveCursorTo(row, curLength + currWordStart), that.selection.selectTo(row, itLength + currWordStart)), curLength = itLength;
                         });
                         for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item1 = wordPairs[i], j = 0; j <= 1; j++){
-                            var negate = +!j, firstCondition = currentState.match(new RegExp('^\\s?_?(' + lang.escapeRegExp(item1[j]) + ')\\s?$', 'i'));
-                            firstCondition && currentState.match(new RegExp('([_]|^|\\s)(' + lang.escapeRegExp(firstCondition[1]) + ')($|\\s)', 'g')) && (reg = currentState.replace(new RegExp(lang.escapeRegExp(item1[j]), 'i'), function(result) {
+                            var negate = +!j, firstCondition = currentState.match(new RegExp("^\\s?_?(" + lang.escapeRegExp(item1[j]) + ")\\s?$", "i"));
+                            firstCondition && currentState.match(new RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(new RegExp(lang.escapeRegExp(item1[j]), "i"), function(result) {
                                 var res = item1[negate];
                                 return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item1[negate].charAt(0).toUpperCase() + res.substr(1)), res;
                             }), this.insert(reg), reg = "");
@@ -8561,31 +8561,31 @@
                             };
                             do {
                                 if (token.value.match(/[{}()\[\]]/g)) {
-                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(isNaN(depth[bracketType = brackets[token.value[i]] + '.' + token.type.replace("rparen", "lparen")]) && (depth[bracketType] = 0), token.value[i]){
-                                        case '(':
-                                        case '[':
-                                        case '{':
+                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(isNaN(depth[bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen")]) && (depth[bracketType] = 0), token.value[i]){
+                                        case "(":
+                                        case "[":
+                                        case "{":
                                             depth[bracketType]++;
                                             break;
-                                        case ')':
-                                        case ']':
-                                        case '}':
-                                            depth[bracketType]--, -1 === depth[bracketType] && (matchType = 'bracket', found = !0);
+                                        case ")":
+                                        case "]":
+                                        case "}":
+                                            depth[bracketType]--, -1 === depth[bracketType] && (matchType = "bracket", found = !0);
                                     }
-                                } else -1 !== token.type.indexOf('tag-name') && (isNaN(depth[token.value]) && (depth[token.value] = 0), '<' === prevToken.value ? depth[token.value]++ : '</' === prevToken.value && depth[token.value]--, -1 === depth[token.value] && (matchType = 'tag', found = !0));
+                                } else -1 !== token.type.indexOf("tag-name") && (isNaN(depth[token.value]) && (depth[token.value] = 0), "<" === prevToken.value ? depth[token.value]++ : "</" === prevToken.value && depth[token.value]--, -1 === depth[token.value] && (matchType = "tag", found = !0));
                                 found || (prevToken = token, token = iterator.stepForward(), i = 0);
                             }while (token && !found)
                             if (matchType) {
-                                if ('bracket' === matchType) !(range = this.session.getBracketRange(cursor)) && (pos = (range = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1, iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1)).start, (expand || pos.row === cursor.row && 2 > Math.abs(pos.column - cursor.column)) && (range = this.session.getBracketRange(pos)));
-                                else if ('tag' === matchType) {
-                                    if (!token || -1 === token.type.indexOf('tag-name')) return;
+                                if ("bracket" === matchType) !(range = this.session.getBracketRange(cursor)) && (pos = (range = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1, iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1)).start, (expand || pos.row === cursor.row && 2 > Math.abs(pos.column - cursor.column)) && (range = this.session.getBracketRange(pos)));
+                                else if ("tag" === matchType) {
+                                    if (!token || -1 === token.type.indexOf("tag-name")) return;
                                     var tag = token.value;
                                     if (0 === (range = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() - 2, iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() - 2)).compare(cursor.row, cursor.column)) {
                                         found = !1;
-                                        do token = prevToken, (prevToken = iterator.stepBackward()) && (-1 !== prevToken.type.indexOf('tag-close') && range.setEnd(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 1), token.value === tag && -1 !== token.type.indexOf('tag-name') && ('<' === prevToken.value ? depth[tag]++ : '</' === prevToken.value && depth[tag]--, 0 === depth[tag] && (found = !0)));
+                                        do token = prevToken, (prevToken = iterator.stepBackward()) && (-1 !== prevToken.type.indexOf("tag-close") && range.setEnd(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + 1), token.value === tag && -1 !== token.type.indexOf("tag-name") && ("<" === prevToken.value ? depth[tag]++ : "</" === prevToken.value && depth[tag]--, 0 === depth[tag] && (found = !0)));
                                         while (prevToken && !found)
                                     }
-                                    token && token.type.indexOf('tag-name') && (pos = range.start).row == cursor.row && 2 > Math.abs(pos.column - cursor.column) && (pos = range.end);
+                                    token && token.type.indexOf("tag-name") && (pos = range.start).row == cursor.row && 2 > Math.abs(pos.column - cursor.column) && (pos = range.end);
                                 }
                                 (pos = range && range.cursor || pos) && (select ? range && expand ? this.selection.setRange(range) : range && range.isEqual(this.getSelectionRange()) ? this.clearSelection() : this.selection.selectTo(pos.row, pos.column) : this.selection.moveTo(pos.row, pos.column));
                             }
@@ -9176,14 +9176,14 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/layer/lines"
+                "ace/layer/lines", 
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), oop = require("../lib/oop"), lang = require("../lib/lang"), EventEmitter = require("../lib/event_emitter").EventEmitter, Lines = require("./lines").Lines, Gutter = function(parentEl) {
                     this.element = dom.createElement("div"), this.element.className = "ace_layer ace_gutter-layer", parentEl.appendChild(this.element), this.setShowFoldWidgets(this.$showFoldWidgets), this.gutterWidth = 0, this.$annotations = [], this.$updateAnnotations = this.$updateAnnotations.bind(this), this.$lines = new Lines(this.element), this.$lines.$offsetCoefficient = 1;
                 };
                 function onCreateCell(element) {
-                    var textNode = document.createTextNode('');
+                    var textNode = document.createTextNode("");
                     element.appendChild(textNode);
                     var foldWidget = dom.createElement("span");
                     return element.appendChild(foldWidget), element;
@@ -9211,7 +9211,7 @@
                         if (this.$annotations.length) {
                             var firstRow = delta.start.row, len = delta.end.row - firstRow;
                             if (0 === len) ;
-                            else if ('remove' == delta.action) this.$annotations.splice(firstRow, len + 1, null);
+                            else if ("remove" == delta.action) this.$annotations.splice(firstRow, len + 1, null);
                             else {
                                 var args = new Array(len + 1);
                                 args.unshift(firstRow, 1), this.$annotations.splice.apply(this.$annotations, args);
@@ -9409,7 +9409,7 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/layer/lines",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), Lines = require("./lines").Lines, EventEmitter = require("../lib/event_emitter").EventEmitter, Text = function(parentEl) {
@@ -9735,7 +9735,7 @@
                 "ace/lib/oop",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), dom = require("./lib/dom"), event = require("./lib/event"), EventEmitter = require("./lib/event_emitter").EventEmitter, ScrollBar = function(parent) {
@@ -9750,7 +9750,7 @@
                     ScrollBar.call(this, parent), this.scrollTop = 0, this.scrollHeight = 0, renderer.$scrollbarWidth = this.width = dom.scrollbarWidth(parent.ownerDocument), this.inner.style.width = this.element.style.width = (this.width || 15) + 5 + "px", this.$minWidth = 0;
                 };
                 oop.inherits(VScrollBar, ScrollBar), (function() {
-                    this.classSuffix = '-v', this.onScroll = function() {
+                    this.classSuffix = "-v", this.onScroll = function() {
                         if (!this.skipEvent) {
                             if (this.scrollTop = this.element.scrollTop, 1 != this.coeff) {
                                 var h = this.element.clientHeight / this.scrollHeight;
@@ -9775,7 +9775,7 @@
                     ScrollBar.call(this, parent), this.scrollLeft = 0, this.height = renderer.$scrollbarWidth, this.inner.style.height = this.element.style.height = (this.height || 15) + 5 + "px";
                 };
                 oop.inherits(HScrollBar, ScrollBar), (function() {
-                    this.classSuffix = '-h', this.onScroll = function() {
+                    this.classSuffix = "-h", this.onScroll = function() {
                         this.skipEvent || (this.scrollLeft = this.element.scrollLeft, this._emit("scroll", {
                             data: this.scrollLeft
                         })), this.skipEvent = !1;
@@ -9827,7 +9827,7 @@
                 "ace/lib/lang",
                 "ace/lib/event",
                 "ace/lib/useragent",
-                "ace/lib/event_emitter"
+                "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), event = require("../lib/event"), useragent = require("../lib/useragent"), EventEmitter = require("../lib/event_emitter").EventEmitter, USE_OBSERVER = "function" == typeof ResizeObserver, FontMetrics = exports.FontMetrics = function(parentEl) {
                     this.el = dom.createElement("div"), this.$setMeasureNodeStyles(this.el.style, !0), this.$main = dom.createElement("div"), this.$setMeasureNodeStyles(this.$main.style), this.$measureNode = dom.createElement("div"), this.$setMeasureNodeStyles(this.$measureNode.style), this.el.appendChild(this.$main), this.el.appendChild(this.$measureNode), parentEl.appendChild(this.el), this.$measureNode.textContent = lang.stringRepeat("X", 256), this.$characterSize = {
@@ -9883,7 +9883,7 @@
                                 "div",
                                 {
                                     style: "position: absolute;top:" + t + "px;left:" + l + "px;"
-                                }
+                                }, 
                             ];
                         };
                         this.els = dom.buildDom([
@@ -9897,7 +9897,7 @@
                             var det = l1[1] * l2[0] - l1[0] * l2[1];
                             return [
                                 (-l2[1] * r[0] + l2[0] * r[1]) / det,
-                                (+l1[1] * r[0] - l1[0] * r[1]) / det
+                                (+l1[1] * r[0] - l1[0] * r[1]) / det, 
                             ];
                         }
                         function sub(a, b) {
@@ -9951,10 +9951,10 @@
                 "ace/renderloop",
                 "ace/layer/font_metrics",
                 "ace/lib/event_emitter",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module8) {
                 "use strict";
-                var oop = require("./lib/oop"), dom = require("./lib/dom"), config2 = require("./config"), GutterLayer = require("./layer/gutter").Gutter, MarkerLayer = require("./layer/marker").Marker, TextLayer = require("./layer/text").Text, CursorLayer = require("./layer/cursor").Cursor, HScrollBar = require("./scrollbar").HScrollBar, VScrollBar = require("./scrollbar").VScrollBar, RenderLoop = require("./renderloop").RenderLoop, FontMetrics = require("./layer/font_metrics").FontMetrics, EventEmitter = require("./lib/event_emitter").EventEmitter, editorCss = "\
+                var oop = require("./lib/oop"), dom = require("./lib/dom"), config2 = require("./config"), GutterLayer = require("./layer/gutter").Gutter, MarkerLayer = require("./layer/marker").Marker, TextLayer = require("./layer/text").Text, CursorLayer = require("./layer/cursor").Cursor, HScrollBar = require("./scrollbar").HScrollBar, VScrollBar = require("./scrollbar").VScrollBar, RenderLoop = require("./renderloop").RenderLoop, FontMetrics = require("./layer/font_metrics").FontMetrics, EventEmitter = require("./lib/event_emitter").EventEmitter, editorCss = '\
 .ace_br1 {border-top-left-radius    : 3px;}\
 .ace_br2 {border-top-right-radius   : 3px;}\
 .ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}\
@@ -9974,7 +9974,7 @@
 position: relative;\
 overflow: hidden;\
 padding: 0;\
-font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;\
+font: 12px/normal \'Monaco\', \'Menlo\', \'Ubuntu Mono\', \'Consolas\', \'source-code-pro\', monospace;\
 direction: ltr;\
 text-align: left;\
 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\
@@ -10004,7 +10004,7 @@ top: 0;\
 left: 0;\
 right: 0;\
 bottom: 0;\
-content: '';\
+content: \'\';\
 background: rgba(250, 250, 250, 0.01);\
 z-index: 1000;\
 }\
@@ -10047,20 +10047,20 @@ padding-right: 6px;\
 background-repeat: no-repeat;\
 }\
 .ace_gutter-cell.ace_error {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==");\
 background-repeat: no-repeat;\
 background-position: 2px center;\
 }\
 .ace_gutter-cell.ace_warning {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==");\
 background-position: 2px center;\
 }\
 .ace_gutter-cell.ace_info {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=");\
 background-position: 2px center;\
 }\
 .ace_dark .ace_gutter-cell.ace_info {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC");\
 }\
 .ace_scrollbar {\
 contain: strict;\
@@ -10266,8 +10266,8 @@ height: 11px;\
 margin-top: -2px;\
 vertical-align: middle;\
 background-image:\
-url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\
-url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=\");\
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),\
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=");\
 background-repeat: no-repeat, repeat-x;\
 background-position: center center, top left;\
 color: transparent;\
@@ -10280,8 +10280,8 @@ pointer-events: auto;\
 }\
 .ace_fold:hover{\
 background-image:\
-url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\
-url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC\");\
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),\
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC");\
 }\
 .ace_tooltip {\
 background-color: #FFF;\
@@ -10313,7 +10313,7 @@ margin: 0 -12px 0 1px;\
 display: none;\
 width: 11px;\
 vertical-align: top;\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==");\
 background-repeat: no-repeat;\
 background-position: center;\
 border-radius: 3px;\
@@ -10324,10 +10324,10 @@ cursor: pointer;\
 display: inline-block;   \
 }\
 .ace_fold-widget.ace_end {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==");\
 }\
 .ace_fold-widget.ace_closed {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==");\
 }\
 .ace_fold-widget:hover {\
 border: 1px solid rgba(0, 0, 0, 0.3);\
@@ -10340,13 +10340,13 @@ background-color: rgba(0, 0, 0, 0.05);\
 box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\
 }\
 .ace_dark .ace_fold-widget {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC");\
 }\
 .ace_dark .ace_fold-widget.ace_end {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==");\
 }\
 .ace_dark .ace_fold-widget.ace_closed {\
-background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==\");\
+background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==");\
 }\
 .ace_dark .ace_fold-widget:hover {\
 box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\
@@ -10441,7 +10441,7 @@ transform-origin: left;\
 white-space: pre;\
 opacity: 0.7;\
 margin: 0 10px;\
-}", useragent = require("./lib/useragent"), HIDE_TEXTAREA = useragent.isIE;
+}', useragent = require("./lib/useragent"), HIDE_TEXTAREA = useragent.isIE;
                 dom.importCssString(editorCss, "ace_editor.css", !1);
                 var VirtualRenderer = function(container, theme) {
                     var _self = this;
@@ -10829,7 +10829,7 @@ margin: 0 10px;\
                             };
                             var canvasPos, p = this.$fontMetrics.transformCoordinates([
                                 x,
-                                y
+                                y, 
                             ]);
                             x = p[1] - this.gutterWidth - this.margin.left, y = p[0];
                         } else canvasPos = this.scroller.getBoundingClientRect();
@@ -10848,7 +10848,7 @@ margin: 0 10px;\
                             };
                             var canvasPos, p = this.$fontMetrics.transformCoordinates([
                                 x,
-                                y
+                                y, 
                             ]);
                             x = p[1] - this.gutterWidth - this.margin.left, y = p[0];
                         } else canvasPos = this.scroller.getBoundingClientRect();
@@ -10902,7 +10902,7 @@ margin: 0 10px;\
                         this.updateLines(row, row);
                     }, this.setTheme = function(theme, cb) {
                         var _self = this;
-                        if (this.$themeId = theme, _self._dispatchEvent('themeChange', {
+                        if (this.$themeId = theme, _self._dispatchEvent("themeChange", {
                             theme: theme
                         }), theme && "string" != typeof theme) afterLoad(theme);
                         else {
@@ -10917,7 +10917,7 @@ margin: 0 10px;\
                             if (!module || !module.cssClass) throw new Error("couldn't load module " + theme + " or it didn't call define");
                             module.$id && (_self.$themeId = module.$id), dom.importCssString(module.cssText, module.cssClass, _self.container), _self.theme && dom.removeCssClass(_self.container, _self.theme.cssClass);
                             var padding = "padding" in module ? module.padding : "padding" in (_self.theme || {}) ? 4 : _self.$padding;
-                            _self.$padding && padding != _self.$padding && _self.setPadding(padding), _self.$theme = module.cssClass, _self.theme = module, dom.addCssClass(_self.container, module.cssClass), dom.setCssClass(_self.container, "ace_dark", module.isDark), _self.$size && (_self.$size.width = 0, _self.$updateSizeAsync()), _self._dispatchEvent('themeLoaded', {
+                            _self.$padding && padding != _self.$padding && _self.setPadding(padding), _self.$theme = module.cssClass, _self.theme = module, dom.addCssClass(_self.container, module.cssClass), dom.setCssClass(_self.container, "ace_dark", module.isDark), _self.$size && (_self.$size.width = 0, _self.$updateSizeAsync()), _self._dispatchEvent("themeLoaded", {
                                 theme: module
                             }), cb && cb();
                         }
@@ -11069,7 +11069,7 @@ margin: 0 10px;\
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/event_emitter",
-                "ace/config"
+                "ace/config", 
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), net = require("../lib/net"), EventEmitter = require("../lib/event_emitter").EventEmitter, config = require("../config");
@@ -11224,7 +11224,7 @@ margin: 0 10px;\
                 "module",
                 "ace/range",
                 "ace/lib/event_emitter",
-                "ace/lib/oop"
+                "ace/lib/oop", 
             ], function(require, exports, module) {
                 "use strict";
                 var Range = require("./range").Range, EventEmitter = require("./lib/event_emitter").EventEmitter, oop = require("./lib/oop"), PlaceHolder = function(session, length, pos, others, mainClass, othersClass) {
@@ -11267,14 +11267,14 @@ margin: 0 10px;\
                             this.$updating = !0;
                             var lengthDiff = "insert" === delta.action ? range.end.column - range.start.column : range.start.column - range.end.column, inMainRange = range.start.column >= this.pos.column && range.start.column <= this.pos.column + this.length + 1, distanceFromStart = range.start.column - this.pos.column;
                             if (this.updateAnchors(delta), inMainRange && (this.length += lengthDiff), inMainRange && !this.session.$fromUndo) {
-                                if ('insert' === delta.action) for(var i = this.others.length - 1; i >= 0; i--){
+                                if ("insert" === delta.action) for(var i = this.others.length - 1; i >= 0; i--){
                                     var otherPos = this.others[i], newPos = {
                                         row: otherPos.row,
                                         column: otherPos.column + distanceFromStart
                                     };
                                     this.doc.insertMergedLines(newPos, delta.lines);
                                 }
-                                else if ('remove' === delta.action) for(var i = this.others.length - 1; i >= 0; i--){
+                                else if ("remove" === delta.action) for(var i = this.others.length - 1; i >= 0; i--){
                                     var otherPos = this.others[i], newPos = {
                                         row: otherPos.row,
                                         column: otherPos.column + distanceFromStart
@@ -11315,7 +11315,7 @@ margin: 0 10px;\
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent"
+                "ace/lib/useragent", 
             ], function(require, exports, module) {
                 var event = require("../lib/event"), useragent = require("../lib/useragent");
                 function isSamePoint(p1, p2) {
@@ -11530,7 +11530,7 @@ margin: 0 10px;\
                         },
                         scrollIntoView: "cursor",
                         readOnly: !0
-                    }
+                    }, 
                 ], exports.multiSelectCommands = [
                     {
                         name: "singleSelection",
@@ -11544,7 +11544,7 @@ margin: 0 10px;\
                         isAvailable: function(editor) {
                             return editor && editor.inMultiSelectMode;
                         }
-                    }
+                    }, 
                 ];
                 var HashHandler = require("../keyboard/hash_handler").HashHandler;
                 exports.keyboardHandler = new HashHandler(exports.multiSelectCommands);
@@ -11562,7 +11562,7 @@ margin: 0 10px;\
                 "ace/search",
                 "ace/edit_session",
                 "ace/editor",
-                "ace/config"
+                "ace/config", 
             ], function(require, exports, module) {
                 var RangeList = require("./range_list").RangeList, Range = require("./range").Range, Selection = require("./selection").Selection, onMouseDown = require("./mouse/multi_select_handler").onMouseDown, event = require("./lib/event"), lang = require("./lib/lang"), commands = require("./commands/multi_select_commands");
                 exports.commands = commands.defaultCommands.concat(commands.multiSelectCommands);
@@ -11941,7 +11941,7 @@ margin: 0 10px;\
                 "ace/lib/dom"
             ], function(require, exports, module) {
                 "use strict";
-                exports.isDark = !1, exports.cssClass = "ace-tm", exports.cssText = ".ace-tm .ace_gutter {\
+                exports.isDark = !1, exports.cssClass = "ace-tm", exports.cssText = '.ace-tm .ace_gutter {\
 background: #f0f0f0;\
 color: #333;\
 }\
@@ -12058,9 +12058,9 @@ background: rgb(250, 250, 255);\
 border: 1px solid rgb(200, 200, 250);\
 }\
 .ace-tm .ace_indent-guide {\
-background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==\") right repeat-y;\
+background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;\
 }\
-", exports.$id = "ace/theme/textmate", require("../lib/dom").importCssString(exports.cssText, exports.cssClass, !1);
+', exports.$id = "ace/theme/textmate", require("../lib/dom").importCssString(exports.cssText, exports.cssClass, !1);
             }), ace.define("ace/line_widgets", [
                 "require",
                 "exports",
@@ -12224,7 +12224,7 @@ background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZ
                 "module",
                 "ace/line_widgets",
                 "ace/lib/dom",
-                "ace/range"
+                "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
                 var LineWidgets = require("../line_widgets").LineWidgets, dom = require("../lib/dom"), Range = require("../range").Range;
@@ -12354,7 +12354,7 @@ background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZ
                 "ace/mode/folding/fold_mode",
                 "ace/theme/textmate",
                 "ace/ext/error_marker",
-                "ace/config"
+                "ace/config", 
             ], function(require, exports, module) {
                 "use strict";
                 require("./lib/fixoldbrowsers");
@@ -12389,5 +12389,5 @@ background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZ
                 window.ace.default = window.ace, module1 && (module1.exports = window.ace);
             });
         }
-    }
+    }, 
 ]);

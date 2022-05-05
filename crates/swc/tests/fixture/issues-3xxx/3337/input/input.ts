@@ -1,4 +1,4 @@
-import * as joiful from 'joiful';
+import * as joiful from "joiful";
 
 class Schema {
     @joiful.string().guid().required()

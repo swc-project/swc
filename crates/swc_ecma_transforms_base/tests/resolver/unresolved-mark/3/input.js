@@ -1,7 +1,3 @@
-
-
 foo();
 
-function foo() {
-
-}
+function foo() {}

@@ -3,9 +3,7 @@
         "target": "es2020",
         "baseUrl": ".",
         "paths": {
-            "@src/*": [
-                "./src/*"
-            ]
+            "@src/*": ["./src/*"]
         }
     },
     "module": {

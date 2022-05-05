@@ -2,7 +2,7 @@
 
 const targets = [];
 function foo() {
-  targets.push(new.target);
+    targets.push(new.target);
 }
 
 foo();

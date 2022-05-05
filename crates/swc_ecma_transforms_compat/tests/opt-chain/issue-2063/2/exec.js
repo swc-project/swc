@@ -1,5 +1,5 @@
 const myVar = {
-    value: "ABC"
-}
+    value: "ABC",
+};
 
-console.log(myVar.value.toLowerCase?.())
+console.log(myVar.value.toLowerCase?.());

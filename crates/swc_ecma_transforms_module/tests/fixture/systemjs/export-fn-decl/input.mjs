@@ -1,10 +1,7 @@
-var testProp = 'test property';
+var testProp = "test property";
 
 function testFunc() {
-  return 'test function';
+    return "test function";
 }
 
-export {
-  testFunc,
-  testProp
-};
+export { testFunc, testProp };

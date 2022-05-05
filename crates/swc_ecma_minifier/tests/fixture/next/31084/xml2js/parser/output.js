@@ -11,7 +11,7 @@
         }
         return ctor.prototype = parent.prototype, child.prototype = new ctor(), child.__super__ = parent.prototype, child;
     }, hasProp = {}.hasOwnProperty;
-    sax = require('sax'), events = require('events'), bom = require('./bom'), processors1 = require('./processors'), setImmediate = require('timers').setImmediate, defaults = require('./defaults').defaults, isEmpty = function(thing) {
+    sax = require("sax"), events = require("events"), bom = require("./bom"), processors1 = require("./processors"), setImmediate = require("timers").setImmediate, defaults = require("./defaults").defaults, isEmpty = function(thing) {
         return "object" == typeof thing && null != thing && 0 === Object.keys(thing).length;
     }, processItem = function(processors, item, key) {
         var i, len;
@@ -28,7 +28,7 @@
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
             var chunk, err;
             try {
-                if (this.remaining.length <= this.options.chunkSize) return chunk = this.remaining, this.remaining = '', this.saxParser = this.saxParser.write(chunk), this.saxParser.close();
+                if (this.remaining.length <= this.options.chunkSize) return chunk = this.remaining, this.remaining = "", this.saxParser = this.saxParser.write(chunk), this.saxParser.close();
                 return chunk = this.remaining.substr(0, this.options.chunkSize), this.remaining = this.remaining.substr(this.options.chunkSize, this.remaining.length), this.saxParser = this.saxParser.write(chunk), setImmediate(this.processAsync);
             } catch (error1) {
                 if (err = error1, !this.saxParser.errThrown) return this.saxParser.errThrown = !0, this.emit(err);
@@ -58,7 +58,7 @@
                 }), stack.push(obj);
             }), this.saxParser.onclosetag = (_this3 = this, function() {
                 var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath;
-                if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), isEmpty(obj) && (obj = '' !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
+                if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), isEmpty(obj) && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
@@ -69,7 +69,7 @@
                     } catch (error1) {
                         return err = error1, _this3.emit("error", err);
                     }
-                }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && 'object' == typeof obj) {
+                }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) {
                     if (_this3.options.preserveChildrenOrder) {
                         if (s) {
                             for(key in s[_this3.options.childkey] = s[_this3.options.childkey] || [], objClone = {}, obj)hasProp.call(obj, key) && (objClone[key] = obj[key]);
@@ -80,8 +80,8 @@
                 return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, (obj = {})[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
             }), ontext = (_this4 = this, function(text) {
                 var charChild, s;
-                if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || '' !== text.replace(/\\n/g, '').trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], (charChild = {
-                    '#name': '__text__'
+                if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || "" !== text.replace(/\\n/g, "").trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], (charChild = {
+                    "#name": "__text__"
                 })[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
             }), this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
                 var s;
@@ -95,11 +95,11 @@
                 return this.reset(), cb(err);
             }));
             try {
-                if (str = str.toString(), '' === str.trim()) return this.emit("end", null), !0;
+                if (str = str.toString(), "" === str.trim()) return this.emit("end", null), !0;
                 if (str = bom.stripBOM(str), this.options.async) return this.remaining = str, setImmediate(this.processAsync), this.saxParser;
                 return this.saxParser.write(str).close();
             } catch (error1) {
-                if (err1 = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit('error', err1), this.saxParser.errThrown = !0;
+                if (err1 = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", err1), this.saxParser.errThrown = !0;
                 if (this.saxParser.ended) throw err1;
             }
         }, Parser.prototype.parseStringPromise = function(str) {
@@ -112,9 +112,9 @@
         }, Parser;
     }(events), exports.parseString = function(str, a, b) {
         var cb, options;
-        return null != b ? ('function' == typeof b && (cb = b), 'object' == typeof a && (options = a)) : ('function' == typeof a && (cb = a), options = {}), new exports.Parser(options).parseString(str, cb);
+        return null != b ? ("function" == typeof b && (cb = b), "object" == typeof a && (options = a)) : ("function" == typeof a && (cb = a), options = {}), new exports.Parser(options).parseString(str, cb);
     }, exports.parseStringPromise = function(str, a) {
         var options;
-        return 'object' == typeof a && (options = a), new exports.Parser(options).parseStringPromise(str);
+        return "object" == typeof a && (options = a), new exports.Parser(options).parseStringPromise(str);
     };
 }).call(this);

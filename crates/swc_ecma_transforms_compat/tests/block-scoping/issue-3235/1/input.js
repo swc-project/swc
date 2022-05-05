@@ -13,8 +13,7 @@ if (true) {
 }
 res.push(typeof b === "undefined");
 
-for (let b = 0; b < 10; b++) {
-}
+for (let b = 0; b < 10; b++) {}
 res.push(typeof b === "undefined");
 
 function test() {

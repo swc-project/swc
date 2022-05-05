@@ -1,4 +1,4 @@
 interface MyType {
     other: number;
 }
-export default MyType; 
+export default MyType;

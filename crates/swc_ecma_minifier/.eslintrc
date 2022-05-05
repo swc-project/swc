@@ -1,47 +1,24 @@
 {
     "parser": "babel-eslint",
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
         "space-unary-ops": 2,
         "no-undef": "off",
         "consistent-return": "off",
         "no-prototype-builtins": "off",
         "no-cond-assign": "off",
-        "multiline-ternary": [
-            "error",
-            "always-multiline"
-        ],
+        "multiline-ternary": ["error", "always-multiline"],
         "object-property-newline": [
             "error",
             {
                 "allowAllPropertiesOnSameLine": false
             }
         ],
-        "function-call-argument-newline": [
-            "error",
-            "always"
-        ],
-        "object-curly-newline": [
-            "error",
-            "always"
-        ],
-        "comma-dangle": [
-            "error",
-            "always"
-        ],
-        "function-paren-newline": [
-            "error",
-            "always"
-        ],
-        "no-trailing-spaces": [
-            "error"
-        ]
+        "function-call-argument-newline": ["error", "always"],
+        "object-curly-newline": ["error", "always"],
+        "comma-dangle": ["error", "always"],
+        "function-paren-newline": ["error", "always"],
+        "no-trailing-spaces": ["error"]
     }
 }

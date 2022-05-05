@@ -1,1 +1,1 @@
-export class Common { }
+export class Common {}

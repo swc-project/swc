@@ -1,1 +1,1 @@
-var isType = (object != Object);
+var isType = object != Object;

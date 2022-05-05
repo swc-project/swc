@@ -1,5 +1,5 @@
 {
-  "jsc": {
-    "target": "es5"
-  }
+    "jsc": {
+        "target": "es5"
+    }
 }

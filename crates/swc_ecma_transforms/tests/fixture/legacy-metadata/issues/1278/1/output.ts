@@ -5,7 +5,7 @@ function MyDecorator(klass) {
     };
 }
 class MyClass {
-    prop: '';
+    prop: "";
 }
 __decorate([
     MyDecorator(MyClass),

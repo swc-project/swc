@@ -1,4 +1,3 @@
-
 function foo(baz) {
     for (const g in baz) {
         console.log(g);
@@ -9,9 +8,10 @@ function foo(baz) {
     }
 }
 
-
-console.log(foo({
-    a: [1],
-    b: [2, 2],
-    c: [3, 3, 3]
-}))
+console.log(
+    foo({
+        a: [1],
+        b: [2, 2],
+        c: [3, 3, 3],
+    })
+);

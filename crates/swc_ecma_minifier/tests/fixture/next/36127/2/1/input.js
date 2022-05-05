@@ -5,7 +5,7 @@
  * @returns {(code: Code) => code is number}
  */
 export function regexCheck(regex) {
-    return check
+    return check;
 
     /**
      * Check whether a code matches the bound regex.
@@ -14,6 +14,6 @@ export function regexCheck(regex) {
      * @returns {code is number} Whether the character code matches the bound regex
      */
     function check(code) {
-        return code !== null && regex.test(String.fromCharCode(code))
+        return code !== null && regex.test(String.fromCharCode(code));
     }
 }

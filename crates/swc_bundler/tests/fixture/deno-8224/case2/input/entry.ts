@@ -1,5 +1,4 @@
-import { showValue } from './a';
-import { showList } from './b';
+import { showValue } from "./a";
+import { showList } from "./b";
 
-console.log(showValue, showList)
-
+console.log(showValue, showList);

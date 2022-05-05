@@ -7,7 +7,7 @@ const showValue = (v)=>{
     return `${v}`;
 };
 const showList = (v)=>{
-    return `[${v.map(showValue).join(', ')}]`;
+    return `[${v.map(showValue).join(", ")}]`;
 };
 console.log(showList([
     1,

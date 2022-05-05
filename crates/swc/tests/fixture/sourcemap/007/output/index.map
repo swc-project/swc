@@ -10,7 +10,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "/**\n * Logs some text\n */\nexport const LogSomeText = (text) => {\n    console.log(text);\n    console.log(text);\n    console.log(text);\n    console.log(text);\n};"
+    "/**\n * Logs some text\n */\nexport const LogSomeText = (text) => {\n    console.log(text);\n    console.log(text);\n    console.log(text);\n    console.log(text);\n};\n"
   ],
   "version": 3
 }

@@ -1,6 +1,6 @@
 (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
     [
-        95, 
+        95
     ],
     {
         6298: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -29,7 +29,7 @@
         __webpack_require__.O(0, [
             774,
             888,
-            179, 
+            179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 8758);
         }), _N_E = __webpack_require__.O();

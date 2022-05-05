@@ -1,3 +1,2 @@
-async function f() {
-}
+async function f() {}
 await f();

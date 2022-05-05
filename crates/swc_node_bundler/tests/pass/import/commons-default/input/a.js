@@ -1,3 +1,3 @@
-import Common from './c';
+import Common from "./c";
 
-export default class A extends Common { }
+export default class A extends Common {}

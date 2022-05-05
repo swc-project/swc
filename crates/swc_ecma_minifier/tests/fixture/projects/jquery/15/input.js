@@ -4,7 +4,8 @@ export const obj = {
             return;
         }
 
-        var offsetParent, offset,
+        var offsetParent,
+            offset,
             parentOffset = { top: 0, left: 0 },
             elem = this[0];
 
@@ -23,16 +24,30 @@ export const obj = {
             }
 
             // Add offsetParent borders
-            parentOffset.top += jQuery.css(offsetParent[0], "borderTopWidth", true);
-            parentOffset.left += jQuery.css(offsetParent[0], "borderLeftWidth", true);
+            parentOffset.top += jQuery.css(
+                offsetParent[0],
+                "borderTopWidth",
+                true
+            );
+            parentOffset.left += jQuery.css(
+                offsetParent[0],
+                "borderLeftWidth",
+                true
+            );
         }
 
         // Subtract parent offsets and element margins
         // note: when an element has margin: auto the offsetLeft and marginLeft
         // are the same in Safari causing offset.left to incorrectly be 0
         return {
-            top: offset.top - parentOffset.top - jQuery.css(elem, "marginTop", true),
-            left: offset.left - parentOffset.left - jQuery.css(elem, "marginLeft", true)
+            top:
+                offset.top -
+                parentOffset.top -
+                jQuery.css(elem, "marginTop", true),
+            left:
+                offset.left -
+                parentOffset.left -
+                jQuery.css(elem, "marginLeft", true),
         };
     },
-}
+};

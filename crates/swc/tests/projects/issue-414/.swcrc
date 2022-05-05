@@ -1,14 +1,14 @@
 [
-  {
-    "test": ".*.js$",
-    "module": {
-      "type": "commonjs"
+    {
+        "test": ".*.js$",
+        "module": {
+            "type": "commonjs"
+        }
+    },
+    {
+        "test": ".*.ts$",
+        "module": {
+            "type": "amd"
+        }
     }
-  },
-  {
-    "test": ".*.ts$",
-    "module": {
-      "type": "amd"
-    }
-  }
 ]

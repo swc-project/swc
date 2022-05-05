@@ -6,4 +6,4 @@ const makeX = () => {
     const alfa = () => _bar();
 
     return { alfa };
-}
+};

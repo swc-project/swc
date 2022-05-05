@@ -1,1 +1,3 @@
-export default (function(){return "foo"})();
+export default (function () {
+    return "foo";
+})();

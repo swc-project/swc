@@ -1,6 +1,5 @@
-
 (function () {
     const foo = 1;
 
-    console.log(foo)
-}())
+    console.log(foo);
+})();

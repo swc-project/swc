@@ -29,13 +29,13 @@ unitTest({
 `unitTest` is is a wrapper function that enhances `Deno.test()` API in several
 ways:
 
-- ability to conditionally skip tests using `UnitTestOptions.skip`
-- ability to register required set of permissions for given test case using
-  `UnitTestOptions.perms`
-- sanitization of resources - ensuring that tests close all opened resources
-  preventing interference between tests
-- sanitization of async ops - ensuring that tests don't leak async ops by
-  ensuring that all started async ops are done before test finishes
+-   ability to conditionally skip tests using `UnitTestOptions.skip`
+-   ability to register required set of permissions for given test case using
+    `UnitTestOptions.perms`
+-   sanitization of resources - ensuring that tests close all opened resources
+    preventing interference between tests
+-   sanitization of async ops - ensuring that tests don't leak async ops by
+    ensuring that all started async ops are done before test finishes
 
 ## Running tests
 

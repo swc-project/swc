@@ -14,10 +14,10 @@ export const obj = {
             this.length--;
             if (!options.silent) {
                 options.index = index;
-                model.trigger('remove', model, this, options);
+                model.trigger("remove", model, this, options);
             }
             this._removeReference(model);
         }
         return singular ? models[0] : models;
     },
-}
+};

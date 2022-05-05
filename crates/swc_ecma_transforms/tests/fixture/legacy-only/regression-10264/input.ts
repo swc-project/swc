@@ -1,4 +1,4 @@
-function myDecorator(decoratee) { }
+function myDecorator(decoratee) {}
 
 @myDecorator
-export default class { }
+export default class {}

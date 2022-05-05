@@ -1,7 +1,7 @@
-window.addEventListener('message', function(e) {
+window.addEventListener("message", function (e) {
     try {
         console.log(e.data);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
     }
 });

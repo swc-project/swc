@@ -9,7 +9,7 @@ var Foo__1 = function() {
             value: function() {
                 return 1;
             }
-        }
+        }, 
     ]);
     return Foo__3;
 }();
@@ -25,7 +25,7 @@ var Bar__1 = function(_Foo__4) {
             value: function() {
                 return _get(_getPrototypeOf(Bar__4.prototype), sym__1, this)() + 2;
             }
-        }
+        }, 
     ]);
     return Bar__4;
 }(Foo__1);

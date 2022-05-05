@@ -1,33 +1,33 @@
 {
-  "sourceMaps": false,
-  "module": {
-    "type": "commonjs"
-  },
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true,
-      "dynamicImport": true,
-      "decorators": false
+    "sourceMaps": false,
+    "module": {
+        "type": "commonjs"
     },
-    "transform": {
-      "react": {
-        "pragma": "React.createElement",
-        "pragmaFrag": "React.Fragment",
-        "throwIfNamespace": true,
-        "development": false,
-        "useBuiltins": false
-      }
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true,
+            "decorators": false
+        },
+        "transform": {
+            "react": {
+                "pragma": "React.createElement",
+                "pragmaFrag": "React.Fragment",
+                "throwIfNamespace": true,
+                "development": false,
+                "useBuiltins": false
+            }
+        },
+        "target": "es2015",
+        "loose": false,
+        "externalHelpers": false,
+        "keepClassNames": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "preserveAllComments": true
     },
-    "target": "es2015",
-    "loose": false,
-    "externalHelpers": false,
-    "keepClassNames": false,
-    "minify": {
-      "compress": false,
-      "mangle": false
-    },
-    "preserveAllComments": true
-  },
-  "minify": false
+    "minify": false
 }

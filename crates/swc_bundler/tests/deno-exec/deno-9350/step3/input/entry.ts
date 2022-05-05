@@ -1,3 +1,3 @@
 import { getNumericInput } from "./helper";
 
-console.log(getNumericInput)
+console.log(getNumericInput);

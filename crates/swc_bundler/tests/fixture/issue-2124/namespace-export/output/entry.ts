@@ -33,10 +33,10 @@ function __swcpack_require__(mod) {
 }
 var load = __swcpack_require__.bind(void 0, function(module, exports) {
     function lodash(value) {
-        console.log('lodash');
+        console.log("lodash");
     }
     function memoize() {
-        console.log('memoize');
+        console.log("memoize");
     }
     lodash.memoize = memoize;
     module.exports = lodash;

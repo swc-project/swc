@@ -72,12 +72,8 @@
         },
         "keepClassNames": false,
         "paths": {
-            "@/*": [
-                "./*"
-            ],
-            "__shared-fixtures__/*": [
-                "./test/__shared-fixtures__/*"
-            ]
+            "@/*": ["./*"],
+            "__shared-fixtures__/*": ["./test/__shared-fixtures__/*"]
         },
         "baseUrl": ".",
         "loose": false

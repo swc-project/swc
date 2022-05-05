@@ -1,3 +1,3 @@
-const x = function a() { };
+const x = function a() {};
 
-const y = function a() { };
+const y = function a() {};

@@ -1,14 +1,15 @@
 jQuery.fn.offset = function (options) {
-    const core_strundefined = 'undefined'
+    const core_strundefined = "undefined";
     if (arguments.length) {
-        return options === undefined ?
-            this :
-            this.each(function (i) {
-                jQuery.offset.setOffset(this, options, i);
-            });
+        return options === undefined
+            ? this
+            : this.each(function (i) {
+                  jQuery.offset.setOffset(this, options, i);
+              });
     }
 
-    var docElem, win,
+    var docElem,
+        win,
         box = { top: 0, left: 0 },
         elem = this[0],
         doc = elem && elem.ownerDocument;
@@ -31,7 +32,13 @@ jQuery.fn.offset = function (options) {
     }
     win = getWindow(doc);
     return {
-        top: box.top + (win.pageYOffset || docElem.scrollTop) - (docElem.clientTop || 0),
-        left: box.left + (win.pageXOffset || docElem.scrollLeft) - (docElem.clientLeft || 0)
+        top:
+            box.top +
+            (win.pageYOffset || docElem.scrollTop) -
+            (docElem.clientTop || 0),
+        left:
+            box.left +
+            (win.pageXOffset || docElem.scrollLeft) -
+            (docElem.clientLeft || 0),
     };
 };

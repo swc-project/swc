@@ -1,4 +1,4 @@
 export default class {
     @foo
-    bar() { }
+    bar() {}
 }

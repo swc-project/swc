@@ -1,8 +1,6 @@
 {
-  "env": {
-    "mode": "entry",
-    "targets": [
-      "last 3 versions"
-    ]
-  }
+    "env": {
+        "mode": "entry",
+        "targets": ["last 3 versions"]
+    }
 }
