@@ -1,4 +1,4 @@
-use std::{any::Any, collections::VecDeque, rc::Rc};
+use std::{any::Any, cell::RefCell, collections::VecDeque, rc::Rc};
 
 use petgraph::Direction;
 use rustc_hash::FxHashSet;
@@ -141,7 +141,9 @@ where
 
         if self.analyzer.is_forward() {
             let out_before = state.get_out();
-            state.set_out(self.analyzer.flow_through(node.get_value(), state.get_in()));
+
+            let value = self.analyzer.flow_through(node.get_value(), state.get_in());
+            state.set_out(Rc::new(RefCell::new(value)));
 
             let changed = out_before != state.get_out();
 
@@ -165,10 +167,11 @@ where
             changed
         } else {
             let in_before = state.get_in();
-            state.set_in(
-                self.analyzer
-                    .flow_through(node.get_value(), state.get_out()),
-            );
+
+            let value = self
+                .analyzer
+                .flow_through(node.get_value(), state.get_out());
+            state.set_in(Rc::new(RefCell::new(value)));
 
             return in_before != state.get_in();
         }
@@ -186,15 +189,17 @@ where
     L: PartialEq,
 {
     step_count: u32,
-    in_: L,
-    out: L,
+    in_: LatticeWrapper<L>,
+    out: LatticeWrapper<L>,
 }
+
+pub type LatticeWrapper<L> = Rc<RefCell<L>>;
 
 impl<L> LinearFlowState<L>
 where
     L: PartialEq,
 {
-    pub fn new(in_: Rc<L>, out: Rc<L>) -> Self {
+    pub fn new(in_: LatticeWrapper<L>, out: LatticeWrapper<L>) -> Self {
         LinearFlowState {
             step_count: 0,
             in_,
@@ -206,19 +211,19 @@ where
         self.step_count
     }
 
-    pub fn get_in(&self) -> &L {
+    pub fn get_in(&self) -> &LatticeWrapper<L> {
         &self.in_
     }
 
-    pub fn set_in(&mut self, in_: L) {
+    pub fn set_in(&mut self, in_: LatticeWrapper<L>) {
         self.in_ = in_;
     }
 
-    pub fn get_out(&self) -> &L {
+    pub fn get_out(&self) -> &LatticeWrapper<L> {
         &self.out
     }
 
-    pub fn set_out(&mut self, out: L) {
+    pub fn set_out(&mut self, out: LatticeWrapper<L>) {
         self.out = out;
     }
 }

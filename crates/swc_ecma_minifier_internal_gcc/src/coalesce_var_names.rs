@@ -127,16 +127,16 @@ impl CoalesceVarsPass {
 
             let livein = state.get_in();
 
-            for i in livein.iter_next_set_bit(0) {
-                for j in livein.next_set_bit(i) {
+            for i in livein.borrow().iter_next_set_bit(0) {
+                for j in livein.borrow().next_set_bit(i) {
                     interference_bit_set[i].insert(j);
                 }
             }
 
             let liveout = state.get_out();
 
-            for i in livein.iter_next_set_bit(0) {
-                for j in livein.next_set_bit(i) {
+            for i in livein.borrow().iter_next_set_bit(0) {
+                for j in livein.borrow().next_set_bit(i) {
                     interference_bit_set[i].insert(j);
                 }
             }
