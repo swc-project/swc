@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 21,
-                "end": 36,
+                "end": 42,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -99,6 +99,19 @@
                     }
                   ],
                   "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 36,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "tagName": "nobr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
                 }
               ],
               "content": null
@@ -106,22 +119,36 @@
             {
               "type": "Element",
               "span": {
-                "start": 46,
+                "start": 36,
                 "end": 50,
                 "ctxt": 0
               },
-              "tagName": "i",
+              "tagName": "nobr",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 49,
+                    "start": 46,
                     "end": 50,
                     "ctxt": 0
                   },
-                  "value": "2"
+                  "tagName": "i",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 49,
+                        "end": 50,
+                        "ctxt": 0
+                      },
+                      "value": "2"
+                    }
+                  ],
+                  "content": null
                 }
               ],
               "content": null

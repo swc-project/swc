@@ -124,6 +124,46 @@
                       "attributes": [],
                       "children": [],
                       "content": null
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 36,
+                        "end": 42,
+                        "ctxt": 0
+                      },
+                      "tagName": "nobr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 36,
+                    "end": 49,
+                    "ctxt": 0
+                  },
+                  "tagName": "nobr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 46,
+                        "end": 49,
+                        "ctxt": 0
+                      },
+                      "tagName": "i",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
                     }
                   ],
                   "content": null
@@ -132,7 +172,7 @@
                   "type": "Element",
                   "span": {
                     "start": 46,
-                    "end": 56,
+                    "end": 62,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -161,18 +201,45 @@
                         }
                       ],
                       "content": null
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 56,
+                        "end": 62,
+                        "ctxt": 0
+                      },
+                      "tagName": "nobr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
                     }
                   ],
                   "content": null
                 },
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 66,
+                    "start": 56,
                     "end": 67,
                     "ctxt": 0
                   },
-                  "value": "3"
+                  "tagName": "nobr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 66,
+                        "end": 67,
+                        "ctxt": 0
+                      },
+                      "value": "3"
+                    }
+                  ],
+                  "content": null
                 }
               ],
               "content": null
