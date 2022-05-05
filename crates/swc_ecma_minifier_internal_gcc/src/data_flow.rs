@@ -3,13 +3,18 @@ use std::{any::Any, collections::VecDeque, rc::Rc};
 use petgraph::Direction;
 use rustc_hash::FxHashSet;
 
-use crate::{control_flow_graph::ControlFlowGraph, graph::DiGraphNode, node::Node, ptr::Ptr};
+use crate::{
+    control_flow_graph::{Branch, ControlFlowGraph},
+    graph::DiGraphNode,
+    node::Node,
+    ptr::Ptr,
+};
 
 pub trait FlowAnalyzer {
     type Lattice: PartialEq + Any;
-    type FlowJoiner: FlowJoiner<Self::Lattice>;
+    type FlowJoiner: FlowJoiner<Lattice = Self::Lattice>;
 
-    type FlowBrancher: FlowBrancher<Self::Lattice>;
+    type FlowBrancher: FlowBrancher<Lattice = Self::Lattice>;
 
     fn is_forward(&self) -> bool;
 
@@ -24,13 +29,19 @@ pub trait FlowAnalyzer {
     fn flow_through(&mut self, node: Node, input: Self::Lattice) -> Self::Lattice;
 }
 
-pub trait FlowJoiner<L> {
-    fn join(&mut self, input: L);
+pub trait FlowJoiner {
+    type Lattice;
 
-    fn finish(self) -> L;
+    fn join(&mut self, input: Self::Lattice);
+
+    fn finish(self) -> Self::Lattice;
 }
 
-pub trait FlowBrancher<L> {}
+pub trait FlowBrancher {
+    type Lattice;
+
+    fn branch_flow(&mut self, branch: Branch) -> Self::Lattice;
+}
 
 /**
  * The maximum number of steps per individual CFG node before we assume the
