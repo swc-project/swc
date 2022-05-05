@@ -18,7 +18,9 @@ pub trait FlowAnalyzer {
 
     fn is_forward(&self) -> bool;
 
-    fn is_branched(&self) -> bool;
+    fn is_branched(&self) -> bool {
+        false
+    }
 
     fn create_flow_joiner(&self) -> Self::FlowJoiner;
 
