@@ -168,8 +168,6 @@ where
                 token,
             };
 
-            println!("{:?}", token_and_info);
-
             self.tree_construction_dispatcher(&mut token_and_info)?;
 
             // Re-emit errors from tokenizer
