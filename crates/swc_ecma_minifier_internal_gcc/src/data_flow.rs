@@ -28,6 +28,8 @@ pub trait FlowAnalyzer {
         output: LatticeWrapper<Self::Lattice>,
     ) -> Self::FlowBrancher;
 
+    fn create_entry_lattice(&self) -> LatticeWrapper<Self::Lattice>;
+
     fn create_initial_estimate_lattice(&self) -> LatticeWrapper<Self::Lattice>;
 
     fn flow_through(
@@ -193,7 +195,38 @@ where
     }
 
     fn join_inputs(&mut self, node: &DiGraphNode<Node>) {
-        todo!()
+        let state: &LinearFlowState<A::Lattice> = node.get_annotation();
+        let node_ix = self.cfg.node_ix(node);
+
+        if self.analyzer.is_forward() && self.cfg.get_entry() == node {
+            state.set_in(self.analyzer.create_entry_lattice());
+            return;
+        }
+
+        let in_edges = self
+            .cfg
+            .edges_directed(
+                node_ix,
+                if self.analyzer.is_forward() {
+                    Direction::Outgoing
+                } else {
+                    Direction::Incoming
+                },
+            )
+            .collect::<Vec<_>>();
+
+        let result = match in_edges.len() {
+            0 => return,
+            1 => self.get_input_from_edge(in_edges[0]),
+
+            _ => {
+                let joiner = self.analyzer.create_flow_joiner();
+                for in_edge in in_edges {
+                    joiner.join_flow(self.get_input_from_edge(in_edge));
+                }
+                joiner.finish()
+            }
+        };
     }
 
     pub fn into_inner(self) -> A {
