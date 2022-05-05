@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
     expr::Expr,
@@ -122,4 +122,13 @@ pub struct ComputedPropName {
     pub span: Span,
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+}
+
+impl Take for ComputedPropName {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            expr: Take::dummy(),
+        }
+    }
 }

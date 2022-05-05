@@ -419,7 +419,7 @@
                   "type": "Element",
                   "span": {
                     "start": 255,
-                    "end": 279,
+                    "end": 269,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -434,29 +434,29 @@
                         "ctxt": 0
                       },
                       "value": "item1\n    "
-                    },
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 269,
+                    "end": 279,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
                     {
-                      "type": "Element",
+                      "type": "Text",
                       "span": {
-                        "start": 269,
+                        "start": 273,
                         "end": 279,
                         "ctxt": 0
                       },
-                      "tagName": "li",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 273,
-                            "end": 279,
-                            "ctxt": 0
-                          },
-                          "value": "item2\n"
-                        }
-                      ],
-                      "content": null
+                      "value": "item2\n"
                     }
                   ],
                   "content": null
@@ -497,7 +497,7 @@
                   "type": "Element",
                   "span": {
                     "start": 303,
-                    "end": 335,
+                    "end": 321,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -512,29 +512,29 @@
                         "ctxt": 0
                       },
                       "value": "item1\n        "
-                    },
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 321,
+                    "end": 335,
+                    "ctxt": 0
+                  },
+                  "tagName": "li",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
                     {
-                      "type": "Element",
+                      "type": "Text",
                       "span": {
-                        "start": 321,
+                        "start": 325,
                         "end": 335,
                         "ctxt": 0
                       },
-                      "tagName": "li",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 325,
-                            "end": 335,
-                            "ctxt": 0
-                          },
-                          "value": "item2\n    "
-                        }
-                      ],
-                      "content": null
+                      "value": "item2\n    "
                     }
                   ],
                   "content": null

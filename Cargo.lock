@@ -3187,7 +3187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.76.2"
+version = "0.76.3"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.16"
+version = "0.5.19"
 dependencies = [
  "bitflags",
  "lexical",

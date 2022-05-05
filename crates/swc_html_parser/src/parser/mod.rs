@@ -278,17 +278,26 @@ where
         // to the current insertion mode in HTML content.
         let adjusted_current_node = self.get_adjusted_current_node();
 
+        let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
+        let is_mathml_text_integration_point =
+            is_mathml_text_integration_point(adjusted_current_node);
+        let is_mathml_annotation_xml = is_mathml_annotation_xml(adjusted_current_node);
+        let is_html_integration_point = is_html_integration_point(adjusted_current_node);
+
+        self.input
+            .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
+
         if self.open_elements_stack.items.is_empty()
-            || is_element_in_html_namespace(adjusted_current_node)
-            || (is_mathml_text_integration_point(adjusted_current_node)
+            || is_element_in_html_namespace
+            || (is_mathml_text_integration_point
                 && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name != "mglyph" &&  &*tag_name != "malignmark"))
-            || (is_mathml_text_integration_point(adjusted_current_node)
+            || (is_mathml_text_integration_point
                 && matches!(&token_and_info.token, Token::Character { .. }))
-            || (is_mathml_annotation_xml(adjusted_current_node)
+            || (is_mathml_annotation_xml
                 && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name == "svg"))
-            || (is_html_integration_point(adjusted_current_node)
+            || (is_html_integration_point
                 && matches!(&token_and_info.token, Token::StartTag { .. }))
-            || (is_html_integration_point(adjusted_current_node)
+            || (is_html_integration_point
                 && matches!(&token_and_info.token, Token::Character { .. }))
             || matches!(&token_and_info.token, Token::Eof)
         {
@@ -2425,8 +2434,7 @@ where
 
                                     // Pop elements from the stack of open elements until an li
                                     // element has been popped from the stack.
-                                    self.open_elements_stack
-                                        .generate_implied_end_tags_with_exclusion("li");
+                                    self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                                     // Jump to the step labeled done below.
                                     break;
@@ -3390,14 +3398,16 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
                         self.insert_html_element(token_and_info)?;
 
+                        // To prevent parsing more tokens in lexer we set state before taking
+                        self.input.set_input_state(State::Rcdata);
+
                         match self.input.cur()? {
                             Some(Token::Character { value, .. }) if *value == '\x0A' => {
                                 bump!(self);
                             }
                             _ => {}
-                        }
+                        };
 
-                        self.input.set_input_state(State::Rcdata);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::Text;

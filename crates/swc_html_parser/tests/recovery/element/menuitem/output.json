@@ -2,16 +2,27 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 39,
+    "end": 33,
     "ctxt": 0
   },
   "mode": "no-quirks",
   "children": [
     {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 28,
+        "end": 33,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 10,
+            "end": 19,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 28,
+            "end": 33,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,34 +56,42 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 14,
+                "start": 15,
+                "end": 29,
                 "ctxt": 0
               },
-              "tagName": "textarea",
+              "tagName": "li",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 10,
-                    "end": 14,
+                    "start": 19,
+                    "end": 29,
                     "ctxt": 0
                   },
-                  "value": "<!--"
+                  "tagName": "menuitem",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
                 }
               ],
               "content": null
             },
             {
-              "type": "Text",
+              "type": "Element",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 29,
+                "end": 33,
                 "ctxt": 0
               },
-              "value": "-->"
+              "tagName": "li",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
             }
           ],
           "content": null
