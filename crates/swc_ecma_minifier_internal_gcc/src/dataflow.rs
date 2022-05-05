@@ -1,4 +1,4 @@
-use std::{any::Any, borrow::Borrow, cell::RefCell, collections::VecDeque, rc::Rc};
+use std::{borrow::Borrow, cell::RefCell, collections::VecDeque, rc::Rc};
 
 use petgraph::{graph::EdgeReference, Direction};
 use rustc_hash::FxHashSet;
@@ -11,7 +11,7 @@ use crate::{
 };
 
 pub trait FlowAnalyzer {
-    type Lattice: PartialEq + Any;
+    type Lattice: 'static + PartialEq;
     type FlowJoiner: FlowJoiner<Lattice = Self::Lattice>;
 
     type FlowBrancher: FlowBrancher<Lattice = Self::Lattice>;
