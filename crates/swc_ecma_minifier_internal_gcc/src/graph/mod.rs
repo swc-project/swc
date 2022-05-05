@@ -1,4 +1,4 @@
-use std::{any::Any, cell::RefCell};
+use std::{any::Any, cell::RefCell, rc::Rc};
 
 use petgraph::graph::DiGraph;
 
@@ -6,9 +6,10 @@ use crate::ptr::Ptr;
 
 pub type LinkedDirectedGraph<N, E> = DiGraph<DiGraphNode<N>, DiGraphEdge<E>>;
 
+#[derive(Clone)]
 pub struct DiGraphNode<N> {
     data: Ptr<N>,
-    annotation: RefCell<Option<Box<dyn Any>>>,
+    annotation: Rc<RefCell<Option<Box<dyn Any>>>>,
 }
 
 impl<N> DiGraphNode<N> {
@@ -50,9 +51,10 @@ impl<N> PartialEq for DiGraphNode<N> {
     }
 }
 
+#[derive(Clone)]
 pub struct DiGraphEdge<E> {
     data: E,
-    annotation: RefCell<Option<Box<dyn Any>>>,
+    annotation: Rc<RefCell<Option<Box<dyn Any>>>>,
 }
 
 impl<E> DiGraphEdge<E> {

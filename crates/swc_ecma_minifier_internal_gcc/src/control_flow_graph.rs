@@ -1,15 +1,29 @@
-use std::ops::{Deref, DerefMut};
+use std::ops::Deref;
+
+use petgraph::graph::NodeIndex;
+use rustc_hash::FxHashMap;
 
 use crate::{
     graph::{DiGraphNode, LinkedDirectedGraph},
     node::Node,
+    ptr::Ptr,
 };
 
 pub(crate) struct ControlFlowGraph<N> {
     parent: LinkedDirectedGraph<N, Branch>,
 
+    map: FxHashMap<Ptr<N>, NodeIndex>,
+
     implicit_return: DiGraphNode<N>,
     entry: DiGraphNode<N>,
+}
+
+impl<N> Deref for ControlFlowGraph<N> {
+    type Target = LinkedDirectedGraph<N, Branch>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.parent
+    }
 }
 
 impl ControlFlowGraph<Node> {
@@ -30,19 +44,9 @@ impl<N> ControlFlowGraph<N> {
     pub fn is_implicit_return(&self, n: &DiGraphNode<N>) -> bool {
         self.implicit_return == *n
     }
-}
 
-impl<N> Deref for ControlFlowGraph<N> {
-    type Target = LinkedDirectedGraph<N, Branch>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.parent
-    }
-}
-
-impl<N> DerefMut for ControlFlowGraph<N> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.parent
+    pub(crate) fn node_ix(&self, n: &Ptr<N>) -> NodeIndex {
+        self.map[n]
     }
 }
 
