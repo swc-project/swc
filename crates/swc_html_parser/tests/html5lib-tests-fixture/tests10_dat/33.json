@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 20,
-                    "end": 31,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "tagName": "desc",
@@ -87,29 +87,29 @@
                       "attributes": [],
                       "children": [],
                       "content": null
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 31,
-                    "end": 36,
-                    "ctxt": 0
-                  },
-                  "tagName": "ul",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
+                    },
                     {
-                      "type": "Text",
+                      "type": "Element",
                       "span": {
-                        "start": 35,
+                        "start": 31,
                         "end": 36,
                         "ctxt": 0
                       },
-                      "value": "a"
+                      "tagName": "ul",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 35,
+                            "end": 36,
+                            "ctxt": 0
+                          },
+                          "value": "a"
+                        }
+                      ],
+                      "content": null
                     }
                   ],
                   "content": null

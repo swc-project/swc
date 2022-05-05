@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 5,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "body",
@@ -54,34 +54,34 @@
               "attributes": [],
               "children": [],
               "content": null
-            }
-          ],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 5,
-            "end": 21,
-            "ctxt": 0
-          },
-          "tagName": "font",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [
+            },
             {
-              "type": "Attribute",
+              "type": "Element",
               "span": {
-                "start": 0,
-                "end": 0,
+                "start": 5,
+                "end": 21,
                 "ctxt": 0
               },
-              "namespace": null,
-              "prefix": null,
-              "name": "color",
-              "value": "red"
+              "tagName": "font",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "color",
+                  "value": "red"
+                }
+              ],
+              "children": [],
+              "content": null
             }
           ],
-          "children": [],
           "content": null
         }
       ],

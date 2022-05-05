@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 5,
+            "end": 15,
             "ctxt": 0
           },
           "tagName": "body",
@@ -54,32 +54,32 @@
               "attributes": [],
               "children": [],
               "content": null
-            }
-          ],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 5,
-            "end": 15,
-            "ctxt": 0
-          },
-          "tagName": "em",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [
+            },
             {
               "type": "Element",
               "span": {
-                "start": 9,
+                "start": 5,
                 "end": 15,
                 "ctxt": 0
               },
-              "tagName": "desc",
+              "tagName": "em",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 9,
+                    "end": 15,
+                    "ctxt": 0
+                  },
+                  "tagName": "desc",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
               "content": null
             }
           ],
