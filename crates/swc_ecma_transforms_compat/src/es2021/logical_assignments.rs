@@ -16,6 +16,35 @@ struct Operators {
     vars: Vec<VarDeclarator>,
 }
 
+impl Operators {
+    fn memorize_prop(&mut self, c: ComputedPropName) -> (ComputedPropName, ComputedPropName) {
+        let alias = alias_ident_for(&*c.expr, "_ref");
+        self.vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: alias.clone().into(),
+            init: None,
+            definite: false,
+        });
+
+        (
+            ComputedPropName {
+                span: c.span,
+                expr: Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Pat(alias.clone().into()),
+                    op: op!("="),
+                    right: c.expr,
+                })
+                .into(),
+            },
+            ComputedPropName {
+                span: c.span,
+                expr: Box::new(alias.into()),
+            },
+        )
+    }
+}
+
 #[swc_trace]
 impl Parallel for Operators {
     fn create(&self) -> Self {
@@ -35,73 +64,115 @@ impl VisitMut for Operators {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Assign(AssignExpr {
-                span,
-                op: op @ (op!("&&=") | op!("||=") | op!("??=")),
-                left: PatOrExpr::Expr(left),
+        if let Expr::Assign(AssignExpr {
+            span,
+            op: op @ (op!("&&=") | op!("||=") | op!("??=")),
+            left: PatOrExpr::Expr(left),
+            right,
+        }) = e
+        {
+            let (left_expr, r_assign_target) = match &mut **left {
+                Expr::SuperProp(SuperPropExpr {
+                    span,
+                    obj,
+                    prop: SuperProp::Computed(c),
+                }) => {
+                    let (left, right) = self.memorize_prop(c.take());
+
+                    (
+                        Box::new(
+                            SuperPropExpr {
+                                span: *span,
+                                obj: *obj,
+                                prop: SuperProp::Computed(left),
+                            }
+                            .into(),
+                        ),
+                        Box::new(
+                            SuperPropExpr {
+                                span: *span,
+                                obj: *obj,
+                                prop: SuperProp::Computed(right),
+                            }
+                            .into(),
+                        ),
+                    )
+                }
+                Expr::Member(m) => {
+                    let (left_obj, right_obj) = match *m.obj.take() {
+                        // TODO: local vars
+                        obj @ Expr::This(_) => (obj.clone().into(), obj.into()),
+                        obj => {
+                            let alias = alias_ident_for(&obj, "_ref");
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: alias.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+
+                            (
+                                Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(alias.clone().into()),
+                                    right: obj.into(),
+                                })),
+                                Box::new(Expr::Ident(alias)),
+                            )
+                        }
+                    };
+
+                    let (left_prop, right_prop) = match m.prop.take() {
+                        MemberProp::PrivateName(_) => {
+                            unreachable!("private should be removed by class_properties")
+                        }
+                        MemberProp::Computed(c) => {
+                            let (left, right) = self.memorize_prop(c);
+                            (left.into(), right.into())
+                        }
+                        prop => (prop.clone(), prop),
+                    };
+
+                    (
+                        Box::new(Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: left_obj,
+                            prop: left_prop,
+                        })),
+                        Box::new(Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: right_obj,
+                            prop: right_prop,
+                        })),
+                    )
+                }
+                _ => {
+                    let expr = left.take();
+                    (expr.clone(), expr)
+                }
+            };
+
+            let right = Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Expr(r_assign_target),
+                right: right.take(),
+            }));
+
+            let op = match *op {
+                op!("??=") => op!("??"),
+                op!("&&=") => op!("&&"),
+                op!("||=") => op!("||"),
+                _ => unreachable!(),
+            };
+
+            *e = Expr::Bin(BinExpr {
+                span: *span,
+                op,
+                left: left_expr,
                 right,
-            }) if left.is_ident() || left.is_member() || left.is_super_prop() => {
-                let (left_expr, r_assign_target) = match &mut **left {
-                    Expr::Member(m) => {
-                        let alias = alias_ident_for(&m.obj, "_ref");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: alias.clone().into(),
-                            init: None,
-                            definite: false,
-                        });
-
-                        let left = m.clone();
-
-                        let obj = Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(alias.clone().into()),
-                            right: m.obj.take(),
-                        }));
-
-                        (
-                            Box::new(Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj,
-                                ..left.clone()
-                            })),
-                            Box::new(Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: Box::new(Expr::Ident(alias)),
-                                ..left
-                            })),
-                        )
-                    }
-                    _ => {
-                        let expr = left.take();
-                        (expr.clone(), expr)
-                    }
-                };
-
-                let right = Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Expr(r_assign_target),
-                    right: right.take(),
-                }));
-
-                let op = match *op {
-                    op!("??=") => op!("??"),
-                    op!("&&=") => op!("&&"),
-                    op!("||=") => op!("||"),
-                    _ => unreachable!(),
-                };
-
-                *e = Expr::Bin(BinExpr {
-                    span: *span,
-                    op,
-                    left: left_expr,
-                    right,
-                });
-            }
-            _ => {}
+            });
         }
     }
 
