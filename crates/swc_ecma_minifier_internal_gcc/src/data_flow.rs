@@ -129,8 +129,8 @@ where
         self.work_queue.clear();
 
         for node in self.cfg.node_weights() {
-            let in_ = Rc::new(self.analyzer.create_initial_estimate_lattice());
-            let out = Rc::new(self.analyzer.create_initial_estimate_lattice());
+            let in_ = self.analyzer.create_initial_estimate_lattice();
+            let out = self.analyzer.create_initial_estimate_lattice();
 
             node.set_annotation(LinearFlowState::new(in_, out));
 
@@ -145,6 +145,7 @@ where
     }
 
     fn flow(&mut self, node: &DiGraphNode<Node>) -> bool {
+        let node_ix = self.cfg.node_ix(node);
         let state: &LinearFlowState<A::Lattice> = node.get_annotation();
 
         if self.analyzer.is_forward() {
@@ -152,7 +153,7 @@ where
 
             let value = self
                 .analyzer
-                .flow_through(node.get_value(), state.get_in().clone());
+                .flow_through(Node::clone(node), state.get_in().clone());
             state.set_out(value);
 
             let changed = out_before != state.get_out();
@@ -160,16 +161,20 @@ where
             if self.analyzer.is_branched() {
                 let brancher = self
                     .analyzer
-                    .create_flow_brancher(node.get_value(), state.get_out().clone());
+                    .create_flow_brancher(Node::clone(node), state.get_out().clone());
 
-                for out_edge in self.cfg.edges_directed(node, Direction::Outgoing) {
-                    let out_branch_before = out_edge.weight().get_annotation();
+                for out_edge in self.cfg.edges_directed(node_ix, Direction::Outgoing) {
+                    let out_branch_before: &LinearFlowState<A::Lattice> =
+                        out_edge.weight().get_annotation();
                     out_edge
                         .weight()
                         .set_annotation(brancher.branch_flow(**out_edge.weight()));
 
                     if !changed {
-                        changed = out_branch_before != out_edge.weight().get_annotation();
+                        changed = *out_branch_before
+                            != *out_edge
+                                .weight()
+                                .get_annotation::<LinearFlowState<A::Lattice>>();
                     }
                 }
             }
@@ -180,20 +185,23 @@ where
 
             let value = self
                 .analyzer
-                .flow_through(node.get_value(), state.get_out());
+                .flow_through(Node::clone(node), state.get_out().clone());
             state.set_in(value);
 
             return in_before != state.get_in();
         }
     }
 
-    fn join_inputs(&mut self, node: &DiGraphNode<Node>) {}
+    fn join_inputs(&mut self, node: &DiGraphNode<Node>) {
+        todo!()
+    }
 
     pub fn into_inner(self) -> A {
         self.analyzer
     }
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct LinearFlowState<L>
 where
     L: PartialEq,
