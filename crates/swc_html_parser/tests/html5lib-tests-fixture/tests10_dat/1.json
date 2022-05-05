@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 36,
+    "end": 39,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 36,
+        "end": 39,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 36,
+            "end": 39,
             "ctxt": 0
           },
           "tagName": "body",
@@ -67,13 +67,13 @@
               "content": null
             },
             {
-              "type": "Text",
+              "type": "Comment",
               "span": {
                 "start": 26,
-                "end": 36,
+                "end": 39,
                 "ctxt": 0
               },
-              "value": "a"
+              "data": "[CDATA[a]]"
             }
           ],
           "content": null

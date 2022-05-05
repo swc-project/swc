@@ -155,6 +155,12 @@ where
         })));
 
         while !self.stopped {
+            let adjusted_current_node = self.get_adjusted_current_node();
+            let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
+
+            self.input
+                .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
+
             let span = self.input.cur_span()?;
             let token = match self.input.cur()? {
                 Some(_) => {
