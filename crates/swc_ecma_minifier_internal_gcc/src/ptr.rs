@@ -64,6 +64,7 @@ impl<T> PartialEq for Ptr<T>
 where
     T: ?Sized,
 {
+    #[allow(clippy::vtable_address_comparisons)]
     fn eq(&self, other: &Self) -> bool {
         Rc::ptr_eq(self.inner.as_owner(), other.inner.as_owner())
             && std::ptr::eq(&*self.inner as *const T, &*other.inner as *const T)

@@ -3,7 +3,7 @@
 
 mod coalesce_var_names;
 mod control_flow_graph;
-mod data_flow;
+pub mod dataflow;
 mod graph;
 mod liveness;
 mod node;
