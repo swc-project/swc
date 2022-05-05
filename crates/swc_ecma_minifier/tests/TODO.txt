@@ -199,16 +199,10 @@ properties/native_prototype/input.js
 properties/new_this/input.js
 properties/skip_undeclared_properties_by_default/input.js
 properties/unsafe_methods_regex/input.js
-pure_funcs/conditional/input.js
-pure_funcs/issue_2705_2/input.js
-pure_funcs/issue_2705_5/input.js
 pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
-pure_funcs/issue_526_1/input.js
-pure_funcs/relational/input.js
 pure_funcs/unary/input.js
-pure_funcs/unused/input.js
 pure_getters/collapse_vars_1_true/input.js
 pure_getters/collapse_vars_2_true/input.js
 pure_getters/issue_2265_1/input.js

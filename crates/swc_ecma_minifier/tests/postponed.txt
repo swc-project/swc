@@ -385,6 +385,7 @@ pure_funcs/array/input.js
 pure_funcs/babel/input.js
 pure_funcs/boolean_and/input.js
 pure_funcs/boolean_or/input.js
+pure_funcs/conditional/input.js
 pure_funcs/func/input.js
 pure_funcs/issue_2629_1/input.js
 pure_funcs/issue_2629_2/input.js
@@ -393,12 +394,17 @@ pure_funcs/issue_2629_4/input.js
 pure_funcs/issue_2629_5/input.js
 pure_funcs/issue_2638/input.js
 pure_funcs/issue_2705_1/input.js
+pure_funcs/issue_2705_2/input.js
 pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
+pure_funcs/issue_2705_5/input.js
 pure_funcs/issue_2705_6/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
+pure_funcs/issue_526_1/input.js
+pure_funcs/relational/input.js
 pure_funcs/side_effects/input.js
+pure_funcs/unused/input.js
 pure_getters/impure_getter_2/input.js
 pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
