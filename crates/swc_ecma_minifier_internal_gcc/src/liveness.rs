@@ -81,7 +81,9 @@ impl FlowAnalyzer for LivenessVarAnalysis<'_> {
         unimplemented!("flow brancher is not supported for live var analysis")
     }
 
-    fn flow_through(&mut self, node: Node, input: Rc<Self::Lattice>) -> Rc<Self::Lattice> {}
+    fn flow_through(&mut self, node: Node, input: Rc<Self::Lattice>) -> Rc<Self::Lattice> {
+        todo!()
+    }
 }
 
 /// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/LiveVariablesAnalysis.java#L52-L64
