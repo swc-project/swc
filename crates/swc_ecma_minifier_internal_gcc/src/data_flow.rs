@@ -42,7 +42,7 @@ pub trait FlowAnalyzer {
 pub trait FlowJoiner {
     type Lattice;
 
-    fn join(&mut self, input: LatticeWrapper<Self::Lattice>);
+    fn join_flow(&mut self, input: LatticeWrapper<Self::Lattice>);
 
     fn finish(self) -> LatticeWrapper<Self::Lattice>;
 }
