@@ -630,14 +630,12 @@
     ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
  22 | ,-> <li>item1
  23 | `->     <li>item2
- 24 |     </ul>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
  22 | ,-> <li>item1
  23 | `->     <li>item2
- 24 |     </ul>
     `----
 
   x Child
@@ -725,15 +723,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
  27 | ,-> <li>item1
- 28 | |           <li>item2
- 29 | `->     </ul>
+ 28 | `->         <li>item2
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
  27 | ,-> <li>item1
- 28 | |           <li>item2
- 29 | `->     </ul>
+ 28 | `->         <li>item2
     `----
 
   x Child

@@ -16,6 +16,9 @@
 
 - **(html/parser)** Fix parsing of cdata in foreign context (#4531) ([5dc9376](https://github.com/swc-project/swc/commit/5dc9376a4ba4d449d1c3f2755a6aca6a77919f6f))
 
+
+- **(html/parser)** Fix a bug with optional `li` (#4526) ([6310eab](https://github.com/swc-project/swc/commit/6310eab96652bbe747eaf1b467894b2dbacfab98))
+
 ### Miscellaneous Tasks
 
 
