@@ -175,11 +175,7 @@ negate_iife/issue_1254_negate_iife_nested/input.js
 negate_iife/issue_1288/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
-numbers/evaluate_1/input.js
-numbers/evaluate_2/input.js
-numbers/evaluate_3/input.js
 numbers/evaluate_4/input.js
-numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/getter_setter_mangler/input.js
 properties/dot_properties/input.js

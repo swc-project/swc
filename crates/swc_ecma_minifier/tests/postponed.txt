@@ -332,6 +332,10 @@ loops/issue_2740_6/input.js
 loops/issue_2740_7/input.js
 loops/issue_2740_8/input.js
 negate_iife/issue_1254_negate_iife_true/input.js
+numbers/evaluate_1/input.js
+numbers/evaluate_2/input.js
+numbers/evaluate_3/input.js
+numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/dont_join_repeat_object_keys/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
