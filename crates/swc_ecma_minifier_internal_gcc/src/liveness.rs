@@ -1,8 +1,14 @@
+use std::rc::Rc;
+
 use bit_set::BitSet;
 use rustc_hash::FxHashSet;
 use swc_ecma_ast::Id;
 
-use crate::{control_flow_graph::ControlFlowGraph, dataflow::FlowAnalyzer, node::Node};
+use crate::{
+    control_flow_graph::{Branch, ControlFlowGraph},
+    dataflow::{FlowAnalyzer, FlowBrancher, FlowJoiner},
+    node::Node,
+};
 
 /// We may need this
 #[derive(Clone)]
@@ -34,13 +40,77 @@ impl Var {
 }
 
 ///
+///
+///
+/// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/LiveVariablesAnalysis.java
 pub(super) struct LivenessVarAnalysis<'a> {
     cfg: &'a ControlFlowGraph<Node>,
     all_vars_declared_in_fn: Vec<Var>,
 }
 
 impl FlowAnalyzer for LivenessVarAnalysis<'_> {
+    type FlowBrancher = LivenessVarFlowBrancher;
+    type FlowJoiner = LiveVarJoiner;
     type Lattice = LiveVarLattice;
+
+    fn is_forward(&self) -> bool {
+        false
+    }
+
+    fn create_entry_lattice(&self) -> Rc<Self::Lattice> {
+        Rc::new(LiveVarLattice {
+            live_set: BitSet::with_capacity(self.all_vars_declared_in_fn.len()),
+        })
+    }
+
+    fn create_initial_estimate_lattice(&self) -> Rc<Self::Lattice> {
+        Rc::new(LiveVarLattice {
+            live_set: BitSet::with_capacity(self.all_vars_declared_in_fn.len()),
+        })
+    }
+
+    fn create_flow_joiner(&self) -> Self::FlowJoiner {
+        LiveVarJoiner {
+            result: LiveVarLattice {
+                live_set: BitSet::with_capacity(self.all_vars_declared_in_fn.len()),
+            },
+        }
+    }
+
+    fn create_flow_brancher(&self, _node: Node, _output: Rc<Self::Lattice>) -> Self::FlowBrancher {
+        unimplemented!("flow brancher is not supported for live var analysis")
+    }
+
+    fn flow_through(&mut self, node: Node, input: Rc<Self::Lattice>) -> Rc<Self::Lattice> {}
+}
+
+/// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/LiveVariablesAnalysis.java#L52-L64
+pub struct LiveVarJoiner {
+    result: LiveVarLattice,
+}
+
+impl FlowJoiner for LiveVarJoiner {
+    type Lattice = LiveVarLattice;
+
+    fn join_flow(&mut self, input: Rc<Self::Lattice>) {
+        self.result.live_set.union_with(&input.live_set);
+    }
+
+    fn finish(self) -> Rc<Self::Lattice> {
+        Rc::new(self.result)
+    }
+}
+
+pub struct LivenessVarFlowBrancher {
+    _priv: (),
+}
+
+impl FlowBrancher for LivenessVarFlowBrancher {
+    type Lattice = LiveVarLattice;
+
+    fn branch_flow(&mut self, branch: Branch) -> Rc<Self::Lattice> {
+        unimplemented!("flow brancher is not supported for live var analysis")
+    }
 }
 
 impl<'a> LivenessVarAnalysis<'a> {
