@@ -851,6 +851,12 @@ impl VisitMut for DomVisualizer<'_> {
         let mut attribute = String::new();
 
         attribute.push_str(&self.get_ident());
+
+        if let Some(prefix) = &n.prefix {
+            attribute.push_str(&prefix);
+            attribute.push(' ');
+        }
+
         attribute.push_str(&n.name);
         attribute.push('=');
         attribute.push('"');
