@@ -187,7 +187,7 @@ where
                 .flow_through(Node::clone(node), state.get_out().clone());
             state.set_in(value);
 
-            return in_before != state.get_in();
+            in_before != state.get_in()
         }
     }
 
