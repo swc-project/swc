@@ -1,1 +1,1 @@
-import("./a").then(v => console.log(v));
+import("./a").then((v) => console.log(v));

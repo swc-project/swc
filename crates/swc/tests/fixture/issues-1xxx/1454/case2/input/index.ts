@@ -1,2 +1,1 @@
-export abstract class AbstractProviderDeliveryService {
-}
+export abstract class AbstractProviderDeliveryService {}

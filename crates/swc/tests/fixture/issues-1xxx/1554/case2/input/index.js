@@ -1,4 +1,4 @@
-import X from './module'
+import X from "./module";
 
-export { X }
-export { Y, Z } from './module'
+export { X };
+export { Y, Z } from "./module";

@@ -4,6 +4,6 @@ swcHelpers.asyncToGenerator(function*() {
             , 500)
         )
     ;
-    const result = (yield sleep()) || 'fallback';
+    const result = (yield sleep()) || "fallback";
     console.log(result);
 })();

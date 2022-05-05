@@ -1,9 +1,7 @@
-
-
-async function foo() { }
+async function foo() {}
 
 async function main() {
-    await foo()
+    await foo();
 }
 
-console.log(main())
+console.log(main());

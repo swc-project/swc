@@ -1,3 +1,3 @@
-const mod = require('./mod.json');
+const mod = require("./mod.json");
 
-console.log(mod)
+console.log(mod);

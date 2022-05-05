@@ -1,4 +1,2 @@
-
-    export type A = {}
-    type A = {}
-    
+export type A = {};
+type A = {};

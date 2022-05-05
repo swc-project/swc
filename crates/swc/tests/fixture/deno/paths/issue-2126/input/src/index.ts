@@ -1,5 +1,3 @@
-import { displayA } from '@print/a'
+import { displayA } from "@print/a";
 
-console.log(
-    `${displayA()}`
-)
+console.log(`${displayA()}`);

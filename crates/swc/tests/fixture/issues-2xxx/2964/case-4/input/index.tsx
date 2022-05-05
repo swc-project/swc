@@ -1,4 +1,4 @@
-export const AnElement = ({prop1, prop2, prop3, num, data}) => {
+export const AnElement = ({ prop1, prop2, prop3, num, data }) => {
     return (
         <>
             <SomeElement
@@ -9,9 +9,7 @@ export const AnElement = ({prop1, prop2, prop3, num, data}) => {
             />
             {
                 // istanbul ignore next
-                !(num > 0) && data.name && (
-                    <>"Hello"</>
-                )
+                !(num > 0) && data.name && <>"Hello"</>
             }
         </>
     );

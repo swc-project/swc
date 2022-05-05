@@ -1,5 +1,6 @@
-const res = String.raw`
+const res =
+    String.raw`
 ` === "\\n";
 if (!res) {
-    throw new Error('Wrong')
+    throw new Error("Wrong");
 }

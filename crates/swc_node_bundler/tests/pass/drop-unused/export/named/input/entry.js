@@ -1,4 +1,4 @@
 const foo = "a",
-  bar = "v";
+    bar = "v";
 
 export { foo };

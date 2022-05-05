@@ -9,7 +9,7 @@ class F {
     get #w() {}
     #x = (_tmp = 0, _brand_check_x.add(this), _tmp);
     #y = (_tmp1 = (()=>{
-        throw 'error';
+        throw "error";
     })(), _brand_check_y.add(this), _tmp1);
      #z() {}
     constructor(){

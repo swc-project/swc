@@ -5,6 +5,6 @@ class Store {
 
     @action
     doSomething = () => {
-        console.log('run');
-    }
+        console.log("run");
+    };
 }

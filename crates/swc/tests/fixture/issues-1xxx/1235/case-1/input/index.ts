@@ -3,4 +3,6 @@ class Service {
         return a.toUpperCase() === a;
     }
 }
-(async () => { await (new Service()).is('ABC'); })();
+(async () => {
+    await new Service().is("ABC");
+})();

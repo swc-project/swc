@@ -1,3 +1,3 @@
-import { default as a } from './a';
+import { default as a } from "./a";
 
 console.log(a);

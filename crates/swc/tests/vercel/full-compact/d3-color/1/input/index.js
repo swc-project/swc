@@ -1,9 +1,7 @@
-import { Color, rgbConvert, Rgb, } from "./color.js";
-
+import { Color, rgbConvert, Rgb } from "./color.js";
 
 var darker = 0.7;
 var brighter = 1 / darker;
-
 
 function define(constructor, factory, prototype) {
     constructor.prototype = factory.prototype = prototype;
@@ -15,7 +13,6 @@ function extend(parent, definition) {
     for (var key in definition) prototype[key] = definition[key];
     return prototype;
 }
-
 
 var deg2rad = Math.PI / 180;
 var rad2deg = 180 / Math.PI;
@@ -44,7 +41,9 @@ function cubehelixConvert(o) {
 }
 
 export default function cubehelix(h, s, l, opacity) {
-    return arguments.length === 1 ? cubehelixConvert(h) : new Cubehelix(h, s, l, opacity == null ? 1 : opacity);
+    return arguments.length === 1
+        ? cubehelixConvert(h)
+        : new Cubehelix(h, s, l, opacity == null ? 1 : opacity);
 }
 
 export function Cubehelix(h, s, l, opacity) {
@@ -54,26 +53,30 @@ export function Cubehelix(h, s, l, opacity) {
     this.opacity = +opacity;
 }
 
-define(Cubehelix, cubehelix, extend(Color, {
-    brighter: function (k) {
-        k = k == null ? brighter : Math.pow(brighter, k);
-        return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
-    },
-    darker: function (k) {
-        k = k == null ? darker : Math.pow(darker, k);
-        return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
-    },
-    rgb: function () {
-        var h = isNaN(this.h) ? 0 : (this.h + 120) * deg2rad,
-            l = +this.l,
-            a = isNaN(this.s) ? 0 : this.s * l * (1 - l),
-            cosh = Math.cos(h),
-            sinh = Math.sin(h);
-        return new Rgb(
-            255 * (l + a * (A * cosh + B * sinh)),
-            255 * (l + a * (C * cosh + D * sinh)),
-            255 * (l + a * (E * cosh)),
-            this.opacity
-        );
-    }
-}));
+define(
+    Cubehelix,
+    cubehelix,
+    extend(Color, {
+        brighter: function (k) {
+            k = k == null ? brighter : Math.pow(brighter, k);
+            return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
+        },
+        darker: function (k) {
+            k = k == null ? darker : Math.pow(darker, k);
+            return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
+        },
+        rgb: function () {
+            var h = isNaN(this.h) ? 0 : (this.h + 120) * deg2rad,
+                l = +this.l,
+                a = isNaN(this.s) ? 0 : this.s * l * (1 - l),
+                cosh = Math.cos(h),
+                sinh = Math.sin(h);
+            return new Rgb(
+                255 * (l + a * (A * cosh + B * sinh)),
+                255 * (l + a * (C * cosh + D * sinh)),
+                255 * (l + a * (E * cosh)),
+                this.opacity
+            );
+        },
+    })
+);

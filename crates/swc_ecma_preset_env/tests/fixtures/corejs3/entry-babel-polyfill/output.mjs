@@ -1,1 +1,1 @@
-import '@swc/polyfill';
+import "@swc/polyfill";

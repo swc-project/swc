@@ -1,3 +1,3 @@
-require('./a')
-require('./b')
-require('./c')
+require("./a");
+require("./b");
+require("./c");

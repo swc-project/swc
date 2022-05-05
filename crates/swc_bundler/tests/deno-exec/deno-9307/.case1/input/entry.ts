@@ -4,9 +4,9 @@ import { Args, main } from "./src/mod.ts";
 import { loadFile } from "./src/utils/deno.loadFile.ts";
 
 const args = parse(Deno.args, {
-  default: {
-    outputDir: `./`,
-  },
+    default: {
+        outputDir: `./`,
+    },
 });
 
 await main(args as Args, { loadFile, writeTextFile: Deno.writeTextFile });

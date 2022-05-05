@@ -1,1 +1,1 @@
-module.exports = require('./a-a-a')
+module.exports = require("./a-a-a");

@@ -1,3 +1,3 @@
 export function displayA() {
-    return 'Display A'
+    return "Display A";
 }

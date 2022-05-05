@@ -1,17 +1,17 @@
 {
-  "module": {
-    "type": "commonjs"
-  },
-  "jsc": {
-    "target": "es2018",
-    "parser": {
-      "syntax": "typescript",
-      "decorators": true,
-      "dynamicImport": false
+    "module": {
+        "type": "commonjs"
     },
-    "transform": {
-      "legacyDecorator": false,
-      "decoratorMetadata": true
+    "jsc": {
+        "target": "es2018",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "dynamicImport": false
+        },
+        "transform": {
+            "legacyDecorator": false,
+            "decoratorMetadata": true
+        }
     }
-  }
 }

@@ -1,11 +1,11 @@
 (() => {
-  class Foo {
-    constructor() {
-      new.target;
-    }
+    class Foo {
+        constructor() {
+            new.target;
+        }
 
-    test() {
-      new.target;
+        test() {
+            new.target;
+        }
     }
-  }
-})()
+})();

@@ -1,5 +1,5 @@
-import { MS, MOZ, WEBKIT } from './Enum.js';
-import { strlen, indexof, replace } from './Utility.js';
+import { MS, MOZ, WEBKIT } from "./Enum.js";
+import { strlen, indexof, replace } from "./Utility.js";
 function charat(value, index) {
     return 0 | value.charCodeAt(index);
 }
@@ -7,7 +7,7 @@ export function prefix(value, length) {
     var value1;
     switch((((length << 2 ^ charat(value1 = value, 0)) << 2 ^ charat(value1, 1)) << 2 ^ charat(value1, 2)) << 2 ^ charat(value1, 3)){
         case 5103:
-            return WEBKIT + 'print-' + value + value;
+            return WEBKIT + "print-" + value + value;
         case 5737:
         case 4201:
         case 3177:
@@ -44,33 +44,33 @@ export function prefix(value, length) {
         case 4268:
             return WEBKIT + value + MS + value + value;
         case 6165:
-            return WEBKIT + value + MS + 'flex-' + value + value;
+            return WEBKIT + value + MS + "flex-" + value + value;
         case 5187:
-            return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + 'box-$1$2' + MS + 'flex-$1$2') + value;
+            return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + "box-$1$2" + MS + "flex-$1$2") + value;
         case 5443:
-            return WEBKIT + value + MS + 'flex-item-' + replace(value, /flex-|-self/, '') + value;
+            return WEBKIT + value + MS + "flex-item-" + replace(value, /flex-|-self/, "") + value;
         case 4675:
-            return WEBKIT + value + MS + 'flex-line-pack' + replace(value, /align-content|flex-|-self/, '') + value;
+            return WEBKIT + value + MS + "flex-line-pack" + replace(value, /align-content|flex-|-self/, "") + value;
         case 5548:
-            return WEBKIT + value + MS + replace(value, 'shrink', 'negative') + value;
+            return WEBKIT + value + MS + replace(value, "shrink", "negative") + value;
         case 5292:
-            return WEBKIT + value + MS + replace(value, 'basis', 'preferred-size') + value;
+            return WEBKIT + value + MS + replace(value, "basis", "preferred-size") + value;
         case 6060:
-            return WEBKIT + 'box-' + replace(value, '-grow', '') + WEBKIT + value + MS + replace(value, 'grow', 'positive') + value;
+            return WEBKIT + "box-" + replace(value, "-grow", "") + WEBKIT + value + MS + replace(value, "grow", "positive") + value;
         case 4554:
-            return WEBKIT + replace(value, /([^-])(transform)/g, '$1' + WEBKIT + '$2') + value;
+            return WEBKIT + replace(value, /([^-])(transform)/g, "$1" + WEBKIT + "$2") + value;
         case 6187:
-            return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + '$1'), /(image-set)/, WEBKIT + '$1'), value, '') + value;
+            return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + "$1"), /(image-set)/, WEBKIT + "$1"), value, "") + value;
         case 5495:
         case 3959:
             return replace(value, /(image-set\([^]*)/, WEBKIT + "$1$`$1");
         case 4968:
-            return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + 'box-pack:$3' + MS + 'flex-pack:$3'), /s.+-b[^;]+/, 'justify') + WEBKIT + value + value;
+            return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + "box-pack:$3" + MS + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + WEBKIT + value + value;
         case 4095:
         case 3583:
         case 4068:
         case 2532:
-            return replace(value, /(.+)-inline(.+)/, WEBKIT + '$1$2') + value;
+            return replace(value, /(.+)-inline(.+)/, WEBKIT + "$1$2") + value;
         case 8116:
         case 7059:
         case 5753:
@@ -87,29 +87,29 @@ export function prefix(value, length) {
                 case 109:
                     if (45 !== charat(value, length + 4)) break;
                 case 102:
-                    return replace(value, /(.+:)(.+)-([^]+)/, '$1' + WEBKIT + "$2-$3$1" + MOZ + (108 == charat(value, length + 3) ? '$3' : '$2-$3')) + value;
+                    return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                 case 115:
-                    return ~indexof(value, 'stretch') ? prefix(replace(value, 'stretch', 'fill-available'), length) + value : value;
+                    return ~indexof(value, "stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
             }
             break;
         case 4949:
             if (115 !== charat(value, length + 1)) break;
         case 6444:
-            switch(charat(value, strlen(value) - 3 - (~indexof(value, '!important') && 10))){
+            switch(charat(value, strlen(value) - 3 - (~indexof(value, "!important") && 10))){
                 case 107:
-                    return replace(value, ':', ':' + WEBKIT) + value;
+                    return replace(value, ":", ":" + WEBKIT) + value;
                 case 101:
-                    return replace(value, /(.+:)([^;!]+)(;|!.+)?/, '$1' + WEBKIT + (45 === charat(value, 14) ? 'inline-' : '') + "box$3$1" + WEBKIT + "$2$3$1" + MS + '$2box$3') + value;
+                    return replace(value, /(.+:)([^;!]+)(;|!.+)?/, "$1" + WEBKIT + (45 === charat(value, 14) ? "inline-" : "") + "box$3$1" + WEBKIT + "$2$3$1" + MS + "$2box$3") + value;
             }
             break;
         case 5936:
             switch(charat(value, length + 11)){
                 case 114:
-                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'tb') + value;
+                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb") + value;
                 case 108:
-                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'tb-rl') + value;
+                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb-rl") + value;
                 case 45:
-                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, 'lr') + value;
+                    return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "lr") + value;
             }
             return WEBKIT + value + MS + value + value;
     }

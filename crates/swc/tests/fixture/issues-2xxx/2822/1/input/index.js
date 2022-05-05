@@ -1,1 +1,1 @@
-console.log`\x22\x21\x224`
+console.log`\x22\x21\x224`;

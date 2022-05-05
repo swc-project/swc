@@ -1,1 +1,1 @@
-arr[Symbol.iterator]()
+arr[Symbol.iterator]();

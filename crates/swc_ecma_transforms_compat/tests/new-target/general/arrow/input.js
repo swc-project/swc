@@ -1,13 +1,13 @@
 function Foo() {
-  const a = () => {
-    new.target;
-  };
+    const a = () => {
+        new.target;
+    };
 }
 
 class Bar {
-  constructor() {
-    const a = () => {
-      new.target;
-    };
-  }
+    constructor() {
+        const a = () => {
+            new.target;
+        };
+    }
 }

@@ -1,4 +1,4 @@
 const sl = `
   hello world
 `;
-console.log(sl)
+console.log(sl);

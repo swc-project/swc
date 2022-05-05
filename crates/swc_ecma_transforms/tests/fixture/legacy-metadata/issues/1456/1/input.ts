@@ -1,3 +1,3 @@
 class MyClass {
-    constructor(@Inject() param1: Injected) { }
+    constructor(@Inject() param1: Injected) {}
 }

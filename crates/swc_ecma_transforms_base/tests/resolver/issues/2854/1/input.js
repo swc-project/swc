@@ -1,8 +1,8 @@
 export function App() {
-    return <Form />
+    return <Form />;
 }
 
-export function Form({ onChange = function () { } }) {
+export function Form({ onChange = function () {} }) {
     return (
         <input
             onChange={function () {

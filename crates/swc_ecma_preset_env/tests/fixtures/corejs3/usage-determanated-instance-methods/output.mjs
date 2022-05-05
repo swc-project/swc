@@ -12,11 +12,11 @@ import "core-js/modules/es.string.trim.js";
 import "core-js/modules/web.dom-collections.iterator.js";
 var a = [];
 a.values();
-''.replace();
-''.includes();
+"".replace();
+"".includes();
 /./gi.flags;
-''.indexOf();
-a.__defineGetter__('foo', function() {
+"".indexOf();
+a.__defineGetter__("foo", function() {
     return 42;
 });
 a.trim;

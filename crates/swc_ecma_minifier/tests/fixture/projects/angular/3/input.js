@@ -1,5 +1,5 @@
 if (foo) {
     if (bar) {
-        var baz = console.log('Foo bar');
+        var baz = console.log("Foo bar");
     }
 }

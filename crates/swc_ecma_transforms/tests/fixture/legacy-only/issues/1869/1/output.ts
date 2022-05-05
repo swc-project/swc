@@ -1,5 +1,5 @@
 let TestClass = class TestClass {
-    static Something = 'hello';
+    static Something = "hello";
     static SomeProperties = {
         firstProp: TestClass.Something
     };

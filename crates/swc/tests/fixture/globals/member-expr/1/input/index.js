@@ -1,4 +1,3 @@
-
 if (process.browser) {
-    console.log('Pass')
+    console.log("Pass");
 }

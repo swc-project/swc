@@ -1,1 +1,1 @@
-function* foo() { }
+function* foo() {}

@@ -1,7 +1,7 @@
 const myVar = {
     target: {
-        value: "ABC"
-    }
-}
+        value: "ABC",
+    },
+};
 
-console.log(myVar.target.value.toLowerCase?.())
+console.log(myVar.target.value.toLowerCase?.());

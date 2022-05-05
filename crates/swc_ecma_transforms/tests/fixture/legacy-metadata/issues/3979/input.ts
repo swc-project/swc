@@ -1,7 +1,7 @@
 class A {
     @foo x = 1;
-    constructor()
+    constructor();
     constructor() {
-        console.log(123)
+        console.log(123);
     }
 }

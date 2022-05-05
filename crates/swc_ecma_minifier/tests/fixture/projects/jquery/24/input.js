@@ -1,12 +1,15 @@
 export const obj = {
     buildFragment: function (elems, context, scripts, selection) {
-        var j, elem, contains,
-            tmp, tag, tbody, wrap,
+        var j,
+            elem,
+            contains,
+            tmp,
+            tag,
+            tbody,
+            wrap,
             l = elems.length,
-
             // Ensure a safe fragment
             safe = createSafeFragment(context),
-
             nodes = [],
             i = 0;
 
@@ -14,7 +17,6 @@ export const obj = {
             elem = elems[i];
 
             if (elem || elem === 0) {
-
                 // Add nodes directly
                 if (jQuery.type(elem) === "object") {
                     jQuery.merge(nodes, elem.nodeType ? [elem] : elem);
@@ -31,7 +33,10 @@ export const obj = {
                     tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
                     wrap = wrapMap[tag] || wrapMap._default;
 
-                    tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2];
+                    tmp.innerHTML =
+                        wrap[1] +
+                        elem.replace(rxhtmlTag, "<$1></$2>") +
+                        wrap[2];
 
                     // Descend through wrappers to the right content
                     j = wrap[0];
@@ -40,25 +45,37 @@ export const obj = {
                     }
 
                     // Manually add leading whitespace removed by IE
-                    if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem)) {
-                        nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0]));
+                    if (
+                        !jQuery.support.leadingWhitespace &&
+                        rleadingWhitespace.test(elem)
+                    ) {
+                        nodes.push(
+                            context.createTextNode(
+                                rleadingWhitespace.exec(elem)[0]
+                            )
+                        );
                     }
 
                     // Remove IE's autoinserted <tbody> from table fragments
                     if (!jQuery.support.tbody) {
-
                         // String was a <table>, *may* have spurious <tbody>
-                        elem = tag === "table" && !rtbody.test(elem) ?
-                            tmp.firstChild :
-
-                            // String was a bare <thead> or <tfoot>
-                            wrap[1] === "<table>" && !rtbody.test(elem) ?
-                                tmp :
-                                0;
+                        elem =
+                            tag === "table" && !rtbody.test(elem)
+                                ? tmp.firstChild
+                                : // String was a bare <thead> or <tfoot>
+                                wrap[1] === "<table>" && !rtbody.test(elem)
+                                ? tmp
+                                : 0;
 
                         j = elem && elem.childNodes.length;
                         while (j--) {
-                            if (jQuery.nodeName((tbody = elem.childNodes[j]), "tbody") && !tbody.childNodes.length) {
+                            if (
+                                jQuery.nodeName(
+                                    (tbody = elem.childNodes[j]),
+                                    "tbody"
+                                ) &&
+                                !tbody.childNodes.length
+                            ) {
                                 elem.removeChild(tbody);
                             }
                         }
@@ -93,7 +110,6 @@ export const obj = {
 
         i = 0;
         while ((elem = nodes[i++])) {
-
             // #4087 - If origin and destination elements are the same, and this is
             // that element, do not do anything
             if (selection && jQuery.inArray(elem, selection) !== -1) {
@@ -125,4 +141,4 @@ export const obj = {
 
         return safe;
     },
-}
+};

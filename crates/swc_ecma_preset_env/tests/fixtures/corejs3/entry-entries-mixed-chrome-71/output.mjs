@@ -8,5 +8,5 @@ import "core-js/modules/esnext.reflect.get-own-metadata.js";
 import "core-js/modules/esnext.reflect.has-metadata.js";
 import "core-js/modules/esnext.reflect.has-own-metadata.js";
 import "core-js/modules/esnext.reflect.metadata.js";
-import 'core-js/something';
-import 'regenerator-runtime/runtime';
+import "core-js/something";
+import "regenerator-runtime/runtime";

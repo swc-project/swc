@@ -1,5 +1,4 @@
 class Foo {
     @dec
-    [foo]() {
-    }
+    [foo]() {}
 }

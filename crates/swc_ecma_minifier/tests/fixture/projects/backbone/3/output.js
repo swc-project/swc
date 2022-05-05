@@ -1,1 +1,1 @@
-name || callback || context || console.log('foo');
+name || callback || context || console.log("foo");

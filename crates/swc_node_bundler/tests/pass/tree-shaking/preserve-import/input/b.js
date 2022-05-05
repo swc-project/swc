@@ -1,2 +1,1 @@
-export function b() {
-}
+export function b() {}

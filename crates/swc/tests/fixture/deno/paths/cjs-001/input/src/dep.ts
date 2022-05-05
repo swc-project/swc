@@ -1,1 +1,1 @@
-console.log('src/dep.ts')
+console.log("src/dep.ts");

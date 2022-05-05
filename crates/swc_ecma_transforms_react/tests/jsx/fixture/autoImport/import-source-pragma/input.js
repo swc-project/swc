@@ -1,2 +1,6 @@
 /** @jsxImportSource baz */
-var x = (<div><span /></div>);
+var x = (
+    <div>
+        <span />
+    </div>
+);

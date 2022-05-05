@@ -39,7 +39,7 @@ swcHelpers.asyncToGenerator(function*() {
             }
         }
         if (counter !== 2) {
-            throw new Error('');
+            throw new Error("");
         }
     })();
     for (let v of [

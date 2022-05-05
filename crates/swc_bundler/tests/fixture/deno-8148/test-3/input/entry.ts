@@ -1,1 +1,1 @@
-export * as foo from './a';
+export * as foo from "./a";

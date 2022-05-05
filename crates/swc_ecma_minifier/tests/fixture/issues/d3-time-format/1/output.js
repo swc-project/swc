@@ -228,8 +228,8 @@ export default function formatLocale(locale) {
 };
 var pads = {
     "-": "",
-    "_": " ",
-    "0": "0"
+    _: " ",
+    0: "0"
 }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
 function pad(value, fill, width) {
     var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;

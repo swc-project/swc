@@ -1,1 +1,1 @@
-export * as G from './deps'
+export * as G from "./deps";

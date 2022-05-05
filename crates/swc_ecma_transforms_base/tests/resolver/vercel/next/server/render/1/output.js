@@ -24,7 +24,7 @@ import { allowedStatusCodes__1, getRedirectStatus__1 } from "../lib/load-custom-
 import RenderResult__1 from "./render-result";
 import isError__1 from "../lib/is-error";
 function noRouter__1() {
-    const message__2 = "No router instance found. you should only use \"next/router\" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance";
+    const message__2 = 'No router instance found. you should only use "next/router" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance';
     throw new Error(message__2);
 }
 class ServerRouter__1 {
@@ -88,7 +88,7 @@ function checkRedirectValues__1(redirect__7, req__7, method__7) {
         errors__7.push(`\`permanent\` must be \`true\` or \`false\``);
     } else if (hasStatusCode__7 && !allowedStatusCodes__1.has(statusCode__7)) {
         errors__7.push(`\`statusCode\` must undefined or one of ${[
-            ...allowedStatusCodes__1
+            ...allowedStatusCodes__1, 
         ].join(", ")}`);
     }
     const destinationType__7 = typeof destination__7;
@@ -106,7 +106,7 @@ function checkRedirectValues__1(redirect__7, req__7, method__7) {
 export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, renderOpts__8) {
     renderOpts__8.devOnlyCacheBusterQueryString = renderOpts__8.dev ? renderOpts__8.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     query__8 = Object.assign({}, query__8);
-    const { err__8 , dev__8 =false , ampPath__8 ="" , App__8 , Document__8 , pageConfig__8 ={} , Component__8 , buildManifest__8 , fontManifest__8 , reactLoadableManifest__8 , ErrorDebug__8 , getStaticProps__8 , getStaticPaths__8 , getServerSideProps__8 , isDataReq__8 , params__8 , previewProps__8 , basePath__8 , devOnlyCacheBusterQueryString__8 , supportsDynamicHTML__8 , concurrentFeatures__8  } = renderOpts__8;
+    const { err__8 , dev__8 =false , ampPath__8 ="" , App__8 , Document__8 , pageConfig__8 ={} , Component__8 , buildManifest__8 , fontManifest__8 , reactLoadableManifest__8 , ErrorDebug__8 , getStaticProps__8 , getStaticPaths__8 , getServerSideProps__8 , isDataReq__8 , params__8 , previewProps__8 , basePath__8 , devOnlyCacheBusterQueryString__8 , supportsDynamicHTML__8 , concurrentFeatures__8 ,  } = renderOpts__8;
     const getFontDefinition__8 = (url__9)=>{
         if (fontManifest__8) {
             return getFontDefinitionFromManifest__1(url__9, fontManifest__8);
@@ -147,7 +147,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
     for (const methodName__14 of [
         "getStaticProps",
         "getServerSideProps",
-        "getStaticPaths"
+        "getStaticPaths", 
     ]){
         if (Component__8[methodName__14]) {
             throw new Error(`page ${pathname__8} ${methodName__14} ${GSSP_COMPONENT_MEMBER_ERROR__1}`);
@@ -224,13 +224,9 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         AppTree: (props__16)=>{
             return <AppContainer__8 >
 
+                    <App__8 {...props__16} Component__0={Component__8} router__0={router__8}/>
 
-
-                <App__8 {...props__16} Component__0={Component__8} router__0={router__8}/>
-
-
-
-            </AppContainer__8>;
+                </AppContainer__8>;
         },
         defaultGetInitialProps: async (docCtx__17)=>{
             const enhanceApp__17 = (AppComp__18)=>{
@@ -261,13 +257,9 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
     const nextExport__8 = !isSSG__8 && (renderOpts__8.nextExport || dev__8 && (isAutoExport__8 || isFallback__8));
     const AppContainer__8 = ({ children__20  })=><RouterContext__1.Provider value__0={router__8}>
 
+            <AmpStateContext__1.Provider value__0={ampState__8}>
 
-
-        <AmpStateContext__1.Provider value__0={ampState__8}>
-
-
-
-            <HeadManagerContext__1.Provider value__0={{
+                <HeadManagerContext__1.Provider value__0={{
             updateHead: (state__21)=>{
                 head__8 = state__21;
             },
@@ -278,38 +270,22 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
             mountedInstances: new Set()
         }}>
 
-
-
-                <LoadableContext__1.Provider value__0={(moduleName__23)=>reactLoadableModules__8.push(moduleName__23)
+                    <LoadableContext__1.Provider value__0={(moduleName__23)=>reactLoadableModules__8.push(moduleName__23)
         }>
 
+                        <StyleRegistry__1 registry__0={jsxStyleRegistry__8}>
 
+                            {children__20}
 
-                    <StyleRegistry__1 registry__0={jsxStyleRegistry__8}>
+                        </StyleRegistry__1>
 
+                    </LoadableContext__1.Provider>
 
+                </HeadManagerContext__1.Provider>
 
-                        {children__20}
+            </AmpStateContext__1.Provider>
 
-
-
-                    </StyleRegistry__1>
-
-
-
-                </LoadableContext__1.Provider>
-
-
-
-            </HeadManagerContext__1.Provider>
-
-
-
-        </AmpStateContext__1.Provider>
-
-
-
-    </RouterContext__1.Provider>
+        </RouterContext__1.Provider>
     ;
     props__8 = await loadGetInitialProps__1(App__8, {
         AppTree: ctx__8.AppTree,
@@ -512,7 +488,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
                     [page__31]: [
                         ...filteredBuildManifest__8.pages[page__31],
                         ...filteredBuildManifest__8.lowPriorityFiles.filter((f__32)=>f__32.includes("_buildManifest")
-                        )
+                        ), 
                     ]
                 },
                 lowPriorityFiles: filteredBuildManifest__8.lowPriorityFiles.filter((f__33)=>!f__33.includes("_buildManifest")
@@ -537,13 +513,9 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
                 const { App: EnhancedApp__35 , Component: EnhancedComponent__35  } = enhanceComponents__1(options__35, App__8, Component__8);
                 const html__35 = ReactDOMServer__1.renderToString(<AppContainer__8 >
 
+                        <EnhancedApp__35 Component__0={EnhancedComponent__35} router__0={router__8} {...props__8}/>
 
-
-                    <EnhancedApp__35 Component__0={EnhancedComponent__35} router__0={router__8} {...props__8}/>
-
-
-
-                </AppContainer__8>);
+                    </AppContainer__8>);
                 return {
                     html__35,
                     head__8
@@ -572,13 +544,9 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         } else {
             const content__39 = ctx__8.err && ErrorDebug__8 ? <ErrorDebug__8 error__0={ctx__8.err}/> : <AppContainer__8 >
 
+                        <App__8 {...props__8} Component__0={Component__8} router__0={router__8}/>
 
-
-                <App__8 {...props__8} Component__0={Component__8} router__0={router__8}/>
-
-
-
-            </AppContainer__8>;
+                    </AppContainer__8>;
             const bodyResult__39 = concurrentFeatures__8 ? await renderToStream__1(content__39, generateStaticHTML__8) : piperFromArray__1([
                 ReactDOMServer__1.renderToString(content__39)
             ]);
@@ -609,7 +577,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
     }
     const hybridAmp__8 = ampState__8.hybrid;
     const docComponentsRendered__8 = {};
-    const { assetPrefix__8 , buildId__8 , customServer__8 , defaultLocale__8 , disableOptimizedLoading__8 , domainLocales__8 , locale__8 , locales__8 , runtimeConfig__8  } = renderOpts__8;
+    const { assetPrefix__8 , buildId__8 , customServer__8 , defaultLocale__8 , disableOptimizedLoading__8 , domainLocales__8 , locale__8 , locales__8 , runtimeConfig__8 ,  } = renderOpts__8;
     const htmlProps__8 = {
         __NEXT_DATA__: {
             props__8,
@@ -657,21 +625,13 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
     };
     const documentHTML__8 = ReactDOMServer__1.renderToStaticMarkup(<AmpStateContext__1.Provider value__0={ampState__8}>
 
+            <HtmlContext__1.Provider value__0={htmlProps__8}>
 
+                {documentResult__8.documentElement(htmlProps__8)}
 
-        <HtmlContext__1.Provider value__0={htmlProps__8}>
+            </HtmlContext__1.Provider>
 
-
-
-            {documentResult__8.documentElement(htmlProps__8)}
-
-
-
-        </HtmlContext__1.Provider>
-
-
-
-    </AmpStateContext__1.Provider>);
+        </AmpStateContext__1.Provider>);
     if (process.env.NODE_ENV !== "production") {
         const nonRenderedComponents__43 = [];
         const expectedDocComponents__43 = [
@@ -703,8 +663,8 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         piperFromArray__1(prefix__8),
         documentResult__8.bodyResult,
         piperFromArray__1([
-            documentHTML__8.substring(renderTargetIdx__8 + BODY_RENDER_TARGET__1.length)
-        ])
+            documentHTML__8.substring(renderTargetIdx__8 + BODY_RENDER_TARGET__1.length), 
+        ]), 
     ];
     const postProcessors__8 = (generateStaticHTML__8 ? [
         inAmpMode__8 ? async (html__47)=>{
@@ -737,7 +697,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         } : null,
         inAmpMode__8 || hybridAmp__8 ? async (html__50)=>{
             return html__50.replace(/&amp;amp=1/g, "&amp=1");
-        } : null
+        } : null, 
     ] : []).filter(Boolean);
     if (generateStaticHTML__8 || postProcessors__8.length > 0) {
         let html__51 = await piperToString__1(chainPipers__1(pipers__8));

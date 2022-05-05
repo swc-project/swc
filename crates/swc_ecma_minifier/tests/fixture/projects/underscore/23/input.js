@@ -1,5 +1,6 @@
 _.once = function (func) {
-    var ran = false, memo;
+    var ran = false,
+        memo;
     return function () {
         if (ran) return memo;
         ran = true;

@@ -1,5 +1,5 @@
-import { MyError } from "./deps"
+import { MyError } from "./deps";
 
 export function example() {
-    throw new MyError()
+    throw new MyError();
 }

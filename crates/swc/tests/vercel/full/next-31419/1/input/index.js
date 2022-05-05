@@ -6,11 +6,13 @@ Promise.all(assignAll).then(async function (value) {
         removeQuery += `'${o.id}', `;
 
         let userlist = await listOfUser(o.id);
-        userlist.forEach(user => {
-            insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${o.id}', now());`;
+        userlist.forEach((user) => {
+            insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${
+                o.id
+            }', now());`;
         });
     }
-})
+});
 
 export const listOfUser = function (id) {
     return new Promise(async function (resolve, reject) {

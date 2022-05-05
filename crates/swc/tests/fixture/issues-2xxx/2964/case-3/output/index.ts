@@ -10,5 +10,4 @@ const x = (_param)=>/*todo: refactor any type*/ {
         // another comment
         z: rest.z
     };
-} // final comment
-;
+}; // final comment

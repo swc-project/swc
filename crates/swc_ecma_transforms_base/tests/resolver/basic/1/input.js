@@ -4,5 +4,5 @@
         let foo = 2;
         use(foo);
     }
-    use(foo)
+    use(foo);
 }

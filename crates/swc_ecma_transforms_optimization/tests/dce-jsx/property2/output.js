@@ -1,5 +1,5 @@
 function A() {
-    return 'a'
+    return "a";
 }
 export function d() {
     return <A.b.c />;

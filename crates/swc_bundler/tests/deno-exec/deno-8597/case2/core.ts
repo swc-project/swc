@@ -1,4 +1,4 @@
-class Class { }
+class Class {}
 
 var serialization = Object.freeze({
     __proto__: null,

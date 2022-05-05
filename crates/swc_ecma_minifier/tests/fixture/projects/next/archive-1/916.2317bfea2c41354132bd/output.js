@@ -2,7 +2,7 @@
 (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
     [
         916,
-        974, 
+        974
     ],
     {
         6974: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {

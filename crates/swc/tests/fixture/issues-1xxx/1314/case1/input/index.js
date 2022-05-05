@@ -6,6 +6,5 @@ const a = {
   top: ${Math.min(this.currentY - top, this.realtimeStartY) + this.scrollTop}px;
   left: ${Math.min(this.currentX - left, this.startX) + this.scrollLeft}px
   `;
-
-    }
-}
+    },
+};

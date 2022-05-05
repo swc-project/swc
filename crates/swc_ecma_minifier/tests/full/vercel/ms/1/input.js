@@ -13,7 +13,9 @@ function ms(value, options) {
         }
         throw new Error("Value is not a string or number.");
     } catch (error) {
-        const message = isError(error) ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
+        const message = isError(error)
+            ? `${error.message}. value=${JSON.stringify(value)}`
+            : "An unknown error has occured.";
         throw new Error(message);
     }
 }
@@ -22,7 +24,10 @@ function parse(str) {
     if (str.length > 100) {
         throw new Error("Value exceeds the maximum length of 100 characters.");
     }
-    const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
+    const match =
+        /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+            str
+        );
     if (!match) {
         return NaN;
     }
@@ -68,7 +73,9 @@ function parse(str) {
         case "ms":
             return n;
         default:
-            throw new Error(`The unit ${type} was matched, but no matching case exists.`);
+            throw new Error(
+                `The unit ${type} was matched, but no matching case exists.`
+            );
     }
 }
 export default ms;

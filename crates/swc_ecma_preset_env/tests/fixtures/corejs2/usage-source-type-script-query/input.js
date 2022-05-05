@@ -1,8 +1,8 @@
 require("foo");
 
-const x = new Promise(resolve => {
-  const p = [];
+const x = new Promise((resolve) => {
+    const p = [];
 
-  if (p.includes("a")) {
-  }
+    if (p.includes("a")) {
+    }
 });

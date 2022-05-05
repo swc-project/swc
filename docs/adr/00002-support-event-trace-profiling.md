@@ -1,8 +1,8 @@
 # Support event trace for profiling
 
-- Status: accepted <!-- optional -->
-- Deciders: @kdy1, @kwonoj <!-- optional -->
-- Date: 2022-01-01 <!-- optional -->
+-   Status: accepted <!-- optional -->
+-   Deciders: @kdy1, @kwonoj <!-- optional -->
+-   Date: 2022-01-01 <!-- optional -->
 
 Technical Story: [Issue 3071](https://github.com/swc-project/swc/issues/3071) <!-- optional -->
 
@@ -79,7 +79,7 @@ SWC follows option 2 or 3, however its emitted output is not compatible to trace
 
 ## Links
 
-- https://github.com/kdy1/cargo-profile
-- https://nnethercote.github.io/perf-book/profiling.html
-- https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#!
-- https://github.com/tokio-rs/tracing
+-   https://github.com/kdy1/cargo-profile
+-   https://nnethercote.github.io/perf-book/profiling.html
+-   https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#!
+-   https://github.com/tokio-rs/tracing

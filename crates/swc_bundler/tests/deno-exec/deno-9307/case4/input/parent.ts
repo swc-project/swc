@@ -1,1 +1,1 @@
-export class Parent { }
+export class Parent {}

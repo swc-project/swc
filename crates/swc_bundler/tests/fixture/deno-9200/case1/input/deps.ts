@@ -1,7 +1,7 @@
-import * as lib from './lib';
+import * as lib from "./lib";
 
 // exporting all functions
-export * from './lib';
+export * from "./lib";
 
 // exporting functions namespaced to segno
 export { lib };

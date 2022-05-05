@@ -1,2 +1,2 @@
-export {foo};
+export { foo };
 var foo;

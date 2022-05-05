@@ -1,3 +1,3 @@
-import * as jszip from 'https://deno.land/x/jszip/mod.ts';
+import * as jszip from "https://deno.land/x/jszip/mod.ts";
 
-console.log(jszip)
+console.log(jszip);

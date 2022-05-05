@@ -1,2 +1,1 @@
-export function deferred<T>(): Deferred<T> {
-}
+export function deferred<T>(): Deferred<T> {}

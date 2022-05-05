@@ -24,7 +24,7 @@ __decorate([
     ])
 ], MyOtherClass.prototype, "methodUndecorated", null);
 __decorate([
-    decorate('named'),
+    decorate("named"),
     __param(0, inject()),
     __param(1, arg()),
     __metadata("design:type", Function),
@@ -35,7 +35,7 @@ __decorate([
 ], MyOtherClass.prototype, "method", null);
 MyOtherClass = __decorate([
     __param(0, inject()),
-    __param(1, inject('KIND')),
+    __param(1, inject("KIND")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
@@ -47,7 +47,7 @@ let DecoratedClass = class DecoratedClass {
     method(param: string) {}
 };
 __decorate([
-    decorate('example'),
+    decorate("example"),
     __param(0, inject()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [

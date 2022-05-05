@@ -1,9 +1,9 @@
-'use strict';
-var _a, util = require('@firebase/util'), tslib = require('tslib'), component = require('@firebase/component'), modularAPIs = require('@firebase/app'), logger$1 = require('@firebase/logger'), modularAPIs__namespace = function(e) {
+"use strict";
+var _a, util = require("@firebase/util"), tslib = require("tslib"), component = require("@firebase/component"), modularAPIs = require("@firebase/app"), logger$1 = require("@firebase/logger"), modularAPIs__namespace = function(e) {
     if (e && e.__esModule) return e;
     var n = Object.create(null);
     return e && Object.keys(e).forEach(function(k) {
-        if ('default' !== k) {
+        if ("default" !== k) {
             var d = Object.getOwnPropertyDescriptor(e, k);
             Object.defineProperty(n, k, d.get ? d : {
                 enumerable: !0,
@@ -16,7 +16,7 @@ var _a, util = require('@firebase/util'), tslib = require('tslib'), component = 
 }(modularAPIs), FirebaseAppImpl = function() {
     function FirebaseAppImpl1(_delegate, firebase) {
         var _this = this;
-        this._delegate = _delegate, this.firebase = firebase, modularAPIs._addComponent(_delegate, new component.Component('app-compat', function() {
+        this._delegate = _delegate, this.firebase = firebase, modularAPIs._addComponent(_delegate, new component.Component("app-compat", function() {
             return _this;
         }, "PUBLIC")), this.container = _delegate.container;
     }
@@ -67,7 +67,7 @@ var _a, util = require('@firebase/util'), tslib = require('tslib'), component = 
             options: this.options
         };
     }, FirebaseAppImpl1;
-}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory('app-compat', 'Firebase', ERRORS);
+}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS);
 function createFirebaseNamespace() {
     var namespace1 = function(firebaseAppImpl) {
         var apps = {}, namespace = {
@@ -87,10 +87,10 @@ function createFirebaseNamespace() {
             SDK_VERSION: modularAPIs__namespace.SDK_VERSION,
             INTERNAL: {
                 registerComponent: function(component3) {
-                    var componentName = component3.name, componentNameWithoutCompat = componentName.replace('-compat', '');
+                    var componentName = component3.name, componentNameWithoutCompat = componentName.replace("-compat", "");
                     if (modularAPIs__namespace._registerComponent(component3) && "PUBLIC" === component3.type) {
                         var serviceNamespace = function(appArg) {
-                            if (void 0 === appArg && (appArg = app1()), 'function' != typeof appArg[componentNameWithoutCompat]) throw ERROR_FACTORY.create("invalid-app-argument", {
+                            if (void 0 === appArg && (appArg = app1()), "function" != typeof appArg[componentNameWithoutCompat]) throw ERROR_FACTORY.create("invalid-app-argument", {
                                 appName: componentName
                             });
                             return appArg[componentNameWithoutCompat]();
@@ -106,7 +106,7 @@ function createFirebaseNamespace() {
                     delete apps[name];
                 },
                 useAsService: function(app, name) {
-                    return 'serverAuth' === name ? null : name;
+                    return "serverAuth" === name ? null : name;
                 },
                 modularAPIs: modularAPIs__namespace
             }
@@ -117,7 +117,7 @@ function createFirebaseNamespace() {
             });
             return apps[name];
         }
-        return namespace.default = namespace, Object.defineProperty(namespace, 'apps', {
+        return namespace.default = namespace, Object.defineProperty(namespace, "apps", {
             get: function() {
                 return Object.keys(apps).map(function(name) {
                     return apps[name];
@@ -135,10 +135,10 @@ function createFirebaseNamespace() {
         deepExtend: util.deepExtend
     }), namespace1;
 }
-var firebase$1 = createFirebaseNamespace(), logger = new logger$1.Logger('@firebase/app-compat');
+var firebase$1 = createFirebaseNamespace(), logger = new logger$1.Logger("@firebase/app-compat");
 if (util.isBrowser() && void 0 !== self.firebase) {
     logger.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
     var sdkVersion = self.firebase.SDK_VERSION;
-    sdkVersion && sdkVersion.indexOf('LITE') >= 0 && logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
+    sdkVersion && sdkVersion.indexOf("LITE") >= 0 && logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
 }
 modularAPIs.registerVersion("@firebase/app-compat", "0.1.5", void 0), module.exports = firebase$1;

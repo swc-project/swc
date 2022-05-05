@@ -1,31 +1,31 @@
 {
-  "jsc": {
-    "baseUrl": "./src",
-    "target": "es2018",
-    "externalHelpers": true,
-    "parser": {
-      "syntax": "typescript",
-      "tsx": false,
-      "decorators": false,
-      "dynamicImport": true
+    "jsc": {
+        "baseUrl": "./src",
+        "target": "es2018",
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic",
+                "throwIfNamespace": true
+            }
+        },
+        "paths": {
+            "@moduleA/*": ["modules/01-moduleA/*"],
+            "@moduleB/*": ["modules/03-moduleB/*"]
+        }
     },
-    "transform": {
-      "react": {
-        "runtime": "classic",
-        "throwIfNamespace": true
-      }
-    },
-    "paths": {
-      "@moduleA/*": ["modules/01-moduleA/*"],
-      "@moduleB/*": ["modules/03-moduleB/*"]
+    "module": {
+        "type": "es6",
+        "strict": false,
+        "strictMode": true,
+        "lazy": false,
+        "noInterop": false,
+        "ignoreDynamic": true
     }
-  },
-  "module": {
-    "type": "es6",
-    "strict": false,
-    "strictMode": true,
-    "lazy": false,
-    "noInterop": false,
-    "ignoreDynamic": true
-  }
 }

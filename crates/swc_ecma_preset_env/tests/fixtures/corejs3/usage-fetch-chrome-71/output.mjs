@@ -1,1 +1,1 @@
-const foo = fetch('foo');
+const foo = fetch("foo");

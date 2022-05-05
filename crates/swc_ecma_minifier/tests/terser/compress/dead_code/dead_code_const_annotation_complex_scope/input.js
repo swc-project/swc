@@ -6,7 +6,7 @@ var unused_var_2;
 if (CONST_FOO_ANN) {
     console.log("unreachable");
     var moo;
-    function bar() { }
+    function bar() {}
 }
 if (test === "test") {
     var beef = "good";

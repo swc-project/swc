@@ -5,38 +5,45 @@ function renderToStream(element, generateStaticHTML) {
             highWaterMark: 0,
             write(chunk, encoding, callback) {
                 if (!underlyingStream) {
-                    throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
+                    throw new Error(
+                        "invariant: write called without an underlying stream. This is a bug in Next.js"
+                    );
                 }
                 if (!underlyingStream.writable.write(chunk, encoding)) {
-                    underlyingStream.queuedCallbacks.push(() => callback()
-                    );
+                    underlyingStream.queuedCallbacks.push(() => callback());
                 } else {
                     callback();
                 }
-            }
+            },
         });
         stream.once("finish", () => {
             if (!underlyingStream) {
-                throw new Error("invariant: finish called without an underlying stream. This is a bug in Next.js");
+                throw new Error(
+                    "invariant: finish called without an underlying stream. This is a bug in Next.js"
+                );
             }
             underlyingStream.resolve();
         });
         stream.once("error", (err) => {
             if (!underlyingStream) {
-                throw new Error("invariant: error called without an underlying stream. This is a bug in Next.js");
+                throw new Error(
+                    "invariant: error called without an underlying stream. This is a bug in Next.js"
+                );
             }
             underlyingStream.resolve(err);
         });
         Object.defineProperty(stream, "flush", {
             value: () => {
                 if (!underlyingStream) {
-                    throw new Error("invariant: flush called without an underlying stream. This is a bug in Next.js");
+                    throw new Error(
+                        "invariant: flush called without an underlying stream. This is a bug in Next.js"
+                    );
                 }
                 if (typeof underlyingStream.writable.flush === "function") {
                     underlyingStream.writable.flush();
                 }
             },
-            enumerable: true
+            enumerable: true,
         });
         let resolved = false;
         const doResolve = () => {
@@ -46,8 +53,7 @@ function renderToStream(element, generateStaticHTML) {
                     const drainHandler = () => {
                         const prevCallbacks = underlyingStream.queuedCallbacks;
                         underlyingStream.queuedCallbacks = [];
-                        prevCallbacks.forEach((callback) => callback()
-                        );
+                        prevCallbacks.forEach((callback) => callback());
                     };
                     res.on("drain", drainHandler);
                     underlyingStream = {
@@ -57,28 +63,32 @@ function renderToStream(element, generateStaticHTML) {
                             next(err);
                         },
                         writable: res,
-                        queuedCallbacks: []
+                        queuedCallbacks: [],
                     };
                     startWriting();
                 });
             }
         };
-        const { abort, startWriting } = ReactDOMServer.pipeToNodeWritable(element, stream, {
-            onError(error) {
-                if (!resolved) {
-                    resolved = true;
-                    reject(error);
-                }
-                abort();
-            },
-            onCompleteShell() {
-                if (!generateStaticHTML) {
+        const { abort, startWriting } = ReactDOMServer.pipeToNodeWritable(
+            element,
+            stream,
+            {
+                onError(error) {
+                    if (!resolved) {
+                        resolved = true;
+                        reject(error);
+                    }
+                    abort();
+                },
+                onCompleteShell() {
+                    if (!generateStaticHTML) {
+                        doResolve();
+                    }
+                },
+                onCompleteAll() {
                     doResolve();
-                }
-            },
-            onCompleteAll() {
-                doResolve();
+                },
             }
-        });
+        );
     });
 }

@@ -1,7 +1,7 @@
 function A() {
-    return 'a'
+    return "a";
 }
-const b = 'b'
+const b = "b";
 export function c() {
-    return <A.b />
+    return <A.b />;
 }

@@ -19,10 +19,9 @@
         }
 
         if (counter !== 2) {
-            throw new Error('')
+            throw new Error("");
         }
     })();
-
 
     for (let v of [0, 1]) {
         await null;
@@ -33,4 +32,4 @@
     resolve({ value: undefined, done: true });
 
     await res;
-})()
+})();

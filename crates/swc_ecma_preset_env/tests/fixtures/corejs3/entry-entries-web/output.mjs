@@ -6,4 +6,4 @@ import "core-js/modules/web.timers.js";
 import "core-js/modules/web.url-search-params.js";
 import "core-js/modules/web.url.js";
 import "core-js/modules/web.url.to-json.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";

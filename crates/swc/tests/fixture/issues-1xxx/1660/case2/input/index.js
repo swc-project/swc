@@ -1,1 +1,1 @@
-console.log(class { });
+console.log(class {});

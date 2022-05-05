@@ -1,13 +1,13 @@
 !function(self) {
-    'use strict';
+    "use strict";
     var ampersandTest, propValue, nativeURLSearchParams = function() {
         try {
-            if (self.URLSearchParams && 'bar' === new self.URLSearchParams('foo=bar').get('foo')) return self.URLSearchParams;
+            if (self.URLSearchParams && "bar" === new self.URLSearchParams("foo=bar").get("foo")) return self.URLSearchParams;
         } catch (e) {}
         return null;
-    }(), isSupportObjectConstructor = nativeURLSearchParams && 'a=1' === new nativeURLSearchParams({
+    }(), isSupportObjectConstructor = nativeURLSearchParams && "a=1" === new nativeURLSearchParams({
         a: 1
-    }).toString(), decodesPlusesCorrectly = nativeURLSearchParams && '+' === new nativeURLSearchParams('s=%2B').get('s'), __URLSearchParams__ = "__URLSearchParams__", encodesAmpersandsCorrectly = !nativeURLSearchParams || ((ampersandTest = new nativeURLSearchParams()).append('s', ' &'), 's=+%26' === ampersandTest.toString()), prototype = URLSearchParamsPolyfill.prototype, iterable = !!(self.Symbol && self.Symbol.iterator);
+    }).toString(), decodesPlusesCorrectly = nativeURLSearchParams && "+" === new nativeURLSearchParams("s=%2B").get("s"), __URLSearchParams__ = "__URLSearchParams__", encodesAmpersandsCorrectly = !nativeURLSearchParams || ((ampersandTest = new nativeURLSearchParams()).append("s", " &"), "s=+%26" === ampersandTest.toString()), prototype = URLSearchParamsPolyfill.prototype, iterable = !!(self.Symbol && self.Symbol.iterator);
     if (!nativeURLSearchParams || !isSupportObjectConstructor || !decodesPlusesCorrectly || !encodesAmpersandsCorrectly) {
         prototype.append = function(name, value) {
             appendTo(this[__URLSearchParams__], name, value);
@@ -23,17 +23,17 @@
             return hasOwnProperty(this[__URLSearchParams__], name);
         }, prototype.set = function(name, value) {
             this[__URLSearchParams__][name] = [
-                '' + value
+                "" + value
             ];
         }, prototype.toString = function() {
             var i, key, name, value, dict = this[__URLSearchParams__], query = [];
-            for(key in dict)for(i = 0, name = encode(key), value = dict[key]; i < value.length; i++)query.push(name + '=' + encode(value[i]));
-            return query.join('&');
+            for(key in dict)for(i = 0, name = encode(key), value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
+            return query.join("&");
         }, decodesPlusesCorrectly && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy ? (propValue = new Proxy(nativeURLSearchParams, {
             construct: function(target, args) {
                 return new target(new URLSearchParamsPolyfill(args[0]).toString());
             }
-        })).toString = Function.prototype.toString.bind(URLSearchParamsPolyfill) : propValue = URLSearchParamsPolyfill, Object.defineProperty(self, 'URLSearchParams', {
+        })).toString = Function.prototype.toString.bind(URLSearchParamsPolyfill) : propValue = URLSearchParamsPolyfill, Object.defineProperty(self, "URLSearchParams", {
             value: propValue
         });
         var USPProto = self.URLSearchParams.prototype;
@@ -77,20 +77,20 @@
     }
     function encode(str) {
         var replace = {
-            '!': '%21',
-            "'": '%27',
-            '(': '%28',
-            ')': '%29',
-            '~': '%7E',
-            '%20': '+',
-            '%00': '\x00'
+            "!": "%21",
+            "'": "%27",
+            "(": "%28",
+            ")": "%29",
+            "~": "%7E",
+            "%20": "+",
+            "%00": "\x00"
         };
         return encodeURIComponent(str).replace(/[!'\(\)~]|%20|%00/g, function(match) {
             return replace[match];
         });
     }
     function decode(str) {
-        return str.replace(/[ +]/g, '%20').replace(/(%[a-f0-9]{2})+/ig, function(match) {
+        return str.replace(/[ +]/g, "%20").replace(/(%[a-f0-9]{2})+/gi, function(match) {
             return decodeURIComponent(match);
         });
     }
@@ -120,22 +120,22 @@
         } else {
             0 === search.indexOf("?") && (search = search.slice(1));
             for(var pairs = search.split("&"), j = 0; j < pairs.length; j++){
-                var value = pairs[j], index = value.indexOf('=');
-                -1 < index ? appendTo(dict, decode(value.slice(0, index)), decode(value.slice(index + 1))) : value && appendTo(dict, decode(value), '');
+                var value = pairs[j], index = value.indexOf("=");
+                -1 < index ? appendTo(dict, decode(value.slice(0, index)), decode(value.slice(index + 1))) : value && appendTo(dict, decode(value), "");
             }
         }
         return dict;
     }
     function appendTo(dict, name, value) {
-        var val = 'string' == typeof value ? value : null != value && 'function' == typeof value.toString ? value.toString() : JSON.stringify(value);
+        var val = "string" == typeof value ? value : null != value && "function" == typeof value.toString ? value.toString() : JSON.stringify(value);
         hasOwnProperty(dict, name) ? dict[name].push(val) : dict[name] = [
             val
         ];
     }
     function isArray(val) {
-        return !!val && '[object Array]' === Object.prototype.toString.call(val);
+        return !!val && "[object Array]" === Object.prototype.toString.call(val);
     }
     function hasOwnProperty(obj, prop) {
         return Object.prototype.hasOwnProperty.call(obj, prop);
     }
-}('undefined' != typeof global ? global : 'undefined' != typeof window ? window : this);
+}("undefined" != typeof global ? global : "undefined" != typeof window ? window : this);

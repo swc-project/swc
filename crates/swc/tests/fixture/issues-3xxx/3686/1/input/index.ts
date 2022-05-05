@@ -1,12 +1,12 @@
-const CD: ClassDecorator = () => { }
-const PD: PropertyDecorator = () => { }
+const CD: ClassDecorator = () => {};
+const PD: PropertyDecorator = () => {};
 
 // Commenting out the decorators creates valid output.
 @CD
 export class ServiceError extends Error {
     @PD
-    readonly code: ServiceError.Code = ServiceError.Code.badResponse
-    readonly name: string = "ServiceError.BadResponse"
+    readonly code: ServiceError.Code = ServiceError.Code.badResponse;
+    readonly name: string = "ServiceError.BadResponse";
 }
 
 export namespace ServiceError {
@@ -22,15 +22,15 @@ export namespace ServiceError {
 
     export class ServiceNotFound extends ServiceError {
         // Service was probably not registered, or using the wrong channel
-        readonly code = Code.serviceNotFound
-        readonly name = "ServiceError.ServiceNotFound"
+        readonly code = Code.serviceNotFound;
+        readonly name = "ServiceError.ServiceNotFound";
     }
 
     export function toMessageBody(error: unknown): {
-        code: number
-        message?: string
-        stack?: string
+        code: number;
+        message?: string;
+        stack?: string;
     } {
-        return { code: ServiceError.Code.implementation }
+        return { code: ServiceError.Code.implementation };
     }
 }

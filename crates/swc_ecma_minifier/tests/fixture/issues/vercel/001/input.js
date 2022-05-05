@@ -1,1 +1,1 @@
-const re = new RegExp('^/(?!_next).*$')
+const re = new RegExp("^/(?!_next).*$");

@@ -2,9 +2,7 @@
     "jsc": {
         "baseUrl": ".",
         "paths": {
-            "foo/*": [
-                "./foo.ts/*"
-            ]
+            "foo/*": ["./foo.ts/*"]
         }
     }
 }

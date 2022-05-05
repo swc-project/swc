@@ -11,30 +11,37 @@ function lazyInitializer(payload) {
         var pending = payload;
         pending._status = Pending;
         pending._result = thenable;
-        thenable.then(function (moduleObject) {
-            if (payload._status === Pending) {
-                var defaultExport = moduleObject.default;
+        thenable.then(
+            function (moduleObject) {
+                if (payload._status === Pending) {
+                    var defaultExport = moduleObject.default;
 
-                {
-                    if (defaultExport === undefined) {
-                        error('lazy: Expected the result of a dynamic import() call. ' + 'Instead received: %s\n\nYour code should look like: \n  ' + // Break up imports to avoid accidentally parsing them as dependencies.
-                            'const MyComponent = lazy(() => imp' + "ort('./MyComponent'))", moduleObject);
-                    }
-                } // Transition to the next state.
+                    {
+                        if (defaultExport === undefined) {
+                            error(
+                                "lazy: Expected the result of a dynamic import() call. " +
+                                    "Instead received: %s\n\nYour code should look like: \n  " + // Break up imports to avoid accidentally parsing them as dependencies.
+                                    "const MyComponent = lazy(() => imp" +
+                                    "ort('./MyComponent'))",
+                                moduleObject
+                            );
+                        }
+                    } // Transition to the next state.
 
-
-                var resolved = payload;
-                resolved._status = Resolved;
-                resolved._result = defaultExport;
+                    var resolved = payload;
+                    resolved._status = Resolved;
+                    resolved._result = defaultExport;
+                }
+            },
+            function (error) {
+                if (payload._status === Pending) {
+                    // Transition to the next state.
+                    var rejected = payload;
+                    rejected._status = Rejected;
+                    rejected._result = error;
+                }
             }
-        }, function (error) {
-            if (payload._status === Pending) {
-                // Transition to the next state.
-                var rejected = payload;
-                rejected._status = Rejected;
-                rejected._result = error;
-            }
-        });
+        );
     }
 
     if (payload._status === Resolved) {

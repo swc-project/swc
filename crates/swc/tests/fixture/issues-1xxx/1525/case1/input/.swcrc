@@ -1,17 +1,17 @@
 {
-  "env": {
-    "targets": {
-      "node": "15.10"
+    "env": {
+        "targets": {
+            "node": "15.10"
+        }
+    },
+    "jsc": {
+        "target": "es2019",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
+    },
+    "module": {
+        "type": "commonjs"
     }
-  },
-  "jsc": {
-    "target": "es2019",
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true
-    }
-  },
-  "module": {
-    "type": "commonjs"
-  }
 }

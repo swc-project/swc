@@ -1,2 +1,1 @@
 # SWC plugin
-

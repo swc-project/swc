@@ -1,6 +1,6 @@
 enum MyEnum {
     x = "xxx",
-    y = "yyy"
+    y = "yyy",
 }
 
 class Xpto {
@@ -9,5 +9,5 @@ class Xpto {
 }
 
 function Decorator() {
-    return function (...args) { };
+    return function (...args) {};
 }

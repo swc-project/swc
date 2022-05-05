@@ -2,9 +2,7 @@
     "module": {
         "type": "commonjs"
     },
-    "exclude": [
-        ".*.js$"
-    ],
+    "exclude": [".*.js$"],
     "jsc": {
         "parser": {
             "syntax": "typescript"

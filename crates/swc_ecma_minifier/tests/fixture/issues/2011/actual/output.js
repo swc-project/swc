@@ -24,7 +24,7 @@ module.exports = function() {
                 value: function() {
                     this.bb = new ClassB.MyA();
                 }
-            }
+            }, 
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
     }();
     return obj = ClassB1, key = "MyA", value = ClassA, key in obj ? Object.defineProperty(obj, key, {

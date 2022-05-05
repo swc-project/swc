@@ -1,1 +1,1 @@
-sql`'#ERROR'`
+sql`'#ERROR'`;

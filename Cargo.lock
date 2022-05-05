@@ -3187,7 +3187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.76.2"
+version = "0.76.3"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3523,7 +3523,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.108.0"
+version = "0.108.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.15"
+version = "0.5.17"
 dependencies = [
  "bitflags",
  "lexical",

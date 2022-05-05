@@ -1,28 +1,33 @@
 {
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/*.bk": true,
-    "**/node_modules": true,
-    "**/target": true
-  },
-  "[rust]": {
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
-    "editor.formatOnSave": true
-  },
-  "editor.formatOnSave": true,
-  "git.ignoreLimitWarning": true,
-  "eslint.enable": false,
-  "cSpell.allowCompoundWords": true,
-  "cSpell.caseSensitive": true,
-  "rust-analyzer.checkOnSave.command": "clippy",
-  "rust-analyzer.checkOnSave.features": [
-    // We use this to make IDE faster
-    "rust-analyzer"
-  ]
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*.bk": true,
+        "**/node_modules": true,
+        "**/target": true
+    },
+    "[rust]": {
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    "editor.formatOnSave": true,
+    "git.ignoreLimitWarning": true,
+    "git.autoRepositoryDetection": false,
+    "git.ignoredRepositories": [
+        "crates/swc_ecma_parser/tests/test262-parser",
+        "crates/swc_html_parser/tests/html5lib-tests"
+    ],
+    "eslint.enable": false,
+    "cSpell.allowCompoundWords": true,
+    "cSpell.caseSensitive": true,
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "rust-analyzer.checkOnSave.features": [
+        // We use this to make IDE faster
+        "rust-analyzer"
+    ]
 }

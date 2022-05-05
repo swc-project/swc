@@ -1,4 +1,4 @@
-import { b } from './b';
+import { b } from "./b";
 
-export const a = 'a';
-export { b }
+export const a = "a";
+export { b };

@@ -1,3 +1,3 @@
-export { default as b } from './b';
+export { default as b } from "./b";
 
-console.log('a.js');
+console.log("a.js");
