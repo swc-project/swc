@@ -140,8 +140,10 @@ where
                     .create_flow_brancher(node.get_value(), state.get_out());
 
                 for out_edge in self.cfg.edges_directed(a, Direction::Outgoing) {
-                    let out_branch_before = out_edge.get_annotation();
-                    out_edge.set_annotation(brancher.branch_flow(out_edge.get_value()));
+                    let out_branch_before = out_edge.weight().get_annotation();
+                    out_edge
+                        .weight()
+                        .set_annotation(brancher.branch_flow(out_edge.get_value()));
 
                     if !changed {
                         changed = out_branch_before != out_edge.get_annotation();
