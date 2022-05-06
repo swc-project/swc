@@ -1,5 +1,5 @@
 function x() {
-    (class a {
+    (class Baz {
     });
     class Foo {
     }

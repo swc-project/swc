@@ -67,11 +67,11 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 20,
+                    "start": 22,
                     "end": 25,
                     "ctxt": 0
                   },
-                  "value": "\r\n\r\nA"
+                  "value": "\r\nA"
                 }
               ],
               "content": null
