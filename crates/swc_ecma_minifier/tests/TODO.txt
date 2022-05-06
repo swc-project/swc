@@ -110,7 +110,6 @@ issue_1443/unsafe_undefined/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
-issue_22/return_with_no_value_in_if_body/input.js
 issue_269/issue_269_1/input.js
 issue_269/regexp/input.js
 issue_269/strings_concat/input.js
@@ -151,7 +150,6 @@ numbers/evaluate_4/input.js
 object/concise_methods_and_mangle_props/input.js
 object/getter_setter_mangler/input.js
 properties/dot_properties/input.js
-properties/issue_2208_3/input.js
 properties/issue_2208_8/input.js
 properties/issue_2256/input.js
 properties/issue_3188_1/input.js
@@ -175,7 +173,6 @@ pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/unary/input.js
-pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_3/input.js
 pure_getters/set_immutable_3/input.js
 pure_getters/set_immutable_5/input.js

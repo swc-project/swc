@@ -332,6 +332,7 @@ issue_2001/export_func_2/input.js
 issue_203/compress_new_function/input.js
 issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js
+issue_22/return_with_no_value_in_if_body/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
@@ -379,6 +380,7 @@ properties/dont_mangle_computed_property_1/input.js
 properties/dont_mangle_computed_property_2/input.js
 properties/evaluate_array_length/input.js
 properties/issue_2208_1/input.js
+properties/issue_2208_3/input.js
 properties/issue_2208_4/input.js
 properties/issue_2208_5/input.js
 properties/issue_2208_6/input.js
@@ -436,6 +438,7 @@ pure_funcs/unused/input.js
 pure_getters/collapse_vars_1_true/input.js
 pure_getters/collapse_vars_2_true/input.js
 pure_getters/impure_getter_2/input.js
+pure_getters/issue_2265_1/input.js
 pure_getters/issue_2313_6/input.js
 pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
