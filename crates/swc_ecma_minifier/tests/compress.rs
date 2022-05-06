@@ -440,6 +440,9 @@ fn fixture(input: PathBuf) {
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
             expected = drop_span(expected);
+            expected
+                .body
+                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 
             let mut normalized_expected = expected.clone();
             normalized_expected.visit_mut_with(&mut DropParens);
@@ -459,9 +462,6 @@ fn fixture(input: PathBuf) {
                 return Ok(());
             }
 
-            expected
-                .body
-                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
             print(cm.clone(), &[expected], false, false)
         };
 
