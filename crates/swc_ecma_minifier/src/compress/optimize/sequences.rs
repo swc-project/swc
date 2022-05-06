@@ -769,23 +769,41 @@ where
                         if an.to_id() == bn.to_id() {
                             // We need to preserve side effect of `av.init`
 
-                            if bv.init.is_none() {
-                                // As variable name is same, we can move initializer
+                            match bv.init.as_deref_mut() {
+                                Some(b_init) => {
+                                    if let Some(a_init) = av.init.take() {
+                                        let bseq = b_init.force_seq();
+                                        bseq.exprs.insert(0, a_init);
 
-                                // Th code below
-                                //
-                                //      var a = 5;
-                                //      var a;
-                                //
-                                //      console.log(a)
-                                //
-                                // prints 5
-                                bv.init = av.init.take();
-                                self.changed = true;
-                                report_change!(
-                                    "Moving initializer to the next variable declaration as they \
-                                     have the same name"
-                                );
+                                        self.changed = true;
+                                        report_change!(
+                                            "Moving initializer sequentially as they have a same \
+                                             name"
+                                        );
+                                        av.name.take();
+                                        continue;
+                                    }
+                                }
+                                None => {
+                                    // As variable name is same, we can move initializer
+
+                                    // Th code below
+                                    //
+                                    //      var a = 5;
+                                    //      var a;
+                                    //
+                                    //      console.log(a)
+                                    //
+                                    // prints 5
+                                    bv.init = av.init.take();
+                                    self.changed = true;
+                                    report_change!(
+                                        "Moving initializer to the next variable declaration as \
+                                         they have the same name"
+                                    );
+                                    av.name.take();
+                                    continue;
+                                }
                             }
                         }
                     }
