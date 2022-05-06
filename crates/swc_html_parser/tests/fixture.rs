@@ -914,12 +914,14 @@ impl VisitMut for DomVisualizer<'_> {
     }
 }
 
+#[allow(clippy::redundant_clone)]
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
-fn html5lib_test_tree_construction(mut path_buf: PathBuf) {
-    if path_buf.extension().unwrap() == "dat" {
+fn html5lib_test_tree_construction(input: PathBuf) {
+    if input.extension().unwrap() == "dat" {
         let mut tree_construction_base = None;
         let mut tests_base = None;
+        let mut path_buf = input.to_path_buf();
 
         while path_buf.pop() {
             if path_buf.ends_with("tree-construction") {
@@ -992,9 +994,9 @@ fn html5lib_test_tree_construction(mut path_buf: PathBuf) {
             return Ok(());
         }
 
-        let file_stem = path_buf.file_stem().unwrap().to_str().unwrap().to_owned();
-        let json_path = path_buf.parent().unwrap().join(file_stem + ".json");
-        let fm = cm.load_file(&path_buf).unwrap();
+        let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
+        let json_path = input.parent().unwrap().join(file_stem + ".json");
+        let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let mut parser = Parser::new(lexer, Default::default());
 
@@ -1009,7 +1011,7 @@ fn html5lib_test_tree_construction(mut path_buf: PathBuf) {
                 actual_json.compare_to_file(&json_path).unwrap();
 
                 // Skip scrippted test, because we don't support ECMA execution
-                if path_buf
+                if input
                     .parent()
                     .unwrap()
                     .to_string_lossy()
