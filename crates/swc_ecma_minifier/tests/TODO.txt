@@ -110,7 +110,6 @@ issue_1443/unsafe_undefined/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
-issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
 issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1758/input.js

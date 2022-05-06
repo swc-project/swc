@@ -336,6 +336,7 @@ issue_22/return_with_no_value_in_if_body/input.js
 issue_269/issue_269_1/input.js
 issue_269/regexp/input.js
 issue_269/strings_concat/input.js
+issue_2719/warn/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
