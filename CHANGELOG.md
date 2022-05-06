@@ -34,6 +34,9 @@
 
 - **(html/parser)** Fix parsing of `nobr` (#4535) ([e6042a5](https://github.com/swc-project/swc/commit/e6042a5e692c785bb12058f1eb63e728f3191cef))
 
+
+- **(html/parser)** Fix parsing of cdata (#4537) ([07cf28a](https://github.com/swc-project/swc/commit/07cf28a168c0e4619c3293ece180922d5e9a632d))
+
 ### Miscellaneous Tasks
 
 
