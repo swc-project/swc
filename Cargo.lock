@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.21"
+version = "0.5.22"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3956,7 +3956,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
