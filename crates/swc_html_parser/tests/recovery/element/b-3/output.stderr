@@ -1,0 +1,12 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
+ 1 | <b><a><b><p></a>
+   :             ^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
+ 1 | <b><a><b><p></a>
+   : ^^^^^^^^^^^^^^^^
+   `----
