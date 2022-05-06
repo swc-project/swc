@@ -770,6 +770,46 @@ impl DomVisualizer<'_> {
 }
 
 impl VisitMut for DomVisualizer<'_> {
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        let mut attribute = String::new();
+
+        attribute.push_str(&self.get_ident());
+
+        if let Some(prefix) = &n.prefix {
+            attribute.push_str(&prefix);
+            attribute.push(' ');
+        }
+
+        attribute.push_str(&n.name);
+        attribute.push('=');
+        attribute.push('"');
+
+        if let Some(value) = &n.value {
+            attribute.push_str(&value);
+        }
+
+        attribute.push('"');
+        attribute.push('\n');
+
+        self.dom_buf.push_str(&attribute);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        let mut comment = String::new();
+
+        comment.push_str(&self.get_ident());
+        comment.push_str("<!-- ");
+        comment.push_str(&n.data);
+        comment.push_str(" -->");
+        comment.push('\n');
+
+        self.dom_buf.push_str(&comment);
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_document(&mut self, n: &mut Document) {
         let mut document = String::new();
 
@@ -859,32 +899,6 @@ impl VisitMut for DomVisualizer<'_> {
         self.indent = old_indent;
     }
 
-    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
-        let mut attribute = String::new();
-
-        attribute.push_str(&self.get_ident());
-
-        if let Some(prefix) = &n.prefix {
-            attribute.push_str(&prefix);
-            attribute.push(' ');
-        }
-
-        attribute.push_str(&n.name);
-        attribute.push('=');
-        attribute.push('"');
-
-        if let Some(value) = &n.value {
-            attribute.push_str(&value);
-        }
-
-        attribute.push('"');
-        attribute.push('\n');
-
-        self.dom_buf.push_str(&attribute);
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_text(&mut self, n: &mut Text) {
         let mut text = String::new();
 
@@ -895,20 +909,6 @@ impl VisitMut for DomVisualizer<'_> {
         text.push('\n');
 
         self.dom_buf.push_str(&text);
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_comment(&mut self, n: &mut Comment) {
-        let mut comment = String::new();
-
-        comment.push_str(&self.get_ident());
-        comment.push_str("<!-- ");
-        comment.push_str(&n.data);
-        comment.push_str(" -->");
-        comment.push('\n');
-
-        self.dom_buf.push_str(&comment);
 
         n.visit_mut_children_with(self);
     }
