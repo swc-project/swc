@@ -761,8 +761,9 @@ where
 
                 let a = a1.last_mut().unwrap();
 
-                {
+                if let (Mergable::Var(av), Mergable::Var(bv)) = (a, &mut a2[j - idx]) {
                     // We try dropping variable assignments first.
+
                     // TODO
                 }
 
