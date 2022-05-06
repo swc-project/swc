@@ -666,8 +666,13 @@ where
 
             match stmt.as_stmt_mut() {
                 Some(Stmt::Decl(Decl::Var(v))) => {
-                    v.decls
-                        .retain(|decl| !matches!(decl.init.as_deref(), Some(Expr::Invalid(..))));
+                    v.decls.retain(|decl| {
+                        // We dropped variable declarations using sequential inlining
+                        if matches!(decl.name, Pat::Invalid(..)) {
+                            return false;
+                        }
+                        !matches!(decl.init.as_deref(), Some(Expr::Invalid(..)))
+                    });
 
                     !v.decls.is_empty()
                 }
@@ -732,6 +737,9 @@ where
             .collect();
 
         let _ = self.merge_sequences_in_exprs(&mut exprs);
+
+        // As we don't have Mergable::Var here, we don't need to check for dropped
+        // variables.
 
         e.exprs.retain(|e| !e.is_invalid());
     }
