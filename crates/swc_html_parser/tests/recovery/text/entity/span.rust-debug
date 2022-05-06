@@ -48,9 +48,13 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | |   </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Child
@@ -113,9 +117,13 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | |   </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Element
@@ -166,9 +174,13 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | |   </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Child
@@ -232,9 +244,13 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | |   </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Element
@@ -284,9 +300,13 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | |   </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Child
@@ -781,16 +801,24 @@
     ,-[$DIR/tests/recovery/text/entity/input.html:46:1]
  46 | ,-> </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
 
   x Text
     ,-[$DIR/tests/recovery/text/entity/input.html:46:1]
  46 | ,-> </div>
  47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 48 | |   FOO&#xBAR
+ 49 | |   FOO&#x41BAR
+ 50 | |   FOO&#x41ZOO
+ 51 | |   
+ 52 | |   </body>
+ 53 | |   </html>
+ 54 | `-> 
     `----
