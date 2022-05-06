@@ -5178,7 +5178,7 @@ where
                 match self.consume_next_char() {
                     // ASCII hex digit
                     // Reconsume in the hexadecimal character reference state.
-                    Some(c) if c.is_ascii_hexdigit() => {
+                    Some(c) if is_ascii_hex_digit(c) => {
                         self.reconsume_in_state(State::HexademicalCharacterReference);
                     }
                     // Anything else
@@ -5533,12 +5533,17 @@ fn is_noncharacter(c: u32) -> bool {
 
 #[inline(always)]
 fn is_upper_hex_digit(c: char) -> bool {
-    matches!(c, '0'..='9' | 'A'..='Z')
+    matches!(c, '0'..='9' | 'A'..='F')
 }
 
 #[inline(always)]
 fn is_lower_hex_digit(c: char) -> bool {
-    matches!(c, '0'..='9' | 'a'..='z')
+    matches!(c, '0'..='9' | 'a'..='f')
+}
+
+#[inline(always)]
+fn is_ascii_hex_digit(c: char) -> bool {
+    is_upper_hex_digit(c) || is_lower_hex_digit(c)
 }
 
 #[inline(always)]
