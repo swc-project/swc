@@ -1,0 +1,1 @@
+decorator(class ImportantName {});
