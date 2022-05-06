@@ -103,13 +103,8 @@ inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
 issue_1034/non_hoisted_function_after_return_2a/input.js
 issue_1034/non_hoisted_function_after_return_2b/input.js
-issue_1052/deeply_nested/input.js
 issue_1052/defun_else_if_return/input.js
-issue_1052/defun_hoist_funs/input.js
 issue_1052/defun_if_return/input.js
-issue_1052/multiple_functions/input.js
-issue_1052/not_hoisted_when_already_nested/input.js
-issue_1052/single_function/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
 issue_1261/pure_function_calls/input.js
