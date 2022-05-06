@@ -372,6 +372,7 @@ labels/labels_2/input.js
 labels/labels_4/input.js
 logical_assignment/assign_in_conditional_part/input.js
 logical_assignment/assignment_in_left_part_2/input.js
+loops/drop_if_else_break_1/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_5/input.js
