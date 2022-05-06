@@ -11,6 +11,9 @@
 - **(es/modules)** Preserve extensions (#4524) ([f3b262e](https://github.com/swc-project/swc/commit/f3b262e340cdd5aaa5ce4008936e3ba696f3dc06))
 
 
+- **(es/parser)** Revert #4067 (#4540) ([2831059](https://github.com/swc-project/swc/commit/28310596a6c2c62cab3e5124c9b68439e152ba18))
+
+
 - **(html/parser)** Fix a bug related to parsing foreign elements (#4527) ([2f6f8fa](https://github.com/swc-project/swc/commit/2f6f8fa717c4a969221958bc2c70a3f68590d93b))
 
 
