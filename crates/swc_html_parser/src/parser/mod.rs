@@ -3081,15 +3081,15 @@ where
 
                             self.run_the_adoption_agency_algorithm(token_and_info)?;
                             self.reconstruct_active_formatting_elements()?;
-                        } else {
-                            let element = self.insert_html_element(&mut token_and_info.clone())?;
-
-                            self.active_formatting_elements
-                                .push(ActiveFormattingElement::Element(
-                                    element,
-                                    token_and_info.clone(),
-                                ));
                         }
+
+                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+
+                        self.active_formatting_elements
+                            .push(ActiveFormattingElement::Element(
+                                element,
+                                token_and_info.clone(),
+                            ));
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
                     // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
