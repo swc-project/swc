@@ -367,6 +367,8 @@ keep_names/keep_some_classnames/input.js
 keep_names/keep_some_fnames/input.js
 keep_names/keep_some_fnames_reduce/input.js
 keep_quoted_strict/keep_quoted_strict/input.js
+labels/labels_1/input.js
+labels/labels_2/input.js
 labels/labels_4/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
