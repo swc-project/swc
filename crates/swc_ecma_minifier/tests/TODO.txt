@@ -110,9 +110,6 @@ issue_1443/unsafe_undefined/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
-issue_203/compress_new_function/input.js
-issue_203/compress_new_function_with_destruct/input.js
-issue_203/compress_new_function_with_destruct_arrows/input.js
 issue_22/return_with_no_value_in_if_body/input.js
 issue_269/issue_269_1/input.js
 issue_269/regexp/input.js

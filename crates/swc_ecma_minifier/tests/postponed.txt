@@ -329,6 +329,9 @@ issue_2001/export_class_2/input.js
 issue_2001/export_default_class_2/input.js
 issue_2001/export_default_func_2/input.js
 issue_2001/export_func_2/input.js
+issue_203/compress_new_function/input.js
+issue_203/compress_new_function_with_destruct/input.js
+issue_203/compress_new_function_with_destruct_arrows/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
