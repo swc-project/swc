@@ -9,7 +9,7 @@ var NonGenericParameter, GenericParameter;
         return x;
     });
 }(NonGenericParameter || (NonGenericParameter = {})), function(GenericParameter) {
-    var a, a, foo5 = function(cb) {
+    var a, foo5 = function(cb) {
         return cb;
     }, foo6 = function(cb) {
         return cb;
