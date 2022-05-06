@@ -1,6 +1,6 @@
 use std::{
     cell::{Cell, RefCell},
-    mem,
+    fmt, mem,
     rc::{Rc, Weak},
 };
 
@@ -48,6 +48,15 @@ impl Drop for Node {
             //     }
             // }
         }
+    }
+}
+
+impl fmt::Debug for Node {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        fmt.debug_struct("Node")
+            .field("data", &self.data)
+            .field("children", &self.children)
+            .finish()
     }
 }
 

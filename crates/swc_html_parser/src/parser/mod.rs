@@ -4162,7 +4162,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
