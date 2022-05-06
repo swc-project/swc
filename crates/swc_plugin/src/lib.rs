@@ -12,7 +12,13 @@ pub mod comments {
 }
 
 pub mod source_map {
-    pub use swc_common::source_map::{CharPos, Loc, MultiByteChar, NonNarrowChar, Pos, SourceFile};
+    pub use swc_common::{
+        source_map::{
+            BytePos, CharPos, FileLinesResult, FileName, Loc, MultiByteChar, NonNarrowChar, Pos,
+            SourceFile,
+        },
+        SourceMapper,
+    };
     pub use swc_plugin_proxy::PluginSourceMapProxy;
 }
 
