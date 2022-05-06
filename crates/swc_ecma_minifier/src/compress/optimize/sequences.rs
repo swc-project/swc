@@ -764,7 +764,8 @@ where
                 if let (Mergable::Var(av), Mergable::Var(bv)) = (a, &mut a2[j - idx]) {
                     // We try dropping variable assignments first.
 
-                    // TODO
+                    // Currently, we only drop variable declarations if they have the same name.
+                    if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {}
                 }
 
                 // Merge sequentially
