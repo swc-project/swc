@@ -119,7 +119,6 @@ issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
-issue_637/wrongly_optimized/input.js
 issue_640/iife/input.js
 issue_640/wrongly_optimized/input.js
 issue_751/negate_booleans_1/input.js
