@@ -951,7 +951,7 @@ fn html5lib_test_tree_construction(mut path_buf: PathBuf) {
 
         let tests_file =
             fs::read_to_string(path_buf).expect("Something went wrong reading the file");
-        let mut tests = tests_file.split("\n\n#data\n");
+        let tests = tests_file.split("\n\n#data\n");
 
         for (counter, test) in tests.enumerate() {
             let data_start = if counter == 0 { 6 } else { 0 };
