@@ -769,7 +769,7 @@ where
 
                 let a = a1.last_mut().unwrap();
 
-                if self.options.unused {
+                if self.options.unused && self.options.sequences() {
                     if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
                         // We try dropping variable assignments first.
 
