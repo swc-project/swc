@@ -788,19 +788,19 @@ impl VisitMut for DomVisualizer<'_> {
         document_type.push_str("<!DOCTYPE ");
 
         if let Some(name) = &n.name {
-            document_type.push_str(&name);
+            document_type.push_str(name);
         }
 
         if let Some(public_id) = &n.public_id {
             document_type.push(' ');
             document_type.push('"');
-            document_type.push_str(&public_id);
+            document_type.push_str(public_id);
             document_type.push('"');
 
             if let Some(system_id) = &n.system_id {
                 document_type.push(' ');
                 document_type.push('"');
-                document_type.push_str(&system_id);
+                document_type.push_str(system_id);
                 document_type.push('"');
             } else {
                 document_type.push(' ');
@@ -813,7 +813,7 @@ impl VisitMut for DomVisualizer<'_> {
             document_type.push('"');
             document_type.push(' ');
             document_type.push('"');
-            document_type.push_str(&system_id);
+            document_type.push_str(system_id);
             document_type.push('"');
         }
 
@@ -865,7 +865,7 @@ impl VisitMut for DomVisualizer<'_> {
         attribute.push_str(&self.get_ident());
 
         if let Some(prefix) = &n.prefix {
-            attribute.push_str(&prefix);
+            attribute.push_str(prefix);
             attribute.push(' ');
         }
 
@@ -874,7 +874,7 @@ impl VisitMut for DomVisualizer<'_> {
         attribute.push('"');
 
         if let Some(value) = &n.value {
-            attribute.push_str(&value);
+            attribute.push_str(value);
         }
 
         attribute.push('"');
@@ -916,11 +916,10 @@ impl VisitMut for DomVisualizer<'_> {
 
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
-fn html5lib_test_tree_construction(input: PathBuf) {
-    if input.extension().unwrap() == "dat" {
+fn html5lib_test_tree_construction(mut path_buf: PathBuf) {
+    if path_buf.extension().unwrap() == "dat" {
         let mut tree_construction_base = None;
         let mut tests_base = None;
-        let mut path_buf = input.to_path_buf();
 
         while path_buf.pop() {
             if path_buf.ends_with("tree-construction") {
@@ -935,7 +934,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         }
 
         let tree_construction_base = tree_construction_base.unwrap();
-        let relative_path_to_test = input
+        let relative_path_to_test = path_buf
             .strip_prefix(tree_construction_base)
             .expect("failed to get relative filename")
             .to_str()
@@ -950,20 +949,19 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
         fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
 
-        let tests_file = fs::read_to_string(input).expect("Something went wrong reading the file");
+        let tests_file =
+            fs::read_to_string(path_buf).expect("Something went wrong reading the file");
         let mut tests = tests_file.split("\n\n#data\n");
 
-        let mut counter = 0;
-
-        while let Some(test) = tests.next() {
+        for (counter, test) in tests.enumerate() {
             let data_start = if counter == 0 { 6 } else { 0 };
             let data_end = test
                 .find("#errors\n")
                 .expect("failed to get errors in test");
             let mut data = &test[data_start..data_end];
-            if data.ends_with("\n") {
+            if data.ends_with('\n') {
                 data = data
-                    .strip_suffix("\n")
+                    .strip_suffix('\n')
                     .expect("failed to strip last line in test");
             }
 
@@ -980,8 +978,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
                 .expect("Something went wrong when writing to the file");
-
-            counter += 1;
         }
 
         return;
@@ -996,9 +992,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             return Ok(());
         }
 
-        let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
-        let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
-        let fm = cm.load_file(&input).unwrap();
+        let file_stem = path_buf.file_stem().unwrap().to_str().unwrap().to_owned();
+        let json_path = path_buf.parent().unwrap().join(file_stem + ".json");
+        let fm = cm.load_file(&path_buf).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let mut parser = Parser::new(lexer, Default::default());
 
@@ -1013,7 +1009,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 actual_json.compare_to_file(&json_path).unwrap();
 
                 // Skip scrippted test, because we don't support ECMA execution
-                if input
+                if path_buf
                     .parent()
                     .unwrap()
                     .to_string_lossy()
