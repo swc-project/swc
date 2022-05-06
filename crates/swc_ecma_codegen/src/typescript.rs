@@ -138,16 +138,6 @@ where
     }
 
     #[emitter]
-    fn emit_ts_member_name(&mut self, n: &TsMemberName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match n {
-            TsMemberName::Ident(n) => emit!(n),
-            TsMemberName::PrivateName(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
     fn emit_ts_enum_decl(&mut self, n: &TsEnumDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
