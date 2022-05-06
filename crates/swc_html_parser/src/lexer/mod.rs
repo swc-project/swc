@@ -337,7 +337,7 @@ where
     }
 
     fn emit_cur_token(&mut self) {
-        let token = self.cur_token.clone();
+        let token = self.cur_token.take();
 
         match token {
             Some(token) => {
@@ -3564,7 +3564,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
+                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
                             name: None,
                             raw_name: None,
                             force_quirks: true,
@@ -3607,7 +3607,7 @@ where
                     // point). Switch to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
+                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
                             name: Some(c.to_ascii_lowercase().to_string().into()),
                             raw_name: Some(c.to_string().into()),
                             force_quirks: false,
@@ -3627,7 +3627,7 @@ where
                     Some('\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
+                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
                             name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                             raw_name: None,
                             force_quirks: true,
@@ -3689,7 +3689,7 @@ where
                     // character. Switch to the DOCTYPE name state.
                     Some(c) => {
                         self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
+                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
                             name: Some(c.to_string().into()),
                             raw_name: Some(c.to_string().into()),
                             force_quirks: false,
