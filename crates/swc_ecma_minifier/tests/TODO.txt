@@ -121,8 +121,6 @@ issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
 issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
-issue_976/eval_mangle/input.js
-issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
 issue_979/issue979_test_negated_is_best/input.js
 issue_t120/issue_t120_3/input.js
