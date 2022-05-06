@@ -285,6 +285,8 @@ issue_1105/check_drop_unused_in_peer_function/input.js
 issue_1105/compress_with_with_in_other_scope/input.js
 issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
+issue_1202/mangle_keep_fnames_false/input.js
+issue_1202/mangle_keep_fnames_true/input.js
 issue_1321/issue_1321_debug/input.js
 issue_1321/issue_1321_no_debug/input.js
 issue_1321/issue_1321_with_quoted/input.js
