@@ -337,6 +337,7 @@ issue_269/issue_269_1/input.js
 issue_269/regexp/input.js
 issue_269/strings_concat/input.js
 issue_2719/warn/input.js
+issue_2871/comparison_with_undefined/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
