@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.12"
+version = "0.102.13"
 dependencies = [
  "criterion",
  "either",

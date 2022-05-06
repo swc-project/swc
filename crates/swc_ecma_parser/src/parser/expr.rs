@@ -732,11 +732,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
         // This is slow path. We handle arrow in conditional expression.
-        if self.syntax().typescript()
-            && self.ctx().in_cond_expr
-            && !self.ctx().is_direct_child_of_braceless_arrow_function
-            && is!(self, ':')
-        {
+        if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
