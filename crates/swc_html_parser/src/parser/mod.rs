@@ -3659,9 +3659,7 @@ where
                     }
                     // Any other end tag
                     Token::EndTag { .. } => {
-                        self.any_other_end_tag_for_in_body_insertion_mode(
-                            &mut token_and_info.clone(),
-                        );
+                        self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
                     }
                 }
 
@@ -4164,7 +4162,6 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
                             .into_iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
@@ -6193,7 +6190,7 @@ where
                             span: Default::default(),
                             namespace: None,
                             prefix: None,
-                            name: attribute_token.name.clone(),
+                            name: attribute_token.name,
                             value: attribute_token.value,
                         };
 
@@ -6547,7 +6544,7 @@ where
                 self.open_elements_stack
                     .replace(node_index, new_element.clone());
 
-                node = new_element.clone();
+                node = new_element;
 
                 // 13.7
                 if is_same_node(&last_node, &furthest_block.1) {
@@ -6555,10 +6552,10 @@ where
                 }
 
                 // 13.8
-                self.append_node(&node, last_node.clone());
+                self.append_node(&node, last_node);
 
                 // 13.9
-                last_node = node.clone();
+                last_node = node;
             }
 
             // 14.
