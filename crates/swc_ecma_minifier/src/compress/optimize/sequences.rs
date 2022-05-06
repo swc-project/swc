@@ -772,8 +772,8 @@ where
                             match bv.init.as_deref_mut() {
                                 Some(b_init) => {
                                     if let Some(a_init) = av.init.take() {
-                                        let bseq = b_init.force_seq();
-                                        bseq.exprs.insert(0, a_init);
+                                        let b_seq = b_init.force_seq();
+                                        b_seq.exprs.insert(0, a_init);
 
                                         self.changed = true;
                                         report_change!(
