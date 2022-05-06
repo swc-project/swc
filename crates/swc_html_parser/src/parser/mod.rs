@@ -155,6 +155,12 @@ where
         })));
 
         while !self.stopped {
+            let adjusted_current_node = self.get_adjusted_current_node();
+            let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
+
+            self.input
+                .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
+
             let span = self.input.cur_span()?;
             let token = match self.input.cur()? {
                 Some(_) => {
@@ -2338,11 +2344,28 @@ where
 
                         self.insert_html_element(token_and_info)?;
 
+                        let mut is_cr = false;
+
                         match self.input.cur()? {
-                            Some(Token::Character { value, .. }) if *value == '\x0A' => {
+                            Some(Token::Character { value, .. })
+                                if matches!(*value, '\r' | '\n') =>
+                            {
+                                if *value == '\r' {
+                                    is_cr = true;
+                                }
+
                                 bump!(self);
                             }
                             _ => {}
+                        }
+
+                        if is_cr {
+                            match self.input.cur()? {
+                                Some(Token::Character { value, .. }) if *value == '\n' => {
+                                    bump!(self);
+                                }
+                                _ => {}
+                            }
                         }
 
                         self.frameset_ok = false;
@@ -3075,15 +3098,15 @@ where
 
                             self.run_the_adoption_agency_algorithm(token_and_info)?;
                             self.reconstruct_active_formatting_elements()?;
-                        } else {
-                            let element = self.insert_html_element(&mut token_and_info.clone())?;
-
-                            self.active_formatting_elements
-                                .push(ActiveFormattingElement::Element(
-                                    element,
-                                    token_and_info.clone(),
-                                ));
                         }
+
+                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+
+                        self.active_formatting_elements
+                            .push(ActiveFormattingElement::Element(
+                                element,
+                                token_and_info.clone(),
+                            ));
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
                     // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"

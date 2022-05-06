@@ -180,11 +180,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseEntityName`
-    fn parse_ts_entity_name(
-        &mut self,
-        allow_reserved_words: bool,
-        allow_private_identifiers: bool,
-    ) -> PResult<TsEntityName> {
+    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
 
         let init = self.parse_ident_name()?;
@@ -200,7 +196,7 @@ impl<I: Tokens> Parser<I> {
         let mut entity = TsEntityName::Ident(init);
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
-            if !allow_private_identifiers && !is!(self, '#') && !is!(self, IdentName) {
+            if !is!(self, '#') && !is!(self, IdentName) {
                 self.emit_err(
                     Span::new(dot_start, dot_start, Default::default()),
                     SyntaxError::TS1003,
@@ -209,13 +205,10 @@ impl<I: Tokens> Parser<I> {
             }
 
             let left = entity;
-            let right = if allow_private_identifiers {
-                self.parse_maybe_private_name()?
-                    .either(Into::into, Into::into)
-            } else if allow_reserved_words {
-                self.parse_ident_name()?.into()
+            let right = if allow_reserved_words {
+                self.parse_ident_name()?
             } else {
-                self.parse_ident(false, false)?.into()
+                self.parse_ident(false, false)?
             };
             entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
         }
@@ -232,9 +225,7 @@ impl<I: Tokens> Parser<I> {
 
         let has_modifier = self.eat_any_ts_modifier()?;
 
-        let type_name = self.parse_ts_entity_name(
-            /* allow_reserved_words */ true, /* allow_private_identifiers */ false,
-        )?;
+        let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
@@ -326,7 +317,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ')');
 
         let qualifier = if eat!(self, '.') {
-            self.parse_ts_entity_name(false, false).map(Some)?
+            self.parse_ts_entity_name(false).map(Some)?
         } else {
             None
         };
@@ -356,7 +347,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             self.parse_ts_entity_name(
                 // allow_reserved_word
-                true, true,
+                true,
             )
             .map(From::from)?
         };
@@ -1142,10 +1133,8 @@ impl<I: Tokens> Parser<I> {
         if self.is_ts_external_module_ref()? {
             self.parse_ts_external_module_ref().map(From::from)
         } else {
-            self.parse_ts_entity_name(
-                /* allow_reserved_words */ false, /* allow_private_identifiers */ false,
-            )
-            .map(From::from)
+            self.parse_ts_entity_name(/* allow_reserved_words */ false)
+                .map(From::from)
         }
     }
 

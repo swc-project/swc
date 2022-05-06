@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 37,
+    "end": 40,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 37,
+        "end": 40,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 37,
+            "end": 40,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 37,
+                "end": 40,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 5,
-                    "end": 37,
+                    "end": 40,
                     "ctxt": 0
                   },
                   "tagName": "foreignObject",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 20,
-                        "end": 37,
+                        "end": 40,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -76,13 +76,13 @@
                       "attributes": [],
                       "children": [
                         {
-                          "type": "Text",
+                          "type": "Comment",
                           "span": {
                             "start": 25,
-                            "end": 37,
+                            "end": 40,
                             "ctxt": 0
                           },
-                          "value": "foo"
+                          "data": "[CDATA[foo]]"
                         }
                       ],
                       "content": null

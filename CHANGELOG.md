@@ -8,7 +8,16 @@
 - **(es/compat)** Memorize computed props in logical assignment (#4525) ([2e74787](https://github.com/swc-project/swc/commit/2e7478787040645ef9cd162ef18e948c112c93d8))
 
 
+- **(es/minifier)** Respect `keepClassNames` for class expressions (#4536) ([3d5d234](https://github.com/swc-project/swc/commit/3d5d234047bb7e3f76189fa586030014c7c29f46))
+
+
 - **(es/modules)** Preserve extensions (#4524) ([f3b262e](https://github.com/swc-project/swc/commit/f3b262e340cdd5aaa5ce4008936e3ba696f3dc06))
+
+
+- **(es/parser)** Revert #4067 (#4540) ([2831059](https://github.com/swc-project/swc/commit/28310596a6c2c62cab3e5124c9b68439e152ba18))
+
+
+- **(es/parser)** Revert #4287 (#4542) ([e2fde1a](https://github.com/swc-project/swc/commit/e2fde1a9a7ea702439666fdee6b2a378e70d9a7e))
 
 
 - **(html/parser)** Fix a bug related to parsing foreign elements (#4527) ([2f6f8fa](https://github.com/swc-project/swc/commit/2f6f8fa717c4a969221958bc2c70a3f68590d93b))
@@ -22,6 +31,21 @@
 
 - **(html/parser)** Fix parsing of comments in `textarea` (#4530) ([79090e1](https://github.com/swc-project/swc/commit/79090e1b2abce3dc396f25a5851637c675b6c87e))
 
+
+- **(html/parser)** Fix parsing of `nobr` (#4535) ([e6042a5](https://github.com/swc-project/swc/commit/e6042a5e692c785bb12058f1eb63e728f3191cef))
+
+
+- **(html/parser)** Fix parsing of cdata (#4537) ([07cf28a](https://github.com/swc-project/swc/commit/07cf28a168c0e4619c3293ece180922d5e9a632d))
+
+
+- **(html/parser)** Fix parsing of newline in `textarea` (#4543) ([dd40e7b](https://github.com/swc-project/swc/commit/dd40e7bf69b355f00b68819785365603bc7634a2))
+
+### Features
+
+
+
+- **(plugin)** Make plugin source map api use `SourceMapper` (#4541) ([10f903d](https://github.com/swc-project/swc/commit/10f903dd3952286f84c0957d96b9c43236938de5))
+
 ### Miscellaneous Tasks
 
 
@@ -30,6 +54,9 @@
 
 ### Testing
 
+
+
+- **(es/minifier)** Categorize more tests (#4538) ([3d3e3bb](https://github.com/swc-project/swc/commit/3d3e3bb1d27ba4a75464c925d8fe03f703902e49))
 
 
 - **(html/parser)** Add integration tests from html5lib-test (#4517) ([a4a815b](https://github.com/swc-project/swc/commit/a4a815b28815b1c875c73f0a153fb219558e26ce))
