@@ -107,7 +107,6 @@ issue_1052/defun_else_if_return/input.js
 issue_1052/defun_if_return/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
-issue_1673/side_effects_else/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js

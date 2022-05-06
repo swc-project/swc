@@ -316,6 +316,7 @@ issue_1588/screw_ie8/input.js
 issue_1588/unsafe_undefined/input.js
 issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
+issue_1673/side_effects_else/input.js
 issue_1704/mangle_catch_redef_1_ie8/input.js
 issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1733/function_iife_catch/input.js
