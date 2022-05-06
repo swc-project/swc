@@ -1,11 +1,11 @@
 use swc_ecma_ast::{
-    Accessibility, Ident, TsEntityName, TsMemberName, TsQualifiedName, TsType, TsTypeAnn,
-    TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
+    Accessibility, Ident, TsEntityName, TsQualifiedName, TsType, TsTypeAnn, TsTypeParam,
+    TsTypeParamDecl, TsTypeParamInstantiation,
 };
 use swc_estree_ast::{
-    Access, FlowType, SuperTypeParams, TSEntityName, TSMemberName, TSQualifiedName, TSType,
-    TSTypeAnnotation, TSTypeParameter, TSTypeParameterDeclaration, TSTypeParameterInstantiation,
-    TypeAnnotOrNoop, TypeParamDeclOrNoop,
+    Access, FlowType, SuperTypeParams, TSEntityName, TSQualifiedName, TSType, TSTypeAnnotation,
+    TSTypeParameter, TSTypeParameterDeclaration, TSTypeParameterInstantiation, TypeAnnotOrNoop,
+    TypeParamDeclOrNoop,
 };
 
 use super::Context;
@@ -140,18 +140,7 @@ impl Swcify for TSQualifiedName {
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsQualifiedName {
             left: self.left.swcify(ctx),
-            right: self.right.swcify(ctx),
-        }
-    }
-}
-
-impl Swcify for TSMemberName {
-    type Output = TsMemberName;
-
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        match self {
-            Self::Id(id) => Self::Output::Ident(id.swcify(ctx).id),
-            Self::PrivateName(p) => Self::Output::Ident(p.swcify(ctx).id),
+            right: self.right.swcify(ctx).id,
         }
     }
 }

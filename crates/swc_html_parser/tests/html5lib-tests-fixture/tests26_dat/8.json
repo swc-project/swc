@@ -128,13 +128,27 @@
               "attributes": [],
               "children": [
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 44,
+                    "start": 38,
                     "end": 45,
                     "ctxt": 0
                   },
-                  "value": "2"
+                  "tagName": "nobr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 44,
+                        "end": 45,
+                        "ctxt": 0
+                      },
+                      "value": "2"
+                    }
+                  ],
+                  "content": null
                 }
               ],
               "content": null

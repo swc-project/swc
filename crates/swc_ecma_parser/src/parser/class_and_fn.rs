@@ -1284,7 +1284,6 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
-            in_arrow_function: is_arrow_function,
             inside_non_arrow_function_scope: if is_arrow_function {
                 self.ctx().inside_non_arrow_function_scope
             } else {
@@ -1523,13 +1522,7 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
-            let cur_ctx = self.ctx();
-            let ctx = Context {
-                is_direct_child_of_braceless_arrow_function: false,
-                ..cur_ctx
-            };
-            let result = self.with_ctx(ctx).parse_block(false);
-            result.map(|block_stmt| {
+            self.parse_block(false).map(|block_stmt| {
                 if !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {
                         self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
@@ -1538,14 +1531,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
                 BlockStmtOrExpr::BlockStmt(block_stmt)
             })
         } else {
-            let cur_ctx = self.ctx();
-            let ctx = Context {
-                is_direct_child_of_braceless_arrow_function: cur_ctx.in_arrow_function,
-                ..cur_ctx
-            };
-            self.with_ctx(ctx)
-                .parse_assignment_expr()
-                .map(BlockStmtOrExpr::Expr)
+            self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
         }
     }
 }
