@@ -17,8 +17,8 @@ use anyhow::{bail, Context, Error};
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, EqIgnoreSpan, FileName, Mark,
-    SourceMap, Spanned,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, util::take::Take, EqIgnoreSpan,
+    FileName, Mark, SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -38,7 +38,7 @@ use swc_ecma_parser::{
 };
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -441,8 +441,20 @@ fn fixture(input: PathBuf) {
             let mut expected = expected.fold_with(&mut fixer(None));
             expected = drop_span(expected);
 
-            if output_module.eq_ignore_span(&expected)
-                || drop_span(output_module.clone()) == expected
+            let mut normalized_expected = expected.clone();
+            normalized_expected.visit_mut_with(&mut DropParens);
+
+            let mut actual = output_module.clone();
+            actual.visit_mut_with(&mut DropParens);
+
+            if actual.eq_ignore_span(&normalized_expected)
+                || drop_span(actual.clone()) == normalized_expected
+            {
+                return Ok(());
+            }
+
+            if print(cm.clone(), &[actual], false, false)
+                == print(cm.clone(), &[normalized_expected], false, false)
             {
                 return Ok(());
             }
@@ -1594,4 +1606,16 @@ fn full(input: PathBuf) {
         Ok(())
     })
     .unwrap()
+}
+
+struct DropParens;
+
+impl VisitMut for DropParens {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
+        }
+    }
 }
