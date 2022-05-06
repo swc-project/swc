@@ -57,6 +57,16 @@ impl Visit for Preserver {
         }
     }
 
+    fn visit_class_expr(&mut self, n: &ClassExpr) {
+        n.visit_children_with(self);
+
+        if self.options.keep_class_names {
+            if let Some(i) = &n.ident {
+                self.preserved.insert(i.to_id());
+            }
+        }
+    }
+
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         n.visit_children_with(self);
 
