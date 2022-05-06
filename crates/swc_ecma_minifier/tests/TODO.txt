@@ -105,10 +105,6 @@ issue_1034/non_hoisted_function_after_return_2a/input.js
 issue_1034/non_hoisted_function_after_return_2b/input.js
 issue_1052/defun_else_if_return/input.js
 issue_1052/defun_if_return/input.js
-issue_1431/level_one/input.js
-issue_1431/level_three/input.js
-issue_1431/level_two/input.js
-issue_1431/level_zero/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1569/inner_reference/input.js
