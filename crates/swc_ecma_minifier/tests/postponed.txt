@@ -535,6 +535,7 @@ reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js
 reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
+regexp/unsafe_slashes/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
 rename/mangle_catch_redef_1_ie8/input.js
