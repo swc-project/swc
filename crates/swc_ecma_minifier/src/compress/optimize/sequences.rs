@@ -761,6 +761,13 @@ where
 
                 let a = a1.last_mut().unwrap();
 
+                {
+                    // We try dropping variable assignments first.
+                    // TODO
+                }
+
+                // Merge sequentially
+
                 if self.merge_sequential_expr(
                     a,
                     match &mut a2[j - idx] {
