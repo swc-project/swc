@@ -761,7 +761,7 @@ where
 
                 let a = a1.last_mut().unwrap();
 
-                if let (Mergable::Var(av), Mergable::Var(bv)) = (a, &mut a2[j - idx]) {
+                if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
                     // We try dropping variable assignments first.
 
                     // Currently, we only drop variable declarations if they have the same name.
