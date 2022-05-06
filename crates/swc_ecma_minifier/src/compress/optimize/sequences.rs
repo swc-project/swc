@@ -769,48 +769,50 @@ where
 
                 let a = a1.last_mut().unwrap();
 
-                if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
-                    // We try dropping variable assignments first.
+                if self.options.unused {
+                    if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
+                        // We try dropping variable assignments first.
 
-                    // Currently, we only drop variable declarations if they have the same name.
-                    if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
-                        if an.to_id() == bn.to_id() {
-                            // We need to preserve side effect of `av.init`
+                        // Currently, we only drop variable declarations if they have the same name.
+                        if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
+                            if an.to_id() == bn.to_id() {
+                                // We need to preserve side effect of `av.init`
 
-                            match bv.init.as_deref_mut() {
-                                Some(b_init) => {
-                                    if let Some(a_init) = av.init.take() {
-                                        let b_seq = b_init.force_seq();
-                                        b_seq.exprs.insert(0, a_init);
+                                match bv.init.as_deref_mut() {
+                                    Some(b_init) => {
+                                        if let Some(a_init) = av.init.take() {
+                                            let b_seq = b_init.force_seq();
+                                            b_seq.exprs.insert(0, a_init);
 
+                                            self.changed = true;
+                                            report_change!(
+                                                "Moving initializer sequentially as they have a \
+                                                 same name"
+                                            );
+                                            av.name.take();
+                                            continue;
+                                        }
+                                    }
+                                    None => {
+                                        // As variable name is same, we can move initializer
+
+                                        // Th code below
+                                        //
+                                        //      var a = 5;
+                                        //      var a;
+                                        //
+                                        //      console.log(a)
+                                        //
+                                        // prints 5
+                                        bv.init = av.init.take();
                                         self.changed = true;
                                         report_change!(
-                                            "Moving initializer sequentially as they have a same \
-                                             name"
+                                            "Moving initializer to the next variable declaration \
+                                             as they have the same name"
                                         );
                                         av.name.take();
                                         continue;
                                     }
-                                }
-                                None => {
-                                    // As variable name is same, we can move initializer
-
-                                    // Th code below
-                                    //
-                                    //      var a = 5;
-                                    //      var a;
-                                    //
-                                    //      console.log(a)
-                                    //
-                                    // prints 5
-                                    bv.init = av.init.take();
-                                    self.changed = true;
-                                    report_change!(
-                                        "Moving initializer to the next variable declaration as \
-                                         they have the same name"
-                                    );
-                                    av.name.take();
-                                    continue;
                                 }
                             }
                         }
