@@ -3281,8 +3281,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
@@ -3295,15 +3294,17 @@ where
                         };
 
                         self.reconstruct_active_formatting_elements()?;
+
+                        // To avoid extra cloning, it doesn't have effect on logic
+                        if input_type.is_none() || !is_hidden {
+                            self.frameset_ok = false;
+                        }
+
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
-                        }
-
-                        if input_type.is_none() || !is_hidden {
-                            self.frameset_ok = false;
                         }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
