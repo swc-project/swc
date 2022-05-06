@@ -105,8 +105,6 @@ issue_1034/non_hoisted_function_after_return_2a/input.js
 issue_1034/non_hoisted_function_after_return_2b/input.js
 issue_1052/defun_else_if_return/input.js
 issue_1052/defun_if_return/input.js
-issue_1261/pure_function_calls/input.js
-issue_1261/pure_function_calls_toplevel/input.js
 issue_1431/level_one/input.js
 issue_1431/level_three/input.js
 issue_1431/level_two/input.js

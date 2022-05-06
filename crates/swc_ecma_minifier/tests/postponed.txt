@@ -287,6 +287,8 @@ issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
+issue_1261/pure_function_calls/input.js
+issue_1261/pure_function_calls_toplevel/input.js
 issue_1321/issue_1321_debug/input.js
 issue_1321/issue_1321_no_debug/input.js
 issue_1321/issue_1321_with_quoted/input.js
