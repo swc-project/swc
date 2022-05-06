@@ -311,6 +311,12 @@ issue_2001/export_class_2/input.js
 issue_2001/export_default_class_2/input.js
 issue_2001/export_default_func_2/input.js
 issue_2001/export_func_2/input.js
+issue_640/cond_5/input.js
+issue_640/conditional/input.js
+issue_640/dead_code_const_annotation_regex/input.js
+issue_640/drop_console_2/input.js
+issue_640/negate_iife_1/input.js
+issue_640/negate_iife_3/input.js
 issue_747/dont_reuse_prop/input.js
 issue_747/unmangleable_props_should_always_be_reserved/input.js
 issue_892/dont_mangle_arguments/input.js

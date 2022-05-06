@@ -147,13 +147,7 @@ issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
 issue_637/wrongly_optimized/input.js
-issue_640/cond_5/input.js
-issue_640/conditional/input.js
-issue_640/dead_code_const_annotation_regex/input.js
-issue_640/drop_console_2/input.js
 issue_640/iife/input.js
-issue_640/negate_iife_1/input.js
-issue_640/negate_iife_3/input.js
 issue_640/wrongly_optimized/input.js
 issue_751/negate_booleans_1/input.js
 issue_913/keep_var_for_in/input.js
