@@ -123,8 +123,6 @@ issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
 issue_t120/issue_t120_3/input.js
 issue_t120/pr_152_regression/input.js
-logical_assignment/assign_in_conditional_part/input.js
-logical_assignment/assignment_in_left_part_2/input.js
 loops/drop_if_else_break_1/input.js
 negate_iife/issue_1254_negate_iife_nested/input.js
 negate_iife/issue_1288/input.js
