@@ -674,6 +674,7 @@ if_return/if_if_return_return/input.js
 if_return/if_return_1/input.js
 if_return/if_return_2/input.js
 if_return/if_return_3/input.js
+if_return/if_return_4/input.js
 if_return/if_return_5/input.js
 if_return/if_return_6/input.js
 if_return/if_return_7/input.js
@@ -1365,6 +1366,7 @@ template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
+transform/if_return/input.js
 transform/while_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js
 try_catch/broken_safari_catch_scope_caveat/input.js
