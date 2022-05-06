@@ -323,6 +323,8 @@ issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
+issue_1833/iife_do/input.js
+issue_1833/label_while/input.js
 issue_2001/export_class_2/input.js
 issue_2001/export_default_class_2/input.js
 issue_2001/export_default_func_2/input.js

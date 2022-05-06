@@ -110,8 +110,6 @@ issue_1443/unsafe_undefined/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
-issue_1833/iife_do/input.js
-issue_1833/label_while/input.js
 issue_203/compress_new_function/input.js
 issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js
