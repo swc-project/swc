@@ -37,6 +37,9 @@
 
 - **(html/parser)** Fix parsing of cdata (#4537) ([07cf28a](https://github.com/swc-project/swc/commit/07cf28a168c0e4619c3293ece180922d5e9a632d))
 
+
+- **(html/parser)** Fix parsing of newline in `textarea` (#4543) ([dd40e7b](https://github.com/swc-project/swc/commit/dd40e7bf69b355f00b68819785365603bc7634a2))
+
 ### Features
 
 
