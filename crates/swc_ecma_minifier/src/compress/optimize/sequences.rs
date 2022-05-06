@@ -765,7 +765,30 @@ where
                     // We try dropping variable assignments first.
 
                     // Currently, we only drop variable declarations if they have the same name.
-                    if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {}
+                    if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
+                        if an.to_id() == bn.to_id() {
+                            // We need to preserve side effect of `av.init`
+
+                            if bv.init.is_none() {
+                                // As variable name is same, we can move initializer
+
+                                // Th code below
+                                //
+                                //      var a = 5;
+                                //      var a;
+                                //
+                                //      console.log(a)
+                                //
+                                // prints 5
+                                bv.init = av.init.take();
+                                self.changed = true;
+                                report_change!(
+                                    "Moving initializer to the next variable declaration as they \
+                                     have the same name"
+                                );
+                            }
+                        }
+                    }
                 }
 
                 // Merge sequentially
