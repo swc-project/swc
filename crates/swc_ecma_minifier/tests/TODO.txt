@@ -101,7 +101,6 @@ inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation/input.js
 inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
-issue_1034/non_hoisted_function_after_return/input.js
 issue_1034/non_hoisted_function_after_return_2a/input.js
 issue_1034/non_hoisted_function_after_return_2b/input.js
 issue_1052/deeply_nested/input.js

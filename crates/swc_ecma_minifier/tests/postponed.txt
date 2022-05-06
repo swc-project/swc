@@ -269,6 +269,7 @@ ie8/reduce_vars/input.js
 if_return/if_return_4/input.js
 if_return/issue_512/input.js
 inline/inline_within_extends_2/input.js
+issue_1034/non_hoisted_function_after_return/input.js
 issue_1034/non_hoisted_function_after_return_2a_strict/input.js
 issue_1034/non_hoisted_function_after_return_2b_strict/input.js
 issue_1034/non_hoisted_function_after_return_strict/input.js
