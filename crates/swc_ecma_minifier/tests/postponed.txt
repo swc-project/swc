@@ -310,6 +310,7 @@ issue_1466/same_variable_in_multiple_forOf/input.js
 issue_1466/same_variable_in_multiple_forOf_sequences_const/input.js
 issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_1466/same_variable_in_multiple_for_loop/input.js
+issue_1569/inner_reference/input.js
 issue_1588/safe_undefined/input.js
 issue_1588/screw_ie8/input.js
 issue_1588/unsafe_undefined/input.js
