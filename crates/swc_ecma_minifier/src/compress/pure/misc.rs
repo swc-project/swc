@@ -1,12 +1,15 @@
 use std::{fmt::Write, num::FpCategory};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
-use crate::compress::util::{is_global_var, is_pure_undefined};
+use crate::compress::{
+    pure::strings::convert_str_value_to_tpl_cooked,
+    util::{is_global_var, is_pure_undefined},
+};
 
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
@@ -360,14 +363,16 @@ impl Pure<'_> {
             quasis: vec![],
             exprs: vec![],
         };
-        let mut cur_str_value = String::new();
+        let mut cur_raw = String::new();
+        let mut cur_cooked = String::new();
         let mut first = true;
 
         for elem in elems.take().into_iter().flatten() {
             if first {
                 first = false;
             } else {
-                cur_str_value.push_str(sep);
+                cur_raw.push_str(sep);
+                cur_cooked.push_str(sep);
             }
 
             match *elem.expr {
@@ -378,16 +383,18 @@ impl Pure<'_> {
                             // quasis
                             let e = tpl.quasis[idx / 2].take();
 
-                            cur_str_value.push_str(&e.cooked.unwrap());
+                            cur_cooked.push_str(&e.cooked.unwrap());
+                            cur_raw.push_str(&e.raw);
                         } else {
-                            let s = JsWord::from(&*cur_str_value);
-                            cur_str_value.clear();
                             new_tpl.quasis.push(TplElement {
                                 span: DUMMY_SP,
                                 tail: false,
-                                cooked: Some(s.clone()),
-                                raw: s,
+                                cooked: Some((&*cur_cooked).into()),
+                                raw: (&*cur_raw).into(),
                             });
+
+                            cur_raw.clear();
+                            cur_cooked.clear();
 
                             let e = tpl.exprs[idx / 2].take();
 
@@ -396,7 +403,8 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
-                    cur_str_value.push_str(&s.value);
+                    cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                    cur_raw.push_str(&s.value);
                 }
                 _ => {
                     unreachable!()
@@ -404,12 +412,11 @@ impl Pure<'_> {
             }
         }
 
-        let s = JsWord::from(&*cur_str_value);
         new_tpl.quasis.push(TplElement {
             span: DUMMY_SP,
             tail: false,
-            cooked: Some(s.clone()),
-            raw: s,
+            cooked: Some(cur_cooked.into()),
+            raw: cur_raw.into(),
         });
 
         Some(Expr::Tpl(new_tpl))
