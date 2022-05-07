@@ -5,7 +5,7 @@
     "end": 711,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Comment",

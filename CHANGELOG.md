@@ -43,6 +43,9 @@
 
 - **(html/parser)** Fix parsing of newline in `textarea` (#4543) ([dd40e7b](https://github.com/swc-project/swc/commit/dd40e7bf69b355f00b68819785365603bc7634a2))
 
+
+- **(html/parser)** Fix support for document mode (#4539) ([e11ee88](https://github.com/swc-project/swc/commit/e11ee88ea09ef1a67e2a2e063e91ce1df40ca8fb))
+
 ### Features
 
 
@@ -68,7 +71,16 @@
 - **(es/minifier)** Categorize more tests (#4538) ([3d3e3bb](https://github.com/swc-project/swc/commit/3d3e3bb1d27ba4a75464c925d8fe03f703902e49))
 
 
+- **(es/minifier)** Ignore difference of parens (#4546) ([b0efd00](https://github.com/swc-project/swc/commit/b0efd00f38edb7ecb87c53590821d908316cfcba))
+
+
 - **(html/parser)** Add integration tests from html5lib-test (#4517) ([a4a815b](https://github.com/swc-project/swc/commit/a4a815b28815b1c875c73f0a153fb219558e26ce))
+
+### Build
+
+
+
+- **(plugin)** Update `swc_plugin_proxy` (#4551) ([b5a2033](https://github.com/swc-project/swc/commit/b5a203399455304f3be7941b751e8a9847b0bb97))
 
 ## [1.2.177] - 2022-05-04
 
