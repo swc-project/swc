@@ -99,6 +99,8 @@ where
     template_insertion_mode_stack: Vec<InsertionMode>,
     document_mode: DocumentMode,
     document: Option<RcNode>,
+    html_additional_attributes: Vec<Attribute>,
+    body_additional_attributes: Vec<Attribute>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -125,6 +127,8 @@ where
             template_insertion_mode_stack: vec![],
             document_mode: DocumentMode::NoQuirks,
             document: None,
+            html_additional_attributes: vec![],
+            body_additional_attributes: vec![],
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
@@ -196,19 +200,37 @@ where
             }
         }
 
-        let last = self.input.last_pos()?;
-
         // TODO optimize me
-        fn node_to_child(node: RcNode) -> Child {
+        fn node_to_child(
+            node: RcNode,
+            html_additional_attributes: &Vec<Attribute>,
+            body_additional_attributes: &Vec<Attribute>,
+        ) -> Child {
             match &node.data {
                 Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
                     ..document_type.clone()
                 }),
                 Data::Element(element) => {
+                    let mut attributes = element.attributes.clone();
+
+                    if element.namespace == Namespace::HTML {
+                        if !html_additional_attributes.is_empty() && &*element.tag_name == "html" {
+                            attributes.extend(html_additional_attributes.clone())
+                        } else if !body_additional_attributes.is_empty()
+                            && &*element.tag_name == "body"
+                        {
+                            attributes.extend(body_additional_attributes.clone());
+                        }
+                    }
+
                     let mut new_children = vec![];
 
                     for node in node.children.take() {
-                        new_children.push(node_to_child(node));
+                        new_children.push(node_to_child(
+                            node,
+                            html_additional_attributes,
+                            body_additional_attributes,
+                        ));
                     }
 
                     let first = element.span.lo;
@@ -224,6 +246,7 @@ where
                         span: Span::new(first, last, Default::default()),
                         children: new_children,
                         content: None,
+                        attributes,
                         ..element.clone()
                     })
                 }
@@ -239,8 +262,14 @@ where
         let mut children = vec![];
 
         for node in original_document.children.take() {
-            children.push(node_to_child(node));
+            children.push(node_to_child(
+                node,
+                &self.html_additional_attributes,
+                &self.body_additional_attributes,
+            ));
         }
+
+        let last = self.input.last_pos()?;
 
         Ok(Document {
             span: Span::new(start.lo, last, Default::default()),
@@ -1924,7 +1953,13 @@ where
                             return Ok(());
                         }
 
-                        self.add_attributes_to_node_if_missing(0, attributes.clone());
+                        if let Some(top) = self.open_elements_stack.items.get(0) {
+                            let html_additional_attributes =
+                                self.get_missing_attributes(top, attributes.clone());
+
+                            self.html_additional_attributes
+                                .extend(html_additional_attributes)
+                        }
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
                     // "meta", "noframes", "script", "style", "template", "title"
@@ -1985,7 +2020,13 @@ where
 
                         self.frameset_ok = false;
 
-                        self.add_attributes_to_node_if_missing(2, attributes.clone());
+                        if let Some(top) = self.open_elements_stack.items.get(1) {
+                            let body_additional_attributes =
+                                self.get_missing_attributes(top, attributes.clone());
+
+                            self.body_additional_attributes
+                                .extend(body_additional_attributes);
+                        }
                     }
                     // A start tag whose tag name is "frameset"
                     //
@@ -6873,42 +6914,43 @@ where
         // when the close the cell algorithm is invoked.
     }
 
-    fn add_attributes_to_node_if_missing(
-        &mut self,
-        index: usize,
-        _attributes: Vec<AttributeToken>,
-    ) {
-        let target = self.open_elements_stack.items.get_mut(index);
+    fn get_missing_attributes(
+        &self,
+        node: &RcNode,
+        token_attributes: Vec<AttributeToken>,
+    ) -> Vec<Attribute> {
+        let attributes = match &node.data {
+            Data::Element(element) => &element.attributes,
+            _ => {
+                unreachable!();
+            }
+        };
 
-        if let Some(target) = target {
-            match &target.data {
-                Data::Element(_element) => {
-                    // TODO fix me
-                    // for attribute in attributes {
-                    //     let mut has_attribute = false;
-                    //
-                    //     for target_attribute in &element.attributes {
-                    //         if attribute.name == target_attribute.name {
-                    //             has_attribute = true;
-                    //
-                    //             break;
-                    //         }
-                    //     }
-                    //
-                    //     if !has_attribute {
-                    //         element.attributes.push(Attribute {
-                    //             span: Default::default(),
-                    //             name: "test".into(),
-                    //             value: Some("test".into()),
-                    //         })
-                    //     }
-                    // }
-                }
-                _ => {
-                    unreachable!();
+        let mut additional_attributes = vec![];
+
+        for token_attribute in &token_attributes {
+            let mut found = false;
+
+            for attribute in attributes {
+                if attribute.name == token_attribute.name {
+                    found = true;
+
+                    break;
                 }
             }
+
+            if !found {
+                additional_attributes.push(Attribute {
+                    span: Default::default(),
+                    namespace: None,
+                    prefix: None,
+                    name: token_attribute.name.clone(),
+                    value: token_attribute.value.clone(),
+                });
+            }
         }
+
+        additional_attributes
     }
 
     fn reset_insertion_mode(&mut self) {
@@ -7694,7 +7736,6 @@ where
     }
 }
 
-// TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
 }

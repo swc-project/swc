@@ -63,6 +63,42 @@
               "prefix": null,
               "name": "t1",
               "value": "1"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "t2",
+              "value": "2"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "t3",
+              "value": "3"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "t4",
+              "value": "4"
             }
           ],
           "children": [],
