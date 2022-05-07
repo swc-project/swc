@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{borrow::Cow, mem::take};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -296,7 +296,7 @@ impl Pure<'_> {
                     if let Some(cooked) = &mut l_last.cooked {
                         *cooked =
                             format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
-                                .into()
+                                .into();
                     }
 
                     let new: JsWord =
@@ -454,16 +454,20 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> JsWord {
+pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
     value
+        .replace('\\', "\\\\")
+        .replace('`', "\\`")
+        .replace('$', "\\$")
+        .into()
+}
+
+pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
+    value
+        .replace('\\', "\\\\")
         .replace('`', "\\`")
         .replace('$', "\\$")
         .replace('\n', "\\n")
         .replace('\r', "\\r")
-        .replace('\\', "\\\\")
         .into()
-}
-
-pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> JsWord {
-    value.replace('\\', "\\\\").into()
 }
