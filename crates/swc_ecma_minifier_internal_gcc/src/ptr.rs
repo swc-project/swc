@@ -1,84 +1,64 @@
-use std::{
-    hash::{Hash, Hasher},
-    rc::Rc,
-};
-
-use owning_ref::{Erased, OwningRef};
+use std::hash::{Hash, Hasher};
 
 /// Pointer type
-pub struct Ptr<T>
+pub struct Ptr<'a, T>
 where
     T: ?Sized,
 {
-    inner: OwningRef<Rc<dyn Erased>, T>,
+    data: &'a T,
 }
 
-impl<T> Ptr<T>
+impl<'a, T> Ptr<'a, T>
 where
     T: ?Sized,
 {
-    pub fn new(data: Rc<T>) -> Self
+    pub fn new(data: &'a T) -> Self
     where
         T: 'static + Sized,
     {
-        let or = OwningRef::new(data);
-
-        let inner = or.erase_owner();
-
-        Self { inner }
+        Self { data }
     }
 }
 
-impl<T> From<OwningRef<Rc<dyn Erased>, T>> for Ptr<T>
+impl<'a, T> std::ops::Deref for Ptr<'a, T>
 where
     T: ?Sized,
 {
-    fn from(inner: OwningRef<Rc<dyn Erased>, T>) -> Self {
-        Self { inner }
-    }
-}
-
-impl<T> std::ops::Deref for Ptr<T>
-where
-    T: ?Sized,
-{
-    type Target = OwningRef<Rc<dyn Erased>, T>;
+    type Target = T;
 
     fn deref(&self) -> &Self::Target {
-        &self.inner
+        &self.data
     }
 }
 
-impl<T> Clone for Ptr<T>
+impl<T> Clone for Ptr<'_, T>
 where
     T: ?Sized,
 {
     fn clone(&self) -> Self {
-        Self {
-            inner: self.inner.clone(),
-        }
+        Self { data: *self.data }
     }
 }
 
-impl<T> PartialEq for Ptr<T>
+impl<T> Copy for Ptr<'_, T> where T: ?Sized {}
+
+impl<T> PartialEq for Ptr<'_, T>
 where
     T: ?Sized,
 {
     #[allow(clippy::vtable_address_comparisons)]
     fn eq(&self, other: &Self) -> bool {
-        Rc::ptr_eq(self.inner.as_owner(), other.inner.as_owner())
-            && std::ptr::eq(&*self.inner as *const T, &*other.inner as *const T)
+        std::ptr::eq(&*self.data as *const T, &*other.data as *const T)
     }
 }
 
-impl<T> Eq for Ptr<T> where T: ?Sized {}
+impl<T> Eq for Ptr<'_, T> where T: ?Sized {}
 
-impl<T> Hash for Ptr<T>
+impl<T> Hash for Ptr<'_, T>
 where
     T: ?Sized,
 {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        (self.inner.as_owner() as *const dyn Erased).hash(state);
         (&***self as *const T).hash(state);
     }
 }
