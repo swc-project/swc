@@ -7,7 +7,7 @@ use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
 use crate::compress::{
-    pure::strings::convert_str_value_to_tpl_cooked,
+    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
     util::{is_global_var, is_pure_undefined},
 };
 
@@ -404,7 +404,7 @@ impl Pure<'_> {
                 }
                 Expr::Lit(Lit::Str(s)) => {
                     cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
-                    cur_raw.push_str(&s.value);
+                    cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                 }
                 _ => {
                     unreachable!()
