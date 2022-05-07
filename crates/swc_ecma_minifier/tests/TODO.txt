@@ -38,8 +38,6 @@ conditionals/ifs_5/input.js
 conditionals/issue_2535_1/input.js
 dead_code/issue_2749/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
-drop_unused/issue_2418_5/input.js
-drop_unused/issue_2768/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 drop_unused/var_catch_toplevel/input.js

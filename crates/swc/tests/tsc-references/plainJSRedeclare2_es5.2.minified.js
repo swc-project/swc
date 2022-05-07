@@ -1,2 +1,1 @@
-var orbitol = 1, orbitol = 1;
-orbitol.toExponential();
+1..toExponential();
