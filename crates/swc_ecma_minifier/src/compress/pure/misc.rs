@@ -6,7 +6,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
-use crate::compress::util::{is_global_var, is_pure_undefined};
+use crate::compress::{
+    pure::strings::convert_str_value_to_tpl_cooked,
+    util::{is_global_var, is_pure_undefined},
+};
 
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
@@ -396,7 +399,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
-                    cur_str_value.push_str(&s.value);
+                    cur_str_value.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                 }
                 _ => {
                     unreachable!()

@@ -448,3 +448,13 @@ impl Pure<'_> {
         }
     }
 }
+
+pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> JsWord {
+    value
+        .replace("`", "\\`")
+        .replace("$", "\\$")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\\", "\\\\")
+        .into()
+}
