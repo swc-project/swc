@@ -11,12 +11,10 @@ class MyTestClass {
         p.staticCanary;
     }
     static get staticProp() {
-        var p, p = MyTestClass;
-        return p.staticCanary, this;
+        return MyTestClass.staticCanary, this;
     }
     static set staticProp(v) {
-        var p, p = MyTestClass;
-        p.staticCanary;
+        MyTestClass.staticCanary;
     }
     constructor(){
         this.someFunc = ()=>{}, this.canary, this.canary = 3;
@@ -35,12 +33,10 @@ class MyGenericTestClass {
         p.staticCanary;
     }
     static get staticProp() {
-        var p, p = MyGenericTestClass;
-        return p.staticCanary, this;
+        return MyGenericTestClass.staticCanary, this;
     }
     static set staticProp(v) {
-        var p, p = MyGenericTestClass;
-        p.staticCanary;
+        MyGenericTestClass.staticCanary;
     }
     constructor(){
         this.someFunc = ()=>{}, this.canary, this.canary = 3;

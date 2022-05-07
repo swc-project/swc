@@ -1,5 +1,5 @@
 (M || (M = {})).Point = 1;
-var M, m, M2, m2, a2, M3, m3, a3, m = M;
+var M, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, (M2 || (M2 = {})).Point = class {
     static Origin() {
         return {

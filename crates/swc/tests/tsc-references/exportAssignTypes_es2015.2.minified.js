@@ -1,4 +1,4 @@
-var x, x = "test";
+var x = "test";
 module.exports = x;
 var x = 42;
 module.exports = x;
