@@ -68,6 +68,9 @@
 - **(es/minifier)** Categorize more tests (#4538) ([3d3e3bb](https://github.com/swc-project/swc/commit/3d3e3bb1d27ba4a75464c925d8fe03f703902e49))
 
 
+- **(es/minifier)** Ignore difference of parens (#4546) ([b0efd00](https://github.com/swc-project/swc/commit/b0efd00f38edb7ecb87c53590821d908316cfcba))
+
+
 - **(html/parser)** Add integration tests from html5lib-test (#4517) ([a4a815b](https://github.com/swc-project/swc/commit/a4a815b28815b1c875c73f0a153fb219558e26ce))
 
 ### Build
