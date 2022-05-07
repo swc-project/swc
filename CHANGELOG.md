@@ -5,6 +5,14 @@
 
 
 
+- **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
+
+## [1.2.178] - 2022-05-07
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Memorize computed props in logical assignment (#4525) ([2e74787](https://github.com/swc-project/swc/commit/2e7478787040645ef9cd162ef18e948c112c93d8))
 
 
