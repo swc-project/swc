@@ -5,7 +5,6 @@ use rustc_hash::FxHashMap;
 
 use crate::{
     graph::{DiGraphNode, LinkedDirectedGraph},
-    node::Node,
     ptr::Ptr,
 };
 

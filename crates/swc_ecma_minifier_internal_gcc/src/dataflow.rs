@@ -333,7 +333,7 @@ impl<'a, T> UniqueQueue<'a, T> {
     }
 
     fn add(&mut self, t: DiGraphNode<'a, T>) {
-        if self.seen_set.insert((&*t).clone()) {
+        if self.seen_set.insert(*t) {
             self.queue.push_back(t);
         }
     }
