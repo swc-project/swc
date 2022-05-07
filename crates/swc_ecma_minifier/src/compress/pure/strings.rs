@@ -238,6 +238,7 @@ impl Pure<'_> {
         let mut quasis = vec![];
         let mut exprs = vec![];
         let mut cur_raw = String::new();
+        let mut cur_cooked = String::new();
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -245,6 +246,9 @@ impl Pure<'_> {
                 let q = tpl.quasis[i].take();
 
                 cur_raw.push_str(&q.raw);
+                if let Some(cooked) = q.cooked {
+                    cur_cooked.push_str(&cooked);
+                }
             } else {
                 let i = i / 2;
                 let e = tpl.exprs[i].take();
@@ -252,12 +256,13 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
+                        cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: None,
+                            cooked: Some(JsWord::from(&*cur_cooked)),
                             raw: take(&mut cur_raw).into(),
                         });
 
