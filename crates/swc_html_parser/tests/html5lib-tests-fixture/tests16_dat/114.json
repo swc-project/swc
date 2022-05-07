@@ -5,7 +5,7 @@
     "end": 15,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
