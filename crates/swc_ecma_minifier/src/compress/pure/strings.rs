@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{borrow::Cow, mem::take};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -196,6 +196,7 @@ impl Pure<'_> {
                     '\n' | '\r' => self.config.force_str_for_tpl,
                     _ => false,
                 }) && (self.config.force_str_for_tpl
+                    || c.contains("\\`")
                     || (!c.contains("\\n") && !c.contains("\\r")))
                     && !c.contains("\\0")
                     && !c.contains("\\x")
@@ -238,6 +239,7 @@ impl Pure<'_> {
         let mut quasis = vec![];
         let mut exprs = vec![];
         let mut cur_raw = String::new();
+        let mut cur_cooked = String::new();
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -245,19 +247,23 @@ impl Pure<'_> {
                 let q = tpl.quasis[i].take();
 
                 cur_raw.push_str(&q.raw);
+                if let Some(cooked) = q.cooked {
+                    cur_cooked.push_str(&cooked);
+                }
             } else {
                 let i = i / 2;
                 let e = tpl.exprs[i].take();
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_raw.push_str(&s.value);
+                        cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
+                        cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: None,
+                            cooked: Some(JsWord::from(&*cur_cooked)),
                             raw: take(&mut cur_raw).into(),
                         });
 
@@ -266,6 +272,8 @@ impl Pure<'_> {
                 }
             }
         }
+
+        report_change!("compressing template literals");
 
         quasis.push(TplElement {
             span: DUMMY_SP,
@@ -294,11 +302,13 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        *cooked = format!("{}{}", cooked, rs.value.replace('\\', "\\\\")).into()
+                        *cooked =
+                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
+                                .into();
                     }
 
                     let new: JsWord =
-                        format!("{}{}", l_last.raw, rs.value.replace('\\', "\\\\")).into();
+                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
                     l_last.raw = new;
 
                     r.take();
@@ -316,11 +326,14 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        *cooked = format!("{}{}", ls.value.replace('\\', "\\\\"), cooked).into()
+                        *cooked =
+                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
+                                .into()
                     }
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_first.raw).into();
+                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
+                            .into();
                     r_first.raw = new;
 
                     l.take();
@@ -449,12 +462,20 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> JsWord {
+pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
     value
+        .replace('\\', "\\\\")
+        .replace('`', "\\`")
+        .replace('$', "\\$")
+        .into()
+}
+
+pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
+    value
+        .replace('\\', "\\\\")
         .replace('`', "\\`")
         .replace('$', "\\$")
         .replace('\n', "\\n")
         .replace('\r', "\\r")
-        .replace('\\', "\\\\")
         .into()
 }
