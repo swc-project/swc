@@ -7,6 +7,12 @@
 
 - **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
 
+### Documentation
+
+
+
+- **(es/resolver)** Add docs for top-level mark (#4560) ([13cc228](https://github.com/swc-project/swc/commit/13cc2282627f852d5b114332a83816de2a47742b))
+
 ### Features
 
 
