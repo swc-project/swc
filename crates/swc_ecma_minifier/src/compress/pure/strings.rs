@@ -294,11 +294,13 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        *cooked = format!("{}{}", cooked, rs.value.replace('\\', "\\\\")).into()
+                        *cooked =
+                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
+                                .into()
                     }
 
                     let new: JsWord =
-                        format!("{}{}", l_last.raw, rs.value.replace('\\', "\\\\")).into();
+                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
                     l_last.raw = new;
 
                     r.take();
@@ -316,11 +318,14 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        *cooked = format!("{}{}", ls.value.replace('\\', "\\\\"), cooked).into()
+                        *cooked =
+                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
+                                .into()
                     }
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_first.raw).into();
+                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
+                            .into();
                     r_first.raw = new;
 
                     l.take();
@@ -457,4 +462,8 @@ pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> JsWord {
         .replace('\r', "\\r")
         .replace('\\', "\\\\")
         .into()
+}
+
+pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> JsWord {
+    value.replace('\\', "\\\\").into()
 }
