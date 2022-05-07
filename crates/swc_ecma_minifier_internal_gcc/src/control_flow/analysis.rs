@@ -10,19 +10,19 @@ impl<'a, 'ast> ControlFlowGraph<'a, Node<'ast>> {
 
 type N<'ast> = DiGraphNode<'ast, Node<'ast>>;
 
-struct Analyzer<'ast, 'a> {
+struct Analyzer<'a, 'ast> {
     cfg: &'a mut ControlFlowGraph<'ast, Node<'ast>>,
     root: N<'ast>,
 }
 
-impl Analyzer<'_, '_> {
+impl<'a, 'ast> Analyzer<'a, 'ast> {
     fn process(&mut self) {
         let root = self.root.clone();
         let cfg_entry = self.compute_fall_through(&root);
         self.cfg.entry = cfg_entry;
     }
 
-    fn compute_fall_through(&mut self, node: &N) -> N {
+    fn compute_fall_through(&mut self, node: &N<'ast>) -> N<'ast> {
         todo!()
     }
 }

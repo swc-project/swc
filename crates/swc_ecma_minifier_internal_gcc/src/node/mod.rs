@@ -14,7 +14,7 @@ impl<'ast> Node<'ast> {
         N: 'static + Any,
     {
         Self {
-            data: Ptr::new(data),
+            data: Ptr::<'ast, dyn Any>::new(data),
             parent: None,
         }
     }

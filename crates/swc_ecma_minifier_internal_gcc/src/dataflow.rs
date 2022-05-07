@@ -74,7 +74,7 @@ impl<'a, 'ast, A> DataFlowAnalyzer<'a, 'ast, A>
 where
     A: FlowAnalyzer,
 {
-    pub fn new(cfg: &'a ControlFlowGraph<Node>, analyzer: A) -> Self {
+    pub fn new(cfg: &'a ControlFlowGraph<Node<'ast>>, analyzer: A) -> Self {
         Self {
             cfg,
             analyzer,
@@ -332,7 +332,7 @@ impl<'a, T> UniqueQueue<'a, T> {
         Some(t)
     }
 
-    fn add(&mut self, t: DiGraphNode<T>) {
+    fn add(&mut self, t: DiGraphNode<'a, T>) {
         if self.seen_set.insert((&*t).clone()) {
             self.queue.push_back(t);
         }

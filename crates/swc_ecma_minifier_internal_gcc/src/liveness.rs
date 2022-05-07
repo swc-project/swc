@@ -12,11 +12,11 @@ use crate::{
 
 /// We may need this
 #[derive(Clone)]
-pub(crate) struct Var {
+pub(crate) struct Var<'ast> {
     pub name: Id,
 
-    node: Node,
-    parent: Node,
+    node: Node<'ast>,
+    parent: Node<'ast>,
 
     pub metadata: VarMetadata,
 }
@@ -29,7 +29,7 @@ pub(crate) struct VarMetadata {
     pub is_class: bool,
 }
 
-impl Var {
+impl<'ast> Var<'ast> {
     pub fn get_parent_node(&self) -> &Node {
         &self.parent
     }
@@ -43,12 +43,12 @@ impl Var {
 ///
 ///
 /// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/LiveVariablesAnalysis.java
-pub(super) struct LivenessVarAnalysis<'a> {
-    cfg: &'a ControlFlowGraph<Node>,
-    all_vars_declared_in_fn: Vec<Var>,
+pub(super) struct LivenessVarAnalysis<'a, 'ast> {
+    cfg: &'a ControlFlowGraph<'a, Node<'ast>>,
+    all_vars_declared_in_fn: Vec<Var<'ast>>,
 }
 
-impl FlowAnalyzer for LivenessVarAnalysis<'_> {
+impl FlowAnalyzer for LivenessVarAnalysis<'_, '_> {
     type FlowBrancher = LivenessVarFlowBrancher;
     type FlowJoiner = LiveVarJoiner;
     type Lattice = LiveVarLattice;
@@ -115,8 +115,11 @@ impl FlowBrancher for LivenessVarFlowBrancher {
     }
 }
 
-impl<'a> LivenessVarAnalysis<'a> {
-    pub fn new(cfg: &'a ControlFlowGraph<Node>, all_vars_declared_in_fn: Vec<Var>) -> Self {
+impl<'a, 'ast> LivenessVarAnalysis<'a, 'ast> {
+    pub fn new(
+        cfg: &'a ControlFlowGraph<Node<'ast>>,
+        all_vars_declared_in_fn: Vec<Var<'ast>>,
+    ) -> Self {
         Self {
             cfg,
             all_vars_declared_in_fn,

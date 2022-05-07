@@ -12,10 +12,7 @@ impl<'a, T> Ptr<'a, T>
 where
     T: ?Sized,
 {
-    pub fn new(data: &'a T) -> Self
-    where
-        T: 'static + Sized,
-    {
+    pub fn new(data: &'a T) -> Self {
         Self { data }
     }
 }
@@ -36,7 +33,7 @@ where
     T: ?Sized,
 {
     fn clone(&self) -> Self {
-        Self { data: *self.data }
+        Self { data: self.data }
     }
 }
 
@@ -59,6 +56,6 @@ where
     T: ?Sized,
 {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        (&***self as *const T).hash(state);
+        (&**self as *const T).hash(state);
     }
 }

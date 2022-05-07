@@ -41,7 +41,7 @@ impl<'a, N> ControlFlowGraph<'a, N> {
         self.implicit_return == *n
     }
 
-    pub(crate) fn node_ix(&self, n: &Ptr<N>) -> NodeIndex {
+    pub(crate) fn node_ix(&self, n: &Ptr<'a, N>) -> NodeIndex {
         self.map[n]
     }
 }
