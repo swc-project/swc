@@ -11848,6 +11848,12 @@ margin: 0 10px;\
                             }, lines.join("\n") + "\n"), guessRange || (range.start.column = 0, range.end.column = lines[lines.length - 1].length), this.selection.setRange(range);
                         }
                     }, this.$reAlignText = function(lines, forceLeft) {
+                        function spaces(n) {
+                            return lang.stringRepeat(" ", n);
+                        }
+                        function alignLeft(m) {
+                            return m[2] ? spaces(startW) + m[2] + spaces(textW - m[2].length + endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
+                        }
                         var startW, textW, endW, isLeftAligned = !0, isRightAligned = !0;
                         return lines.map(function(line) {
                             var m = line.match(/(\s*)(.*?)(\s*)([=:].*)/);
@@ -11859,12 +11865,6 @@ margin: 0 10px;\
                         } : alignLeft : function(m) {
                             return m[2] ? spaces(startW) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
                         });
-                        function spaces(n) {
-                            return lang.stringRepeat(" ", n);
-                        }
-                        function alignLeft(m) {
-                            return m[2] ? spaces(startW) + m[2] + spaces(textW - m[2].length + endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
-                        }
                     };
                 }).call(Editor.prototype), exports.onSessionChange = function(e) {
                     var session = e.session;

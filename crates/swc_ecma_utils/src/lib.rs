@@ -386,17 +386,15 @@ impl StmtExt for Stmt {
 
     fn terminates(&self) -> bool {
         match self {
-            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => return true,
-            Stmt::Block(block) if block.stmts.terminates() => return true,
+            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
+            Stmt::Block(block) => block.stmts.terminates(),
             Stmt::If(IfStmt {
                 cons,
                 alt: Some(alt),
                 ..
-            }) => return cons.terminates() && alt.terminates(),
-            _ => (),
+            }) => cons.terminates() && alt.terminates(),
+            _ => false,
         }
-
-        false
     }
 }
 
@@ -416,13 +414,7 @@ impl StmtExt for Vec<Stmt> {
     }
 
     fn terminates(&self) -> bool {
-        for s in self {
-            if s.terminates() {
-                return true;
-            }
-        }
-
-        false
+        self.iter().rev().any(|s| s.terminates())
     }
 }
 

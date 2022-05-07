@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -193,44 +193,64 @@ impl Pure<'_> {
     where
         T: StmtLike + ModuleItemExt + Take,
     {
-        if !self.options.side_effects {
+        if !self.options.dead_code {
             return;
         }
 
-        let idx = stmts
-            .iter()
-            .enumerate()
-            .find(|(_, stmt)| match stmt.as_stmt() {
-                Some(s) => s.terminates(),
-                _ => false,
-            });
+        let idx = stmts.iter().position(|stmt| match stmt.as_stmt() {
+            Some(s) => s.terminates(),
+            _ => false,
+        });
 
-        if let Some((idx, _)) = idx {
-            stmts.iter_mut().skip(idx + 1).for_each(|stmt| {
-                match stmt.as_stmt() {
-                    Some(Stmt::Decl(
-                        Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        })
-                        | Decl::Fn(..),
-                    )) => {
-                        // Preserve
+        // TODO: let chain
+        if let Some(idx) = idx {
+            if idx == stmts.len() - 1 {
+                return;
+            }
+            self.changed = true;
+
+            report_change!("Dropping statements after a control keyword");
+
+            let mut new_stmts = Vec::with_capacity(stmts.len());
+            let mut decls = vec![];
+            let mut hoisted_fns = vec![];
+
+            // Hoist function and `var` declarations above return.
+            stmts
+                .iter_mut()
+                .skip(idx + 1)
+                .for_each(|stmt| match stmt.take().try_into_stmt() {
+                    Ok(Stmt::Decl(Decl::Fn(f))) => {
+                        hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
                     }
-
-                    Some(Stmt::Empty(..)) => {
-                        // noop
+                    Ok(t) => {
+                        let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
+                            span: i.span,
+                            name: i.into(),
+                            init: None,
+                            definite: false,
+                        });
+                        decls.extend(ids);
                     }
+                    Err(item) => new_stmts.push(item),
+                });
 
-                    Some(..) => {
-                        report_change!("Removing unreachable statements");
-                        self.changed = true;
-                        stmt.take();
-                    }
+            if !decls.is_empty() {
+                new_stmts.push(
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls,
+                        declare: false,
+                    }))
+                    .into(),
+                );
+            }
 
-                    _ => {}
-                }
-            });
+            new_stmts.extend(hoisted_fns);
+            new_stmts.extend(stmts.drain(..=idx));
+
+            *stmts = new_stmts;
         }
     }
 
