@@ -97,7 +97,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: Option<DocumentMode>,
+    document_mode: DocumentMode,
     document: Option<RcNode>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
@@ -123,7 +123,7 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
-            document_mode: None,
+            document_mode: DocumentMode::NoQuirks,
             document: None,
             head_element_pointer: None,
             form_element_pointer: None,
@@ -242,14 +242,9 @@ where
             children.push(node_to_child(node));
         }
 
-        let mode = match self.document_mode {
-            Some(document_mode) => document_mode,
-            _ => DocumentMode::NoQuirks,
-        };
-
         Ok(Document {
             span: Span::new(start.lo, last, Default::default()),
-            mode,
+            mode: self.document_mode,
             children,
         })
     }
@@ -1053,19 +1048,19 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 ))
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         }
 
@@ -1080,6 +1075,13 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
+                        // TODO ERROR about missing doctype and handle iframe
+                        let is_iframe = false;
+
+                        if !is_iframe {
+                            self.document_mode = DocumentMode::Quirks;
+                        }
+
                         self.insertion_mode = InsertionMode::BeforeHtml;
                         self.process_token(token_and_info, None)?;
                     }
@@ -3201,16 +3203,10 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if let Some(document) = &self.document {
-                            match document.data {
-                                Data::Document(Document { mode, .. })
-                                    if mode != DocumentMode::Quirks
-                                        && self.open_elements_stack.has_in_button_scope("p") =>
-                                {
-                                    self.close_p_element();
-                                }
-                                _ => {}
-                            }
+                        if self.document_mode != DocumentMode::Quirks
+                            && self.open_elements_stack.has_in_button_scope("p")
+                        {
+                            self.close_p_element();
                         }
 
                         self.insert_html_element(token_and_info)?;
