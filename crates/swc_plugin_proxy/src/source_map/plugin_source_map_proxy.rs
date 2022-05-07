@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 #[cfg(feature = "plugin-mode")]
 use swc_common::{source_map::FileLinesResult, BytePos, FileName, Loc, SourceMapper, Span};
 

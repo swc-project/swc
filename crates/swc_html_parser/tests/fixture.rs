@@ -1,5 +1,7 @@
 #![deny(warnings)]
 #![allow(clippy::needless_update)]
+#![allow(clippy::redundant_clone)]
+#![allow(clippy::while_let_on_iterator)]
 
 use std::{fs, mem::take, path::PathBuf};
 
