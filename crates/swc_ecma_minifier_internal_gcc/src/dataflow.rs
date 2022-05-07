@@ -60,17 +60,17 @@ const MAX_STEPS_PER_NODE: u32 = 20000;
 ///
 ///
 /// Ported from https://github.com/google/closure-compiler/blob/3a5d7f7d86867ba950f1a84d11d120bc4cf96de7/src/com/google/javascript/jscomp/DataFlowAnalysis.java#L350
-pub struct DataFlowAnalyzer<'a, A>
+pub struct DataFlowAnalyzer<'a, 'ast, A>
 where
     A: FlowAnalyzer,
 {
-    cfg: &'a ControlFlowGraph<Node>,
+    cfg: &'a ControlFlowGraph<'a, Node<'ast>>,
     analyzer: A,
 
-    work_queue: UniqueQueue<Node>,
+    work_queue: UniqueQueue<'a, Node<'ast>>,
 }
 
-impl<'a, A> DataFlowAnalyzer<'a, A>
+impl<'a, 'ast, A> DataFlowAnalyzer<'a, 'ast, A>
 where
     A: FlowAnalyzer,
 {
@@ -299,12 +299,12 @@ where
     }
 }
 
-struct UniqueQueue<T> {
-    seen_set: FxHashSet<Ptr<T>>,
-    queue: VecDeque<DiGraphNode<T>>,
+struct UniqueQueue<'a, T> {
+    seen_set: FxHashSet<Ptr<'a, T>>,
+    queue: VecDeque<DiGraphNode<'a, T>>,
 }
 
-impl<T> Default for UniqueQueue<T> {
+impl<'a, T> Default for UniqueQueue<'a, T> {
     fn default() -> Self {
         Self {
             seen_set: Default::default(),
@@ -313,7 +313,7 @@ impl<T> Default for UniqueQueue<T> {
     }
 }
 
-impl<T> UniqueQueue<T> {
+impl<'a, T> UniqueQueue<'a, T> {
     pub fn new() -> Self {
         Self {
             seen_set: FxHashSet::default(),

@@ -8,16 +8,16 @@ use petgraph::graph::DiGraph;
 
 use crate::ptr::Ptr;
 
-pub type LinkedDirectedGraph<N, E> = DiGraph<DiGraphNode<N>, DiGraphEdge<E>>;
+pub type LinkedDirectedGraph<'a, N, E> = DiGraph<DiGraphNode<'a, N>, DiGraphEdge<E>>;
 
 #[derive(Clone)]
-pub struct DiGraphNode<N> {
-    data: Ptr<N>,
+pub struct DiGraphNode<'a, N> {
+    data: Ptr<'a, N>,
     annotation: Rc<RefCell<Option<Box<dyn Any>>>>,
 }
 
-impl<N> DiGraphNode<N> {
-    pub fn get_value(&self) -> &Ptr<N> {
+impl<'a, N> DiGraphNode<'a, N> {
+    pub fn get_value(&self) -> &Ptr<'a, N> {
         &self.data
     }
 
@@ -38,15 +38,15 @@ impl<N> DiGraphNode<N> {
     }
 }
 
-impl<N> std::ops::Deref for DiGraphNode<N> {
-    type Target = Ptr<N>;
+impl<'a, N> std::ops::Deref for DiGraphNode<'a, N> {
+    type Target = Ptr<'a, N>;
 
     fn deref(&self) -> &Self::Target {
         &self.data
     }
 }
 
-impl<N> PartialEq for DiGraphNode<N> {
+impl<'a, N> PartialEq for DiGraphNode<'a, N> {
     fn eq(&self, other: &Self) -> bool {
         self.data == other.data
     }

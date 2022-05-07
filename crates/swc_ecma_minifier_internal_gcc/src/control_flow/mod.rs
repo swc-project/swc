@@ -11,24 +11,24 @@ use crate::{
 
 mod analysis;
 
-pub struct ControlFlowGraph<N> {
-    parent: LinkedDirectedGraph<N, Branch>,
+pub struct ControlFlowGraph<'a, N> {
+    parent: LinkedDirectedGraph<'a, N, Branch>,
 
-    map: FxHashMap<Ptr<N>, NodeIndex>,
+    map: FxHashMap<Ptr<'a, N>, NodeIndex>,
 
-    implicit_return: DiGraphNode<N>,
-    entry: DiGraphNode<N>,
+    implicit_return: DiGraphNode<'a, N>,
+    entry: DiGraphNode<'a, N>,
 }
 
-impl<N> Deref for ControlFlowGraph<N> {
-    type Target = LinkedDirectedGraph<N, Branch>;
+impl<'a, N> Deref for ControlFlowGraph<'a, N> {
+    type Target = LinkedDirectedGraph<'a, N, Branch>;
 
     fn deref(&self) -> &Self::Target {
         &self.parent
     }
 }
 
-impl<N> ControlFlowGraph<N> {
+impl<'a, N> ControlFlowGraph<'a, N> {
     pub fn get_entry(&self) -> &DiGraphNode<N> {
         &self.entry
     }
