@@ -251,7 +251,7 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_raw.push_str(&s.value);
+                        cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                     }
                     _ => {
                         quasis.push(TplElement {
@@ -266,6 +266,8 @@ impl Pure<'_> {
                 }
             }
         }
+
+        report_change!("compressing template literals");
 
         quasis.push(TplElement {
             span: DUMMY_SP,
