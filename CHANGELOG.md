@@ -7,6 +7,12 @@
 
 - **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
 
+### Features
+
+
+
+- **(es/minifier)** Drop vars using sequential inliner (#4547) ([c5b4ef4](https://github.com/swc-project/swc/commit/c5b4ef4377874d8659d5b4e6c4099e1eac6c40f1))
+
 ## [1.2.178] - 2022-05-07
 
 ### Bug Fixes
