@@ -14,6 +14,12 @@ var CM = function() {
 }, CC1 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, CC1);
+}, CC1 = function() {
+    "use strict";
+    swcHelpers.classCallCheck(this, CC1);
+}, CC2 = function() {
+    "use strict";
+    swcHelpers.classCallCheck(this, CC2);
 }, CC2 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, CC2);

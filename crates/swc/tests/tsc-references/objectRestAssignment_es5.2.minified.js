@@ -5,7 +5,7 @@ _complex = complex, swcHelpers.objectWithoutProperties(_complex.x, [
     "x",
     "y"
 ]), (ref = _complex).x.ka, ref.y;
-var complex, _complex, ref, overEmit, _overEmit, ref1, ref2, _a = swcHelpers.toArray(overEmit.a), ref3 = (_a[0], null !== ref3 ? ref3 : swcHelpers._throw(new TypeError("Cannot destructure undefined")));
+var complex, _complex, ref, overEmit, _overEmit, ref1, ref2, _a = swcHelpers.toArray(overEmit.a), ref3 = _a[0], ref3 = null !== ref3 ? ref3 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
 _a.slice(1), overEmit.b.z, swcHelpers.extends({}, overEmit.a[0]), swcHelpers.objectWithoutProperties(overEmit.b, [
     "z"
 ]), swcHelpers.objectWithoutProperties(overEmit, [

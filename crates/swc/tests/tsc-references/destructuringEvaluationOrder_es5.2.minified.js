@@ -13,5 +13,5 @@ var _ref1 = [
     {
         x: 1
     }
-], __ref = swcHelpers.slicedToArray(_ref1, 2), ref = (__ref[0], null !== ref ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined")));
+], __ref = swcHelpers.slicedToArray(_ref1, 2), ref = __ref[0], ref = null !== ref ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
 __ref[1], swcHelpers.extends({}, _ref1[0]);

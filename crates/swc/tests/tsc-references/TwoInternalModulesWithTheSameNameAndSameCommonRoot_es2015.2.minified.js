@@ -15,7 +15,7 @@
         }
     };
 }(A || (A = {}));
-var A, o, o = (A.Origin, A.Utils.mirror(o));
+var A, o, o = A.Origin, o = A.Utils.mirror(o);
 new A.Utils.Plane(o, {
     x: 1,
     y: 1
