@@ -325,7 +325,7 @@ impl<'a, T> UniqueQueue<'a, T> {
         self.queue.is_empty()
     }
 
-    fn remove_first(&mut self) -> Option<DiGraphNode<T>> {
+    fn remove_first(&mut self) -> Option<DiGraphNode<'a, T>> {
         let t = self.queue.pop_front()?;
         self.seen_set.remove(&t);
 
