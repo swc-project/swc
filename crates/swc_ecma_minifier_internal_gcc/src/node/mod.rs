@@ -1,28 +1,20 @@
-use std::{any::Any, rc::Rc};
-
-use owning_ref::OwningRef;
+use std::any::Any;
 
 use crate::ptr::Ptr;
 
 #[derive(Clone)]
-pub struct Node {
-    data: Ptr<dyn Any>,
-    parent: Option<Ptr<Node>>,
+pub struct Node<'ast> {
+    data: Ptr<'ast, dyn Any>,
+    parent: Option<Ptr<'ast, Node<'ast>>>,
 }
 
-impl Node {
-    pub fn new_root<N>(data: N) -> Self
+impl<'ast> Node<'ast> {
+    pub fn new_root<N>(data: &'ast N) -> Self
     where
         N: 'static + Any,
     {
-        let data = Rc::new(data);
-        let or = OwningRef::new(data);
-
-        let inner = or.erase_owner();
-        let inner = inner.map(|v| v as &dyn Any);
-
         Self {
-            data: inner.into(),
+            data: Ptr::new(data),
             parent: None,
         }
     }
