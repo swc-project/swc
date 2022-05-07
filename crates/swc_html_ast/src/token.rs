@@ -9,7 +9,9 @@ pub struct TokenAndSpan {
     pub token: Token,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(
+    Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, EqIgnoreSpan,
+)]
 pub struct AttributeToken {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
