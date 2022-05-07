@@ -144,4 +144,3 @@ sequences/for_sequences/input.js
 sequences/issue_1758/input.js
 sequences/lift_sequences_5/input.js
 template_string/special_chars_in_string/input.js
-transform/if_else_empty/input.js
