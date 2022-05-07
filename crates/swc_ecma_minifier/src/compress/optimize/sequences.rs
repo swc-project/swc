@@ -799,6 +799,15 @@ where
                                             );
                                             av.name.take();
                                             continue;
+                                        } else {
+                                            self.changed = true;
+                                            report_change!(
+                                                "Dropping the previous var declaration of {} \
+                                                 which does not have an initializer",
+                                                an.id
+                                            );
+                                            av.name.take();
+                                            continue;
                                         }
                                     }
                                     None => {
