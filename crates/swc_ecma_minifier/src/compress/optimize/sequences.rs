@@ -780,6 +780,14 @@ where
 
                                 match bv.init.as_deref_mut() {
                                     Some(b_init) => {
+                                        if UsageFinder::find(&an.id, b_init) {
+                                            log_abort!(
+                                                "We can't duplicated binding because initializer \
+                                                 uses the previous declaration of the variable"
+                                            );
+                                            break;
+                                        }
+
                                         if let Some(a_init) = av.init.take() {
                                             let b_seq = b_init.force_seq();
                                             b_seq.exprs.insert(0, a_init);
