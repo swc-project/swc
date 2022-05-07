@@ -5,7 +5,7 @@
     "end": 19,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
@@ -125,7 +125,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 3,
+                    "start": 6,
                     "end": 19,
                     "ctxt": 0
                   },
@@ -136,7 +136,7 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 6,
+                        "start": 9,
                         "end": 19,
                         "ctxt": 0
                       },
@@ -147,7 +147,7 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 9,
+                            "start": 12,
                             "end": 19,
                             "ctxt": 0
                           },
@@ -156,27 +156,13 @@
                           "attributes": [],
                           "children": [
                             {
-                              "type": "Element",
+                              "type": "Text",
                               "span": {
-                                "start": 12,
+                                "start": 18,
                                 "end": 19,
                                 "ctxt": 0
                               },
-                              "tagName": "b",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 18,
-                                    "end": 19,
-                                    "ctxt": 0
-                                  },
-                                  "value": "x"
-                                }
-                              ],
-                              "content": null
+                              "value": "x"
                             }
                           ],
                           "content": null

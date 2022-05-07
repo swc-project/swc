@@ -1,4 +1,3 @@
 var a = "FAIL";
-var c = ((d = a), void (d && (a = "PASS")));
-var d;
+var c = void (a && (a = "PASS"));
 console.log(a, typeof c);

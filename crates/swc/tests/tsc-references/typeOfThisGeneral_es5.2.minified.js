@@ -7,9 +7,9 @@ var MyTestClass = function() {
     return MyTestClass.prototype.memberFunc = function() {
         arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
     }, MyTestClass.staticFn = function() {
-        var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyTestClass;
+        var p, t = (arguments.length > 0 && void 0 !== arguments[0] && arguments[0], MyTestClass);
         t.staticCanary;
-        var p = this, p = MyTestClass;
+        var p = MyTestClass;
         p.staticCanary;
     }, swcHelpers.createClass(MyTestClass, [
         {
@@ -23,12 +23,10 @@ var MyTestClass = function() {
         {
             key: "staticProp",
             get: function() {
-                var p, p = this, p = MyTestClass;
-                return p.staticCanary, this;
+                return MyTestClass.staticCanary, this;
             },
             set: function(v) {
-                var p, p = this, p = MyTestClass;
-                p.staticCanary;
+                MyTestClass.staticCanary;
             }
         }
     ]), MyTestClass;
@@ -40,9 +38,9 @@ var MyTestClass = function() {
     return MyGenericTestClass.prototype.memberFunc = function() {
         arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
     }, MyGenericTestClass.staticFn = function() {
-        var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyGenericTestClass;
+        var p, t = (arguments.length > 0 && void 0 !== arguments[0] && arguments[0], MyGenericTestClass);
         t.staticCanary;
-        var p = this, p = MyGenericTestClass;
+        var p = MyGenericTestClass;
         p.staticCanary;
     }, swcHelpers.createClass(MyGenericTestClass, [
         {
@@ -56,12 +54,10 @@ var MyTestClass = function() {
         {
             key: "staticProp",
             get: function() {
-                var p, p = this, p = MyGenericTestClass;
-                return p.staticCanary, this;
+                return MyGenericTestClass.staticCanary, this;
             },
             set: function(v) {
-                var p, p = this, p = MyGenericTestClass;
-                p.staticCanary;
+                MyGenericTestClass.staticCanary;
             }
         }
     ]), MyGenericTestClass;

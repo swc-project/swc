@@ -9026,7 +9026,7 @@
                 }, Cea708Stream1.prototype.getPts = function(byteIndex) {
                     return this.current708Packet.ptsVals[Math.floor(byteIndex / 2)];
                 }, Cea708Stream1.prototype.initService = function(serviceNum, i) {
-                    var serviceName, encoding, serviceName = "SERVICE" + serviceNum, self = this;
+                    var encoding, serviceName = "SERVICE" + serviceNum, self = this;
                     return serviceName in this.serviceEncodings && (encoding = this.serviceEncodings[serviceName]), this.services[serviceNum] = new Cea708Service(serviceNum, encoding, self), this.services[serviceNum].init(this.getPts(i), function(pts) {
                         self.flushDisplayed(pts, self.services[serviceNum]);
                     }), this.services[serviceNum];

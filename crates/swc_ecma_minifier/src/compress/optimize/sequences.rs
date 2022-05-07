@@ -666,8 +666,13 @@ where
 
             match stmt.as_stmt_mut() {
                 Some(Stmt::Decl(Decl::Var(v))) => {
-                    v.decls
-                        .retain(|decl| !matches!(decl.init.as_deref(), Some(Expr::Invalid(..))));
+                    v.decls.retain(|decl| {
+                        // We dropped variable declarations using sequential inlining
+                        if matches!(decl.name, Pat::Invalid(..)) {
+                            return false;
+                        }
+                        !matches!(decl.init.as_deref(), Some(Expr::Invalid(..)))
+                    });
 
                     !v.decls.is_empty()
                 }
@@ -733,6 +738,9 @@ where
 
         let _ = self.merge_sequences_in_exprs(&mut exprs);
 
+        // As we don't have Mergable::Var here, we don't need to check for dropped
+        // variables.
+
         e.exprs.retain(|e| !e.is_invalid());
     }
 
@@ -760,6 +768,75 @@ where
                 }
 
                 let a = a1.last_mut().unwrap();
+
+                if self.options.unused && self.options.sequences() {
+                    if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
+                        // We try dropping variable assignments first.
+
+                        // Currently, we only drop variable declarations if they have the same name.
+                        if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
+                            if an.to_id() == bn.to_id() {
+                                // We need to preserve side effect of `av.init`
+
+                                match bv.init.as_deref_mut() {
+                                    Some(b_init) => {
+                                        if UsageFinder::find(&an.id, b_init) {
+                                            log_abort!(
+                                                "We can't duplicated binding because initializer \
+                                                 uses the previous declaration of the variable"
+                                            );
+                                            break;
+                                        }
+
+                                        if let Some(a_init) = av.init.take() {
+                                            let b_seq = b_init.force_seq();
+                                            b_seq.exprs.insert(0, a_init);
+
+                                            self.changed = true;
+                                            report_change!(
+                                                "Moving initializer sequentially as they have a \
+                                                 same name"
+                                            );
+                                            av.name.take();
+                                            continue;
+                                        } else {
+                                            self.changed = true;
+                                            report_change!(
+                                                "Dropping the previous var declaration of {} \
+                                                 which does not have an initializer",
+                                                an.id
+                                            );
+                                            av.name.take();
+                                            continue;
+                                        }
+                                    }
+                                    None => {
+                                        // As variable name is same, we can move initializer
+
+                                        // Th code below
+                                        //
+                                        //      var a = 5;
+                                        //      var a;
+                                        //
+                                        //      console.log(a)
+                                        //
+                                        // prints 5
+                                        bv.init = av.init.take();
+                                        self.changed = true;
+                                        report_change!(
+                                            "Moving initializer to the next variable declaration \
+                                             as they have the same name"
+                                        );
+                                        av.name.take();
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Merge sequentially
 
                 if self.merge_sequential_expr(
                     a,

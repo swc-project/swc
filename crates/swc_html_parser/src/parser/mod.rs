@@ -97,7 +97,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: Option<DocumentMode>,
+    document_mode: DocumentMode,
     document: Option<RcNode>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
@@ -123,7 +123,7 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
-            document_mode: None,
+            document_mode: DocumentMode::NoQuirks,
             document: None,
             head_element_pointer: None,
             form_element_pointer: None,
@@ -242,14 +242,9 @@ where
             children.push(node_to_child(node));
         }
 
-        let mode = match self.document_mode {
-            Some(document_mode) => document_mode,
-            _ => DocumentMode::NoQuirks,
-        };
-
         Ok(Document {
             span: Span::new(start.lo, last, Default::default()),
-            mode,
+            mode: self.document_mode,
             children,
         })
     }
@@ -1053,19 +1048,19 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 ))
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         }
 
@@ -1080,6 +1075,13 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
+                        // TODO ERROR about missing doctype and handle iframe
+                        let is_iframe = false;
+
+                        if !is_iframe {
+                            self.document_mode = DocumentMode::Quirks;
+                        }
+
                         self.insertion_mode = InsertionMode::BeforeHtml;
                         self.process_token(token_and_info, None)?;
                     }
@@ -2344,11 +2346,28 @@ where
 
                         self.insert_html_element(token_and_info)?;
 
+                        let mut is_cr = false;
+
                         match self.input.cur()? {
-                            Some(Token::Character { value, .. }) if *value == '\x0A' => {
+                            Some(Token::Character { value, .. })
+                                if matches!(*value, '\r' | '\n') =>
+                            {
+                                if *value == '\r' {
+                                    is_cr = true;
+                                }
+
                                 bump!(self);
                             }
                             _ => {}
+                        }
+
+                        if is_cr {
+                            match self.input.cur()? {
+                                Some(Token::Character { value, .. }) if *value == '\n' => {
+                                    bump!(self);
+                                }
+                                _ => {}
+                            }
                         }
 
                         self.frameset_ok = false;
@@ -3184,16 +3203,10 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if let Some(document) = &self.document {
-                            match document.data {
-                                Data::Document(Document { mode, .. })
-                                    if mode != DocumentMode::Quirks
-                                        && self.open_elements_stack.has_in_button_scope("p") =>
-                                {
-                                    self.close_p_element();
-                                }
-                                _ => {}
-                            }
+                        if self.document_mode != DocumentMode::Quirks
+                            && self.open_elements_stack.has_in_button_scope("p")
+                        {
+                            self.close_p_element();
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3287,8 +3300,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
@@ -3301,15 +3313,17 @@ where
                         };
 
                         self.reconstruct_active_formatting_elements()?;
+
+                        // To avoid extra cloning, it doesn't have effect on logic
+                        if input_type.is_none() || !is_hidden {
+                            self.frameset_ok = false;
+                        }
+
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
-                        }
-
-                        if input_type.is_none() || !is_hidden {
-                            self.frameset_ok = false;
                         }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
@@ -3665,9 +3679,7 @@ where
                     }
                     // Any other end tag
                     Token::EndTag { .. } => {
-                        self.any_other_end_tag_for_in_body_insertion_mode(
-                            &mut token_and_info.clone(),
-                        );
+                        self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
                     }
                 }
 
@@ -4170,8 +4182,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
@@ -6199,7 +6210,7 @@ where
                             span: Default::default(),
                             namespace: None,
                             prefix: None,
-                            name: attribute_token.name.clone(),
+                            name: attribute_token.name,
                             value: attribute_token.value,
                         };
 
@@ -6553,7 +6564,7 @@ where
                 self.open_elements_stack
                     .replace(node_index, new_element.clone());
 
-                node = new_element.clone();
+                node = new_element;
 
                 // 13.7
                 if is_same_node(&last_node, &furthest_block.1) {
@@ -6561,10 +6572,10 @@ where
                 }
 
                 // 13.8
-                self.append_node(&node, last_node.clone());
+                self.append_node(&node, last_node);
 
                 // 13.9
-                last_node = node.clone();
+                last_node = node;
             }
 
             // 14.

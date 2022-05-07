@@ -55,3 +55,8 @@ node-swc/src
 node-swc/tests
 crates/swc/tests/srcmap/
 crates/swc/tests/stacktrace/
+
+
+# git submodules
+crates/swc_ecma_parser/tests/test262-parser
+crates/swc_html_parser/tests/html5lib-tests

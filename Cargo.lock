@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.177"
+version = "1.2.178"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3303,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.110.1"
+version = "0.110.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3447,7 +3447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.82.0"
+version = "0.82.1"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.21"
+version = "0.5.26"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3933,7 +3933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.50.0"
+version = "0.50.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3956,7 +3956,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "better_scoped_tls",
  "rkyv",

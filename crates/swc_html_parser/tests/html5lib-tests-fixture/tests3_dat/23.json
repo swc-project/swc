@@ -5,7 +5,7 @@
     "end": 18,
     "ctxt": 0
   },
-  "mode": "no-quirks",
+  "mode": "quirks",
   "children": [
     {
       "type": "Element",
@@ -46,26 +46,27 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 3,
+                "end": 10,
                 "ctxt": 0
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
-              "content": null
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 3,
-                "end": 10,
-                "ctxt": 0
-              },
-              "tagName": "table",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 3,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "tagName": "table",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
               "content": null
             }
           ],

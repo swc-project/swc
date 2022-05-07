@@ -98,11 +98,36 @@ const LOG: bool = false && cfg!(debug_assertions);
 /// In the code above, `React` has this [Mark]. `jsx` passes need to
 /// reference this [Mark], so it accpets this.
 ///
+/// This [Mark] should be used for referencing top-level bindings written by
+/// user. If you are going to create a binding, use `private_ident`
+/// instead.
+///
+/// In other words, **this [Mark] should not be used for determining if a
+/// variable is top-level.** This is simply a configuration of the `resolver`
+/// pass.
+///
 ///
 /// ## `typescript`
 ///
 /// Enable this only if you are going to strip types or apply type-aware
 /// passes like decorators pass.
+///
+///
+/// # FAQ
+///
+/// ## Does a pair `(JsWord, SyntaxContext)` always uniquely identifiers a
+/// variable binding?
+///
+/// Yes, but multiple variables can have the exactly same name.
+///
+/// In the code below,
+///
+/// ```js
+/// var a = 1, a = 2;
+/// ```
+///
+/// both of them have the same name, so the `(JsWord, SyntaxContext)` pair will
+/// be also identical.
 pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
