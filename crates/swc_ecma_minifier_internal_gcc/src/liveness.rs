@@ -5,7 +5,7 @@ use rustc_hash::FxHashSet;
 use swc_ecma_ast::Id;
 
 use crate::{
-    control_flow_graph::{Branch, ControlFlowGraph},
+    control_flow::{Branch, ControlFlowGraph},
     dataflow::{FlowAnalyzer, FlowBrancher, FlowJoiner},
     node::Node,
 };

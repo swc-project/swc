@@ -4,7 +4,7 @@ use petgraph::{graph::EdgeReference, Direction};
 use rustc_hash::FxHashSet;
 
 use crate::{
-    control_flow_graph::{Branch, ControlFlowGraph},
+    control_flow::{Branch, ControlFlowGraph},
     graph::{DiGraphEdge, DiGraphNode},
     node::Node,
     ptr::Ptr,
