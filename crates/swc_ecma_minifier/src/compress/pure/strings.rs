@@ -196,6 +196,7 @@ impl Pure<'_> {
                     '\n' | '\r' => self.config.force_str_for_tpl,
                     _ => false,
                 }) && (self.config.force_str_for_tpl
+                    || c.contains("\\`")
                     || (!c.contains("\\n") && !c.contains("\\r")))
                     && !c.contains("\\0")
                     && !c.contains("\\x")
