@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 
 use serde::{Deserialize, Serialize};
+use swc_config::merge::Merge;
 
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::{
@@ -69,7 +70,7 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
     }
 }
 
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
 #[non_exhaustive]
 #[serde(rename_all = "kebab-case")]
 pub struct LintConfig {
