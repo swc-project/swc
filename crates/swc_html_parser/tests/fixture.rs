@@ -972,13 +972,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let mut counter = 0;
 
         while let Some(test) = tests.next() {
-            println!("{:?}", test);
             let data_start = if counter == 0 { 6 } else { 0 };
             let data_end = test
                 .find("#errors\n")
                 .expect("failed to get errors in test");
             let mut data = &test[data_start..data_end];
-            if data.ends_with('\n') {
 
             if data.ends_with("\n") {
                 data = data
@@ -1000,7 +998,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .find("#document\n")
                 .expect("failed to get errors in test");
             let dom_snapshot = &test[document_start..];
-
             let dom_snapshot_path = dir.join(file_stem + ".dom");
 
             fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
