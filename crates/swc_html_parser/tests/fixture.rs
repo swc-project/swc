@@ -1096,52 +1096,111 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let scripting_enabled = file_stem.contains("script_on");
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
+
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let mut parser = Parser::new(lexer, ParserConfig { scripting_enabled });
+        let config = ParserConfig { scripting_enabled };
+        let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_document();
+        if file_stem.contains("fragment") {
+            let context_element = Element {
+                span: Default::default(),
+                namespace: Namespace::HTML,
+                tag_name: "div".into(),
+                attributes: vec![],
+                children: vec![],
+                content: None,
+            };
 
-        match document {
-            Ok(mut document) => {
-                let actual_json = serde_json::to_string_pretty(&document)
-                    .map(NormalizedOutput::from)
-                    .expect("failed to serialize document");
+            let document_fragment = parser.parse_document_fragment(&context_element);
 
-                actual_json.compare_to_file(&json_path).unwrap();
+            match document_fragment {
+                Ok(mut document_fragment) => {
+                    let actual_json = serde_json::to_string_pretty(&document_fragment)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize document");
 
-                // Skip scripted test, because we don't support ECMA execution
-                if input
-                    .parent()
-                    .unwrap()
-                    .to_string_lossy()
-                    .contains("scripted")
-                {
-                    return Ok(());
+                    actual_json.compare_to_file(&json_path).unwrap();
+
+                    // Skip scripted test, because we don't support ECMA execution
+                    if input
+                        .parent()
+                        .unwrap()
+                        .to_string_lossy()
+                        .contains("scripted")
+                    {
+                        return Ok(());
+                    }
+
+                    let mut dom_buf = String::new();
+
+                    document_fragment.visit_mut_with(&mut DomVisualizer {
+                        dom_buf: &mut dom_buf,
+                        indent: 0,
+                    });
+
+                    // TODO fix me
+                    // let dir = input.parent().unwrap().to_path_buf();
+                    //
+                    // NormalizedOutput::from(dom_buf)
+                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
+                    //     .unwrap();
+
+                    Ok(())
                 }
+                Err(err) => {
+                    let mut d = err.to_diagnostics(&handler);
 
-                let mut dom_buf = String::new();
+                    d.note(&format!("current token = {}", parser.dump_cur()));
+                    d.emit();
 
-                document.visit_mut_with(&mut DomVisualizer {
-                    dom_buf: &mut dom_buf,
-                    indent: 0,
-                });
-
-                // TODO fix me
-                // let dir = input.parent().unwrap().to_path_buf();
-                //
-                // NormalizedOutput::from(dom_buf)
-                //     .compare_to_file(&dir.join(file_stem + ".dom"))
-                //     .unwrap();
-
-                Ok(())
+                    panic!();
+                }
             }
-            Err(err) => {
-                let mut d = err.to_diagnostics(&handler);
+        } else {
+            let document = parser.parse_document();
 
-                d.note(&format!("current token = {}", parser.dump_cur()));
-                d.emit();
+            match document {
+                Ok(mut document) => {
+                    let actual_json = serde_json::to_string_pretty(&document)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize document");
 
-                panic!();
+                    actual_json.compare_to_file(&json_path).unwrap();
+
+                    // Skip scripted test, because we don't support ECMA execution
+                    if input
+                        .parent()
+                        .unwrap()
+                        .to_string_lossy()
+                        .contains("scripted")
+                    {
+                        return Ok(());
+                    }
+
+                    let mut dom_buf = String::new();
+
+                    document.visit_mut_with(&mut DomVisualizer {
+                        dom_buf: &mut dom_buf,
+                        indent: 0,
+                    });
+
+                    // TODO fix me
+                    // let dir = input.parent().unwrap().to_path_buf();
+                    //
+                    // NormalizedOutput::from(dom_buf)
+                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
+                    //     .unwrap();
+
+                    Ok(())
+                }
+                Err(err) => {
+                    let mut d = err.to_diagnostics(&handler);
+
+                    d.note(&format!("current token = {}", parser.dump_cur()));
+                    d.emit();
+
+                    panic!();
+                }
             }
         }
     })

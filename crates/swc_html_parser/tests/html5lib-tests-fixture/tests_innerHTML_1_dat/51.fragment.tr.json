@@ -1,12 +1,24 @@
 {
-  "type": "Document",
+  "type": "DocumentFragment",
   "span": {
     "start": 0,
     "end": 27,
     "ctxt": 0
   },
-  "mode": "quirks",
   "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 4,
+        "ctxt": 0
+      },
+      "tagName": "head",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
     {
       "type": "Element",
       "span": {
@@ -14,18 +26,18 @@
         "end": 27,
         "ctxt": 0
       },
-      "tagName": "html",
+      "tagName": "body",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 4,
+            "start": 11,
+            "end": 14,
             "ctxt": 0
           },
-          "tagName": "head",
+          "tagName": "a",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
@@ -34,76 +46,49 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 4,
             "end": 27,
             "ctxt": 0
           },
-          "tagName": "body",
+          "tagName": "table",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [
             {
               "type": "Element",
               "span": {
-                "start": 11,
-                "end": 14,
-                "ctxt": 0
-              },
-              "tagName": "a",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
-              "content": null
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 4,
+                "start": 0,
                 "end": 27,
                 "ctxt": 0
               },
-              "tagName": "table",
+              "tagName": "tbody",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
                   "type": "Element",
                   "span": {
-                    "start": 0,
+                    "start": 14,
+                    "end": 18,
+                    "ctxt": 0
+                  },
+                  "tagName": "tr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 23,
                     "end": 27,
                     "ctxt": 0
                   },
-                  "tagName": "tbody",
+                  "tagName": "tr",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 14,
-                        "end": 18,
-                        "ctxt": 0
-                      },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    },
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 23,
-                        "end": 27,
-                        "ctxt": 0
-                      },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
+                  "children": [],
                   "content": null
                 }
               ],

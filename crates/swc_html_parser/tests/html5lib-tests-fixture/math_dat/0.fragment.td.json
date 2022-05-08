@@ -1,12 +1,24 @@
 {
-  "type": "Document",
+  "type": "DocumentFragment",
   "span": {
     "start": 0,
     "end": 22,
     "ctxt": 0
   },
-  "mode": "quirks",
   "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 6,
+        "ctxt": 0
+      },
+      "tagName": "head",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
     {
       "type": "Element",
       "span": {
@@ -14,7 +26,7 @@
         "end": 18,
         "ctxt": 0
       },
-      "tagName": "html",
+      "tagName": "body",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
@@ -22,73 +34,46 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
-            "ctxt": 0
-          },
-          "tagName": "head",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 0,
             "end": 18,
             "ctxt": 0
           },
-          "tagName": "body",
-          "namespace": "http://www.w3.org/1999/xhtml",
+          "tagName": "math",
+          "namespace": "http://www.w3.org/1998/Math/MathML",
           "attributes": [],
           "children": [
             {
               "type": "Element",
               "span": {
-                "start": 0,
+                "start": 6,
                 "end": 18,
                 "ctxt": 0
               },
-              "tagName": "math",
+              "tagName": "tr",
               "namespace": "http://www.w3.org/1998/Math/MathML",
               "attributes": [],
               "children": [
                 {
                   "type": "Element",
                   "span": {
-                    "start": 6,
+                    "start": 10,
                     "end": 18,
                     "ctxt": 0
                   },
-                  "tagName": "tr",
+                  "tagName": "td",
                   "namespace": "http://www.w3.org/1998/Math/MathML",
                   "attributes": [],
                   "children": [
                     {
                       "type": "Element",
                       "span": {
-                        "start": 10,
+                        "start": 14,
                         "end": 18,
                         "ctxt": 0
                       },
-                      "tagName": "td",
+                      "tagName": "mo",
                       "namespace": "http://www.w3.org/1998/Math/MathML",
                       "attributes": [],
-                      "children": [
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 14,
-                            "end": 18,
-                            "ctxt": 0
-                          },
-                          "tagName": "mo",
-                          "namespace": "http://www.w3.org/1998/Math/MathML",
-                          "attributes": [],
-                          "children": [],
-                          "content": null
-                        }
-                      ],
+                      "children": [],
                       "content": null
                     }
                   ],

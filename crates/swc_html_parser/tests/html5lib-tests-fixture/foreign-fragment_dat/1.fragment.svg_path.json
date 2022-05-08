@@ -1,12 +1,24 @@
 {
-  "type": "Document",
+  "type": "DocumentFragment",
   "span": {
     "start": 0,
     "end": 20,
     "ctxt": 0
   },
-  "mode": "quirks",
   "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 12,
+        "ctxt": 0
+      },
+      "tagName": "head",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
     {
       "type": "Element",
       "span": {
@@ -14,7 +26,7 @@
         "end": 20,
         "ctxt": 0
       },
-      "tagName": "html",
+      "tagName": "body",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
@@ -25,60 +37,33 @@
             "end": 12,
             "ctxt": 0
           },
-          "tagName": "head",
+          "tagName": "font",
           "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "color",
+              "value": null
+            }
+          ],
           "children": [],
           "content": null
         },
         {
-          "type": "Element",
+          "type": "Text",
           "span": {
-            "start": 0,
+            "start": 19,
             "end": 20,
             "ctxt": 0
           },
-          "tagName": "body",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [
-            {
-              "type": "Element",
-              "span": {
-                "start": 0,
-                "end": 12,
-                "ctxt": 0
-              },
-              "tagName": "font",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [
-                {
-                  "type": "Attribute",
-                  "span": {
-                    "start": 0,
-                    "end": 0,
-                    "ctxt": 0
-                  },
-                  "namespace": null,
-                  "prefix": null,
-                  "name": "color",
-                  "value": null
-                }
-              ],
-              "children": [],
-              "content": null
-            },
-            {
-              "type": "Text",
-              "span": {
-                "start": 19,
-                "end": 20,
-                "ctxt": 0
-              },
-              "value": "X"
-            }
-          ],
-          "content": null
+          "value": "X"
         }
       ],
       "content": null

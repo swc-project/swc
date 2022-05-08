@@ -1,12 +1,24 @@
 {
-  "type": "Document",
+  "type": "DocumentFragment",
   "span": {
     "start": 0,
     "end": 12,
     "ctxt": 0
   },
-  "mode": "quirks",
   "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 9,
+        "ctxt": 0
+      },
+      "tagName": "head",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
     {
       "type": "Element",
       "span": {
@@ -14,48 +26,21 @@
         "end": 12,
         "ctxt": 0
       },
-      "tagName": "html",
+      "tagName": "body",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 9,
-            "ctxt": 0
-          },
-          "tagName": "head",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 0,
+            "start": 9,
             "end": 12,
             "ctxt": 0
           },
-          "tagName": "body",
+          "tagName": "a",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [
-            {
-              "type": "Element",
-              "span": {
-                "start": 9,
-                "end": 12,
-                "ctxt": 0
-              },
-              "tagName": "a",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
-              "content": null
-            }
-          ],
+          "children": [],
           "content": null
         }
       ],
