@@ -75,9 +75,7 @@ fn compressed(compressed_file: PathBuf) {
             &MinifyOptions {
                 mangle: Some(MangleOptions {
                     props: Some(ManglePropertiesOptions {
-                        reserved: Default::default(),
-                        undeclared: false,
-                        regex: Default::default(),
+                        ..Default::default()
                     }),
                     top_level: true,
                     keep_class_names: false,

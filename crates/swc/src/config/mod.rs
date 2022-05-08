@@ -41,7 +41,7 @@ use swc_ecma_loader::{
 };
 use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
-    MangleOptions, ManglePropertiesOptions,
+    MangleOptions,
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
@@ -279,7 +279,7 @@ impl Options {
         P: 'a + swc_ecma_visit::Fold,
     {
         let mut config = config.unwrap_or_default();
-        config.merge(&self.config);
+        config.merge(self.config.clone());
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(&config.source_maps);
@@ -398,7 +398,10 @@ impl Options {
             }
         };
 
-        let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
+        let enable_simplifier = optimizer
+            .as_ref()
+            .map(|v| v.simplify.into_bool())
+            .unwrap_or_default();
 
         let optimization = {
             if let Some(opts) = optimizer.and_then(|o| o.globals) {
@@ -748,7 +751,7 @@ impl Rc {
 }
 
 /// A single object in the `.swcrc` file
-#[derive(Debug, Default, Clone, Deserialize)]
+#[derive(Debug, Default, Clone, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
@@ -787,7 +790,7 @@ pub struct Config {
 }
 
 /// Second argument of `minify`.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
@@ -849,7 +852,7 @@ pub struct TerserSourceMapOption {
 }
 
 /// `jsc.minify.format`.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
@@ -1523,160 +1526,6 @@ fn default_env_name() -> String {
     match env::var("NODE_ENV") {
         Ok(v) => v,
         Err(_) => "development".into(),
-    }
-}
-
-impl Merge for Config {
-    fn merge(&mut self, from: &Self) {
-        self.jsc.merge(&from.jsc);
-        self.module.merge(&from.module);
-        self.minify.merge(&from.minify);
-        self.env.merge(&from.env);
-        self.source_maps.merge(&from.source_maps);
-        self.input_source_map.merge(&from.input_source_map);
-        self.inline_sources_content
-            .merge(&from.inline_sources_content);
-    }
-}
-
-impl Merge for JsMinifyOptions {
-    fn merge(&mut self, from: &Self) {
-        self.compress.merge(&from.compress);
-        self.mangle.merge(&from.mangle);
-        self.format.merge(&from.format);
-        self.ecma.merge(&from.ecma);
-        self.keep_classnames |= from.keep_classnames;
-        self.keep_fnames |= from.keep_fnames;
-        self.safari10 |= from.safari10;
-        self.toplevel |= from.toplevel;
-        self.inline_sources_content |= from.inline_sources_content;
-    }
-}
-
-impl Merge for TerserCompressorOptions {
-    fn merge(&mut self, from: &Self) {
-        self.defaults |= from.defaults;
-        // TODO
-    }
-}
-
-impl Merge for MangleOptions {
-    fn merge(&mut self, from: &Self) {
-        self.props.merge(&from.props);
-
-        self.top_level |= from.top_level;
-        self.keep_class_names |= from.keep_class_names;
-        self.keep_fn_names |= from.keep_fn_names;
-        self.keep_private_props |= from.keep_private_props;
-        self.safari10 |= from.safari10;
-    }
-}
-
-impl Merge for JsMinifyFormatOptions {
-    fn merge(&mut self, from: &Self) {
-        self.comments.merge(&from.comments);
-    }
-}
-
-impl Merge for JsMinifyCommentOption {
-    fn merge(&mut self, _: &Self) {}
-}
-
-impl Merge for ManglePropertiesOptions {
-    fn merge(&mut self, from: &Self) {
-        self.undeclared |= from.undeclared;
-    }
-}
-
-impl Merge for TerserEcmaVersion {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for SourceMapsConfig {
-    fn merge(&mut self, _: &Self) {}
-}
-
-impl Merge for InputSourceMap {
-    fn merge(&mut self, r: &Self) {
-        if let InputSourceMap::Bool(false) = *self {
-            *self = r.clone();
-        }
-    }
-}
-
-impl Merge for swc_ecma_preset_env::Config {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for JscConfig {
-    fn merge(&mut self, from: &Self) {
-        self.assumptions.merge(&from.assumptions);
-        self.syntax.merge(&from.syntax);
-        self.transform.merge(&from.transform);
-        self.external_helpers.merge(&from.external_helpers);
-        self.target.merge(&from.target);
-        self.loose.merge(&from.loose);
-        self.keep_class_names.merge(&from.keep_class_names);
-        self.paths.merge(&from.paths);
-        self.minify.merge(&from.minify);
-        self.experimental.merge(&from.experimental);
-        self.preserve_all_comments
-            .merge(&from.preserve_all_comments)
-    }
-}
-
-impl Merge for Assumptions {
-    fn merge(&mut self, from: &Self) {
-        self.array_like_is_iterable |= from.array_like_is_iterable;
-        self.constant_reexports |= from.constant_reexports;
-        self.constant_super |= from.constant_super;
-        self.enumerable_module_meta |= from.enumerable_module_meta;
-        self.ignore_function_length |= from.ignore_function_length;
-        self.ignore_function_name |= from.ignore_function_name;
-        self.ignore_to_primitive_hint |= from.ignore_to_primitive_hint;
-        self.iterable_is_array |= from.iterable_is_array;
-        self.mutable_template_object |= from.mutable_template_object;
-        self.no_class_calls |= from.no_class_calls;
-        self.no_document_all |= from.no_document_all;
-        self.no_incomplete_ns_import_detection |= from.no_incomplete_ns_import_detection;
-        self.no_new_arrows |= from.no_new_arrows;
-        self.object_rest_no_symbols |= from.object_rest_no_symbols;
-        self.private_fields_as_properties |= from.private_fields_as_properties;
-        self.pure_getters |= from.pure_getters;
-        self.set_class_methods |= from.set_class_methods;
-        self.set_computed_properties |= from.set_computed_properties;
-        self.set_public_class_fields |= from.set_public_class_fields;
-        self.set_spread_properties |= from.set_spread_properties;
-        self.skip_for_of_iterator_closing |= from.skip_for_of_iterator_closing;
-        self.super_is_callable_constructor |= from.super_is_callable_constructor;
-        self.ts_enum_is_readonly |= from.ts_enum_is_readonly;
-    }
-}
-
-impl Merge for TransformConfig {
-    fn merge(&mut self, from: &Self) {
-        self.optimizer.merge(&from.optimizer);
-        self.const_modules.merge(&from.const_modules);
-        self.react.merge(&from.react);
-        self.hidden.merge(&from.hidden);
-    }
-}
-
-impl Merge for GlobalPassOption {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for react::Options {
-    fn merge(&mut self, from: &Self) {
-        if *from != react::Options::default() {
-            *self = from.clone();
-        }
     }
 }
 

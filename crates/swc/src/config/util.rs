@@ -1,7 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-use super::Merge;
-
 /// Note: `{}` (empty object) is treated as `true`.
 #[derive(Clone, Serialize, Debug)]
 #[serde(untagged)]
@@ -31,30 +29,6 @@ impl<T> BoolOrObject<T> {
             BoolOrObject::Bool(true) => Some(Default::default()),
             BoolOrObject::Bool(false) => None,
             BoolOrObject::Obj(o) => Some(o),
-        }
-    }
-}
-
-impl<T> Merge for BoolOrObject<T>
-where
-    T: Clone + Merge + Default,
-{
-    fn merge(&mut self, from: &Self) {
-        match self {
-            BoolOrObject::Bool(l) => match from {
-                BoolOrObject::Bool(r) => {
-                    *l |= *r;
-                }
-                BoolOrObject::Obj(_) => *self = from.clone(),
-            },
-            BoolOrObject::Obj(o) => match from {
-                BoolOrObject::Bool(r) => {
-                    if *r {
-                        o.merge(&Default::default())
-                    }
-                }
-                BoolOrObject::Obj(r) => o.merge(r),
-            },
         }
     }
 }
