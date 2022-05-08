@@ -527,13 +527,13 @@
             element[name] = value;
         },
         text: function() {
-            var NODE_TYPE_TEXT_PROPERTY = [];
-            return msie < 9 ? (NODE_TYPE_TEXT_PROPERTY[1] = "innerText", NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue") : NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] = "textContent", getText.$dv = "", getText;
             function getText(element, value) {
                 var textProp = NODE_TYPE_TEXT_PROPERTY[element.nodeType];
                 if (isUndefined(value)) return textProp ? element[textProp] : "";
                 element[textProp] = value;
             }
+            var NODE_TYPE_TEXT_PROPERTY = [];
+            return msie < 9 ? (NODE_TYPE_TEXT_PROPERTY[1] = "innerText", NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue") : NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] = "textContent", getText.$dv = "", getText;
         }(),
         val: function(element, value) {
             if (isUndefined(value)) {
@@ -722,43 +722,6 @@
         }), fn.$inject = $inject) : isArray(fn) ? (last = fn.length - 1, assertArgFn(fn[last], "fn"), $inject = fn.slice(0, last)) : assertArgFn(fn, "fn", !0), $inject;
     }
     function createInjector(modulesToLoad1) {
-        var INSTANTIATING = {}, providerSuffix = "Provider", path = [], loadedModules = new HashMap(), providerCache = {
-            $provide: {
-                provider: supportObject(provider1),
-                factory: supportObject(factory1),
-                service: supportObject(function(name, constructor) {
-                    return factory1(name, [
-                        "$injector",
-                        function($injector) {
-                            return $injector.instantiate(constructor);
-                        }, 
-                    ]);
-                }),
-                value: supportObject(function(name, val) {
-                    return factory1(name, valueFn1(val));
-                }),
-                constant: supportObject(function(name, value) {
-                    assertNotHasOwnProperty(name, "constant"), providerCache[name] = value, instanceCache[name] = value;
-                }),
-                decorator: function(serviceName, decorFn) {
-                    var origProvider = providerInjector.get(serviceName + providerSuffix), orig$get = origProvider.$get;
-                    origProvider.$get = function() {
-                        var origInstance = instanceInjector.invoke(orig$get, origProvider);
-                        return instanceInjector.invoke(decorFn, null, {
-                            $delegate: origInstance
-                        });
-                    };
-                }
-            }
-        }, providerInjector = providerCache.$injector = createInternalInjector(providerCache, function() {
-            throw $injectorMinErr1("unpr", "Unknown provider: {0}", path.join(" <- "));
-        }), instanceCache = {}, instanceInjector = instanceCache.$injector = createInternalInjector(instanceCache, function(servicename) {
-            var provider = providerInjector.get(servicename + providerSuffix);
-            return instanceInjector.invoke(provider.$get, provider);
-        });
-        return forEach(loadModules(modulesToLoad1), function(fn) {
-            instanceInjector.invoke(fn || noop);
-        }), instanceInjector;
         function supportObject(delegate) {
             return function(key, value) {
                 if (!isObject(key)) return delegate(key, value);
@@ -824,6 +787,43 @@
                 }
             };
         }
+        var INSTANTIATING = {}, providerSuffix = "Provider", path = [], loadedModules = new HashMap(), providerCache = {
+            $provide: {
+                provider: supportObject(provider1),
+                factory: supportObject(factory1),
+                service: supportObject(function(name, constructor) {
+                    return factory1(name, [
+                        "$injector",
+                        function($injector) {
+                            return $injector.instantiate(constructor);
+                        }, 
+                    ]);
+                }),
+                value: supportObject(function(name, val) {
+                    return factory1(name, valueFn1(val));
+                }),
+                constant: supportObject(function(name, value) {
+                    assertNotHasOwnProperty(name, "constant"), providerCache[name] = value, instanceCache[name] = value;
+                }),
+                decorator: function(serviceName, decorFn) {
+                    var origProvider = providerInjector.get(serviceName + providerSuffix), orig$get = origProvider.$get;
+                    origProvider.$get = function() {
+                        var origInstance = instanceInjector.invoke(orig$get, origProvider);
+                        return instanceInjector.invoke(decorFn, null, {
+                            $delegate: origInstance
+                        });
+                    };
+                }
+            }
+        }, providerInjector = providerCache.$injector = createInternalInjector(providerCache, function() {
+            throw $injectorMinErr1("unpr", "Unknown provider: {0}", path.join(" <- "));
+        }), instanceCache = {}, instanceInjector = instanceCache.$injector = createInternalInjector(instanceCache, function(servicename) {
+            var provider = providerInjector.get(servicename + providerSuffix);
+            return instanceInjector.invoke(provider.$get, provider);
+        });
+        return forEach(loadModules(modulesToLoad1), function(fn) {
+            instanceInjector.invoke(fn || noop);
+        }), instanceInjector;
     }
     function $AnchorScrollProvider() {
         var autoScrollingEnabled = !0;
@@ -962,6 +962,12 @@
         this.$get = function() {
             var caches = {};
             function cacheFactory(cacheId, options) {
+                function refresh(entry) {
+                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), (freshEnd = entry).n = null);
+                }
+                function link(nextEntry, prevEntry) {
+                    nextEntry != prevEntry && (nextEntry && (nextEntry.p = prevEntry), prevEntry && (prevEntry.n = nextEntry));
+                }
                 if (cacheId in caches) throw minErr("$cacheFactory")("iid", "CacheId '{0}' is already taken!", cacheId);
                 var size = 0, stats = extend({}, options, {
                     id: cacheId
@@ -992,12 +998,6 @@
                         });
                     }
                 };
-                function refresh(entry) {
-                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), (freshEnd = entry).n = null);
-                }
-                function link(nextEntry, prevEntry) {
-                    nextEntry != prevEntry && (nextEntry && (nextEntry.p = prevEntry), prevEntry && (prevEntry.n = nextEntry));
-                }
             }
             return cacheFactory.info = function() {
                 var info = {};
@@ -1056,43 +1056,6 @@
             "$animate",
             "$$sanitizeUri",
             function($injector, $interpolate, $exceptionHandler, $http, $templateCache, $parse, $controller, $rootScope, $document, $sce, $animate, $$sanitizeUri) {
-                var Attributes = function(element, attr) {
-                    this.$$element = element, this.$attr = attr || {};
-                };
-                Attributes.prototype = {
-                    $normalize: directiveNormalize,
-                    $addClass: function(classVal) {
-                        classVal && classVal.length > 0 && $animate.addClass(this.$$element, classVal);
-                    },
-                    $removeClass: function(classVal) {
-                        classVal && classVal.length > 0 && $animate.removeClass(this.$$element, classVal);
-                    },
-                    $updateClass: function(newClasses, oldClasses) {
-                        this.$removeClass(tokenDifference(oldClasses, newClasses)), this.$addClass(tokenDifference(newClasses, oldClasses));
-                    },
-                    $set: function(key, value, writeAttr, attrName) {
-                        var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
-                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
-                        var $$observers = this.$$observers;
-                        $$observers && forEach($$observers[key], function(fn) {
-                            try {
-                                fn(value);
-                            } catch (e) {
-                                $exceptionHandler(e);
-                            }
-                        });
-                    },
-                    $observe: function(key, fn) {
-                        var attrs = this, $$observers = attrs.$$observers || (attrs.$$observers = {}), listeners = $$observers[key] || ($$observers[key] = []);
-                        return listeners.push(fn), $rootScope.$evalAsync(function() {
-                            listeners.$$inter || fn(attrs[key]);
-                        }), fn;
-                    }
-                };
-                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = "{{" == startSymbol || "}}" == endSymbol ? identity : function(template) {
-                    return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
-                }, NG_ATTR_BINDING = /^ngAttr[A-Z]/;
-                return compile;
                 function compile($compileNodes, transcludeFn, maxPriority, ignoreDirective, previousCompileContext) {
                     $compileNodes instanceof jqLite || ($compileNodes = jqLite($compileNodes)), forEach($compileNodes, function(node, index) {
                         3 == node.nodeType && node.nodeValue.match(/\S+/) && ($compileNodes[index] = node = jqLite(node).wrap("<span></span>").parent()[0]);
@@ -1172,34 +1135,6 @@
                     };
                 }
                 function applyDirectivesToNode(directives, compileNode, templateAttrs, transcludeFn1, jqCollection, originalReplaceDirective, preLinkFns, postLinkFns, previousCompileContext) {
-                    previousCompileContext = previousCompileContext || {};
-                    for(var newScopeDirective, directive1, directiveName, $template, linkFn1, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = previousCompileContext.controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn1, i2 = 0, ii1 = directives.length; i2 < ii1; i2++){
-                        var attrStart = (directive1 = directives[i2]).$$start, attrEnd = directive1.$$end;
-                        if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive1.priority) break;
-                        if ((directiveValue = directive1.scope) && (newScopeDirective = newScopeDirective || directive1, !directive1.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive1, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive1))), directiveName = directive1.name, !directive1.templateUrl && directive1.controller && (directiveValue = directive1.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive1, $compileNode), controllerDirectives[directiveName] = directive1), (directiveValue = directive1.transclude) && (hasTranscludeDirective = !0, directive1.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive1, $compileNode), nonTlbTranscludeDirective = directive1), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive1.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn1, terminalPriority, replaceDirective && replaceDirective.name, {
-                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn1))), directive1.template) if (assertNoDuplicate("template", templateDirective, directive1, $compileNode), templateDirective = directive1, directiveValue = isFunction(directive1.template) ? directive1.template($compileNode, templateAttrs) : directive1.template, directiveValue = denormalizeTemplate(directiveValue), directive1.replace) {
-                            if (replaceDirective = directive1, compileNode = ($template = jqLite("<div>" + trim1(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                            replaceWith(jqCollection, $compileNode, compileNode);
-                            var newTemplateAttrs = {
-                                $attr: {}
-                            }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i2 + 1, directives.length - (i2 + 1));
-                            newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii1 = directives.length;
-                        } else $compileNode.html(directiveValue);
-                        if (directive1.templateUrl) assertNoDuplicate("template", templateDirective, directive1, $compileNode), templateDirective = directive1, directive1.replace && (replaceDirective = directive1), nodeLinkFn = compileTemplateUrl(directives.splice(i2, directives.length - i2), $compileNode, templateAttrs, jqCollection, childTranscludeFn, preLinkFns, postLinkFns, {
-                            controllerDirectives: controllerDirectives,
-                            newIsolateScopeDirective: newIsolateScopeDirective,
-                            templateDirective: templateDirective,
-                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        }), ii1 = directives.length;
-                        else if (directive1.compile) try {
-                            linkFn1 = directive1.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn1) ? addLinkFns(null, linkFn1, attrStart, attrEnd) : linkFn1 && addLinkFns(linkFn1.pre, linkFn1.post, attrStart, attrEnd);
-                        } catch (e) {
-                            $exceptionHandler(e, startingTag($compileNode));
-                        }
-                        directive1.terminal && (nodeLinkFn.terminal = !0, terminalPriority = Math.max(terminalPriority, directive1.priority));
-                    }
-                    return nodeLinkFn.scope = newScopeDirective && !0 === newScopeDirective.scope, nodeLinkFn.transclude = hasTranscludeDirective && childTranscludeFn, nodeLinkFn;
                     function addLinkFns(pre, post, attrStart, attrEnd) {
                         pre && (attrStart && (pre = groupElementsLinkFnWrapper(pre, attrStart, attrEnd)), pre.require = directive1.require, (newIsolateScopeDirective === directive1 || directive1.$$isolateScope) && (pre = cloneAndAnnotateFn(pre, {
                             isolateScope: !0
@@ -1212,11 +1147,10 @@
                         if (isString(require1)) {
                             for(; "^" == (value = require1.charAt(0)) || "?" == value;)require1 = require1.substr(1), "^" == value && (retrievalMethod = "inheritedData"), optional = optional || "?" == value;
                             if (value = null, elementControllers && "data" === retrievalMethod && (value = elementControllers[require1]), !(value = value || $element[retrievalMethod]("$" + require1 + "Controller")) && !optional) throw $compileMinErr("ctreq", "Controller '{0}', required by directive '{1}', can't be found!", require1, directiveName);
-                            return value;
-                        }
-                        return isArray(require1) && (value = [], forEach(require1, function(require) {
+                        } else isArray(require1) && (value = [], forEach(require1, function(require) {
                             value.push(getControllers(require, $element, elementControllers));
-                        })), value;
+                        }));
+                        return value;
                     }
                     function nodeLinkFn(childLinkFn, scope1, linkNode, $rootElement, boundTranscludeFn) {
                         var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {};
@@ -1277,6 +1211,36 @@
                             $exceptionHandler(e2, startingTag($element));
                         }
                     }
+                    previousCompileContext = previousCompileContext || {};
+                    for(var newScopeDirective, directive1, directiveName, $template, linkFn1, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = previousCompileContext.controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn1, i2 = 0, ii1 = directives.length; i2 < ii1; i2++){
+                        var attrStart1 = (directive1 = directives[i2]).$$start, attrEnd1 = directive1.$$end;
+                        if (attrStart1 && ($compileNode = groupScan(compileNode, attrStart1, attrEnd1)), $template = undefined, terminalPriority > directive1.priority) break;
+                        if ((directiveValue = directive1.scope) && (newScopeDirective = newScopeDirective || directive1, !directive1.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive1, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive1))), directiveName = directive1.name, !directive1.templateUrl && directive1.controller && (directiveValue = directive1.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive1, $compileNode), controllerDirectives[directiveName] = directive1), (directiveValue = directive1.transclude) && (hasTranscludeDirective = !0, directive1.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive1, $compileNode), nonTlbTranscludeDirective = directive1), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive1.priority, $template = groupScan(compileNode, attrStart1, attrEnd1), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn1, terminalPriority, replaceDirective && replaceDirective.name, {
+                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
+                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn1))), directive1.template) {
+                            if (assertNoDuplicate("template", templateDirective, directive1, $compileNode), templateDirective = directive1, directiveValue = isFunction(directive1.template) ? directive1.template($compileNode, templateAttrs) : directive1.template, directiveValue = denormalizeTemplate(directiveValue), directive1.replace) {
+                                if (replaceDirective = directive1, compileNode = ($template = jqLite("<div>" + trim1(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                                replaceWith(jqCollection, $compileNode, compileNode);
+                                var newTemplateAttrs = {
+                                    $attr: {}
+                                }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i2 + 1, directives.length - (i2 + 1));
+                                newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii1 = directives.length;
+                            } else $compileNode.html(directiveValue);
+                        }
+                        if (directive1.templateUrl) assertNoDuplicate("template", templateDirective, directive1, $compileNode), templateDirective = directive1, directive1.replace && (replaceDirective = directive1), nodeLinkFn = compileTemplateUrl(directives.splice(i2, directives.length - i2), $compileNode, templateAttrs, jqCollection, childTranscludeFn, preLinkFns, postLinkFns, {
+                            controllerDirectives: controllerDirectives,
+                            newIsolateScopeDirective: newIsolateScopeDirective,
+                            templateDirective: templateDirective,
+                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
+                        }), ii1 = directives.length;
+                        else if (directive1.compile) try {
+                            linkFn1 = directive1.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn1) ? addLinkFns(null, linkFn1, attrStart1, attrEnd1) : linkFn1 && addLinkFns(linkFn1.pre, linkFn1.post, attrStart1, attrEnd1);
+                        } catch (e) {
+                            $exceptionHandler(e, startingTag($compileNode));
+                        }
+                        directive1.terminal && (nodeLinkFn.terminal = !0, terminalPriority = Math.max(terminalPriority, directive1.priority));
+                    }
+                    return nodeLinkFn.scope = newScopeDirective && !0 === newScopeDirective.scope, nodeLinkFn.transclude = hasTranscludeDirective && childTranscludeFn, nodeLinkFn;
                 }
                 function markDirectivesAsIsolate(directives) {
                     for(var j = 0, jj = directives.length; j < jj; j++)directives[j] = inherit(directives[j], {
@@ -1403,6 +1367,43 @@
                         return fn.apply(null, arguments);
                     }, fn, annotation);
                 }
+                var Attributes = function(element, attr) {
+                    this.$$element = element, this.$attr = attr || {};
+                };
+                Attributes.prototype = {
+                    $normalize: directiveNormalize,
+                    $addClass: function(classVal) {
+                        classVal && classVal.length > 0 && $animate.addClass(this.$$element, classVal);
+                    },
+                    $removeClass: function(classVal) {
+                        classVal && classVal.length > 0 && $animate.removeClass(this.$$element, classVal);
+                    },
+                    $updateClass: function(newClasses, oldClasses) {
+                        this.$removeClass(tokenDifference(oldClasses, newClasses)), this.$addClass(tokenDifference(newClasses, oldClasses));
+                    },
+                    $set: function(key, value, writeAttr, attrName) {
+                        var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
+                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
+                        var $$observers = this.$$observers;
+                        $$observers && forEach($$observers[key], function(fn) {
+                            try {
+                                fn(value);
+                            } catch (e) {
+                                $exceptionHandler(e);
+                            }
+                        });
+                    },
+                    $observe: function(key, fn) {
+                        var attrs = this, $$observers = attrs.$$observers || (attrs.$$observers = {}), listeners = $$observers[key] || ($$observers[key] = []);
+                        return listeners.push(fn), $rootScope.$evalAsync(function() {
+                            listeners.$$inter || fn(attrs[key]);
+                        }), fn;
+                    }
+                };
+                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = "{{" == startSymbol || "}}" == endSymbol ? identity : function(template) {
+                    return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
+                }, NG_ATTR_BINDING = /^ngAttr[A-Z]/;
+                return compile;
             }, 
         ];
     }
@@ -1515,10 +1516,22 @@
             function($httpBackend, $browser, $cacheFactory, $rootScope, $q, $injector) {
                 var defaultCache = $cacheFactory("$http"), reversedInterceptors = [];
                 function $http(requestConfig) {
+                    function transformResponse(response) {
+                        var resp = extend({}, response, {
+                            data: transformData(response.data, response.headers, config1.transformResponse)
+                        });
+                        return isSuccess(response.status) ? resp : $q.reject(resp);
+                    }
                     var config1 = {
                         transformRequest: defaults.transformRequest,
                         transformResponse: defaults.transformResponse
                     }, headers1 = function(config) {
+                        function execHeaders(headers) {
+                            var headerContent;
+                            forEach(headers, function(headerFn, header) {
+                                isFunction(headerFn) && (null != (headerContent = headerFn()) ? headers[header] = headerContent : delete headers[header]);
+                            });
+                        }
                         var defHeaderName, lowercaseDefHeaderName, reqHeaderName, defHeaders = defaults.headers, reqHeaders = extend({}, config.headers);
                         execHeaders(defHeaders = extend({}, defHeaders.common, defHeaders[lowercase(config.method)])), execHeaders(reqHeaders);
                         defaultHeadersIteration: for(defHeaderName in defHeaders){
@@ -1526,47 +1539,74 @@
                             reqHeaders[defHeaderName] = defHeaders[defHeaderName];
                         }
                         return reqHeaders;
-                        function execHeaders(headers) {
-                            var headerContent;
-                            forEach(headers, function(headerFn, header) {
-                                isFunction(headerFn) && (null != (headerContent = headerFn()) ? headers[header] = headerContent : delete headers[header]);
-                            });
-                        }
                     }(requestConfig);
                     extend(config1, requestConfig), config1.headers = headers1, config1.method = uppercase(config1.method);
                     var xsrfValue = urlIsSameOrigin(config1.url) ? $browser.cookies()[config1.xsrfCookieName || defaults.xsrfCookieName] : undefined;
                     xsrfValue && (headers1[config1.xsrfHeaderName || defaults.xsrfHeaderName] = xsrfValue);
                     var chain = [
-                        function(config) {
-                            headers1 = config.headers;
-                            var reqData = transformData(config.data, headersGetter(headers1), config.transformRequest);
-                            return isUndefined(config.data) && forEach(headers1, function(value, header) {
+                        function(config2) {
+                            headers1 = config2.headers;
+                            var reqData1 = transformData(config2.data, headersGetter(headers1), config2.transformRequest);
+                            return isUndefined(config2.data) && forEach(headers1, function(value, header) {
                                 "content-type" === lowercase(header) && delete headers1[header];
-                            }), isUndefined(config.withCredentials) && !isUndefined(defaults.withCredentials) && (config.withCredentials = defaults.withCredentials), sendReq(config, reqData, headers1).then(transformResponse, transformResponse);
+                            }), isUndefined(config2.withCredentials) && !isUndefined(defaults.withCredentials) && (config2.withCredentials = defaults.withCredentials), (function(config, reqData, reqHeaders) {
+                                function resolvePromise(response, status, headers) {
+                                    (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
+                                        data: response,
+                                        status: status,
+                                        headers: headersGetter(headers),
+                                        config: config
+                                    });
+                                }
+                                function removePendingReq() {
+                                    var idx = indexOf($http.pendingRequests, config);
+                                    -1 !== idx && $http.pendingRequests.splice(idx, 1);
+                                }
+                                var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url1 = function(url, params) {
+                                    if (!params) return url;
+                                    var parts = [];
+                                    return function(obj, iterator, context) {
+                                        for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
+                                    }(params, function(value, key) {
+                                        null === value || isUndefined(value) || (isArray(value) || (value = [
+                                            value
+                                        ]), forEach(value, function(v) {
+                                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
+                                        }));
+                                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
+                                }(config.url, config.params);
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
+                                    if (isDefined(cachedResp = cache.get(url1))) {
+                                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
+                                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                    } else cache.put(url1, promise);
+                                }
+                                return isUndefined(cachedResp) && $httpBackend(config.method, url1, reqData, function(status, response, headersString) {
+                                    cache && (isSuccess(status) ? cache.put(url1, [
+                                        status,
+                                        response,
+                                        parseHeaders(headersString)
+                                    ]) : cache.remove(url1)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                                }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
+                            })(config2, reqData1, headers1).then(transformResponse, transformResponse);
                         },
                         undefined
-                    ], promise = $q.when(config1);
+                    ], promise1 = $q.when(config1);
                     for(forEach(reversedInterceptors, function(interceptor) {
                         (interceptor.request || interceptor.requestError) && chain.unshift(interceptor.request, interceptor.requestError), (interceptor.response || interceptor.responseError) && chain.push(interceptor.response, interceptor.responseError);
                     }); chain.length;){
                         var thenFn = chain.shift(), rejectFn = chain.shift();
-                        promise = promise.then(thenFn, rejectFn);
+                        promise1 = promise1.then(thenFn, rejectFn);
                     }
-                    return promise.success = function(fn) {
-                        return promise.then(function(response) {
+                    return promise1.success = function(fn) {
+                        return promise1.then(function(response) {
                             fn(response.data, response.status, response.headers, config1);
-                        }), promise;
-                    }, promise.error = function(fn) {
-                        return promise.then(null, function(response) {
+                        }), promise1;
+                    }, promise1.error = function(fn) {
+                        return promise1.then(null, function(response) {
                             fn(response.data, response.status, response.headers, config1);
-                        }), promise;
-                    }, promise;
-                    function transformResponse(response) {
-                        var resp = extend({}, response, {
-                            data: transformData(response.data, response.headers, config1.transformResponse)
-                        });
-                        return isSuccess(response.status) ? resp : $q.reject(resp);
-                    }
+                        }), promise1;
+                    }, promise1;
                 }
                 return forEach(interceptorFactories, function(interceptorFactory) {
                     reversedInterceptors.unshift(isString(interceptorFactory) ? $injector.get(interceptorFactory) : $injector.invoke(interceptorFactory));
@@ -1600,45 +1640,6 @@
                         };
                     });
                 }("post", "put"), $http.defaults = defaults, $http;
-                function sendReq(config, reqData, reqHeaders) {
-                    var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
-                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
-                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
-                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                    } else cache.put(url, promise);
-                    return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        cache && (isSuccess(status) ? cache.put(url, [
-                            status,
-                            response,
-                            parseHeaders(headersString)
-                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
-                    }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
-                    function resolvePromise(response, status, headers) {
-                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
-                            data: response,
-                            status: status,
-                            headers: headersGetter(headers),
-                            config: config
-                        });
-                    }
-                    function removePendingReq() {
-                        var idx = indexOf($http.pendingRequests, config);
-                        -1 !== idx && $http.pendingRequests.splice(idx, 1);
-                    }
-                }
-                function buildUrl(url, params) {
-                    if (!params) return url;
-                    var parts = [];
-                    return function(obj, iterator, context) {
-                        for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
-                    }(params, function(value, key) {
-                        null === value || isUndefined(value) || (isArray(value) || (value = [
-                            value
-                        ]), forEach(value, function(v) {
-                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
-                        }));
-                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
-                }
             }, 
         ];
     }
@@ -1665,19 +1666,28 @@
         ];
     }
     function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument) {
-        return function(method, url, post, callback1, headers, timeout, withCredentials, responseType) {
+        return function(method, url2, post, callback1, headers, timeout, withCredentials, responseType) {
             var status1;
-            if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), "jsonp" == lowercase(method)) {
+            if ($browser.$$incOutstandingRequestCount(), url2 = url2 || $browser.url(), "jsonp" == lowercase(method)) {
                 var callbackId = "_" + (callbacks.counter++).toString(36);
                 callbacks[callbackId] = function(data) {
                     callbacks[callbackId].data = data;
                 };
-                var jsonpDone = jsonpReq(url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
+                var jsonpDone = function(url, done) {
+                    var script = rawDocument.createElement("script"), doneWrapper = function() {
+                        script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
+                    };
+                    return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
+                        /loaded|complete/.test(script.readyState) && doneWrapper();
+                    } : script.onload = script.onerror = function() {
+                        doneWrapper();
+                    }, rawDocument.body.appendChild(script), doneWrapper;
+                }(url2.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
                     callbacks[callbackId].data ? completeRequest(callback1, 200, callbacks[callbackId].data) : completeRequest(callback1, status1 || -2), delete callbacks[callbackId];
                 });
             } else {
                 var xhr = new XHR();
-                xhr.open(method, url, !0), forEach(headers, function(value, key) {
+                xhr.open(method, url2, !0), forEach(headers, function(value, key) {
                     isDefined(value) && xhr.setRequestHeader(key, value);
                 }), xhr.onreadystatechange = function() {
                     if (4 == xhr.readyState) {
@@ -1692,20 +1702,10 @@
                 status1 = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
             }
             function completeRequest(callback, status, response, headersString) {
-                var protocol = urlResolve(url).protocol;
+                var protocol = urlResolve(url2).protocol;
                 timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
             }
         };
-        function jsonpReq(url, done) {
-            var script = rawDocument.createElement("script"), doneWrapper = function() {
-                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
-            };
-            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
-                /loaded|complete/.test(script.readyState) && doneWrapper();
-            } : script.onload = script.onerror = function() {
-                doneWrapper();
-            }, rawDocument.body.appendChild(script), doneWrapper;
-        }
     }
     var $interpolateMinErr = minErr("$interpolate");
     function $InterpolateProvider() {
@@ -1863,9 +1863,9 @@
     function LocationHashbangUrl(appBase, hashPrefix) {
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
-            var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
+            var path, url3, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", 'Invalid url "{0}", missing hash prefix "{1}".', url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, url1 = withoutHashUrl, base = appBase, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, url3 = withoutHashUrl, base = appBase, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === url3.indexOf(base) && (url3 = url3.replace(base, "")), windowsFilePathExp.exec(url3)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -1903,6 +1903,9 @@
             "$sniffer",
             "$rootElement",
             function($rootScope, $browser, $sniffer, $rootElement) {
+                function afterLocationChange(oldUrl) {
+                    $rootScope.$broadcast("$locationChangeSuccess", $location.absUrl(), oldUrl);
+                }
                 var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
                 html5Mode ? (appBase = (url = initialUrl).substring(0, url.indexOf("/", url.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
@@ -1929,9 +1932,6 @@
                         $rootScope.$broadcast("$locationChangeStart", $location.absUrl(), oldUrl).defaultPrevented ? $location.$$parse(oldUrl) : ($browser.url($location.absUrl(), currentReplace), afterLocationChange(oldUrl));
                     })), $location.$$replace = !1, changeCounter;
                 }), $location;
-                function afterLocationChange(oldUrl) {
-                    $rootScope.$broadcast("$locationChangeSuccess", $location.absUrl(), oldUrl);
-                }
             }, 
         ];
     }
@@ -1943,15 +1943,6 @@
             "$window",
             function($window) {
                 var fn;
-                return {
-                    log: consoleLog("log"),
-                    info: consoleLog("info"),
-                    warn: consoleLog("warn"),
-                    error: consoleLog("error"),
-                    debug: (fn = consoleLog("debug"), function() {
-                        debug && fn.apply(self, arguments);
-                    })
-                };
                 function consoleLog(type) {
                     var console = $window.console || {}, logFn = console[type] || console.log || noop;
                     return logFn.apply ? function() {
@@ -1964,6 +1955,15 @@
                         logFn(arg1, null == arg2 ? "" : arg2);
                     };
                 }
+                return {
+                    log: consoleLog("log"),
+                    info: consoleLog("info"),
+                    warn: consoleLog("warn"),
+                    error: consoleLog("error"),
+                    debug: (fn = consoleLog("debug"), function() {
+                        debug && fn.apply(self, arguments);
+                    })
+                };
             }, 
         ];
     }
@@ -2722,6 +2722,18 @@
             "$parse",
             "$browser",
             function($injector, $exceptionHandler, $parse, $browser) {
+                function beginPhase(phase) {
+                    if ($rootScope.$$phase) throw $rootScopeMinErr("inprog", "{0} already in progress", $rootScope.$$phase);
+                    $rootScope.$$phase = phase;
+                }
+                function clearPhase() {
+                    $rootScope.$$phase = null;
+                }
+                function compileToFn(exp, name) {
+                    var fn = $parse(exp);
+                    return assertArgFn(fn, name), fn;
+                }
+                function initWatchVal() {}
                 function Scope() {
                     this.$id = nextUid(), this.$$phase = this.$parent = this.$$watchers = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null, this.this = this.$root = this, this.$$destroyed = !1, this.$$asyncQueue = [], this.$$postDigestQueue = [], this.$$listeners = {}, this.$$isolateBindings = {};
                 }
@@ -2873,7 +2885,7 @@
                                     $exceptionHandler(e);
                                 }
                             }
-                            if (stopPropagation) return event;
+                            if (stopPropagation) break;
                             scope = scope.$parent;
                         }while (scope)
                         return event;
@@ -2908,18 +2920,6 @@
                 };
                 var $rootScope = new Scope();
                 return $rootScope;
-                function beginPhase(phase) {
-                    if ($rootScope.$$phase) throw $rootScopeMinErr("inprog", "{0} already in progress", $rootScope.$$phase);
-                    $rootScope.$$phase = phase;
-                }
-                function clearPhase() {
-                    $rootScope.$$phase = null;
-                }
-                function compileToFn(exp, name) {
-                    var fn = $parse(exp);
-                    return assertArgFn(fn, name), fn;
-                }
-                function initWatchVal() {}
             }, 
         ];
     }
@@ -3358,6 +3358,11 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
+            function reverseComparator(comp, descending) {
+                return toBoolean(descending) ? function(a, b) {
+                    return comp(b, a);
+                } : comp;
+            }
             if (!isArray(array)) return array;
             if (!sortPredicate) return array;
             sortPredicate = function(obj, iterator, context) {
@@ -3370,7 +3375,8 @@
             ], function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
-                    return compare(get(a), get(b));
+                    var v1, v2, t1, t2;
+                    return v1 = get(a), v2 = get(b), t1 = typeof v1, t2 = typeof v2, t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
             });
             for(var arrayCopy = [], i3 = 0; i3 < array.length; i3++)arrayCopy.push(array[i3]);
@@ -3381,15 +3387,6 @@
                 }
                 return 0;
             }, reverseOrder));
-            function reverseComparator(comp, descending) {
-                return toBoolean(descending) ? function(a, b) {
-                    return comp(b, a);
-                } : comp;
-            }
-            function compare(v1, v2) {
-                var t1 = typeof v1, t2 = typeof v2;
-                return t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
-            }
         };
     }
     function ngDirective(directive) {
@@ -3970,6 +3967,12 @@
         "$parse",
         "$animate",
         function($parse, $animate) {
+            function getBlockStart(block) {
+                return block.clone[0];
+            }
+            function getBlockEnd(block) {
+                return block.clone[block.clone.length - 1];
+            }
             var NG_REMOVED = "$$NG_REMOVED", ngRepeatMinErr = minErr("ngRepeat");
             return {
                 transclude: "element",
@@ -4022,12 +4025,6 @@
                     });
                 }
             };
-            function getBlockStart(block) {
-                return block.clone[0];
-            }
-            function getBlockEnd(block) {
-                return block.clone[block.clone.length - 1];
-            }
         }, 
     ], ngShowDirective = [
         "$animate",
@@ -4371,6 +4368,15 @@
                     return function(name, context) {
                         if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
                     }(name2, "module"), requires && modules.hasOwnProperty(name2) && (modules[name2] = null), ensure(modules, name2, function() {
+                        function invokeLater(provider, method, insertMethod) {
+                            return function() {
+                                return invokeQueue[insertMethod || "push"]([
+                                    provider,
+                                    method,
+                                    arguments, 
+                                ]), moduleInstance;
+                            };
+                        }
                         if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name2);
                         var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
                             _invokeQueue: invokeQueue,
@@ -4392,15 +4398,6 @@
                             }
                         };
                         return configFn && config(configFn), moduleInstance;
-                        function invokeLater(provider, method, insertMethod) {
-                            return function() {
-                                return invokeQueue[insertMethod || "push"]([
-                                    provider,
-                                    method,
-                                    arguments, 
-                                ]), moduleInstance;
-                            };
-                        }
                     });
                 };
             });

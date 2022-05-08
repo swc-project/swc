@@ -581,11 +581,11 @@
                     }, this.setEnd = function(row, column) {
                         "object" == typeof row ? (this.end.column = row.column, this.end.row = row.row) : (this.end.row = row, this.end.column = column);
                     }, this.inside = function(row, column) {
-                        return 0 == this.compare(row, column) && !(this.isEnd(row, column) || this.isStart(row, column));
+                        return !(0 != this.compare(row, column) || this.isEnd(row, column) || this.isStart(row, column));
                     }, this.insideStart = function(row, column) {
-                        return 0 == this.compare(row, column) && !this.isEnd(row, column);
+                        return !(0 != this.compare(row, column) || this.isEnd(row, column));
                     }, this.insideEnd = function(row, column) {
-                        return 0 == this.compare(row, column) && !this.isStart(row, column);
+                        return !(0 != this.compare(row, column) || this.isStart(row, column));
                     }, this.compare = function(row, column) {
                         return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? column <= this.end.column ? 0 : 1 : 0 : column < this.start.column ? -1 : column > this.end.column ? 1 : 0;
                     }, this.compareStart = function(row, column) {
@@ -5018,7 +5018,7 @@
                                 var cmpStart = comparePoints(pos, range.start);
                                 if (0 === cmpEnd) return excludeEdges && 0 !== cmpStart ? -i - 2 : i;
                                 if (cmpStart > 0 || 0 === cmpStart && !excludeEdges) return i;
-                                return -i - 1;
+                                break;
                             }
                         }
                         return -i - 1;
@@ -5218,7 +5218,7 @@
                         for(startFoldLine && (i = foldData.indexOf(startFoldLine)), -1 == i && (i = 0); i < foldData.length; i++){
                             var foldLine = foldData[i];
                             if (foldLine.start.row <= docRow && foldLine.end.row >= docRow) return foldLine;
-                            if (foldLine.end.row > docRow) return null;
+                            if (foldLine.end.row > docRow) break;
                         }
                         return null;
                     }, this.getNextFoldLine = function(docRow, startFoldLine) {
@@ -5261,10 +5261,7 @@
                             if (startRow == foldLine.end.row) {
                                 if (foldLine.addFold(fold), added = !0, !fold.sameRow) {
                                     var foldLineNext = foldData[i + 1];
-                                    if (foldLineNext && foldLineNext.start.row == endRow) {
-                                        foldLine.merge(foldLineNext);
-                                        break;
-                                    }
+                                    foldLineNext && foldLineNext.start.row == endRow && foldLine.merge(foldLineNext);
                                 }
                                 break;
                             }
@@ -11848,6 +11845,12 @@ margin: 0 10px;\
                             }, lines.join("\n") + "\n"), guessRange || (range.start.column = 0, range.end.column = lines[lines.length - 1].length), this.selection.setRange(range);
                         }
                     }, this.$reAlignText = function(lines, forceLeft) {
+                        function spaces(n) {
+                            return lang.stringRepeat(" ", n);
+                        }
+                        function alignLeft(m) {
+                            return m[2] ? spaces(startW) + m[2] + spaces(textW - m[2].length + endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
+                        }
                         var startW, textW, endW, isLeftAligned = !0, isRightAligned = !0;
                         return lines.map(function(line) {
                             var m = line.match(/(\s*)(.*?)(\s*)([=:].*)/);
@@ -11859,12 +11862,6 @@ margin: 0 10px;\
                         } : alignLeft : function(m) {
                             return m[2] ? spaces(startW) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
                         });
-                        function spaces(n) {
-                            return lang.stringRepeat(" ", n);
-                        }
-                        function alignLeft(m) {
-                            return m[2] ? spaces(startW) + m[2] + spaces(textW - m[2].length + endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
-                        }
                     };
                 }).call(Editor.prototype), exports.onSessionChange = function(e) {
                     var session = e.session;
