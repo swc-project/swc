@@ -33,11 +33,12 @@ impl Default for LintRuleReaction {
 enum LintRuleLevel {
     Str(LintRuleReaction),
     Number(u8),
+    Unspecified,
 }
 
 impl Default for LintRuleLevel {
     fn default() -> Self {
-        Self::Str(LintRuleReaction::Off)
+        Self::Unspecified
     }
 }
 
@@ -50,6 +51,7 @@ impl From<LintRuleLevel> for LintRuleReaction {
                 2 => LintRuleReaction::Error,
                 _ => LintRuleReaction::Off,
             },
+            LintRuleLevel::Unspecified => LintRuleReaction::Off,
         }
     }
 }
@@ -67,6 +69,18 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 
     pub(crate) fn get_rule_config(&self) -> &T {
         &self.1
+    }
+}
+
+impl<T> Merge for RuleConfig<T>
+where
+    T: Debug + Clone + Serialize + Default,
+{
+    fn merge(&mut self, other: Self) {
+        if let LintRuleLevel::Unspecified = self.0 {
+            self.0 = other.0;
+            self.1 = other.1;
+        }
     }
 }
 
