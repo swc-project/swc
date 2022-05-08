@@ -496,6 +496,8 @@ pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
 pure_getters/issue_2938_4/input.js
 pure_getters/set_immutable_1/input.js
+pure_getters/set_immutable_3/input.js
+pure_getters/set_immutable_5/input.js
 pure_getters/set_immutable_6/input.js
 pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js
