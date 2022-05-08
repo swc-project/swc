@@ -195,6 +195,7 @@ functions/inline_loop_1/input.js
 functions/inline_loop_2/input.js
 functions/issue_203/input.js
 functions/issue_2107/input.js
+functions/issue_2114_1/input.js
 functions/issue_2428/input.js
 functions/issue_2476/input.js
 functions/issue_2531_1/input.js

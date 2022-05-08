@@ -48,7 +48,6 @@ functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/inline_true/input.js
 functions/inner_ref/input.js
 functions/issue_2084/input.js
-functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
 functions/issue_2601_1/input.js
 functions/issue_2604_1/input.js
