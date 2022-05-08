@@ -81,6 +81,7 @@ swc_plugin_runner = { version = "0.54.0", path = "../swc_plugin_runner", optiona
 swc_timer = { version = "0.5.0", path = "../swc_timer" }
 swc_visit = { version = "0.3.0", path = "../swc_visit" }
 tracing = "0.1.32"
+rustc-hash = "1.1.0"
 
 [dependencies.napi-derive]
 default-features = false
