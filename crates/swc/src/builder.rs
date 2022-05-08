@@ -12,6 +12,7 @@ use swc_common::{
     util::take::Take,
     FileName, Mark, SourceMap,
 };
+use swc_config::config_types::BoolOr;
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
@@ -22,9 +23,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
-use crate::config::{
-    util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig,
-};
+use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
@@ -297,7 +296,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let is_mangler_enabled = self
             .minify
             .as_ref()
-            .map(|v| matches!(v.mangle, BoolOrObject::Bool(true) | BoolOrObject::Obj(_)))
+            .map(|v| matches!(v.mangle, BoolOr::Bool(true) | BoolOr::Obj(_)))
             .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));

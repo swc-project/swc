@@ -28,7 +28,10 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
-use swc_config::{config_types::BoolConfig, merge::Merge};
+use swc_config::{
+    config_types::{BoolConfig, BoolOr},
+    merge::Merge,
+};
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
@@ -62,7 +65,6 @@ use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
-use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
     dropped_comments_preserver::dropped_comments_preserver,
@@ -72,7 +74,6 @@ use crate::{
 
 #[cfg(test)]
 mod tests;
-pub mod util;
 
 #[derive(Clone, Debug, Copy)]
 pub enum IsModule {
@@ -770,10 +771,10 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
-    pub compress: BoolOrObject<TerserCompressorOptions>,
+    pub compress: BoolOr<TerserCompressorOptions>,
 
     #[serde(default)]
-    pub mangle: BoolOrObject<MangleOptions>,
+    pub mangle: BoolOr<MangleOptions>,
 
     #[serde(default)]
     pub format: JsMinifyFormatOptions,
@@ -797,7 +798,7 @@ pub struct JsMinifyOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub source_map: BoolOrObject<TerserSourceMapOption>,
+    pub source_map: BoolOr<TerserSourceMapOption>,
 
     #[serde(default)]
     pub output_path: Option<String>,
@@ -844,7 +845,7 @@ pub struct JsMinifyFormatOptions {
     pub braces: bool,
 
     #[serde(default)]
-    pub comments: BoolOrObject<JsMinifyCommentOption>,
+    pub comments: BoolOr<JsMinifyCommentOption>,
 
     /// Not implemented yet.
     #[serde(default)]

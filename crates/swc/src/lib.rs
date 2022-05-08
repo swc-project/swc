@@ -121,7 +121,7 @@ use std::{
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, Span};
-use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
+use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
 use serde::Serialize;
@@ -639,11 +639,11 @@ pub fn minify_global_comments(
 pub fn minify_file_comments(
     comments: &SingleThreadedComments,
     minify: bool,
-    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+    preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
     let preserve_comments = preserve_comments.unwrap_or({
         if minify {
-            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+            BoolOr::from(JsMinifyCommentOption::PreserveSomeComments)
         } else {
             BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
         }
