@@ -1338,6 +1338,7 @@ template_string/semicolons/input.js
 template_string/sequence_1/input.js
 template_string/sequence_2/input.js
 template_string/simple_string/input.js
+template_string/special_chars_in_string/input.js
 template_string/tagged_call_with_invalid_escape/input.js
 template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
@@ -1368,6 +1369,7 @@ template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
+transform/if_else_empty/input.js
 transform/if_return/input.js
 transform/while_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js

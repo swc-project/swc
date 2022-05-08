@@ -8,6 +8,9 @@
 - **(es/minifier)** Distinguish `raw` and `cooked` while joining template literals (#4559) ([f9b6016](https://github.com/swc-project/swc/commit/f9b6016d4b990032505c0dbb5b5bf82949c7d74d))
 
 
+- **(es/minifier)** Fix handling of template literals (#4563) ([920d9a7](https://github.com/swc-project/swc/commit/920d9a76784b6e2ac9ccbfd826f2253410bf2be5))
+
+
 - **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
 
 ### Documentation
@@ -21,6 +24,12 @@
 
 
 - **(es/minifier)** Drop vars using sequential inliner (#4547) ([c5b4ef4](https://github.com/swc-project/swc/commit/c5b4ef4377874d8659d5b4e6c4099e1eac6c40f1))
+
+### Refactor
+
+
+
+- **(plugin)** Align deps (#4568) ([846a319](https://github.com/swc-project/swc/commit/846a31919eba58b7b14788ccc26b0ff23e488044))
 
 ## [1.2.178] - 2022-05-07
 

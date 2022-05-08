@@ -27,13 +27,12 @@ pub mod utils {
     #[cfg(feature = "swc_ecma_quote")]
     #[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
     pub use swc_ecma_quote::*;
-    pub use swc_ecma_utils::*;
+    pub use swc_ecmascript::utils::*;
 }
 
 pub mod ast {
     pub use swc_atoms::*;
-    pub use swc_ecma_ast::*;
-    pub use swc_ecma_visit::*;
+    pub use swc_ecmascript::{ast::*, visit::*};
 }
 
 pub mod syntax_pos {

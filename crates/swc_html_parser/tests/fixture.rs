@@ -1,5 +1,7 @@
 #![deny(warnings)]
 #![allow(clippy::needless_update)]
+#![allow(clippy::redundant_clone)]
+#![allow(clippy::while_let_on_iterator)]
 
 use std::{fs, mem::take, path::PathBuf};
 
@@ -788,19 +790,19 @@ impl VisitMut for DomVisualizer<'_> {
         document_type.push_str("<!DOCTYPE ");
 
         if let Some(name) = &n.name {
-            document_type.push_str(&name);
+            document_type.push_str(name);
         }
 
         if let Some(public_id) = &n.public_id {
             document_type.push(' ');
             document_type.push('"');
-            document_type.push_str(&public_id);
+            document_type.push_str(public_id);
             document_type.push('"');
 
             if let Some(system_id) = &n.system_id {
                 document_type.push(' ');
                 document_type.push('"');
-                document_type.push_str(&system_id);
+                document_type.push_str(system_id);
                 document_type.push('"');
             } else {
                 document_type.push(' ');
@@ -813,7 +815,7 @@ impl VisitMut for DomVisualizer<'_> {
             document_type.push('"');
             document_type.push(' ');
             document_type.push('"');
-            document_type.push_str(&system_id);
+            document_type.push_str(system_id);
             document_type.push('"');
         }
 
@@ -879,7 +881,7 @@ impl VisitMut for DomVisualizer<'_> {
         attribute.push_str(&self.get_ident());
 
         if let Some(prefix) = &n.prefix {
-            attribute.push_str(&prefix);
+            attribute.push_str(prefix);
             attribute.push(' ');
         }
 
@@ -888,7 +890,7 @@ impl VisitMut for DomVisualizer<'_> {
         attribute.push('"');
 
         if let Some(value) = &n.value {
-            attribute.push_str(&value);
+            attribute.push_str(value);
         }
 
         attribute.push('"');
@@ -975,9 +977,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .find("#errors\n")
                 .expect("failed to get errors in test");
             let mut data = &test[data_start..data_end];
-            if data.ends_with("\n") {
+            if data.ends_with('\n') {
                 data = data
-                    .strip_suffix("\n")
+                    .strip_suffix('\n')
                     .expect("failed to strip last line in test");
             }
 
