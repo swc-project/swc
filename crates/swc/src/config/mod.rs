@@ -776,7 +776,7 @@ pub struct Config {
 }
 
 /// Second argument of `minify`.
-#[derive(Debug, Clone, Serialize, Deserialize, Merge)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
@@ -838,7 +838,7 @@ pub struct TerserSourceMapOption {
 }
 
 /// `jsc.minify.format`.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
@@ -882,7 +882,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "max_line_len")]
-    pub max_line_len: BoolOr<usize>,
+    pub max_line_len: usize,
 
     /// Not implemented yet.
     #[serde(default)]
@@ -894,7 +894,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "quote_style")]
-    pub quote_style: Option<usize>,
+    pub quote_style: usize,
 
     /// Not implemented yet.
     #[serde(default, alias = "preserve_annotations")]
