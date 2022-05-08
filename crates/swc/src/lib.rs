@@ -135,6 +135,8 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
+pub use swc_config::config_types::BoolConfig;
+use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
@@ -725,7 +727,7 @@ impl Compiler {
                                 .context("failed to process config file")?;
 
                             if let Some(config_file) = config_file {
-                                config.merge(&config_file.into_config(Some(path))?)
+                                config.merge(config_file.into_config(Some(path))?)
                             }
 
                             if let Some(c) = &mut config {

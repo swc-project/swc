@@ -573,7 +573,7 @@ impl Options {
 
         Ok(BuiltInput {
             program,
-            minify: config.minify,
+            minify: config.minify.into_bool(),
             pass,
             external_helpers,
             syntax,
@@ -769,7 +769,7 @@ pub struct Config {
     pub module: Option<ModuleConfig>,
 
     #[serde(default)]
-    pub minify: bool,
+    pub minify: BoolConfig<false>,
 
     #[serde(default)]
     pub input_source_map: InputSourceMap,
@@ -778,8 +778,8 @@ pub struct Config {
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
-    #[serde(default = "true_by_default")]
-    pub inline_sources_content: bool,
+    #[serde(default)]
+    pub inline_sources_content: BoolConfig<true>,
 
     #[serde(default)]
     pub error: ErrorConfig,
@@ -1063,7 +1063,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 }
 
 /// `jsc` in  `.swcrc`.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
     #[serde(default)]
