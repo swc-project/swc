@@ -2,10 +2,43 @@ use serde::{Deserialize, Serialize};
 
 use crate::merge::Merge;
 
-#[derive(
-    Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct BoolOr<T>(#[serde(default)] Option<Inner<T>>);
+
+impl<T> BoolOr<T> {
+    pub fn from_bool(v: bool) -> Self {
+        Self(Some(Inner::Bool(v)))
+    }
+
+    pub fn from_obj(v: T) -> Self {
+        v.into()
+    }
+
+    pub fn unwrap_or<F>(self, default: F) -> T
+    where
+        F: FnOnce(Option<bool>) -> T,
+    {
+        match self.0 {
+            Some(v) => match v {
+                Inner::Bool(v) => default(Some(v)),
+                Inner::Actual(v) => v,
+            },
+            None => default(None),
+        }
+    }
+}
+
+impl<T> From<T> for BoolOr<T> {
+    fn from(v: T) -> Self {
+        Self(Some(Inner::Actual(v)))
+    }
+}
+
+impl<T> Default for BoolOr<T> {
+    fn default() -> Self {
+        Self(Default::default())
+    }
+}
 
 impl<T> Merge for BoolOr<T> {
     #[inline]
