@@ -1161,7 +1161,7 @@ impl ModuleConfig {
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
-        root_mark: Mark,
+        unresolved_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
@@ -1187,7 +1187,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(chain!(
                         base_pass,
-                        modules::common_js::common_js(root_mark, config, Some(scope),)
+                        modules::common_js::common_js(unresolved_mark, config, Some(scope),)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1196,7 +1196,7 @@ impl ModuleConfig {
                         modules::common_js::common_js_with_resolver(
                             resolver,
                             base,
-                            root_mark,
+                            unresolved_mark,
                             config,
                             Some(scope),
                         )
@@ -1207,13 +1207,22 @@ impl ModuleConfig {
                 let base_pass = module_hoister();
 
                 if paths.is_empty() {
-                    Box::new(chain!(base_pass, modules::umd::umd(cm, root_mark, config)))
+                    Box::new(chain!(
+                        base_pass,
+                        modules::umd::umd(cm, unresolved_mark, config)
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
                     Box::new(chain!(
                         base_pass,
-                        modules::umd::umd_with_resolver(resolver, base, cm, root_mark, config,)
+                        modules::umd::umd_with_resolver(
+                            resolver,
+                            base,
+                            cm,
+                            unresolved_mark,
+                            config,
+                        )
                     ))
                 }
             }
@@ -1233,12 +1242,15 @@ impl ModuleConfig {
             }
             Some(ModuleConfig::SystemJs(config)) => {
                 if paths.is_empty() {
-                    Box::new(modules::system_js::system_js(root_mark, config))
+                    Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
                     Box::new(modules::system_js::system_js_with_resolver(
-                        resolver, base, root_mark, config,
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
                     ))
                 }
             }
