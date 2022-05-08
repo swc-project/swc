@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Use `unresolved_mark` (#4573) ([0868409](https://github.com/swc-project/swc/commit/086840956d696816c694fc2fd96258351aab9573))
+
+
 - **(es/minifier)** Improve sequential inliner (#4570) ([af368ee](https://github.com/swc-project/swc/commit/af368eead2529c3340e985acddf2948af44aba2e))
 
 
