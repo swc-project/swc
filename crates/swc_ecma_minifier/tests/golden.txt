@@ -428,6 +428,7 @@ drop_unused/unused_var_in_catch/input.js
 drop_unused/used_block_decls_in_catch/input.js
 drop_unused/used_var_in_catch/input.js
 drop_unused/vardef_value/input.js
+drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/Infinity_NaN_undefined_LHS/input.js
 evaluate/and/input.js
 evaluate/array_slice_index/input.js
@@ -686,6 +687,7 @@ if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 if_return/issue_1437_conditionals/input.js
+inline/dont_inline_funcs_into_default_param/input.js
 inline/inline_annotation_2/input.js
 inline/inline_func_with_name_existing_in_block_scope/input.js
 inline/inline_into_scope_conflict_enclosed/input.js
@@ -1154,9 +1156,12 @@ reduce_vars/issue_3140_3/input.js
 reduce_vars/issue_3140_5/input.js
 reduce_vars/issue_369/input.js
 reduce_vars/issue_379/input.js
+reduce_vars/issue_432_1/input.js
+reduce_vars/issue_432_2/input.js
 reduce_vars/issue_443/input.js
 reduce_vars/issue_581/input.js
 reduce_vars/issue_581_2/input.js
+reduce_vars/issue_639/input.js
 reduce_vars/issue_741_2/input.js
 reduce_vars/issue_741_reference_cycle/input.js
 reduce_vars/method_1/input.js

@@ -41,7 +41,6 @@ destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/i
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 drop_unused/var_catch_toplevel/input.js
-drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/issue_2535_1/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
@@ -68,7 +67,6 @@ hoist_props/issue_851_hoist_to_conflicting_name/input.js
 if_return/if_return_same_value/input.js
 if_return/if_var_return/input.js
 if_return/issue_2747/input.js
-inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
@@ -129,6 +127,5 @@ pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
-reduce_vars/issue_639/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 return_undefined/return_undefined/input.js
