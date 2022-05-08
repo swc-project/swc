@@ -595,7 +595,7 @@ impl Options {
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content.into_bool(),
-            input_source_map: config.input_source_map.clone(),
+            input_source_map: config.input_source_map.clone().unwrap_or_default(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             comments: comments.cloned(),
@@ -759,7 +759,7 @@ pub struct Config {
     pub minify: BoolConfig<false>,
 
     #[serde(default)]
-    pub input_source_map: InputSourceMap,
+    pub input_source_map: Option<InputSourceMap>,
 
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
