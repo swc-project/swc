@@ -3059,7 +3059,12 @@ dependencies = [
  "anyhow",
  "serde",
  "serde_json",
+ "swc_config_macro",
 ]
+
+[[package]]
+name = "swc_config_macro"
+version = "0.1.0"
 
 [[package]]
 name = "swc_css"
