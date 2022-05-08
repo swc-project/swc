@@ -15,4 +15,5 @@ proc-macro = true
 pmutil = "0.5.3"
 proc-macro2 = "1"
 quote = "1"
+swc_macros_common = { version = "0.3.4", path = "../swc_macros_common" }
 syn = "1"
