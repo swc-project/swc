@@ -386,7 +386,7 @@ impl Options {
         } else {
             js_minify
                 .as_ref()
-                .map(|v| v.format.clone().unwrap_or_default().comments.clone())
+                .map(|v| v.format.comments.clone())
                 .unwrap_or_default()
         };
 
@@ -786,7 +786,7 @@ pub struct JsMinifyOptions {
     pub mangle: BoolOr<MangleOptions>,
 
     #[serde(default)]
-    pub format: Option<JsMinifyFormatOptions>,
+    pub format: JsMinifyFormatOptions,
 
     #[serde(default)]
     pub ecma: TerserEcmaVersion,
