@@ -453,7 +453,7 @@ impl Options {
             comments,
         );
 
-        let keep_import_assertions = experimental.keep_import_assertions.unwrap_or_default();
+        let keep_import_assertions = experimental.keep_import_assertions.into_bool();
 
         // Embedded runtime plugin target, based on assumption we have
         // 1. filesystem access for the cache
@@ -580,7 +580,7 @@ impl Options {
             target: es_version,
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
-            inline_sources_content: config.inline_sources_content,
+            inline_sources_content: config.inline_sources_content.into_bool(),
             input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
@@ -658,10 +658,6 @@ impl Default for Rc {
                     keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
             Config {
@@ -680,10 +676,6 @@ impl Default for Rc {
                     keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
             Config {
@@ -702,10 +694,6 @@ impl Default for Rc {
                     keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
         ])
@@ -1115,7 +1103,7 @@ pub struct JscExperimental {
     pub plugins: Option<Vec<PluginConfig>>,
     /// If true, keeps import assertions in the output.
     #[serde(default)]
-    pub keep_import_assertions: Option<bool>,
+    pub keep_import_assertions: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.
