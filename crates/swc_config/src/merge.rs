@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub use swc_config_macro::Merge;
 
 /// Deriavable trait for overrding configurations.
@@ -24,5 +26,23 @@ where
 {
     fn merge(&mut self, other: Self) {
         (**self).merge(*other);
+    }
+}
+
+/// Modifies `self` iff `*self` is empty.
+impl<T> Merge for Vec<T> {
+    fn merge(&mut self, other: Self) {
+        if self.is_empty() {
+            *self = other;
+        }
+    }
+}
+
+/// Modifies `self` iff `*self` is empty.
+impl<K, V, S> Merge for HashMap<K, V, S> {
+    fn merge(&mut self, other: Self) {
+        if self.is_empty() {
+            *self = other;
+        }
     }
 }
