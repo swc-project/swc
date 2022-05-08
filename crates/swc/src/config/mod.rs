@@ -382,7 +382,7 @@ impl Options {
         let regenerator = transform.regenerator.clone();
 
         let preserve_comments = if preserve_all_comments {
-            Some(BoolOrObject::from(true))
+            Some(BoolOr::from_bool(true))
         } else {
             js_minify.as_ref().map(|v| v.format.comments.clone())
         };
