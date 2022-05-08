@@ -1471,7 +1471,9 @@ impl Hoister<'_, '_> {
             self.excluded_from_catch.insert(id.sym.clone());
         } else {
             // Behavior is different
-            if self.catch_param_decls.contains(&id.sym) {
+            if self.catch_param_decls.contains(&id.sym)
+                && !self.excluded_from_catch.contains(&id.sym)
+            {
                 return;
             }
         }
@@ -1535,6 +1537,8 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let old_exclude = self.excluded_from_catch.clone();
+        self.excluded_from_catch = Default::default();
+
         let params: Vec<Id> = find_ids(&c.param);
 
         self.catch_param_decls
@@ -1543,7 +1547,6 @@ impl VisitMut for Hoister<'_, '_> {
         {
             let old_in_catch_body = self.in_catch_body;
 
-            self.excluded_from_catch = Default::default();
             self.in_catch_body = true;
 
             c.body.visit_mut_with(self);
