@@ -259,7 +259,13 @@ fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
         let res = (|| {
             let actual_output = Command::new("node")
                 .arg("-e")
-                .arg(&code)
+                .arg(format!(
+                    "
+                    {}
+                    {}",
+                    include_str!("./terser_exec_base.js"),
+                    code
+                ))
                 .output()
                 .context("failed to execute output of minifier")?;
 
