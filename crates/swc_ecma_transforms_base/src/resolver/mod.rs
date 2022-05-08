@@ -1493,6 +1493,8 @@ impl VisitMut for Hoister<'_, '_> {
 
     /// The code below prints "PASS"
     ///
+    /// ```js
+    /// 
     ///      var a = "PASS";
     ///      try {
     ///          throw "FAIL1";
@@ -1500,22 +1502,28 @@ impl VisitMut for Hoister<'_, '_> {
     ///          var a = "FAIL2";
     ///      }
     ///      console.log(a);
-    ///
+    /// ```
     ///
     /// While the code below does not throw **ReferenceError** for `b`
     ///
+    /// ```js
+    /// 
     ///      b()
     ///      try {
     ///      } catch (b) {
     ///          var b;
     ///      }
+    /// ```
     ///
     /// while the code below throws **ReferenceError**
     ///
+    /// ```js
+    /// 
     ///      b()
     ///      try {
     ///      } catch (b) {
     ///      }
+    /// ```
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let old_exclude = self.excluded_from_catch.clone();
