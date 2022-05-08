@@ -496,6 +496,8 @@ pure_getters/set_immutable_1/input.js
 pure_getters/set_immutable_6/input.js
 pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js
+pure_getters/unsafe/input.js
+pure_getters/unsafe_reduce_vars/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
