@@ -14,9 +14,51 @@ impl<T> Merge for BoolOr<T> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
 #[serde(untagged)]
 enum Inner<T> {
     Bool(bool),
     Actual(T),
+}
+
+impl<'de, T> Deserialize<'de> for Inner<T>
+where
+    T: Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Deser<T> {
+            Bool(bool),
+            Obj(T),
+            EmptyObject(EmptyStruct),
+        }
+
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct EmptyStruct {}
+
+        use serde::__private::de;
+
+        let content = de::Content::deserialize(deserializer)?;
+
+        let deserializer = de::ContentRefDeserializer::<D::Error>::new(&content);
+
+        let res = Deser::deserialize(deserializer);
+
+        match res {
+            Ok(v) => Ok(match v {
+                Deser::Bool(v) => Inner::Bool(v),
+                Deser::Obj(v) => Inner::Actual(v),
+                Deser::EmptyObject(_) => Inner::Bool(true),
+            }),
+            Err(..) => {
+                let d = de::ContentDeserializer::<D::Error>::new(content);
+                Ok(Inner::Actual(T::deserialize(d)?))
+            }
+        }
+    }
 }
