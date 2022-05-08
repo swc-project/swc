@@ -13,4 +13,5 @@ proc-macro = true
 
 [dependencies]
 pmutil = "0.5.3"
+proc-macro2 = "1"
 syn = "1"
