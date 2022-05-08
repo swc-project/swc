@@ -917,7 +917,10 @@ pub struct JsMinifyFormatOptions {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum JsMinifyCommentOption {
+    Bool(bool),
+
     #[serde(rename = "some")]
     PreserveSomeComments,
     #[serde(rename = "all")]
