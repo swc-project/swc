@@ -161,6 +161,18 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
+impl Expr {
+    /// Normalize parenthesized expressions.
+    ///
+    /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
+    pub fn unwrap_parens(&self) -> &Expr {
+        match self {
+            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens(),
+            _ => self,
+        }
+    }
+}
+
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Expr {
