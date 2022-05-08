@@ -1001,7 +1001,9 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                in_catch_body: false,
                 catch_param_decls: Default::default(),
+                excluded_from_catch: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1093,7 +1095,9 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                in_catch_body: false,
                 catch_param_decls: Default::default(),
+                excluded_from_catch: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1447,7 +1451,25 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
+
+    in_catch_body: bool,
+
+    excluded_from_catch: FxHashSet<JsWord>,
     catch_param_decls: FxHashSet<JsWord>,
+}
+
+impl Hoister<'_, '_> {
+    fn add_pat_id(&mut self, id: &mut Ident) {
+        if self.catch_param_decls.contains(&id.sym) {
+            return;
+        }
+
+        if self.in_catch_body {
+            self.excluded_from_catch.insert(id.sym.clone());
+        }
+
+        self.resolver.modify(id, self.kind)
+    }
 }
 
 impl VisitMut for Hoister<'_, '_> {
@@ -1459,13 +1481,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.visit_mut_children_with(self);
 
-        {
-            if self.catch_param_decls.contains(&node.key.sym) {
-                return;
-            }
-
-            self.resolver.modify(&mut node.key, self.kind)
-        }
+        self.add_pat_id(&mut node.key);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -1475,58 +1491,70 @@ impl VisitMut for Hoister<'_, '_> {
         self.in_block = old_in_block;
     }
 
+    /// The code below prints "PASS"
+    ///
+    ///      var a = "PASS";
+    ///      try {
+    ///          throw "FAIL1";
+    ///          } catch (a) {
+    ///          var a = "FAIL2";
+    ///      }
+    ///      console.log(a);
+    ///
+    ///
+    /// While the code below does not throw **ReferenceError** for `b`
+    ///
+    ///      b()
+    ///      try {
+    ///      } catch (b) {
+    ///          var b;
+    ///      }
+    ///
+    /// while the code below throws **ReferenceError**
+    ///
+    ///      b()
+    ///      try {
+    ///      } catch (b) {
+    ///      }
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let old_exclude = self.excluded_from_catch.clone();
+
+        {
+            let old_in_catch_body = self.in_catch_body;
+
+            self.excluded_from_catch = Default::default();
+            self.in_catch_body = true;
+
+            c.body.visit_mut_with(self);
+
+            self.in_catch_body = old_in_catch_body;
+        }
         let orig = self.catch_param_decls.clone();
 
         let params: Vec<Id> = find_ids(&c.param);
 
-        let mut excluded = find_ids::<_, Id>(&c.body);
+        // let mut excluded = find_ids::<_, Id>(&c.body);
 
-        excluded.retain(|id| {
-            // If we already have a declartion named a, `var a` in the catch body is
-            // different var.
+        // excluded.retain(|id| {
+        //     // If we already have a declartion named a, `var a` in the catch body is
+        //     // different var.
 
-            // The code below prints "PASS"
-            //
-            //      var a = "PASS";
-            //      try {
-            //          throw "FAIL1";
-            //          } catch (a) {
-            //          var a = "FAIL2";
-            //      }
-            //      console.log(a);
-            //
-            //
-            // While the code below does not throw **ReferenceError** for `b`
-            //
-            //      b()
-            //      try {
-            //      } catch (b) {
-            //          var b;
-            //      }
-            //
-            // while the code below throws **ReferenceError**
-            //
-            //      b()
-            //      try {
-            //      } catch (b) {
-            //      }
-            self.resolver.mark_for_ref(&id.0).is_none()
-        });
+        //     self.resolver.mark_for_ref(&id.0).is_none()
+        // });
 
         self.catch_param_decls.extend(
             params
                 .into_iter()
-                .filter(|id| !excluded.contains(id))
+                .filter(|id| !self.excluded_from_catch.contains(&id.0))
                 .map(|v| v.0),
         );
 
         c.param.visit_mut_with(self);
 
-        c.body.visit_mut_with(self);
-
         self.catch_param_decls = orig;
+
+        self.excluded_from_catch = old_exclude;
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
@@ -1651,11 +1679,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         match node {
             Pat::Ident(i) => {
-                if self.catch_param_decls.contains(&i.id.sym) {
-                    return;
-                }
-
-                self.resolver.modify(&mut i.id, self.kind)
+                self.add_pat_id(&mut i.id);
             }
 
             _ => node.visit_mut_children_with(self),
