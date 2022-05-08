@@ -3058,6 +3058,7 @@ name = "swc_config"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "indexmap",
  "serde",
  "serde_json",
  "swc_config_macro",

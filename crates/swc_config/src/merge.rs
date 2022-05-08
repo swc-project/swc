@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use indexmap::IndexMap;
 pub use swc_config_macro::Merge;
 
 /// Deriavable trait for overrding configurations.
@@ -13,6 +14,7 @@ pub trait Merge: Sized {
 
 /// Modifies `self` iff `*self` is [None]
 impl<T> Merge for Option<T> {
+    #[inline]
     fn merge(&mut self, other: Self) {
         if self.is_none() {
             *self = other;
@@ -24,6 +26,7 @@ impl<T> Merge for Box<T>
 where
     T: Merge,
 {
+    #[inline]
     fn merge(&mut self, other: Self) {
         (**self).merge(*other);
     }
@@ -31,6 +34,7 @@ where
 
 /// Modifies `self` iff `*self` is empty.
 impl<T> Merge for Vec<T> {
+    #[inline]
     fn merge(&mut self, other: Self) {
         if self.is_empty() {
             *self = other;
@@ -40,6 +44,17 @@ impl<T> Merge for Vec<T> {
 
 /// Modifies `self` iff `*self` is empty.
 impl<K, V, S> Merge for HashMap<K, V, S> {
+    #[inline]
+    fn merge(&mut self, other: Self) {
+        if self.is_empty() {
+            *self = other;
+        }
+    }
+}
+
+/// Modifies `self` iff `*self` is empty.
+impl<K, V, S> Merge for IndexMap<K, V, S> {
+    #[inline]
     fn merge(&mut self, other: Self) {
         if self.is_empty() {
             *self = other;
