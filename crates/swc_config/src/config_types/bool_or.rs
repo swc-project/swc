@@ -35,6 +35,17 @@ impl<T> BoolOr<T> {
         }
     }
 
+    pub fn map<F, N>(self, op: F) -> BoolOr<N>
+    where
+        F: FnOnce(T) -> N,
+    {
+        match self.0 {
+            Some(Inner::Actual(v)) => BoolOr::from_obj(op(v)),
+            Some(Inner::Bool(b)) => BoolOr::from_bool(b),
+            None => BoolOr::default(),
+        }
+    }
+
     pub fn is_true(&self) -> bool {
         matches!(self.0, Some(Inner::Bool(true)))
     }
