@@ -2,13 +2,20 @@ use serde::{Deserialize, Serialize};
 
 use crate::merge::Merge;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(
+    Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
+)]
 pub struct BoolConfig<const DEFAULT: bool>(#[serde(default)] Option<bool>);
 
 impl<const DEFAULT: bool> BoolConfig<DEFAULT> {
     #[inline]
     pub fn new(value: Option<bool>) -> Self {
         Self(value)
+    }
+
+    #[inline]
+    pub fn into_bool(self) -> bool {
+        self.into()
     }
 }
 

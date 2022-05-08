@@ -15,3 +15,15 @@ fn test_bool_config_serde() {
         BoolConfig::new(Some(false))
     );
 }
+
+#[test]
+fn test_bool_config_default() {
+    assert_eq!(
+        BoolConfig::<false>::default(),
+        BoolConfig::<false>::new(None)
+    );
+    assert_eq!(BoolConfig::<true>::default(), BoolConfig::<true>::new(None));
+
+    assert!(!BoolConfig::<false>::default().into_bool());
+    assert!(BoolConfig::<true>::default().into_bool());
+}
