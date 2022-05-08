@@ -1460,12 +1460,20 @@ struct Hoister<'a, 'b> {
 
 impl Hoister<'_, '_> {
     fn add_pat_id(&mut self, id: &mut Ident) {
-        if self.catch_param_decls.contains(&id.sym) {
-            return;
-        }
-
         if self.in_catch_body {
+            // If we have a binding, it's different variable.
+            if self.resolver.mark_for_ref(&id.sym).is_some()
+                && self.catch_param_decls.contains(&id.sym)
+            {
+                return;
+            }
+
             self.excluded_from_catch.insert(id.sym.clone());
+        } else {
+            // Behavior is different
+            if self.catch_param_decls.contains(&id.sym) {
+                return;
+            }
         }
 
         self.resolver.modify(id, self.kind)
@@ -1527,6 +1535,10 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let old_exclude = self.excluded_from_catch.clone();
+        let params: Vec<Id> = find_ids(&c.param);
+
+        self.catch_param_decls
+            .extend(params.into_iter().map(|v| v.0));
 
         {
             let old_in_catch_body = self.in_catch_body;
@@ -1540,8 +1552,6 @@ impl VisitMut for Hoister<'_, '_> {
         }
         let orig = self.catch_param_decls.clone();
 
-        let params: Vec<Id> = find_ids(&c.param);
-
         // let mut excluded = find_ids::<_, Id>(&c.body);
 
         // excluded.retain(|id| {
@@ -1550,13 +1560,6 @@ impl VisitMut for Hoister<'_, '_> {
 
         //     self.resolver.mark_for_ref(&id.0).is_none()
         // });
-
-        self.catch_param_decls.extend(
-            params
-                .into_iter()
-                .filter(|id| !self.excluded_from_catch.contains(&id.0))
-                .map(|v| v.0),
-        );
 
         c.param.visit_mut_with(self);
 
