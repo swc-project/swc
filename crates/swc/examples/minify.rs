@@ -1,7 +1,7 @@
 use std::{path::Path, sync::Arc};
 
 use anyhow::Context;
-use swc::{self, config::JsMinifyOptions, try_with_handler, HandlerOpts};
+use swc::{self, config::JsMinifyOptions, try_with_handler, BoolConfig, BoolOr, HandlerOpts};
 use swc_common::SourceMap;
 
 fn main() {
@@ -23,8 +23,8 @@ fn main() {
                 fm,
                 handler,
                 &JsMinifyOptions {
-                    compress: true.into(),
-                    mangle: true.into(),
+                    compress: BoolOr::from_bool(true),
+                    mangle: BoolOr::from_bool(true),
                     format: Default::default(),
                     ecma: Default::default(),
                     keep_classnames: Default::default(),
