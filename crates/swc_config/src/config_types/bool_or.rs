@@ -14,16 +14,13 @@ impl<T> BoolOr<T> {
         v.into()
     }
 
-    pub fn unwrap_or<F>(self, default: F) -> T
+    pub fn or<F>(self, default: F) -> Self
     where
-        F: FnOnce(Option<bool>) -> T,
+        F: FnOnce() -> Self,
     {
         match self.0 {
-            Some(v) => match v {
-                Inner::Bool(v) => default(Some(v)),
-                Inner::Actual(v) => v,
-            },
-            None => default(None),
+            Some(..) => self,
+            None => default(),
         }
     }
 }
