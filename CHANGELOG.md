@@ -14,6 +14,9 @@
 
 
 
+- **(es/minifier)** Fix test system (#4571) ([bf5ee01](https://github.com/swc-project/swc/commit/bf5ee018b3d2cbf235b48e2325374f3ec545703a))
+
+
 - **(html/parser)** Add tests (#4565) ([adbce64](https://github.com/swc-project/swc/commit/adbce64f28ba72f73de375b91d72382d98362824))
 
 ## [1.2.179] - 2022-05-08
