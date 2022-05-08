@@ -6,6 +6,7 @@ on:
       - main
   schedule:
     - cron: "0 * * * *"
+  workflow_dispatch:
 
 env:
   GIT_COMMITTER_NAME: "SWC Bot"
