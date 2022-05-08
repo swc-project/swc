@@ -31,7 +31,7 @@ impl<T> BoolOr<T> {
         match self.0 {
             Some(Inner::Actual(v)) => Some(v),
             Some(Inner::Bool(b)) => default(Some(b)),
-            None => None,
+            None => default(None),
         }
     }
 
