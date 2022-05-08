@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{collect_decls, find_ids, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
@@ -1477,11 +1477,19 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
         let params: Vec<Id> = find_ids(&c.param);
+        let excluded = collect_decls::<Id, _>(&c.body);
 
         let orig = self.catch_param_decls.clone();
 
-        self.catch_param_decls
-            .extend(params.into_iter().map(|v| v.0));
+        self.catch_param_decls.extend(
+            params
+                .into_iter()
+                .filter(|id| !excluded.contains(id))
+                .map(|v| v.0),
+        );
+
+        c.param.visit_mut_with(self);
+
         c.body.visit_mut_with(self);
 
         self.catch_param_decls = orig;
