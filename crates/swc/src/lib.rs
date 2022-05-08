@@ -640,11 +640,11 @@ pub fn minify_file_comments(
     minify: bool,
     preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
-    let preserve_comments = preserve_comments.unwrap_or({
+    let preserve_comments = preserve_comments.or(|| {
         if minify {
-            BoolOr::from(JsMinifyCommentOption::PreserveSomeComments)
+            BoolOr::from_obj(JsMinifyCommentOption::PreserveSomeComments)
         } else {
-            BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments)
+            BoolOr::from_obj(JsMinifyCommentOption::PreserveAllComments)
         }
     });
 
