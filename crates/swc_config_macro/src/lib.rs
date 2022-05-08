@@ -1,8 +1,4 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
+extern crate proc_macro;
+
+#[proc_macro_derive(Merge)]
+pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {}
