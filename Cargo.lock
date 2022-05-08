@@ -2898,6 +2898,7 @@ dependencies = [
  "swc_atoms",
  "swc_cached",
  "swc_common",
+ "swc_config",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_ext_transforms",
@@ -3050,6 +3051,10 @@ dependencies = [
  "unicode-width",
  "url",
 ]
+
+[[package]]
+name = "swc_config"
+version = "0.1.0"
 
 [[package]]
 name = "swc_css"
