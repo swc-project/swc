@@ -279,10 +279,10 @@ impl Options {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        let mut config = config.unwrap_or_default();
-        config.merge(self.config.clone());
+        let mut cfg = self.config.clone();
+        cfg.merge(config.unwrap_or_default());
 
-        let source_maps = config.source_maps.clone();
+        let source_maps = cfg.source_maps.clone();
 
         let JscConfig {
             assumptions,
@@ -299,7 +299,7 @@ impl Options {
             lints,
             preserve_all_comments,
             ..
-        } = config.jsc;
+        } = cfg.jsc;
         let loose = loose.into_bool();
         let preserve_all_comments = preserve_all_comments.into_bool();
         let keep_class_names = keep_class_names.into_bool();
@@ -456,14 +456,14 @@ impl Options {
             Some(hygiene::Config { keep_class_names })
         })
         .fixer(!self.disable_fixer)
-        .preset_env(config.env)
+        .preset_env(cfg.env)
         .regenerator(regenerator)
         .finalize(
             base_url,
             paths.into_iter().collect(),
             base,
             syntax,
-            config.module,
+            cfg.module,
             comments,
         );
 
@@ -587,15 +587,15 @@ impl Options {
 
         Ok(BuiltInput {
             program,
-            minify: config.minify.into_bool(),
+            minify: cfg.minify.into_bool(),
             pass,
             external_helpers,
             syntax,
             target: es_version,
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
-            inline_sources_content: config.inline_sources_content.into_bool(),
-            input_source_map: config.input_source_map.clone().unwrap_or_default(),
+            inline_sources_content: cfg.inline_sources_content.into_bool(),
+            input_source_map: cfg.input_source_map.clone().unwrap_or_default(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             comments: comments.cloned(),
