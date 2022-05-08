@@ -42,7 +42,8 @@ jobs:
     name: Create cargo bump commit
     runs-on: ubuntu-latest
     concurrency: swc-bot-cargo-bump
-    if: ${{ github.event_name == 'push' }}
+    if: >-
+      ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore: ') }}
     steps:
       - uses: actions/checkout@v3
         with:
