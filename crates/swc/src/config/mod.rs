@@ -382,9 +382,12 @@ impl Options {
         let regenerator = transform.regenerator.clone();
 
         let preserve_comments = if preserve_all_comments {
-            Some(BoolOr::from_bool(true))
+            BoolOr::from_bool(true)
         } else {
-            js_minify.as_ref().map(|v| v.format.comments.clone())
+            js_minify
+                .as_ref()
+                .map(|v| v.format.comments.clone())
+                .unwrap_or_default()
         };
 
         if syntax.typescript() {
@@ -1044,7 +1047,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
-    pub preserve_comments: Option<BoolOr<JsMinifyCommentOption>>,
+    pub preserve_comments: BoolOr<JsMinifyCommentOption>,
 
     pub inline_sources_content: bool,
 }
