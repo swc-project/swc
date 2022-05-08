@@ -3065,6 +3065,10 @@ dependencies = [
 [[package]]
 name = "swc_config_macro"
 version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "syn",
+]
 
 [[package]]
 name = "swc_css"

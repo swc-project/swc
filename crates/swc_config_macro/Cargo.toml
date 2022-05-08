@@ -12,3 +12,5 @@ version = "0.1.0"
 proc-macro = true
 
 [dependencies]
+pmutil = "0.5.3"
+syn = "1"
