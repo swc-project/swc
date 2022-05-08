@@ -826,7 +826,7 @@
         },
         find: function(url, stack, earlyReturn) {
             var entry, i, index, length = (stack = stack || this.stack).length;
-            for(i = 0; i < length; i++)if (entry = stack[i], (decodeURIComponent(url) === decodeURIComponent(entry.url) || decodeURIComponent(url) === decodeURIComponent(entry.hash)) && (index = i, earlyReturn)) return index;
+            for(i = 0; i < length && (entry = stack[i], decodeURIComponent(url) !== decodeURIComponent(entry.url) && decodeURIComponent(url) !== decodeURIComponent(entry.hash) || (index = i, !earlyReturn)); i++);
             return index;
         },
         closest: function(url) {

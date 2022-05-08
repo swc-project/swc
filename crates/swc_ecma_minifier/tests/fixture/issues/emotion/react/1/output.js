@@ -147,7 +147,7 @@
             function delimiter(type) {
                 for(; next1();)switch(character1){
                     case type:
-                        return position;
+                        break;
                     case 34:
                     case 39:
                         return delimiter(34 === type || 39 === type ? type : character1);

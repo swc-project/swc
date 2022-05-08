@@ -2497,7 +2497,7 @@
             function isOlderVersion(version, thanVersion) {
                 for(var pkgVersionArr = thanVersion ? thanVersion.split(".") : currentVerArr, destVer = version.split("."), i = 0; i < 3; i++){
                     if (pkgVersionArr[i] > destVer[i]) return !0;
-                    if (pkgVersionArr[i] < destVer[i]) return !1;
+                    if (pkgVersionArr[i] < destVer[i]) break;
                 }
                 return !1;
             }
@@ -12760,10 +12760,7 @@
             }
             var kg = ra.ReactCurrentBatchConfig;
             function lg(a, b) {
-                if (a && a.defaultProps) {
-                    for(var c in b = m({}, b), a = a.defaultProps)void 0 === b[c] && (b[c] = a[c]);
-                    return b;
-                }
+                if (a && a.defaultProps) for(var c in b = m({}, b), a = a.defaultProps)void 0 === b[c] && (b[c] = a[c]);
                 return b;
             }
             var mg = Bf(null), ng = null, og = null, pg = null;

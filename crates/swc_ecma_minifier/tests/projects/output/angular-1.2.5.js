@@ -1147,11 +1147,10 @@
                         if (isString(require1)) {
                             for(; "^" == (value = require1.charAt(0)) || "?" == value;)require1 = require1.substr(1), "^" == value && (retrievalMethod = "inheritedData"), optional = optional || "?" == value;
                             if (value = null, elementControllers && "data" === retrievalMethod && (value = elementControllers[require1]), !(value = value || $element[retrievalMethod]("$" + require1 + "Controller")) && !optional) throw $compileMinErr("ctreq", "Controller '{0}', required by directive '{1}', can't be found!", require1, directiveName);
-                            return value;
-                        }
-                        return isArray(require1) && (value = [], forEach(require1, function(require) {
+                        } else isArray(require1) && (value = [], forEach(require1, function(require) {
                             value.push(getControllers(require, $element, elementControllers));
-                        })), value;
+                        }));
+                        return value;
                     }
                     function nodeLinkFn(childLinkFn, scope1, linkNode, $rootElement, boundTranscludeFn) {
                         var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {};

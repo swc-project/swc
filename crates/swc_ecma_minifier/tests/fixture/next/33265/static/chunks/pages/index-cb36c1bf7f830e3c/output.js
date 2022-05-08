@@ -2096,20 +2096,23 @@
             }
             function parseDCC(source, start, domBuilder, errorHandler) {
                 if ("-" === source.charAt(start + 2)) {
-                    if ("-" !== source.charAt(start + 3)) return -1;
-                    var end = source.indexOf("-->", start + 4);
-                    return end > start ? (domBuilder.comment(source, start + 4, end - start - 4), end + 3) : (errorHandler.error("Unclosed comment"), -1);
-                }
-                if ("CDATA[" == source.substr(start + 3, 6)) {
-                    var end = source.indexOf("]]>", start + 9);
-                    return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
-                }
-                var matchs = split(source, start), len = matchs.length;
-                if (len > 1 && /!doctype/i.test(matchs[0][0])) {
-                    var name = matchs[1][0], pubid = !1, sysid = !1;
-                    len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
-                    var lastMatch = matchs[len - 1];
-                    return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
+                    if ("-" === source.charAt(start + 3)) {
+                        var end = source.indexOf("-->", start + 4);
+                        if (end > start) return domBuilder.comment(source, start + 4, end - start - 4), end + 3;
+                        errorHandler.error("Unclosed comment");
+                    }
+                } else {
+                    if ("CDATA[" == source.substr(start + 3, 6)) {
+                        var end = source.indexOf("]]>", start + 9);
+                        return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
+                    }
+                    var matchs = split(source, start), len = matchs.length;
+                    if (len > 1 && /!doctype/i.test(matchs[0][0])) {
+                        var name = matchs[1][0], pubid = !1, sysid = !1;
+                        len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
+                        var lastMatch = matchs[len - 1];
+                        return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
+                    }
                 }
                 return -1;
             }
@@ -2117,7 +2120,7 @@
                 var end = source.indexOf("?>", start);
                 if (end) {
                     var match = source.substring(start, end).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);
-                    return match ? (match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2) : -1;
+                    if (match) return match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2;
                 }
                 return -1;
             }
