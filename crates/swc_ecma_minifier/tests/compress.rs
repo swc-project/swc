@@ -260,9 +260,9 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         .arg("-e")
         .arg(&format!(
             "
-            global.id = v => v;
-            global.leak = (cb) => cb;
+            {}
             {}",
+            include_str!("./terser_exec_base.js"),
             code
         ))
         .output()
