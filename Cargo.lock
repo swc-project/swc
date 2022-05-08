@@ -3068,6 +3068,7 @@ version = "0.1.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
+ "quote",
  "syn",
 ]
 
