@@ -3580,6 +3580,7 @@ dependencies = [
  "indexmap",
  "once_cell",
  "rayon",
+ "rustc-hash",
  "serde_json",
  "swc_atoms",
  "swc_common",
