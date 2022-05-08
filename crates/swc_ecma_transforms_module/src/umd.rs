@@ -40,12 +40,12 @@ pub fn umd_with_resolver(
     resolver: Box<dyn ImportResolver>,
     base: FileName,
     cm: Lrc<SourceMap>,
-    root_mark: Mark,
+    unresolved_mark: Mark,
     config: Config,
 ) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
-        unresolved_mark: root_mark,
+        unresolved_mark,
         cm,
 
         in_top_level: Default::default(),

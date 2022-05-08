@@ -253,7 +253,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es2015(
-                        self.top_level_mark,
+                        self.unresolved_mark,
                         comments,
                         compat::es2015::Config {
                             classes: compat::es2015::classes::Config {
@@ -317,7 +317,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base_url,
                 paths,
                 base,
-                self.top_level_mark,
+                self.unresolved_mark,
                 module,
                 Rc::clone(&module_scope)
             ),
