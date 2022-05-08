@@ -350,17 +350,27 @@ impl VisitMut for MinifierPass {
     fn visit_mut_module(&mut self, m: &mut Module) {
         if let Some(options) = &self.options {
             let opts = MinifyOptions {
-                compress: options.compress.clone().into_obj().map(|mut v| {
-                    if v.const_to_let.is_none() {
-                        v.const_to_let = Some(true);
-                    }
-                    if v.toplevel.is_none() {
-                        v.toplevel = Some(TerserTopLevelOptions::Bool(true));
-                    }
+                compress: options
+                    .compress
+                    .clone()
+                    .unwrap_or(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
+                    .map(|mut v| {
+                        if v.const_to_let.is_none() {
+                            v.const_to_let = Some(true);
+                        }
+                        if v.toplevel.is_none() {
+                            v.toplevel = Some(TerserTopLevelOptions::Bool(true));
+                        }
 
-                    v.into_config(self.cm.clone())
+                        v.into_config(self.cm.clone())
+                    }),
+                mangle: options.mangle.clone().unwrap_or(|default| match default {
+                    Some(true) => Some(Default::default()),
+                    _ => None,
                 }),
-                mangle: options.mangle.clone().into_obj(),
                 ..Default::default()
             };
 

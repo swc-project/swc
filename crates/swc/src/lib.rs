@@ -983,9 +983,15 @@ impl Compiler {
                 compress: opts
                     .compress
                     .clone()
-                    .into_obj()
+                    .unwrap_or(|default| match default {
+                        Some(true) | None => Some(Default::default()),
+                        _ => None,
+                    })
                     .map(|v| v.into_config(self.cm.clone())),
-                mangle: opts.mangle.clone().into_obj(),
+                mangle: opts.mangle.clone().unwrap_or(|default| match default {
+                    Some(true) | None => Some(Default::default()),
+                    _ => None,
+                }),
                 ..Default::default()
             };
 
