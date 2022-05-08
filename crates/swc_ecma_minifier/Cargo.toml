@@ -37,6 +37,7 @@ serde_json = "1.0.61"
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
 swc_cached = { version = "0.1.0", path = "../swc_cached" }
 swc_common = { version = "0.17.23", path = "../swc_common" }
+swc_config = { version = "0.1.0", path = "../swc_config" }
 swc_ecma_ast = { version = "0.77.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.106.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.103.0", path = "../swc_ecma_parser" }
