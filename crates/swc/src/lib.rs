@@ -590,21 +590,20 @@ pub fn minify_global_comments(
     comments: &SwcComments,
     span: Span,
     minify: bool,
-    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+    preserve_comments: Option<BoolOr<JsMinifyCommentOption>>,
 ) {
     let preserve_comments = preserve_comments.unwrap_or({
         if minify {
-            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+            BoolOr::Obj(JsMinifyCommentOption::PreserveSomeComments)
         } else {
-            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+            BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments)
         }
     });
 
     match preserve_comments {
-        BoolOrObject::Bool(true)
-        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+        BoolOr::Bool(true) | BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
 
-        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+        BoolOr::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
             let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 if *pos < span.lo || *pos >= span.hi {
                     return true;
@@ -622,7 +621,7 @@ pub fn minify_global_comments(
             comments.trailing.retain(preserve_excl);
         }
 
-        BoolOrObject::Bool(false) => {
+        BoolOr::Bool(false) => {
             let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
                 if *pos < span.lo || *pos >= span.hi {
                     return true;
@@ -645,15 +644,14 @@ pub fn minify_file_comments(
         if minify {
             BoolOr::from(JsMinifyCommentOption::PreserveSomeComments)
         } else {
-            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+            BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments)
         }
     });
 
     match preserve_comments {
-        BoolOrObject::Bool(true)
-        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+        BoolOr::Bool(true) | BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
 
-        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+        BoolOr::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
             let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 // Preserve license comments.
                 if vc.iter().any(|c| c.text.contains("@license")) {
@@ -669,7 +667,7 @@ pub fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
-        BoolOrObject::Bool(false) => {
+        BoolOr::Bool(false) => {
             let (mut l, mut t) = comments.borrow_all_mut();
             l.clear();
             t.clear();
@@ -966,9 +964,9 @@ impl Compiler {
             let target = opts.ecma.clone().into();
 
             let (source_map, orig) = match &opts.source_map {
-                BoolOrObject::Bool(false) => (SourceMapsConfig::Bool(false), None),
-                BoolOrObject::Bool(true) => (SourceMapsConfig::Bool(true), None),
-                BoolOrObject::Obj(obj) => {
+                BoolOr::Bool(false) => (SourceMapsConfig::Bool(false), None),
+                BoolOr::Bool(true) => (SourceMapsConfig::Bool(true), None),
+                BoolOr::Obj(obj) => {
                     let orig = obj
                         .content
                         .as_ref()
