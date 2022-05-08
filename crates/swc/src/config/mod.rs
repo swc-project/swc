@@ -1630,36 +1630,6 @@ impl Merge for JscConfig {
     }
 }
 
-impl<K, V, S> Merge for IndexMap<K, V, S>
-where
-    K: Clone + Eq + std::hash::Hash,
-    V: Clone,
-    S: Clone + BuildHasher,
-{
-    fn merge(&mut self, from: &Self) {
-        if self.is_empty() {
-            *self = (*from).clone();
-        }
-    }
-}
-
-impl<K, V, S> Merge for HashMap<K, V, S>
-where
-    K: Clone + Eq + std::hash::Hash,
-    V: Clone,
-    S: Clone + BuildHasher,
-{
-    fn merge(&mut self, from: &Self) {
-        if self.is_empty() {
-            *self = (*from).clone();
-        } else {
-            for (k, v) in from {
-                self.entry(k.clone()).or_insert_with(|| v.clone());
-            }
-        }
-    }
-}
-
 impl Merge for EsVersion {
     fn merge(&mut self, from: &Self) {
         if *self < *from {
@@ -1668,52 +1638,9 @@ impl Merge for EsVersion {
     }
 }
 
-impl Merge for Option<ModuleConfig> {
-    fn merge(&mut self, from: &Self) {
-        if let Some(ref c2) = *from {
-            *self = Some(c2.clone())
-        }
-    }
-}
-
 impl Merge for bool {
     fn merge(&mut self, from: &Self) {
         *self |= *from
-    }
-}
-
-impl Merge for Syntax {
-    fn merge(&mut self, from: &Self) {
-        match (&mut *self, from) {
-            (Syntax::Es(a), Syntax::Es(b)) => {
-                a.merge(b);
-            }
-            (Syntax::Typescript(a), Syntax::Typescript(b)) => {
-                a.merge(b);
-            }
-            _ => {
-                *self = *from;
-            }
-        }
-    }
-}
-
-impl Merge for swc_ecma_parser::EsConfig {
-    fn merge(&mut self, from: &Self) {
-        self.jsx |= from.jsx;
-        self.fn_bind |= from.fn_bind;
-        self.decorators |= from.decorators;
-        self.decorators_before_export |= from.decorators_before_export;
-        self.export_default_from |= from.export_default_from;
-        self.import_assertions |= from.import_assertions;
-        self.private_in_object |= from.private_in_object;
-    }
-}
-
-impl Merge for swc_ecma_parser::TsConfig {
-    fn merge(&mut self, from: &Self) {
-        self.tsx |= from.tsx;
-        self.decorators |= from.decorators;
     }
 }
 
@@ -1754,12 +1681,6 @@ impl Merge for TransformConfig {
     }
 }
 
-impl Merge for OptimizerConfig {
-    fn merge(&mut self, from: &Self) {
-        self.globals.merge(&from.globals)
-    }
-}
-
 impl Merge for GlobalPassOption {
     fn merge(&mut self, from: &Self) {
         *self = from.clone();
@@ -1771,18 +1692,6 @@ impl Merge for react::Options {
         if *from != react::Options::default() {
             *self = from.clone();
         }
-    }
-}
-
-impl Merge for ConstModulesConfig {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone()
-    }
-}
-
-impl Merge for HiddenTransformConfig {
-    fn merge(&mut self, from: &Self) {
-        self.jest |= from.jest;
     }
 }
 
