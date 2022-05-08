@@ -54,11 +54,10 @@
                 }
             }
             function M(t) {
-                var e;
                 if ("string" == typeof t) return t;
                 try {
                     return e = t, JSON.stringify(e);
-                } catch (e1) {
+                } catch (e) {
                     return t;
                 }
             }
@@ -118,9 +117,9 @@
                 constructor(t){
                     this.t = t, this.currentUser = D.UNAUTHENTICATED, this.i = 0, this.forceRefresh = !1, this.auth = null;
                 }
-                start(t1, e2) {
+                start(t1, e1) {
                     let n = this.i;
-                    const s = (t)=>this.i !== n ? (n = this.i, e2(t)) : Promise.resolve()
+                    const s = (t)=>this.i !== n ? (n = this.i, e1(t)) : Promise.resolve()
                     ;
                     let i = new Q();
                     this.o = ()=>{
@@ -146,8 +145,8 @@
                     }, 0), r();
                 }
                 getToken() {
-                    const t = this.i, e3 = this.forceRefresh;
-                    return this.forceRefresh = !1, this.auth ? this.auth.getToken(e3).then((e)=>this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? ("string" == typeof e.accessToken || L(), new W(e.accessToken, this.currentUser)) : null
+                    const t = this.i, e2 = this.forceRefresh;
+                    return this.forceRefresh = !1, this.auth ? this.auth.getToken(e2).then((e)=>this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? ("string" == typeof e.accessToken || L(), new W(e.accessToken, this.currentUser)) : null
                     ) : Promise.resolve(null);
                 }
                 invalidateToken() {
@@ -203,7 +202,7 @@
             function Z(t) {
                 const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
                 if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
-                else for(let e4 = 0; e4 < t; e4++)n[e4] = Math.floor(256 * Math.random());
+                else for(let e3 = 0; e3 < t; e3++)n[e3] = Math.floor(256 * Math.random());
                 return n;
             }
             function et(t, e) {
@@ -450,12 +449,12 @@
                     return new _t(e);
                 }
                 static fromUint8Array(t7) {
-                    const e5 = function(t) {
+                    const e4 = function(t) {
                         let e = "";
                         for(let n = 0; n < t.length; ++n)e += String.fromCharCode(t[n]);
                         return e;
                     }(t7);
-                    return new _t(e5);
+                    return new _t(e4);
                 }
                 toBase64() {
                     return btoa(this.binaryString);
@@ -554,31 +553,31 @@
             function vt(t) {
                 return "nullValue" in t ? 0 : "booleanValue" in t ? 1 : "integerValue" in t || "doubleValue" in t ? 2 : "timestampValue" in t ? 3 : "stringValue" in t ? 5 : "bytesValue" in t ? 6 : "referenceValue" in t ? 7 : "geoPointValue" in t ? 8 : "arrayValue" in t ? 9 : "mapValue" in t ? Tt(t) ? 4 : 10 : L();
             }
-            function Vt(t10, e8) {
-                var t8, e6, t9, e7;
+            function Vt(t10, e7) {
+                var t8, e5, t9, e6;
                 const n1 = vt(t10);
-                if (n1 !== vt(e8)) return !1;
+                if (n1 !== vt(e7)) return !1;
                 switch(n1){
                     case 0:
                         return !0;
                     case 1:
-                        return t10.booleanValue === e8.booleanValue;
+                        return t10.booleanValue === e7.booleanValue;
                     case 4:
-                        return It(t10).isEqual(It(e8));
+                        return It(t10).isEqual(It(e7));
                     case 3:
                         return function(t, e) {
                             if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) return t.timestampValue === e.timestampValue;
                             const n = gt(t.timestampValue), s = gt(e.timestampValue);
                             return n.seconds === s.seconds && n.nanos === s.nanos;
-                        }(t10, e8);
+                        }(t10, e7);
                     case 5:
-                        return t10.stringValue === e8.stringValue;
+                        return t10.stringValue === e7.stringValue;
                     case 6:
-                        return t8 = t10, e6 = e8, pt(t8.bytesValue).isEqual(pt(e6.bytesValue));
+                        return t8 = t10, e5 = e7, pt(t8.bytesValue).isEqual(pt(e5.bytesValue));
                     case 7:
-                        return t10.referenceValue === e8.referenceValue;
+                        return t10.referenceValue === e7.referenceValue;
                     case 8:
-                        return t9 = t10, e7 = e8, yt(t9.geoPointValue.latitude) === yt(e7.geoPointValue.latitude) && yt(t9.geoPointValue.longitude) === yt(e7.geoPointValue.longitude);
+                        return t9 = t10, e6 = e7, yt(t9.geoPointValue.latitude) === yt(e6.geoPointValue.latitude) && yt(t9.geoPointValue.longitude) === yt(e6.geoPointValue.longitude);
                     case 2:
                         return function(t, e) {
                             if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
@@ -587,16 +586,16 @@
                                 return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
                             }
                             return !1;
-                        }(t10, e8);
+                        }(t10, e7);
                     case 9:
-                        return nt(t10.arrayValue.values || [], e8.arrayValue.values || [], Vt);
+                        return nt(t10.arrayValue.values || [], e7.arrayValue.values || [], Vt);
                     case 10:
                         return function(t, e) {
                             const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
                             if (ot(n) !== ot(s)) return !1;
                             for(const t11 in n)if (n.hasOwnProperty(t11) && (void 0 === s[t11] || !Vt(n[t11], s[t11]))) return !1;
                             return !0;
-                        }(t10, e8);
+                        }(t10, e7);
                     default:
                         return L();
                 }
@@ -605,30 +604,30 @@
                 return void 0 !== (t12.values || []).find((t)=>Vt(t, e)
                 );
             }
-            function Dt(t13, e9) {
-                const n2 = vt(t13), s1 = vt(e9);
+            function Dt(t13, e8) {
+                const n2 = vt(t13), s1 = vt(e8);
                 if (n2 !== s1) return et(n2, s1);
                 switch(n2){
                     case 0:
                         return 0;
                     case 1:
-                        return et(t13.booleanValue, e9.booleanValue);
+                        return et(t13.booleanValue, e8.booleanValue);
                     case 2:
                         return function(t, e) {
                             const n = yt(t.integerValue || t.doubleValue), s = yt(e.integerValue || e.doubleValue);
                             return n < s ? -1 : n > s ? 1 : n === s ? 0 : isNaN(n) ? isNaN(s) ? 0 : -1 : 1;
-                        }(t13, e9);
+                        }(t13, e8);
                     case 3:
-                        return Ct(t13.timestampValue, e9.timestampValue);
+                        return Ct(t13.timestampValue, e8.timestampValue);
                     case 4:
-                        return Ct(It(t13), It(e9));
+                        return Ct(It(t13), It(e8));
                     case 5:
-                        return et(t13.stringValue, e9.stringValue);
+                        return et(t13.stringValue, e8.stringValue);
                     case 6:
                         return function(t, e) {
                             const n = pt(t), s = pt(e);
                             return n.compareTo(s);
-                        }(t13.bytesValue, e9.bytesValue);
+                        }(t13.bytesValue, e8.bytesValue);
                     case 7:
                         return function(t, e) {
                             const n = t.split("/"), s = e.split("/");
@@ -637,12 +636,12 @@
                                 if (0 !== e) return e;
                             }
                             return et(n.length, s.length);
-                        }(t13.referenceValue, e9.referenceValue);
+                        }(t13.referenceValue, e8.referenceValue);
                     case 8:
                         return function(t, e) {
                             const n = et(yt(t.latitude), yt(e.latitude));
                             return 0 !== n ? n : et(yt(t.longitude), yt(e.longitude));
-                        }(t13.geoPointValue, e9.geoPointValue);
+                        }(t13.geoPointValue, e8.geoPointValue);
                     case 9:
                         return function(t, e) {
                             const n = t.values || [], s = e.values || [];
@@ -651,7 +650,7 @@
                                 if (e) return e;
                             }
                             return et(n.length, s.length);
-                        }(t13.arrayValue, e9.arrayValue);
+                        }(t13.arrayValue, e8.arrayValue);
                     case 10:
                         return function(t, e) {
                             const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
@@ -663,7 +662,7 @@
                                 if (0 !== o) return o;
                             }
                             return et(s.length, r.length);
-                        }(t13.mapValue, e9.mapValue);
+                        }(t13.mapValue, e8.mapValue);
                     default:
                         throw L();
                 }
@@ -677,11 +676,11 @@
                 return xt(t);
             }
             function xt(t17) {
-                var e10, n3;
+                var e9, n3;
                 return "nullValue" in t17 ? "null" : "booleanValue" in t17 ? "" + t17.booleanValue : "integerValue" in t17 ? "" + t17.integerValue : "doubleValue" in t17 ? "" + t17.doubleValue : "timestampValue" in t17 ? function(t) {
                     const e = gt(t);
                     return `time(${e.seconds},${e.nanos})`;
-                }(t17.timestampValue) : "stringValue" in t17 ? t17.stringValue : "bytesValue" in t17 ? pt(t17.bytesValue).toBase64() : "referenceValue" in t17 ? (n3 = t17.referenceValue, Pt.fromName(n3).toString()) : "geoPointValue" in t17 ? `geo(${(e10 = t17.geoPointValue).latitude},${e10.longitude})` : "arrayValue" in t17 ? function(t) {
+                }(t17.timestampValue) : "stringValue" in t17 ? t17.stringValue : "bytesValue" in t17 ? pt(t17.bytesValue).toBase64() : "referenceValue" in t17 ? (n3 = t17.referenceValue, Pt.fromName(n3).toString()) : "geoPointValue" in t17 ? `geo(${(e9 = t17.geoPointValue).latitude},${e9.longitude})` : "arrayValue" in t17 ? function(t) {
                     let e = "[", n = !0;
                     for (const s of t.values || [])n ? n = !1 : e += ",", e += xt(s);
                     return e + "]";
@@ -788,9 +787,9 @@
                     }
                     return e.mapValue.fields;
                 }
-                applyChanges(t, e12, n4) {
-                    for (const e11 of (ct(e12, (e, n)=>t[e] = n
-                    ), n4))delete t[e11];
+                applyChanges(t, e11, n4) {
+                    for (const e10 of (ct(e11, (e, n)=>t[e] = n
+                    ), n4))delete t[e10];
                 }
                 clone() {
                     return new Ut(Bt(this.value));
@@ -1058,24 +1057,24 @@
             }
             function Te(t) {
                 var t27;
-                const e13 = t;
-                if (null === e13.V) {
-                    e13.V = [];
+                const e12 = t;
+                if (null === e12.V) {
+                    e12.V = [];
                     const t28 = function(t) {
                         for (const e of t.filters)if (e.v()) return e.field;
                         return null;
-                    }(e13), n = (t27 = e13).explicitOrderBy.length > 0 ? t27.explicitOrderBy[0].field : null;
-                    if (null !== t28 && null === n) t28.isKeyField() || e13.V.push(new ae(t28)), e13.V.push(new ae(ft.keyField(), "asc"));
+                    }(e12), n = (t27 = e12).explicitOrderBy.length > 0 ? t27.explicitOrderBy[0].field : null;
+                    if (null !== t28 && null === n) t28.isKeyField() || e12.V.push(new ae(t28)), e12.V.push(new ae(ft.keyField(), "asc"));
                     else {
                         let t = !1;
-                        for (const n of e13.explicitOrderBy)e13.V.push(n), n.field.isKeyField() && (t = !0);
+                        for (const n of e12.explicitOrderBy)e12.V.push(n), n.field.isKeyField() && (t = !0);
                         if (!t) {
-                            const t = e13.explicitOrderBy.length > 0 ? e13.explicitOrderBy[e13.explicitOrderBy.length - 1].dir : "asc";
-                            e13.V.push(new ae(ft.keyField(), t));
+                            const t = e12.explicitOrderBy.length > 0 ? e12.explicitOrderBy[e12.explicitOrderBy.length - 1].dir : "asc";
+                            e12.V.push(new ae(ft.keyField(), t));
                         }
                     }
                 }
-                return e13.V;
+                return e12.V;
             }
             function Ee(t) {
                 const e = t;
@@ -1101,27 +1100,27 @@
             }
             function be(t31) {
                 var t29, t30;
-                let e14;
-                return `Query(target=${e14 = (t29 = Ee(t31)).path.canonicalString(), null !== t29.collectionGroup && (e14 += " collectionGroup=" + t29.collectionGroup), t29.filters.length > 0 && (e14 += `, filters: [${t29.filters.map((t)=>{
+                let e13;
+                return `Query(target=${e13 = (t29 = Ee(t31)).path.canonicalString(), null !== t29.collectionGroup && (e13 += " collectionGroup=" + t29.collectionGroup), t29.filters.length > 0 && (e13 += `, filters: [${t29.filters.map((t)=>{
                     var e;
                     return `${(e = t).field.canonicalString()} ${e.op} ${Nt(e.value)}`;
-                }).join(", ")}]`), t30 = t29.limit, null == t30 || (e14 += ", limit: " + t29.limit), t29.orderBy.length > 0 && (e14 += `, orderBy: [${t29.orderBy.map((t)=>{
+                }).join(", ")}]`), t30 = t29.limit, null == t30 || (e13 += ", limit: " + t29.limit), t29.orderBy.length > 0 && (e13 += `, orderBy: [${t29.orderBy.map((t)=>{
                     var t32;
                     return t32 = t, `${t32.field.canonicalString()} (${t32.dir})`;
-                }).join(", ")}]`), t29.startAt && (e14 += ", startAt: " + ce(t29.startAt)), t29.endAt && (e14 += ", endAt: " + ce(t29.endAt)), `Target(${e14})`}; limitType=${t31.limitType})`;
+                }).join(", ")}]`), t29.startAt && (e13 += ", startAt: " + ce(t29.startAt)), t29.endAt && (e13 += ", endAt: " + ce(t29.endAt)), `Target(${e13})`}; limitType=${t31.limitType})`;
             }
-            function Pe(t34, e16) {
-                var t33, e15;
-                return e16.isFoundDocument() && function(t, e) {
+            function Pe(t34, e15) {
+                var t33, e14;
+                return e15.isFoundDocument() && function(t, e) {
                     const n = e.key.path;
                     return null !== t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n);
-                }(t34, e16) && function(t, e) {
+                }(t34, e15) && function(t, e) {
                     for (const n of t.explicitOrderBy)if (!n.field.isKeyField() && null === e.data.field(n.field)) return !1;
                     return !0;
-                }(t34, e16) && function(t, e) {
+                }(t34, e15) && function(t, e) {
                     for (const n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
-                }(t34, e16) && (t33 = t34, e15 = e16, (!t33.startAt || !!he(t33.startAt, Te(t33), e15)) && !(t33.endAt && he(t33.endAt, Te(t33), e15)));
+                }(t34, e15) && (t33 = t34, e14 = e15, (!t33.startAt || !!he(t33.startAt, Te(t33), e14)) && !(t33.endAt && he(t33.endAt, Te(t33), e14)));
             }
             function ve(t35) {
                 return (e, n)=>{
@@ -1134,11 +1133,11 @@
                     return 0;
                 };
             }
-            function Ve(t36, e17, n7) {
-                const s2 = t36.field.isKeyField() ? Pt.comparator(e17.key, n7.key) : function(t, e, n) {
+            function Ve(t36, e16, n7) {
+                const s2 = t36.field.isKeyField() ? Pt.comparator(e16.key, n7.key) : function(t, e, n) {
                     const s = e.data.field(t), i = n.data.field(t);
                     return null !== s && null !== i ? Dt(s, i) : L();
-                }(t36.field, e17, n7);
+                }(t36.field, e16, n7);
                 switch(t36.dir){
                     case "asc":
                         return s2;
@@ -1174,7 +1173,7 @@
                     this._ = void 0;
                 }
             }
-            function xe(t37, e18, n8) {
+            function xe(t37, e17, n8) {
                 return t37 instanceof Oe ? function(t, e) {
                     const n = {
                         fields: {
@@ -1192,10 +1191,10 @@
                     return e && (n.fields.__previous_value__ = e), {
                         mapValue: n
                     };
-                }(n8, e18) : t37 instanceof Fe ? Me(t37, e18) : t37 instanceof Le ? Be(t37, e18) : function(t, e) {
+                }(n8, e17) : t37 instanceof Fe ? Me(t37, e17) : t37 instanceof Le ? Be(t37, e17) : function(t, e) {
                     const n = $e(t, e), s = qe(n) + qe(t.C);
                     return $t(n) && $t(t.C) ? De(s) : Se(t.N, s);
-                }(t37, e18);
+                }(t37, e17);
             }
             function ke(t, e, n) {
                 return t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : n;
@@ -1215,8 +1214,8 @@
             }
             function Me(t39, e) {
                 const n = Ke(e);
-                for (const e19 of t39.elements)n.some((t)=>Vt(t, e19)
-                ) || n.push(e19);
+                for (const e18 of t39.elements)n.some((t)=>Vt(t, e18)
+                ) || n.push(e18);
                 return {
                     arrayValue: {
                         values: n
@@ -1230,7 +1229,7 @@
             }
             function Be(t40, e) {
                 let n = Ke(e);
-                for (const e20 of t40.elements)n = n.filter((t)=>!Vt(t, e20)
+                for (const e19 of t40.elements)n = n.filter((t)=>!Vt(t, e19)
                 );
                 return {
                     arrayValue: {
@@ -1284,36 +1283,36 @@
             }
             class He {
             }
-            function Je(t41, e21, n9) {
+            function Je(t41, e20, n9) {
                 t41 instanceof en ? function(t, e, n) {
                     const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
                     s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                }(t41, e21, n9) : t41 instanceof nn ? function(t, e, n) {
+                }(t41, e20, n9) : t41 instanceof nn ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return void e.convertToUnknownDocument(n.version);
                     const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                }(t41, e21, n9) : function(t, e, n) {
+                }(t41, e20, n9) : function(t, e, n) {
                     e.convertToNoDocument(n.version).setHasCommittedMutations();
-                }(0, e21, n9);
+                }(0, e20, n9);
             }
-            function Ye(t43, e23, n10) {
-                var t42, e22;
+            function Ye(t43, e22, n10) {
+                var t42, e21;
                 t43 instanceof en ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = t.value.clone(), i = on(t.fieldTransforms, n, e);
                     s.setAll(i), e.convertToFoundDocument(tn(e), s).setHasLocalMutations();
-                }(t43, e23, n10) : t43 instanceof nn ? function(t, e, n) {
+                }(t43, e22, n10) : t43 instanceof nn ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = on(t.fieldTransforms, n, e), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(tn(e), i).setHasLocalMutations();
-                }(t43, e23, n10) : (t42 = t43, e22 = e23, ze(t42.precondition, e22) && e22.convertToNoDocument(rt.min()));
+                }(t43, e22, n10) : (t42 = t43, e21 = e22, ze(t42.precondition, e21) && e21.convertToNoDocument(rt.min()));
             }
-            function Ze(t47, e27) {
-                var t44, e24;
-                return t47.type === e27.type && !!t47.key.isEqual(e27.key) && !!t47.precondition.isEqual(e27.precondition) && (t44 = t47.fieldTransforms, e24 = e27.fieldTransforms, !!(void 0 === t44 && void 0 === e24 || !(!t44 || !e24) && nt(t44, e24, (t, e)=>{
-                    var t45, e25, t46, e26;
-                    return t45 = t, e25 = e, t45.field.isEqual(e25.field) && (t46 = t45.transform, e26 = e25.transform, t46 instanceof Fe && e26 instanceof Fe || t46 instanceof Le && e26 instanceof Le ? nt(t46.elements, e26.elements, Vt) : t46 instanceof Ue && e26 instanceof Ue ? Vt(t46.C, e26.C) : t46 instanceof Oe && e26 instanceof Oe);
-                }))) && (0 === t47.type ? t47.value.isEqual(e27.value) : 1 !== t47.type || t47.data.isEqual(e27.data) && t47.fieldMask.isEqual(e27.fieldMask));
+            function Ze(t47, e26) {
+                var t44, e23;
+                return t47.type === e26.type && !!t47.key.isEqual(e26.key) && !!t47.precondition.isEqual(e26.precondition) && (t44 = t47.fieldTransforms, e23 = e26.fieldTransforms, !!(void 0 === t44 && void 0 === e23 || !(!t44 || !e23) && nt(t44, e23, (t, e)=>{
+                    var t45, e24, t46, e25;
+                    return t45 = t, e24 = e, t45.field.isEqual(e24.field) && (t46 = t45.transform, e25 = e24.transform, t46 instanceof Fe && e25 instanceof Fe || t46 instanceof Le && e25 instanceof Le ? nt(t46.elements, e25.elements, Vt) : t46 instanceof Ue && e25 instanceof Ue ? Vt(t46.C, e25.C) : t46 instanceof Oe && e25 instanceof Oe);
+                }))) && (0 === t47.type ? t47.value.isEqual(e26.value) : 1 !== t47.type || t47.data.isEqual(e26.data) && t47.fieldMask.isEqual(e26.fieldMask));
             }
             function tn(t) {
                 return t.isFoundDocument() ? t.version : rt.min();
@@ -1851,7 +1850,7 @@
                 }
                 rt(t) {
                     for (const e of t.k)t.$ && t.$.isFoundDocument() ? this.ot(e, t.$) : this.ct(e, t.key, t.$);
-                    for (const e28 of t.removedTargetIds)this.ct(e28, t.key, t.$);
+                    for (const e27 of t.removedTargetIds)this.ct(e27, t.key, t.$);
                 }
                 at(t) {
                     this.forEachTarget(t, (e)=>{
@@ -1895,7 +1894,7 @@
                     }
                 }
                 _t(t49) {
-                    const e29 = new Map();
+                    const e28 = new Map();
                     this.et.forEach((n, s)=>{
                         const i = this.dt(s);
                         if (i) {
@@ -1903,18 +1902,18 @@
                                 const e = new Pt(i.target.path);
                                 null !== this.nt.get(e) || this.gt(s, e) || this.ct(s, e, Kt.newNoDocument(e, t49));
                             }
-                            n.K && (e29.set(s, n.W()), n.G());
+                            n.K && (e28.set(s, n.W()), n.G());
                         }
                     });
                     let n11 = Pn();
-                    this.st.forEach((t50, e30)=>{
+                    this.st.forEach((t50, e29)=>{
                         let s = !0;
-                        e30.forEachWhile((t)=>{
+                        e29.forEachWhile((t)=>{
                             const e = this.dt(t);
                             return !e || 2 === e.purpose || (s = !1, !1);
                         }), s && (n11 = n11.add(t50));
                     });
-                    const s3 = new Sn(t49, e29, this.it, this.nt, n11);
+                    const s3 = new Sn(t49, e28, this.it, this.nt, n11);
                     return this.nt = pn, this.st = On(), this.it = new gn(et), s3;
                 }
                 ot(t, e) {
@@ -2045,26 +2044,26 @@
                     fields: n.value.mapValue.fields
                 };
             }
-            function ss(t54, e32) {
-                var t53, e31;
+            function ss(t54, e31) {
+                var t53, e30;
                 let n12;
-                if (e32 instanceof en) n12 = {
-                    update: Zn(t54, e32.key, e32.value)
+                if (e31 instanceof en) n12 = {
+                    update: Zn(t54, e31.key, e31.value)
                 };
-                else if (e32 instanceof cn) n12 = {
-                    delete: Gn(t54, e32.key)
+                else if (e31 instanceof cn) n12 = {
+                    delete: Gn(t54, e31.key)
                 };
-                else if (e32 instanceof nn) n12 = {
-                    update: Zn(t54, e32.key, e32.data),
-                    updateMask: ps(e32.fieldMask)
+                else if (e31 instanceof nn) n12 = {
+                    update: Zn(t54, e31.key, e31.data),
+                    updateMask: ps(e31.fieldMask)
                 };
                 else {
-                    if (!(e32 instanceof an)) return L();
+                    if (!(e31 instanceof an)) return L();
                     n12 = {
-                        verify: Gn(t54, e32.key)
+                        verify: Gn(t54, e31.key)
                     };
                 }
-                return e32.fieldTransforms.length > 0 && (n12.updateTransforms = e32.fieldTransforms.map((t)=>(function(t, e) {
+                return e31.fieldTransforms.length > 0 && (n12.updateTransforms = e31.fieldTransforms.map((t)=>(function(t, e) {
                         const n = e.transform;
                         if (n instanceof Oe) return {
                             fieldPath: e.field.canonicalString(),
@@ -2088,15 +2087,15 @@
                         };
                         throw L();
                     })(0, t)
-                )), e32.precondition.isNone || (n12.currentDocument = (t53 = t54, void 0 !== (e31 = e32.precondition).updateTime ? {
-                    updateTime: Un(t53, (0, e31.updateTime).toTimestamp())
-                } : void 0 !== e31.exists ? {
-                    exists: e31.exists
+                )), e31.precondition.isNone || (n12.currentDocument = (t53 = t54, void 0 !== (e30 = e31.precondition).updateTime ? {
+                    updateTime: Un(t53, (0, e30.updateTime).toTimestamp())
+                } : void 0 !== e30.exists ? {
+                    exists: e30.exists
                 } : L())), n12;
             }
-            function is(t56, e33) {
+            function is(t56, e32) {
                 var t55;
-                const n13 = e33.currentDocument ? void 0 !== (t55 = e33.currentDocument).updateTime ? Ge.updateTime(jn(t55.updateTime)) : void 0 !== t55.exists ? Ge.exists(t55.exists) : Ge.none() : Ge.none(), s4 = e33.updateTransforms ? e33.updateTransforms.map((e34)=>(function(t, e) {
+                const n13 = e32.currentDocument ? void 0 !== (t55 = e32.currentDocument).updateTime ? Ge.updateTime(jn(t55.updateTime)) : void 0 !== t55.exists ? Ge.exists(t55.exists) : Ge.none() : Ge.none(), s4 = e32.updateTransforms ? e32.updateTransforms.map((e33)=>(function(t, e) {
                         let n = null;
                         if ("setToServerValue" in e) "REQUEST_TIME" === e.setToServerValue || L(), n = new Oe();
                         else if ("appendMissingElements" in e) {
@@ -2108,31 +2107,31 @@
                         } else "increment" in e ? n = new Ue(t, e.increment) : L();
                         const s = ft.fromServerFormat(e.fieldPath);
                         return new je(s, n);
-                    })(t56, e34)
+                    })(t56, e33)
                 ) : [];
-                if (e33.update) {
-                    e33.update.name;
-                    const i = zn(t56, e33.update.name), r = new Ut({
+                if (e32.update) {
+                    e32.update.name;
+                    const i = zn(t56, e32.update.name), r = new Ut({
                         mapValue: {
-                            fields: e33.update.fields
+                            fields: e32.update.fields
                         }
                     });
-                    if (e33.updateMask) {
+                    if (e32.updateMask) {
                         const t57 = function(t60) {
                             const e = t60.fieldPaths || [];
                             return new dt(e.map((t)=>ft.fromServerFormat(t)
                             ));
-                        }(e33.updateMask);
+                        }(e32.updateMask);
                         return new nn(i, r, t57, n13, s4);
                     }
                     return new en(i, r, n13, s4);
                 }
-                if (e33.delete) {
-                    const s = zn(t56, e33.delete);
+                if (e32.delete) {
+                    const s = zn(t56, e32.delete);
                     return new cn(s, n13);
                 }
-                if (e33.verify) {
-                    const s = zn(t56, e33.verify);
+                if (e32.verify) {
+                    const s = zn(t56, e32.verify);
                     return new an(s, n13);
                 }
                 return L();
@@ -2236,8 +2235,8 @@
             function Is(t, e) {
                 let n = e;
                 const s = t.length;
-                for(let e35 = 0; e35 < s; e35++){
-                    const s = t.charAt(e35);
+                for(let e34 = 0; e34 < s; e34++){
+                    const s = t.charAt(e34);
                     switch(s){
                         case "\0":
                             n += "";
@@ -2412,12 +2411,12 @@
                 catch(t) {
                     return this.next(void 0, t);
                 }
-                next(t65, e36) {
-                    return this.callbackAttached && L(), this.callbackAttached = !0, this.isDone ? this.error ? this.wrapFailure(e36, this.error) : this.wrapSuccess(t65, this.result) : new js((n, s)=>{
+                next(t65, e35) {
+                    return this.callbackAttached && L(), this.callbackAttached = !0, this.isDone ? this.error ? this.wrapFailure(e35, this.error) : this.wrapSuccess(t65, this.result) : new js((n, s)=>{
                         this.nextCallback = (e)=>{
                             this.wrapSuccess(t65, e).next(n, s);
                         }, this.catchCallback = (t)=>{
-                            this.wrapFailure(e36, t).next(n, s);
+                            this.wrapFailure(e35, t).next(n, s);
                         };
                     });
                 }
@@ -2477,11 +2476,11 @@
                 }
             }
             class Qs {
-                constructor(t, e37){
-                    this.action = t, this.transaction = e37, this.aborted = !1, this.Et = new Q(), this.transaction.oncomplete = ()=>{
+                constructor(t, e36){
+                    this.action = t, this.transaction = e36, this.aborted = !1, this.Et = new Q(), this.transaction.oncomplete = ()=>{
                         this.Et.resolve();
                     }, this.transaction.onabort = ()=>{
-                        e37.error ? this.Et.reject(new zs(t, e37.error)) : this.Et.resolve();
+                        e36.error ? this.Et.reject(new zs(t, e36.error)) : this.Et.resolve();
                     }, this.transaction.onerror = (e)=>{
                         const n = Zs(e.target.error);
                         this.Et.reject(new zs(t, n));
@@ -2534,11 +2533,11 @@
                     return Number(n);
                 }
                 async Dt(t72) {
-                    return this.db || ($("SimpleDb", "Opening database:", this.name), this.db = await new Promise((e38, n15)=>{
+                    return this.db || ($("SimpleDb", "Opening database:", this.name), this.db = await new Promise((e37, n15)=>{
                         const s5 = indexedDB.open(this.name, this.version);
                         s5.onsuccess = (t)=>{
                             const n = t.target.result;
-                            e38(n);
+                            e37(n);
                         }, s5.onblocked = ()=>{
                             n15(new zs(t72, "Cannot upgrade IndexedDB schema while another tab is open. Close all tabs that access Firestore and reload this page to proceed."));
                         }, s5.onerror = (e)=>{
@@ -2630,8 +2629,8 @@
                 count() {
                     return $("SimpleDb", "COUNT", this.store.name), Ys(this.store.count());
                 }
-                Lt(t, e39) {
-                    const n = this.cursor(this.options(t, e39)), s = [];
+                Lt(t, e38) {
+                    const n = this.cursor(this.options(t, e38)), s = [];
                     return this.Bt(n, (t, e)=>{
                         s.push(e);
                     }).next(()=>s
@@ -2652,12 +2651,12 @@
                     return this.Bt(s, e);
                 }
                 jt(t74) {
-                    const e40 = this.cursor({});
+                    const e39 = this.cursor({});
                     return new js((n, s6)=>{
-                        e40.onerror = (t)=>{
+                        e39.onerror = (t)=>{
                             const e = Zs(t.target.error);
                             s6(e);
-                        }, e40.onsuccess = (e)=>{
+                        }, e39.onsuccess = (e)=>{
                             const s = e.target.result;
                             s ? t74(s.primaryKey, s.value).next((t)=>{
                                 t ? s.continue() : n();
@@ -2701,10 +2700,10 @@
                 }
             }
             function Ys(t77) {
-                return new js((e41, n17)=>{
+                return new js((e40, n17)=>{
                     t77.onsuccess = (t)=>{
                         const n = t.target.result;
-                        e41(n);
+                        e40(n);
                     }, t77.onerror = (t)=>{
                         const e = Zs(t.target.error);
                         n17(e);
@@ -2734,14 +2733,14 @@
                 }
                 applyToRemoteDocument(t, e) {
                     const n = e.mutationResults;
-                    for(let e42 = 0; e42 < this.mutations.length; e42++){
-                        const s = this.mutations[e42];
-                        s.key.isEqual(t.key) && Je(s, t, n[e42]);
+                    for(let e41 = 0; e41 < this.mutations.length; e41++){
+                        const s = this.mutations[e41];
+                        s.key.isEqual(t.key) && Je(s, t, n[e41]);
                     }
                 }
                 applyToLocalView(t) {
                     for (const e of this.baseMutations)e.key.isEqual(t.key) && Ye(e, t, this.localWriteTime);
-                    for (const e43 of this.mutations)e43.key.isEqual(t.key) && Ye(e43, t, this.localWriteTime);
+                    for (const e42 of this.mutations)e42.key.isEqual(t.key) && Ye(e42, t, this.localWriteTime);
                 }
                 applyToLocalDocumentSet(t) {
                     this.mutations.forEach((e)=>{
@@ -2785,19 +2784,19 @@
                     return new ii(this.target, this.targetId, this.purpose, this.sequenceNumber, this.snapshotVersion, t, this.resumeToken);
                 }
             }
-            function fi(t, e44) {
-                const n = (e44.baseMutations || []).map((e)=>is(t.Wt, e)
+            function fi(t, e43) {
+                const n = (e43.baseMutations || []).map((e)=>is(t.Wt, e)
                 );
-                for(let t80 = 0; t80 < e44.mutations.length - 1; ++t80){
-                    const n = e44.mutations[t80];
-                    if (t80 + 1 < e44.mutations.length && void 0 !== e44.mutations[t80 + 1].transform) {
-                        const s = e44.mutations[t80 + 1];
-                        n.updateTransforms = s.transform.fieldTransforms, e44.mutations.splice(t80 + 1, 1), ++t80;
+                for(let t80 = 0; t80 < e43.mutations.length - 1; ++t80){
+                    const n = e43.mutations[t80];
+                    if (t80 + 1 < e43.mutations.length && void 0 !== e43.mutations[t80 + 1].transform) {
+                        const s = e43.mutations[t80 + 1];
+                        n.updateTransforms = s.transform.fieldTransforms, e43.mutations.splice(t80 + 1, 1), ++t80;
                     }
                 }
-                const s = e44.mutations.map((e)=>is(t.Wt, e)
-                ), i = it.fromMillis(e44.localWriteTimeMs);
-                return new ni(e44.batchId, i, n, s);
+                const s = e43.mutations.map((e)=>is(t.Wt, e)
+                ), i = it.fromMillis(e43.localWriteTimeMs);
+                return new ni(e43.batchId, i, n, s);
             }
             class Ri {
                 constructor(t, e, n){
@@ -2834,15 +2833,15 @@
                     }).next(()=>e
                     );
                 }
-                addMutationBatch(t81, e45, n18, s7) {
+                addMutationBatch(t81, e44, n18, s7) {
                     const i3 = Di(t81), r = Si(t81);
                     return r.add({}).next((o)=>{
                         "number" == typeof o || L();
-                        const c = new ni(o, e45, n18, s7), a = function(t, e46, n) {
+                        const c = new ni(o, e44, n18, s7), a = function(t, e45, n) {
                             const s = n.baseMutations.map((e)=>ss(t.Wt, e)
                             ), i = n.mutations.map((e)=>ss(t.Wt, e)
                             );
-                            return new Vs(e46, n.batchId, n.localWriteTime.toMillis(), s, i);
+                            return new Vs(e45, n.batchId, n.localWriteTime.toMillis(), s, i);
                         }(this.N, this.userId, c), u = [];
                         let h = new gn((t, e)=>et(t.canonicalString(), e.canonicalString())
                         );
@@ -2871,8 +2870,8 @@
                         return null;
                     });
                 }
-                getNextMutationBatchAfterBatchId(t, e47) {
-                    const n = e47 + 1, s8 = IDBKeyRange.lowerBound([
+                getNextMutationBatchAfterBatchId(t, e46) {
+                    const n = e46 + 1, s8 = IDBKeyRange.lowerBound([
                         this.userId,
                         n
                     ]);
@@ -2886,14 +2885,14 @@
                     );
                 }
                 getHighestUnacknowledgedBatchId(t) {
-                    const e48 = IDBKeyRange.upperBound([
+                    const e47 = IDBKeyRange.upperBound([
                         this.userId,
                         Number.POSITIVE_INFINITY, 
                     ]);
                     let n = -1;
                     return Si(t).Kt({
                         index: Vs.userMutationsIndex,
-                        range: e48,
+                        range: e47,
                         reverse: !0
                     }, (t, e, s)=>{
                         n = e.batchId, s.done();
@@ -2926,10 +2925,10 @@
                     }).next(()=>i
                     );
                 }
-                getAllMutationBatchesAffectingDocumentKeys(t88, e49) {
+                getAllMutationBatchesAffectingDocumentKeys(t88, e48) {
                     let n = new gn(et);
                     const s = [];
-                    return e49.forEach((e)=>{
+                    return e48.forEach((e)=>{
                         const i4 = Ss.prefixForPath(this.userId, e.path), r1 = IDBKeyRange.lowerBound(i4), o1 = Di(t88).Kt({
                             range: r1
                         }, (t, s, i)=>{
@@ -2951,9 +2950,9 @@
                     }).next(()=>this.Zt(t89, o)
                     );
                 }
-                Zt(t90, e50) {
+                Zt(t90, e49) {
                     const n = [], s = [];
-                    return e50.forEach((e)=>{
+                    return e49.forEach((e)=>{
                         s.push(Si(t90).get(e).next((t)=>{
                             if (null === t) throw L();
                             t.userId === this.userId || L(), n.push(fi(this.N, t));
@@ -2961,7 +2960,7 @@
                     }), js.waitFor(s).next(()=>n
                     );
                 }
-                removeMutationBatch(t92, e51) {
+                removeMutationBatch(t92, e50) {
                     return (function(t, e, n20) {
                         const s = t.store(Vs.store), i = t.store(Ss.store), r = [], o = IDBKeyRange.only(n20.batchId);
                         let c = 0;
@@ -2979,8 +2978,8 @@
                         }
                         return js.waitFor(r).next(()=>u
                         );
-                    })(t92.Qt, this.userId, e51).next((n)=>(t92.addOnCommittedListener(()=>{
-                            this.te(e51.batchId);
+                    })(t92.Qt, this.userId, e50).next((n)=>(t92.addOnCommittedListener(()=>{
+                            this.te(e50.batchId);
                         }), js.forEach(n, (e)=>this.referenceDelegate.markPotentiallyOrphaned(t92, e)
                         ))
                     );
@@ -2989,8 +2988,8 @@
                     delete this.Jt[t];
                 }
                 performConsistencyCheck(t93) {
-                    return this.checkEmpty(t93).next((e52)=>{
-                        if (!e52) return js.resolve();
+                    return this.checkEmpty(t93).next((e51)=>{
+                        if (!e51) return js.resolve();
                         const n21 = IDBKeyRange.lowerBound(Ss.prefixForUser(this.userId)), s = [];
                         return Di(t93).Kt({
                             range: n21
@@ -3058,7 +3057,7 @@
                 get(t) {
                     const e = this.mapKeyFn(t), n = this.inner[e];
                     if (void 0 !== n) {
-                        for (const [e53, s] of n)if (this.equalsFn(e53, t)) return s;
+                        for (const [e52, s] of n)if (this.equalsFn(e52, t)) return s;
                     }
                 }
                 has(t) {
@@ -3090,7 +3089,7 @@
                 }
                 forEach(t) {
                     ct(this.inner, (e, n)=>{
-                        for (const [e54, s] of n)t(e54, s);
+                        for (const [e53, s] of n)t(e53, s);
                     });
                 }
                 isEmpty() {
@@ -3140,8 +3139,8 @@
                     return this.In.getAllMutationBatchesAffectingDocumentKey(t, e).next((n)=>this.Rn(t, e, n)
                     );
                 }
-                Rn(t96, e55, n) {
-                    return this.He.getEntry(t96, e55).next((t)=>{
+                Rn(t96, e54, n) {
+                    return this.He.getEntry(t96, e54).next((t)=>{
                         for (const e of n)e.applyToLocalView(t);
                         return t;
                     });
@@ -3151,8 +3150,8 @@
                         for (const t97 of e)t97.applyToLocalView(n);
                     });
                 }
-                Pn(t, e56) {
-                    return this.He.getEntries(t, e56).next((e)=>this.vn(t, e).next(()=>e
+                Pn(t, e55) {
+                    return this.He.getEntries(t, e55).next((e)=>this.vn(t, e).next(()=>e
                         )
                     );
                 }
@@ -3164,18 +3163,18 @@
                     var t99;
                     return (t99 = e, Pt.isDocumentKey(t99.path) && null === t99.collectionGroup && 0 === t99.filters.length) ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
                 }
-                Vn(t100, e57) {
-                    return this.An(t100, new Pt(e57)).next((t)=>{
+                Vn(t100, e56) {
+                    return this.An(t100, new Pt(e56)).next((t)=>{
                         let e = En;
                         return t.isFoundDocument() && (e = e.insert(t.key, t)), e;
                     });
                 }
-                Sn(t101, e59, n) {
-                    const s = e59.collectionGroup;
+                Sn(t101, e58, n) {
+                    const s = e58.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t101, s).next((r4)=>js.forEach(r4, (r)=>{
-                            var t102, e58;
-                            const o = (t102 = e59, e58 = r.child(s), new fe(e58, null, t102.explicitOrderBy.slice(), t102.filters.slice(), t102.limit, t102.limitType, t102.startAt, t102.endAt));
+                            var t102, e57;
+                            const o = (t102 = e58, e57 = r.child(s), new fe(e57, null, t102.explicitOrderBy.slice(), t102.filters.slice(), t102.limit, t102.limitType, t102.startAt, t102.endAt));
                             return this.Dn(t101, o, n).next((t103)=>{
                                 t103.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -3185,10 +3184,10 @@
                         )
                     );
                 }
-                Dn(t105, e60, n22) {
+                Dn(t105, e59, n22) {
                     let s, i6;
-                    return this.He.getDocumentsMatchingQuery(t105, e60, n22).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t105, e60))
-                    ).next((e61)=>(i6 = e61, this.Cn(t105, i6, s).next((t)=>{
+                    return this.He.getDocumentsMatchingQuery(t105, e59, n22).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t105, e59))
+                    ).next((e60)=>(i6 = e60, this.Cn(t105, i6, s).next((t)=>{
                             for (const t104 of (s = t, i6))for (const e of t104.mutations){
                                 const n = e.key;
                                 let i = s.get(n);
@@ -3196,13 +3195,13 @@
                             }
                         }))
                     ).next(()=>(s.forEach((t, n)=>{
-                            Pe(e60, n) || (s = s.remove(t));
+                            Pe(e59, n) || (s = s.remove(t));
                         }), s)
                     );
                 }
-                Cn(t107, e63, n) {
+                Cn(t107, e62, n) {
                     let s = Pn();
-                    for (const t106 of e63)for (const e62 of t106.mutations)e62 instanceof nn && null === n.get(e62.key) && (s = s.add(e62.key));
+                    for (const t106 of e62)for (const e61 of t106.mutations)e61 instanceof nn && null === n.get(e61.key) && (s = s.add(e61.key));
                     let i = n;
                     return this.He.getEntries(t107, s).next((t108)=>(t108.forEach((t, e)=>{
                             e.isFoundDocument() && (i = i.insert(t, e));
@@ -3230,11 +3229,11 @@
                 $n(t) {
                     this.On = t;
                 }
-                getDocumentsMatchingQuery(t111, e64, n, s) {
+                getDocumentsMatchingQuery(t111, e63, n, s) {
                     var t110;
-                    return 0 === (t110 = e64).filters.length && null === t110.limit && null == t110.startAt && null == t110.endAt && (0 === t110.explicitOrderBy.length || 1 === t110.explicitOrderBy.length && t110.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t111, e64) : this.On.Pn(t111, s).next((i)=>{
-                        const r = this.Mn(e64, i);
-                        return (_e(e64) || me(e64)) && this.Ln(e64.limitType, r, s, n) ? this.Fn(t111, e64) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e64)), this.On.getDocumentsMatchingQuery(t111, e64, n).next((t)=>(r.forEach((e)=>{
+                    return 0 === (t110 = e63).filters.length && null === t110.limit && null == t110.startAt && null == t110.endAt && (0 === t110.explicitOrderBy.length || 1 === t110.explicitOrderBy.length && t110.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t111, e63) : this.On.Pn(t111, s).next((i)=>{
+                        const r = this.Mn(e63, i);
+                        return (_e(e63) || me(e63)) && this.Ln(e63.limitType, r, s, n) ? this.Fn(t111, e63) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e63)), this.On.getDocumentsMatchingQuery(t111, e63, n).next((t)=>(r.forEach((e)=>{
                                 t = t.insert(e.key, e);
                             }), t)
                         ));
@@ -3265,17 +3264,17 @@
                     );
                 }
             }
-            async function hr(t113, e67) {
+            async function hr(t113, e66) {
                 const n23 = t113;
                 let s10 = n23.In, i = n23.Qn;
                 const r5 = await n23.persistence.runTransaction("Handle user change", "readonly", (t115)=>{
                     let r;
-                    return n23.In.getAllMutationBatches(t115).next((o)=>(r = o, s10 = n23.persistence.getMutationQueue(e67), i = new rr(n23.jn, s10, n23.persistence.getIndexManager()), s10.getAllMutationBatches(t115))
+                    return n23.In.getAllMutationBatches(t115).next((o)=>(r = o, s10 = n23.persistence.getMutationQueue(e66), i = new rr(n23.jn, s10, n23.persistence.getIndexManager()), s10.getAllMutationBatches(t115))
                     ).next((e)=>{
                         const n = [], s = [];
                         let o = Pn();
-                        for (const t116 of r)for (const e65 of (n.push(t116.batchId), t116.mutations))o = o.add(e65.key);
-                        for (const t114 of e)for (const e66 of (s.push(t114.batchId), t114.mutations))o = o.add(e66.key);
+                        for (const t116 of r)for (const e64 of (n.push(t116.batchId), t116.mutations))o = o.add(e64.key);
+                        for (const t114 of e)for (const e65 of (s.push(t114.batchId), t114.mutations))o = o.add(e65.key);
                         return i.Pn(t115, o).next((t)=>({
                                 Wn: t,
                                 removedBatchIds: n,
@@ -3307,17 +3306,17 @@
                 }
                 s.Un = s.Un.remove(e), s.qn.delete(i.target);
             }
-            function yr(t120, e68, n24) {
+            function yr(t120, e67, n24) {
                 const s11 = t120;
                 let i7 = rt.min(), r = Pn();
                 return s11.persistence.runTransaction("Execute query", "readonly", (t121)=>(function(t, e, n) {
                         const s = t, i = s.qn.get(n);
                         return void 0 !== i ? js.resolve(s.Un.get(i)) : s.ze.getTargetData(e, n);
-                    })(s11, t121, Ee(e68)).next((e)=>{
+                    })(s11, t121, Ee(e67)).next((e)=>{
                         if (e) return i7 = e.lastLimboFreeSnapshotVersion, s11.ze.getMatchingKeysForTargetId(t121, e.targetId).next((t)=>{
                             r = t;
                         });
-                    }).next(()=>s11.Bn.getDocumentsMatchingQuery(t121, e68, n24 ? i7 : rt.min(), n24 ? r : Pn())
+                    }).next(()=>s11.Bn.getDocumentsMatchingQuery(t121, e67, n24 ? i7 : rt.min(), n24 ? r : Pn())
                     ).next((t)=>({
                             documents: t,
                             Gn: r
@@ -3400,7 +3399,7 @@
                     const i = this.fs;
                     this.fs++, this.In.length > 0 && this.In[this.In.length - 1];
                     const r = new ni(i, e, n, s);
-                    for (const e69 of (this.In.push(r), s))this.ds = this.ds.add(new Pr(e69.key, i)), this.Ht.addToCollectionParentIndex(t, e69.key.path.popLast());
+                    for (const e68 of (this.In.push(r), s))this.ds = this.ds.add(new Pr(e68.key, i)), this.Ht.addToCollectionParentIndex(t, e68.key.path.popLast());
                     return js.resolve(r);
                 }
                 lookupMutationBatch(t, e) {
@@ -3416,8 +3415,8 @@
                 getAllMutationBatches(t) {
                     return js.resolve(this.In.slice());
                 }
-                getAllMutationBatchesAffectingDocumentKey(t126, e70) {
-                    const n = new Pr(e70, 0), s = new Pr(e70, Number.POSITIVE_INFINITY), i = [];
+                getAllMutationBatchesAffectingDocumentKey(t126, e69) {
+                    const n = new Pr(e69, 0), s = new Pr(e69, Number.POSITIVE_INFINITY), i = [];
                     return this.ds.forEachInRange([
                         n,
                         s
@@ -3426,9 +3425,9 @@
                         i.push(e);
                     }), js.resolve(i);
                 }
-                getAllMutationBatchesAffectingDocumentKeys(t127, e71) {
+                getAllMutationBatchesAffectingDocumentKeys(t127, e70) {
                     let n = new gn(et);
-                    return e71.forEach((t128)=>{
+                    return e70.forEach((t128)=>{
                         const e = new Pr(t128, 0), s = new Pr(t128, Number.POSITIVE_INFINITY);
                         this.ds.forEachInRange([
                             e,
@@ -3438,8 +3437,8 @@
                         });
                     }), js.resolve(this.gs(n));
                 }
-                getAllMutationBatchesAffectingQuery(t129, e72) {
-                    const n = e72.path, s = n.length + 1;
+                getAllMutationBatchesAffectingQuery(t129, e71) {
+                    const n = e71.path, s = n.length + 1;
                     let i = n;
                     Pt.isDocumentKey(i) || (i = i.child(""));
                     const r = new Pr(new Pt(i), 0);
@@ -3505,9 +3504,9 @@
                     const n = this.docs.get(e);
                     return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
                 }
-                getEntries(t131, e73) {
+                getEntries(t131, e72) {
                     let n = pn;
-                    return e73.forEach((t)=>{
+                    return e72.forEach((t)=>{
                         const e = this.docs.get(t);
                         n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
                     }), js.resolve(n);
@@ -3551,7 +3550,7 @@
                 }
             }
             class Cr {
-                constructor(t133, e74){
+                constructor(t133, e73){
                     this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t133(this), this.ze = new class {
                         constructor(t134){
                             this.persistence = t134, this.Es = new ji((t)=>Wt(t)
@@ -3605,10 +3604,10 @@
                         addMatchingKeys(t, e, n) {
                             return this.As.ss(e, n), js.resolve();
                         }
-                        removeMatchingKeys(t, e75, n) {
-                            this.As.os(e75, n);
+                        removeMatchingKeys(t, e74, n) {
+                            this.As.os(e74, n);
                             const s = this.persistence.referenceDelegate, i = [];
-                            return s && e75.forEach((e)=>{
+                            return s && e74.forEach((e)=>{
                                 i.push(s.markPotentiallyOrphaned(t, e));
                             }), js.waitFor(i);
                         }
@@ -3654,7 +3653,7 @@
                         constructor(t){
                             this.Wt = t;
                         }
-                    }(e74), this.Je = new class {
+                    }(e73), this.Je = new class {
                         constructor(t){
                             this.N = t, this.Yn = new Map(), this.Xn = new Map();
                         }
@@ -3672,15 +3671,15 @@
                         getNamedQuery(t, e) {
                             return js.resolve(this.Xn.get(e));
                         }
-                        saveNamedQuery(t139, e79) {
+                        saveNamedQuery(t139, e78) {
                             var t135;
-                            return this.Xn.set(e79.name, {
-                                name: (t135 = e79).name,
+                            return this.Xn.set(e78.name, {
+                                name: (t135 = e78).name,
                                 query: function(t140) {
-                                    var t136, e80;
-                                    const e76 = function(t141) {
-                                        var t137, t138, e81, n, s, i, o, c;
-                                        let e77 = function(t) {
+                                    var t136, e79;
+                                    const e75 = function(t141) {
+                                        var t137, t138, e80, n, s, i, o, c;
+                                        let e76 = function(t) {
                                             const e = Wn(t);
                                             return 4 === e.length ? ht.emptyPath() : Xn(e);
                                         }(t141.parent);
@@ -3689,7 +3688,7 @@
                                         if (s12 > 0) {
                                             1 === s12 || L();
                                             const t = n25.from[0];
-                                            t.allDescendants ? i8 = t.collectionId : e77 = e77.child(t.collectionId);
+                                            t.allDescendants ? i8 = t.collectionId : e76 = e76.child(t.collectionId);
                                         }
                                         let r = [];
                                         n25.where && (r = hs(n25.where));
@@ -3707,17 +3706,17 @@
                                                 }
                                             }(t142.direction));
                                         }));
-                                        let c1 = null, e78;
-                                        n25.limit && (c1 = null == (e78 = "object" == typeof (t137 = n25.limit) ? t137.value : t137) ? null : e78);
+                                        let c1 = null, e77;
+                                        n25.limit && (c1 = null == (e77 = "object" == typeof (t137 = n25.limit) ? t137.value : t137) ? null : e77);
                                         let a = null;
                                         n25.startAt && (a = fs(n25.startAt));
                                         let u = null;
-                                        return n25.endAt && (u = fs(n25.endAt)), t138 = e77, e81 = i8, n = o2, s = r, i = c1, o = a, c = u, new fe(t138, e81, n, s, i, "F", o, c);
+                                        return n25.endAt && (u = fs(n25.endAt)), t138 = e76, e80 = i8, n = o2, s = r, i = c1, o = a, c = u, new fe(t138, e80, n, s, i, "F", o, c);
                                     }({
                                         parent: t140.parent,
                                         structuredQuery: t140.structuredQuery
                                     });
-                                    return "LAST" === t140.limitType ? (t136 = e76, e80 = e76.limit, new fe(t136.path, t136.collectionGroup, t136.explicitOrderBy.slice(), t136.filters.slice(), e80, "L", t136.startAt, t136.endAt)) : e76;
+                                    return "LAST" === t140.limitType ? (t136 = e75, e79 = e75.limit, new fe(t136.path, t136.collectionGroup, t136.explicitOrderBy.slice(), t136.filters.slice(), e79, "L", t136.startAt, t136.endAt)) : e75;
                                 }(t135.bundledQuery),
                                 readTime: jn(t135.readTime)
                             }), js.resolve();
@@ -4026,8 +4025,8 @@
                     const e = t.ssl ? "https" : "http";
                     this.Fi = e + "://" + t.host, this.Mi = "projects/" + this.databaseId.projectId + "/databases/" + this.databaseId.database + "/documents";
                 }
-                Li(t159, e91, n, s) {
-                    const i = this.Bi(t159, e91);
+                Li(t159, e90, n, s) {
+                    const i = this.Bi(t159, e90);
                     $("RestConnection", "Sending: ", i, n);
                     const r = {};
                     return this.Ui(r, s), this.qi(t159, i, r, n).then((t)=>($("RestConnection", "Received: ", t), t)
@@ -4049,15 +4048,15 @@
                 constructor(t){
                     super(t), this.forceLongPolling = t.forceLongPolling, this.autoDetectLongPolling = t.autoDetectLongPolling, this.useFetchStreams = t.useFetchStreams;
                 }
-                qi(t150, e82, n26, s) {
+                qi(t150, e81, n26, s) {
                     return new Promise((i, r)=>{
                         const o = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.JJ();
                         o.listenOnce(_firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.tw.COMPLETE, ()=>{
                             try {
                                 switch(o.getLastErrorCode()){
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.jK.NO_ERROR:
-                                        const e85 = o.getResponseJson();
-                                        $("Connection", "XHR received:", JSON.stringify(e85)), i(e85);
+                                        const e84 = o.getResponseJson();
+                                        $("Connection", "XHR received:", JSON.stringify(e84)), i(e84);
                                         break;
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.jK.TIMEOUT:
                                         $("Connection", 'RPC "' + t150 + '" timed out'), r(new j(K.DEADLINE_EXCEEDED, "Request time out"));
@@ -4067,11 +4066,11 @@
                                         if ($("Connection", 'RPC "' + t150 + '" failed with status:', n, "response text:", o.getResponseText()), n > 0) {
                                             const t151 = o.getResponseJson().error;
                                             if (t151 && t151.status && t151.message) {
-                                                const e83 = function(t) {
+                                                const e82 = function(t) {
                                                     const e = t.toLowerCase().replace(/_/g, "-");
                                                     return Object.values(K).indexOf(e) >= 0 ? e : K.UNKNOWN;
                                                 }(t151.status);
-                                                r(new j(e83, t151.message));
+                                                r(new j(e82, t151.message));
                                             } else r(new j(K.UNKNOWN, "Server responded with status " + o.getStatus()));
                                         } else r(new j(K.UNAVAILABLE, "Connection failed."));
                                         break;
@@ -4083,10 +4082,10 @@
                             }
                         });
                         const c = JSON.stringify(s);
-                        o.send(e82, "POST", c, n26, 15);
+                        o.send(e81, "POST", c, n26, 15);
                     });
                 }
-                ji(t154, e87) {
+                ji(t154, e86) {
                     const n27 = [
                         this.Fi,
                         "/",
@@ -4108,7 +4107,7 @@
                         forceLongPolling: this.forceLongPolling,
                         detectBufferingProxy: this.autoDetectLongPolling
                     };
-                    this.useFetchStreams && (r.xmlHttpFactory = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.zI({})), this.Ui(r.initMessageHeaders, e87), (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
+                    this.useFetchStreams && (r.xmlHttpFactory = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.zI({})), this.Ui(r.initMessageHeaders, e86), (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
                     const o = n27.join("");
                     $("Connection", "Creating WebChannel: " + o, r);
                     const c = s13.createWebChannel(o, r);
@@ -4136,19 +4135,19 @@
                     }), g(c, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.ii.EventType.ERROR, (t)=>{
                         u || (u = !0, F("Connection", "WebChannel transport errored:", t), h.$i(new j(K.UNAVAILABLE, "The operation could not be completed")));
                     }), g(c, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.ii.EventType.MESSAGE, (t)=>{
-                        var e90;
+                        var e89;
                         if (!u) {
                             const n = t.data[0];
                             n || L();
-                            const s = n, i = s.error || (null === (e90 = s[0]) || void 0 === e90 ? void 0 : e90.error);
+                            const s = n, i = s.error || (null === (e89 = s[0]) || void 0 === e89 ? void 0 : e89.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
                                 const t157 = i.status;
-                                let e88 = function(t) {
+                                let e87 = function(t) {
                                     const e = hn[t];
                                     if (void 0 !== e) return dn(e);
                                 }(t157), n = i.message;
-                                void 0 === e88 && (e88 = K.INTERNAL, n = "Unknown error status: " + t157 + " with message " + i.message), u = !0, h.$i(new j(e88, n)), c.close();
+                                void 0 === e87 && (e87 = K.INTERNAL, n = "Unknown error status: " + t157 + " with message " + i.message), u = !0, h.$i(new j(e87, n)), c.close();
                             } else $("Connection", "WebChannel received:", n), h.Oi(n);
                         }
                     }), g(i9, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.ju.STAT_EVENT, (t)=>{
@@ -4231,9 +4230,9 @@
                 pr() {}
                 auth() {
                     this.state = 1;
-                    const t160 = this.Tr(this.ir), e92 = this.ir;
+                    const t160 = this.Tr(this.ir), e91 = this.ir;
                     this.credentialsProvider.getToken().then((t)=>{
-                        this.ir === e92 && this.Er(t);
+                        this.ir === e91 && this.Er(t);
                     }, (e)=>{
                         t160(()=>{
                             const t = new j(K.UNKNOWN, "Fetching auth token failed: " + e.message);
@@ -4279,19 +4278,19 @@
                 }
                 onMessage(t164) {
                     this.ar.reset();
-                    const e94 = function(t165, e95) {
+                    const e93 = function(t165, e94) {
                         let n;
-                        if ("targetChange" in e95) {
-                            var t162, t163, e93;
-                            e95.targetChange;
-                            const s = "NO_CHANGE" === (t162 = e95.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t162 ? 1 : "REMOVE" === t162 ? 2 : "CURRENT" === t162 ? 3 : "RESET" === t162 ? 4 : L(), i = e95.targetChange.targetIds || [], r = (t163 = t165, e93 = e95.targetChange.resumeToken, t163.D ? (void 0 === e93 || "string" == typeof e93 || L(), _t.fromBase64String(e93 || "")) : (void 0 === e93 || e93 instanceof Uint8Array || L(), _t.fromUint8Array(e93 || new Uint8Array()))), o = e95.targetChange.cause, c = o && function(t) {
+                        if ("targetChange" in e94) {
+                            var t162, t163, e92;
+                            e94.targetChange;
+                            const s = "NO_CHANGE" === (t162 = e94.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t162 ? 1 : "REMOVE" === t162 ? 2 : "CURRENT" === t162 ? 3 : "RESET" === t162 ? 4 : L(), i = e94.targetChange.targetIds || [], r = (t163 = t165, e92 = e94.targetChange.resumeToken, t163.D ? (void 0 === e92 || "string" == typeof e92 || L(), _t.fromBase64String(e92 || "")) : (void 0 === e92 || e92 instanceof Uint8Array || L(), _t.fromUint8Array(e92 || new Uint8Array()))), o = e94.targetChange.cause, c = o && function(t) {
                                 const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
                                 return new j(e, t.message || "");
                             }(o);
                             n = new xn(s, i, r, c || null);
-                        } else if ("documentChange" in e95) {
-                            e95.documentChange;
-                            const s = e95.documentChange;
+                        } else if ("documentChange" in e94) {
+                            e94.documentChange;
+                            const s = e94.documentChange;
                             s.document, s.document.name, s.document.updateTime;
                             const i = zn(t165, s.document.name), r = jn(s.document.updateTime), o = new Ut({
                                 mapValue: {
@@ -4299,23 +4298,23 @@
                                 }
                             }), c = Kt.newFoundDocument(i, r, o), a = s.targetIds || [], u = s.removedTargetIds || [];
                             n = new Cn(a, u, c.key, c);
-                        } else if ("documentDelete" in e95) {
-                            e95.documentDelete;
-                            const s = e95.documentDelete;
+                        } else if ("documentDelete" in e94) {
+                            e94.documentDelete;
+                            const s = e94.documentDelete;
                             s.document;
                             const i = zn(t165, s.document), r = s.readTime ? jn(s.readTime) : rt.min(), o = Kt.newNoDocument(i, r), c = s.removedTargetIds || [];
                             n = new Cn([], c, o.key, o);
-                        } else if ("documentRemove" in e95) {
-                            e95.documentRemove;
-                            const s = e95.documentRemove;
+                        } else if ("documentRemove" in e94) {
+                            e94.documentRemove;
+                            const s = e94.documentRemove;
                             s.document;
                             const i = zn(t165, s.document), r = s.removedTargetIds || [];
                             n = new Cn([], r, i, null);
                         } else {
-                            if (!("filter" in e95)) return L();
+                            if (!("filter" in e94)) return L();
                             {
-                                e95.filter;
-                                const t = e95.filter;
+                                e94.filter;
+                                const t = e94.filter;
                                 t.targetId;
                                 const s = t.count || 0, i = new un(s), r = t.targetId;
                                 n = new Nn(r, i);
@@ -4327,13 +4326,13 @@
                         const e = t.targetChange;
                         return e.targetIds && e.targetIds.length ? rt.min() : e.readTime ? jn(e.readTime) : rt.min();
                     }(t164);
-                    return this.listener.Rr(e94, n28);
+                    return this.listener.Rr(e93, n28);
                 }
                 br(t166) {
-                    const e96 = {};
-                    e96.database = Yn(this.N), e96.addTarget = function(t168, e98) {
+                    const e95 = {};
+                    e95.database = Yn(this.N), e95.addTarget = function(t168, e97) {
                         let n30;
-                        const s14 = e98.target;
+                        const s14 = e97.target;
                         return (n30 = Ht(s14) ? {
                             documents: {
                                 documents: [
@@ -4341,14 +4340,14 @@
                                 ]
                             }
                         } : {
-                            query: function(t169, e99) {
-                                var t167, e97;
+                            query: function(t169, e98) {
+                                var t167, e96;
                                 const n = {
                                     structuredQuery: {}
-                                }, s = e99.path;
-                                null !== e99.collectionGroup ? (n.parent = Hn(t169, s), n.structuredQuery.from = [
+                                }, s = e98.path;
+                                null !== e98.collectionGroup ? (n.parent = Hn(t169, s), n.structuredQuery.from = [
                                     {
-                                        collectionId: e99.collectionGroup,
+                                        collectionId: e98.collectionGroup,
                                         allDescendants: !0
                                     }, 
                                 ]) : (n.parent = Hn(t169, s.popLast()), n.structuredQuery.from = [
@@ -4401,7 +4400,7 @@
                                             filters: e
                                         }
                                     };
-                                }(e99.filters);
+                                }(e98.filters);
                                 i && (n.structuredQuery.where = i);
                                 const r = function(t173) {
                                     if (0 !== t173.length) return t173.map((t)=>{
@@ -4411,16 +4410,16 @@
                                             direction: Mn[t172.dir]
                                         };
                                     });
-                                }(e99.orderBy);
+                                }(e98.orderBy);
                                 r && (n.structuredQuery.orderBy = r);
-                                const o = (t167 = t169, e97 = e99.limit, t167.D || null == e97 ? e97 : {
-                                    value: e97
+                                const o = (t167 = t169, e96 = e98.limit, t167.D || null == e96 ? e96 : {
+                                    value: e96
                                 });
-                                return null !== o && (n.structuredQuery.limit = o), e99.startAt && (n.structuredQuery.startAt = ls(e99.startAt)), e99.endAt && (n.structuredQuery.endAt = ls(e99.endAt)), n;
+                                return null !== o && (n.structuredQuery.limit = o), e98.startAt && (n.structuredQuery.startAt = ls(e98.startAt)), e98.endAt && (n.structuredQuery.endAt = ls(e98.endAt)), n;
                             }(t168, s14)
-                        }).targetId = e98.targetId, e98.resumeToken.approximateByteSize() > 0 ? n30.resumeToken = qn(t168, e98.resumeToken) : e98.snapshotVersion.compareTo(rt.min()) > 0 && (n30.readTime = Un(t168, e98.snapshotVersion.toTimestamp())), n30;
+                        }).targetId = e97.targetId, e97.resumeToken.approximateByteSize() > 0 ? n30.resumeToken = qn(t168, e97.resumeToken) : e97.snapshotVersion.compareTo(rt.min()) > 0 && (n30.readTime = Un(t168, e97.snapshotVersion.toTimestamp())), n30;
                     }(this.N, t166);
-                    const n29 = function(t, e100) {
+                    const n29 = function(t, e99) {
                         const n = function(t, e) {
                             switch(e){
                                 case 0:
@@ -4432,12 +4431,12 @@
                                 default:
                                     return L();
                             }
-                        }(0, e100.purpose);
+                        }(0, e99.purpose);
                         return null == n ? null : {
                             "goog-listen-tags": n
                         };
                     }(this.N, t166);
-                    n29 && (e96.labels = n29), this.mr(e96);
+                    n29 && (e95.labels = n29), this.mr(e95);
                 }
                 Pr(t) {
                     const e = {};
@@ -4461,15 +4460,15 @@
                     return this.sr.ji("Write", t);
                 }
                 onMessage(t176) {
-                    var t174, e102;
+                    var t174, e101;
                     if (t176.streamToken || L(), this.lastStreamToken = t176.streamToken, this.vr) {
                         this.ar.reset();
-                        const e101 = (t174 = t176.writeResults, e102 = t176.commitTime, t174 && t174.length > 0 ? (void 0 !== e102 || L(), t174.map((t)=>{
+                        const e100 = (t174 = t176.writeResults, e101 = t176.commitTime, t174 && t174.length > 0 ? (void 0 !== e101 || L(), t174.map((t)=>{
                             var t175, e;
                             let n;
-                            return t175 = t, e = e102, (n = t175.updateTime ? jn(t175.updateTime) : jn(e)).isEqual(rt.min()) && (n = jn(e)), new We(n, t175.transformResults || []);
+                            return t175 = t, e = e101, (n = t175.updateTime ? jn(t175.updateTime) : jn(e)).isEqual(rt.min()) && (n = jn(e)), new We(n, t175.transformResults || []);
                         })) : []), n31 = jn(t176.commitTime);
-                        return this.listener.Dr(n31, e101);
+                        return this.listener.Dr(n31, e100);
                     }
                     return t176.writeResults && 0 !== t176.writeResults.length && L(), this.vr = !0, this.listener.Cr();
                 }
@@ -4511,8 +4510,8 @@
                 }
             }
             class io {
-                constructor(t180, e103, n, s, i){
-                    this.localStore = t180, this.datastore = e103, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map(), this.Wr = new Set(), this.Gr = [], this.zr = i, this.zr.Ti((t181)=>{
+                constructor(t180, e102, n, s, i){
+                    this.localStore = t180, this.datastore = e102, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map(), this.Wr = new Set(), this.Gr = [], this.zr = i, this.zr.Ti((t181)=>{
                         n.enqueueAndForget(async ()=>{
                             wo(this) && ($("RemoteStore", "Restarting streams for network reachability change."), await async function(t) {
                                 const e = t;
@@ -4590,23 +4589,23 @@
             async function go(t, e) {
                 _o(t), fo(t) ? (t.Hr.qr(e), lo(t)) : t.Hr.set("Unknown");
             }
-            async function yo(t182, e104, n33) {
-                if (t182.Hr.set("Online"), e104 instanceof xn && 2 === e104.state && e104.cause) try {
+            async function yo(t182, e103, n33) {
+                if (t182.Hr.set("Online"), e103 instanceof xn && 2 === e103.state && e103.cause) try {
                     await async function(t, e) {
                         const n = e.cause;
                         for (const s of e.targetIds)t.Qr.has(s) && (await t.remoteSyncer.rejectListen(s, n), t.Qr.delete(s), t.Jr.removeTarget(s));
-                    }(t182, e104);
+                    }(t182, e103);
                 } catch (n34) {
-                    $("RemoteStore", "Failed to remove targets %s: %s ", e104.targetIds.join(","), n34), await po(t182, n34);
+                    $("RemoteStore", "Failed to remove targets %s: %s ", e103.targetIds.join(","), n34), await po(t182, n34);
                 }
-                else if (e104 instanceof Cn ? t182.Jr.rt(e104) : e104 instanceof Nn ? t182.Jr.ft(e104) : t182.Jr.at(e104), !n33.isEqual(rt.min())) try {
-                    const e105 = await fr(t182.localStore);
-                    n33.compareTo(e105) >= 0 && await function(t, e107) {
-                        const n35 = t.Jr._t(e107);
+                else if (e103 instanceof Cn ? t182.Jr.rt(e103) : e103 instanceof Nn ? t182.Jr.ft(e103) : t182.Jr.at(e103), !n33.isEqual(rt.min())) try {
+                    const e104 = await fr(t182.localStore);
+                    n33.compareTo(e104) >= 0 && await function(t, e106) {
+                        const n35 = t.Jr._t(e106);
                         return n35.targetChanges.forEach((n, s)=>{
                             if (n.resumeToken.approximateByteSize() > 0) {
                                 const i = t.Qr.get(s);
-                                i && t.Qr.set(s, i.withResumeToken(n.resumeToken, e107));
+                                i && t.Qr.set(s, i.withResumeToken(n.resumeToken, e106));
                             }
                         }), n35.targetMismatches.forEach((e)=>{
                             const n = t.Qr.get(e);
@@ -4672,8 +4671,8 @@
                 await To(t, ()=>t.remoteSyncer.applySuccessfulWrite(i)
                 ), await Eo(t);
             }
-            async function So(t184, e108) {
-                e108 && No(t184).Vr && await async function(t185, e) {
+            async function So(t184, e107) {
+                e107 && No(t184).Vr && await async function(t185, e) {
                     var n;
                     if (function(t) {
                         switch(t){
@@ -4703,7 +4702,7 @@
                         No(t185).dr(), await To(t185, ()=>t185.remoteSyncer.rejectFailedWrite(n.batchId, e)
                         ), await Eo(t185);
                     }
-                }(t184, e108), Ro(t184) && bo(t184);
+                }(t184, e107), Ro(t184) && bo(t184);
             }
             async function Do(t, e) {
                 const n = t;
@@ -4989,9 +4988,9 @@
                 get Ro() {
                     return this.po;
                 }
-                bo(t195, e109) {
-                    const n = e109 ? e109.Po : new Oo(), s = e109 ? e109.Ao : this.Ao;
-                    let i = e109 ? e109.mutatedKeys : this.mutatedKeys, r = s, o = !1;
+                bo(t195, e108) {
+                    const n = e108 ? e108.Po : new Oo(), s = e108 ? e108.Ao : this.Ao;
+                    let i = e108 ? e108.mutatedKeys : this.mutatedKeys, r = s, o = !1;
                     const c = _e(this.query) && s.size === this.query.limit ? s.last() : null, a = me(this.query) && s.size === this.query.limit ? s.first() : null;
                     if (t195.inorderTraversal((t, e)=>{
                         const u = s.get(t), h = Pe(this.query, e) ? e : null, l = !!u && this.mutatedKeys.has(u.key), f = !!h && (h.hasLocalMutations || this.mutatedKeys.has(h.key) && h.hasCommittedMutations);
@@ -5026,11 +5025,11 @@
                 vo(t, e) {
                     return t.hasLocalMutations && e.hasCommittedMutations && !e.hasLocalMutations;
                 }
-                applyChanges(t196, e110, n36) {
+                applyChanges(t196, e109, n36) {
                     const s = this.Ao;
                     this.Ao = t196.Ao, this.mutatedKeys = t196.mutatedKeys;
                     const i = t196.Po.eo();
-                    i.sort((t197, e111)=>(function(t198, e) {
+                    i.sort((t197, e110)=>(function(t198, e) {
                             const n = (t)=>{
                                 switch(t){
                                     case 0:
@@ -5045,9 +5044,9 @@
                                 }
                             };
                             return n(t198) - n(e);
-                        })(t197.type, e111.type) || this.Io(t197.doc, e111.doc)
+                        })(t197.type, e110.type) || this.Io(t197.doc, e110.doc)
                     ), this.Vo(n36);
-                    const r = e110 ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 : 0, c = o !== this.To;
+                    const r = e109 ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 : 0, c = o !== this.To;
                     return (this.To = o, 0 !== i.length || c) ? {
                         snapshot: new Fo(this.query, t196.Ao, s, i, t196.mutatedKeys, 0 === o, c, !1),
                         Do: r
@@ -5114,10 +5113,10 @@
                     return !0 === this.Qo;
                 }
             }
-            async function nc(t203, e112) {
+            async function nc(t203, e111) {
                 const n37 = Cc(t203);
                 let s15, i10;
-                const r = n37.Oo.get(e112);
+                const r = n37.Oo.get(e111);
                 if (r) s15 = r.targetId, n37.sharedClientState.addLocalQueryTarget(s15), i10 = r.view.xo();
                 else {
                     const t202 = await function(t204, e) {
@@ -5132,25 +5131,25 @@
                             const s = n.Un.get(t.targetId);
                             return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (n.Un = n.Un.insert(t.targetId, t), n.qn.set(e, t.targetId)), t;
                         });
-                    }(n37.localStore, Ee(e112)), r = n37.sharedClientState.addLocalQueryTarget(t202.targetId);
-                    i10 = await sc(n37, e112, s15 = t202.targetId, "current" === r), n37.isPrimaryClient && co(n37.remoteStore, t202);
+                    }(n37.localStore, Ee(e111)), r = n37.sharedClientState.addLocalQueryTarget(t202.targetId);
+                    i10 = await sc(n37, e111, s15 = t202.targetId, "current" === r), n37.isPrimaryClient && co(n37.remoteStore, t202);
                 }
                 return i10;
             }
-            async function sc(t205, e113, n38, s16) {
-                t205.Wo = (e114, n39, s17)=>(async function(t206, e, n, s) {
+            async function sc(t205, e112, n38, s16) {
+                t205.Wo = (e113, n39, s17)=>(async function(t206, e, n, s) {
                         let i = e.view.bo(n);
                         i.Ln && (i = await yr(t206.localStore, e.query, !1).then(({ documents: t  })=>e.view.bo(t, i)
                         ));
                         const r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, t206.isPrimaryClient, r);
                         return mc(t206, e.targetId, o.Do), o.snapshot;
-                    })(t205, e114, n39, s17)
+                    })(t205, e113, n39, s17)
                 ;
-                const i12 = await yr(t205.localStore, e113, !0), r6 = new Xo(e113, i12.Gn), o3 = r6.bo(i12.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n38, s16 && "Offline" !== t205.onlineState), a = r6.applyChanges(o3, t205.isPrimaryClient, c);
+                const i12 = await yr(t205.localStore, e112, !0), r6 = new Xo(e112, i12.Gn), o3 = r6.bo(i12.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n38, s16 && "Offline" !== t205.onlineState), a = r6.applyChanges(o3, t205.isPrimaryClient, c);
                 mc(t205, n38, a.Do);
-                const u = new Zo(e113, n38, r6);
-                return t205.Oo.set(e113, u), t205.Fo.has(n38) ? t205.Fo.get(n38).push(e113) : t205.Fo.set(n38, [
-                    e113
+                const u = new Zo(e112, n38, r6);
+                return t205.Oo.set(e112, u), t205.Fo.has(n38) ? t205.Fo.get(n38).push(e112) : t205.Fo.set(n38, [
+                    e112
                 ]), a.snapshot;
             }
             async function ic(t207, e) {
@@ -5161,40 +5160,40 @@
                     n.sharedClientState.clearQueryState(s.targetId), ao(n.remoteStore, s.targetId), wc(n, s.targetId);
                 }).catch(Fi)) : (wc(n, s.targetId), await gr(n.localStore, s.targetId, !0));
             }
-            async function oc(t210, e115) {
+            async function oc(t210, e114) {
                 const n40 = t210;
                 try {
-                    const t208 = await function(t211, e118) {
-                        const n43 = t211, s19 = e118.snapshotVersion;
+                    const t208 = await function(t211, e117) {
+                        const n43 = t211, s19 = e117.snapshotVersion;
                         let i = n43.Un;
                         return n43.persistence.runTransaction("Apply remote event", "readwrite-primary", (t213)=>{
-                            var t209, e116, n41, s18, i13;
+                            var t209, e115, n41, s18, i13;
                             const r8 = n43.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
                             i = n43.Un;
                             const o4 = [];
-                            e118.targetChanges.forEach((e, r)=>{
+                            e117.targetChanges.forEach((e, r)=>{
                                 const c = i.get(r);
                                 if (!c) return;
                                 o4.push(n43.ze.removeMatchingKeys(t213, e.removedDocuments, r).next(()=>n43.ze.addMatchingKeys(t213, e.addedDocuments, r)
                                 ));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
-                                    var t212, e117, n42;
+                                    var t212, e116, n42;
                                     const u = c.withResumeToken(a, s19).withSequenceNumber(t213.currentSequenceNumber);
-                                    i = i.insert(r, u), t212 = c, e117 = u, n42 = e, ((e117.resumeToken.approximateByteSize() > 0 || L(), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e117.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
+                                    i = i.insert(r, u), t212 = c, e116 = u, n42 = e, ((e116.resumeToken.approximateByteSize() > 0 || L(), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e116.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
                                 }
                             });
                             let c2 = pn, r7;
-                            if (e118.documentUpdates.forEach((s, i)=>{
-                                e118.resolvedLimboDocuments.has(s) && o4.push(n43.persistence.referenceDelegate.updateLimboDocument(t213, s));
-                            }), o4.push((t209 = t213, e116 = r8, n41 = e118.documentUpdates, s18 = s19, i13 = void 0, r7 = Pn(), n41.forEach((t)=>r7 = r7.add(t)
-                            ), e116.getEntries(t209, r7).next((t)=>{
+                            if (e117.documentUpdates.forEach((s, i)=>{
+                                e117.resolvedLimboDocuments.has(s) && o4.push(n43.persistence.referenceDelegate.updateLimboDocument(t213, s));
+                            }), o4.push((t209 = t213, e115 = r8, n41 = e117.documentUpdates, s18 = s19, i13 = void 0, r7 = Pn(), n41.forEach((t)=>r7 = r7.add(t)
+                            ), e115.getEntries(t209, r7).next((t)=>{
                                 let r = pn;
                                 return n41.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i13 ? void 0 : i13.get(n)) || s18;
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e116.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e116.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e115.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e115.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
                                 }), r;
                             })).next((t)=>{
                                 c2 = t;
@@ -5209,21 +5208,21 @@
                             );
                         }).then((t)=>(n43.Un = i, t)
                         );
-                    }(n40.localStore, e115);
-                    e115.targetChanges.forEach((t, e)=>{
+                    }(n40.localStore, e114);
+                    e114.targetChanges.forEach((t, e)=>{
                         const s = n40.Bo.get(e);
                         s && (t.addedDocuments.size + t.modifiedDocuments.size + t.removedDocuments.size <= 1 || L(), t.addedDocuments.size > 0 ? s.ko = !0 : t.modifiedDocuments.size > 0 ? s.ko || L() : t.removedDocuments.size > 0 && (s.ko || L(), s.ko = !1));
-                    }), await pc(n40, t208, e115);
+                    }), await pc(n40, t208, e114);
                 } catch (t) {
                     await Fi(t);
                 }
             }
-            function cc(t, e119, n44) {
+            function cc(t, e118, n44) {
                 const s20 = t;
                 if (s20.isPrimaryClient && 0 === n44 || !s20.isPrimaryClient && 1 === n44) {
                     const t214 = [];
                     s20.Oo.forEach((n, s)=>{
-                        const i = s.view.io(e119);
+                        const i = s.view.io(e118);
                         i.snapshot && t214.push(i.snapshot);
                     }), function(t, e) {
                         const n45 = t;
@@ -5232,7 +5231,7 @@
                         n45.queries.forEach((t, n)=>{
                             for (const t215 of n.listeners)t215.io(e) && (s = !0);
                         }), s && jo(n45);
-                    }(s20.eventManager, e119), t214.length && s20.$o.Rr(t214), s20.onlineState = e119, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e119);
+                    }(s20.eventManager, e118), t214.length && s20.$o.Rr(t214), s20.onlineState = e118, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e118);
                 }
             }
             async function ac(t, e, n) {
@@ -5247,9 +5246,9 @@
                 } else await gr(s.localStore, e, !1).then(()=>wc(s, e, n)
                 ).catch(Fi);
             }
-            function wc(t, e120, n = null) {
-                for (const s of (t.sharedClientState.removeLocalQueryTarget(e120), t.Fo.get(e120)))t.Oo.delete(s), n && t.$o.Go(s, n);
-                t.Fo.delete(e120), t.isPrimaryClient && t.Uo.cs(e120).forEach((e)=>{
+            function wc(t, e119, n = null) {
+                for (const s of (t.sharedClientState.removeLocalQueryTarget(e119), t.Fo.get(e119)))t.Oo.delete(s), n && t.$o.Go(s, n);
+                t.Fo.delete(e119), t.isPrimaryClient && t.Uo.cs(e119).forEach((e)=>{
                     t.Uo.containsKey(e) || _c(t, e);
                 });
             }
@@ -5273,20 +5272,20 @@
                     t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(we(n.path)), s, 2, X.T));
                 }
             }
-            async function pc(t216, e121, n46) {
+            async function pc(t216, e120, n46) {
                 const s21 = t216, i14 = [], r = [], o = [];
                 s21.Oo.isEmpty() || (s21.Oo.forEach((t217, c)=>{
-                    o.push(s21.Wo(c, e121, n46).then((t)=>{
+                    o.push(s21.Wo(c, e120, n46).then((t)=>{
                         if (t) {
                             s21.isPrimaryClient && s21.sharedClientState.updateQueryState(c.targetId, t.fromCache ? "not-current" : "current"), i14.push(t);
                             const e = or.kn(c.targetId, t);
                             r.push(e);
                         }
                     }));
-                }), await Promise.all(o), s21.$o.Rr(i14), await async function(t219, e122) {
+                }), await Promise.all(o), s21.$o.Rr(i14), await async function(t219, e121) {
                     const n = t219;
                     try {
-                        await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e122, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)
+                        await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e121, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)
                                 ).next(()=>js.forEach(e.xn, (s)=>n.persistence.referenceDelegate.removeReference(t, e.targetId, s)
                                     )
                                 )
@@ -5296,7 +5295,7 @@
                         if (!Hs(t)) throw t;
                         $("LocalStore", "Failed to update sequence numbers: " + t);
                     }
-                    for (const t218 of e122){
+                    for (const t218 of e121){
                         const e = t218.targetId;
                         if (!t218.fromCache) {
                             const t = n.Un.get(e), s = t.snapshotVersion, i = t.withLastLimboFreeSnapshotVersion(s);
@@ -5306,14 +5305,14 @@
                 }(s21.localStore, r));
             }
             async function Tc(t222, e) {
-                var t220, e123;
+                var t220, e122;
                 const n = t222;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t221 = await hr(n.localStore, e);
-                    n.currentUser = e, e123 = "'waitForPendingWrites' promise is rejected due to a user change.", (t220 = n).Ko.forEach((t223)=>{
+                    n.currentUser = e, e122 = "'waitForPendingWrites' promise is rejected due to a user change.", (t220 = n).Ko.forEach((t223)=>{
                         t223.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, e123));
+                            t.reject(new j(K.CANCELLED, e122));
                         });
                     }), t220.Ko.clear(), n.sharedClientState.handleUserChange(e, t221.removedBatchIds, t221.addedBatchIds), await pc(n, t221.Wn);
                 }
@@ -5325,8 +5324,8 @@
                     let t = Pn();
                     const s = n.Fo.get(e);
                     if (!s) return t;
-                    for (const e124 of s){
-                        const s = n.Oo.get(e124);
+                    for (const e123 of s){
+                        const s = n.Oo.get(e123);
                         t = t.unionWith(s.view.Ro);
                     }
                     return t;
@@ -5370,19 +5369,19 @@
                 }
                 createDatastore(t) {
                     var s, t226, e, n;
-                    const e125 = Yr(t.databaseInfo.databaseId), n47 = (s = t.databaseInfo, new zr(s));
-                    return t226 = t.credentials, e = n47, n = e125, new no(t226, e, n);
+                    const e124 = Yr(t.databaseInfo.databaseId), n47 = (s = t.databaseInfo, new zr(s));
+                    return t226 = t.credentials, e = n47, n = e124, new no(t226, e, n);
                 }
                 createRemoteStore(t227) {
                     var e, n, s, i, r;
                     return e = this.localStore, n = this.datastore, s = t227.asyncQueue, i = (t)=>cc(this.syncEngine, t, 0)
                     , r = Qr.bt() ? new Qr() : new jr(), new io(e, n, s, i, r);
                 }
-                createSyncEngine(t228, e126) {
+                createSyncEngine(t228, e125) {
                     return function(t, e, n, s, i, r, o) {
                         const c = new ec(t, e, n, s, i, r);
                         return o && (c.Qo = !0), c;
-                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t228.initialUser, t228.maxConcurrentLimboResolutions, e126);
+                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t228.initialUser, t228.maxConcurrentLimboResolutions, e125);
                 }
                 terminate() {
                     return async function(t) {
@@ -5411,8 +5410,8 @@
                 }
             }
             class Kc {
-                constructor(t229, e127, n48){
-                    this.credentials = t229, this.asyncQueue = e127, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
+                constructor(t229, e126, n48){
+                    this.credentials = t229, this.asyncQueue = e126, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
                         static I() {
                             const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
                             let n = "";
@@ -5423,7 +5422,7 @@
                             return n;
                         }
                     }).I(), this.credentialListener = ()=>Promise.resolve()
-                    , this.credentials.start(e127, async (t)=>{
+                    , this.credentials.start(e126, async (t)=>{
                         $("FirestoreClient", "Received user=", t.uid), await this.credentialListener(t), this.user = t;
                     });
                 }
@@ -5466,18 +5465,18 @@
                 }), e.persistence.setDatabaseDeletedListener(()=>t230.terminate()
                 ), t230.offlineComponents = e;
             }
-            async function Qc(t231, e128) {
+            async function Qc(t231, e127) {
                 t231.asyncQueue.verifyOperationInProgress();
                 const n49 = await Wc(t231);
                 $("FirestoreClient", "Initializing OnlineComponentProvider");
                 const s22 = await t231.getConfiguration();
-                await e128.initialize(n49, s22), t231.setCredentialChangeListener((t232)=>(async function(t, e) {
+                await e127.initialize(n49, s22), t231.setCredentialChangeListener((t232)=>(async function(t, e) {
                         const n = t;
                         n.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
                         const s = wo(n);
                         n.Wr.add(3), await oo(n), s && n.Hr.set("Unknown"), await n.remoteSyncer.handleCredentialChange(e), n.Wr.delete(3), await ro(n);
-                    })(e128.remoteStore, t232)
-                ), t231.onlineComponents = e128;
+                    })(e127.remoteStore, t232)
+                ), t231.onlineComponents = e127;
             }
             async function Wc(t) {
                 return t.offlineComponents || ($("FirestoreClient", "Using default OfflineComponentProvider"), await jc(t, new kc())), t.offlineComponents;
@@ -5536,11 +5535,11 @@
             }
             class pa {
                 constructor(t234){
-                    var e129;
+                    var e128;
                     if (void 0 === t234.host) {
                         if (void 0 !== t234.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
                         this.host = "firestore.googleapis.com", this.ssl = !0;
-                    } else this.host = t234.host, this.ssl = null === (e129 = t234.ssl) || void 0 === e129 || e129;
+                    } else this.host = t234.host, this.ssl = null === (e128 = t234.ssl) || void 0 === e128 || e128;
                     if (this.credentials = t234.credentials, this.ignoreUndefinedProperties = !!t234.ignoreUndefinedProperties, void 0 === t234.cacheSizeBytes) this.cacheSizeBytes = 41943040;
                     else {
                         if (-1 !== t234.cacheSizeBytes && t234.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
@@ -5657,22 +5656,22 @@
                     return new Ra(this.firestore, t, this._path);
                 }
             }
-            function ba(t237, e130, ...n50) {
+            function ba(t237, e129, ...n50) {
                 if (t237 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t237), function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
-                }("collection", "path", e130), t237 instanceof Ta) {
-                    const s = ht.fromString(e130, ...n50);
+                }("collection", "path", e129), t237 instanceof Ta) {
+                    const s = ht.fromString(e129, ...n50);
                     return _a(s), new Ra(t237, null, s);
                 }
                 {
                     if (!(t237 instanceof Ia || t237 instanceof Ra)) throw new j(K.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
-                    const s = t237._path.child(ht.fromString(e130, ...n50));
+                    const s = t237._path.child(ht.fromString(e129, ...n50));
                     return _a(s), new Ra(t237.firestore, null, s);
                 }
             }
             class ka extends Ta {
-                constructor(t238, e131){
-                    super(t238, e131), this.type = "firestore", this._queue = new class {
+                constructor(t238, e130){
+                    super(t238, e130), this.type = "firestore", this._queue = new class {
                         constructor(){
                             this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
                                 const t = Jr();
@@ -5721,16 +5720,16 @@
                             }
                         }
                         Pc(t241) {
-                            const e133 = this._c.then(()=>(this.Ec = !0, t241().catch((t)=>{
+                            const e132 = this._c.then(()=>(this.Ec = !0, t241().catch((t)=>{
                                     var t240;
                                     this.Tc = t, this.Ec = !1;
                                     let e;
-                                    const e132 = (e = (t240 = t).message || "", t240.stack && (e = t240.stack.includes(t240.message) ? t240.stack : t240.message + "\n" + t240.stack), e);
-                                    throw O("INTERNAL UNHANDLED ERROR: ", e132), t;
+                                    const e131 = (e = (t240 = t).message || "", t240.stack && (e = t240.stack.includes(t240.message) ? t240.stack : t240.message + "\n" + t240.stack), e);
+                                    throw O("INTERNAL UNHANDLED ERROR: ", e131), t;
                                 }).then((t)=>(this.Ec = !1, t)
                                 ))
                             );
-                            return this._c = e133, e133;
+                            return this._c = e132, e132;
                         }
                         enqueueAfterDelay(t242, e, n) {
                             this.bc(), this.Ac.indexOf(t242) > -1 && (e = 0);
@@ -5753,8 +5752,8 @@
                         }
                         Cc(t243) {
                             return this.Sc().then(()=>{
-                                for (const e134 of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs
-                                ), this.yc))if (e134.skipDelay(), "all" !== t243 && e134.timerId === t243) break;
+                                for (const e133 of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs
+                                ), this.yc))if (e133.skipDelay(), "all" !== t243 && e133.timerId === t243) break;
                                 return this.Sc();
                             });
                         }
@@ -5772,8 +5771,8 @@
                 }
             }
             function Ma(t) {
-                var e, t244, e135, n, s;
-                const n51 = t._freezeSettings(), s23 = (t244 = t._databaseId, e135 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n51, new ua(t244, e135, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
+                var e, t244, e134, n, s;
+                const n51 = t._freezeSettings(), s23 = (t244 = t._databaseId, e134 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n51, new ua(t244, e134, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
                 t._firestoreClient = new Kc(t._credentials, t._queue, s23);
             }
             class Ja {
@@ -5924,17 +5923,17 @@
                     return t instanceof lu;
                 }
             }
-            function yu(t246, e136) {
-                if (Tu(t246 = getModularInstance(t246))) return Eu("Unsupported field value:", e136, t246), pu(t246, e136);
+            function yu(t246, e135) {
+                if (Tu(t246 = getModularInstance(t246))) return Eu("Unsupported field value:", e135, t246), pu(t246, e135);
                 if (t246 instanceof Za) return function(t, e) {
                     if (!iu(e.kc)) throw e.Uc(`${t._methodName}() can only be used with update() and set()`);
                     if (!e.path) throw e.Uc(`${t._methodName}() is not currently supported inside arrays`);
                     const n = t._toFieldTransform(e);
                     n && e.fieldTransforms.push(n);
-                }(t246, e136), null;
-                if (void 0 === t246 && e136.ignoreUndefinedProperties) return null;
-                if (e136.path && e136.fieldMask.push(e136.path), t246 instanceof Array) {
-                    if (e136.settings.Fc && 4 !== e136.kc) throw e136.Uc("Nested arrays are not supported");
+                }(t246, e135), null;
+                if (void 0 === t246 && e135.ignoreUndefinedProperties) return null;
+                if (e135.path && e135.fieldMask.push(e135.path), t246 instanceof Array) {
+                    if (e135.settings.Fc && 4 !== e135.kc) throw e135.Uc("Nested arrays are not supported");
                     return function(t, e) {
                         const n = [];
                         let s = 0;
@@ -5949,15 +5948,15 @@
                                 values: n
                             }
                         };
-                    }(t246, e136);
+                    }(t246, e135);
                 }
                 return function(t, e) {
                     if (null === (t = getModularInstance(t))) return {
                         nullValue: "NULL_VALUE"
                     };
                     if ("number" == typeof t) {
-                        var t247, e137;
-                        return t247 = e.N, bt(e137 = t) ? De(e137) : Se(t247, e137);
+                        var t247, e136;
+                        return t247 = e.N, bt(e136 = t) ? De(e136) : Se(t247, e136);
                     }
                     if ("boolean" == typeof t) return {
                         booleanValue: t
@@ -5994,7 +5993,7 @@
                         };
                     }
                     throw e.Uc(`Unsupported field value: ${ma(t)}`);
-                }(t246, e136);
+                }(t246, e135);
             }
             function pu(t248, e) {
                 const n = {};
@@ -6059,15 +6058,15 @@
                     return super.data();
                 }
             }
-            function Su(t250, e138) {
-                return "string" == typeof e138 ? function(t, e, n) {
+            function Su(t250, e137) {
+                return "string" == typeof e137 ? function(t, e, n) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
                     try {
                         return new Ja(...e.split("."))._internalPath;
                     } catch (s) {
                         throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
                     }
-                }(t250, e138) : e138 instanceof Ja ? e138._internalPath : e138._delegate._internalPath;
+                }(t250, e137) : e137 instanceof Ja ? e137._internalPath : e137._delegate._internalPath;
             }
             class Du {
                 constructor(t, e){
@@ -6126,9 +6125,9 @@
                     });
                 }
                 docChanges(t251 = {}) {
-                    const e139 = !!t251.includeMetadataChanges;
-                    if (e139 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
-                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e139 || (this._cachedChanges = function(t252, e140) {
+                    const e138 = !!t251.includeMetadataChanges;
+                    if (e138 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
+                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e138 || (this._cachedChanges = function(t252, e139) {
                         if (t252._snapshot.oldDocs.isEmpty()) {
                             let e = 0;
                             return t252._snapshot.docChanges.map((n)=>({
@@ -6141,7 +6140,7 @@
                         }
                         {
                             let n = t252._snapshot.oldDocs;
-                            return t252._snapshot.docChanges.filter((t)=>e140 || 3 !== t.type
+                            return t252._snapshot.docChanges.filter((t)=>e139 || 3 !== t.type
                             ).map((e)=>{
                                 const s = new Nu(t252._firestore, t252._userDataWriter, e.doc.key, e.doc, new Du(t252._snapshot.mutatedKeys.has(e.doc.key), t252._snapshot.fromCache), t252.query.converter);
                                 let i = -1, r = -1;
@@ -6153,7 +6152,7 @@
                                 };
                             });
                         }
-                    }(this, e139), this._cachedChangesIncludeMetadataChanges = e139), this._cachedChanges;
+                    }(this, e138), this._cachedChangesIncludeMetadataChanges = e138), this._cachedChanges;
                 }
             }
             function ku(t) {
@@ -6248,10 +6247,10 @@
             function lh(t256) {
                 var t255;
                 t256 = ga(t256, Aa);
-                const e141 = ga(t256.firestore, ka), n52 = ((t255 = e141)._firestoreClient || Ma(t255), t255._firestoreClient.verifyNotTerminated(), t255._firestoreClient), s24 = new ah(e141);
+                const e140 = ga(t256.firestore, ka), n52 = ((t255 = e140)._firestoreClient || Ma(t255), t255._firestoreClient.verifyNotTerminated(), t255._firestoreClient), s24 = new ah(e140);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                }(t256._query), (function(t257, e142, n53 = {}) {
+                }(t256._query), (function(t257, e141, n53 = {}) {
                     const s25 = new Q();
                     return t257.asyncQueue.enqueueAndForget(async ()=>(function(t258, e, n54, s, i) {
                             const r = new Lc({
@@ -6265,9 +6264,9 @@
                                 fo: !0
                             });
                             return Bo(t258, o);
-                        })(await Xc(t257), t257.asyncQueue, e142, n53, s25)
+                        })(await Xc(t257), t257.asyncQueue, e141, n53, s25)
                     ), s25.promise;
-                })(n52, t256._query).then((n)=>new xu(e141, s24, t256, n)
+                })(n52, t256._query).then((n)=>new xu(e140, s24, t256, n)
                 );
             }
             !function(t259, e = !0) {
