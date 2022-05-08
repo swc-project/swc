@@ -5,6 +5,17 @@ use swc_common::{collections::AHashMap, Mark};
 use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Expr};
 
+/// Implement default using serde.
+macro_rules! impl_default {
+    ($T:ty) => {
+        impl Default for $T {
+            fn default() -> Self {
+                serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
+            }
+        }
+    };
+}
+
 pub mod terser;
 
 /// This is not serializable.
@@ -349,17 +360,6 @@ const fn three_by_default() -> u8 {
 
 const fn default_ecma() -> EsVersion {
     EsVersion::Es5
-}
-
-/// Implement default using serde.
-macro_rules! impl_default {
-    ($T:ty) => {
-        impl Default for $T {
-            fn default() -> Self {
-                serde_json::from_str("{}").unwrap()
-            }
-        }
-    };
 }
 
 impl_default!(MinifyOptions);
