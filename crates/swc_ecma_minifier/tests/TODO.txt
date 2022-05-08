@@ -117,6 +117,5 @@ properties/skip_undeclared_properties_by_default/input.js
 properties/unsafe_methods_regex/input.js
 pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
-pure_getters/strict_reduce_vars/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 return_undefined/return_undefined/input.js
