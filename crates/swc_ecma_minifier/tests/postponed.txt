@@ -504,6 +504,7 @@ reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_inline_1/input.js
+reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
