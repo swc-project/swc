@@ -22,6 +22,7 @@ collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
 collapse_vars/issue_2436_9/input.js
+collapse_vars/issue_2497/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/recursive_function_replacement/input.js
