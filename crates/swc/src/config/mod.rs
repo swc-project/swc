@@ -299,6 +299,10 @@ impl Options {
             preserve_all_comments,
             ..
         } = config.jsc;
+        let loose = loose.into_bool();
+        let preserve_all_comments = preserve_all_comments.into_bool();
+        let keep_class_names = keep_class_names.into_bool();
+        let external_helpers = external_helpers.into_bool();
 
         let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
@@ -651,11 +655,6 @@ impl Default for Rc {
                 exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -669,11 +668,6 @@ impl Default for Rc {
                         tsx: true,
                         ..Default::default()
                     })),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -687,11 +681,6 @@ impl Default for Rc {
                         tsx: false,
                         ..Default::default()
                     })),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
                 ..Default::default()
