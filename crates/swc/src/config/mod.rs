@@ -15,6 +15,7 @@ use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
@@ -28,7 +29,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
-use swc_config::merge::Merge;
+use swc_config::{config_types::BoolConfig, merge::Merge};
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
@@ -1284,21 +1285,21 @@ pub struct HiddenTransformConfig {
     pub jest: bool,
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: HashMap<JsWord, HashMap<JsWord, String>>,
+    pub globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
 
-    #[serde(default = "true_by_default")]
-    pub simplify: bool,
+    #[serde(default)]
+    pub simplify: BoolConfig<true>,
 
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
