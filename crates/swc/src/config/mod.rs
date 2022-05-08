@@ -3,7 +3,6 @@ use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
     env, fmt,
-    hash::BuildHasher,
     path::{Path, PathBuf},
     rc::Rc as RustRc,
     sync::Arc,
@@ -1627,20 +1626,6 @@ impl Merge for JscConfig {
         self.experimental.merge(&from.experimental);
         self.preserve_all_comments
             .merge(&from.preserve_all_comments)
-    }
-}
-
-impl Merge for EsVersion {
-    fn merge(&mut self, from: &Self) {
-        if *self < *from {
-            *self = *from
-        }
-    }
-}
-
-impl Merge for bool {
-    fn merge(&mut self, from: &Self) {
-        *self |= *from
     }
 }
 
