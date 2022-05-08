@@ -16,6 +16,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
                     body
                 },
                 {
+                    #[automatically_derived]
                     impl swc_config::merge::Merge for Type {
                         fn merge(&mut self, _other: Self) {
                             body
