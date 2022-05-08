@@ -258,7 +258,13 @@ fn run(
 fn stdout_of(code: &str) -> Result<String, Error> {
     let actual_output = Command::new("node")
         .arg("-e")
-        .arg(&code)
+        .arg(&format!(
+            "
+            global.id = v => v;
+            global.leak = (cb) => cb;
+            {}",
+            code
+        ))
         .output()
         .context("failed to execute output of minifier")?;
 
