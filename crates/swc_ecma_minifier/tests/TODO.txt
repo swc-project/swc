@@ -36,7 +36,6 @@ collapse_vars/unused_orig/input.js
 conditionals/equality_conditionals_false/input.js
 conditionals/ifs_5/input.js
 conditionals/issue_2535_1/input.js
-dead_code/issue_2749/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
@@ -48,7 +47,6 @@ functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/inline_true/input.js
 functions/inner_ref/input.js
 functions/issue_2084/input.js
-functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
 functions/issue_2601_1/input.js
 functions/issue_2604_1/input.js
