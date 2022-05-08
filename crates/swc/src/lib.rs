@@ -1065,7 +1065,7 @@ impl Compiler {
                 module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
 
-            minify_file_comments(&comments, true, Some(opts.format.comments.clone()));
+            minify_file_comments(&comments, true, opts.format.comments.clone());
 
             self.print(
                 &module,
