@@ -39,6 +39,18 @@
           "prefix": null,
           "name": "c",
           "value": "d"
+        },
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "a",
+          "value": "b"
         }
       ],
       "children": [
