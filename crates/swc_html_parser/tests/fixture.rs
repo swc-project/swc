@@ -773,13 +773,6 @@ impl DomVisualizer<'_> {
 
 impl VisitMut for DomVisualizer<'_> {
     fn visit_mut_document(&mut self, n: &mut Document) {
-        let mut document = String::new();
-
-        document.push_str("#document");
-        document.push('\n');
-
-        self.dom_buf.push_str(&document);
-
         n.visit_mut_children_with(self);
     }
 
@@ -930,6 +923,14 @@ impl VisitMut for DomVisualizer<'_> {
     }
 }
 
+enum TestState {
+    Data,
+    Document,
+    DocumentFragment,
+    Errors,
+    NewErrors,
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -967,41 +968,109 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
 
         let tests_file = fs::read_to_string(input).expect("Something went wrong reading the file");
-        let mut tests = tests_file.split("\n\n#data\n");
+        let mut tests = tests_file.split("#data\n");
+
+        tests.next();
 
         let mut counter = 0;
 
         while let Some(test) = tests.next() {
-            let data_start = if counter == 0 { 6 } else { 0 };
-            let data_end = test
-                .find("#errors\n")
-                .expect("failed to get errors in test");
-            let mut data = &test[data_start..data_end];
+            let mut data: Vec<&str> = vec![];
+            let mut document: Vec<&str> = vec![];
+            let mut document_fragment: Vec<&str> = vec![];
+            let mut errors: Vec<&str> = vec![];
+            let mut new_errors: Vec<&str> = vec![];
+            let mut scripting_enabled = false;
 
-            if data.ends_with("\n") {
-                data = data
-                    .strip_suffix('\n')
-                    .expect("failed to strip last line in test");
+            let mut state = Some(TestState::Data);
+
+            for line in test.lines() {
+                match line {
+                    "#data" => {
+                        state = Some(TestState::Data);
+
+                        continue;
+                    }
+                    "#errors" => {
+                        state = Some(TestState::Errors);
+
+                        continue;
+                    }
+                    "#new-errors" => {
+                        state = Some(TestState::NewErrors);
+
+                        continue;
+                    }
+                    "#document" => {
+                        state = Some(TestState::Document);
+
+                        continue;
+                    }
+                    "#document-fragment" => {
+                        state = Some(TestState::DocumentFragment);
+
+                        continue;
+                    }
+                    "#script-on" => {
+                        scripting_enabled = true;
+
+                        state = None;
+
+                        continue;
+                    }
+                    "#script-off" => {
+                        scripting_enabled = false;
+
+                        state = None;
+
+                        continue;
+                    }
+                    _ => {}
+                }
+
+                match &state {
+                    Some(TestState::Data) => {
+                        data.push(line);
+                    }
+                    Some(TestState::Document) => {
+                        document.push(line);
+                    }
+                    Some(TestState::DocumentFragment) => {
+                        document_fragment.push(line);
+                    }
+                    Some(TestState::Errors) => {
+                        errors.push(line);
+                    }
+                    Some(TestState::NewErrors) => {
+                        new_errors.push(line);
+                    }
+                    _ => {
+                        println!("{:?}", line);
+                        unreachable!();
+                    }
+                }
             }
 
             let mut file_stem = counter.to_string();
 
-            if test.contains("#script-on\n") {
+            if !document_fragment.is_empty() {
+                file_stem += ".fragment.";
+                file_stem += &document_fragment.join("").replace(" ", "_");
+            }
+
+            if scripting_enabled {
                 file_stem += ".script_on";
             }
 
             let html_path = dir.join(file_stem.clone() + ".html");
 
-            fs::write(html_path, data).expect("Something went wrong when writing to the file");
+            fs::write(html_path, data.join("\n"))
+                .expect("Something went wrong when writing to the file");
 
-            let document_start = test
-                .find("#document\n")
-                .expect("failed to get errors in test");
-            let dom_snapshot = &test[document_start..];
             let dom_snapshot_path = dir.join(file_stem + ".dom");
 
-            fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
-                .expect("Something went wrong when writing to the file");
+            fs::write(dom_snapshot_path, document.join("\n"))
+                .expect("Something went wrong when writingto the file");
 
             counter += 1;
         }

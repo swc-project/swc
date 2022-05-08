@@ -1,4 +1,3 @@
-#document
 | <!-- ?import namespace="foo" implementation="#bar" -->
 | <html>
 |   <head>
