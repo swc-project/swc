@@ -54,6 +54,7 @@ async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
 async/async_export/input.js
+async/async_function_declaration/input.js
 async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
@@ -733,9 +734,11 @@ issue_1704/mangle_catch/input.js
 issue_1704/mangle_catch_ie8/input.js
 issue_1704/mangle_catch_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_1/input.js
+issue_1704/mangle_catch_redef_1_ie8/input.js
 issue_1704/mangle_catch_redef_1_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_1_toplevel/input.js
 issue_1704/mangle_catch_redef_2/input.js
+issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_redef_2_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_2_toplevel/input.js
 issue_1704/mangle_catch_redef_3/input.js
@@ -981,6 +984,7 @@ properties/accessor_number/input.js
 properties/accessor_string/input.js
 properties/accessor_this/input.js
 properties/array_hole/input.js
+properties/computed_property/input.js
 properties/dot_properties_es5/input.js
 properties/evaluate_string_length/input.js
 properties/first_256_chars_as_properties/input.js
@@ -1225,9 +1229,11 @@ rename/mangle_catch/input.js
 rename/mangle_catch_ie8/input.js
 rename/mangle_catch_ie8_toplevel/input.js
 rename/mangle_catch_redef_1/input.js
+rename/mangle_catch_redef_1_ie8/input.js
 rename/mangle_catch_redef_1_ie8_toplevel/input.js
 rename/mangle_catch_redef_1_toplevel/input.js
 rename/mangle_catch_redef_2/input.js
+rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_redef_2_ie8_toplevel/input.js
 rename/mangle_catch_redef_2_toplevel/input.js
 rename/mangle_catch_toplevel/input.js

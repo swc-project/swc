@@ -19,7 +19,6 @@ arrow/issue_2136_3/input.js
 arrow/issue_27/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
-async/async_function_declaration/input.js
 async/async_inline/input.js
 block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
@@ -343,8 +342,6 @@ issue_1588/unsafe_undefined/input.js
 issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
 issue_1673/side_effects_else/input.js
-issue_1704/mangle_catch_redef_1_ie8/input.js
-issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
 issue_1770/mangle_props/input.js
@@ -422,7 +419,6 @@ object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
 parameters/default_arguments/input.js
 parameters/destructuring_arguments_3/input.js
-properties/computed_property/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dont_mangle_computed_property_1/input.js
@@ -586,8 +582,6 @@ reduce_vars/var_assign_2/input.js
 regexp/unsafe_slashes/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
-rename/mangle_catch_redef_1_ie8/input.js
-rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js
