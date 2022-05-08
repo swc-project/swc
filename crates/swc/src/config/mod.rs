@@ -355,7 +355,7 @@ impl Options {
                         c
                     })
                     .map(BoolOr::from_obj)
-                    .unwrap_or(BoolOr::from_bool(false));
+                    .unwrap_or_else(|| BoolOr::from_bool(false));
 
                 let mangle = c
                     .mangle
@@ -369,7 +369,7 @@ impl Options {
                         c
                     })
                     .map(BoolOr::from_obj)
-                    .unwrap_or(BoolOr::from_bool(false));
+                    .unwrap_or_else(|| BoolOr::from_bool(false));
 
                 JsMinifyOptions {
                     compress,
