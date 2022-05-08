@@ -1064,16 +1064,16 @@ pub struct JscConfig {
     pub transform: Option<TransformConfig>,
 
     #[serde(default)]
-    pub external_helpers: bool,
+    pub external_helpers: BoolConfig<false>,
 
     #[serde(default)]
     pub target: Option<EsVersion>,
 
     #[serde(default)]
-    pub loose: bool,
+    pub loose: BoolConfig<false>,
 
     #[serde(default)]
-    pub keep_class_names: bool,
+    pub keep_class_names: BoolConfig<false>,
 
     #[serde(default)]
     pub base_url: PathBuf,
@@ -1091,7 +1091,7 @@ pub struct JscConfig {
     pub lints: LintConfig,
 
     #[serde(default)]
-    pub preserve_all_comments: bool,
+    pub preserve_all_comments: BoolConfig<false>,
 }
 
 /// `jsc.experimental` in `.swcrc`
