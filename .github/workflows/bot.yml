@@ -123,3 +123,8 @@ jobs:
           cargo mono publish --no-verify
           cargo mono publish --no-verify
           cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
