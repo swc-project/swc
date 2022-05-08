@@ -43,7 +43,7 @@ impl Task for PrintTask {
                     .unwrap_or(SourceMapsConfig::Bool(false)),
                 &Default::default(),
                 None,
-                options.config.minify,
+                options.config.minify.into_bool(),
                 None,
             )
             .convert_err()
@@ -100,7 +100,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
             .unwrap_or(SourceMapsConfig::Bool(false)),
         &Default::default(),
         None,
-        options.config.minify,
+        options.config.minify.into_bool(),
         None,
     )
     .convert_err()

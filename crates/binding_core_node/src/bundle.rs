@@ -115,7 +115,7 @@ impl Task for BundleTask {
                             .config
                             .options
                             .as_ref()
-                            .map(|v| v.config.minify)
+                            .map(|v| v.config.minify.into_bool())
                             .unwrap_or(false);
 
                         let output = self.swc.print(

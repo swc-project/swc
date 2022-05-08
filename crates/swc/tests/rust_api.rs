@@ -218,10 +218,10 @@ fn shopify_3_reduce_defaults() {
                     ..Default::default()
                 },
                 module: None,
-                minify: false,
-                input_source_map: InputSourceMap::Bool(false),
+                minify: false.into(),
+                input_source_map: InputSourceMap::Bool(false).into(),
                 source_maps: None,
-                inline_sources_content: false,
+                inline_sources_content: false.into(),
                 ..Default::default()
             },
             cwd: "/Users/kdy1/projects/example-swcify".into(),
