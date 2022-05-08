@@ -24,6 +24,7 @@ swc_atoms = { version = "0.2.9", path = "../swc_atoms" }
 swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "concurrent",
 ] }
+swc_config = { version = "0.1.0", path = "../swc_config" }
 swc_ecma_ast = { version = "0.77.0", path = "../swc_ecma_ast" }
 swc_ecma_utils = { version = "0.83.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.63.0", path = "../swc_ecma_visit" }

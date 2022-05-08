@@ -3295,6 +3295,7 @@ dependencies = [
  "serde",
  "swc_atoms",
  "swc_common",
+ "swc_config",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
