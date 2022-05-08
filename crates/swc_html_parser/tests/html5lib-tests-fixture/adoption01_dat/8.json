@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 12,
+        "end": 16,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 12,
+            "end": 16,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 16,
+                "end": 9,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3,
-                    "end": 16,
+                    "end": 9,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -68,41 +68,13 @@
                       "type": "Element",
                       "span": {
                         "start": 6,
-                        "end": 16,
+                        "end": 9,
                         "ctxt": 0
                       },
                       "tagName": "b",
                       "namespace": "http://www.w3.org/1999/xhtml",
                       "attributes": [],
-                      "children": [
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 9,
-                            "end": 16,
-                            "ctxt": 0
-                          },
-                          "tagName": "p",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 0,
-                                "end": 16,
-                                "ctxt": 0
-                              },
-                              "tagName": "a",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [],
-                              "content": null
-                            }
-                          ],
-                          "content": null
-                        }
-                      ],
+                      "children": [],
                       "content": null
                     }
                   ],
@@ -115,7 +87,7 @@
               "type": "Element",
               "span": {
                 "start": 3,
-                "end": 12,
+                "end": 16,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -126,7 +98,7 @@
                   "type": "Element",
                   "span": {
                     "start": 6,
-                    "end": 12,
+                    "end": 16,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -137,13 +109,27 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 12,
+                        "end": 16,
                         "ctxt": 0
                       },
                       "tagName": "p",
                       "namespace": "http://www.w3.org/1999/xhtml",
                       "attributes": [],
-                      "children": [],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 0,
+                            "end": 16,
+                            "ctxt": 0
+                          },
+                          "tagName": "a",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null
+                        }
+                      ],
                       "content": null
                     }
                   ],

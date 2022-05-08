@@ -6277,7 +6277,7 @@ where
     // is a    parse error; remove the element from the list, and return.
     //
     //    5. If formatting element is in the stack of open elements, but the element
-    // is    not in scope, then this is a parse error; return.
+    // is not in scope, then this is a parse error; return.
     //
     //    6. If formatting element is not the current node, this is a parse error.
     // (But do not return.)
@@ -6378,6 +6378,7 @@ where
             match &last.data {
                 Data::Element(element)
                     if element.tag_name == subject
+                        && element.namespace == Namespace::HTML
                         && self.active_formatting_elements.get_position(last).is_none() =>
                 {
                     self.open_elements_stack.pop();
@@ -6445,18 +6446,19 @@ where
                 return Ok(());
             }
 
-            let formatting_element_stack_index = formatting_element_stack_index.unwrap();
-
             // 5.
-            if !self
-                .open_elements_stack
-                .has_node_in_scope(&formatting_element.1)
+            if formatting_element_stack_index.is_some()
+                && !self
+                    .open_elements_stack
+                    .has_node_in_scope(&formatting_element.1)
             {
                 self.errors
                     .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                 return Ok(());
             }
+
+            let formatting_element_stack_index = formatting_element_stack_index.unwrap();
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
@@ -6477,7 +6479,6 @@ where
                 .map(|(i, h)| (i, h.clone()));
 
             // 8.
-
             if furthest_block.is_none() {
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
@@ -6572,6 +6573,11 @@ where
                 }
 
                 // 13.8
+                if let Some((parent, i)) = self.get_parent_and_index(&last_node) {
+                    parent.children.borrow_mut().remove(i);
+                    last_node.parent.set(None);
+                }
+
                 self.append_node(&node, last_node);
 
                 // 13.9

@@ -23,12 +23,8 @@ swc_atoms = { version = "0.2.0", path = "../swc_atoms" }
 swc_common = { version = "0.17.23", path = "../swc_common", features = [
   "plugin-mode",
 ] }
-swc_ecma_ast = { version = "0.77.0", path = "../swc_ecma_ast", features = [
-  "rkyv-impl",
-] }
 swc_ecma_quote = { version = "0.15.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_visit = { version = "0.63.0", path = "../swc_ecma_visit" }
-swc_ecma_utils = { version = "0.83.0", path = "../swc_ecma_utils" }
+swc_ecmascript = { version = "0.153.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
 swc_plugin_proxy = { version = "0.2.2", path = "../swc_plugin_proxy", features = [
   "plugin-mode",
 ] }
