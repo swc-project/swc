@@ -216,7 +216,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.options.dead_code && !self.options.reduce_vars {
+        if !self.options.dead_code {
             return;
         }
 
