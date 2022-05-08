@@ -70,7 +70,7 @@
                   "type": "Element",
                   "span": {
                     "start": 15,
-                    "end": 34,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "tagName": "noscript",
@@ -78,27 +78,13 @@
                   "attributes": [],
                   "children": [
                     {
-                      "type": "Element",
+                      "type": "Text",
                       "span": {
                         "start": 25,
-                        "end": 34,
+                        "end": 43,
                         "ctxt": 0
                       },
-                      "tagName": "strong",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 33,
-                            "end": 34,
-                            "ctxt": 0
-                          },
-                          "value": "A"
-                        }
-                      ],
-                      "content": null
+                      "value": "<strong>A</strong>"
                     }
                   ],
                   "content": null

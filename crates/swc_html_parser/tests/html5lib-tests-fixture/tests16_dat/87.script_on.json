@@ -2,16 +2,27 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 49,
+    "end": 45,
     "ctxt": 0
   },
-  "mode": "quirks",
+  "mode": "no-quirks",
   "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
     {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 49,
+        "end": 45,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 38,
+            "end": 33,
             "ctxt": 0
           },
           "tagName": "head",
@@ -32,8 +43,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 38,
+                "start": 15,
+                "end": 33,
                 "ctxt": 0
               },
               "tagName": "noscript",
@@ -41,13 +52,13 @@
               "attributes": [],
               "children": [
                 {
-                  "type": "Comment",
+                  "type": "Text",
                   "span": {
-                    "start": 10,
-                    "end": 38,
+                    "start": 25,
+                    "end": 33,
                     "ctxt": 0
                   },
-                  "data": "<noscript></noscript>"
+                  "value": "<iframe>"
                 }
               ],
               "content": null
@@ -59,13 +70,23 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 49,
+            "end": 45,
             "ctxt": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 44,
+                "end": 45,
+                "ctxt": 0
+              },
+              "value": "X"
+            }
+          ],
           "content": null
         }
       ],
