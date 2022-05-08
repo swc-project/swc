@@ -538,6 +538,7 @@ reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_2/input.js
 reduce_vars/issue_2836/input.js
 reduce_vars/issue_2860_2/input.js
+reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
 reduce_vars/issue_3110_3/input.js
 reduce_vars/issue_3113_1/input.js
