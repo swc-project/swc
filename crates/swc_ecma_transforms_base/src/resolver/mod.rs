@@ -1,9 +1,10 @@
 use std::cell::RefCell;
 
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, Id};
+use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
@@ -1446,7 +1447,7 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
-    catch_param_decls: AHashSet<JsWord>,
+    catch_param_decls: FxHashSet<JsWord>,
 }
 
 impl VisitMut for Hoister<'_, '_> {
