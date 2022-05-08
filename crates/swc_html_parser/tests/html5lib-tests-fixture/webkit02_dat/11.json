@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 24,
+        "end": 28,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 24,
+            "end": 28,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 0,
-                "end": 28,
+                "end": 17,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3,
-                    "end": 28,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "tagName": "em",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 7,
-                        "end": 28,
+                        "end": 17,
                         "ctxt": 0
                       },
                       "tagName": "foo",
@@ -79,41 +79,13 @@
                           "type": "Element",
                           "span": {
                             "start": 12,
-                            "end": 28,
+                            "end": 17,
                             "ctxt": 0
                           },
                           "tagName": "foo",
                           "namespace": "http://www.w3.org/1999/xhtml",
                           "attributes": [],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 17,
-                                "end": 28,
-                                "ctxt": 0
-                              },
-                              "tagName": "aside",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Element",
-                                  "span": {
-                                    "start": 0,
-                                    "end": 28,
-                                    "ctxt": 0
-                                  },
-                                  "tagName": "b",
-                                  "namespace": "http://www.w3.org/1999/xhtml",
-                                  "attributes": [],
-                                  "children": [],
-                                  "content": null
-                                }
-                              ],
-                              "content": null
-                            }
-                          ],
+                          "children": [],
                           "content": null
                         }
                       ],
@@ -129,7 +101,7 @@
               "type": "Element",
               "span": {
                 "start": 3,
-                "end": 24,
+                "end": 28,
                 "ctxt": 0
               },
               "tagName": "em",
@@ -140,13 +112,27 @@
                   "type": "Element",
                   "span": {
                     "start": 17,
-                    "end": 24,
+                    "end": 28,
                     "ctxt": 0
                   },
                   "tagName": "aside",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 0,
+                        "end": 28,
+                        "ctxt": 0
+                      },
+                      "tagName": "b",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
                   "content": null
                 }
               ],

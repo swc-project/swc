@@ -847,6 +847,16 @@ impl VisitMut for DomVisualizer<'_> {
         element.push('>');
         element.push('\n');
 
+        let is_template = n.namespace == Namespace::HTML && &*n.tag_name == "template";
+
+        if is_template {
+            self.indent += 1;
+
+            element.push_str(&self.get_ident());
+            element.push_str("content");
+            element.push('\n');
+        }
+
         n.attributes
             .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
 
@@ -859,6 +869,10 @@ impl VisitMut for DomVisualizer<'_> {
         n.visit_mut_children_with(self);
 
         self.indent = old_indent;
+
+        if is_template {
+            self.indent -= 1;
+        }
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
