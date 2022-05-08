@@ -3937,10 +3937,8 @@ version = "0.50.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
- "swc_ecma_ast",
  "swc_ecma_quote",
- "swc_ecma_utils",
- "swc_ecma_visit",
+ "swc_ecmascript",
  "swc_plugin_macro",
  "swc_plugin_proxy",
 ]
