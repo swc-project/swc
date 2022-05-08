@@ -1,7 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use crate::merge::Merge;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct BoolConfig<const DEFAULT: bool>(Option<bool>);
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+pub struct BoolConfig<const DEFAULT: bool>(#[serde(default)] Option<bool>);
 
 impl<const DEFAULT: bool> BoolConfig<DEFAULT> {
     #[inline]
