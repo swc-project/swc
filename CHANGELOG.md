@@ -16,6 +16,12 @@
 
 - **(html/parser)** Add recovery for attributes on html and body (#4566) ([c7d20e4](https://github.com/swc-project/swc/commit/c7d20e43e63cb2c45cd589e3c72811575fca2f07))
 
+### Features
+
+
+
+- **(es/ast)** Add methods for parens (#4576) ([55d0ee6](https://github.com/swc-project/swc/commit/55d0ee6cba32d3a9d15cdb5485fb65a84bebe123))
+
 ### Miscellaneous Tasks
 
 
