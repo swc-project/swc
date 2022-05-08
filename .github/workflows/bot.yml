@@ -54,10 +54,6 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Configure swc_ecma_preset_env
-        run: |
-          yarn
-
       - name: Install node dependencies
         working-directory: scripts/bot
         run: |
