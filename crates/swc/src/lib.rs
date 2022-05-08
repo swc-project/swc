@@ -590,13 +590,13 @@ pub fn minify_global_comments(
     comments: &SwcComments,
     span: Span,
     minify: bool,
-    preserve_comments: Option<BoolOr<JsMinifyCommentOption>>,
+    preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
-    let preserve_comments = preserve_comments.unwrap_or({
+    let preserve_comments = preserve_comments.or(|| {
         if minify {
-            BoolOr::Obj(JsMinifyCommentOption::PreserveSomeComments)
+            BoolOr::from_obj(JsMinifyCommentOption::PreserveSomeComments)
         } else {
-            BoolOr::Obj(JsMinifyCommentOption::PreserveAllComments)
+            BoolOr::from_obj(JsMinifyCommentOption::PreserveAllComments)
         }
     });
 
