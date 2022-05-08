@@ -28,6 +28,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
+use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
@@ -1104,7 +1105,7 @@ pub struct JscConfig {
 }
 
 /// `jsc.experimental` in `.swcrc`
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscExperimental {
     /// This requires cargo feature `plugin`.
@@ -1112,7 +1113,7 @@ pub struct JscExperimental {
     pub plugins: Option<Vec<PluginConfig>>,
     /// If true, keeps import assertions in the output.
     #[serde(default)]
-    pub keep_import_assertions: bool,
+    pub keep_import_assertions: Option<bool>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.
@@ -1120,19 +1121,6 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
-}
-
-impl Merge for JscExperimental {
-    fn merge(&mut self, from: &Self) {
-        if self.plugins.is_none() {
-            self.plugins = from.plugins.clone();
-        }
-        if self.cache_root.is_none() {
-            self.cache_root = from.cache_root.clone();
-        }
-
-        self.keep_import_assertions |= from.keep_import_assertions;
-    }
 }
 
 /// `paths` section of `tsconfig.json`.
