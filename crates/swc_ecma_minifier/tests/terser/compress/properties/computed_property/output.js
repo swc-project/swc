@@ -1,1 +1,1 @@
-console.log(["bar", console.log("foo")][0]);
+console.log({ a: "bar", [console.log("foo")]: 42 }.a);
