@@ -2097,7 +2097,7 @@
                 node.child.return = node, node = node.child;
                 continue;
             }
-            if (node === currentParent) return null;
+            if (node === currentParent) break;
             for(; !node.sibling;){
                 if (!node.return || node.return === currentParent) return null;
                 node = node.return;
@@ -2902,10 +2902,7 @@
         }
     }
     function getActiveElementDeep() {
-        for(var win = window, element = getActiveElement(); element instanceof win.HTMLIFrameElement;){
-            if (!isSameOriginFrame(element)) return element;
-            element = getActiveElement((win = element.contentWindow).document);
-        }
+        for(var win = window, element = getActiveElement(); element instanceof win.HTMLIFrameElement && isSameOriginFrame(element);)element = getActiveElement((win = element.contentWindow).document);
         return element;
     }
     function hasSelectionCapabilities(elem) {
@@ -4498,7 +4495,7 @@
                     }
                     exitDisallowedContextReadInDEV();
                 } else partialState = _payload;
-                if (null == partialState) return prevState;
+                if (null == partialState) break;
                 return _assign({}, prevState, partialState);
             case 2:
                 hasForceUpdate = !0;
@@ -5111,7 +5108,7 @@
                 node.child.return = node, node = node.child;
                 continue;
             }
-            if (node === row) return null;
+            if (node === row) break;
             for(; null === node.sibling;){
                 if (null === node.return || node.return === row) return null;
                 node = node.return;
@@ -9179,7 +9176,7 @@
                     node.child.return = node, node = node.child;
                     continue;
                 }
-                if (node === currentParent) return null;
+                if (node === currentParent) break;
                 for(; !node.sibling;){
                     if (!node.return || node.return === currentParent) return null;
                     node = node.return;

@@ -303,10 +303,10 @@ impl Pure<'_> {
                     }
                     changed
                 }
-                Some(Stmt::Switch(s)) if !last.is_break_stmt() => {
+                Some(Stmt::Switch(s)) if !last.is_break_stmt() && !need_break => {
                     let mut changed = false;
                     for case in s.cases.iter_mut() {
-                        if let Some(stmt) = case.cons.last_mut() {
+                        for stmt in case.cons.iter_mut() {
                             changed |= drop(stmt, last, true);
                         }
                     }
@@ -320,7 +320,15 @@ impl Pure<'_> {
                     | Stmt::While(WhileStmt { body, .. })
                     | Stmt::DoWhile(DoWhileStmt { body, .. }),
                 ) if !last.is_break_stmt() && !last.is_continue_stmt() && !need_break => {
-                    drop(&mut **body, last, true)
+                    if let Stmt::Block(b) = &mut **body {
+                        let mut changed = false;
+                        for stmt in b.stmts.iter_mut() {
+                            changed |= drop(stmt, last, true);
+                        }
+                        changed
+                    } else {
+                        drop(&mut **body, last, true)
+                    }
                 }
                 Some(Stmt::Block(b)) => {
                     if let Some(stmt) = b.stmts.last_mut() {

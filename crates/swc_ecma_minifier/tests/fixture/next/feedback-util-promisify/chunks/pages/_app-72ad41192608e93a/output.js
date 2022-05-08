@@ -303,7 +303,7 @@
                             f > i / 2 && (f = i / 2);
                             for(var o = 0; o < f; ++o){
                                 var e7, u = parseInt(r.substr(2 * o, 2), 16);
-                                if ((e7 = u) != e7) return o;
+                                if ((e7 = u) != e7) break;
                                 e[t + o] = u;
                             }
                             return o;

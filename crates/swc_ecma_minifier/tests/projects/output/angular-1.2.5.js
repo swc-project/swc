@@ -2885,7 +2885,7 @@
                                     $exceptionHandler(e);
                                 }
                             }
-                            if (stopPropagation) return event;
+                            if (stopPropagation) break;
                             scope = scope.$parent;
                         }while (scope)
                         return event;

@@ -4830,52 +4830,49 @@
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self.state = "HEADER";
                         }
-                        for(var alreadyCollectedLine = !1; self.buffer;){
-                            if (!/\r\n|\n/.test(self.buffer)) return this;
-                            switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line1 = collectNextLine(), self.state){
-                                case "HEADER":
-                                    /:/.test(line1) ? parseHeader(line1) : line1 || (self.state = "ID");
+                        for(var alreadyCollectedLine = !1; self.buffer && /\r\n|\n/.test(self.buffer);)switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line1 = collectNextLine(), self.state){
+                            case "HEADER":
+                                /:/.test(line1) ? parseHeader(line1) : line1 || (self.state = "ID");
+                                continue;
+                            case "NOTE":
+                                line1 || (self.state = "ID");
+                                continue;
+                            case "ID":
+                                if (/^NOTE($|[ \t])/.test(line1)) {
+                                    self.state = "NOTE";
+                                    break;
+                                }
+                                if (!line1) continue;
+                                self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
+                                try {
+                                    self.cue.align = "center";
+                                } catch (e) {
+                                    self.cue.align = "middle";
+                                }
+                                if (self.state = "CUE", -1 === line1.indexOf("-->")) {
+                                    self.cue.id = line1;
                                     continue;
-                                case "NOTE":
-                                    line1 || (self.state = "ID");
+                                }
+                            case "CUE":
+                                try {
+                                    parseCue(line1, self.cue, self.regionList);
+                                } catch (e3) {
+                                    self.reportOrThrowError(e3), self.cue = null, self.state = "BADCUE";
                                     continue;
-                                case "ID":
-                                    if (/^NOTE($|[ \t])/.test(line1)) {
-                                        self.state = "NOTE";
-                                        break;
-                                    }
-                                    if (!line1) continue;
-                                    self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
-                                    try {
-                                        self.cue.align = "center";
-                                    } catch (e) {
-                                        self.cue.align = "middle";
-                                    }
-                                    if (self.state = "CUE", -1 === line1.indexOf("-->")) {
-                                        self.cue.id = line1;
-                                        continue;
-                                    }
-                                case "CUE":
-                                    try {
-                                        parseCue(line1, self.cue, self.regionList);
-                                    } catch (e3) {
-                                        self.reportOrThrowError(e3), self.cue = null, self.state = "BADCUE";
-                                        continue;
-                                    }
-                                    self.state = "CUETEXT";
+                                }
+                                self.state = "CUETEXT";
+                                continue;
+                            case "CUETEXT":
+                                var hasSubstring = -1 !== line1.indexOf("-->");
+                                if (!line1 || hasSubstring && (alreadyCollectedLine = !0)) {
+                                    self.oncue && self.oncue(self.cue), self.cue = null, self.state = "ID";
                                     continue;
-                                case "CUETEXT":
-                                    var hasSubstring = -1 !== line1.indexOf("-->");
-                                    if (!line1 || hasSubstring && (alreadyCollectedLine = !0)) {
-                                        self.oncue && self.oncue(self.cue), self.cue = null, self.state = "ID";
-                                        continue;
-                                    }
-                                    self.cue.text && (self.cue.text += "\n"), self.cue.text += line1.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
-                                    continue;
-                                case "BADCUE":
-                                    line1 || (self.state = "ID");
-                                    continue;
-                            }
+                                }
+                                self.cue.text && (self.cue.text += "\n"), self.cue.text += line1.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
+                                continue;
+                            case "BADCUE":
+                                line1 || (self.state = "ID");
+                                continue;
                         }
                     } catch (e) {
                         self.reportOrThrowError(e), "CUETEXT" === self.state && self.cue && self.oncue && self.oncue(self.cue), self.cue = null, self.state = "INITIAL" === self.state ? "BADWEBVTT" : "BADCUE";
@@ -5343,7 +5340,7 @@
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
                     var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if ((obj = parsed) != obj) return i;
+                    if ((obj = parsed) != obj) break;
                     buf[offset + i] = parsed;
                 }
                 return i;
