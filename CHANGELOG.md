@@ -25,6 +25,12 @@
 
 - **(es/minifier)** Drop vars using sequential inliner (#4547) ([c5b4ef4](https://github.com/swc-project/swc/commit/c5b4ef4377874d8659d5b4e6c4099e1eac6c40f1))
 
+### Refactor
+
+
+
+- **(plugin)** Align deps (#4568) ([846a319](https://github.com/swc-project/swc/commit/846a31919eba58b7b14788ccc26b0ff23e488044))
+
 ## [1.2.178] - 2022-05-07
 
 ### Bug Fixes

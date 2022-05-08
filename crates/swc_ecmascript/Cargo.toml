@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecmascript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.153.0"
+version = "0.153.1"
 
 [package.metadata.docs.rs]
 all-features = true

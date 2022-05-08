@@ -3696,7 +3696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.153.0"
+version = "0.153.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
