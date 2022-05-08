@@ -9,8 +9,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    extract_var_ids, ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty,
-    ModuleItemLike, StmtLike, Type, Value,
+    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
@@ -2525,77 +2525,6 @@ where
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
-        }
-
-        if self.options.dead_code {
-            // copy from [Remover]
-            // TODO: make it better
-            let orig_len = stmts.len();
-
-            let mut new_stmts = Vec::with_capacity(stmts.len());
-
-            let mut iter = stmts.take().into_iter();
-            while let Some(stmt) = iter.next() {
-                let stmt = match stmt {
-                    // Remove empty statements.
-                    Stmt::Empty(..) => continue,
-
-                    // Control flow
-                    Stmt::Throw(..)
-                    | Stmt::Return { .. }
-                    | Stmt::Continue { .. }
-                    | Stmt::Break { .. } => {
-                        // Hoist function and `var` declarations above return.
-                        let mut decls = vec![];
-                        let mut hoisted_fns = vec![];
-                        for t in iter {
-                            match t.try_into_stmt() {
-                                Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                    hoisted_fns.push(Stmt::Decl(Decl::Fn(f)));
-                                }
-                                Ok(t) => {
-                                    let ids =
-                                        extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
-                                            span: i.span,
-                                            name: i.into(),
-                                            init: None,
-                                            definite: false,
-                                        });
-                                    decls.extend(ids);
-                                }
-                                Err(item) => new_stmts.push(item),
-                            }
-                        }
-
-                        if !decls.is_empty() {
-                            new_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls,
-                                declare: false,
-                            })));
-                        }
-
-                        new_stmts.push(stmt);
-                        new_stmts.extend(hoisted_fns);
-
-                        *stmts = new_stmts;
-                        if stmts.len() != orig_len {
-                            self.changed = true;
-
-                            report_change!("Dropping statements after a control keyword");
-                        }
-
-                        return;
-                    }
-
-                    _ => stmt,
-                };
-
-                new_stmts.push(stmt);
-            }
-
-            *stmts = new_stmts;
         }
     }
 

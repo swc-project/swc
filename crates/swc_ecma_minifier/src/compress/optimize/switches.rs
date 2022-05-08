@@ -445,6 +445,42 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
             stmt.pop();
             true
         }
+        Some(Stmt::If(i)) => {
+            let mut changed = false;
+            match &mut *i.cons {
+                Stmt::Break(BreakStmt { label: None, .. }) => {
+                    report_change!("switches: Removing `break` at the end");
+                    i.cons.take();
+                    changed = true
+                }
+                Stmt::Block(b) => changed |= remove_last_break(&mut b.stmts),
+                _ => (),
+            };
+            if let Some(alt) = i.alt.as_mut() {
+                match &mut **alt {
+                    Stmt::Break(BreakStmt { label: None, .. }) => {
+                        report_change!("switches: Removing `break` at the end");
+                        alt.take();
+                        changed = true
+                    }
+                    Stmt::Block(b) => changed |= remove_last_break(&mut b.stmts),
+                    _ => (),
+                };
+            }
+            changed
+        }
+        Some(Stmt::Try(t)) => {
+            let mut changed = false;
+            changed |= remove_last_break(&mut t.block.stmts);
+
+            if let Some(h) = t.handler.as_mut() {
+                changed |= remove_last_break(&mut h.body.stmts);
+            }
+            if let Some(f) = t.finalizer.as_mut() {
+                changed |= remove_last_break(&mut f.stmts);
+            }
+            changed
+        }
         Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),
         _ => false,
     }

@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Drop vars using sequential inliner (#4547) ([c5b4ef4](https://github.com/swc-project/swc/commit/c5b4ef4377874d8659d5b4e6c4099e1eac6c40f1))
 
+
+- **(es/minifier)** Remove duplicate control flow in nested blocks (#4569) ([b3b6fd4](https://github.com/swc-project/swc/commit/b3b6fd448c35fc25cd99d210c684e90c68da0b04))
+
 ### Refactor
 
 

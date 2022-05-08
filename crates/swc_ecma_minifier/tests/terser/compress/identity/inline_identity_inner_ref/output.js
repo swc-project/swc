@@ -1,3 +1,1 @@
-const undef = (a)=>{
-};
-console.log(1, 2, undef(3), undef(4));
+console.log(1, 2, void 0, void 0);
