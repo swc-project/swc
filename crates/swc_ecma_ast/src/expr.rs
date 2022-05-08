@@ -171,6 +171,16 @@ impl Expr {
             _ => self,
         }
     }
+
+    /// Normalize parenthesized expressions.
+    ///
+    /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
+    pub fn unwrap_parens_mut(&mut self) -> &mut Expr {
+        match self {
+            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens_mut(),
+            _ => self,
+        }
+    }
 }
 
 // Implement Clone without inline to avoid multiple copies of the
