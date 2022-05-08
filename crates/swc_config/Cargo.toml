@@ -1,8 +1,12 @@
 [package]
-name = "swc_config"
-version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Types for configuration"
+documentation = "https://rustdoc.swc.rs/swc_config/"
 edition = "2021"
-
+license = "Apache-2.0"
+name = "swc_config"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
