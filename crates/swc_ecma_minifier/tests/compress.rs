@@ -470,6 +470,66 @@ fn fixture(input: PathBuf) {
 
             print(cm.clone(), &[expected], false, false)
         };
+        {
+            // Check output.teraer.js
+            let identical = (|| -> Option<()> {
+                let expected = {
+                    let expected = read_to_string(&dir.join("output.terser.js")).ok()?;
+                    let fm = cm.new_source_file(FileName::Anon, expected);
+                    let lexer = Lexer::new(
+                        Default::default(),
+                        Default::default(),
+                        SourceFileInput::from(&*fm),
+                        None,
+                    );
+                    let mut parser = Parser::new_from(lexer);
+                    let expected = parser
+                        .parse_module()
+                        .map_err(|err| {
+                            err.into_diagnostic(&handler).emit();
+                        })
+                        .ok()?;
+                    let mut expected = expected.fold_with(&mut fixer(None));
+                    expected = drop_span(expected);
+                    expected
+                        .body
+                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+
+                    let mut normalized_expected = expected.clone();
+                    normalized_expected.visit_mut_with(&mut DropParens);
+
+                    let mut actual = output_module.clone();
+                    actual.visit_mut_with(&mut DropParens);
+
+                    if actual.eq_ignore_span(&normalized_expected)
+                        || drop_span(actual.clone()) == normalized_expected
+                    {
+                        return Some(());
+                    }
+
+                    if print(cm.clone(), &[actual], false, false)
+                        == print(cm.clone(), &[normalized_expected], false, false)
+                    {
+                        return Some(());
+                    }
+
+                    print(cm.clone(), &[expected], false, false)
+                };
+
+                if output == expected {
+                    return Some(());
+                }
+
+                None
+            })()
+            .is_some();
+            if identical {
+                let s = read_to_string(&dir.join("output.terser.js"))
+                    .expect("failed to read output.terser.js");
+                std::fs::write(&dir.join("output.js"), s.as_bytes())
+                    .expect("failed to update output.js");
+            }
+        }
 
         if output == expected {
             return Ok(());
