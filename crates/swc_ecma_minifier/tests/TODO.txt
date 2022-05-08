@@ -127,8 +127,6 @@ pure_getters/set_immutable_5/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
-reduce_vars/escaped_prop_1/input.js
-reduce_vars/escaped_prop_2/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
 reduce_vars/issue_432_1/input.js
