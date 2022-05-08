@@ -233,6 +233,7 @@ pub trait ModuleItemLike: StmtLike {
 pub trait StmtLike: Sized + 'static + Send + Sync {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
+    fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
     fn from_stmt(stmt: Stmt) -> Self;
 }
 
@@ -246,6 +247,11 @@ impl StmtLike for Stmt {
 
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
+        Some(self)
+    }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
         Some(self)
     }
 
@@ -280,8 +286,16 @@ impl StmtLike for ModuleItem {
 
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
-        match *self {
-            ModuleItem::Stmt(ref stmt) => Some(stmt),
+        match &*self {
+            ModuleItem::Stmt(stmt) => Some(stmt),
+            _ => None,
+        }
+    }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
+        match &mut *self {
+            ModuleItem::Stmt(stmt) => Some(stmt),
             _ => None,
         }
     }
@@ -386,17 +400,15 @@ impl StmtExt for Stmt {
 
     fn terminates(&self) -> bool {
         match self {
-            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => return true,
-            Stmt::Block(block) if block.stmts.terminates() => return true,
+            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
+            Stmt::Block(block) => block.stmts.terminates(),
             Stmt::If(IfStmt {
                 cons,
                 alt: Some(alt),
                 ..
-            }) => return cons.terminates() && alt.terminates(),
-            _ => (),
+            }) => cons.terminates() && alt.terminates(),
+            _ => false,
         }
-
-        false
     }
 }
 
@@ -416,13 +428,7 @@ impl StmtExt for Vec<Stmt> {
     }
 
     fn terminates(&self) -> bool {
-        for s in self {
-            if s.terminates() {
-                return true;
-            }
-        }
-
-        false
+        self.iter().rev().any(|s| s.terminates())
     }
 }
 
