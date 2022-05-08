@@ -1538,25 +1538,6 @@ fn default_env_name() -> String {
     }
 }
 
-pub trait Merge {
-    /// Apply overrides from `from`
-    fn merge(&mut self, from: &Self);
-}
-
-impl<T: Clone> Merge for Option<T>
-where
-    T: Merge,
-{
-    fn merge(&mut self, from: &Option<T>) {
-        if let Some(ref from) = *from {
-            match *self {
-                Some(ref mut v) => v.merge(from),
-                None => *self = Some(from.clone()),
-            }
-        }
-    }
-}
-
 impl Merge for Config {
     fn merge(&mut self, from: &Self) {
         self.jsc.merge(&from.jsc);
