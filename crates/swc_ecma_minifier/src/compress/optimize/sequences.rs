@@ -1295,6 +1295,21 @@ where
             }) => {
                 let is_this_undefined = b_callee.is_ident();
                 trace_op!("seq: Try callee of call");
+
+                if let Expr::Member(MemberExpr { obj, .. }) = &**b_callee {
+                    if let Expr::Ident(obj) = &**obj {
+                        let callee_id = obj.to_id();
+
+                        if let Mergable::Expr(Expr::Update(UpdateExpr { arg, .. })) = a {
+                            if let Expr::Ident(arg) = &**arg {
+                                if arg.to_id() == callee_id {
+                                    return Ok(false);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if self.merge_sequential_expr(a, &mut **b_callee)? {
                     if is_this_undefined {
                         if let Expr::Member(..) = &**b_callee {

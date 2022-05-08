@@ -576,9 +576,13 @@ rename/mangle_catch_redef_1_ie8/input.js
 rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var/input.js
 sequences/cascade_assignment_in_return/input.js
+sequences/delete_seq_4/input.js
+sequences/delete_seq_5/input.js
 sequences/for_init_var/input.js
+sequences/for_sequences/input.js
 sequences/func_def_1/input.js
 sequences/hoist_decl/input.js
+sequences/issue_1758/input.js
 sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_3/input.js
 switch/if_switch_typeof/input.js
