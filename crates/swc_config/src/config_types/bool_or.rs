@@ -24,14 +24,14 @@ impl<T> BoolOr<T> {
         }
     }
 
-    pub fn unwrap_or<F>(self, default: F) -> T
+    pub fn unwrap_or<F>(self, default: F) -> Option<T>
     where
-        F: FnOnce(Option<bool>) -> T,
+        F: FnOnce(Option<bool>) -> Option<T>,
     {
         match self.0 {
-            Some(Inner::Actual(v)) => v,
+            Some(Inner::Actual(v)) => Some(v),
             Some(Inner::Bool(b)) => default(Some(b)),
-            None => default(None),
+            None => None,
         }
     }
 

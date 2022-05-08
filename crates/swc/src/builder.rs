@@ -12,7 +12,6 @@ use swc_common::{
     util::take::Take,
     FileName, Mark, SourceMap,
 };
-use swc_config::config_types::BoolOr;
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;

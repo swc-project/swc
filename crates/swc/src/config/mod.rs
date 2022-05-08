@@ -343,7 +343,10 @@ impl Options {
             js_minify = js_minify.map(|c| {
                 let compress = c
                     .compress
-                    .into_obj()
+                    .unwrap_or(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
                     .map(|mut c| {
                         if c.toplevel.is_none() {
                             c.toplevel = Some(TerserTopLevelOptions::Bool(true));
@@ -351,19 +354,22 @@ impl Options {
 
                         c
                     })
-                    .map(BoolOrObject::Obj)
-                    .unwrap_or(BoolOrObject::Bool(false));
+                    .map(BoolOr::from_obj)
+                    .unwrap_or(BoolOr::from_bool(false));
 
                 let mangle = c
                     .mangle
-                    .into_obj()
+                    .unwrap_or(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
                     .map(|mut c| {
                         c.top_level = true;
 
                         c
                     })
-                    .map(BoolOrObject::Obj)
-                    .unwrap_or(BoolOrObject::Bool(false));
+                    .map(BoolOr::from_obj)
+                    .unwrap_or(BoolOr::from_bool(false));
 
                 JsMinifyOptions {
                     compress,
