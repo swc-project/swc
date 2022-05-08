@@ -13,6 +13,9 @@
 
 - **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
 
+
+- **(html/parser)** Fix adoption agency algorithm (#4552) ([d6e4885](https://github.com/swc-project/swc/commit/d6e48850b65ada6dae4da75347c6669161cb036a))
+
 ### Documentation
 
 
