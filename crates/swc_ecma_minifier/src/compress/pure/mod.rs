@@ -140,8 +140,6 @@ impl Pure<'_> {
             }
         }
 
-        self.remove_duplicate_returns(stmts);
-
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);

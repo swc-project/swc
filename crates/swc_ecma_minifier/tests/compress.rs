@@ -17,8 +17,8 @@ use anyhow::{bail, Context, Error};
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, EqIgnoreSpan, FileName, Mark,
-    SourceMap, Spanned,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, util::take::Take, EqIgnoreSpan,
+    FileName, Mark, SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -38,7 +38,7 @@ use swc_ecma_parser::{
 };
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -258,7 +258,13 @@ fn run(
 fn stdout_of(code: &str) -> Result<String, Error> {
     let actual_output = Command::new("node")
         .arg("-e")
-        .arg(&code)
+        .arg(&format!(
+            "
+            {}
+            {}",
+            include_str!("./terser_exec_base.js"),
+            code
+        ))
         .output()
         .context("failed to execute output of minifier")?;
 
@@ -440,18 +446,90 @@ fn fixture(input: PathBuf) {
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
             expected = drop_span(expected);
+            expected
+                .body
+                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 
-            if output_module.eq_ignore_span(&expected)
-                || drop_span(output_module.clone()) == expected
+            let mut normalized_expected = expected.clone();
+            normalized_expected.visit_mut_with(&mut DropParens);
+
+            let mut actual = output_module.clone();
+            actual.visit_mut_with(&mut DropParens);
+
+            if actual.eq_ignore_span(&normalized_expected)
+                || drop_span(actual.clone()) == normalized_expected
             {
                 return Ok(());
             }
 
-            expected
-                .body
-                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+            if print(cm.clone(), &[actual], false, false)
+                == print(cm.clone(), &[normalized_expected], false, false)
+            {
+                return Ok(());
+            }
+
             print(cm.clone(), &[expected], false, false)
         };
+        {
+            // Check output.teraer.js
+            let identical = (|| -> Option<()> {
+                let expected = {
+                    let expected = read_to_string(&dir.join("output.terser.js")).ok()?;
+                    let fm = cm.new_source_file(FileName::Anon, expected);
+                    let lexer = Lexer::new(
+                        Default::default(),
+                        Default::default(),
+                        SourceFileInput::from(&*fm),
+                        None,
+                    );
+                    let mut parser = Parser::new_from(lexer);
+                    let expected = parser
+                        .parse_module()
+                        .map_err(|err| {
+                            err.into_diagnostic(&handler).emit();
+                        })
+                        .ok()?;
+                    let mut expected = expected.fold_with(&mut fixer(None));
+                    expected = drop_span(expected);
+                    expected
+                        .body
+                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+
+                    let mut normalized_expected = expected.clone();
+                    normalized_expected.visit_mut_with(&mut DropParens);
+
+                    let mut actual = output_module.clone();
+                    actual.visit_mut_with(&mut DropParens);
+
+                    if actual.eq_ignore_span(&normalized_expected)
+                        || drop_span(actual.clone()) == normalized_expected
+                    {
+                        return Some(());
+                    }
+
+                    if print(cm.clone(), &[actual], false, false)
+                        == print(cm.clone(), &[normalized_expected], false, false)
+                    {
+                        return Some(());
+                    }
+
+                    print(cm.clone(), &[expected], false, false)
+                };
+
+                if output == expected {
+                    return Some(());
+                }
+
+                None
+            })()
+            .is_some();
+            if identical {
+                let s = read_to_string(&dir.join("output.terser.js"))
+                    .expect("failed to read output.terser.js");
+                std::fs::write(&dir.join("output.js"), s.as_bytes())
+                    .expect("failed to update output.js");
+            }
+        }
 
         if output == expected {
             return Ok(());
@@ -1594,4 +1672,16 @@ fn full(input: PathBuf) {
         Ok(())
     })
     .unwrap()
+}
+
+struct DropParens;
+
+impl VisitMut for DropParens {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::Paren(p) = e {
+            *e = *p.expr.take();
+        }
+    }
 }

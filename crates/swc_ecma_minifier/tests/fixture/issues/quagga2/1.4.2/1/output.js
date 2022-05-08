@@ -2999,7 +2999,7 @@
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
                     var key = toKey(path[index]), newValue = value;
-                    if ("__proto__" === key || "constructor" === key || "prototype" === key) return object;
+                    if ("__proto__" === key || "constructor" === key || "prototype" === key) break;
                     if (index != lastIndex) {
                         var objValue = nested[key];
                         void 0 === (newValue = customizer ? customizer(objValue, key, nested) : void 0) && (newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {});
@@ -4700,8 +4700,7 @@
                     {
                         key: "_findStart",
                         value: function() {
-                            for(var offset = this._nextSet(this._row), startInfo = null; !startInfo;){
-                                if (!(startInfo = this._findPattern(START_PATTERN, offset, !1, !0))) return null;
+                            for(var offset = this._nextSet(this._row), startInfo = null; !startInfo && (startInfo = this._findPattern(START_PATTERN, offset, !1, !0));){
                                 var leadingWhitespaceStart = startInfo.start - (startInfo.end - startInfo.start);
                                 if (leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
                                 offset = startInfo.end, startInfo = null;
@@ -5790,8 +5789,7 @@
                     {
                         key: "_findStart",
                         value: function() {
-                            for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo;){
-                                if (!(startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0))) return null;
+                            for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo && (startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0));){
                                 if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4), leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
                                 offset = startInfo.end, startInfo = null;
                             }
@@ -6041,7 +6039,7 @@
                         value: function() {
                             for(var startInfo = null, offset = this._nextSet(this._row), narrowBarWidth = 1, leadingWhitespaceStart = 0; !startInfo;){
                                 if (!(startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0))) return null;
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
+                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
                                 offset = startInfo.end, startInfo = null;
                             }
                             return startInfo;
@@ -6936,8 +6934,7 @@
                                     return exifTag && (result[exifTag] = selectedTag), result;
                                 }, {}), offset = 2;
                                 if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
-                                for(; offset < length;){
-                                    if (0xff !== dataView.getUint8(offset)) return !1;
+                                for(; offset < length && 0xff === dataView.getUint8(offset);){
                                     if (0xe1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }

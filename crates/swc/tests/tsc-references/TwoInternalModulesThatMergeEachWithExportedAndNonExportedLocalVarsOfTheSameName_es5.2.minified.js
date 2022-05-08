@@ -16,7 +16,7 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 }(A || (A = {}));
-var A, o, o, o = A.Origin, o = A.Utils.mirror(o);
+var A, o = A.Origin, o = A.Utils.mirror(o);
 new A.Utils.Plane(o, {
     x: 1,
     y: 1

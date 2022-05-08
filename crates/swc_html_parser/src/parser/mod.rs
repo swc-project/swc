@@ -97,8 +97,10 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: Option<DocumentMode>,
+    document_mode: DocumentMode,
     document: Option<RcNode>,
+    html_additional_attributes: Vec<Attribute>,
+    body_additional_attributes: Vec<Attribute>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -123,8 +125,10 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: vec![],
-            document_mode: None,
+            document_mode: DocumentMode::NoQuirks,
             document: None,
+            html_additional_attributes: vec![],
+            body_additional_attributes: vec![],
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
@@ -155,6 +159,12 @@ where
         })));
 
         while !self.stopped {
+            let adjusted_current_node = self.get_adjusted_current_node();
+            let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
+
+            self.input
+                .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
+
             let span = self.input.cur_span()?;
             let token = match self.input.cur()? {
                 Some(_) => {
@@ -190,19 +200,37 @@ where
             }
         }
 
-        let last = self.input.last_pos()?;
-
         // TODO optimize me
-        fn node_to_child(node: RcNode) -> Child {
+        fn node_to_child(
+            node: RcNode,
+            html_additional_attributes: &Vec<Attribute>,
+            body_additional_attributes: &Vec<Attribute>,
+        ) -> Child {
             match &node.data {
                 Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
                     ..document_type.clone()
                 }),
                 Data::Element(element) => {
+                    let mut attributes = element.attributes.clone();
+
+                    if element.namespace == Namespace::HTML {
+                        if !html_additional_attributes.is_empty() && &*element.tag_name == "html" {
+                            attributes.extend(html_additional_attributes.clone())
+                        } else if !body_additional_attributes.is_empty()
+                            && &*element.tag_name == "body"
+                        {
+                            attributes.extend(body_additional_attributes.clone());
+                        }
+                    }
+
                     let mut new_children = vec![];
 
                     for node in node.children.take() {
-                        new_children.push(node_to_child(node));
+                        new_children.push(node_to_child(
+                            node,
+                            html_additional_attributes,
+                            body_additional_attributes,
+                        ));
                     }
 
                     let first = element.span.lo;
@@ -218,6 +246,7 @@ where
                         span: Span::new(first, last, Default::default()),
                         children: new_children,
                         content: None,
+                        attributes,
                         ..element.clone()
                     })
                 }
@@ -233,17 +262,18 @@ where
         let mut children = vec![];
 
         for node in original_document.children.take() {
-            children.push(node_to_child(node));
+            children.push(node_to_child(
+                node,
+                &self.html_additional_attributes,
+                &self.body_additional_attributes,
+            ));
         }
 
-        let mode = match self.document_mode {
-            Some(document_mode) => document_mode,
-            _ => DocumentMode::NoQuirks,
-        };
+        let last = self.input.last_pos()?;
 
         Ok(Document {
             span: Span::new(start.lo, last, Default::default()),
-            mode,
+            mode: self.document_mode,
             children,
         })
     }
@@ -1047,19 +1077,19 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 ))
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = Some(DocumentMode::Quirks);
+                                self.document_mode = DocumentMode::Quirks;
                             }
                         }
 
@@ -1074,6 +1104,13 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
+                        // TODO ERROR about missing doctype and handle iframe
+                        let is_iframe = false;
+
+                        if !is_iframe {
+                            self.document_mode = DocumentMode::Quirks;
+                        }
+
                         self.insertion_mode = InsertionMode::BeforeHtml;
                         self.process_token(token_and_info, None)?;
                     }
@@ -1916,7 +1953,13 @@ where
                             return Ok(());
                         }
 
-                        self.add_attributes_to_node_if_missing(0, attributes.clone());
+                        if let Some(top) = self.open_elements_stack.items.get(0) {
+                            let html_additional_attributes =
+                                self.get_missing_attributes(top, attributes.clone());
+
+                            self.html_additional_attributes
+                                .extend(html_additional_attributes)
+                        }
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
                     // "meta", "noframes", "script", "style", "template", "title"
@@ -1977,7 +2020,13 @@ where
 
                         self.frameset_ok = false;
 
-                        self.add_attributes_to_node_if_missing(2, attributes.clone());
+                        if let Some(top) = self.open_elements_stack.items.get(1) {
+                            let body_additional_attributes =
+                                self.get_missing_attributes(top, attributes.clone());
+
+                            self.body_additional_attributes
+                                .extend(body_additional_attributes);
+                        }
                     }
                     // A start tag whose tag name is "frameset"
                     //
@@ -2338,11 +2387,28 @@ where
 
                         self.insert_html_element(token_and_info)?;
 
+                        let mut is_cr = false;
+
                         match self.input.cur()? {
-                            Some(Token::Character { value, .. }) if *value == '\x0A' => {
+                            Some(Token::Character { value, .. })
+                                if matches!(*value, '\r' | '\n') =>
+                            {
+                                if *value == '\r' {
+                                    is_cr = true;
+                                }
+
                                 bump!(self);
                             }
                             _ => {}
+                        }
+
+                        if is_cr {
+                            match self.input.cur()? {
+                                Some(Token::Character { value, .. }) if *value == '\n' => {
+                                    bump!(self);
+                                }
+                                _ => {}
+                            }
                         }
 
                         self.frameset_ok = false;
@@ -3075,15 +3141,15 @@ where
 
                             self.run_the_adoption_agency_algorithm(token_and_info)?;
                             self.reconstruct_active_formatting_elements()?;
-                        } else {
-                            let element = self.insert_html_element(&mut token_and_info.clone())?;
-
-                            self.active_formatting_elements
-                                .push(ActiveFormattingElement::Element(
-                                    element,
-                                    token_and_info.clone(),
-                                ));
                         }
+
+                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+
+                        self.active_formatting_elements
+                            .push(ActiveFormattingElement::Element(
+                                element,
+                                token_and_info.clone(),
+                            ));
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
                     // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
@@ -3178,16 +3244,10 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if let Some(document) = &self.document {
-                            match document.data {
-                                Data::Document(Document { mode, .. })
-                                    if mode != DocumentMode::Quirks
-                                        && self.open_elements_stack.has_in_button_scope("p") =>
-                                {
-                                    self.close_p_element();
-                                }
-                                _ => {}
-                            }
+                        if self.document_mode != DocumentMode::Quirks
+                            && self.open_elements_stack.has_in_button_scope("p")
+                        {
+                            self.close_p_element();
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3281,8 +3341,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
@@ -3295,15 +3354,17 @@ where
                         };
 
                         self.reconstruct_active_formatting_elements()?;
+
+                        // To avoid extra cloning, it doesn't have effect on logic
+                        if input_type.is_none() || !is_hidden {
+                            self.frameset_ok = false;
+                        }
+
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
-                        }
-
-                        if input_type.is_none() || !is_hidden {
-                            self.frameset_ok = false;
                         }
                     }
                     // A start tag whose tag name is one of: "param", "source", "track"
@@ -3659,9 +3720,7 @@ where
                     }
                     // Any other end tag
                     Token::EndTag { .. } => {
-                        self.any_other_end_tag_for_in_body_insertion_mode(
-                            &mut token_and_info.clone(),
-                        );
+                        self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
                     }
                 }
 
@@ -4164,8 +4223,7 @@ where
                     } if tag_name == "input" => {
                         let is_self_closing = *self_closing;
                         let input_type = attributes
-                            .clone()
-                            .into_iter()
+                            .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
@@ -6193,7 +6251,7 @@ where
                             span: Default::default(),
                             namespace: None,
                             prefix: None,
-                            name: attribute_token.name.clone(),
+                            name: attribute_token.name,
                             value: attribute_token.value,
                         };
 
@@ -6260,7 +6318,7 @@ where
     // is a    parse error; remove the element from the list, and return.
     //
     //    5. If formatting element is in the stack of open elements, but the element
-    // is    not in scope, then this is a parse error; return.
+    // is not in scope, then this is a parse error; return.
     //
     //    6. If formatting element is not the current node, this is a parse error.
     // (But do not return.)
@@ -6361,6 +6419,7 @@ where
             match &last.data {
                 Data::Element(element)
                     if element.tag_name == subject
+                        && element.namespace == Namespace::HTML
                         && self.active_formatting_elements.get_position(last).is_none() =>
                 {
                     self.open_elements_stack.pop();
@@ -6428,18 +6487,19 @@ where
                 return Ok(());
             }
 
-            let formatting_element_stack_index = formatting_element_stack_index.unwrap();
-
             // 5.
-            if !self
-                .open_elements_stack
-                .has_node_in_scope(&formatting_element.1)
+            if formatting_element_stack_index.is_some()
+                && !self
+                    .open_elements_stack
+                    .has_node_in_scope(&formatting_element.1)
             {
                 self.errors
                     .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
 
                 return Ok(());
             }
+
+            let formatting_element_stack_index = formatting_element_stack_index.unwrap();
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
@@ -6460,7 +6520,6 @@ where
                 .map(|(i, h)| (i, h.clone()));
 
             // 8.
-
             if furthest_block.is_none() {
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
@@ -6547,7 +6606,7 @@ where
                 self.open_elements_stack
                     .replace(node_index, new_element.clone());
 
-                node = new_element.clone();
+                node = new_element;
 
                 // 13.7
                 if is_same_node(&last_node, &furthest_block.1) {
@@ -6555,10 +6614,15 @@ where
                 }
 
                 // 13.8
-                self.append_node(&node, last_node.clone());
+                if let Some((parent, i)) = self.get_parent_and_index(&last_node) {
+                    parent.children.borrow_mut().remove(i);
+                    last_node.parent.set(None);
+                }
+
+                self.append_node(&node, last_node);
 
                 // 13.9
-                last_node = node.clone();
+                last_node = node;
             }
 
             // 14.
@@ -6856,42 +6920,43 @@ where
         // when the close the cell algorithm is invoked.
     }
 
-    fn add_attributes_to_node_if_missing(
-        &mut self,
-        index: usize,
-        _attributes: Vec<AttributeToken>,
-    ) {
-        let target = self.open_elements_stack.items.get_mut(index);
+    fn get_missing_attributes(
+        &self,
+        node: &RcNode,
+        token_attributes: Vec<AttributeToken>,
+    ) -> Vec<Attribute> {
+        let attributes = match &node.data {
+            Data::Element(element) => &element.attributes,
+            _ => {
+                unreachable!();
+            }
+        };
 
-        if let Some(target) = target {
-            match &target.data {
-                Data::Element(_element) => {
-                    // TODO fix me
-                    // for attribute in attributes {
-                    //     let mut has_attribute = false;
-                    //
-                    //     for target_attribute in &element.attributes {
-                    //         if attribute.name == target_attribute.name {
-                    //             has_attribute = true;
-                    //
-                    //             break;
-                    //         }
-                    //     }
-                    //
-                    //     if !has_attribute {
-                    //         element.attributes.push(Attribute {
-                    //             span: Default::default(),
-                    //             name: "test".into(),
-                    //             value: Some("test".into()),
-                    //         })
-                    //     }
-                    // }
-                }
-                _ => {
-                    unreachable!();
+        let mut additional_attributes = vec![];
+
+        for token_attribute in &token_attributes {
+            let mut found = false;
+
+            for attribute in attributes {
+                if attribute.name == token_attribute.name {
+                    found = true;
+
+                    break;
                 }
             }
+
+            if !found {
+                additional_attributes.push(Attribute {
+                    span: Default::default(),
+                    namespace: None,
+                    prefix: None,
+                    name: token_attribute.name.clone(),
+                    value: token_attribute.value.clone(),
+                });
+            }
         }
+
+        additional_attributes
     }
 
     fn reset_insertion_mode(&mut self) {
@@ -7677,7 +7742,6 @@ where
     }
 }
 
-// TODO eq with/without span?
 fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
     Rc::ptr_eq(a, b)
 }

@@ -5,10 +5,89 @@
 
 
 
+- **(es/minifier)** Improve sequential inliner (#4570) ([af368ee](https://github.com/swc-project/swc/commit/af368eead2529c3340e985acddf2948af44aba2e))
+
+
+- **(html/parser)** Add recovery for attributes on html and body (#4566) ([c7d20e4](https://github.com/swc-project/swc/commit/c7d20e43e63cb2c45cd589e3c72811575fca2f07))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Improve CI scripts (#4572) ([f23c943](https://github.com/swc-project/swc/commit/f23c943227e8438dabeaa951bab552cd3d076e41))
+
+### Testing
+
+
+
+- **(es/minifier)** Fix test system (#4571) ([bf5ee01](https://github.com/swc-project/swc/commit/bf5ee018b3d2cbf235b48e2325374f3ec545703a))
+
+
+- **(html/parser)** Add tests (#4565) ([adbce64](https://github.com/swc-project/swc/commit/adbce64f28ba72f73de375b91d72382d98362824))
+
+## [1.2.179] - 2022-05-08
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Distinguish `raw` and `cooked` while joining template literals (#4559) ([f9b6016](https://github.com/swc-project/swc/commit/f9b6016d4b990032505c0dbb5b5bf82949c7d74d))
+
+
+- **(es/minifier)** Fix handling of template literals (#4563) ([920d9a7](https://github.com/swc-project/swc/commit/920d9a76784b6e2ac9ccbfd826f2253410bf2be5))
+
+
+- **(html/parser)** Fix for noah's ark clause (#4558) ([7ef6372](https://github.com/swc-project/swc/commit/7ef637263e57b9c995de1a847606f878991054fd))
+
+
+- **(html/parser)** Fix adoption agency algorithm (#4552) ([d6e4885](https://github.com/swc-project/swc/commit/d6e48850b65ada6dae4da75347c6669161cb036a))
+
+### Documentation
+
+
+
+- **(es/resolver)** Add docs for top-level mark (#4560) ([13cc228](https://github.com/swc-project/swc/commit/13cc2282627f852d5b114332a83816de2a47742b))
+
+### Features
+
+
+
+- **(es/minifier)** Drop vars using sequential inliner (#4547) ([c5b4ef4](https://github.com/swc-project/swc/commit/c5b4ef4377874d8659d5b4e6c4099e1eac6c40f1))
+
+
+- **(es/minifier)** Remove duplicate control flow in nested blocks (#4569) ([b3b6fd4](https://github.com/swc-project/swc/commit/b3b6fd448c35fc25cd99d210c684e90c68da0b04))
+
+### Refactor
+
+
+
+- **(plugin)** Align deps (#4568) ([846a319](https://github.com/swc-project/swc/commit/846a31919eba58b7b14788ccc26b0ff23e488044))
+
+## [1.2.178] - 2022-05-07
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Memorize computed props in logical assignment (#4525) ([2e74787](https://github.com/swc-project/swc/commit/2e7478787040645ef9cd162ef18e948c112c93d8))
 
 
+- **(es/minifier)** Respect `keepClassNames` for class expressions (#4536) ([3d5d234](https://github.com/swc-project/swc/commit/3d5d234047bb7e3f76189fa586030014c7c29f46))
+
+
+- **(es/minifier)** Skip getter/setter when collapsing vars (#4557) ([5d3a01a](https://github.com/swc-project/swc/commit/5d3a01ad352fcea33db46de3b144950944b18b62))
+
+
 - **(es/modules)** Preserve extensions (#4524) ([f3b262e](https://github.com/swc-project/swc/commit/f3b262e340cdd5aaa5ce4008936e3ba696f3dc06))
+
+
+- **(es/parser)** Revert #4067 (#4540) ([2831059](https://github.com/swc-project/swc/commit/28310596a6c2c62cab3e5124c9b68439e152ba18))
+
+
+- **(es/parser)** Revert #4287 (#4542) ([e2fde1a](https://github.com/swc-project/swc/commit/e2fde1a9a7ea702439666fdee6b2a378e70d9a7e))
+
+
+- **(html/lexer)** Fix lexing of numeric characters (#4544) ([6980381](https://github.com/swc-project/swc/commit/698038107de8f7ec9ee2b2981b4137d47182a022))
 
 
 - **(html/parser)** Fix a bug related to parsing foreign elements (#4527) ([2f6f8fa](https://github.com/swc-project/swc/commit/2f6f8fa717c4a969221958bc2c70a3f68590d93b))
@@ -22,17 +101,53 @@
 
 - **(html/parser)** Fix parsing of comments in `textarea` (#4530) ([79090e1](https://github.com/swc-project/swc/commit/79090e1b2abce3dc396f25a5851637c675b6c87e))
 
+
+- **(html/parser)** Fix parsing of `nobr` (#4535) ([e6042a5](https://github.com/swc-project/swc/commit/e6042a5e692c785bb12058f1eb63e728f3191cef))
+
+
+- **(html/parser)** Fix parsing of cdata (#4537) ([07cf28a](https://github.com/swc-project/swc/commit/07cf28a168c0e4619c3293ece180922d5e9a632d))
+
+
+- **(html/parser)** Fix parsing of newline in `textarea` (#4543) ([dd40e7b](https://github.com/swc-project/swc/commit/dd40e7bf69b355f00b68819785365603bc7634a2))
+
+
+- **(html/parser)** Fix support for document mode (#4539) ([e11ee88](https://github.com/swc-project/swc/commit/e11ee88ea09ef1a67e2a2e063e91ce1df40ca8fb))
+
+### Features
+
+
+
+- **(plugin)** Make plugin source map api use `SourceMapper` (#4541) ([10f903d](https://github.com/swc-project/swc/commit/10f903dd3952286f84c0957d96b9c43236938de5))
+
 ### Miscellaneous Tasks
 
 
 
 - **(repo)** Configure `prettier` (#4523) ([a6d404a](https://github.com/swc-project/swc/commit/a6d404a8c28ab82f15d9f7fbd849e27713a49872))
 
+### Refactor
+
+
+
+- **(html/parser)** Cleanup (#4545) ([446172f](https://github.com/swc-project/swc/commit/446172f14575b56d36ef72175c16fa05f374736c))
+
 ### Testing
 
 
 
+- **(es/minifier)** Categorize more tests (#4538) ([3d3e3bb](https://github.com/swc-project/swc/commit/3d3e3bb1d27ba4a75464c925d8fe03f703902e49))
+
+
+- **(es/minifier)** Ignore difference of parens (#4546) ([b0efd00](https://github.com/swc-project/swc/commit/b0efd00f38edb7ecb87c53590821d908316cfcba))
+
+
 - **(html/parser)** Add integration tests from html5lib-test (#4517) ([a4a815b](https://github.com/swc-project/swc/commit/a4a815b28815b1c875c73f0a153fb219558e26ce))
+
+### Build
+
+
+
+- **(plugin)** Update `swc_plugin_proxy` (#4551) ([b5a2033](https://github.com/swc-project/swc/commit/b5a203399455304f3be7941b751e8a9847b0bb97))
 
 ## [1.2.177] - 2022-05-04
 

@@ -2096,20 +2096,23 @@
             }
             function parseDCC(source, start, domBuilder, errorHandler) {
                 if ("-" === source.charAt(start + 2)) {
-                    if ("-" !== source.charAt(start + 3)) return -1;
-                    var end = source.indexOf("-->", start + 4);
-                    return end > start ? (domBuilder.comment(source, start + 4, end - start - 4), end + 3) : (errorHandler.error("Unclosed comment"), -1);
-                }
-                if ("CDATA[" == source.substr(start + 3, 6)) {
-                    var end = source.indexOf("]]>", start + 9);
-                    return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
-                }
-                var matchs = split(source, start), len = matchs.length;
-                if (len > 1 && /!doctype/i.test(matchs[0][0])) {
-                    var name = matchs[1][0], pubid = !1, sysid = !1;
-                    len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
-                    var lastMatch = matchs[len - 1];
-                    return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
+                    if ("-" === source.charAt(start + 3)) {
+                        var end = source.indexOf("-->", start + 4);
+                        if (end > start) return domBuilder.comment(source, start + 4, end - start - 4), end + 3;
+                        errorHandler.error("Unclosed comment");
+                    }
+                } else {
+                    if ("CDATA[" == source.substr(start + 3, 6)) {
+                        var end = source.indexOf("]]>", start + 9);
+                        return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
+                    }
+                    var matchs = split(source, start), len = matchs.length;
+                    if (len > 1 && /!doctype/i.test(matchs[0][0])) {
+                        var name = matchs[1][0], pubid = !1, sysid = !1;
+                        len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
+                        var lastMatch = matchs[len - 1];
+                        return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
+                    }
                 }
                 return -1;
             }
@@ -2117,7 +2120,7 @@
                 var end = source.indexOf("?>", start);
                 if (end) {
                     var match = source.substring(start, end).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);
-                    return match ? (match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2) : -1;
+                    if (match) return match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2;
                 }
                 return -1;
             }
@@ -4827,52 +4830,49 @@
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self.state = "HEADER";
                         }
-                        for(var alreadyCollectedLine = !1; self.buffer;){
-                            if (!/\r\n|\n/.test(self.buffer)) return this;
-                            switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line1 = collectNextLine(), self.state){
-                                case "HEADER":
-                                    /:/.test(line1) ? parseHeader(line1) : line1 || (self.state = "ID");
+                        for(var alreadyCollectedLine = !1; self.buffer && /\r\n|\n/.test(self.buffer);)switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line1 = collectNextLine(), self.state){
+                            case "HEADER":
+                                /:/.test(line1) ? parseHeader(line1) : line1 || (self.state = "ID");
+                                continue;
+                            case "NOTE":
+                                line1 || (self.state = "ID");
+                                continue;
+                            case "ID":
+                                if (/^NOTE($|[ \t])/.test(line1)) {
+                                    self.state = "NOTE";
+                                    break;
+                                }
+                                if (!line1) continue;
+                                self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
+                                try {
+                                    self.cue.align = "center";
+                                } catch (e) {
+                                    self.cue.align = "middle";
+                                }
+                                if (self.state = "CUE", -1 === line1.indexOf("-->")) {
+                                    self.cue.id = line1;
                                     continue;
-                                case "NOTE":
-                                    line1 || (self.state = "ID");
+                                }
+                            case "CUE":
+                                try {
+                                    parseCue(line1, self.cue, self.regionList);
+                                } catch (e3) {
+                                    self.reportOrThrowError(e3), self.cue = null, self.state = "BADCUE";
                                     continue;
-                                case "ID":
-                                    if (/^NOTE($|[ \t])/.test(line1)) {
-                                        self.state = "NOTE";
-                                        break;
-                                    }
-                                    if (!line1) continue;
-                                    self.cue = new (self.vttjs.VTTCue || self.window.VTTCue)(0, 0, "");
-                                    try {
-                                        self.cue.align = "center";
-                                    } catch (e) {
-                                        self.cue.align = "middle";
-                                    }
-                                    if (self.state = "CUE", -1 === line1.indexOf("-->")) {
-                                        self.cue.id = line1;
-                                        continue;
-                                    }
-                                case "CUE":
-                                    try {
-                                        parseCue(line1, self.cue, self.regionList);
-                                    } catch (e3) {
-                                        self.reportOrThrowError(e3), self.cue = null, self.state = "BADCUE";
-                                        continue;
-                                    }
-                                    self.state = "CUETEXT";
+                                }
+                                self.state = "CUETEXT";
+                                continue;
+                            case "CUETEXT":
+                                var hasSubstring = -1 !== line1.indexOf("-->");
+                                if (!line1 || hasSubstring && (alreadyCollectedLine = !0)) {
+                                    self.oncue && self.oncue(self.cue), self.cue = null, self.state = "ID";
                                     continue;
-                                case "CUETEXT":
-                                    var hasSubstring = -1 !== line1.indexOf("-->");
-                                    if (!line1 || hasSubstring && (alreadyCollectedLine = !0)) {
-                                        self.oncue && self.oncue(self.cue), self.cue = null, self.state = "ID";
-                                        continue;
-                                    }
-                                    self.cue.text && (self.cue.text += "\n"), self.cue.text += line1.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
-                                    continue;
-                                case "BADCUE":
-                                    line1 || (self.state = "ID");
-                                    continue;
-                            }
+                                }
+                                self.cue.text && (self.cue.text += "\n"), self.cue.text += line1.replace(/\u2028/g, "\n").replace(/u2029/g, "\n");
+                                continue;
+                            case "BADCUE":
+                                line1 || (self.state = "ID");
+                                continue;
                         }
                     } catch (e) {
                         self.reportOrThrowError(e), "CUETEXT" === self.state && self.cue && self.oncue && self.oncue(self.cue), self.cue = null, self.state = "INITIAL" === self.state ? "BADWEBVTT" : "BADCUE";
@@ -5340,7 +5340,7 @@
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
                     var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if ((obj = parsed) != obj) return i;
+                    if ((obj = parsed) != obj) break;
                     buf[offset + i] = parsed;
                 }
                 return i;

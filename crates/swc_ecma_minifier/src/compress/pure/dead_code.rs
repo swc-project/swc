@@ -1,6 +1,6 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -193,44 +193,160 @@ impl Pure<'_> {
     where
         T: StmtLike + ModuleItemExt + Take,
     {
-        if !self.options.side_effects {
+        if !self.options.dead_code {
             return;
         }
 
-        let idx = stmts
-            .iter()
-            .enumerate()
-            .find(|(_, stmt)| match stmt.as_stmt() {
-                Some(s) => s.terminates(),
-                _ => false,
-            });
+        let idx = stmts.iter().position(|stmt| match stmt.as_stmt() {
+            Some(s) => s.terminates(),
+            _ => false,
+        });
 
-        if let Some((idx, _)) = idx {
-            stmts.iter_mut().skip(idx + 1).for_each(|stmt| {
-                match stmt.as_stmt() {
-                    Some(Stmt::Decl(
-                        Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        })
-                        | Decl::Fn(..),
-                    )) => {
-                        // Preserve
+        // TODO: let chain
+        if let Some(idx) = idx {
+            self.drop_duplicate_terminate(&mut stmts[..=idx]);
+
+            if idx == stmts.len() - 1 {
+                return;
+            }
+            self.changed = true;
+
+            report_change!("Dropping statements after a control keyword");
+
+            let mut new_stmts = Vec::with_capacity(stmts.len());
+            let mut decls = vec![];
+            let mut hoisted_fns = vec![];
+
+            // Hoist function and `var` declarations above return.
+            stmts
+                .iter_mut()
+                .skip(idx + 1)
+                .for_each(|stmt| match stmt.take().try_into_stmt() {
+                    Ok(Stmt::Decl(Decl::Fn(f))) => {
+                        hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
                     }
-
-                    Some(Stmt::Empty(..)) => {
-                        // noop
+                    Ok(t) => {
+                        let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
+                            span: i.span,
+                            name: i.into(),
+                            init: None,
+                            definite: false,
+                        });
+                        decls.extend(ids);
                     }
+                    Err(item) => new_stmts.push(item),
+                });
 
-                    Some(..) => {
-                        report_change!("Removing unreachable statements");
-                        self.changed = true;
-                        stmt.take();
+            if !decls.is_empty() {
+                new_stmts.push(
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls,
+                        declare: false,
+                    }))
+                    .into(),
+                );
+            }
+
+            new_stmts.extend(hoisted_fns);
+            new_stmts.extend(stmts.drain(..=idx));
+
+            *stmts = new_stmts;
+        }
+    }
+
+    fn drop_duplicate_terminate<T: StmtLike>(&mut self, stmts: &mut [T]) {
+        let (last, stmts) = stmts.split_last_mut().unwrap();
+
+        let last = match last.as_stmt() {
+            Some(s @ (Stmt::Break(_) | Stmt::Continue(_) | Stmt::Return(_) | Stmt::Throw(_))) => s,
+            _ => return,
+        };
+
+        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool) -> bool {
+            match stmt.as_stmt_mut() {
+                Some(s) if s.eq_ignore_span(last) => {
+                    if need_break {
+                        *s = Stmt::Break(BreakStmt {
+                            label: None,
+                            span: s.span(),
+                        });
+                    } else {
+                        s.take();
                     }
-
-                    _ => {}
+                    true
                 }
-            });
+                Some(Stmt::If(i)) => {
+                    let mut changed = false;
+                    changed |= drop(&mut *i.cons, last, need_break);
+                    if let Some(alt) = i.alt.as_mut() {
+                        changed |= drop(&mut **alt, last, need_break);
+                    }
+                    changed
+                }
+                Some(Stmt::Try(t)) if !last.is_throw() => {
+                    let mut changed = false;
+                    if let Some(stmt) = t.block.stmts.last_mut() {
+                        changed |= drop(stmt, last, need_break)
+                    }
+                    // TODO: let chain
+                    if let Some(h) = t.handler.as_mut() {
+                        if let Some(stmt) = h.body.stmts.last_mut() {
+                            changed |= drop(stmt, last, need_break);
+                        }
+                    }
+                    if let Some(f) = t.finalizer.as_mut() {
+                        if let Some(stmt) = f.stmts.last_mut() {
+                            changed |= drop(stmt, last, need_break);
+                        }
+                    }
+                    changed
+                }
+                Some(Stmt::Switch(s)) if !last.is_break_stmt() && !need_break => {
+                    let mut changed = false;
+                    for case in s.cases.iter_mut() {
+                        for stmt in case.cons.iter_mut() {
+                            changed |= drop(stmt, last, true);
+                        }
+                    }
+
+                    changed
+                }
+                Some(
+                    Stmt::For(ForStmt { body, .. })
+                    | Stmt::ForIn(ForInStmt { body, .. })
+                    | Stmt::ForOf(ForOfStmt { body, .. })
+                    | Stmt::While(WhileStmt { body, .. })
+                    | Stmt::DoWhile(DoWhileStmt { body, .. }),
+                ) if !last.is_break_stmt() && !last.is_continue_stmt() && !need_break => {
+                    if let Stmt::Block(b) = &mut **body {
+                        let mut changed = false;
+                        for stmt in b.stmts.iter_mut() {
+                            changed |= drop(stmt, last, true);
+                        }
+                        changed
+                    } else {
+                        drop(&mut **body, last, true)
+                    }
+                }
+                Some(Stmt::Block(b)) => {
+                    if let Some(stmt) = b.stmts.last_mut() {
+                        drop(stmt, last, need_break)
+                    } else {
+                        false
+                    }
+                }
+                _ => false,
+            }
+        }
+
+        if let Some(before_last) = stmts.last_mut() {
+            if drop(before_last, last, false) {
+                self.changed = true;
+
+                report_change!("Dropping control keyword in nested block");
+            }
         }
     }
 

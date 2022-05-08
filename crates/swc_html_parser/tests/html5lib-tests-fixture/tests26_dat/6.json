@@ -90,11 +90,52 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 37,
+                    "start": 31,
                     "end": 42,
                     "ctxt": 0
                   },
-                  "tagName": "ins",
+                  "tagName": "nobr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 37,
+                        "end": 42,
+                        "ctxt": 0
+                      },
+                      "tagName": "ins",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 31,
+                "end": 49,
+                "ctxt": 0
+              },
+              "tagName": "nobr",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 46,
+                    "end": 49,
+                    "ctxt": 0
+                  },
+                  "tagName": "i",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [],

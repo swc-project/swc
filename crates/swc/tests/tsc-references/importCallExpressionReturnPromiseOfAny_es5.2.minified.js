@@ -58,7 +58,7 @@ export var C = function() {
     swcHelpers.classCallCheck(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile)), import(getSpecifier());
-var p1 = import(ValidSomeCondition() ? "./0" : "externalModule"), p1 = import(getSpecifier());
+var p1 = (import(ValidSomeCondition() ? "./0" : "externalModule"), import(getSpecifier()));
 import(getSpecifier()), import(whatToLoad ? getSpecifier() : "defaulPath"), p1.then(function(zero) {
     return zero.foo();
 }), import(getSpecifier());

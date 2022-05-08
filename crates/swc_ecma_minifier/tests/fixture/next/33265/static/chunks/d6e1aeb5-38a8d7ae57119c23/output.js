@@ -9026,7 +9026,7 @@
                 }, Cea708Stream1.prototype.getPts = function(byteIndex) {
                     return this.current708Packet.ptsVals[Math.floor(byteIndex / 2)];
                 }, Cea708Stream1.prototype.initService = function(serviceNum, i) {
-                    var serviceName, encoding, serviceName = "SERVICE" + serviceNum, self = this;
+                    var encoding, serviceName = "SERVICE" + serviceNum, self = this;
                     return serviceName in this.serviceEncodings && (encoding = this.serviceEncodings[serviceName]), this.services[serviceNum] = new Cea708Service(serviceNum, encoding, self), this.services[serviceNum].init(this.getPts(i), function(pts) {
                         self.flushDisplayed(pts, self.services[serviceNum]);
                     }), this.services[serviceNum];
@@ -9965,7 +9965,7 @@
                         var frameStart, frameSize, frame;
                         frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
                         do {
-                            if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) return null;
+                            if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
                             if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
                                 frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
                                 for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
@@ -12584,7 +12584,7 @@
             }, nextQueueIndexOfType = function(type, queue) {
                 for(var i = 0; i < queue.length; i++){
                     var queueEntry = queue[i];
-                    if ("mediaSource" === queueEntry.type) return null;
+                    if ("mediaSource" === queueEntry.type) break;
                     if (queueEntry.type === type) return i;
                 }
                 return null;
