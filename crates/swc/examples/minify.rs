@@ -1,7 +1,7 @@
 use std::{path::Path, sync::Arc};
 
 use anyhow::Context;
-use swc::{self, config::JsMinifyOptions, try_with_handler, BoolConfig, BoolOr, HandlerOpts};
+use swc::{self, config::JsMinifyOptions, try_with_handler, BoolOr, HandlerOpts};
 use swc_common::SourceMap;
 
 fn main() {
