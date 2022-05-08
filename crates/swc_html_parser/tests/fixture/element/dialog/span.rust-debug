@@ -1,0 +1,89 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | ,-> <dialog open>
+ 2 | |       <p>Greetings, one and all!</p>
+ 3 | `-> </dialog>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+ 3 |     </dialog>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+ 3 |     </dialog>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | <dialog open>
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | <dialog open>
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | <dialog open>
+   : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   :                               ^
+ 3 | </dialog>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:5]
+ 2 | <p>Greetings, one and all!</p>
+   :                               ^
+ 3 | </dialog>
+   `----
