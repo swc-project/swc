@@ -977,10 +977,10 @@ impl Compiler {
 
             let target = opts.ecma.clone().into();
 
-            let (source_map, orig) = match &opts.source_map {
-                BoolOr::Bool(false) => (SourceMapsConfig::Bool(false), None),
-                BoolOr::Bool(true) => (SourceMapsConfig::Bool(true), None),
-                BoolOr::Obj(obj) => {
+            let (source_map, orig) = opts
+                .source_map
+                .as_ref()
+                .map(|obj| -> Result<_, Error> {
                     let orig = obj
                         .content
                         .as_ref()
@@ -989,9 +989,15 @@ impl Compiler {
                         Some(v) => Some(v?),
                         None => None,
                     };
-                    (SourceMapsConfig::Bool(true), orig)
-                }
-            };
+                    Ok((SourceMapsConfig::Bool(true), orig))
+                })
+                .unwrap_as_option(|v| {
+                    Some(Ok(match v {
+                        Some(true) => (SourceMapsConfig::Bool(true), None),
+                        _ => (SourceMapsConfig::Bool(false), None),
+                    }))
+                })
+                .unwrap()?;
 
             let mut min_opts = MinifyOptions {
                 compress: opts

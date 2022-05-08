@@ -14,6 +14,14 @@ impl<T> BoolOr<T> {
         v.into()
     }
 
+    pub fn as_ref(&self) -> BoolOr<&T> {
+        match &self.0 {
+            Some(Inner::Actual(v)) => BoolOr::from_obj(v),
+            Some(Inner::Bool(b)) => BoolOr::from_bool(*b),
+            None => BoolOr::default(),
+        }
+    }
+
     pub fn or<F>(self, default: F) -> Self
     where
         F: FnOnce() -> Self,
