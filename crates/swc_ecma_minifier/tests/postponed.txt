@@ -508,6 +508,7 @@ reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
+reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def/input.js
