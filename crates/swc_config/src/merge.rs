@@ -1,3 +1,9 @@
+pub use swc_config_macro::Merge;
+
+/// Deriavable trait for overrding configurations.
+///
+/// Typically, correct implementation of this trait for a struct is calling
+/// merge for all fields, and `#[derive(Merge)]` will do it for you.
 pub trait Merge: Sized {
     /// `self` has higher priority.
     fn merge(&mut self, other: Self);
