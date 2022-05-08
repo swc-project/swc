@@ -1045,7 +1045,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                         new_errors.push(line);
                     }
                     _ => {
-                        println!("{:?}", line);
                         unreachable!();
                     }
                 }
@@ -1069,7 +1068,13 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let dom_snapshot_path = dir.join(file_stem + ".dom");
 
-            fs::write(dom_snapshot_path, document.join("\n"))
+            let mut dom = document.join("\n");
+
+            if !dom.ends_with("\n") {
+                dom.push('\n');
+            }
+
+            fs::write(dom_snapshot_path, dom)
                 .expect("Something went wrong when writingto the file");
 
             counter += 1;
