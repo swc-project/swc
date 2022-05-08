@@ -1476,10 +1476,43 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let params: Vec<Id> = find_ids(&c.param);
-        let excluded = collect_decls::<Id, _>(&c.body);
-
         let orig = self.catch_param_decls.clone();
+
+        let params: Vec<Id> = find_ids(&c.param);
+
+        let mut excluded = find_ids::<_, Id>(&c.body);
+
+        excluded.retain(|id| {
+            // If we already have a declartion named a, `var a` in the catch body is
+            // different var.
+
+            // The code below prints "PASS"
+            //
+            //      var a = "PASS";
+            //      try {
+            //          throw "FAIL1";
+            //          } catch (a) {
+            //          var a = "FAIL2";
+            //      }
+            //      console.log(a);
+            //
+            //
+            // While the code below does not throw **ReferenceError** for `b`
+            //
+            //      b()
+            //      try {
+            //      } catch (b) {
+            //          var b;
+            //      }
+            //
+            // while the code below throws **ReferenceError**
+            //
+            //      b()
+            //      try {
+            //      } catch (b) {
+            //      }
+            self.resolver.mark_for_ref(&id.0).is_none()
+        });
 
         self.catch_param_decls.extend(
             params
