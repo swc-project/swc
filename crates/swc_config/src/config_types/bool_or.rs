@@ -23,6 +23,18 @@ impl<T> BoolOr<T> {
             None => default(),
         }
     }
+
+    pub fn is_true(&self) -> bool {
+        matches!(self.0, Some(Inner::Bool(true)))
+    }
+
+    pub fn is_false(&self) -> bool {
+        matches!(self.0, Some(Inner::Bool(false)))
+    }
+
+    pub fn is_obj(&self) -> bool {
+        matches!(self.0, Some(Inner::Actual(_)))
+    }
 }
 
 impl<T> From<T> for BoolOr<T> {
