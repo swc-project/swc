@@ -107,7 +107,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                         ..Default::default()
                     },
                     module: Some(ModuleConfig::CommonJs(Default::default())),
-                    minify,
+                    minify: minify.into(),
                     ..Default::default()
                 },
                 source_maps: if source_map {

@@ -831,7 +831,7 @@ fn tests(input_dir: PathBuf) {
                         output_path: Some(output.join(entry.file_name())),
                         config: Config {
                             jsc: JscConfig {
-                                external_helpers: true,
+                                external_helpers: true.into(),
                                 ..Default::default()
                             },
                             ..Default::default()

@@ -30,7 +30,7 @@ fn file(f: &str) -> Result<(), StdErr> {
                 &handler,
                 &Options {
                     config: Config {
-                        inline_sources_content: true,
+                        inline_sources_content: true.into(),
                         ..Default::default()
                     },
                     swcrc: true,
