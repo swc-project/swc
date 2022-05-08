@@ -977,13 +977,20 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .find("#errors\n")
                 .expect("failed to get errors in test");
             let mut data = &test[data_start..data_end];
-            if data.ends_with('\n') {
+
+            if data.ends_with("\n") {
                 data = data
                     .strip_suffix('\n')
                     .expect("failed to strip last line in test");
             }
 
-            let html_path = dir.join(counter.to_string() + ".html");
+            let mut file_stem = counter.to_string();
+
+            if test.contains("#script-on\n") {
+                file_stem += ".script_on";
+            }
+
+            let html_path = dir.join(file_stem.clone() + ".html");
 
             fs::write(html_path, data).expect("Something went wrong when writing to the file");
 
@@ -991,8 +998,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .find("#document\n")
                 .expect("failed to get errors in test");
             let dom_snapshot = &test[document_start..];
-
-            let dom_snapshot_path = dir.join(counter.to_string() + ".dom");
+            let dom_snapshot_path = dir.join(file_stem + ".dom");
 
             fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
                 .expect("Something went wrong when writing to the file");
@@ -1003,7 +1009,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve test for enabled/disabled js
     // TODO improve errors tests
     // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
@@ -1013,10 +1018,12 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         }
 
         let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
+
+        let scripting_enabled = file_stem.contains("script_on");
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let mut parser = Parser::new(lexer, Default::default());
+        let mut parser = Parser::new(lexer, ParserConfig { scripting_enabled });
 
         let document: PResult<Document> = parser.parse_document();
 
@@ -1028,7 +1035,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                 actual_json.compare_to_file(&json_path).unwrap();
 
-                // Skip scrippted test, because we don't support ECMA execution
+                // Skip scripted test, because we don't support ECMA execution
                 if input
                     .parent()
                     .unwrap()
