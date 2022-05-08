@@ -281,8 +281,7 @@ impl Options {
         let mut config = config.unwrap_or_default();
         config.merge(self.config.clone());
 
-        let mut source_maps = self.source_maps.clone();
-        source_maps.merge(&config.source_maps);
+        let source_maps = config.source_maps.clone();
 
         let JscConfig {
             assumptions,
@@ -454,7 +453,7 @@ impl Options {
             comments,
         );
 
-        let keep_import_assertions = experimental.keep_import_assertions;
+        let keep_import_assertions = experimental.keep_import_assertions.unwrap_or_default();
 
         // Embedded runtime plugin target, based on assumption we have
         // 1. filesystem access for the cache

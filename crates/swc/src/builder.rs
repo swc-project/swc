@@ -1,7 +1,8 @@
-use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
+use std::{cell::RefCell, path::PathBuf, rc::Rc, sync::Arc};
 
 use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -124,7 +125,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
     pub fn const_modules(
         self,
-        globals: HashMap<JsWord, HashMap<JsWord, String>>,
+        globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
     ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
         let cm = self.cm.clone();
         self.then(const_modules(cm, globals))
