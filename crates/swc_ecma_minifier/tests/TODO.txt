@@ -129,8 +129,6 @@ pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
-reduce_vars/issue_432_1/input.js
-reduce_vars/issue_432_2/input.js
 reduce_vars/issue_639/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 return_undefined/return_undefined/input.js
