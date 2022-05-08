@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, path::PathBuf};
 
 use indexmap::IndexMap;
 pub use swc_config_macro::Merge;
@@ -12,7 +12,7 @@ pub trait Merge: Sized {
     fn merge(&mut self, other: Self);
 }
 
-/// Modifies `self` iff `*self` is [None]
+/// Modifies `self` iff `self` is [None]
 impl<T> Merge for Option<T> {
     #[inline]
     fn merge(&mut self, other: Self) {
@@ -32,7 +32,7 @@ where
     }
 }
 
-/// Modifies `self` iff `*self` is empty.
+/// Modifies `self` iff `self` is empty.
 impl<T> Merge for Vec<T> {
     #[inline]
     fn merge(&mut self, other: Self) {
@@ -42,7 +42,7 @@ impl<T> Merge for Vec<T> {
     }
 }
 
-/// Modifies `self` iff `*self` is empty.
+/// Modifies `self` iff `self` is empty.
 impl<K, V, S> Merge for HashMap<K, V, S> {
     #[inline]
     fn merge(&mut self, other: Self) {
@@ -52,11 +52,31 @@ impl<K, V, S> Merge for HashMap<K, V, S> {
     }
 }
 
-/// Modifies `self` iff `*self` is empty.
+/// Modifies `self` iff `self` is empty.
 impl<K, V, S> Merge for IndexMap<K, V, S> {
     #[inline]
     fn merge(&mut self, other: Self) {
         if self.is_empty() {
+            *self = other;
+        }
+    }
+}
+
+/// Modifies `self` iff `self` is empty.
+impl Merge for String {
+    #[inline]
+    fn merge(&mut self, other: Self) {
+        if self.is_empty() {
+            *self = other;
+        }
+    }
+}
+
+/// Modifies `self` iff `self` is empty.
+impl Merge for PathBuf {
+    #[inline]
+    fn merge(&mut self, other: Self) {
+        if self.as_os_str().is_empty() {
             *self = other;
         }
     }
