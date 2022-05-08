@@ -115,9 +115,6 @@ properties/native_prototype/input.js
 properties/new_this/input.js
 properties/skip_undeclared_properties_by_default/input.js
 properties/unsafe_methods_regex/input.js
-pure_funcs/issue_3065_1/input.js
-pure_funcs/issue_3065_2/input.js
-pure_funcs/issue_3065_2b/input.js
 pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
 pure_getters/set_immutable_3/input.js

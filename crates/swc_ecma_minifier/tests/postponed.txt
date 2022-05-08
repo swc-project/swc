@@ -478,6 +478,9 @@ pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
 pure_funcs/issue_2705_5/input.js
 pure_funcs/issue_2705_6/input.js
+pure_funcs/issue_3065_1/input.js
+pure_funcs/issue_3065_2/input.js
+pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
 pure_funcs/issue_526_1/input.js
