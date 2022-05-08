@@ -515,6 +515,8 @@ reduce_vars/delay_def/input.js
 reduce_vars/duplicate_lambda_defun_name_1/input.js
 reduce_vars/escape_expansion/input.js
 reduce_vars/escape_local_sequence/input.js
+reduce_vars/escaped_prop_1/input.js
+reduce_vars/escaped_prop_2/input.js
 reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
 reduce_vars/func_modified/input.js
