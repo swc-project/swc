@@ -859,7 +859,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "indent_level")]
-    pub indent_level: usize,
+    pub indent_level: Option<usize>,
 
     /// Not implemented yet.
     #[serde(default, alias = "indent_start")]
@@ -879,7 +879,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "max_line_len")]
-    pub max_line_len: BoolOrObject<usize>,
+    pub max_line_len: BoolOr<usize>,
 
     /// Not implemented yet.
     #[serde(default)]
@@ -891,7 +891,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "quote_style")]
-    pub quote_style: usize,
+    pub quote_style: Option<usize>,
 
     /// Not implemented yet.
     #[serde(default, alias = "preserve_annotations")]
@@ -1044,7 +1044,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
-    pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+    pub preserve_comments: Option<BoolOr<JsMinifyCommentOption>>,
 
     pub inline_sources_content: bool,
 }
