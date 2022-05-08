@@ -135,7 +135,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
-pub use swc_config::config_types::BoolConfig;
+pub use swc_config::config_types::{BoolConfig, BoolOr};
 use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
