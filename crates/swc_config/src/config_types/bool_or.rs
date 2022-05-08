@@ -24,7 +24,7 @@ impl<T> BoolOr<T> {
         }
     }
 
-    pub fn unwrap_or<F>(self, default: F) -> Option<T>
+    pub fn unwrap_as_option<F>(self, default: F) -> Option<T>
     where
         F: FnOnce(Option<bool>) -> Option<T>,
     {

@@ -343,7 +343,7 @@ impl Options {
             js_minify = js_minify.map(|c| {
                 let compress = c
                     .compress
-                    .unwrap_or(|default| match default {
+                    .unwrap_as_option(|default| match default {
                         Some(true) => Some(Default::default()),
                         _ => None,
                     })
@@ -359,7 +359,7 @@ impl Options {
 
                 let mangle = c
                     .mangle
-                    .unwrap_or(|default| match default {
+                    .unwrap_as_option(|default| match default {
                         Some(true) => Some(Default::default()),
                         _ => None,
                     })

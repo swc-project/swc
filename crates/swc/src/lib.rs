@@ -593,7 +593,7 @@ pub fn minify_global_comments(
     preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
     let preserve_comments = preserve_comments
-        .unwrap_or(|value| {
+        .unwrap_as_option(|value| {
             Some(match value {
                 Some(v) => JsMinifyCommentOption::Bool(v),
                 None => {
@@ -648,7 +648,7 @@ pub fn minify_file_comments(
     preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
     let preserve_comments = preserve_comments
-        .unwrap_or(|value| {
+        .unwrap_as_option(|value| {
             Some(match value {
                 Some(v) => JsMinifyCommentOption::Bool(v),
                 None => {
@@ -997,15 +997,18 @@ impl Compiler {
                 compress: opts
                     .compress
                     .clone()
-                    .unwrap_or(|default| match default {
+                    .unwrap_as_option(|default| match default {
                         Some(true) | None => Some(Default::default()),
                         _ => None,
                     })
                     .map(|v| v.into_config(self.cm.clone())),
-                mangle: opts.mangle.clone().unwrap_or(|default| match default {
-                    Some(true) | None => Some(Default::default()),
-                    _ => None,
-                }),
+                mangle: opts
+                    .mangle
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) | None => Some(Default::default()),
+                        _ => None,
+                    }),
                 ..Default::default()
             };
 

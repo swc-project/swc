@@ -353,7 +353,7 @@ impl VisitMut for MinifierPass {
                 compress: options
                     .compress
                     .clone()
-                    .unwrap_or(|default| match default {
+                    .unwrap_as_option(|default| match default {
                         Some(true) => Some(Default::default()),
                         _ => None,
                     })
@@ -367,10 +367,13 @@ impl VisitMut for MinifierPass {
 
                         v.into_config(self.cm.clone())
                     }),
-                mangle: options.mangle.clone().unwrap_or(|default| match default {
-                    Some(true) => Some(Default::default()),
-                    _ => None,
-                }),
+                mangle: options
+                    .mangle
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    }),
                 ..Default::default()
             };
 
