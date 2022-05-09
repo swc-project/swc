@@ -31,6 +31,12 @@
 
 - **(ci)** Improve CI scripts (#4572) ([f23c943](https://github.com/swc-project/swc/commit/f23c943227e8438dabeaa951bab552cd3d076e41))
 
+### Refactor
+
+
+
+- **(html/parser)** Resolve TODO (#4577) ([4cc247f](https://github.com/swc-project/swc/commit/4cc247f39f53ee2c4183c3881c3b686a109a3419))
+
 ### Testing
 
 
