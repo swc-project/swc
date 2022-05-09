@@ -3066,7 +3066,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config_macro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -3905,7 +3905,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "pmutil",
  "proc-macro2",

@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_config_macro"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.1.1"
 
 [lib]
 proc-macro = true
@@ -15,5 +15,5 @@ proc-macro = true
 pmutil = "0.5.3"
 proc-macro2 = "1"
 quote = "1"
-swc_macros_common = { version = "0.3.4", path = "../swc_macros_common" }
+swc_macros_common = {version = "0.3.5", path = "../swc_macros_common"}
 syn = "1"
