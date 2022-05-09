@@ -1378,8 +1378,7 @@
         var order = getOrder(lineObj, cm.doc.direction), ch1 = pos.ch, sticky = pos.sticky;
         if (ch1 >= lineObj.text.length ? (ch1 = lineObj.text.length, sticky = "before") : ch1 <= 0 && (ch1 = 0, sticky = "after"), !order) return get("before" == sticky ? ch1 - 1 : ch1, "before" == sticky);
         function getBidi(ch, partPos, invert) {
-            var right = 1 == order[partPos].level;
-            return get(invert ? ch - 1 : ch, right != invert);
+            return get(invert ? ch - 1 : ch, 1 == order[partPos].level != invert);
         }
         var partPos1 = getBidiPartAt(order, ch1, sticky), other = bidiOther, val = getBidi(ch1, partPos1, "before" == sticky);
         return null != other && (val.other = getBidi(ch1, other, "before" != sticky)), val;

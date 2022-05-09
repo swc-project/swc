@@ -4981,10 +4981,7 @@
                 return created.return = returnFiber, created;
             }(returnFiber1, currentFirstChild1, "" + newChild, lanes3));
             if (isArray$1(newChild)) return function(returnFiber, currentFirstChild, newChildren, lanes) {
-                for(var knownKeys = null, i = 0; i < newChildren.length; i++){
-                    var child = newChildren[i];
-                    knownKeys = warnOnInvalidKey(child, knownKeys, returnFiber);
-                }
+                for(var knownKeys = null, i = 0; i < newChildren.length; i++)knownKeys = warnOnInvalidKey(newChildren[i], knownKeys, returnFiber);
                 for(var resultingFirstChild = null, previousNewFiber = null, oldFiber = currentFirstChild, lastPlacedIndex = 0, newIdx = 0, nextOldFiber = null; null !== oldFiber && newIdx < newChildren.length; newIdx++){
                     oldFiber.index > newIdx ? (nextOldFiber = oldFiber, oldFiber = null) : nextOldFiber = oldFiber.sibling;
                     var newFiber = updateSlot(returnFiber, oldFiber, newChildren[newIdx], lanes);
@@ -9323,10 +9320,7 @@
         var containerInfo, tag2, hydrate1, containerInfo1, tag3, hydrate2, root, tag4, mode, uninitializedFiber, hostRoot, node, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root7 = (containerInfo = container, tag2 = tag, hydrate1 = hydrate, containerInfo1 = containerInfo, tag3 = tag2, hydrate2 = hydrate1, root = new FiberRootNode(containerInfo1, tag3, hydrate2), uninitializedFiber = (mode = 2 === (tag4 = tag3) ? 7 : 1 === tag4 ? 3 : 0, isDevToolsPresent && (mode |= 8), createFiber(3, null, null, mode)), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
         hostRoot = root7.current, container[internalContainerInstanceKey] = hostRoot, container.nodeType;
         var rootContainerElement = 8 === container.nodeType ? container.parentNode : container;
-        if (listenToAllSupportedEvents(rootContainerElement), mutableSources) for(var i = 0; i < mutableSources.length; i++){
-            var mutableSource = mutableSources[i];
-            registerMutableSourceForHydration(root7, mutableSource);
-        }
+        if (listenToAllSupportedEvents(rootContainerElement), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root7, mutableSources[i]);
         return root7;
     }
     function isValidContainer(node) {

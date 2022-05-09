@@ -8560,7 +8560,7 @@
                             };
                             do {
                                 if (token.value.match(/[{}()\[\]]/g)) {
-                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen"), isNaN(depth[bracketType]) && (depth[bracketType] = 0), token.value[i]){
+                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(isNaN(depth[bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen")]) && (depth[bracketType] = 0), token.value[i]){
                                         case "(":
                                         case "[":
                                         case "{":
@@ -9099,7 +9099,7 @@
                     };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
-                            var x = deltaSet[i], xformed = xform(x, d);
+                            var xformed = xform(deltaSet[i], d);
                             d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
                         }
                         deltaSet.length || redoStack.splice(j, 1);

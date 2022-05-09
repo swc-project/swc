@@ -375,10 +375,10 @@
                     width: inputWidth,
                     height: inputHeight
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
-                    var value, parsed = (value = area[key], {
-                        value: parseFloat(value),
+                    var value, parsed = {
+                        value: parseFloat(value = area[key]),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }), calculated = _dimensionsConverters[key](parsed, context);
+                    }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
                 return {

@@ -3101,7 +3101,7 @@
                     if (I) {
                         var c = Zg, d = Yg;
                         c = (d & ~(1 << 32 - nc(d) - 1)).toString(32) + c, b = ":" + b + "R" + c, 0 < (c = Rh++) && (b += "H" + c.toString(32)), b += ":";
-                    } else c = Sh++, b = ":" + b + "r" + c.toString(32) + ":";
+                    } else b = ":" + b + "r" + (c = Sh++).toString(32) + ":";
                     return a.memoizedState = b;
                 },
                 unstable_isNewReconciler: !1
@@ -5987,8 +5987,7 @@
                     _owner: a25._owner
                 })), b.push(c)), 1;
                 if (h = 0, d = "" === d ? "." : d + ":", I(a27)) for(var g = 0; g < a27.length; g++){
-                    k = a27[g];
-                    var f = d + Q(k, g);
+                    var f = d + Q(k = a27[g], g);
                     h += R(k, b, e, f, c);
                 }
                 else if ("function" == typeof (f = null === (a26 = a27) || "object" != typeof a26 ? null : "function" == typeof (a26 = z && a26[z] || a26["@@iterator"]) ? a26 : null)) for(a27 = f.call(a27), g = 0; !(k = a27.next()).done;)f = d + Q(k = k.value, g++), h += R(k, b, e, f, c);

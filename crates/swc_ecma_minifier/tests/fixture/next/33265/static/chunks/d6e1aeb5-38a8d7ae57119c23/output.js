@@ -6093,8 +6093,8 @@
                     }), modal.open(), modal;
                 }, _proto.updateCurrentBreakpoint_ = function() {
                     if (this.responsive()) for(var currentBreakpoint = this.currentBreakpoint(), currentWidth = this.currentWidth(), i = 0; i < BREAKPOINT_ORDER.length; i++){
-                        var candidateBreakpoint = BREAKPOINT_ORDER[i], maxWidth = this.breakpoints_[candidateBreakpoint];
-                        if (currentWidth <= maxWidth) {
+                        var candidateBreakpoint = BREAKPOINT_ORDER[i];
+                        if (currentWidth <= this.breakpoints_[candidateBreakpoint]) {
                             if (currentBreakpoint === candidateBreakpoint) return;
                             currentBreakpoint && this.removeClass(BREAKPOINT_CLASSES[currentBreakpoint]), this.addClass(BREAKPOINT_CLASSES[candidateBreakpoint]), this.breakpoint_ = candidateBreakpoint;
                             break;

@@ -13713,7 +13713,7 @@
                             c("r:" + (tf++).toString(36));
                         }, void 0, null)), b;
                     }
-                    return b = "r:" + (tf++).toString(36), Qh(b), b;
+                    return Qh(b = "r:" + (tf++).toString(36)), b;
                 },
                 unstable_isNewReconciler: !1
             }, Eh = {
@@ -16666,8 +16666,7 @@
                     _owner: a34._owner
                 })), b.push(d)), 1;
                 if (h = 0, e = "" === e ? "." : e + ":", Array.isArray(a36)) for(var g = 0; g < a36.length; g++){
-                    k = a36[g];
-                    var f = e + N(k, g);
+                    var f = e + N(k = a36[g], g);
                     h += O(k, b, c, f, d);
                 }
                 else if ("function" == typeof (f = null === (a35 = a36) || "object" != typeof a35 ? null : "function" == typeof (a35 = x && a35[x] || a35["@@iterator"]) ? a35 : null)) for(a36 = f.call(a36), g = 0; !(k = a36.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
