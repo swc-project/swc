@@ -227,7 +227,7 @@
             for(var i$6 = 0; i$6 < len; ++i$6)if (isNeutral.test(types[i$6])) {
                 var end$1 = void 0;
                 for(end$1 = i$6 + 1; end$1 < len && isNeutral.test(types[end$1]); ++end$1);
-                for(var before = (i$6 ? types[i$6 - 1] : outerType) == "L", replace$1 = before == ((end$1 < len ? types[end$1] : outerType) == "L") ? before ? "L" : "R" : outerType, j$1 = i$6; j$1 < end$1; ++j$1)types[j$1] = replace$1;
+                for(var before = (i$6 ? types[i$6 - 1] : outerType) == "L", after = (end$1 < len ? types[end$1] : outerType) == "L", replace$1 = before == after ? before ? "L" : "R" : outerType, j$1 = i$6; j$1 < end$1; ++j$1)types[j$1] = replace$1;
                 i$6 = end$1 - 1;
             }
             for(var m, order = [], i$7 = 0; i$7 < len;)if (countsAsLeft.test(types[i$7])) {
@@ -1210,7 +1210,7 @@
     }
     function prepareMeasureForLine(cm, line) {
         var cm2, line2, lineN, view, built, lineN1 = lineNo1(line), view1 = findViewForLine(cm, lineN1);
-        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (view1 = (cm2 = cm, lineN = lineNo1(line2 = visualLine(line2 = line)), (view = cm2.display.externalMeasured = new LineView(cm2.doc, line2, lineN)).lineN = lineN, built = view.built = buildLineContent(cm2, view), view.text = built.pre, removeChildrenAndAdd(cm2.display.lineMeasure, built.pre), view));
+        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (view1 = (cm2 = cm, line2 = visualLine(line2 = line), lineN = lineNo1(line2), (view = cm2.display.externalMeasured = new LineView(cm2.doc, line2, lineN)).lineN = lineN, built = view.built = buildLineContent(cm2, view), view.text = built.pre, removeChildrenAndAdd(cm2.display.lineMeasure, built.pre), view));
         var info = mapFromLineView(view1, line, lineN1);
         return {
             line: line,
@@ -1451,7 +1451,7 @@
             var coords = cursorCoords(cm, Pos(lineNo, ch2, sticky), "line", lineObj, preparedMeasure);
             baseX = coords.left, outside = y < coords.top ? -1 : y >= coords.bottom ? 1 : 0;
         }
-        return PosWithInfo(lineNo, ch2 = skipExtendingChars(lineObj.text, ch2, 1), sticky, outside, x - baseX);
+        return ch2 = skipExtendingChars(lineObj.text, ch2, 1), PosWithInfo(lineNo, ch2, sticky, outside, x - baseX);
     }
     function coordsBidiPart(cm, lineObj, lineNo, preparedMeasure, order, x, y) {
         var index = findFirst(function(i) {
@@ -3060,7 +3060,7 @@
     }, TextMarker.prototype.changed = function() {
         var this$1 = this, pos = this.find(-1, !0), widget = this, cm = this.doc.cm;
         pos && cm && runInOp(cm, function() {
-            var line = pos.line, view = findViewForLine(cm, lineNo1(pos.line));
+            var line = pos.line, lineN = lineNo1(pos.line), view = findViewForLine(cm, lineN);
             if (view && (clearLineMeasurementCacheFor(view), cm.curOp.selectionChanged = cm.curOp.forceUpdate = !0), cm.curOp.updateMaxLine = !0, !lineIsHidden(widget.doc, line) && null != widget.height) {
                 var oldHeight = widget.height;
                 widget.height = null;
@@ -3393,7 +3393,7 @@
                 shared: options && options.shared,
                 handleMouseEvents: options && options.handleMouseEvents
             };
-            return markText(this, pos = clipPos(this, pos), pos, realOpts, "bookmark");
+            return pos = clipPos(this, pos), markText(this, pos, pos, realOpts, "bookmark");
         },
         findMarksAt: function(pos) {
             pos = clipPos(this, pos);
@@ -5307,17 +5307,17 @@
         },
         getStateAfter: function(line, precise) {
             var doc = this.doc;
-            return getContextBefore(this, (line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line)) + 1, precise).state;
+            return line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line), getContextBefore(this, line + 1, precise).state;
         },
         cursorCoords: function(start, mode) {
-            var range = this.doc.sel.primary();
-            return cursorCoords(this, null == start ? range.head : "object" == typeof start ? clipPos(this.doc, start) : start ? range.from() : range.to(), mode || "page");
+            var pos, range = this.doc.sel.primary();
+            return pos = null == start ? range.head : "object" == typeof start ? clipPos(this.doc, start) : start ? range.from() : range.to(), cursorCoords(this, pos, mode || "page");
         },
         charCoords: function(pos, mode) {
             return charCoords(this, clipPos(this.doc, pos), mode || "page");
         },
         coordsChar: function(coords, mode) {
-            return coordsChar(this, (coords = fromCoordSystem(this, coords, mode || "page")).left, coords.top);
+            return coords = fromCoordSystem(this, coords, mode || "page"), coordsChar(this, coords.left, coords.top);
         },
         lineAtHeight: function(height, mode) {
             return height = fromCoordSystem(this, {
@@ -5349,18 +5349,18 @@
             };
         },
         addWidget: function(pos, node, scroll, vert, horiz) {
-            var cm, scrollPos, display = this.display, top = (pos = cursorCoords(this, clipPos(this.doc, pos))).bottom, left = pos.left;
+            var cm, rect, scrollPos, display = this.display, top = (pos = cursorCoords(this, clipPos(this.doc, pos))).bottom, left = pos.left;
             if (node.style.position = "absolute", node.setAttribute("cm-ignore-events", "true"), this.display.input.setUneditable(node), display.sizer.appendChild(node), "over" == vert) top = pos.top;
             else if ("above" == vert || "near" == vert) {
                 var vspace = Math.max(display.wrapper.clientHeight, this.doc.height), hspace = Math.max(display.sizer.clientWidth, display.lineSpace.clientWidth);
                 ("above" == vert || pos.bottom + node.offsetHeight > vspace) && pos.top > node.offsetHeight ? top = pos.top - node.offsetHeight : pos.bottom + node.offsetHeight <= vspace && (top = pos.bottom), left + node.offsetWidth > hspace && (left = hspace - node.offsetWidth);
             }
-            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (cm = this, null != (scrollPos = calculateScrollPos(cm, {
+            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (cm = this, rect = {
                 left: left,
                 top: top,
                 right: left + node.offsetWidth,
                 bottom: top + node.offsetHeight
-            })).scrollTop && updateScrollTop(cm, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(cm, scrollPos.scrollLeft));
+            }, null != (scrollPos = calculateScrollPos(cm, rect)).scrollTop && updateScrollTop(cm, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(cm, scrollPos.scrollLeft));
         },
         triggerOnKeyDown: methodOp(onKeyDown),
         triggerOnKeyPress: methodOp(onKeyPress),

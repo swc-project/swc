@@ -1,8 +1,8 @@
 use std::time::Instant;
 
+use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, Span, Spanned, DUMMY_SP,
@@ -379,7 +379,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    ids: AHashSet<Id>,
+    ids: FxHashSet<Id>,
     ignore_nested: bool,
 }
 
@@ -425,7 +425,7 @@ impl Visit for IdentUsageCollector {
 
 #[derive(Default)]
 pub(crate) struct CapturedIdCollector {
-    ids: AHashSet<Id>,
+    ids: FxHashSet<Id>,
     is_nested: bool,
 }
 
@@ -468,7 +468,7 @@ impl Visit for CapturedIdCollector {
     }
 }
 
-pub(crate) fn idents_captured_by<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<CapturedIdCollector>,
 {
@@ -480,7 +480,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -492,7 +492,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {

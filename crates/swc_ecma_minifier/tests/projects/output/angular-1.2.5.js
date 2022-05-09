@@ -113,7 +113,7 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
+    msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]), isNaN(msie) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim1 = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -230,7 +230,7 @@
     function parseKeyValue(keyValue1) {
         var key_value, key, obj = {};
         return forEach((keyValue1 || "").split("&"), function(keyValue) {
-            if (keyValue && isDefined(key = tryDecodeURIComponent((key_value = keyValue.split("="))[0]))) {
+            if (keyValue && (key = tryDecodeURIComponent((key_value = keyValue.split("="))[0]), isDefined(key))) {
                 var val = !isDefined(key_value[1]) || tryDecodeURIComponent(key_value[1]);
                 obj[key] ? isArray(obj[key]) ? obj[key].push(val) : obj[key] = [
                     obj[key],
@@ -255,7 +255,10 @@
     }
     function bootstrap1(element1, modules) {
         var doBootstrap = function() {
-            if ((element1 = jqLite(element1)).injector()) throw ngMinErr1("btstrpd", "App Already Bootstrapped with this Element '{0}'", element1[0] === document1 ? "document" : startingTag(element1));
+            if ((element1 = jqLite(element1)).injector()) {
+                var tag = element1[0] === document1 ? "document" : startingTag(element1);
+                throw ngMinErr1("btstrpd", "App Already Bootstrapped with this Element '{0}'", tag);
+            }
             (modules = modules || []).unshift([
                 "$provide",
                 function($provide) {
@@ -778,7 +781,7 @@
                 invoke: invoke,
                 instantiate: function(Type, locals) {
                     var instance, returnedValue, Constructor = function() {};
-                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, isObject(returnedValue = invoke(Type, instance = new Constructor(), locals)) || isFunction(returnedValue) ? returnedValue : instance;
+                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, returnedValue = invoke(Type, instance = new Constructor(), locals), isObject(returnedValue) || isFunction(returnedValue) ? returnedValue : instance;
                 },
                 get: getService,
                 annotate: annotate,
@@ -1131,7 +1134,7 @@
                 }
                 function groupElementsLinkFnWrapper(linkFn, attrStart, attrEnd) {
                     return function(scope, element, attrs, controllers, transcludeFn) {
-                        return linkFn(scope, element = groupScan(element[0], attrStart, attrEnd), attrs, controllers, transcludeFn);
+                        return element = groupScan(element[0], attrStart, attrEnd), linkFn(scope, element, attrs, controllers, transcludeFn);
                     };
                 }
                 function applyDirectivesToNode(directives, compileNode, templateAttrs, transcludeFn1, jqCollection, originalReplaceDirective, preLinkFns, postLinkFns, previousCompileContext) {
@@ -1433,7 +1436,7 @@
             function($injector, $window) {
                 return function(expression, locals) {
                     var instance, match, constructor, identifier;
-                    if (isString(expression) && (constructor = (match = expression.match(CNTRL_REG))[1], identifier = match[3], assertArgFn(expression = controllers.hasOwnProperty(constructor) ? controllers[constructor] : getter1(locals.$scope, constructor, !0) || getter1($window, constructor, !0), constructor, !0)), instance = $injector.instantiate(expression, locals), identifier) {
+                    if (isString(expression) && (constructor = (match = expression.match(CNTRL_REG))[1], identifier = match[3], expression = controllers.hasOwnProperty(constructor) ? controllers[constructor] : getter1(locals.$scope, constructor, !0) || getter1($window, constructor, !0), assertArgFn(expression, constructor, !0)), instance = $injector.instantiate(expression, locals), identifier) {
                         if (!(locals && "object" == typeof locals.$scope)) throw minErr("$controller")("noscp", "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locals`.", constructor || expression.name, identifier);
                         locals.$scope[identifier] = instance;
                     }
@@ -1533,7 +1536,7 @@
                             });
                         }
                         var defHeaderName, lowercaseDefHeaderName, reqHeaderName, defHeaders = defaults.headers, reqHeaders = extend({}, config.headers);
-                        execHeaders(defHeaders = extend({}, defHeaders.common, defHeaders[lowercase(config.method)])), execHeaders(reqHeaders);
+                        defHeaders = extend({}, defHeaders.common, defHeaders[lowercase(config.method)]), execHeaders(defHeaders), execHeaders(reqHeaders);
                         defaultHeadersIteration: for(defHeaderName in defHeaders){
                             for(reqHeaderName in lowercaseDefHeaderName = lowercase(defHeaderName), reqHeaders)if (lowercase(reqHeaderName) === lowercaseDefHeaderName) continue defaultHeadersIteration;
                             reqHeaders[defHeaderName] = defHeaders[defHeaderName];
@@ -1576,7 +1579,7 @@
                                     }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
                                 if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
-                                    if (isDefined(cachedResp = cache.get(url1))) {
+                                    if (cachedResp = cache.get(url1), isDefined(cachedResp)) {
                                         if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
                                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                                     } else cache.put(url1, promise);
@@ -1728,7 +1731,8 @@
                             for(var part, i = 0, ii = length; i < ii; i++)"function" == typeof (part = parts[i]) && (part = part(context), part = trustedContext ? $sce.getTrusted(trustedContext, part) : $sce.valueOf(part), null === part || isUndefined(part) ? part = "" : "string" != typeof part && (part = toJson(part))), concat[i] = part;
                             return concat.join("");
                         } catch (err) {
-                            $exceptionHandler($interpolateMinErr("interr", "Can't interpolate: {0}\n{1}", text, err.toString()));
+                            var newErr = $interpolateMinErr("interr", "Can't interpolate: {0}\n{1}", text, err.toString());
+                            $exceptionHandler(newErr);
                         }
                     }).exp = text, fn.parts = parts, fn;
                 }
@@ -2154,7 +2158,9 @@
             return "-" === ch || "+" === ch || this.isNumber(ch);
         },
         throwError: function(error, start, end) {
-            throw end = end || this.index, $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end, this.text);
+            end = end || this.index;
+            var colStr = isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end;
+            throw $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, colStr, this.text);
         },
         readNumber: function() {
             for(var number = "", start = this.index; this.index < this.text.length;){
@@ -2418,8 +2424,8 @@
                 })), v = v.$$v), v;
             }, {
                 assign: function(self, value, locals) {
-                    var key = indexFn(self, locals), safe = ensureSafeObject(obj(self, locals), parser.text);
-                    return safe[key] = value;
+                    var key = indexFn(self, locals);
+                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
                 }
             });
         },
@@ -2432,7 +2438,9 @@
             return function(scope, locals) {
                 for(var args = [], context = contextGetter ? contextGetter(scope, locals) : scope, i = 0; i < argsFn.length; i++)args.push(argsFn[i](scope, locals));
                 var fnPtr = fn(scope, locals, context) || noop;
-                return ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text), ensureSafeObject(fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]), parser.text);
+                ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text);
+                var v = fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]);
+                return ensureSafeObject(v, parser.text);
             };
         },
         arrayDeclaration: function() {
@@ -4213,7 +4221,7 @@
                                         } else selected = modelValue === valueFn(scope, locals);
                                         selectedSet = selectedSet || selected;
                                     }
-                                    label = isDefined(label = displayFn(scope, locals)) ? label : "", optionGroup.push({
+                                    label = displayFn(scope, locals), label = isDefined(label) ? label : "", optionGroup.push({
                                         id: trackFn ? trackFn(scope, locals) : keyName ? keys[index] : index,
                                         label: label,
                                         selected: selected

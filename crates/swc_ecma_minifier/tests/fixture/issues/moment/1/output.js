@@ -980,8 +980,8 @@
     }
     function createAdder(direction, name) {
         return function(val, period) {
-            var tmp;
-            return null === period || isNaN(+period) || (deprecateSimple(name, "moment()." + name + "(period, number) is deprecated. Please use moment()." + name + "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."), tmp = val, val = period, period = tmp), addSubtract(this, createDuration(val, period), direction), this;
+            var dur, tmp;
+            return null === period || isNaN(+period) || (deprecateSimple(name, "moment()." + name + "(period, number) is deprecated. Please use moment()." + name + "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."), tmp = val, val = period, period = tmp), dur = createDuration(val, period), addSubtract(this, dur, direction), this;
         };
     }
     function addSubtract(mom, duration, isAdding, updateOffset) {
@@ -1036,7 +1036,7 @@
     }
     function getSetWeekYearHelper(input, week, weekday, dow, doy) {
         var weeksTarget;
-        return null == input ? weekOfYear(this, dow, doy).year : (week > (weeksTarget = weeksInYear(input, dow, doy)) && (week = weeksTarget), setWeekAll.call(this, input, week, weekday, dow, doy));
+        return null == input ? weekOfYear(this, dow, doy).year : (weeksTarget = weeksInYear(input, dow, doy), week > weeksTarget && (week = weeksTarget), setWeekAll.call(this, input, week, weekday, dow, doy));
     }
     function setWeekAll(weekYear, week, weekday, dow, doy) {
         var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
@@ -1799,7 +1799,7 @@
         return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : NaN;
     }, proto$2._bubble = function() {
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
-        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(monthsToDays(months) + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += monthsFromDays = absFloor(daysToMonths(days)), days -= absCeil(monthsToDays(monthsFromDays)), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
+        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(monthsToDays(months) + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), monthsFromDays = absFloor(daysToMonths(days)), months += monthsFromDays, days -= absCeil(monthsToDays(monthsFromDays)), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
     }, proto$2.clone = function() {
         return createDuration(this);
     }, proto$2.get = function(units) {
@@ -1809,7 +1809,7 @@
     }, proto$2.months = months1, proto$2.years = years1, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
         var locale, output, posNegDuration, withoutSuffix, thresholds1, locale3, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
-        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), output = (posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale3 = locale, seconds = round((duration = createDuration(posNegDuration).abs()).as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
+        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), output = (posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale3 = locale, duration = createDuration(posNegDuration).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
             "s",
             seconds
         ] || seconds < thresholds1.s && [

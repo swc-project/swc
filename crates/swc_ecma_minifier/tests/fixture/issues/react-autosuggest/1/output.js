@@ -116,9 +116,9 @@ var ItemsList = function(_Component) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, ItemsList1);
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-        return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [
+        return _this = _super.call.apply(_super, [
             this
-        ].concat(args))), "storeHighlightedItemReference", function(highlightedItem) {
+        ].concat(args)), _defineProperty(_assertThisInitialized(_this), "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
