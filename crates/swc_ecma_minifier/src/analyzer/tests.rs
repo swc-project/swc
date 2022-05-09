@@ -55,7 +55,7 @@ fn snapshot(input: PathBuf) {
                 .vars
                 .into_iter()
                 .map(|(id, mut v)| {
-                    v.infected_by = Default::default();
+                    v.infects_to = Default::default();
                     v.accessed_props = Default::default();
 
                     (id, v)

@@ -119,7 +119,7 @@ pub(crate) struct VarUsageInfo {
     pub pure_fn: bool,
 
     /// In `c = b`, `b` infects `c`.
-    infected_by: Vec<Id>,
+    infects_to: Vec<Id>,
 }
 
 impl VarUsageInfo {
@@ -128,7 +128,7 @@ impl VarUsageInfo {
     }
 
     pub fn is_infected(&self) -> bool {
-        !self.infected_by.is_empty()
+        !self.infects_to.is_empty()
     }
 
     pub fn reassigned(&self) -> bool {
@@ -185,7 +185,7 @@ impl ProgramData {
             }
 
             if let Some(info) = self.vars.get(&id) {
-                let ids = info.infected_by.clone();
+                let ids = info.infects_to.clone();
                 self.expand_infected_inner(ids, max_num, result)?;
             }
         }
@@ -641,8 +641,8 @@ where
         {
             for id in get_infects_of(&n.function) {
                 self.data
-                    .var_or_default(id.clone())
-                    .add_infected_by(n.ident.to_id());
+                    .var_or_default(n.ident.to_id())
+                    .add_infects_to(id.clone());
             }
         }
     }
@@ -659,8 +659,8 @@ where
             {
                 for id in get_infects_of(&n.function) {
                     self.data
-                        .var_or_default(id.to_id())
-                        .add_infected_by(n_id.to_id());
+                        .var_or_default(n_id.to_id())
+                        .add_infects_to(id.to_id());
                 }
             }
         }
@@ -1019,9 +1019,9 @@ where
                 for id in get_infects_of(init) {
                     self.data
                         .var_or_default(id.clone())
-                        .add_infected_by(var.to_id());
+                        .add_infects_to(var.to_id());
 
-                    self.data.var_or_default(var.to_id()).add_infected_by(id);
+                    self.data.var_or_default(var.to_id()).add_infects_to(id);
                 }
             }
         }
