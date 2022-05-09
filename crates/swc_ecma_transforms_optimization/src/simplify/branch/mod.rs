@@ -910,8 +910,36 @@ impl VisitMut for Remover {
                             && is_all_case_empty
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
+                            let mut exprs = vec![];
+                            exprs.extend(ignore_result(*s.discriminant).map(Box::new));
+
+                            exprs.extend(
+                                s.cases
+                                    .iter_mut()
+                                    .filter_map(|case| case.test.take())
+                                    .filter_map(|e| ignore_result(*e).map(Box::new)),
+                            );
+
                             let stmts = s.cases.pop().unwrap().cons;
-                            let stmts = remove_break(stmts);
+                            let mut stmts = remove_break(stmts);
+
+                            if !exprs.is_empty() {
+                                prepend(
+                                    &mut stmts,
+                                    Stmt::Expr(ExprStmt {
+                                        span: DUMMY_SP,
+                                        expr: if exprs.len() == 1 {
+                                            exprs.remove(0)
+                                        } else {
+                                            Box::new(Expr::Seq(SeqExpr {
+                                                span: DUMMY_SP,
+                                                exprs,
+                                            }))
+                                        },
+                                    }),
+                                );
+                            }
+
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
