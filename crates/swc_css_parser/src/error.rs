@@ -27,8 +27,8 @@ impl Error {
         }
     }
 
-    pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
-        let msg: Cow<_> = match &self.inner.1 {
+    pub fn message(&self) -> Cow<str> {
+        match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
             ErrorKind::Ignore => "Not an error".into(),
             ErrorKind::UnexpectedChar(c) => format!("Unexpected character `{:?}`", c).into(),
@@ -60,8 +60,11 @@ impl Error {
             ErrorKind::InvalidKeyframesName(s) => {
                 format!("{} is not valid name for keyframes", s).into()
             }
-        };
-        handler.struct_span_err(self.inner.0, &msg)
+        }
+    }
+
+    pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
+        handler.struct_span_err(self.inner.0, &self.message())
     }
 }
 
