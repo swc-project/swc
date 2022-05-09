@@ -20,6 +20,9 @@
 - **(es/minifier)** Unwrap blocks more carefully (#4586) ([8db3442](https://github.com/swc-project/swc/commit/8db3442216e84b0535fa2884208e19020f22ec19))
 
 
+- **(es/minifier)** Consider more aliases in sequences pass (#4583) ([3521ce0](https://github.com/swc-project/swc/commit/3521ce09e7a2c3168f17491196f6fbc835637380))
+
+
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
 
 
