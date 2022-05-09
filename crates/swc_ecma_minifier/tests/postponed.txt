@@ -421,6 +421,7 @@ numbers/evaluate_3/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
+object/getter_setter_mangler/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
