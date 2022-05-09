@@ -1,8 +1,12 @@
+#![allow(clippy::needless_update)]
+
 use rustc_hash::FxHashSet;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+
+use self::ctx::Ctx;
 
 mod ctx;
 
@@ -40,48 +44,62 @@ pub(crate) struct InfectionCollector<'a> {
 }
 
 impl InfectionCollector<'_> {
-    fn add_expr(&mut self, e: &Expr) {}
+    fn add_id(&mut self, e: &Id) {
+        if self.exclude.contains(e) {
+            return;
+        }
+
+        self.aliases.insert(e.clone());
+    }
 }
 
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        match e.op {
+            op!("in")
+            | op!("instanceof")
+            | op!(bin, "-")
+            | op!(bin, "+")
+            | op!("/")
+            | op!("*")
+            | op!("%")
+            | op!("&")
+            | op!("^")
+            | op!("|")
+            | op!("==")
+            | op!("===")
+            | op!("!=")
+            | op!("!==")
+            | op!("<")
+            | op!("<=")
+            | op!(">")
+            | op!(">=") => {
+                let ctx = Ctx {
+                    track_expr_ident: false,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+            _ => {
+                let ctx = Ctx {
+                    track_expr_ident: true,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+        }
+    }
+
     fn visit_expr(&mut self, e: &Expr) {
         match e {
-            Expr::Ident(..) => {}
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                collect(obj, infects);
-
-                if let MemberProp::Computed(prop) = prop {
-                    collect(&prop.expr, infects)
+            Expr::Ident(i) => {
+                if self.ctx.track_expr_ident {
+                    self.add_id(&i.to_id());
                 }
-            }
-            Expr::Bin(BinExpr {
-                op:
-                    op!("in")
-                    | op!("instanceof")
-                    | op!(bin, "-")
-                    | op!(bin, "+")
-                    | op!("/")
-                    | op!("*")
-                    | op!("%")
-                    | op!("&")
-                    | op!("^")
-                    | op!("|")
-                    | op!("==")
-                    | op!("===")
-                    | op!("!=")
-                    | op!("!==")
-                    | op!("<")
-                    | op!("<=")
-                    | op!(">")
-                    | op!(">="),
-                left,
-                right,
-                ..
-            }) => {
-                collect(left, infects);
-                collect(right, infects);
             }
 
             Expr::Unary(UnaryExpr {

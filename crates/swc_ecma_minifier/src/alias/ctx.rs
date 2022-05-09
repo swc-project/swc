@@ -2,8 +2,22 @@ use std::ops::{Deref, DerefMut};
 
 use super::InfectionCollector;
 
-#[derive(Debug)]
-pub(super) struct Ctx {}
+impl<'a> InfectionCollector<'a> {
+    pub fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'a> {
+        let orig_ctx = self.ctx;
+        self.ctx = ctx;
+
+        WithCtx {
+            analyzer: self,
+            orig_ctx,
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone, Copy)]
+pub(super) struct Ctx {
+    pub track_expr_ident: bool,
+}
 
 pub(super) struct WithCtx<'a, 'b> {
     analyzer: &'a mut InfectionCollector<'b>,
