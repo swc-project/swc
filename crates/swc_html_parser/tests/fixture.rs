@@ -1162,12 +1162,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                         indent: 0,
                     });
 
-                    // TODO fix me
-                    // let dir = input.parent().unwrap().to_path_buf();
-                    //
-                    // NormalizedOutput::from(dom_buf)
-                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
-                    //     .unwrap();
+                    let dir = input.parent().unwrap().to_path_buf();
+
+                    NormalizedOutput::from(dom_buf)
+                        .compare_to_file(&dir.join(file_stem + ".dom"))
+                        .unwrap();
 
                     Ok(())
                 }

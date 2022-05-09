@@ -3039,7 +3039,7 @@ where
 
                             self.open_elements_stack.remove(&node);
                         } else {
-                            if self.open_elements_stack.has_in_scope("form") {
+                            if !self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::UnexpectedToken,
