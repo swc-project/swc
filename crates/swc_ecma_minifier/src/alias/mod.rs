@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, ident::IdentLike, BindingCollector};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;
 use crate::marks::Marks;
@@ -59,8 +59,6 @@ impl InfectionCollector<'_> {
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
 
-    visit_obj_and_computed!();
-
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {
             op!("in")
@@ -112,6 +110,30 @@ impl Visit for InfectionCollector<'_> {
                 };
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
+        }
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        {
+            let ctx = Ctx {
+                track_expr_ident: false,
+                ..self.ctx
+            };
+            n.obj.visit_with(&mut *self.with_ctx(ctx));
+        }
+
+        n.prop.visit_with(self);
+    }
+
+    fn visit_member_prop(&mut self, n: &MemberProp) {
+        if let MemberProp::Computed(c) = &n {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &n.prop {
+            c.visit_with(self);
         }
     }
 
