@@ -1,0 +1,23 @@
+{
+  "type": "DocumentFragment",
+  "span": {
+    "start": 0,
+    "end": 3,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 3,
+        "ctxt": 0
+      },
+      "tagName": "a",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    }
+  ]
+}
