@@ -12,7 +12,7 @@ terser_output="${1/input.js/output.terser.js}"
 
 bat "tests/terser/compress/$1"
 bat "tests/terser/compress/$output"
-bat "tests/terser/compress/$terser_output"
+bat "tests/terser/compress/$terser_output" || true
 
 
 
