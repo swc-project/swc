@@ -9,8 +9,6 @@ collapse_vars/collapse_vars_side_effects_1/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
-collapse_vars/issue_1631_1/input.js
-collapse_vars/issue_1631_2/input.js
 collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
