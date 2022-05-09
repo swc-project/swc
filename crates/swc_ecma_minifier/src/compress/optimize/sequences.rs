@@ -1671,6 +1671,21 @@ where
                     return Err(());
                 }
             }
+
+            // We can't proceed if the rhs (`t` below) is initialized with an
+            // initializer which has a side effect for `a_id`
+            //
+            //  function f(x) {
+            //      pc = 200;
+            //      return 100;
+            //  }
+            //  function x() {
+            //      var t = f();
+            //      pc += t;
+            //      return pc;
+            //  }
+            //  var pc = 0;
+            //  console.log(x());
         }
 
         {
