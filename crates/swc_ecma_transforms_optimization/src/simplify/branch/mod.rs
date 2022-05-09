@@ -637,6 +637,9 @@ impl VisitMut for Remover {
 
                     // Remove empty switch
                     if s.cases.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Removing an empty switch statement");
+                        }
                         return match ignore_result(*s.discriminant) {
                             Some(expr) => Stmt::Expr(ExprStmt {
                                 span: s.span,
@@ -651,6 +654,10 @@ impl VisitMut for Remover {
                         && s.cases[0].test.is_none()
                         && !has_conditional_stopper(&s.cases[0].cons)
                     {
+                        if cfg!(feature = "debug") {
+                            debug!("Switch -> Block as default is the only case");
+                        }
+
                         let mut stmts = remove_break(s.cases.remove(0).cons);
                         if let Some(expr) = ignore_result(*s.discriminant) {
                             prepend(&mut stmts, expr.into_stmt());
@@ -790,6 +797,9 @@ impl VisitMut for Remover {
                                 );
                             }
 
+                            if cfg!(feature = "debug") {
+                                debug!("Switch -> Block as we know discriminant");
+                            }
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
@@ -839,6 +849,10 @@ impl VisitMut for Remover {
                                     });
 
                                     block.visit_mut_with(self);
+
+                                    if cfg!(feature = "debug") {
+                                        debug!("Switch -> Block as the discriminant is a literal");
+                                    }
                                     return block;
                                 }
                             }
@@ -862,6 +876,9 @@ impl VisitMut for Remover {
                                 // Done.
                                 if breaked {
                                     idx += 1;
+                                    if cfg!(feature = "debug") {
+                                        debug!("Dropping case because it is unreachable");
+                                    }
                                     return None;
                                 }
 
@@ -887,6 +904,12 @@ impl VisitMut for Remover {
                                         .into_iter()
                                         .for_each(|stmt| var_ids.extend(stmt.extract_var_ids()));
 
+                                    if cfg!(feature = "debug") {
+                                        debug!(
+                                            "Dropping case because it is unreachable (literal \
+                                             test)"
+                                        );
+                                    }
                                     None
                                 }
                                 _ => Some(case),
@@ -940,6 +963,9 @@ impl VisitMut for Remover {
                                 );
                             }
 
+                            if cfg!(feature = "debug") {
+                                debug!("Stmt -> Block as all cases are empty");
+                            }
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
@@ -969,6 +995,10 @@ impl VisitMut for Remover {
                             .iter()
                             .all(|case| !has_conditional_stopper(&case.cons))
                         {
+                            if cfg!(feature = "debug") {
+                                debug!("Removing swtich because all cases are unreachable");
+                            }
+
                             // Preserve variables
                             let decls: Vec<_> = s
                                 .cases
