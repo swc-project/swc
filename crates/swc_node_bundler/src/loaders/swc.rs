@@ -202,12 +202,12 @@ impl SwcLoader {
                                         ..Default::default()
                                     })
                                 },
-                                external_helpers: true,
+                                external_helpers: true.into(),
                                 ..c.jsc.clone()
                             },
                             module: None,
-                            minify: false,
-                            input_source_map: InputSourceMap::Bool(false),
+                            minify: false.into(),
+                            input_source_map: InputSourceMap::Bool(false).into(),
                             ..c.clone()
                         }
                     },

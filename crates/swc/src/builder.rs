@@ -1,7 +1,8 @@
-use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
+use std::{cell::RefCell, path::PathBuf, rc::Rc, sync::Arc};
 
 use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -21,9 +22,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
-use crate::config::{
-    util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig,
-};
+use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
@@ -124,7 +123,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
     pub fn const_modules(
         self,
-        globals: HashMap<JsWord, HashMap<JsWord, String>>,
+        globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
     ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
         let cm = self.cm.clone();
         self.then(const_modules(cm, globals))
@@ -296,7 +295,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let is_mangler_enabled = self
             .minify
             .as_ref()
-            .map(|v| matches!(v.mangle, BoolOrObject::Bool(true) | BoolOrObject::Obj(_)))
+            .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
@@ -351,17 +350,30 @@ impl VisitMut for MinifierPass {
     fn visit_mut_module(&mut self, m: &mut Module) {
         if let Some(options) = &self.options {
             let opts = MinifyOptions {
-                compress: options.compress.clone().into_obj().map(|mut v| {
-                    if v.const_to_let.is_none() {
-                        v.const_to_let = Some(true);
-                    }
-                    if v.toplevel.is_none() {
-                        v.toplevel = Some(TerserTopLevelOptions::Bool(true));
-                    }
+                compress: options
+                    .compress
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
+                    .map(|mut v| {
+                        if v.const_to_let.is_none() {
+                            v.const_to_let = Some(true);
+                        }
+                        if v.toplevel.is_none() {
+                            v.toplevel = Some(TerserTopLevelOptions::Bool(true));
+                        }
 
-                    v.into_config(self.cm.clone())
-                }),
-                mangle: options.mangle.clone().into_obj(),
+                        v.into_config(self.cm.clone())
+                    }),
+                mangle: options
+                    .mangle
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    }),
                 ..Default::default()
             };
 

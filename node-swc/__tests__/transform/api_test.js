@@ -176,18 +176,16 @@ it("should respect `error.filename = false`", async () => {
 
 });
 
-it("should merge parser config", async () => {
+it("should support overring `jsc.externalHelpers` using js api", async () => {
     const filename = path.resolve(
-        __dirname + "/../../tests/issue-2546/input.ts"
+        __dirname + "/../../tests/issue-3834/input.js"
     );
 
     const { code } = await swc.transformFile(filename, {
         jsc: {
-            parser: {
-                syntax: "typescript",
-            }
+            externalHelpers: false,
         }
     })
 
-    expect(code).not.toBeFalsy()
+    expect(code).toContain('function _classCallCheck')
 });

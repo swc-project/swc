@@ -48,7 +48,7 @@ impl Task for TransformTask {
 
         try_with(
             self.c.cm.clone(),
-            !options.config.error.filename,
+            !options.config.error.filename.into_bool(),
             |handler| {
                 self.c.run(|| match &self.input {
                     Input::Program(ref s) => {
@@ -130,25 +130,29 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
         options.config.adjust(Path::new(&options.filename));
     }
 
-    try_with(c.cm.clone(), !options.config.error.filename, |handler| {
-        c.run(|| {
-            if is_module {
-                let program: Program =
-                    deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(handler, program, &options)
-            } else {
-                let fm = c.cm.new_source_file(
-                    if options.filename.is_empty() {
-                        FileName::Anon
-                    } else {
-                        FileName::Real(options.filename.clone().into())
-                    },
-                    s,
-                );
-                c.process_js_file(fm, handler, &options)
-            }
-        })
-    })
+    try_with(
+        c.cm.clone(),
+        !options.config.error.filename.into_bool(),
+        |handler| {
+            c.run(|| {
+                if is_module {
+                    let program: Program =
+                        deserialize_json(s.as_str()).context("failed to deserialize Program")?;
+                    c.process_js(handler, program, &options)
+                } else {
+                    let fm = c.cm.new_source_file(
+                        if options.filename.is_empty() {
+                            FileName::Anon
+                        } else {
+                            FileName::Real(options.filename.clone().into())
+                        },
+                        s,
+                    );
+                    c.process_js_file(fm, handler, &options)
+                }
+            })
+        },
+    )
     .convert_err()
 }
 
@@ -189,17 +193,21 @@ pub fn transform_file_sync(
         options.config.adjust(Path::new(&options.filename));
     }
 
-    try_with(c.cm.clone(), !options.config.error.filename, |handler| {
-        c.run(|| {
-            if is_module {
-                let program: Program =
-                    deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                c.process_js(handler, program, &options)
-            } else {
-                let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
-                c.process_js_file(fm, handler, &options)
-            }
-        })
-    })
+    try_with(
+        c.cm.clone(),
+        !options.config.error.filename.into_bool(),
+        |handler| {
+            c.run(|| {
+                if is_module {
+                    let program: Program =
+                        deserialize_json(s.as_str()).context("failed to deserialize Program")?;
+                    c.process_js(handler, program, &options)
+                } else {
+                    let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
+                    c.process_js_file(fm, handler, &options)
+                }
+            })
+        },
+    )
     .convert_err()
 }

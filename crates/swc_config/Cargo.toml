@@ -1,0 +1,16 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Types for configuring swc"
+documentation = "https://rustdoc.swc.rs/swc_config/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_config"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[dependencies]
+anyhow = "1"
+indexmap = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+swc_config_macro = { version = "0.1.0", path = "../swc_config_macro" }

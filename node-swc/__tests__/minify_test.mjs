@@ -6,9 +6,7 @@ it("should compress", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(
-        `"import foo from\\"@src/app\\";console.log(foo)"`
-    );
+    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
 });
 
 it("should accept object", async () => {
@@ -20,9 +18,7 @@ it("should accept object", async () => {
         {}
     );
 
-    expect(code).toMatchInlineSnapshot(
-        `"import foo from\\"@src/app\\";console.log(foo)"`
-    );
+    expect(code).toMatchInlineSnapshot(`"import a from\\"@src/app\\";console.log(a)"`);
 });
 
 it("should accept { mangle = true }", async () => {
