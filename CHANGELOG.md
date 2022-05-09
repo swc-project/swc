@@ -17,6 +17,9 @@
 - **(es/minifier)** Don't create an invalid labeled statement (#4581) ([7e80c10](https://github.com/swc-project/swc/commit/7e80c10cba50a8a1f74875ba8a90c4f282b33fc0))
 
 
+- **(es/minifier)** Unwrap blocks more carefully (#4586) ([8db3442](https://github.com/swc-project/swc/commit/8db3442216e84b0535fa2884208e19020f22ec19))
+
+
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
 
 
