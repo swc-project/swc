@@ -41,6 +41,7 @@ collapse_vars/collapse_vars_do_while_drop_assign/input.js
 collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
+collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
 collapse_vars/double_def_1/input.js
