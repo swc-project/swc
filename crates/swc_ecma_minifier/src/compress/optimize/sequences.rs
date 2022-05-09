@@ -1242,7 +1242,7 @@ where
                     },
                 }
 
-                if should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b) {
                     return Ok(false);
                 }
 
@@ -1251,7 +1251,7 @@ where
             }
 
             Expr::Assign(b) => {
-                if should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b) {
                     return Ok(false);
                 }
 
@@ -1714,31 +1714,51 @@ where
 
         Ok(true)
     }
-}
 
-/// TODO(kdy1): Optimize this
-///
-/// See https://github.com/swc-project/swc/pull/3480
-///
-/// This works, but it should be optimized.
-///
-/// This check blocks optimization of clearly valid optimizations like `i += 1,
-/// arr[i]`
-fn should_not_check_rhs_of_assign(a: &Mergable, b: &mut AssignExpr) -> bool {
-    if let Some(a_id) = a.id() {
-        match a {
-            Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-            Mergable::Expr(Expr::Assign(..)) => {
-                let used_by_b = idents_used_by(&*b.right);
-                if used_by_b.contains(&a_id) {
-                    return true;
+    /// TODO(kdy1): Optimize this
+    ///
+    /// See https://github.com/swc-project/swc/pull/3480
+    ///
+    /// This works, but it should be optimized.
+    ///
+    /// This check blocks optimization of clearly valid optimizations like `i +=
+    /// 1, arr[i]`
+    //
+    /// # Rule 2
+    ///
+    /// We can't proceed if the rhs (a.id = b.right) is initialized with an
+    /// initializer (a.right) which has a side effect for pc (b.left)
+    ///
+    /// ```js
+    /// 
+    ///  function f(x) {
+    ///      pc = 200;
+    ///      return 100;
+    ///  }
+    ///  function x() {
+    ///      var t = f();
+    ///      pc += t;
+    ///      return pc;
+    ///  }
+    ///  var pc = 0;
+    ///  console.log(x());
+    /// ```
+    fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> bool {
+        if let Some(a_id) = a.id() {
+            match a {
+                Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
+                Mergable::Expr(Expr::Assign(..)) => {
+                    let used_by_b = idents_used_by(&*b.right);
+                    if used_by_b.contains(&a_id) {
+                        return true;
+                    }
                 }
+                _ => {}
             }
-            _ => {}
         }
-    }
 
-    false
+        false
+    }
 }
 
 struct UsageCounter<'a> {
