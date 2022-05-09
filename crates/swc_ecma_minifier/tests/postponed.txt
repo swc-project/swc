@@ -25,6 +25,7 @@ class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
+classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
