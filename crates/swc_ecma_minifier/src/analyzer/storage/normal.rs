@@ -268,7 +268,7 @@ impl VarDataLike for VarUsageInfo {
         self.reassigned_with_assignment = true;
     }
 
-    fn add_infects(&mut self, other: Id) {
+    fn add_infected_by(&mut self, other: Id) {
         self.infects.push(other);
     }
 

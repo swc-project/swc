@@ -642,9 +642,7 @@ where
             for id in get_infects_of(&n.function) {
                 self.data
                     .var_or_default(id.clone())
-                    .add_infects(n.ident.to_id());
-
-                self.data.var_or_default(n.ident.to_id()).add_infects(id);
+                    .add_infected_by(n.ident.to_id());
             }
         }
     }
@@ -653,16 +651,16 @@ where
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
-        if let Some(id) = &n.ident {
+        if let Some(n_id) = &n.ident {
             self.data
-                .var_or_default(id.to_id())
+                .var_or_default(n_id.to_id())
                 .mark_declared_as_fn_expr();
 
             {
                 for id in get_infects_of(&n.function) {
-                    self.data.var_or_default(id.clone()).add_infects(id.to_id());
-
-                    self.data.var_or_default(id.to_id()).add_infects(id);
+                    self.data
+                        .var_or_default(id.to_id())
+                        .add_infected_by(n_id.to_id());
                 }
             }
         }
@@ -1021,9 +1019,9 @@ where
                 for id in get_infects_of(init) {
                     self.data
                         .var_or_default(id.clone())
-                        .add_infects(var.to_id());
+                        .add_infected_by(var.to_id());
 
-                    self.data.var_or_default(var.to_id()).add_infects(id);
+                    self.data.var_or_default(var.to_id()).add_infected_by(id);
                 }
             }
         }
