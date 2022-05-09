@@ -53,10 +53,8 @@ use testing::assert_eq;
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
         "yield/issue_2689/",
-
         // We don't care about ie8
         "ie8",
-
         // tests with infinite loops
         "reduce_vars/toplevel_off_loops_2",
         "reduce_vars/toplevel_on_loops_2",
