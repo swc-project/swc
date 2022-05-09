@@ -1,16 +1,9 @@
 asm/asm_mixed/input.js
-classes/pure_prop_assignment_for_classes/input.js
-collapse_vars/collapse_vars_assignment/input.js
-collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
-collapse_vars/collapse_vars_do_while_drop_assign/input.js
-collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
-collapse_vars/collapse_vars_object/input.js
-collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
@@ -22,7 +15,6 @@ collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
 collapse_vars/issue_2436_9/input.js
-collapse_vars/issue_2437/input.js
 collapse_vars/issue_2497/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/noinline_annotation/input.js
@@ -91,7 +83,6 @@ issue_t120/issue_t120_3/input.js
 issue_t120/pr_152_regression/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
 numbers/evaluate_4/input.js
-object/getter_setter_mangler/input.js
 properties/dot_properties/input.js
 properties/issue_2208_8/input.js
 properties/issue_2256/input.js
@@ -104,7 +95,6 @@ properties/mangle_debug_suffix_keep_quoted/input.js
 properties/mangle_debug_true/input.js
 properties/mangle_properties/input.js
 properties/mangle_undeclared_properties/input.js
-properties/mangle_unquoted_properties/input.js
 properties/methods_keep_quoted_false/input.js
 properties/methods_keep_quoted_from_dead_code/input.js
 properties/methods_keep_quoted_true/input.js

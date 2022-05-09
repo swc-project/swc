@@ -28,7 +28,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
+    util::{contains_eval, contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
 };
 
 mod arguments;
@@ -1646,7 +1646,9 @@ where
 
     fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
         if !self.options.keep_classnames {
-            self.remove_name_if_not_used(&mut e.ident);
+            if e.ident.is_some() && !contains_eval(&e.class, true) {
+                self.remove_name_if_not_used(&mut e.ident);
+            }
         }
 
         e.visit_mut_children_with(self);
@@ -1921,7 +1923,9 @@ where
         }
 
         if !self.options.keep_fnames {
-            self.remove_name_if_not_used(&mut e.ident);
+            if e.ident.is_some() && !contains_eval(&e.function, true) {
+                self.remove_name_if_not_used(&mut e.ident);
+            }
         }
 
         e.visit_mut_children_with(self);

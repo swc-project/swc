@@ -1050,7 +1050,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             if !document_fragment.is_empty() {
                 file_stem += ".fragment.";
-                file_stem += &document_fragment.join("").replace(" ", "_");
+                file_stem += &document_fragment.join("").replace(' ', "_");
             }
 
             if scripting_enabled {
@@ -1066,7 +1066,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let mut dom = document.join("\n");
 
-            if !dom.ends_with("\n") {
+            if !dom.ends_with('\n') {
                 dom.push('\n');
             }
 
@@ -1106,8 +1106,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .last()
                 .expect("failed to get context element from filename");
 
-            if context_element.contains("_") {
-                let mut splited = context_element.split("_");
+            if context_element.contains('_') {
+                let mut splited = context_element.split('_');
 
                 if let Some(namespace) = splited.next() {
                     context_element_namespace = match namespace {

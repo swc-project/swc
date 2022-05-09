@@ -25,6 +25,7 @@ class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
+classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
@@ -34,8 +35,13 @@ collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
 collapse_vars/collapse_vars_arguments/input.js
+collapse_vars/collapse_vars_assignment/input.js
+collapse_vars/collapse_vars_constants/input.js
+collapse_vars/collapse_vars_do_while_drop_assign/input.js
+collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
+collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
 collapse_vars/double_def_1/input.js
@@ -58,6 +64,7 @@ collapse_vars/issue_2436_4/input.js
 collapse_vars/issue_2436_6/input.js
 collapse_vars/issue_2436_7/input.js
 collapse_vars/issue_2436_8/input.js
+collapse_vars/issue_2437/input.js
 collapse_vars/issue_2453/input.js
 collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
@@ -414,6 +421,7 @@ numbers/evaluate_3/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
+object/getter_setter_mangler/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
@@ -454,6 +462,7 @@ properties/join_object_assignments_return_3/input.js
 properties/join_object_assignments_undefined_2/input.js
 properties/join_object_assignments_void_0/input.js
 properties/literal_duplicate_key_side_effects/input.js
+properties/mangle_unquoted_properties/input.js
 properties/prop_side_effects_1/input.js
 properties/prop_side_effects_2/input.js
 properties/sub_properties/input.js

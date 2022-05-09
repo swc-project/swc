@@ -133,6 +133,7 @@ collapse_vars/collapse_rhs_var/input.js
 collapse_vars/collapse_rhs_vardef/input.js
 collapse_vars/collapse_vars_array/input.js
 collapse_vars/collapse_vars_closures/input.js
+collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_issue_721/input.js
 collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
