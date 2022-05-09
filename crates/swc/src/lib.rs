@@ -135,7 +135,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
-pub use swc_config::config_types::{BoolConfig, BoolOr};
+pub use swc_config::config_types::{BoolConfig, BoolOrObject};
 use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
@@ -590,7 +590,7 @@ pub fn minify_global_comments(
     comments: &SwcComments,
     span: Span,
     minify: bool,
-    preserve_comments: BoolOr<JsMinifyCommentOption>,
+    preserve_comments: BoolOrObject<JsMinifyCommentOption>,
 ) {
     let preserve_comments = preserve_comments
         .unwrap_as_option(|value| {

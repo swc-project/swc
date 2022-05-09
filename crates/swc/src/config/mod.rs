@@ -29,7 +29,7 @@ use swc_common::{
     FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_config::{
-    config_types::{BoolConfig, BoolOr},
+    config_types::{BoolConfig, BoolOrObject},
     merge::Merge,
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
@@ -354,8 +354,8 @@ impl Options {
 
                         c
                     })
-                    .map(BoolOr::from_obj)
-                    .unwrap_or_else(|| BoolOr::from_bool(false));
+                    .map(BoolOrObject::from_obj)
+                    .unwrap_or_else(|| BoolOrObject::from_bool(false));
 
                 let mangle = c
                     .mangle
@@ -368,8 +368,8 @@ impl Options {
 
                         c
                     })
-                    .map(BoolOr::from_obj)
-                    .unwrap_or_else(|| BoolOr::from_bool(false));
+                    .map(BoolOrObject::from_obj)
+                    .unwrap_or_else(|| BoolOrObject::from_bool(false));
 
                 JsMinifyOptions {
                     compress,
@@ -791,10 +791,10 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
-    pub compress: BoolOr<TerserCompressorOptions>,
+    pub compress: BoolOrObject<TerserCompressorOptions>,
 
     #[serde(default)]
-    pub mangle: BoolOr<MangleOptions>,
+    pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]
     pub format: JsMinifyFormatOptions,
@@ -818,7 +818,7 @@ pub struct JsMinifyOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub source_map: BoolOr<TerserSourceMapOption>,
+    pub source_map: BoolOrObject<TerserSourceMapOption>,
 
     #[serde(default)]
     pub output_path: Option<String>,
@@ -865,7 +865,7 @@ pub struct JsMinifyFormatOptions {
     pub braces: bool,
 
     #[serde(default)]
-    pub comments: BoolOr<JsMinifyCommentOption>,
+    pub comments: BoolOrObject<JsMinifyCommentOption>,
 
     /// Not implemented yet.
     #[serde(default)]

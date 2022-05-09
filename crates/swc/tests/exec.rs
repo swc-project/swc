@@ -8,7 +8,7 @@ use std::{
 use anyhow::{bail, Context, Error};
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
-    try_with_handler, BoolOr, Compiler, HandlerOpts,
+    try_with_handler, BoolOrObject, Compiler, HandlerOpts,
 };
 use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
@@ -88,8 +88,8 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                         target: Some(target),
                         minify: if minify {
                             Some(JsMinifyOptions {
-                                compress: BoolOr::from_bool(true),
-                                mangle: BoolOr::from_bool(true),
+                                compress: BoolOrObject::from_bool(true),
+                                mangle: BoolOrObject::from_bool(true),
                                 format: Default::default(),
                                 ecma: Default::default(),
                                 keep_classnames: Default::default(),

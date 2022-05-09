@@ -3,9 +3,9 @@ use serde::{Deserialize, Serialize};
 use crate::merge::Merge;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct BoolOr<T>(#[serde(default)] Option<Inner<T>>);
+pub struct BoolOrObject<T>(#[serde(default)] Option<Inner<T>>);
 
-impl<T> BoolOr<T> {
+impl<T> BoolOrObject<T> {
     pub fn from_bool(v: bool) -> Self {
         Self(Some(Inner::Bool(v)))
     }
@@ -14,11 +14,11 @@ impl<T> BoolOr<T> {
         v.into()
     }
 
-    pub fn as_ref(&self) -> BoolOr<&T> {
+    pub fn as_ref(&self) -> BoolOrObject<&T> {
         match &self.0 {
-            Some(Inner::Actual(v)) => BoolOr::from_obj(v),
-            Some(Inner::Bool(b)) => BoolOr::from_bool(*b),
-            None => BoolOr::default(),
+            Some(Inner::Actual(v)) => BoolOrObject::from_obj(v),
+            Some(Inner::Bool(b)) => BoolOrObject::from_bool(*b),
+            None => BoolOrObject::default(),
         }
     }
 
@@ -43,14 +43,14 @@ impl<T> BoolOr<T> {
         }
     }
 
-    pub fn map<F, N>(self, op: F) -> BoolOr<N>
+    pub fn map<F, N>(self, op: F) -> BoolOrObject<N>
     where
         F: FnOnce(T) -> N,
     {
         match self.0 {
-            Some(Inner::Actual(v)) => BoolOr::from_obj(op(v)),
-            Some(Inner::Bool(b)) => BoolOr::from_bool(b),
-            None => BoolOr::default(),
+            Some(Inner::Actual(v)) => BoolOrObject::from_obj(op(v)),
+            Some(Inner::Bool(b)) => BoolOrObject::from_bool(b),
+            None => BoolOrObject::default(),
         }
     }
 
@@ -67,19 +67,19 @@ impl<T> BoolOr<T> {
     }
 }
 
-impl<T> From<T> for BoolOr<T> {
+impl<T> From<T> for BoolOrObject<T> {
     fn from(v: T) -> Self {
         Self(Some(Inner::Actual(v)))
     }
 }
 
-impl<T> Default for BoolOr<T> {
+impl<T> Default for BoolOrObject<T> {
     fn default() -> Self {
         Self(Default::default())
     }
 }
 
-impl<T> Merge for BoolOr<T> {
+impl<T> Merge for BoolOrObject<T> {
     #[inline]
     fn merge(&mut self, other: Self) {
         self.0.merge(other.0)
