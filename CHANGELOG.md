@@ -25,6 +25,9 @@
 
 - **(es/ast)** Add methods for parens (#4576) ([55d0ee6](https://github.com/swc-project/swc/commit/55d0ee6cba32d3a9d15cdb5485fb65a84bebe123))
 
+
+- **(html/parser)** Parse document fragment (#4579) ([a34dea1](https://github.com/swc-project/swc/commit/a34dea11d0425dde75c45b6ba16682cc4df087a8))
+
 ### Miscellaneous Tasks
 
 
