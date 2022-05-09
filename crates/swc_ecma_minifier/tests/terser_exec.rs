@@ -50,6 +50,7 @@ use testing::assert_eq;
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
         "yield/issue_2689/",
+        "blocks/issue_1672_for",
         "collapse_vars/issue_1631_3",
         "evaluate/issue_1760_1",
         "functions/issue_2620_4",
