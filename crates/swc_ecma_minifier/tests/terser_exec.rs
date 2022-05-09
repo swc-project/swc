@@ -34,7 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "blocks/issue_1672_for/",
         "collapse_vars/issue_1631_1/",
         "collapse_vars/issue_1631_2/",
         "collapse_vars/issue_1631_3/",
