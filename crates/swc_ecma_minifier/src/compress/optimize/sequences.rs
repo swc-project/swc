@@ -1900,7 +1900,11 @@ fn collect_infects(e: &Expr) -> FxHashSet<Id> {
                     | op!("==")
                     | op!("===")
                     | op!("!=")
-                    | op!("!=="),
+                    | op!("!==")
+                    | op!("<")
+                    | op!("<=")
+                    | op!(">")
+                    | op!(">="),
                 left,
                 right,
                 ..
