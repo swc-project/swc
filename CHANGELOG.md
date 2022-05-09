@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Fix handling of `NaN` (#4593) ([dd09cdf](https://github.com/swc-project/swc/commit/dd09cdf8b12d53aa6060e14857fa3efeddf41334))
+
+## [1.2.180] - 2022-05-09
+
+### Bug Fixes
+
+
+
 - **(es)** Use `unresolved_mark` (#4573) ([0868409](https://github.com/swc-project/swc/commit/086840956d696816c694fc2fd96258351aab9573))
 
 

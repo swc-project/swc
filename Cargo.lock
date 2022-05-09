@@ -3580,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.121.0"
+version = "0.121.1"
 dependencies = [
  "ahash",
  "dashmap",
