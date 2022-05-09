@@ -7279,16 +7279,13 @@ where
             // TODO fix me
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            // if get_tag_name!(inner_node) == "template" {
-            //     self.insertion_mode = match self.template_insertion_mode_stack.first() {
-            //         Some(insertion_mode) => insertion_mode.clone(),
-            //         _ => {
-            //             unreachable!();
-            //         }
-            //     };
-            //
-            //     return;
-            // }
+            if get_tag_name!(inner_node) == "template"
+                && !self.template_insertion_mode_stack.is_empty()
+            {
+                self.insertion_mode = self.template_insertion_mode_stack.remove(0);
+
+                return;
+            }
 
             // 12. If node is a head element and last is false, then switch the insertion
             // mode to "in head" and return.
