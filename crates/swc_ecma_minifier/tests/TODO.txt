@@ -89,10 +89,6 @@ properties/issue_2256/input.js
 properties/issue_3188_1/input.js
 properties/issue_3188_3/input.js
 properties/join_object_assignments_Infinity/input.js
-properties/mangle_debug/input.js
-properties/mangle_debug_suffix/input.js
-properties/mangle_debug_suffix_keep_quoted/input.js
-properties/mangle_debug_true/input.js
 properties/mangle_properties/input.js
 properties/mangle_undeclared_properties/input.js
 properties/methods_keep_quoted_false/input.js
