@@ -34,8 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "functions/issue_2620_4/",
-        "evaluate/issue_1760_1/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
         "issue_1750/case_1/",
