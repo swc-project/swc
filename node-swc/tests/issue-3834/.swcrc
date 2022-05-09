@@ -1,8 +1,8 @@
 {
     "jsc": {
-        "externalHelpers": true,
-        "module": {
-            "type": "commonjs"
-        }
+        "externalHelpers": true
+    },
+    "module": {
+        "type": "commonjs"
     }
 }

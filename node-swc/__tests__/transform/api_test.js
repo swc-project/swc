@@ -187,5 +187,5 @@ it("should support overring `jsc.externalHelpers` using js api", async () => {
         }
     })
 
-    expect(code).toContain('function _createClass')
+    expect(code).toContain('function _classCallCheck')
 });
