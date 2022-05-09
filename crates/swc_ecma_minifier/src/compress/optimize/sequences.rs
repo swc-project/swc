@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use retain_mut::RetainMut;
+use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -972,17 +973,35 @@ where
                     // ```
                     //
                     let ids_used_by_a_init = match a {
-                        Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
-                        Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+                        Mergable::Var(a) => a.init.as_ref().map(|init| collect_infects(init)),
+                        Mergable::Expr(a) => match a {
+                            Expr::Assign(AssignExpr {
+                                left,
+                                right,
+                                op: op!("="),
+                                ..
+                            }) => {
+                                if left.as_ident().is_some() {
+                                    Some(collect_infects(right))
+                                } else {
+                                    None
+                                }
+                            }
+
+                            _ => None,
+                        },
                     };
 
-                    let deps = self.data.expand_infected(ids_used_by_a_init, 64);
-                    let deps = match deps {
-                        Ok(v) => v,
-                        Err(()) => return false,
-                    };
-                    if deps.contains(&e.to_id()) {
-                        return false;
+                    if let Some(ids_used_by_a_init) = ids_used_by_a_init {
+                        let deps = self.data.expand_infected(ids_used_by_a_init, 64);
+
+                        let deps = match deps {
+                            Ok(v) => v,
+                            Err(()) => return false,
+                        };
+                        if deps.contains(&e.to_id()) {
+                            return false;
+                        }
                     }
                 }
 
@@ -1853,4 +1872,26 @@ impl Mergable<'_> {
             },
         }
     }
+}
+
+fn collect_infects(e: &Expr) -> FxHashSet<Id> {
+    fn collect(e: &Expr, infects: &mut FxHashSet<Id>) {
+        match e {
+            Expr::Ident(..) => {}
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                collect(obj, infects);
+
+                if let MemberProp::Computed(prop) = prop {
+                    collect(&prop.expr, infects)
+                }
+            }
+            _ => {
+                infects.extend(idents_used_by(e));
+            }
+        }
+    }
+
+    let mut infects = FxHashSet::default();
+    collect(e, &mut infects);
+    infects
 }
