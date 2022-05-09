@@ -375,10 +375,10 @@
                     width: inputWidth,
                     height: inputHeight
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
-                    var value, parsed = {
-                        value: parseFloat(value = area[key]),
+                    var value, parsed = (value = area[key], {
+                        value: parseFloat(value),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }, calculated = _dimensionsConverters[key](parsed, context);
+                    }), calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
                 return {
@@ -1210,8 +1210,8 @@
         function(module, exports) {
             var objectProto = Object.prototype;
             module.exports = function(value) {
-                var Ctor = value && value.constructor;
-                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             };
         },
         function(module2, exports, __webpack_require__) {

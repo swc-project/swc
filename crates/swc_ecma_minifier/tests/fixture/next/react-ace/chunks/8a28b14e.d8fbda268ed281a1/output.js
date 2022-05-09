@@ -48,10 +48,10 @@
                             uri: "",
                             exports: exports,
                             packaged: !0
-                        };
-                        exports = module2(function(module, callback) {
+                        }, req = function(module, callback) {
                             return _require(moduleName, module, callback);
-                        }, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
+                        };
+                        exports = module2(req, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
                     }
                     module2 = define.modules[moduleName] = exports || module2;
                 }
@@ -2574,7 +2574,7 @@
                         } else this.line += this.showInvisibles ? endOfLine : bidiUtil.DOT;
                         var size, session = this.session, shift = 0;
                         this.line = this.line.replace(/\t|[\u1100-\u2029, \u202F-\uFFE6]/g, function(ch, i) {
-                            return "\t" === ch || session.isFullWidth(ch.charCodeAt(0)) ? (shift += (size = "\t" === ch ? session.getScreenTabSize(i + shift) : 2) - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
+                            return "\t" === ch || session.isFullWidth(ch.charCodeAt(0)) ? (size = "\t" === ch ? session.getScreenTabSize(i + shift) : 2, shift += size - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
                         }), this.isRtlDir && (this.fontMetrics.$main.textContent = this.line.charAt(this.line.length - 1) == bidiUtil.DOT ? this.line.substr(0, this.line.length - 1) : this.line, this.rtlLineOffset = this.contentWidth - this.fontMetrics.$main.getBoundingClientRect().width);
                     }, this.updateBidiMap = function() {
                         var textCharTypes = [];
@@ -5540,11 +5540,13 @@
                             column: pos.column + 1
                         }, match = chr && chr.match(/([\(\[\{])|([\)\]\}])/)), !match) return null;
                         var startRange = new Range(pos.row, pos.column - 1, pos.row, pos.column), bracketPos = match[1] ? this.$findClosingBracket(match[1], pos) : this.$findOpeningBracket(match[2], pos);
-                        return bracketPos ? [
-                            startRange,
-                            new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1)
-                        ] : [
+                        if (!bracketPos) return [
                             startRange
+                        ];
+                        var endRange = new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1);
+                        return [
+                            startRange,
+                            endRange
                         ];
                     }, this.$brackets = {
                         ")": "(",
@@ -6195,7 +6197,7 @@
                         var line, column, docRow = 0, docColumn = 0, row = 0, rowLength = 0, rowCache = this.$screenRowCache, i = this.$getRowCacheIndex(rowCache, screenRow), l = rowCache.length;
                         if (l && i >= 0) var row = rowCache[i], docRow = this.$docRowCache[i], doCache = screenRow > rowCache[l - 1];
                         else var doCache = !l;
-                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && !(row + (rowLength = this.getRowLength(docRow)) > screenRow) && !(docRow >= maxRow);)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
+                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && (rowLength = this.getRowLength(docRow), !(row + rowLength > screenRow) && !(docRow >= maxRow));)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
                         if (foldLine && foldLine.start.row <= docRow) line = this.getFoldDisplayLine(foldLine), docRow = foldLine.start.row;
                         else {
                             if (row + rowLength <= screenRow || docRow > maxRow) return {
@@ -8558,7 +8560,7 @@
                             };
                             do {
                                 if (token.value.match(/[{}()\[\]]/g)) {
-                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(isNaN(depth[bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen")]) && (depth[bracketType] = 0), token.value[i]){
+                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen"), isNaN(depth[bracketType]) && (depth[bracketType] = 0), token.value[i]){
                                         case "(":
                                         case "[":
                                         case "{":
@@ -9097,7 +9099,7 @@
                     };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
-                            var xformed = xform(deltaSet[i], d);
+                            var x = deltaSet[i], xformed = xform(x, d);
                             d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
                         }
                         deltaSet.length || redoStack.splice(j, 1);

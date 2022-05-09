@@ -71,8 +71,8 @@
                 return Number(number);
             }), numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
-                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
-                for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
+                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -3583,7 +3583,7 @@
                             }));
                             var adaptationSetAttributes1, adaptationSetBaseUrls1, adaptationSetSegmentInfo, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo1 = merge1(periodSegmentInfo, segmentInfo);
                             return flatten(representations.map((adaptationSetAttributes1 = attrs, adaptationSetBaseUrls1 = adaptationSetBaseUrls, adaptationSetSegmentInfo = adaptationSetSegmentInfo1, function(representation) {
-                                var repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, findChildren(representation, "BaseURL")), attributes = merge1(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, repBaseUrlElements), attributes = merge1(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge1(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3629,8 +3629,8 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options);
-                return toM3u8((0, parsedManifestInfo.representationInfo).map(generateSegments), parsedManifestInfo.locations, options.sidxMapping);
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
+                return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
             };
