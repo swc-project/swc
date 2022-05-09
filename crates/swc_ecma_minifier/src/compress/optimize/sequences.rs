@@ -1909,6 +1909,20 @@ fn collect_infects(e: &Expr) -> FxHashSet<Id> {
                 collect(right, infects);
             }
 
+            Expr::Unary(UnaryExpr {
+                op:
+                    op!("~")
+                    | op!(unary, "-")
+                    | op!(unary, "+")
+                    | op!("!")
+                    | op!("typeof")
+                    | op!("void"),
+                arg,
+                ..
+            }) => {
+                collect(arg, infects);
+            }
+
             _ => {
                 infects.extend(idents_used_by(e));
             }
