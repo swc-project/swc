@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_node_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.5.2"
+version = "0.5.3"
 
 [lib]
 bench = false

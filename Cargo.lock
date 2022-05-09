@@ -3921,7 +3921,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_base"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "mimalloc-rust",
  "tikv-jemallocator",

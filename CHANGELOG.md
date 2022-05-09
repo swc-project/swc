@@ -31,6 +31,9 @@
 
 - **(html/parser)** Add recovery for attributes on html and body (#4566) ([c7d20e4](https://github.com/swc-project/swc/commit/c7d20e43e63cb2c45cd589e3c72811575fca2f07))
 
+
+- **(node)** Use `jemallocator` on linux (#4591) ([af91094](https://github.com/swc-project/swc/commit/af91094b2db0809f02e6f0a6f07b021d12aa1512))
+
 ### Features
 
 
