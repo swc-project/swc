@@ -5,7 +5,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, Id, IsEmpty};
+use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, BindingCollector, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -15,7 +15,7 @@ use self::{
 };
 use crate::{
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by},
+    util::{can_end_conditionally, idents_used_by, IdentUsageCollector},
 };
 
 mod ctx;
@@ -640,10 +640,7 @@ where
         n.visit_children_with(self);
 
         {
-            let used_idents = idents_used_by(&n.function);
-            let excluded: AHashSet<Id> = collect_decls(&n.function);
-
-            for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+            for id in get_infects_of(&n.function) {
                 self.data
                     .var_or_default(id.clone())
                     .add_infects(n.ident.to_id());
@@ -663,10 +660,7 @@ where
                 .mark_declared_as_fn_expr();
 
             {
-                let used_idents = idents_used_by(&n.function);
-                let excluded: AHashSet<Id> = collect_decls(&n.function);
-
-                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+                for id in get_infects_of(&n.function) {
                     self.data.var_or_default(id.clone()).add_infects(id.to_id());
 
                     self.data.var_or_default(id.to_id()).add_infects(id);
@@ -1025,10 +1019,7 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let used_idents = idents_used_by(init);
-                let excluded: AHashSet<Id> = collect_decls(init);
-
-                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+                for id in get_infects_of(init) {
                     self.data
                         .var_or_default(id.clone())
                         .add_infects(var.to_id());
@@ -1101,4 +1092,16 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
         Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Update(..) => true,
         _ => false,
     }
+}
+
+fn get_infects_of<N>(init: &N) -> impl 'static + Iterator<Item = Id>
+where
+    N: VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
+{
+    let used_idents = idents_used_by(init);
+    let excluded: AHashSet<Id> = collect_decls(init);
+
+    used_idents
+        .into_iter()
+        .filter(move |id| !excluded.contains(id))
 }
