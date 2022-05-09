@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.175.1"
+version = "0.176.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2937,7 +2937,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.143.0"
+version = "0.144.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2995,7 +2995,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.49.0"
+version = "0.50.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3328,7 +3328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.110.7"
+version = "0.111.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3392,7 +3392,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.125.0"
+version = "0.126.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3448,7 +3448,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.150.0"
+version = "0.151.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3574,7 +3574,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.120.0"
+version = "0.121.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3723,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.153.1"
+version = "0.154.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3770,7 +3770,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.95.0"
+version = "0.96.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3840,7 +3840,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.5.1"
+version = "0.5.2"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.5.28"
+version = "0.5.29"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3960,7 +3960,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.50.1"
+version = "0.51.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4056,7 +4056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.93.0"
+version = "0.94.0"
 dependencies = [
  "anyhow",
  "rayon",

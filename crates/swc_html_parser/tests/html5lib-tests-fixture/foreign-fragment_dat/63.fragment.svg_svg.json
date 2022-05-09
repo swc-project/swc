@@ -1,0 +1,36 @@
+{
+  "type": "DocumentFragment",
+  "span": {
+    "start": 0,
+    "end": 10,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 5,
+        "ctxt": 0
+      },
+      "tagName": "br",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 5,
+        "end": 10,
+        "ctxt": 0
+      },
+      "tagName": "foo",
+      "namespace": "http://www.w3.org/2000/svg",
+      "attributes": [],
+      "children": [],
+      "content": null
+    }
+  ]
+}

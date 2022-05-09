@@ -772,17 +772,6 @@ impl DomVisualizer<'_> {
 }
 
 impl VisitMut for DomVisualizer<'_> {
-    fn visit_mut_document(&mut self, n: &mut Document) {
-        let mut document = String::new();
-
-        document.push_str("#document");
-        document.push('\n');
-
-        self.dom_buf.push_str(&document);
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         let mut document_type = String::new();
 
@@ -930,6 +919,14 @@ impl VisitMut for DomVisualizer<'_> {
     }
 }
 
+enum TestState {
+    Data,
+    Document,
+    DocumentFragment,
+    Errors,
+    NewErrors,
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -967,41 +964,114 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
 
         let tests_file = fs::read_to_string(input).expect("Something went wrong reading the file");
-        let mut tests = tests_file.split("\n\n#data\n");
+        let mut tests = tests_file.split("#data\n");
+
+        tests.next();
 
         let mut counter = 0;
 
         while let Some(test) = tests.next() {
-            let data_start = if counter == 0 { 6 } else { 0 };
-            let data_end = test
-                .find("#errors\n")
-                .expect("failed to get errors in test");
-            let mut data = &test[data_start..data_end];
+            let mut data: Vec<&str> = vec![];
+            let mut document: Vec<&str> = vec![];
+            let mut document_fragment: Vec<&str> = vec![];
+            let mut errors: Vec<&str> = vec![];
+            let mut new_errors: Vec<&str> = vec![];
+            let mut scripting_enabled = false;
 
-            if data.ends_with("\n") {
-                data = data
-                    .strip_suffix('\n')
-                    .expect("failed to strip last line in test");
+            let mut state = Some(TestState::Data);
+
+            for line in test.lines() {
+                match line {
+                    "#data" => {
+                        state = Some(TestState::Data);
+
+                        continue;
+                    }
+                    "#errors" => {
+                        state = Some(TestState::Errors);
+
+                        continue;
+                    }
+                    "#new-errors" => {
+                        state = Some(TestState::NewErrors);
+
+                        continue;
+                    }
+                    "#document" => {
+                        state = Some(TestState::Document);
+
+                        continue;
+                    }
+                    "#document-fragment" => {
+                        state = Some(TestState::DocumentFragment);
+
+                        continue;
+                    }
+                    "#script-on" => {
+                        scripting_enabled = true;
+
+                        state = None;
+
+                        continue;
+                    }
+                    "#script-off" => {
+                        scripting_enabled = false;
+
+                        state = None;
+
+                        continue;
+                    }
+                    _ => {}
+                }
+
+                match &state {
+                    Some(TestState::Data) => {
+                        data.push(line);
+                    }
+                    Some(TestState::Document) => {
+                        document.push(line);
+                    }
+                    Some(TestState::DocumentFragment) => {
+                        document_fragment.push(line);
+                    }
+                    Some(TestState::Errors) => {
+                        errors.push(line);
+                    }
+                    Some(TestState::NewErrors) => {
+                        new_errors.push(line);
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
             }
 
             let mut file_stem = counter.to_string();
 
-            if test.contains("#script-on\n") {
+            if !document_fragment.is_empty() {
+                file_stem += ".fragment.";
+                file_stem += &document_fragment.join("").replace(" ", "_");
+            }
+
+            if scripting_enabled {
                 file_stem += ".script_on";
             }
 
             let html_path = dir.join(file_stem.clone() + ".html");
 
-            fs::write(html_path, data).expect("Something went wrong when writing to the file");
+            fs::write(html_path, data.join("\n"))
+                .expect("Something went wrong when writing to the file");
 
-            let document_start = test
-                .find("#document\n")
-                .expect("failed to get errors in test");
-            let dom_snapshot = &test[document_start..];
             let dom_snapshot_path = dir.join(file_stem + ".dom");
 
-            fs::write(dom_snapshot_path, dom_snapshot.trim_end().to_owned() + "\n")
-                .expect("Something went wrong when writing to the file");
+            let mut dom = document.join("\n");
+
+            if !dom.ends_with("\n") {
+                dom.push('\n');
+            }
+
+            fs::write(dom_snapshot_path, dom)
+                .expect("Something went wrong when writingto the file");
 
             counter += 1;
         }
@@ -1022,52 +1092,139 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let scripting_enabled = file_stem.contains("script_on");
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
+
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let mut parser = Parser::new(lexer, ParserConfig { scripting_enabled });
+        let config = ParserConfig { scripting_enabled };
+        let mut parser = Parser::new(lexer, config);
 
-        let document: PResult<Document> = parser.parse_document();
+        if file_stem.contains("fragment") {
+            let mut context_element_namespace = Namespace::HTML;
+            let mut context_element_tag_name = "unknown";
 
-        match document {
-            Ok(mut document) => {
-                let actual_json = serde_json::to_string_pretty(&document)
-                    .map(NormalizedOutput::from)
-                    .expect("failed to serialize document");
+            let context_element = file_stem
+                .split('.')
+                .last()
+                .expect("failed to get context element from filename");
 
-                actual_json.compare_to_file(&json_path).unwrap();
+            if context_element.contains("_") {
+                let mut splited = context_element.split("_");
 
-                // Skip scripted test, because we don't support ECMA execution
-                if input
-                    .parent()
-                    .unwrap()
-                    .to_string_lossy()
-                    .contains("scripted")
-                {
-                    return Ok(());
+                if let Some(namespace) = splited.next() {
+                    context_element_namespace = match namespace {
+                        "math" => Namespace::MATHML,
+                        "svg" => Namespace::SVG,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
                 }
 
-                let mut dom_buf = String::new();
-
-                document.visit_mut_with(&mut DomVisualizer {
-                    dom_buf: &mut dom_buf,
-                    indent: 0,
-                });
-
-                // TODO fix me
-                // let dir = input.parent().unwrap().to_path_buf();
-                //
-                // NormalizedOutput::from(dom_buf)
-                //     .compare_to_file(&dir.join(file_stem + ".dom"))
-                //     .unwrap();
-
-                Ok(())
+                if let Some(tag_name) = splited.next() {
+                    context_element_tag_name = tag_name;
+                }
+            } else {
+                context_element_tag_name = context_element;
             }
-            Err(err) => {
-                let mut d = err.to_diagnostics(&handler);
 
-                d.note(&format!("current token = {}", parser.dump_cur()));
-                d.emit();
+            let context_element = Element {
+                span: Default::default(),
+                namespace: context_element_namespace,
+                tag_name: context_element_tag_name.into(),
+                attributes: vec![],
+                children: vec![],
+                content: None,
+            };
 
-                panic!();
+            let document_fragment = parser.parse_document_fragment(context_element);
+
+            match document_fragment {
+                Ok(mut document_fragment) => {
+                    let actual_json = serde_json::to_string_pretty(&document_fragment)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize document");
+
+                    actual_json.compare_to_file(&json_path).unwrap();
+
+                    // Skip scripted test, because we don't support ECMA execution
+                    if input
+                        .parent()
+                        .unwrap()
+                        .to_string_lossy()
+                        .contains("scripted")
+                    {
+                        return Ok(());
+                    }
+
+                    let mut dom_buf = String::new();
+
+                    document_fragment.visit_mut_with(&mut DomVisualizer {
+                        dom_buf: &mut dom_buf,
+                        indent: 0,
+                    });
+
+                    // TODO fix me
+                    // let dir = input.parent().unwrap().to_path_buf();
+                    //
+                    // NormalizedOutput::from(dom_buf)
+                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
+                    //     .unwrap();
+
+                    Ok(())
+                }
+                Err(err) => {
+                    let mut d = err.to_diagnostics(&handler);
+
+                    d.note(&format!("current token = {}", parser.dump_cur()));
+                    d.emit();
+
+                    panic!();
+                }
+            }
+        } else {
+            let document = parser.parse_document();
+
+            match document {
+                Ok(mut document) => {
+                    let actual_json = serde_json::to_string_pretty(&document)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize document");
+
+                    actual_json.compare_to_file(&json_path).unwrap();
+
+                    // Skip scripted test, because we don't support ECMA execution
+                    if input
+                        .parent()
+                        .unwrap()
+                        .to_string_lossy()
+                        .contains("scripted")
+                    {
+                        return Ok(());
+                    }
+
+                    let mut dom_buf = String::new();
+
+                    document.visit_mut_with(&mut DomVisualizer {
+                        dom_buf: &mut dom_buf,
+                        indent: 0,
+                    });
+
+                    // TODO fix me
+                    // let dir = input.parent().unwrap().to_path_buf();
+                    //
+                    // NormalizedOutput::from(dom_buf)
+                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
+                    //     .unwrap();
+
+                    Ok(())
+                }
+                Err(err) => {
+                    let mut d = err.to_diagnostics(&handler);
+
+                    d.note(&format!("current token = {}", parser.dump_cur()));
+                    d.emit();
+
+                    panic!();
+                }
             }
         }
     })

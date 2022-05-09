@@ -50,6 +50,11 @@ where
     }
 
     #[emitter]
+    fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
+        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
     fn emit_child(&mut self, n: &Child) -> Result {
         match n {
             Child::DocumentType(n) => emit!(self, n),

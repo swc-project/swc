@@ -148,16 +148,290 @@ where
         mem::take(&mut self.errors)
     }
 
-    // TODO parse_fragment
     pub fn parse_document(&mut self) -> PResult<Document> {
         let start = self.input.cur_span()?;
 
-        self.document = Some(Node::new(Data::Document(Document {
+        self.document = Some(self.create_document());
+
+        self.run()?;
+
+        let original_document = &mut self.document.take().unwrap();
+        let mut children = vec![];
+
+        for node in original_document.children.take() {
+            children.push(self.node_to_child(node));
+        }
+
+        let last = self.input.last_pos()?;
+
+        Ok(Document {
+            span: Span::new(start.lo, last, Default::default()),
+            mode: self.document_mode,
+            children,
+        })
+    }
+
+    // The following steps form the HTML fragment parsing algorithm. The algorithm
+    // takes as input an Element node, referred to as the context element, which
+    // gives the context for the parser, as well as input, a string to parse, and
+    // returns a list of zero or more nodes.
+    //
+    // Parts marked fragment case in algorithms in the parser section are parts that
+    // only occur if the parser was created for the purposes of this algorithm. The
+    // algorithms have been annotated with such markings for informational purposes
+    // only; such markings have no normative weight. If it is possible for a
+    // condition described as a fragment case to occur even when the parser wasn't
+    // created for the purposes of handling this algorithm, then that is an error in
+    // the specification.
+    //
+    // 1. Create a new Document node, and mark it as being an HTML document.
+    //
+    // 2. If the node document of the context element is in quirks mode, then let
+    // the Document be in quirks mode. Otherwise, the node document of the
+    // context element is in limited-quirks mode, then let the Document be in
+    // limited-quirks mode. Otherwise, leave the Document in no-quirks mode.
+    //
+    // 3. Create a new HTML parser, and associate it with the just created Document
+    // node.
+    //
+    // 4. Set the state of the HTML parser's tokenization stage as follows,
+    // switching on the context element:
+    //
+    // title
+    // textarea
+    //
+    // Switch the tokenizer to the RCDATA state.
+    //
+    // style
+    // xmp
+    // iframe
+    // noembed
+    // noframes
+    //
+    // Switch the tokenizer to the RAWTEXT state.
+    //
+    // script
+    //
+    // Switch the tokenizer to the script data state.
+    //
+    // noscript
+    //
+    // If the scripting flag is enabled, switch the tokenizer to the RAWTEXT state.
+    // Otherwise, leave the tokenizer in the data state. plaintext
+    //
+    // Switch the tokenizer to the PLAINTEXT state.
+    //
+    // Any other element
+    //
+    // Leave the tokenizer in the data state.
+    //
+    // For performance reasons, an implementation that does not report errors and
+    // that uses the actual state machine described in this specification directly
+    // could use the PLAINTEXT state instead of the RAWTEXT and script data states
+    // where those are mentioned in the list above. Except for rules regarding parse
+    // errors, they are equivalent, since there is no appropriate end tag token in
+    // the fragment case, yet they involve far fewer state transitions.
+    //
+    // 5. Let root be a new html element with no attributes.
+    //
+    // 6. Append the element root to the Document node created above.
+    //
+    // 7. Set up the parser's stack of open elements so that it contains just the
+    // single element root.
+    //
+    // 8. If the context element is a template element, push "in template" onto the
+    // stack of template insertion modes so that it is the new current template
+    // insertion mode.
+    //
+    // 9. Create a start tag token whose name is the local name of context and whose
+    // attributes are the attributes of context.
+    //
+    // Let this start tag token be the start tag token of the context node, e.g. for
+    // the purposes of determining if it is an HTML integration point.
+    //
+    // 10. Reset the parser's insertion mode appropriately.
+    //
+    // The parser will reference the context element as part of that algorithm.
+    //
+    // 11. Set the parser's form element pointer to the nearest node to the context
+    // element that is a form element (going straight up the ancestor chain, and
+    // including the element itself, if it is a form element), if any. (If there is
+    // no such form element, the form element pointer keeps its initial value,
+    // null.)
+    //
+    // 12. Place the input into the input stream for the HTML parser just created.
+    // The encoding confidence is irrelevant.
+    //
+    // 13. Start the parser and let it run until it has consumed all the characters
+    // just inserted into the input stream.
+    //
+    // 14. Return the child nodes of root, in tree order.
+    // TODO extract code for building tree from parser in TreeBuilder module
+    // TODO should context_element be RcNode?
+    pub fn parse_document_fragment(
+        &mut self,
+        context_element: Element,
+    ) -> PResult<DocumentFragment> {
+        // 1.
+        self.document = Some(self.create_document());
+
+        // 2.
+        // TODO add ability to set document mode
+
+        // 3.
+        // Parser already created
+        let context_namespace = context_element.namespace;
+        let context_tag_name = context_element.tag_name.clone();
+        let context_node = Node::new(Data::Element(context_element));
+
+        // 4.
+        match &*context_tag_name {
+            "title" | "textarea" if context_namespace == Namespace::HTML => {
+                self.input.set_input_state(State::Rcdata);
+            }
+            "style" | "xmp" | "iframe" | "noembed" | "noframes"
+                if context_namespace == Namespace::HTML =>
+            {
+                self.input.set_input_state(State::Rawtext);
+            }
+            "script" if context_namespace == Namespace::HTML => {
+                self.input.set_input_state(State::ScriptData);
+            }
+            "noscript" if context_namespace == Namespace::HTML => {
+                if self.config.scripting_enabled {
+                    self.input.set_input_state(State::Rawtext);
+                } else {
+                    self.input.set_input_state(State::Data)
+                }
+            }
+            "plaintext" if context_namespace == Namespace::HTML => {
+                self.input.set_input_state(State::PlainText)
+            }
+            _ => self.input.set_input_state(State::Data),
+        }
+
+        // 5.
+        let root = Node::new(Data::Element(Element {
+            span: Default::default(),
+            tag_name: "html".into(),
+            namespace: Namespace::HTML,
+            attributes: vec![],
+            children: vec![],
+            content: None,
+        }));
+
+        // 6.
+        self.append_node(self.document.as_ref().unwrap(), root.clone());
+
+        // 7.
+        self.open_elements_stack.push(root.clone());
+
+        // 8.
+        if &*context_tag_name == "template" {
+            self.template_insertion_mode_stack
+                .push(InsertionMode::InTemplate);
+        }
+
+        // 9.
+        self.context_element = Some(context_node.clone());
+        self.is_fragment_case = true;
+
+        // 10.
+        self.reset_insertion_mode();
+
+        // 11.
+        // TODO how we can get parent here?
+        if &*context_tag_name == "form" {
+            self.form_element_pointer = Some(context_node);
+        }
+
+        // 12.
+        // We do preprocess input stream inside lexer
+
+        // 13.
+        let start = self.input.cur_span()?;
+
+        self.run()?;
+
+        let mut children = vec![];
+
+        for node in root.children.take() {
+            children.push(self.node_to_child(node));
+        }
+
+        let last = self.input.last_pos()?;
+
+        Ok(DocumentFragment {
+            span: Span::new(start.lo, last, Default::default()),
+            children,
+        })
+    }
+
+    fn create_document(&self) -> RcNode {
+        Node::new(Data::Document(Document {
             span: Default::default(),
             mode: DocumentMode::NoQuirks,
             children: vec![],
-        })));
+        }))
+    }
 
+    // TODO optimize me
+    fn node_to_child(&mut self, node: RcNode) -> Child {
+        match &node.data {
+            Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
+                ..document_type.clone()
+            }),
+            Data::Element(element) => {
+                let mut attributes = element.attributes.clone();
+
+                if element.namespace == Namespace::HTML {
+                    if !self.html_additional_attributes.is_empty() && &*element.tag_name == "html" {
+                        let additional_attributes: Vec<_> =
+                            self.html_additional_attributes.drain(..).collect();
+
+                        attributes.extend(additional_attributes)
+                    } else if !self.body_additional_attributes.is_empty()
+                        && &*element.tag_name == "body"
+                    {
+                        let additional_attributes: Vec<_> =
+                            self.body_additional_attributes.drain(..).collect();
+
+                        attributes.extend(additional_attributes);
+                    }
+                }
+
+                let mut new_children = vec![];
+
+                for node in node.children.take() {
+                    new_children.push(self.node_to_child(node));
+                }
+
+                let first = element.span.lo;
+                let last = match new_children.last() {
+                    Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                    Some(Child::Element(Element { span, .. })) => span.hi,
+                    Some(Child::Comment(Comment { span, .. })) => span.hi,
+                    Some(Child::Text(Text { span, .. })) => span.hi,
+                    _ => element.span.hi,
+                };
+
+                Child::Element(Element {
+                    span: Span::new(first, last, Default::default()),
+                    children: new_children,
+                    content: None,
+                    attributes,
+                    ..element.clone()
+                })
+            }
+            Data::Text(text) => Child::Text(Text { ..text.clone() }),
+            Data::Comment(comment) => Child::Comment(Comment { ..comment.clone() }),
+            _ => {
+                unreachable!();
+            }
+        }
+    }
+
+    fn run(&mut self) -> PResult<()> {
         while !self.stopped {
             let adjusted_current_node = self.get_adjusted_current_node();
             let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
@@ -200,82 +474,7 @@ where
             }
         }
 
-        // TODO optimize me
-        fn node_to_child(
-            node: RcNode,
-            html_additional_attributes: &Vec<Attribute>,
-            body_additional_attributes: &Vec<Attribute>,
-        ) -> Child {
-            match &node.data {
-                Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
-                    ..document_type.clone()
-                }),
-                Data::Element(element) => {
-                    let mut attributes = element.attributes.clone();
-
-                    if element.namespace == Namespace::HTML {
-                        if !html_additional_attributes.is_empty() && &*element.tag_name == "html" {
-                            attributes.extend(html_additional_attributes.clone())
-                        } else if !body_additional_attributes.is_empty()
-                            && &*element.tag_name == "body"
-                        {
-                            attributes.extend(body_additional_attributes.clone());
-                        }
-                    }
-
-                    let mut new_children = vec![];
-
-                    for node in node.children.take() {
-                        new_children.push(node_to_child(
-                            node,
-                            html_additional_attributes,
-                            body_additional_attributes,
-                        ));
-                    }
-
-                    let first = element.span.lo;
-                    let last = match new_children.last() {
-                        Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                        Some(Child::Element(Element { span, .. })) => span.hi,
-                        Some(Child::Comment(Comment { span, .. })) => span.hi,
-                        Some(Child::Text(Text { span, .. })) => span.hi,
-                        _ => element.span.hi,
-                    };
-
-                    Child::Element(Element {
-                        span: Span::new(first, last, Default::default()),
-                        children: new_children,
-                        content: None,
-                        attributes,
-                        ..element.clone()
-                    })
-                }
-                Data::Text(text) => Child::Text(Text { ..text.clone() }),
-                Data::Comment(comment) => Child::Comment(Comment { ..comment.clone() }),
-                _ => {
-                    unreachable!();
-                }
-            }
-        }
-
-        let original_document = &mut self.document.take().unwrap();
-        let mut children = vec![];
-
-        for node in original_document.children.take() {
-            children.push(node_to_child(
-                node,
-                &self.html_additional_attributes,
-                &self.body_additional_attributes,
-            ));
-        }
-
-        let last = self.input.last_pos()?;
-
-        Ok(Document {
-            span: Span::new(start.lo, last, Default::default()),
-            mode: self.document_mode,
-            children,
-        })
+        Ok(())
     }
 
     fn tree_construction_dispatcher(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<()> {
@@ -349,7 +548,7 @@ where
     // node is the current node.
     fn get_adjusted_current_node(&self) -> Option<&RcNode> {
         if self.is_fragment_case && self.open_elements_stack.items.len() == 1 {
-            self.context_element.as_ref();
+            return self.context_element.as_ref();
         }
 
         self.open_elements_stack.items.last()
@@ -6962,13 +7161,12 @@ where
     fn reset_insertion_mode(&mut self) {
         // 1. Let last be false.
         let mut last = false;
-        // 2. Let node be the last node in the stack of open elements.
-        let mut iter = self.open_elements_stack.items.iter().rev();
-        let mut node = iter.next();
 
+        let mut iter = self.open_elements_stack.items.iter().rev();
         let first = self.open_elements_stack.items.first();
 
-        while let Some(inner_node) = node {
+        // 2. Let node be the last node in the stack of open elements.
+        while let Some(mut inner_node) = iter.next() {
             // 3. Loop: If node is the first node in the stack of open elements, then set
             // last to true, and, if the parser was created as part of the HTML fragment
             // parsing algorithm (fragment case), set node to the context element passed to
@@ -6978,8 +7176,9 @@ where
 
                 if self.is_fragment_case {
                     // Fragment case
-
-                    node = self.context_element.as_ref();
+                    if let Some(context_element) = &self.context_element {
+                        inner_node = context_element;
+                    }
                 }
             }
 
@@ -7004,7 +7203,7 @@ where
             //   8. Done: Switch the insertion mode to "in select" and return.
             if get_tag_name!(inner_node) == "select" {
                 if !last {
-                    let mut ancestor = node;
+                    let mut ancestor = Some(inner_node);
 
                     while ancestor.is_some() {
                         if let Some(ancestor) = ancestor {
@@ -7030,6 +7229,8 @@ where
                 }
 
                 self.insertion_mode = InsertionMode::InSelect;
+
+                return;
             }
 
             // 5. If node is a td or th element and last is false, then switch the insertion
@@ -7037,7 +7238,7 @@ where
             if (get_tag_name!(inner_node) == "td" || get_tag_name!(inner_node) == "th") && !last {
                 self.insertion_mode = InsertionMode::InCell;
 
-                break;
+                return;
             }
 
             // 6. If node is a tr element, then switch the insertion mode to "in row" and
@@ -7045,7 +7246,7 @@ where
             if get_tag_name!(inner_node) == "tr" {
                 self.insertion_mode = InsertionMode::InRow;
 
-                break;
+                return;
             }
 
             // 7. If node is a tbody, thead, or tfoot element, then switch the insertion
@@ -7056,7 +7257,7 @@ where
             {
                 self.insertion_mode = InsertionMode::InTableBody;
 
-                break;
+                return;
             }
 
             // 8. If node is a caption element, then switch the insertion mode to "in
@@ -7064,7 +7265,7 @@ where
             if get_tag_name!(inner_node) == "caption" {
                 self.insertion_mode = InsertionMode::InCaption;
 
-                break;
+                return;
             }
 
             // 9. If node is a colgroup element, then switch the insertion mode to "in
@@ -7072,28 +7273,26 @@ where
             if get_tag_name!(inner_node) == "colgroup" {
                 self.insertion_mode = InsertionMode::InColumnGroup;
 
-                break;
+                return;
             }
 
-            // 10. If node is a table element, then switch the insertion mode to "in table"
-            // and return.
+            // // 10. If node is a table element, then switch the insertion mode to "in
+            // table" and return.
             if get_tag_name!(inner_node) == "table" {
                 self.insertion_mode = InsertionMode::InTable;
 
-                break;
+                return;
             }
 
+            // TODO fix me
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            if get_tag_name!(inner_node) == "template" {
-                self.insertion_mode = match self.template_insertion_mode_stack.first() {
-                    Some(insertion_mode) => insertion_mode.clone(),
-                    _ => {
-                        unreachable!();
-                    }
-                };
+            if get_tag_name!(inner_node) == "template"
+                && !self.template_insertion_mode_stack.is_empty()
+            {
+                self.insertion_mode = self.template_insertion_mode_stack.remove(0);
 
-                break;
+                return;
             }
 
             // 12. If node is a head element and last is false, then switch the insertion
@@ -7101,7 +7300,7 @@ where
             if get_tag_name!(inner_node) == "head" && !last {
                 self.insertion_mode = InsertionMode::InHead;
 
-                break;
+                return;
             }
 
             // 13. If node is a body element, then switch the insertion mode to "in body"
@@ -7109,7 +7308,7 @@ where
             if get_tag_name!(inner_node) == "body" {
                 self.insertion_mode = InsertionMode::InBody;
 
-                break;
+                return;
             }
 
             // 14. If node is a frameset element, then switch the insertion mode to "in
@@ -7117,7 +7316,7 @@ where
             if get_tag_name!(inner_node) == "frameset" {
                 self.insertion_mode = InsertionMode::InFrameset;
 
-                break;
+                return;
             }
 
             // 15. If node is an html element, run these substeps:
@@ -7135,7 +7334,7 @@ where
                     self.insertion_mode = InsertionMode::AfterHead;
                 }
 
-                break;
+                return;
             }
 
             // 16. If last is true, then switch the insertion mode to "in body" and return.
@@ -7143,11 +7342,12 @@ where
             if last {
                 self.insertion_mode = InsertionMode::InBody;
 
-                break;
+                return;
             }
 
-            // 17. Let node now be the node before node in the stack of open elements.
-            node = iter.next();
+            // 17. Let node now be the node before node in the stack of open
+            // elements.
+            //
             // 18. Return to the step labeled loop.
         }
     }
@@ -7681,11 +7881,10 @@ where
     }
 
     fn append_node(&self, parent: &RcNode, child: RcNode) {
-        let _previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
+        let previous_parent = child.parent.replace(Some(Rc::downgrade(parent)));
 
-        // TODO fix me
         // Invariant: child cannot have existing parent
-        // assert!(previous_parent.is_none());
+        assert!(previous_parent.is_none());
 
         parent.children.borrow_mut().push(child);
     }

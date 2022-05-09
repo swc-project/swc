@@ -1,0 +1,37 @@
+{
+  "type": "DocumentFragment",
+  "span": {
+    "start": 0,
+    "end": 18,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 18,
+        "ctxt": 0
+      },
+      "tagName": "span",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 12,
+            "end": 18,
+            "ctxt": 0
+          },
+          "tagName": "span",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}
