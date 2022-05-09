@@ -120,7 +120,7 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, Span};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
@@ -583,62 +583,6 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
     fn inline_sources_content(&self, _: &FileName) -> bool {
         self.inline_sources_content
-    }
-}
-
-pub fn minify_global_comments(
-    comments: &SwcComments,
-    span: Span,
-    minify: bool,
-    preserve_comments: BoolOrDataConfig<JsMinifyCommentOption>,
-) {
-    let preserve_comments = preserve_comments
-        .unwrap_as_option(|value| {
-            Some(match value {
-                Some(v) => JsMinifyCommentOption::Bool(v),
-                None => {
-                    if minify {
-                        JsMinifyCommentOption::PreserveSomeComments
-                    } else {
-                        JsMinifyCommentOption::PreserveAllComments
-                    }
-                }
-            })
-        })
-        .unwrap();
-
-    match preserve_comments {
-        JsMinifyCommentOption::Bool(true) | JsMinifyCommentOption::PreserveAllComments => {}
-
-        JsMinifyCommentOption::PreserveSomeComments => {
-            let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                if *pos < span.lo || *pos >= span.hi {
-                    return true;
-                }
-
-                // Preserve license comments.
-                if vc.iter().any(|c| c.text.contains("@license")) {
-                    return true;
-                }
-
-                vc.retain(|c: &Comment| c.text.starts_with('!'));
-                !vc.is_empty()
-            };
-            comments.leading.retain(preserve_excl);
-            comments.trailing.retain(preserve_excl);
-        }
-
-        JsMinifyCommentOption::Bool(false) => {
-            let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
-                if *pos < span.lo || *pos >= span.hi {
-                    return true;
-                }
-
-                false
-            };
-            comments.leading.retain(remove_all_in_range);
-            comments.trailing.retain(remove_all_in_range);
-        }
     }
 }
 
