@@ -1242,7 +1242,7 @@ where
                     },
                 }
 
-                if self.should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b)? {
                     return Ok(false);
                 }
 
@@ -1251,7 +1251,7 @@ where
             }
 
             Expr::Assign(b) => {
-                if self.should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b)? {
                     return Ok(false);
                 }
 
@@ -1743,21 +1743,34 @@ where
     ///  var pc = 0;
     ///  console.log(x());
     /// ```
-    fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> bool {
+    fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> Result<bool, ()> {
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
                 Mergable::Expr(Expr::Assign(..)) => {
                     let used_by_b = idents_used_by(&*b.right);
                     if used_by_b.contains(&a_id) {
-                        return true;
+                        return Ok(true);
                     }
                 }
                 _ => {}
             }
         }
 
-        false
+        let b_id = b.left.as_ident();
+        if let Some(b_id) = b_id {
+            let ids_used_by_a_init = match a {
+                Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
+                Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+            };
+
+            let deps = self.data.expand_infected(ids_used_by_a_init, 64)?;
+            if deps.contains(&b_id.to_id()) {
+                return Err(());
+            }
+        }
+
+        Ok(false)
     }
 }
 

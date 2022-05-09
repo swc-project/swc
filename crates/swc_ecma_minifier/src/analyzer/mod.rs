@@ -162,7 +162,7 @@ pub(crate) struct ProgramData {
 impl ProgramData {
     #[allow(unused)]
     pub(crate) fn expand_infected(
-        &mut self,
+        &self,
         ids: impl IntoIterator<Item = Id>,
         max_num: usize,
     ) -> Result<FxHashSet<Id>, ()> {
@@ -172,7 +172,7 @@ impl ProgramData {
     }
 
     fn expand_infected_inner(
-        &mut self,
+        &self,
         ids: impl IntoIterator<Item = Id>,
         max_num: usize,
         result: &mut FxHashSet<Id>,
