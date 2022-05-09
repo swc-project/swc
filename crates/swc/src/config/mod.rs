@@ -384,8 +384,6 @@ impl Options {
         let preserve_comments = if preserve_all_comments {
             JsMinifyCommentOption::Bool(true)
         } else {
-            dbg!(&js_minify);
-
             js_minify
                 .as_ref()
                 .and_then(|v| {
