@@ -11,6 +11,9 @@
 - **(es/minifier)** Improve sequential inliner (#4570) ([af368ee](https://github.com/swc-project/swc/commit/af368eead2529c3340e985acddf2948af44aba2e))
 
 
+- **(es/minifier)** Preserve more identifiers if `eval` or `with` exists (#4580) ([e43689b](https://github.com/swc-project/swc/commit/e43689b7d58354bf2847cb47bfc82eb208d5b5e6))
+
+
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
 
 
