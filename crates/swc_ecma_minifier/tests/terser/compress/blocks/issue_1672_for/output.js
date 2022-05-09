@@ -1,8 +1,11 @@
-switch(function() {
-    return xxx;
-}){
+switch (
+    function () {
+        return xxx;
+    }
+) {
     case xxx:
-        for(; console.log("FAIL");)function xxx() {
+        for (; console.log("FAIL"); ) {
+            function xxx() {}
         }
         break;
 }
