@@ -144,7 +144,13 @@ impl Visit for InfectionCollector<'_> {
             n.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        n.prop.visit_with(self);
+        {
+            let ctx = Ctx {
+                track_expr_ident: false,
+                ..self.ctx
+            };
+            n.prop.visit_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_member_prop(&mut self, n: &MemberProp) {
