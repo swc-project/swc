@@ -5734,14 +5734,13 @@ where
                         } else {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.open_elements_stack
+                                .pop_until_tag_name_popped(&["template"]);
+                            self.active_formatting_elements.clear_to_last_marker();
+                            self.template_insertion_mode_stack.pop();
+                            self.reset_insertion_mode();
+                            self.process_token(token_and_info, None)?;
                         }
-
-                        self.open_elements_stack
-                            .pop_until_tag_name_popped(&["template"]);
-                        self.active_formatting_elements.clear_to_last_marker();
-                        self.template_insertion_mode_stack.pop();
-                        self.reset_insertion_mode();
-                        self.process_token(token_and_info, None)?;
                     }
                 }
             }
@@ -7160,13 +7159,15 @@ where
             // last to true, and, if the parser was created as part of the HTML fragment
             // parsing algorithm (fragment case), set node to the context element passed to
             // that algorithm.
-            if is_same_node(first.unwrap(), inner_node) {
-                last = true;
+            if let Some(first) = first {
+                if is_same_node(first, inner_node) {
+                    last = true;
 
-                if self.is_fragment_case {
-                    // Fragment case
-                    if let Some(context_element) = &self.context_element {
-                        inner_node = context_element;
+                    if self.is_fragment_case {
+                        // Fragment case
+                        if let Some(context_element) = &self.context_element {
+                            inner_node = context_element;
+                        }
                     }
                 }
             }
@@ -7273,15 +7274,14 @@ where
                 return;
             }
 
-            // TODO fix me
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            if get_tag_name!(inner_node) == "template"
-                && !self.template_insertion_mode_stack.is_empty()
-            {
-                self.insertion_mode = self.template_insertion_mode_stack.remove(0);
+            if get_tag_name!(inner_node) == "template" {
+                if let Some(last) = self.template_insertion_mode_stack.last() {
+                    self.insertion_mode = last.clone();
 
-                return;
+                    return;
+                }
             }
 
             // 12. If node is a head element and last is false, then switch the insertion
