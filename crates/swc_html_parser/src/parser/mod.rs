@@ -280,31 +280,29 @@ where
 
         // 3.
         // Parser already created
-        let context_namespace = context_element.namespace;
-        let context_tag_name = context_element.tag_name.clone();
         let context_node = Node::new(Data::Element(context_element));
 
         // 4.
-        match &*context_tag_name {
-            "title" | "textarea" if context_namespace == Namespace::HTML => {
+        match get_tag_name!(context_node) {
+            "title" | "textarea" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::Rcdata);
             }
             "style" | "xmp" | "iframe" | "noembed" | "noframes"
-                if context_namespace == Namespace::HTML =>
+                if get_namespace!(context_node) == Namespace::HTML =>
             {
                 self.input.set_input_state(State::Rawtext);
             }
-            "script" if context_namespace == Namespace::HTML => {
+            "script" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::ScriptData);
             }
-            "noscript" if context_namespace == Namespace::HTML => {
+            "noscript" if get_namespace!(context_node) == Namespace::HTML => {
                 if self.config.scripting_enabled {
                     self.input.set_input_state(State::Rawtext);
                 } else {
                     self.input.set_input_state(State::Data)
                 }
             }
-            "plaintext" if context_namespace == Namespace::HTML => {
+            "plaintext" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::PlainText)
             }
             _ => self.input.set_input_state(State::Data),
@@ -327,7 +325,7 @@ where
         self.open_elements_stack.push(root.clone());
 
         // 8.
-        if &*context_tag_name == "template" {
+        if get_tag_name!(context_node) == "template" {
             self.template_insertion_mode_stack
                 .push(InsertionMode::InTemplate);
         }
@@ -341,7 +339,7 @@ where
 
         // 11.
         // TODO how we can get parent here?
-        if &*context_tag_name == "form" {
+        if get_tag_name!(context_node) == "form" {
             self.form_element_pointer = Some(context_node);
         }
 
@@ -377,12 +375,12 @@ where
 
     // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
-        match &node.data {
-            Data::DocumentType(document_type) => Child::DocumentType(DocumentType {
-                ..document_type.clone()
-            }),
+        match node.data.clone() {
+            Data::DocumentType(document_type) => {
+                Child::DocumentType(DocumentType { ..document_type })
+            }
             Data::Element(element) => {
-                let mut attributes = element.attributes.clone();
+                let mut attributes = element.attributes;
 
                 if element.namespace == Namespace::HTML {
                     if !self.html_additional_attributes.is_empty() && &*element.tag_name == "html" {
@@ -420,11 +418,11 @@ where
                     children: new_children,
                     content: None,
                     attributes,
-                    ..element.clone()
+                    ..element
                 })
             }
-            Data::Text(text) => Child::Text(Text { ..text.clone() }),
-            Data::Comment(comment) => Child::Comment(Comment { ..comment.clone() }),
+            Data::Text(text) => Child::Text(Text { ..text }),
+            Data::Comment(comment) => Child::Comment(Comment { ..comment }),
             _ => {
                 unreachable!();
             }
