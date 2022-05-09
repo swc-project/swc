@@ -1885,6 +1885,30 @@ fn collect_infects(e: &Expr) -> FxHashSet<Id> {
                     collect(&prop.expr, infects)
                 }
             }
+            Expr::Bin(BinExpr {
+                op:
+                    op!("in")
+                    | op!("instanceof")
+                    | op!(bin, "-")
+                    | op!(bin, "+")
+                    | op!("/")
+                    | op!("*")
+                    | op!("%")
+                    | op!("&")
+                    | op!("^")
+                    | op!("|")
+                    | op!("==")
+                    | op!("===")
+                    | op!("!=")
+                    | op!("!=="),
+                left,
+                right,
+                ..
+            }) => {
+                collect(left, infects);
+                collect(right, infects);
+            }
+
             _ => {
                 infects.extend(idents_used_by(e));
             }
