@@ -7289,7 +7289,7 @@
                     var parentContext7, parentContext8, next = renderState.tail;
                     renderState.rendering = next, renderState.tail = next.sibling, renderState.lastEffect = workInProgress.lastEffect, renderState.renderingStartTime = now(), next.sibling = null;
                     var suspenseContext = suspenseStackCursor.current;
-                    return suspenseContext = didSuspendAlready ? 1 & suspenseContext | 2 : 1 & suspenseContext, pushSuspenseContext(workInProgress, suspenseContext), next;
+                    return pushSuspenseContext(workInProgress, suspenseContext = didSuspendAlready ? 1 & suspenseContext | 2 : 1 & suspenseContext), next;
                 }
                 return null;
             case 20:
