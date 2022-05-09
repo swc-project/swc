@@ -160,6 +160,7 @@ pub(crate) struct ProgramData {
 }
 
 impl ProgramData {
+    #[allow(unused)]
     pub(crate) fn expand_infected(
         &mut self,
         ids: impl IntoIterator<Item = Id>,
@@ -637,6 +638,19 @@ where
         }
 
         n.visit_children_with(self);
+
+        {
+            let used_idents = idents_used_by(&n.function);
+            let excluded: AHashSet<Id> = collect_decls(&n.function);
+
+            for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+                self.data
+                    .var_or_default(id.clone())
+                    .add_infects(n.ident.to_id());
+
+                self.data.var_or_default(n.ident.to_id()).add_infects(id);
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -647,6 +661,17 @@ where
             self.data
                 .var_or_default(id.to_id())
                 .mark_declared_as_fn_expr();
+
+            {
+                let used_idents = idents_used_by(&n.function);
+                let excluded: AHashSet<Id> = collect_decls(&n.function);
+
+                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+                    self.data.var_or_default(id.clone()).add_infects(id.to_id());
+
+                    self.data.var_or_default(id.to_id()).add_infects(id);
+                }
+            }
         }
     }
 
