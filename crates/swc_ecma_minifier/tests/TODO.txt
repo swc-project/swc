@@ -4,7 +4,6 @@ collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
-collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
