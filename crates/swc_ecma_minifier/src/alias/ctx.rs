@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 use super::InfectionCollector;
 
 impl<'a> InfectionCollector<'a> {
-    pub fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'a> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'a> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
 

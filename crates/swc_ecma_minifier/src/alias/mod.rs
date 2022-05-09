@@ -1,17 +1,18 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
+use swc_ecma_utils::{collect_decls, ident::IdentLike, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 use self::ctx::Ctx;
+use crate::marks::Marks;
 
 mod ctx;
 
 pub(crate) struct AliasConfig {
-    pub unresolved_ctxt: SyntaxContext,
+    #[allow(unused)]
+    pub marks: Marks,
 }
 
 pub(crate) fn collect_infects<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
@@ -19,7 +20,7 @@ where
     N: for<'aa> VisitWith<InfectionCollector<'aa>>,
     N: VisitWith<BindingCollector<Id>>,
 {
-    let decls = collect_decls(n);
+    let decls = collect_decls(node);
 
     let mut visitor = InfectionCollector {
         config,
@@ -34,6 +35,7 @@ where
 }
 
 pub(crate) struct InfectionCollector<'a> {
+    #[allow(unused)]
     config: AliasConfig,
 
     exclude: &'a FxHashSet<Id>,
@@ -102,22 +104,37 @@ impl Visit for InfectionCollector<'_> {
                 }
             }
 
-            Expr::Unary(UnaryExpr {
-                op:
-                    op!("~")
-                    | op!(unary, "-")
-                    | op!(unary, "+")
-                    | op!("!")
-                    | op!("typeof")
-                    | op!("void"),
-                arg,
-                ..
-            }) => {
-                collect(arg, infects);
+            _ => {
+                let ctx = Ctx {
+                    track_expr_ident: true,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+        }
+    }
+
+    fn visit_unary_expr(&mut self, e: &UnaryExpr) {
+        match e.op {
+            op!("~")
+            | op!(unary, "-")
+            | op!(unary, "+")
+            | op!("!")
+            | op!("typeof")
+            | op!("void") => {
+                let ctx = Ctx {
+                    track_expr_ident: false,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
             }
 
             _ => {
-                infects.extend(idents_used_by(e));
+                let ctx = Ctx {
+                    track_expr_ident: true,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
     }

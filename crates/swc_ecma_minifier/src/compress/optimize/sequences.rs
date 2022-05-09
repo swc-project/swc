@@ -1,7 +1,6 @@
 use std::mem::take;
 
 use retain_mut::RetainMut;
-use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -14,6 +13,7 @@ use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
 use crate::{
+    alias::{collect_infects, AliasConfig},
     compress::{
         optimize::util::replace_id_with_expr,
         util::{is_directive, is_ident_used_by, replace_expr},
@@ -973,7 +973,10 @@ where
                     // ```
                     //
                     let ids_used_by_a_init = match a {
-                        Mergable::Var(a) => a.init.as_ref().map(|init| collect_infects(init)),
+                        Mergable::Var(a) => a
+                            .init
+                            .as_ref()
+                            .map(|init| collect_infects(init, AliasConfig { marks: self.marks })),
                         Mergable::Expr(a) => match a {
                             Expr::Assign(AssignExpr {
                                 left,
@@ -982,7 +985,7 @@ where
                                 ..
                             }) => {
                                 if left.as_ident().is_some() {
-                                    Some(collect_infects(right))
+                                    Some(collect_infects(right, AliasConfig { marks: self.marks }))
                                 } else {
                                     None
                                 }
@@ -1872,68 +1875,4 @@ impl Mergable<'_> {
             },
         }
     }
-}
-
-fn collect_infects(e: &Expr) -> FxHashSet<Id> {
-    fn collect(e: &Expr, infects: &mut FxHashSet<Id>) {
-        match e {
-            Expr::Ident(..) => {}
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                collect(obj, infects);
-
-                if let MemberProp::Computed(prop) = prop {
-                    collect(&prop.expr, infects)
-                }
-            }
-            Expr::Bin(BinExpr {
-                op:
-                    op!("in")
-                    | op!("instanceof")
-                    | op!(bin, "-")
-                    | op!(bin, "+")
-                    | op!("/")
-                    | op!("*")
-                    | op!("%")
-                    | op!("&")
-                    | op!("^")
-                    | op!("|")
-                    | op!("==")
-                    | op!("===")
-                    | op!("!=")
-                    | op!("!==")
-                    | op!("<")
-                    | op!("<=")
-                    | op!(">")
-                    | op!(">="),
-                left,
-                right,
-                ..
-            }) => {
-                collect(left, infects);
-                collect(right, infects);
-            }
-
-            Expr::Unary(UnaryExpr {
-                op:
-                    op!("~")
-                    | op!(unary, "-")
-                    | op!(unary, "+")
-                    | op!("!")
-                    | op!("typeof")
-                    | op!("void"),
-                arg,
-                ..
-            }) => {
-                collect(arg, infects);
-            }
-
-            _ => {
-                infects.extend(idents_used_by(e));
-            }
-        }
-    }
-
-    let mut infects = FxHashSet::default();
-    collect(e, &mut infects);
-    infects
 }
