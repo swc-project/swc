@@ -37,6 +37,7 @@ collapse_vars/chained_3/input.js
 collapse_vars/collapse_vars_arguments/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
+collapse_vars/collapse_vars_do_while_drop_assign/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/cond_branch_1/input.js
