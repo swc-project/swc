@@ -82,8 +82,8 @@ fn terser_exec(input: PathBuf) {
             return Ok(());
         }
 
-        let input_stdout = stdout_of(&input_src, Duration::from_millis(500)).map_err(|_| {
-            eprintln!("This test is not executable test");
+        let input_stdout = stdout_of(&input_src, Duration::from_millis(1000)).map_err(|_| {
+            eprintln!("This test is not executable test: \n{}", input_src);
         })?;
 
         // Formmating
