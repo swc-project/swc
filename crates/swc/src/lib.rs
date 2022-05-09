@@ -136,7 +136,7 @@ use swc_common::{
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOrDataConfig};
-use swc_config::merge::Merge;
+use swc_config::{config_types::BoolOr, merge::Merge};
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
@@ -588,12 +588,12 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
 pub(crate) fn minify_file_comments(
     comments: &SingleThreadedComments,
-    preserve_comments: JsMinifyCommentOption,
+    preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
     match preserve_comments {
-        JsMinifyCommentOption::Bool(true) | JsMinifyCommentOption::PreserveAllComments => {}
+        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
 
-        JsMinifyCommentOption::PreserveSomeComments => {
+        BoolOr::Data((JsMinifyCommentOption::PreserveSomeComments)) => {
             let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 // Preserve license comments.
                 if vc.iter().any(|c| c.text.contains("@license")) {
@@ -609,7 +609,7 @@ pub(crate) fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
-        JsMinifyCommentOption::Bool(false) => {
+        BoolOr::Bool(false) => {
             let (mut l, mut t) = comments.borrow_all_mut();
             l.clear();
             t.clear();

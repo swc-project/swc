@@ -29,7 +29,7 @@ use swc_common::{
     FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_config::{
-    config_types::{BoolConfig, BoolOrDataConfig},
+    config_types::{BoolConfig, BoolOr, BoolOrDataConfig},
     merge::Merge,
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
@@ -382,22 +382,20 @@ impl Options {
         let regenerator = transform.regenerator.clone();
 
         let preserve_comments = if preserve_all_comments {
-            JsMinifyCommentOption::Bool(true)
+            BoolOr::Bool(true)
         } else {
             js_minify
                 .as_ref()
-                .and_then(|v| {
-                    v.format.comments.clone().unwrap_as_option(|v| match v {
-                        Some(v) => Some(JsMinifyCommentOption::Bool(v)),
-                        None => Some(JsMinifyCommentOption::Bool(false)),
-                    })
+                .map(|v| match v.format.comments.clone().into_inner() {
+                    Some(v) => v,
+                    None => BoolOr::Bool(false),
                 })
                 .unwrap_or_else(|| {
-                    if cfg.minify.into_bool() {
+                    BoolOr::Data(if cfg.minify.into_bool() {
                         JsMinifyCommentOption::PreserveSomeComments
                     } else {
                         JsMinifyCommentOption::PreserveAllComments
-                    }
+                    })
                 })
         };
 
@@ -939,8 +937,6 @@ pub struct JsMinifyFormatOptions {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum JsMinifyCommentOption {
-    Bool(bool),
-
     #[serde(rename = "some")]
     PreserveSomeComments,
     #[serde(rename = "all")]
@@ -1058,7 +1054,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
-    pub preserve_comments: JsMinifyCommentOption,
+    pub preserve_comments: BoolOr<JsMinifyCommentOption>,
 
     pub inline_sources_content: bool,
 }
