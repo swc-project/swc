@@ -16,7 +16,7 @@ impl<T> BoolOrDataConfig<T> {
 
     pub fn as_ref(&self) -> BoolOrDataConfig<&T> {
         match &self.0 {
-            Some(BoolOr::Actual(v)) => BoolOrDataConfig::from_obj(v),
+            Some(BoolOr::Data(v)) => BoolOrDataConfig::from_obj(v),
             Some(BoolOr::Bool(b)) => BoolOrDataConfig::from_bool(*b),
             None => BoolOrDataConfig::default(),
         }
@@ -37,7 +37,7 @@ impl<T> BoolOrDataConfig<T> {
         F: FnOnce(Option<bool>) -> Option<T>,
     {
         match self.0 {
-            Some(BoolOr::Actual(v)) => Some(v),
+            Some(BoolOr::Data(v)) => Some(v),
             Some(BoolOr::Bool(b)) => default(Some(b)),
             None => default(None),
         }
@@ -48,7 +48,7 @@ impl<T> BoolOrDataConfig<T> {
         F: FnOnce(T) -> N,
     {
         match self.0 {
-            Some(BoolOr::Actual(v)) => BoolOrDataConfig::from_obj(op(v)),
+            Some(BoolOr::Data(v)) => BoolOrDataConfig::from_obj(op(v)),
             Some(BoolOr::Bool(b)) => BoolOrDataConfig::from_bool(b),
             None => BoolOrDataConfig::default(),
         }
@@ -63,7 +63,7 @@ impl<T> BoolOrDataConfig<T> {
     }
 
     pub fn is_obj(&self) -> bool {
-        matches!(self.0, Some(BoolOr::Actual(_)))
+        matches!(self.0, Some(BoolOr::Data(_)))
     }
 
     pub fn into_inner(self) -> Option<BoolOr<T>> {
@@ -73,7 +73,7 @@ impl<T> BoolOrDataConfig<T> {
 
 impl<T> From<T> for BoolOrDataConfig<T> {
     fn from(v: T) -> Self {
-        Self(Some(BoolOr::Actual(v)))
+        Self(Some(BoolOr::Data(v)))
     }
 }
 
@@ -94,7 +94,7 @@ impl<T> Merge for BoolOrDataConfig<T> {
 #[serde(untagged)]
 pub enum BoolOr<T> {
     Bool(bool),
-    Actual(T),
+    Data(T),
 }
 
 impl<'de, T> Deserialize<'de> for BoolOr<T>
@@ -128,12 +128,12 @@ where
         match res {
             Ok(v) => Ok(match v {
                 Deser::Bool(v) => BoolOr::Bool(v),
-                Deser::Obj(v) => BoolOr::Actual(v),
+                Deser::Obj(v) => BoolOr::Data(v),
                 Deser::EmptyObject(_) => BoolOr::Bool(true),
             }),
             Err(..) => {
                 let d = de::ContentDeserializer::<D::Error>::new(content);
-                Ok(BoolOr::Actual(T::deserialize(d)?))
+                Ok(BoolOr::Data(T::deserialize(d)?))
             }
         }
     }
