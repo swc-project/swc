@@ -3,9 +3,9 @@ use serde::{Deserialize, Serialize};
 use crate::merge::Merge;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct BoolOrObject<T>(#[serde(default)] Option<BoolOrData<T>>);
+pub struct BoolOrDataConfig<T>(#[serde(default)] Option<BoolOrData<T>>);
 
-impl<T> BoolOrObject<T> {
+impl<T> BoolOrDataConfig<T> {
     pub fn from_bool(v: bool) -> Self {
         Self(Some(BoolOrData::Bool(v)))
     }
@@ -14,11 +14,11 @@ impl<T> BoolOrObject<T> {
         v.into()
     }
 
-    pub fn as_ref(&self) -> BoolOrObject<&T> {
+    pub fn as_ref(&self) -> BoolOrDataConfig<&T> {
         match &self.0 {
-            Some(BoolOrData::Actual(v)) => BoolOrObject::from_obj(v),
-            Some(BoolOrData::Bool(b)) => BoolOrObject::from_bool(*b),
-            None => BoolOrObject::default(),
+            Some(BoolOrData::Actual(v)) => BoolOrDataConfig::from_obj(v),
+            Some(BoolOrData::Bool(b)) => BoolOrDataConfig::from_bool(*b),
+            None => BoolOrDataConfig::default(),
         }
     }
 
@@ -43,14 +43,14 @@ impl<T> BoolOrObject<T> {
         }
     }
 
-    pub fn map<F, N>(self, op: F) -> BoolOrObject<N>
+    pub fn map<F, N>(self, op: F) -> BoolOrDataConfig<N>
     where
         F: FnOnce(T) -> N,
     {
         match self.0 {
-            Some(BoolOrData::Actual(v)) => BoolOrObject::from_obj(op(v)),
-            Some(BoolOrData::Bool(b)) => BoolOrObject::from_bool(b),
-            None => BoolOrObject::default(),
+            Some(BoolOrData::Actual(v)) => BoolOrDataConfig::from_obj(op(v)),
+            Some(BoolOrData::Bool(b)) => BoolOrDataConfig::from_bool(b),
+            None => BoolOrDataConfig::default(),
         }
     }
 
@@ -67,19 +67,19 @@ impl<T> BoolOrObject<T> {
     }
 }
 
-impl<T> From<T> for BoolOrObject<T> {
+impl<T> From<T> for BoolOrDataConfig<T> {
     fn from(v: T) -> Self {
         Self(Some(BoolOrData::Actual(v)))
     }
 }
 
-impl<T> Default for BoolOrObject<T> {
+impl<T> Default for BoolOrDataConfig<T> {
     fn default() -> Self {
         Self(Default::default())
     }
 }
 
-impl<T> Merge for BoolOrObject<T> {
+impl<T> Merge for BoolOrDataConfig<T> {
     #[inline]
     fn merge(&mut self, other: Self) {
         self.0.merge(other.0)
