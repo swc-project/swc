@@ -1261,6 +1261,10 @@ where
                     None => return Ok(false),
                 };
 
+                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    return Ok(false);
+                }
+
                 if UsageFinder::find(&b_left, &b.right) {
                     return Err(());
                 }
@@ -1754,30 +1758,6 @@ where
                     }
                 }
                 _ => {}
-            }
-        }
-
-        let b_id = b.left.as_ident();
-        if let Some(b_id) = b_id {
-            let should_check = match a {
-                Mergable::Var(a) => a
-                    .init
-                    .as_deref()
-                    .map(|e| e.may_have_side_effects())
-                    .unwrap_or_default(),
-                Mergable::Expr(a) => a.may_have_side_effects(),
-            };
-
-            if should_check {
-                let ids_used_by_a_init = match a {
-                    Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
-                    Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
-                };
-
-                let deps = self.data.expand_infected(ids_used_by_a_init, 64)?;
-                if deps.contains(&b_id.to_id()) {
-                    return Err(());
-                }
             }
         }
 
