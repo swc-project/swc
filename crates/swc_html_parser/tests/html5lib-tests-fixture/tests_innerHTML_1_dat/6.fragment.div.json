@@ -13,20 +13,7 @@
         "end": 6,
         "ctxt": 0
       },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 6,
-        "end": 16,
-        "ctxt": 0
-      },
-      "tagName": "frameset",
+      "tagName": "span",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [],

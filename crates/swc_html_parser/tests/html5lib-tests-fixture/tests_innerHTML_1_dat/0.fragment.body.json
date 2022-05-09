@@ -9,41 +9,14 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 6,
-        "ctxt": 0
-      },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 0,
+        "start": 6,
         "end": 12,
         "ctxt": 0
       },
-      "tagName": "body",
+      "tagName": "span",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": [
-        {
-          "type": "Element",
-          "span": {
-            "start": 6,
-            "end": 12,
-            "ctxt": 0
-          },
-          "tagName": "span",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        }
-      ],
+      "children": [],
       "content": null
     }
   ]

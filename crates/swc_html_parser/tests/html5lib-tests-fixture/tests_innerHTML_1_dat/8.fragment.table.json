@@ -10,65 +10,24 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 7,
-        "ctxt": 0
-      },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 0,
         "end": 11,
         "ctxt": 0
       },
-      "tagName": "body",
+      "tagName": "tbody",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 7,
             "end": 11,
             "ctxt": 0
           },
-          "tagName": "table",
+          "tagName": "tr",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [
-            {
-              "type": "Element",
-              "span": {
-                "start": 0,
-                "end": 11,
-                "ctxt": 0
-              },
-              "tagName": "tbody",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 7,
-                    "end": 11,
-                    "ctxt": 0
-                  },
-                  "tagName": "tr",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
-              "content": null
-            }
-          ],
+          "children": [],
           "content": null
         }
       ],

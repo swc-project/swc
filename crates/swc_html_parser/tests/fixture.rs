@@ -772,10 +772,6 @@ impl DomVisualizer<'_> {
 }
 
 impl VisitMut for DomVisualizer<'_> {
-    fn visit_mut_document(&mut self, n: &mut Document) {
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         let mut document_type = String::new();
 
@@ -1102,16 +1098,44 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let mut parser = Parser::new(lexer, config);
 
         if file_stem.contains("fragment") {
+            let mut context_element_namespace = Namespace::HTML;
+            let mut context_element_tag_name = "unknown";
+
+            let context_element = file_stem
+                .split('.')
+                .last()
+                .expect("failed to get context element from filename");
+
+            if context_element.contains("_") {
+                let mut splited = context_element.split("_");
+
+                if let Some(namespace) = splited.next() {
+                    context_element_namespace = match namespace {
+                        "math" => Namespace::MATHML,
+                        "svg" => Namespace::SVG,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+                }
+
+                if let Some(tag_name) = splited.next() {
+                    context_element_tag_name = tag_name;
+                }
+            } else {
+                context_element_tag_name = context_element;
+            }
+
             let context_element = Element {
                 span: Default::default(),
-                namespace: Namespace::HTML,
-                tag_name: "div".into(),
+                namespace: context_element_namespace,
+                tag_name: context_element_tag_name.into(),
                 attributes: vec![],
                 children: vec![],
                 content: None,
             };
 
-            let document_fragment = parser.parse_document_fragment(&context_element);
+            let document_fragment = parser.parse_document_fragment(context_element);
 
             match document_fragment {
                 Ok(mut document_fragment) => {

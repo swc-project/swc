@@ -13,8 +13,8 @@
         "end": 5,
         "ctxt": 0
       },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
+      "tagName": "svg",
+      "namespace": "http://www.w3.org/2000/svg",
       "attributes": [],
       "children": [],
       "content": null
@@ -23,53 +23,26 @@
       "type": "Element",
       "span": {
         "start": 0,
+        "end": 9,
+        "ctxt": 0
+      },
+      "tagName": "p",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 9,
         "end": 14,
         "ctxt": 0
       },
-      "tagName": "body",
+      "tagName": "foo",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": [
-        {
-          "type": "Element",
-          "span": {
-            "start": 0,
-            "end": 5,
-            "ctxt": 0
-          },
-          "tagName": "svg",
-          "namespace": "http://www.w3.org/2000/svg",
-          "attributes": [],
-          "children": [],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 0,
-            "end": 9,
-            "ctxt": 0
-          },
-          "tagName": "p",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        },
-        {
-          "type": "Element",
-          "span": {
-            "start": 9,
-            "end": 14,
-            "ctxt": 0
-          },
-          "tagName": "foo",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        }
-      ],
+      "children": [],
       "content": null
     }
   ]

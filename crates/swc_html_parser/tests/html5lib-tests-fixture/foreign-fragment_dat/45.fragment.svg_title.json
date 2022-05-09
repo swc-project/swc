@@ -7,44 +7,13 @@
   },
   "children": [
     {
-      "type": "Element",
+      "type": "Text",
       "span": {
         "start": 0,
-        "end": 8,
+        "end": 17,
         "ctxt": 0
       },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 0,
-        "end": 8,
-        "ctxt": 0
-      },
-      "tagName": "body",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [
-        {
-          "type": "Element",
-          "span": {
-            "start": 0,
-            "end": 8,
-            "ctxt": 0
-          },
-          "tagName": "figure",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        }
-      ],
-      "content": null
+      "value": "<figure></figure>"
     }
   ]
 }

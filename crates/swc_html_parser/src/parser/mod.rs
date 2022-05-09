@@ -266,10 +266,11 @@ where
     // just inserted into the input stream.
     //
     // 14. Return the child nodes of root, in tree order.
-    // TODO extract code from parser in TreeBuilder
+    // TODO extract code for building tree from parser in TreeBuilder module
+    // TODO should context_element be RcNode
     pub fn parse_document_fragment(
         &mut self,
-        context_element: &Element,
+        context_element: Element,
     ) -> PResult<DocumentFragment> {
         // 1.
         self.document = Some(self.create_document());
@@ -279,9 +280,14 @@ where
 
         // 3.
         // Parser already created
+        let context_tag_name = context_element.tag_name.clone();
+        let context_node = Node::new(Data::Element(context_element));
+
+        self.is_fragment_case = true;
+        self.context_element = Some(context_node);
 
         // 4.
-        match &*context_element.tag_name {
+        match &*context_tag_name {
             "title" | "textarea" => {
                 self.input.set_input_state(State::Rcdata);
             }
@@ -319,26 +325,26 @@ where
         self.open_elements_stack.push(root.clone());
 
         // 8.
-        if &*context_element.tag_name == "template" {
+        if &*context_tag_name == "template" {
             self.template_insertion_mode_stack
                 .push(InsertionMode::InTemplate);
         }
 
         // 9.
-        // TODO fix me
+        // TODO fix me, case for HTML integration point.
 
         // 10.
         self.reset_insertion_mode();
 
         // 11.
-        // TODO fix me
+        // TODO fix me, form case
 
         // 12.
         // We do preprocess input stream inside lexer
 
+        // 13.
         let start = self.input.cur_span()?;
 
-        // 13.
         self.run()?;
 
         let mut children = vec![];
@@ -7149,13 +7155,12 @@ where
     fn reset_insertion_mode(&mut self) {
         // 1. Let last be false.
         let mut last = false;
-        // 2. Let node be the last node in the stack of open elements.
-        let mut iter = self.open_elements_stack.items.iter().rev();
-        let mut node = iter.next();
 
+        let mut iter = self.open_elements_stack.items.iter().rev();
         let first = self.open_elements_stack.items.first();
 
-        while let Some(inner_node) = node {
+        // 2. Let node be the last node in the stack of open elements.
+        while let Some(mut inner_node) = iter.next() {
             // 3. Loop: If node is the first node in the stack of open elements, then set
             // last to true, and, if the parser was created as part of the HTML fragment
             // parsing algorithm (fragment case), set node to the context element passed to
@@ -7165,8 +7170,9 @@ where
 
                 if self.is_fragment_case {
                     // Fragment case
-
-                    node = self.context_element.as_ref();
+                    if let Some(context_element) = &self.context_element {
+                        inner_node = context_element;
+                    }
                 }
             }
 
@@ -7191,7 +7197,7 @@ where
             //   8. Done: Switch the insertion mode to "in select" and return.
             if get_tag_name!(inner_node) == "select" {
                 if !last {
-                    let mut ancestor = node;
+                    let mut ancestor = Some(inner_node);
 
                     while ancestor.is_some() {
                         if let Some(ancestor) = ancestor {
@@ -7224,7 +7230,7 @@ where
             if (get_tag_name!(inner_node) == "td" || get_tag_name!(inner_node) == "th") && !last {
                 self.insertion_mode = InsertionMode::InCell;
 
-                break;
+                return;
             }
 
             // 6. If node is a tr element, then switch the insertion mode to "in row" and
@@ -7232,7 +7238,7 @@ where
             if get_tag_name!(inner_node) == "tr" {
                 self.insertion_mode = InsertionMode::InRow;
 
-                break;
+                return;
             }
 
             // 7. If node is a tbody, thead, or tfoot element, then switch the insertion
@@ -7243,7 +7249,7 @@ where
             {
                 self.insertion_mode = InsertionMode::InTableBody;
 
-                break;
+                return;
             }
 
             // 8. If node is a caption element, then switch the insertion mode to "in
@@ -7251,7 +7257,7 @@ where
             if get_tag_name!(inner_node) == "caption" {
                 self.insertion_mode = InsertionMode::InCaption;
 
-                break;
+                return;
             }
 
             // 9. If node is a colgroup element, then switch the insertion mode to "in
@@ -7259,36 +7265,37 @@ where
             if get_tag_name!(inner_node) == "colgroup" {
                 self.insertion_mode = InsertionMode::InColumnGroup;
 
-                break;
+                return;
             }
 
-            // 10. If node is a table element, then switch the insertion mode to "in table"
-            // and return.
+            // // 10. If node is a table element, then switch the insertion mode to "in
+            // table" and return.
             if get_tag_name!(inner_node) == "table" {
                 self.insertion_mode = InsertionMode::InTable;
 
-                break;
+                return;
             }
 
+            // TODO fix me
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            if get_tag_name!(inner_node) == "template" {
-                self.insertion_mode = match self.template_insertion_mode_stack.first() {
-                    Some(insertion_mode) => insertion_mode.clone(),
-                    _ => {
-                        unreachable!();
-                    }
-                };
-
-                break;
-            }
+            // if get_tag_name!(inner_node) == "template" {
+            //     self.insertion_mode = match self.template_insertion_mode_stack.first() {
+            //         Some(insertion_mode) => insertion_mode.clone(),
+            //         _ => {
+            //             unreachable!();
+            //         }
+            //     };
+            //
+            //     return;
+            // }
 
             // 12. If node is a head element and last is false, then switch the insertion
             // mode to "in head" and return.
             if get_tag_name!(inner_node) == "head" && !last {
                 self.insertion_mode = InsertionMode::InHead;
 
-                break;
+                return;
             }
 
             // 13. If node is a body element, then switch the insertion mode to "in body"
@@ -7296,7 +7303,7 @@ where
             if get_tag_name!(inner_node) == "body" {
                 self.insertion_mode = InsertionMode::InBody;
 
-                break;
+                return;
             }
 
             // 14. If node is a frameset element, then switch the insertion mode to "in
@@ -7304,7 +7311,7 @@ where
             if get_tag_name!(inner_node) == "frameset" {
                 self.insertion_mode = InsertionMode::InFrameset;
 
-                break;
+                return;
             }
 
             // 15. If node is an html element, run these substeps:
@@ -7322,7 +7329,7 @@ where
                     self.insertion_mode = InsertionMode::AfterHead;
                 }
 
-                break;
+                return;
             }
 
             // 16. If last is true, then switch the insertion mode to "in body" and return.
@@ -7330,11 +7337,12 @@ where
             if last {
                 self.insertion_mode = InsertionMode::InBody;
 
-                break;
+                return;
             }
 
-            // 17. Let node now be the node before node in the stack of open elements.
-            node = iter.next();
+            // 17. Let node now be the node before node in the stack of open
+            // elements.
+            //
             // 18. Return to the step labeled loop.
         }
     }

@@ -10,62 +10,35 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 5,
-        "ctxt": 0
-      },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 0,
         "end": 19,
         "ctxt": 0
       },
-      "tagName": "body",
-      "namespace": "http://www.w3.org/1999/xhtml",
+      "tagName": "svg",
+      "namespace": "http://www.w3.org/2000/svg",
       "attributes": [],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 5,
             "end": 19,
             "ctxt": 0
           },
-          "tagName": "svg",
+          "tagName": "tfoot",
           "namespace": "http://www.w3.org/2000/svg",
           "attributes": [],
           "children": [
             {
               "type": "Element",
               "span": {
-                "start": 5,
+                "start": 12,
                 "end": 19,
                 "ctxt": 0
               },
-              "tagName": "tfoot",
+              "tagName": "title",
               "namespace": "http://www.w3.org/2000/svg",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 12,
-                    "end": 19,
-                    "ctxt": 0
-                  },
-                  "tagName": "title",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
+              "children": [],
               "content": null
             }
           ],

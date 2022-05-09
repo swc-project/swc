@@ -13,7 +13,7 @@
         "end": 3,
         "ctxt": 0
       },
-      "tagName": "head",
+      "tagName": "a",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [],
@@ -22,36 +22,22 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
+        "start": 3,
         "end": 13,
         "ctxt": 0
       },
-      "tagName": "body",
+      "tagName": "caption",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
         {
-          "type": "Element",
+          "type": "Text",
           "span": {
-            "start": 0,
+            "start": 12,
             "end": 13,
             "ctxt": 0
           },
-          "tagName": "a",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [
-            {
-              "type": "Text",
-              "span": {
-                "start": 12,
-                "end": 13,
-                "ctxt": 0
-              },
-              "value": "a"
-            }
-          ],
-          "content": null
+          "value": "a"
         }
       ],
       "content": null

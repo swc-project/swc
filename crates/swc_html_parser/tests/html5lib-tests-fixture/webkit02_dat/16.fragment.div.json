@@ -10,63 +10,50 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 3,
+        "end": 66,
         "ctxt": 0
       },
-      "tagName": "head",
-      "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
-      "children": [],
-      "content": null
-    },
-    {
-      "type": "Element",
-      "span": {
-        "start": 0,
-        "end": 77,
-        "ctxt": 0
-      },
-      "tagName": "body",
+      "tagName": "b",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 3,
             "end": 66,
             "ctxt": 0
           },
-          "tagName": "b",
+          "tagName": "em",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [
             {
               "type": "Element",
               "span": {
-                "start": 3,
+                "start": 7,
                 "end": 66,
                 "ctxt": 0
               },
-              "tagName": "em",
+              "tagName": "foo",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
                   "type": "Element",
                   "span": {
-                    "start": 7,
+                    "start": 12,
                     "end": 66,
                     "ctxt": 0
                   },
-                  "tagName": "foo",
+                  "tagName": "foob",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [
                     {
                       "type": "Element",
                       "span": {
-                        "start": 12,
+                        "start": 18,
                         "end": 66,
                         "ctxt": 0
                       },
@@ -77,7 +64,7 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 18,
+                            "start": 24,
                             "end": 66,
                             "ctxt": 0
                           },
@@ -88,7 +75,7 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 24,
+                                "start": 30,
                                 "end": 66,
                                 "ctxt": 0
                               },
@@ -99,18 +86,18 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 30,
+                                    "start": 36,
                                     "end": 66,
                                     "ctxt": 0
                                   },
-                                  "tagName": "foob",
+                                  "tagName": "fooc",
                                   "namespace": "http://www.w3.org/1999/xhtml",
                                   "attributes": [],
                                   "children": [
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 36,
+                                        "start": 42,
                                         "end": 66,
                                         "ctxt": 0
                                       },
@@ -121,7 +108,7 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 42,
+                                            "start": 48,
                                             "end": 66,
                                             "ctxt": 0
                                           },
@@ -132,7 +119,7 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 48,
+                                                "start": 54,
                                                 "end": 66,
                                                 "ctxt": 0
                                               },
@@ -143,28 +130,14 @@
                                                 {
                                                   "type": "Element",
                                                   "span": {
-                                                    "start": 54,
+                                                    "start": 60,
                                                     "end": 66,
                                                     "ctxt": 0
                                                   },
-                                                  "tagName": "fooc",
+                                                  "tagName": "food",
                                                   "namespace": "http://www.w3.org/1999/xhtml",
                                                   "attributes": [],
-                                                  "children": [
-                                                    {
-                                                      "type": "Element",
-                                                      "span": {
-                                                        "start": 60,
-                                                        "end": 66,
-                                                        "ctxt": 0
-                                                      },
-                                                      "tagName": "food",
-                                                      "namespace": "http://www.w3.org/1999/xhtml",
-                                                      "attributes": [],
-                                                      "children": [],
-                                                      "content": null
-                                                    }
-                                                  ],
+                                                  "children": [],
                                                   "content": null
                                                 }
                                               ],
@@ -196,32 +169,32 @@
             }
           ],
           "content": null
-        },
+        }
+      ],
+      "content": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 66,
+        "end": 77,
+        "ctxt": 0
+      },
+      "tagName": "aside",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
         {
           "type": "Element",
           "span": {
-            "start": 66,
+            "start": 0,
             "end": 77,
             "ctxt": 0
           },
-          "tagName": "aside",
+          "tagName": "b",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [
-            {
-              "type": "Element",
-              "span": {
-                "start": 0,
-                "end": 77,
-                "ctxt": 0
-              },
-              "tagName": "b",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
-              "content": null
-            }
-          ],
+          "children": [],
           "content": null
         }
       ],
