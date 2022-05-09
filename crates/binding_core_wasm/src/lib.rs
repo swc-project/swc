@@ -114,7 +114,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                             .unwrap_or(SourceMapsConfig::Bool(false)),
                         &Default::default(),
                         None,
-                        opts.config.minify,
+                        opts.config.minify.into(),
                         None,
                     )
                     .context("failed to print code")?;

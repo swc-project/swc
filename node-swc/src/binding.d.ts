@@ -5,7 +5,7 @@
 
 export interface TransformOutput {
   code: string
-  map?: string | undefined | null
+  map?: string
 }
 export function bundle(confItems: Buffer, signal?: AbortSignal | undefined | null): Promise<{ [index: string]: { code: string, map?: string } }>
 export function minify(code: Buffer, opts: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
@@ -25,7 +25,7 @@ export function initCustomTraceSubscriber(traceOutFilePath?: string | undefined 
 /** Hack for `Type Generation` */
 export interface TransformOutput {
   code: string
-  map?: string | undefined | null
+  map?: string
 }
 export type JsCompiler = Compiler
 export class Compiler {

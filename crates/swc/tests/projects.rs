@@ -9,7 +9,7 @@ use swc::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    minify_file_comments, Compiler, TransformOutput,
+    Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
@@ -772,8 +772,6 @@ fn should_visit() {
                 })
             });
 
-            minify_file_comments(&comments, config.minify, config.preserve_comments);
-
             Ok(c.print(
                 &program,
                 None,
@@ -831,7 +829,7 @@ fn tests(input_dir: PathBuf) {
                         output_path: Some(output.join(entry.file_name())),
                         config: Config {
                             jsc: JscConfig {
-                                external_helpers: true,
+                                external_helpers: true.into(),
                                 ..Default::default()
                             },
                             ..Default::default()
