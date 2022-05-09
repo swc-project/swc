@@ -28,7 +28,10 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_eval, contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
+    util::{
+        contains_eval, contains_leaping_continue_with_label, contains_leaping_yield, make_number,
+        ExprOptExt, ModuleItemExt,
+    },
 };
 
 mod arguments;
@@ -97,6 +100,8 @@ struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     #[allow(dead_code)]
     has_const_ann: bool,
+
+    dont_use_prepend_nor_append: bool,
 
     in_bool_ctx: bool,
 
@@ -2069,7 +2074,16 @@ where
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
-        n.visit_mut_children_with(self);
+
+        let ctx = Ctx {
+            dont_use_prepend_nor_append: contains_leaping_continue_with_label(
+                &n.body,
+                n.label.to_id(),
+            ),
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.label.is_none() {
             report_change!("Removing label `{}`", n.label);
@@ -2713,7 +2727,7 @@ where
 
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
-        if !uses_eval {
+        if !uses_eval && !self.ctx.dont_use_prepend_nor_append {
             for v in vars.iter_mut() {
                 if v.init
                     .as_deref()
