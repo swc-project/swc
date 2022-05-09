@@ -1679,7 +1679,6 @@
                 "ace/lib/oop",
                 "ace/lib/event_emitter", 
             ], function(require, exports, module) {
-                "no use strict";
                 var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {
                     setOptions: function(optList) {
                         Object.keys(optList).forEach(function(key) {
@@ -1760,7 +1759,6 @@
                 "ace/lib/dom",
                 "ace/lib/app_config", 
             ], function(require, exports, module3) {
-                "no use strict";
                 var lang = require("./lib/lang");
                 require("./lib/oop");
                 var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
