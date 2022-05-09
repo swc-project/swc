@@ -782,7 +782,7 @@ where
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
                             if !usage.reassigned() && usage.pure_fn {
                                 self.changed = true;
-                                report_change!("Reducing funcion call to a variable");
+                                report_change!("Reducing function call to a variable");
 
                                 let args = args
                                     .take()
@@ -1302,10 +1302,11 @@ where
         }
     }
 
-    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
+    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool, allow_fn_decl: bool) {
         match s {
             Stmt::Block(bs) => {
                 if bs.stmts.is_empty() {
+                    report_change!("Converting empty block to empty statement");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -1313,6 +1314,7 @@ where
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
                     if bs.span.has_mark(self.marks.fake_block) {
+                        report_change!("Unwrapping a fake block");
                         *s = bs.stmts.take().into_iter().next().unwrap();
                         return;
                     }
@@ -1356,6 +1358,7 @@ where
                             self.changed = true;
                             report_change!("optimizer: Removing empty block");
                             *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            return;
                         }
                     }
                 }
@@ -1367,7 +1370,7 @@ where
                             report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
-                        Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
+                        Stmt::Decl(Decl::Fn(..)) if allow_fn_decl && !self.ctx.in_strict => {
                             *s = bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
@@ -1378,7 +1381,7 @@ where
             }
 
             Stmt::If(s) => {
-                self.try_removing_block(&mut s.cons, true);
+                self.try_removing_block(&mut s.cons, true, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
                     Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
@@ -1386,21 +1389,21 @@ where
                 };
                 if can_remove_block_of_alt {
                     if let Some(alt) = &mut s.alt {
-                        self.try_removing_block(alt, true);
+                        self.try_removing_block(alt, true, false);
                     }
                 }
             }
 
             Stmt::ForIn(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             Stmt::For(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             Stmt::ForOf(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             _ => {}
@@ -2370,13 +2373,13 @@ where
 
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
-        self.try_removing_block(s, false);
+        self.try_removing_block(s, false, false);
 
         // These methods may modify prepend_stmts or append_stmts.
         self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
-        self.try_removing_block(s, false);
+        self.try_removing_block(s, false, false);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
