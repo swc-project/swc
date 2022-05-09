@@ -42,7 +42,6 @@ use testing::assert_eq;
         "drop_unused/issue_1715_1/",
         "drop_unused/issue_1715_2/",
         "drop_unused/issue_1715_3/",
-        "drop_unused/issue_1830_1/",
         "drop_unused/issue_1830_2/",
         "evaluate/issue_1760_1/",
         "functions/issue_2620_4/",
