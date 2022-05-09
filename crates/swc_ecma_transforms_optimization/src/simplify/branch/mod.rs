@@ -181,14 +181,16 @@ impl VisitMut for Remover {
         s.visit_mut_children_with(self);
 
         s.init = s.init.take().and_then(|e| match e {
-            VarDeclOrExpr::Expr(e) => ignore_result(*e).map(Box::new).map(VarDeclOrExpr::from),
+            VarDeclOrExpr::Expr(e) => ignore_result(*e, true)
+                .map(Box::new)
+                .map(VarDeclOrExpr::from),
             _ => Some(e),
         });
 
         s.update = s
             .update
             .take()
-            .and_then(|e| ignore_result(*e).map(Box::new));
+            .and_then(|e| ignore_result(*e, true).map(Box::new));
 
         s.test = s.test.take().and_then(|e| {
             let span = e.span();
@@ -352,13 +354,13 @@ impl VisitMut for Remover {
                         return Some(e);
                     }
 
-                    ignore_result(*e).map(Box::new)
+                    ignore_result(*e, true).map(Box::new)
                 })
                 .collect()
         } else {
             e.exprs
                 .take()
-                .move_flat_map(|e| ignore_result(*e).map(Box::new))
+                .move_flat_map(|e| ignore_result(*e, false).map(Box::new))
         };
 
         exprs.push(last);
@@ -398,7 +400,7 @@ impl VisitMut for Remover {
 
                         // Preserve effect of the test
                         if !p.is_pure() {
-                            if let Some(expr) = ignore_result(*test).map(Box::new) {
+                            if let Some(expr) = ignore_result(*test, true).map(Box::new) {
                                 stmts.push(Stmt::Expr(ExprStmt { span, expr }))
                             }
                         }
@@ -442,7 +444,7 @@ impl VisitMut for Remover {
                         if let Stmt::Empty(..) = *cons {
                             self.changed = true;
 
-                            return if let Some(expr) = ignore_result(*test) {
+                            return if let Some(expr) = ignore_result(*test, true) {
                                 Stmt::Expr(ExprStmt {
                                     span,
                                     expr: Box::new(expr),
@@ -497,7 +499,7 @@ impl VisitMut for Remover {
                     }
 
                     let expr = *expr;
-                    match ignore_result(expr) {
+                    match ignore_result(expr, false) {
                         Some(e) => Stmt::Expr(ExprStmt {
                             span,
                             expr: Box::new(e),
@@ -640,7 +642,7 @@ impl VisitMut for Remover {
                         if cfg!(feature = "debug") {
                             debug!("Removing an empty switch statement");
                         }
-                        return match ignore_result(*s.discriminant) {
+                        return match ignore_result(*s.discriminant, true) {
                             Some(expr) => Stmt::Expr(ExprStmt {
                                 span: s.span,
                                 expr: Box::new(expr),
@@ -659,7 +661,7 @@ impl VisitMut for Remover {
                         }
 
                         let mut stmts = remove_break(s.cases.remove(0).cons);
-                        if let Some(expr) = ignore_result(*s.discriminant) {
+                        if let Some(expr) = ignore_result(*s.discriminant, true) {
                             prepend(&mut stmts, expr.into_stmt());
                         }
 
@@ -731,14 +733,16 @@ impl VisitMut for Remover {
                     if let Some(i) = selected {
                         if !has_conditional_stopper(&s.cases[i].cons) {
                             let mut exprs = vec![];
-                            exprs.extend(ignore_result(*s.discriminant).map(Box::new));
+                            exprs.extend(ignore_result(*s.discriminant, true).map(Box::new));
 
                             let mut stmts = s.cases.remove(i).cons;
                             let mut cases = s.cases.drain(i..);
 
                             for case in cases.by_ref() {
                                 exprs.extend(
-                                    case.test.and_then(|e| ignore_result(*e)).map(Box::new),
+                                    case.test
+                                        .and_then(|e| ignore_result(*e, true))
+                                        .map(Box::new),
                                 );
 
                                 let should_stop = has_unconditional_stopper(&case.cons);
@@ -755,7 +759,9 @@ impl VisitMut for Remover {
                                 .into_iter()
                                 .flat_map(|case| {
                                     exprs.extend(
-                                        case.test.and_then(|e| ignore_result(*e)).map(Box::new),
+                                        case.test
+                                            .and_then(|e| ignore_result(*e, true))
+                                            .map(Box::new),
                                     );
                                     case.cons
                                 })
@@ -934,13 +940,13 @@ impl VisitMut for Remover {
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
                             let mut exprs = vec![];
-                            exprs.extend(ignore_result(*s.discriminant).map(Box::new));
+                            exprs.extend(ignore_result(*s.discriminant, true).map(Box::new));
 
                             exprs.extend(
                                 s.cases
                                     .iter_mut()
                                     .filter_map(|case| case.test.take())
-                                    .filter_map(|e| ignore_result(*e).map(Box::new)),
+                                    .filter_map(|e| ignore_result(*e, true).map(Box::new)),
                             );
 
                             let stmts = s.cases.pop().unwrap().cons;
@@ -1109,7 +1115,7 @@ impl VisitMut for Remover {
                             let mut body = prepare_loop_body_for_inlining(*s.body);
                             body.visit_mut_with(self);
 
-                            if let Some(test) = ignore_result(*s.test) {
+                            if let Some(test) = ignore_result(*s.test, true) {
                                 BlockStmt {
                                     span: s.span,
                                     stmts: vec![body, test.into_stmt()],
@@ -1319,7 +1325,7 @@ impl Remover {
                                 (purity, Known(val)) => {
                                     self.changed = true;
                                     if !purity.is_pure() {
-                                        let expr = ignore_result(*test);
+                                        let expr = ignore_result(*test, true);
 
                                         if let Some(expr) = expr {
                                             new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
@@ -1378,16 +1384,16 @@ impl Remover {
 ///  - [Some] if `e` has a side effect.
 ///  - [None] if `e` does not have a side effect.
 #[inline(never)]
-fn ignore_result(e: Expr) -> Option<Expr> {
+fn ignore_result(e: Expr, drop_str_lit: bool) -> Option<Expr> {
     match e {
         Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Bool(..))
         | Expr::Lit(Lit::Null(..))
         | Expr::Lit(Lit::Regex(..)) => None,
 
-        Expr::Lit(Lit::Str(ref v)) if v.value.is_empty() => None,
+        Expr::Lit(Lit::Str(ref v)) if drop_str_lit || v.value.is_empty() => None,
 
-        Expr::Paren(ParenExpr { expr, .. }) => ignore_result(*expr),
+        Expr::Paren(ParenExpr { expr, .. }) => ignore_result(*expr, true),
 
         Expr::Assign(AssignExpr {
             op: op!("="),
@@ -1411,15 +1417,14 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             op,
             right,
         }) if op != op!("&&") && op != op!("||") && op != op!("??") => {
-            let left = ignore_result(*left);
-            let right = ignore_result(*right);
+            let left = ignore_result(*left, true);
+            let right = ignore_result(*right, true);
 
             match (left, right) {
-                (Some(l), Some(r)) => ignore_result(preserve_effects(
-                    span,
-                    *undefined(span),
-                    vec![Box::new(l), Box::new(r)],
-                )),
+                (Some(l), Some(r)) => ignore_result(
+                    preserve_effects(span, *undefined(span), vec![Box::new(l), Box::new(r)]),
+                    true,
+                ),
                 (Some(l), None) => Some(l),
                 (None, Some(r)) => Some(r),
                 (None, None) => None,
@@ -1433,10 +1438,10 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             right,
         }) => {
             if op == op!("&&") {
-                let right = if let Some(right) = ignore_result(*right) {
+                let right = if let Some(right) = ignore_result(*right, true) {
                     Box::new(right)
                 } else {
-                    return ignore_result(*left);
+                    return ignore_result(*left, true);
                 };
 
                 let l = left.as_pure_bool();
@@ -1464,10 +1469,10 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     if l {
                         None
                     } else {
-                        ignore_result(*right)
+                        ignore_result(*right, true)
                     }
                 } else {
-                    let right = ignore_result(*right);
+                    let right = ignore_result(*right, true);
                     if let Some(right) = right {
                         Some(Expr::Bin(BinExpr {
                             span,
@@ -1476,7 +1481,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                             right: Box::new(right),
                         }))
                     } else {
-                        ignore_result(*left)
+                        ignore_result(*left, true)
                     }
                 }
             }
@@ -1501,7 +1506,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             | op!(unary, "+")
             | op!(unary, "-")
             | op!("!")
-            | op!("~") => ignore_result(*arg),
+            | op!("~") => ignore_result(*arg, true),
             _ => Some(Expr::Unary(UnaryExpr { span, op, arg })),
         },
 
@@ -1515,12 +1520,14 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     Some(v)
                 }
                 None => None,
-                Some(ExprOrSpread { spread: None, expr }) => ignore_result(*expr).map(|expr| {
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(expr),
+                Some(ExprOrSpread { spread: None, expr }) => {
+                    ignore_result(*expr, true).map(|expr| {
+                        Some(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(expr),
+                        })
                     })
-                }),
+                }
             });
 
             if elems.is_empty() {
@@ -1528,11 +1535,14 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             } else if has_spread {
                 Some(Expr::Array(ArrayLit { span, elems }))
             } else {
-                ignore_result(preserve_effects(
-                    span,
-                    *undefined(span),
-                    elems.into_iter().map(|v| v.unwrap().expr),
-                ))
+                ignore_result(
+                    preserve_effects(
+                        span,
+                        *undefined(span),
+                        elems.into_iter().map(|v| v.unwrap().expr),
+                    ),
+                    true,
+                )
             }
         }
 
@@ -1551,11 +1561,14 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             if props.is_empty() {
                 None
             } else {
-                ignore_result(preserve_effects(
-                    span,
-                    *undefined(DUMMY_SP),
-                    once(Box::new(Expr::Object(ObjectLit { span, props }))),
-                ))
+                ignore_result(
+                    preserve_effects(
+                        span,
+                        *undefined(DUMMY_SP),
+                        once(Box::new(Expr::Object(ObjectLit { span, props }))),
+                    ),
+                    true,
+                )
             }
         }
 
@@ -1564,25 +1577,31 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             ref callee,
             args,
             ..
-        }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
-            span,
-            elems: args
-                .map(|args| args.into_iter().map(Some).collect())
-                .unwrap_or_else(Default::default),
-        })),
+        }) if callee.is_pure_callee() => ignore_result(
+            Expr::Array(ArrayLit {
+                span,
+                elems: args
+                    .map(|args| args.into_iter().map(Some).collect())
+                    .unwrap_or_else(Default::default),
+            }),
+            true,
+        ),
 
         Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(ref callee),
             args,
             ..
-        }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
-            span,
-            elems: args.into_iter().map(Some).collect(),
-        })),
+        }) if callee.is_pure_callee() => ignore_result(
+            Expr::Array(ArrayLit {
+                span,
+                elems: args.into_iter().map(Some).collect(),
+            }),
+            true,
+        ),
 
         Expr::Tpl(Tpl { span, exprs, .. }) => {
-            ignore_result(preserve_effects(span, *undefined(span), exprs))
+            ignore_result(preserve_effects(span, *undefined(span), exprs), true)
         }
 
         Expr::TaggedTpl(TaggedTpl {
@@ -1591,7 +1610,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             tpl: Tpl { exprs, .. },
             ..
         }) if tag.is_pure_callee() => {
-            ignore_result(preserve_effects(span, *undefined(span), exprs))
+            ignore_result(preserve_effects(span, *undefined(span), exprs), true)
         }
 
         //
@@ -1609,7 +1628,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 return None;
             }
 
-            let last = ignore_result(*exprs.pop().unwrap()).map(Box::new);
+            let last = ignore_result(*exprs.pop().unwrap(), true).map(Box::new);
 
             exprs.extend(last);
 
@@ -1626,26 +1645,32 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             cons,
             alt,
         }) => {
-            let alt = if let Some(alt) = ignore_result(*alt) {
+            let alt = if let Some(alt) = ignore_result(*alt, true) {
                 alt
             } else {
-                return ignore_result(Expr::Bin(BinExpr {
-                    span,
-                    left: test,
-                    op: op!("&&"),
-                    right: cons,
-                }));
+                return ignore_result(
+                    Expr::Bin(BinExpr {
+                        span,
+                        left: test,
+                        op: op!("&&"),
+                        right: cons,
+                    }),
+                    true,
+                );
             };
 
-            let cons = if let Some(cons) = ignore_result(*cons) {
+            let cons = if let Some(cons) = ignore_result(*cons, true) {
                 cons
             } else {
-                return ignore_result(Expr::Bin(BinExpr {
-                    span,
-                    left: test,
-                    op: op!("||"),
-                    right: Box::new(alt),
-                }));
+                return ignore_result(
+                    Expr::Bin(BinExpr {
+                        span,
+                        left: test,
+                        op: op!("||"),
+                        right: Box::new(alt),
+                    }),
+                    true,
+                );
             };
 
             Some(Expr::Cond(CondExpr {
