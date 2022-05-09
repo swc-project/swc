@@ -723,10 +723,17 @@ impl VisitMut for Remover {
                     let mut var_ids = vec![];
                     if let Some(i) = selected {
                         if !has_conditional_stopper(&s.cases[i].cons) {
+                            let mut exprs = vec![];
+                            exprs.extend(ignore_result(*s.discriminant).map(Box::new));
+
                             let mut stmts = s.cases.remove(i).cons;
                             let mut cases = s.cases.drain(i..);
 
                             for case in cases.by_ref() {
+                                exprs.extend(
+                                    case.test.and_then(|e| ignore_result(*e)).map(Box::new),
+                                );
+
                                 let should_stop = has_unconditional_stopper(&case.cons);
                                 stmts.extend(case.cons);
                                 //
@@ -739,7 +746,12 @@ impl VisitMut for Remover {
 
                             let decls = cases
                                 .into_iter()
-                                .flat_map(|case| case.cons)
+                                .flat_map(|case| {
+                                    exprs.extend(
+                                        case.test.and_then(|e| ignore_result(*e)).map(Box::new),
+                                    );
+                                    case.cons
+                                })
                                 .flat_map(|stmt| stmt.extract_var_ids())
                                 .map(|i| VarDeclarator {
                                     span: DUMMY_SP,
@@ -758,6 +770,23 @@ impl VisitMut for Remover {
                                         decls,
                                         declare: false,
                                     })),
+                                );
+                            }
+
+                            if !exprs.is_empty() {
+                                prepend(
+                                    &mut stmts,
+                                    Stmt::Expr(ExprStmt {
+                                        span: DUMMY_SP,
+                                        expr: if exprs.len() == 1 {
+                                            exprs.remove(0)
+                                        } else {
+                                            Box::new(Expr::Seq(SeqExpr {
+                                                span: DUMMY_SP,
+                                                exprs,
+                                            }))
+                                        },
+                                    }),
                                 );
                             }
 
