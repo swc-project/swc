@@ -242,6 +242,10 @@ impl<'a> Resolver<'a> {
 
     /// Returns a [Mark] for an identifier reference.
     fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
+        self.mark_for_ref_inner(sym, false)
+    }
+
+    fn mark_for_ref_inner(&self, sym: &JsWord, stop_an_fn_scope: bool) -> Option<Mark> {
         if self.config.handle_types && self.in_type {
             let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
@@ -255,6 +259,11 @@ impl<'a> Resolver<'a> {
                     }
                     return Some(mark);
                 }
+
+                if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
+                    return None;
+                }
+
                 if let Some(parent) = &cur.parent {
                     mark = parent.mark;
                 }
@@ -271,6 +280,10 @@ impl<'a> Resolver<'a> {
                     return None;
                 }
                 return Some(mark);
+            }
+
+            if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
+                return None;
             }
 
             if let Some(parent) = &cur.parent {
@@ -1462,7 +1475,7 @@ impl Hoister<'_, '_> {
     fn add_pat_id(&mut self, id: &mut Ident) {
         if self.in_catch_body {
             // If we have a binding, it's different variable.
-            if self.resolver.mark_for_ref(&id.sym).is_some()
+            if self.resolver.mark_for_ref_inner(&id.sym, true).is_some()
                 && self.catch_param_decls.contains(&id.sym)
             {
                 return;
