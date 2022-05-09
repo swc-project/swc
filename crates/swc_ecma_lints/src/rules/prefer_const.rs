@@ -126,11 +126,11 @@ impl PreferConst {
         }
     }
 
-    fn consider_mutation_for_ident(&mut self, ident: &Ident, destructing_assign: bool) {
+    fn consider_mutation_for_ident(&mut self, ident: &Ident, destructuring_assign: bool) {
         let id = ident.to_id();
 
         if let Some(var_meta) = self.vars_meta.get_mut(&id) {
-            if destructing_assign && !var_meta.initialized {
+            if destructuring_assign && !var_meta.initialized {
                 var_meta.destructuring_assign = true;
                 var_meta.span = ident.span;
 
@@ -147,14 +147,14 @@ impl PreferConst {
         }
     }
 
-    fn consider_mutation(&mut self, pat: &Pat, destructing_assign: bool) {
+    fn consider_mutation(&mut self, pat: &Pat, destructuring_assign: bool) {
         match pat {
             Pat::Ident(BindingIdent { id, .. }) => {
-                self.consider_mutation_for_ident(id, destructing_assign);
+                self.consider_mutation_for_ident(id, destructuring_assign);
             }
             Pat::Array(ArrayPat { elems, .. }) => elems.iter().for_each(|elem| {
                 if let Some(pat) = elem {
-                    self.consider_mutation(pat, destructing_assign);
+                    self.consider_mutation(pat, destructuring_assign);
                 }
             }),
             Pat::Object(ObjectPat { props, .. }) => {
