@@ -10,6 +10,6 @@ function f() {
             console.log(a);
         }
     }
-    console.log(o);
+    console.log(a);
 }
 f();
