@@ -5991,7 +5991,7 @@
                     h += R(k, b, e, f, c);
                 }
                 else if ("function" == typeof (f = null === (a26 = a27) || "object" != typeof a26 ? null : "function" == typeof (a26 = z && a26[z] || a26["@@iterator"]) ? a26 : null)) for(a27 = f.call(a27), g = 0; !(k = a27.next()).done;)f = d + Q(k = k.value, g++), h += R(k, b, e, f, c);
-                else if ("object" === k) throw b = String(a27), Error("Objects are not valid as a React child (found: " + ("[object Object]" === b ? "object with keys {" + Object.keys(a27).join(", ") + "}" : b) + "). If you meant to render a collection of children, use an array instead.");
+                else if ("object" === k) throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === (b = String(a27)) ? "object with keys {" + Object.keys(a27).join(", ") + "}" : b) + "). If you meant to render a collection of children, use an array instead.");
                 return h;
             }
             function S(a28, b, e) {

@@ -2653,7 +2653,7 @@
             }(Button1);
             SeekToLive1.prototype.controlText_ = "Seek to live, currently playing live", Component$1.registerComponent("SeekToLive", SeekToLive1);
             var clamp = function(number, min, max) {
-                return number = Number(number), Math.min(max, Math.max(min, isNaN(number) ? min : number));
+                return Math.min(max, Math.max(min, isNaN(number = Number(number)) ? min : number));
             }, Slider1 = function(_Component) {
                 function Slider(player, options) {
                     var _this;
