@@ -34,23 +34,16 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "ie8",
         "blocks/issue_1672_for/",
         "collapse_vars/issue_1631_1/",
         "collapse_vars/issue_1631_2/",
         "collapse_vars/issue_1631_3/",
-        "dead_code/issue_2749/",
         "dead_code/try_catch_finally/",
         "drop_unused/issue_1715_1/",
         "drop_unused/issue_1715_2/",
         "drop_unused/issue_1715_3/",
-        "drop_unused/issue_1830_1/",
-        "drop_unused/issue_1830_2/",
-        "drop_unused/var_catch_toplevel/",
         "evaluate/issue_1760_1/",
         "functions/issue_2620_4/",
-        "functions/issue_3016_3/",
-        "functions/issue_3076/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
         "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
         "issue_1733/function_catch_catch/",
@@ -58,6 +51,8 @@ use testing::assert_eq;
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
         "yield/issue_2689/",
+        // We don't care about ie8
+        "ie8",
         // tests with infinite loops
         "reduce_vars/toplevel_off_loops_2",
         "reduce_vars/toplevel_on_loops_2",
@@ -82,8 +77,8 @@ fn terser_exec(input: PathBuf) {
             return Ok(());
         }
 
-        let input_stdout = stdout_of(&input_src, Duration::from_millis(500)).map_err(|_| {
-            eprintln!("This test is not executable test");
+        let input_stdout = stdout_of(&input_src, Duration::from_millis(1000)).map_err(|_| {
+            eprintln!("This test is not executable test: \n{}", input_src);
         })?;
 
         // Formmating

@@ -3280,7 +3280,7 @@
                         var container = node.stateNode.containerInfo;
                         if (isMatchingRootContainer(container, targetContainerNode)) break;
                         if (4 === nodeTag) for(var grandNode = node.return; null !== grandNode;){
-                            var grandTag = grandNode.tag;
+                            var grandContainer, grandTag = grandNode.tag;
                             if ((3 === grandTag || 4 === grandTag) && isMatchingRootContainer(grandNode.stateNode.containerInfo, targetContainerNode)) return;
                             grandNode = grandNode.return;
                         }

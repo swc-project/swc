@@ -196,6 +196,18 @@ pub(crate) trait SpanExt: Into<Span> {
 
 impl SpanExt for Span {}
 
+pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
+where
+    N: VisitWith<LeapFinder>,
+{
+    let mut v = LeapFinder {
+        target_label: Some(label),
+        ..Default::default()
+    };
+    n.visit_with(&mut v);
+    v.found_continue_with_label
+}
+
 pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
 where
     N: VisitWith<LeapFinder>,
@@ -208,18 +220,41 @@ where
 #[derive(Default)]
 pub(crate) struct LeapFinder {
     found_yield: bool,
+    found_continue_with_label: bool,
+    target_label: Option<Id>,
 }
 
 impl Visit for LeapFinder {
     noop_visit_type!();
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr) {
-        self.found_yield = true;
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class_method(&mut self, _: &ClassMethod) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_continue_stmt(&mut self, n: &ContinueStmt) {
+        n.visit_children_with(self);
+
+        if let Some(label) = &n.label {
+            self.found_continue_with_label |= self
+                .target_label
+                .as_ref()
+                .map_or(false, |l| *l == label.to_id());
+        }
     }
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
+    fn visit_yield_expr(&mut self, n: &YieldExpr) {
+        n.visit_children_with(self);
+
+        self.found_yield = true;
+    }
 }
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
