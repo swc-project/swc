@@ -1,6 +1,7 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
+use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, ident::IdentLike, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
@@ -38,7 +39,7 @@ pub(crate) struct InfectionCollector<'a> {
     #[allow(unused)]
     config: AliasConfig,
 
-    exclude: &'a FxHashSet<Id>,
+    exclude: &'a AHashSet<Id>,
 
     ctx: Ctx,
 
