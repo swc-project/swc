@@ -5,7 +5,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, BindingCollector, Id, IsEmpty};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -14,8 +14,9 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
+    alias::{collect_infects, AliasConfig},
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by, IdentUsageCollector},
+    util::can_end_conditionally,
 };
 
 mod ctx;
@@ -640,7 +641,7 @@ where
         n.visit_children_with(self);
 
         {
-            for id in get_infects_of(&n.function) {
+            for id in collect_infects(&n.function, AliasConfig { marks: self.marks }) {
                 self.data
                     .var_or_default(n.ident.to_id())
                     .add_infects_to(id.clone());
@@ -658,7 +659,7 @@ where
                 .mark_declared_as_fn_expr();
 
             {
-                for id in get_infects_of(&n.function) {
+                for id in collect_infects(&n.function, AliasConfig { marks: self.marks }) {
                     self.data
                         .var_or_default(n_id.to_id())
                         .add_infects_to(id.to_id());
@@ -1017,7 +1018,7 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                for id in get_infects_of(init) {
+                for id in collect_infects(init, AliasConfig { marks: self.marks }) {
                     self.data
                         .var_or_default(id.clone())
                         .add_infects_to(var.to_id());
@@ -1090,16 +1091,4 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
         Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Update(..) => true,
         _ => false,
     }
-}
-
-fn get_infects_of<N>(init: &N) -> impl 'static + Iterator<Item = Id>
-where
-    N: VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
-{
-    let used_idents = idents_used_by(init);
-    let excluded: AHashSet<Id> = collect_decls(init);
-
-    used_idents
-        .into_iter()
-        .filter(move |id| !excluded.contains(id))
 }

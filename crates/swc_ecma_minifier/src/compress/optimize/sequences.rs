@@ -973,10 +973,14 @@ where
                     // ```
                     //
                     let ids_used_by_a_init = match a {
-                        Mergable::Var(a) => a
-                            .init
-                            .as_ref()
-                            .map(|init| collect_infects(init, AliasConfig { marks: self.marks })),
+                        Mergable::Var(a) => a.init.as_ref().map(|init| {
+                            collect_infects(
+                                init,
+                                AliasConfig {
+                                    marks: Some(self.marks),
+                                },
+                            )
+                        }),
                         Mergable::Expr(a) => match a {
                             Expr::Assign(AssignExpr {
                                 left,
@@ -985,7 +989,12 @@ where
                                 ..
                             }) => {
                                 if left.as_ident().is_some() {
-                                    Some(collect_infects(right, AliasConfig { marks: self.marks }))
+                                    Some(collect_infects(
+                                        right,
+                                        AliasConfig {
+                                            marks: Some(self.marks),
+                                        },
+                                    ))
                                 } else {
                                     None
                                 }

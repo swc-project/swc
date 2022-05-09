@@ -13,7 +13,7 @@ mod ctx;
 
 pub(crate) struct AliasConfig {
     #[allow(unused)]
-    pub marks: Marks,
+    pub marks: Option<Marks>,
 }
 
 pub(crate) fn collect_infects<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
