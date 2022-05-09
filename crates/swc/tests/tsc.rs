@@ -137,9 +137,9 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                                 tsx: input.to_string_lossy().ends_with(".tsx"),
                                 decorators: true,
                                 dts: false,
-                                no_early_errors: true,
+                                no_early_errors: false,
                             })),
-                            external_helpers: true,
+                            external_helpers: true.into(),
                             ..opts.config.jsc
                         },
                         source_maps: Some(SourceMapsConfig::Bool(

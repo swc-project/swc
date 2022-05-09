@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashMap, Mark};
+use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Expr};
 
 pub mod terser;
@@ -68,13 +69,13 @@ pub struct MangleOptions {
     pub reserved: Vec<JsWord>,
 }
 
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
 #[serde(rename_all = "camelCase")]
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
     pub reserved: Vec<JsWord>,
     #[serde(default, alias = "undeclared")]
-    pub undeclared: bool,
+    pub undeclared: Option<bool>,
     #[serde(default)]
     pub regex: Option<CachedRegex>,
 }

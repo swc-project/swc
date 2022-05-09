@@ -93,9 +93,13 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
+          - crate: binding_commons
+            os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
           - crate: binding_core_wasm
+            os: ubuntu-latest
+          - crate: binding_css_node
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
@@ -136,6 +140,10 @@ jobs:
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_common
             os: windows-latest
+          - crate: swc_config
+            os: ubuntu-latest
+          - crate: swc_config_macro
+            os: ubuntu-latest
           - crate: swc_css
             os: ubuntu-latest
           - crate: swc_css_ast

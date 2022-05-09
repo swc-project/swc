@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::Arc};
 
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
@@ -11,7 +12,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
-    globals: HashMap<JsWord, HashMap<JsWord, String>>,
+    globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
 ) -> impl Fold {
     ConstModules {
         globals: globals
