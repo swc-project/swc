@@ -1158,23 +1158,8 @@ impl Compiler {
                 })
             });
 
-            let preserve_comments = config
-                .preserve_comments
-                .unwrap_as_option(|value| {
-                    Some(match value {
-                        Some(v) => JsMinifyCommentOption::Bool(v),
-                        None => {
-                            if config.minify {
-                                JsMinifyCommentOption::PreserveSomeComments
-                            } else {
-                                JsMinifyCommentOption::PreserveAllComments
-                            }
-                        }
-                    })
-                })
-                .unwrap();
             if let Some(comments) = &config.comments {
-                minify_file_comments(comments, preserve_comments);
+                minify_file_comments(comments, config.preserve_comments);
             }
 
             self.print(
