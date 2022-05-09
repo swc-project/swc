@@ -1308,6 +1308,23 @@ where
             }
             // The "before html" insertion mode
             InsertionMode::BeforeHtml => {
+                let anything_else =
+                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        let element = parser.create_fake_html_element();
+
+                        parser.open_elements_stack.push(element.clone());
+
+                        // Never be `None`
+                        if let Some(document) = &parser.document {
+                            parser.append_node(document, element);
+                        }
+
+                        parser.insertion_mode = InsertionMode::BeforeHead;
+                        parser.process_token(token_and_info, None)?;
+
+                        Ok(())
+                    };
+
                 // When the user agent is to apply the rules for the "before html" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -1379,17 +1396,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = self.create_fake_html_element();
-
-                        self.open_elements_stack.push(element.clone());
-
-                        // Never be `None`
-                        if let Some(document) = &self.document {
-                            self.append_node(document, element);
-                        }
-
-                        self.insertion_mode = InsertionMode::BeforeHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                     // Any other end tag
                     //
@@ -1407,17 +1414,7 @@ where
                     //
                     // Switch the insertion mode to "before head", then reprocess the token.
                     _ => {
-                        let element = self.create_fake_html_element();
-
-                        self.open_elements_stack.push(element.clone());
-
-                        // Never be `None`
-                        if let Some(document) = &self.document {
-                            self.append_node(document, element);
-                        }
-
-                        self.insertion_mode = InsertionMode::BeforeHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                 }
 
@@ -1428,6 +1425,26 @@ where
             }
             // The "before head" insertion mode
             InsertionMode::BeforeHead => {
+                let anything_else =
+                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        let element = parser.insert_html_element(&mut TokenAndInfo {
+                            span: Default::default(),
+                            acknowledged: false,
+                            token: Token::StartTag {
+                                tag_name: "head".into(),
+                                raw_tag_name: Some("head".into()),
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
+
+                        parser.head_element_pointer = Some(element);
+                        parser.insertion_mode = InsertionMode::InHead;
+                        parser.process_token(token_and_info, None)?;
+
+                        Ok(())
+                    };
+
                 // When the user agent is to apply the rules for the "before head" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -1479,20 +1496,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "body" | "html" | "br") =>
                     {
-                        let element = self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "head".into(),
-                                raw_tag_name: Some("head".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
-
-                        self.head_element_pointer = Some(element);
-                        self.insertion_mode = InsertionMode::InHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                     // Any other end tag
                     //
@@ -1513,25 +1517,21 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        let element = self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "head".into(),
-                                raw_tag_name: Some("head".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
-
-                        self.head_element_pointer = Some(element);
-                        self.insertion_mode = InsertionMode::InHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                 }
             }
             // The "in head" insertion mode
             InsertionMode::InHead => {
+                let anything_else =
+                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        parser.open_elements_stack.pop();
+                        parser.insertion_mode = InsertionMode::AfterHead;
+                        parser.process_token(token_and_info, None)?;
+
+                        Ok(())
+                    };
+
                 // When the user agent is to apply the rules for the "in head" insertion mode,
                 // the user agent must handle the token as follows:
                 match token {
@@ -1721,9 +1721,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
-                        self.open_elements_stack.pop();
-                        self.insertion_mode = InsertionMode::AfterHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                     // A start tag whose tag name is "template"
                     //
@@ -1811,14 +1809,24 @@ where
                     //
                     // Reprocess the token.
                     _ => {
-                        self.open_elements_stack.pop();
-                        self.insertion_mode = InsertionMode::AfterHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                 }
             }
             // The "in head noscript" insertion mode
             InsertionMode::InHeadNoScript => {
+                let anything_else =
+                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        parser
+                            .errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        parser.open_elements_stack.pop();
+                        parser.insertion_mode = InsertionMode::InHead;
+                        parser.process_token(token_and_info, None)?;
+
+                        Ok(())
+                    };
+
                 // When the user agent is to apply the rules for the "in head noscript"
                 // insertion mode, the user agent must handle the token as follows:
                 match token {
@@ -1875,11 +1883,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. } if tag_name == "br" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        self.open_elements_stack.pop();
-                        self.insertion_mode = InsertionMode::InHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                     // A start tag whose tag name is one of: "head", "noscript"
                     //
@@ -1907,16 +1911,29 @@ where
                     //
                     // Reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        self.open_elements_stack.pop();
-                        self.insertion_mode = InsertionMode::InHead;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                 }
             }
             // The "after head" insertion mode
             InsertionMode::AfterHead => {
+                let anything_else =
+                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        parser.insert_html_element(&mut TokenAndInfo {
+                            span: Default::default(),
+                            acknowledged: false,
+                            token: Token::StartTag {
+                                tag_name: "body".into(),
+                                raw_tag_name: Some("body".into()),
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
+                        parser.insertion_mode = InsertionMode::InBody;
+                        parser.process_token(token_and_info, None)?;
+
+                        Ok(())
+                    };
                 // When the user agent is to apply the rules for the "after head" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -2022,18 +2039,7 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "body" | "html" | "br") =>
                     {
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "body".into(),
-                                raw_tag_name: Some("body".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
-                        self.insertion_mode = InsertionMode::InBody;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                     // A start tag whose tag name is "head"
                     //
@@ -2056,18 +2062,7 @@ where
                     //
                     // Reprocess the current token.
                     _ => {
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "body".into(),
-                                raw_tag_name: Some("body".into()),
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
-                        self.insertion_mode = InsertionMode::InBody;
-                        self.process_token(token_and_info, None)?;
+                        anything_else(self, token_and_info)?;
                     }
                 }
             }
@@ -4175,6 +4170,23 @@ where
             }
             // The "in table" insertion mode
             InsertionMode::InTable => {
+                let anything_else = |parser: &mut Parser<I>,
+                                     foster_parenting_enabled: bool,
+                                     token_and_info: &mut TokenAndInfo|
+                 -> PResult<()> {
+                    parser
+                        .errors
+                        .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+                    let saved_foster_parenting_state = foster_parenting_enabled;
+
+                    parser.foster_parenting_enabled = true;
+                    parser.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
+                    parser.foster_parenting_enabled = saved_foster_parenting_state;
+
+                    Ok(())
+                };
+
                 // When the user agent is to apply the rules for the "in table" insertion mode,
                 // the user agent must handle the token as follows:
                 match token {
@@ -4426,14 +4438,7 @@ where
                         };
 
                         if input_type.is_none() || !is_hidden {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
-                            let saved_foster_parenting_state = self.foster_parenting_enabled;
-
-                            self.foster_parenting_enabled = true;
-                            self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
-                            self.foster_parenting_enabled = saved_foster_parenting_state;
+                            anything_else(self, self.foster_parenting_enabled, token_and_info)?;
                         } else {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
@@ -4486,14 +4491,7 @@ where
                     // Parse error. Enable foster parenting, process the token using the rules for
                     // the "in body" insertion mode, and then disable foster parenting.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
-                        let saved_foster_parenting_state = self.foster_parenting_enabled;
-
-                        self.foster_parenting_enabled = true;
-                        self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
-                        self.foster_parenting_enabled = saved_foster_parenting_state;
+                        anything_else(self, self.foster_parenting_enabled, token_and_info)?;
                     }
                 }
             }
