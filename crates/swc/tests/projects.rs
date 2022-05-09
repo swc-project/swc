@@ -9,7 +9,7 @@ use swc::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    minify_file_comments, Compiler, TransformOutput,
+    Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
@@ -771,8 +771,6 @@ fn should_visit() {
                     program.fold_with(&mut pass)
                 })
             });
-
-            minify_file_comments(&comments, config.minify, config.preserve_comments);
 
             Ok(c.print(
                 &program,

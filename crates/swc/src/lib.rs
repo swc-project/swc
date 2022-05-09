@@ -642,26 +642,10 @@ pub fn minify_global_comments(
     }
 }
 
-pub fn minify_file_comments(
+pub(crate) fn minify_file_comments(
     comments: &SingleThreadedComments,
-    minify: bool,
-    preserve_comments: BoolOr<JsMinifyCommentOption>,
+    preserve_comments: JsMinifyCommentOption,
 ) {
-    let preserve_comments = preserve_comments
-        .unwrap_as_option(|value| {
-            Some(match value {
-                Some(v) => JsMinifyCommentOption::Bool(v),
-                None => {
-                    if minify {
-                        JsMinifyCommentOption::PreserveSomeComments
-                    } else {
-                        JsMinifyCommentOption::PreserveAllComments
-                    }
-                }
-            })
-        })
-        .unwrap();
-
     match preserve_comments {
         JsMinifyCommentOption::Bool(true) | JsMinifyCommentOption::PreserveAllComments => {}
 
@@ -1094,7 +1078,18 @@ impl Compiler {
                 module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
 
-            minify_file_comments(&comments, true, opts.format.comments.clone());
+            let preserve_comments = opts
+                .format
+                .comments
+                .clone()
+                .unwrap_as_option(|value| {
+                    Some(match value {
+                        Some(v) => JsMinifyCommentOption::Bool(v),
+                        None => JsMinifyCommentOption::PreserveSomeComments,
+                    })
+                })
+                .unwrap();
+            minify_file_comments(&comments, preserve_comments);
 
             self.print(
                 &module,
@@ -1163,8 +1158,23 @@ impl Compiler {
                 })
             });
 
+            let preserve_comments = config
+                .preserve_comments
+                .unwrap_as_option(|value| {
+                    Some(match value {
+                        Some(v) => JsMinifyCommentOption::Bool(v),
+                        None => {
+                            if config.minify {
+                                JsMinifyCommentOption::PreserveSomeComments
+                            } else {
+                                JsMinifyCommentOption::PreserveAllComments
+                            }
+                        }
+                    })
+                })
+                .unwrap();
             if let Some(comments) = &config.comments {
-                minify_file_comments(comments, config.minify, config.preserve_comments);
+                minify_file_comments(comments, preserve_comments);
             }
 
             self.print(
