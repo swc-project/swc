@@ -428,6 +428,7 @@ impl<'a> Operator<'a> {
             ident.sym = sym.clone();
             return Ok(());
         }
+        ident.span = ident.span.with_ctxt(SyntaxContext::empty());
 
         Err(())
     }
