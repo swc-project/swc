@@ -98,6 +98,25 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
+    fn visit_cond_expr(&mut self, e: &CondExpr) {
+        {
+            let ctx = Ctx {
+                track_expr_ident: false,
+                ..self.ctx
+            };
+            e.test.visit_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                track_expr_ident: true,
+                ..self.ctx
+            };
+            e.cons.visit_with(&mut *self.with_ctx(ctx));
+            e.alt.visit_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_expr(&mut self, e: &Expr) {
         match e {
             Expr::Ident(i) => {
