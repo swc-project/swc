@@ -162,10 +162,25 @@ pub(crate) struct ProgramData {
 impl ProgramData {
     pub(crate) fn expand_infected(&mut self, ids: impl IntoIterator<Item = Id>) -> FxHashSet<Id> {
         let mut result = FxHashSet::default();
-
-        for id in ids {}
-
+        self.expand_infected_inner(ids, &mut result);
         result
+    }
+
+    fn expand_infected_inner(
+        &mut self,
+        ids: impl IntoIterator<Item = Id>,
+        result: &mut FxHashSet<Id>,
+    ) {
+        for id in ids {
+            if !result.insert(id.clone()) {
+                continue;
+            }
+
+            if let Some(info) = self.vars.get(&id) {
+                let ids = info.infects.clone();
+                self.expand_infected_inner(ids, result);
+            }
+        }
     }
 
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
