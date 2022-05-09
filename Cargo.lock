@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.176.0"
+version = "0.176.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3696,7 +3696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.83.0"
+version = "0.83.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3723,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.154.0"
+version = "0.154.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
