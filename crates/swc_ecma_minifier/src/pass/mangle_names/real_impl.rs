@@ -44,7 +44,7 @@ macro_rules! unit {
     ($name:ident, $T:ty) => {
         /// Only called if `eval` exists
         fn $name(&mut self, n: &mut $T) {
-            if contains_eval(n) {
+            if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n);
@@ -81,7 +81,7 @@ impl VisitMut for Mangler {
             info!("Before: {}", dump(&*m, true));
         }
 
-        if contains_eval(m) {
+        if contains_eval(m, true) {
             m.visit_mut_children_with(self);
         } else {
             let map = self.get_map(m);
@@ -95,13 +95,9 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
-        if contains_eval(s) {
-            return;
-        }
-
         self.preserved = idents_to_preserve(self.options.clone(), &*s);
 
-        if contains_eval(s) {
+        if contains_eval(s, true) {
             s.visit_mut_children_with(self);
             return;
         }
