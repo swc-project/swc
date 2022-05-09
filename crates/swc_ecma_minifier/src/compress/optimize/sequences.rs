@@ -1759,14 +1759,25 @@ where
 
         let b_id = b.left.as_ident();
         if let Some(b_id) = b_id {
-            let ids_used_by_a_init = match a {
-                Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
-                Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+            let should_check = match a {
+                Mergable::Var(a) => a
+                    .init
+                    .as_deref()
+                    .map(|e| e.may_have_side_effects())
+                    .unwrap_or_default(),
+                Mergable::Expr(a) => a.may_have_side_effects(),
             };
 
-            let deps = self.data.expand_infected(ids_used_by_a_init, 64)?;
-            if deps.contains(&b_id.to_id()) {
-                return Err(());
+            if should_check {
+                let ids_used_by_a_init = match a {
+                    Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
+                    Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+                };
+
+                let deps = self.data.expand_infected(ids_used_by_a_init, 64)?;
+                if deps.contains(&b_id.to_id()) {
+                    return Err(());
+                }
             }
         }
 
