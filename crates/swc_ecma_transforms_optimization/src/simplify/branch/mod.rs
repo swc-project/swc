@@ -1182,6 +1182,10 @@ impl VisitMut for Remover {
         }
 
         if s.cases.iter().all(|case| {
+            if case.test.is_some() {
+                return false;
+            }
+
             if case.cons.is_empty() {
                 return true;
             }
