@@ -183,4 +183,12 @@ impl Visit for InfectionCollector<'_> {
             }
         }
     }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        let ctx = Ctx {
+            track_expr_ident: false,
+            ..self.ctx
+        };
+        e.arg.visit_with(&mut *self.with_ctx(ctx));
+    }
 }
