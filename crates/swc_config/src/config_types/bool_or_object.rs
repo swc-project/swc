@@ -3,11 +3,11 @@ use serde::{Deserialize, Serialize};
 use crate::merge::Merge;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct BoolOrObject<T>(#[serde(default)] Option<Inner<T>>);
+pub struct BoolOrObject<T>(#[serde(default)] Option<BoolOrData<T>>);
 
 impl<T> BoolOrObject<T> {
     pub fn from_bool(v: bool) -> Self {
-        Self(Some(Inner::Bool(v)))
+        Self(Some(BoolOrData::Bool(v)))
     }
 
     pub fn from_obj(v: T) -> Self {
@@ -16,8 +16,8 @@ impl<T> BoolOrObject<T> {
 
     pub fn as_ref(&self) -> BoolOrObject<&T> {
         match &self.0 {
-            Some(Inner::Actual(v)) => BoolOrObject::from_obj(v),
-            Some(Inner::Bool(b)) => BoolOrObject::from_bool(*b),
+            Some(BoolOrData::Actual(v)) => BoolOrObject::from_obj(v),
+            Some(BoolOrData::Bool(b)) => BoolOrObject::from_bool(*b),
             None => BoolOrObject::default(),
         }
     }
@@ -37,8 +37,8 @@ impl<T> BoolOrObject<T> {
         F: FnOnce(Option<bool>) -> Option<T>,
     {
         match self.0 {
-            Some(Inner::Actual(v)) => Some(v),
-            Some(Inner::Bool(b)) => default(Some(b)),
+            Some(BoolOrData::Actual(v)) => Some(v),
+            Some(BoolOrData::Bool(b)) => default(Some(b)),
             None => default(None),
         }
     }
@@ -48,28 +48,28 @@ impl<T> BoolOrObject<T> {
         F: FnOnce(T) -> N,
     {
         match self.0 {
-            Some(Inner::Actual(v)) => BoolOrObject::from_obj(op(v)),
-            Some(Inner::Bool(b)) => BoolOrObject::from_bool(b),
+            Some(BoolOrData::Actual(v)) => BoolOrObject::from_obj(op(v)),
+            Some(BoolOrData::Bool(b)) => BoolOrObject::from_bool(b),
             None => BoolOrObject::default(),
         }
     }
 
     pub fn is_true(&self) -> bool {
-        matches!(self.0, Some(Inner::Bool(true)))
+        matches!(self.0, Some(BoolOrData::Bool(true)))
     }
 
     pub fn is_false(&self) -> bool {
-        matches!(self.0, Some(Inner::Bool(false)))
+        matches!(self.0, Some(BoolOrData::Bool(false)))
     }
 
     pub fn is_obj(&self) -> bool {
-        matches!(self.0, Some(Inner::Actual(_)))
+        matches!(self.0, Some(BoolOrData::Actual(_)))
     }
 }
 
 impl<T> From<T> for BoolOrObject<T> {
     fn from(v: T) -> Self {
-        Self(Some(Inner::Actual(v)))
+        Self(Some(BoolOrData::Actual(v)))
     }
 }
 
@@ -88,12 +88,12 @@ impl<T> Merge for BoolOrObject<T> {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
 #[serde(untagged)]
-enum Inner<T> {
+pub enum BoolOrData<T> {
     Bool(bool),
     Actual(T),
 }
 
-impl<'de, T> Deserialize<'de> for Inner<T>
+impl<'de, T> Deserialize<'de> for BoolOrData<T>
 where
     T: Deserialize<'de>,
 {
@@ -123,13 +123,13 @@ where
 
         match res {
             Ok(v) => Ok(match v {
-                Deser::Bool(v) => Inner::Bool(v),
-                Deser::Obj(v) => Inner::Actual(v),
-                Deser::EmptyObject(_) => Inner::Bool(true),
+                Deser::Bool(v) => BoolOrData::Bool(v),
+                Deser::Obj(v) => BoolOrData::Actual(v),
+                Deser::EmptyObject(_) => BoolOrData::Bool(true),
             }),
             Err(..) => {
                 let d = de::ContentDeserializer::<D::Error>::new(content);
-                Ok(Inner::Actual(T::deserialize(d)?))
+                Ok(BoolOrData::Actual(T::deserialize(d)?))
             }
         }
     }
