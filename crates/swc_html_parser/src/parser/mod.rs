@@ -333,14 +333,17 @@ where
         }
 
         // 9.
-        self.context_element = Some(context_node);
+        self.context_element = Some(context_node.clone());
         self.is_fragment_case = true;
 
         // 10.
         self.reset_insertion_mode();
 
         // 11.
-        // TODO fix me, form case
+        // TODO how we can get parent here?
+        if &*context_tag_name == "form" {
+            self.form_element_pointer = Some(context_node);
+        }
 
         // 12.
         // We do preprocess input stream inside lexer
