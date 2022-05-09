@@ -593,7 +593,7 @@ pub(crate) fn minify_file_comments(
     match preserve_comments {
         BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
 
-        BoolOr::Data((JsMinifyCommentOption::PreserveSomeComments)) => {
+        BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
             let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 // Preserve license comments.
                 if vc.iter().any(|c| c.text.contains("@license")) {
@@ -1026,13 +1026,8 @@ impl Compiler {
                 .format
                 .comments
                 .clone()
-                .unwrap_as_option(|value| {
-                    Some(match value {
-                        Some(v) => JsMinifyCommentOption::Bool(v),
-                        None => JsMinifyCommentOption::PreserveSomeComments,
-                    })
-                })
-                .unwrap();
+                .into_inner()
+                .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
             minify_file_comments(&comments, preserve_comments);
 
             self.print(
