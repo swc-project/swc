@@ -384,13 +384,15 @@ impl Options {
         let preserve_comments = if preserve_all_comments {
             JsMinifyCommentOption::Bool(true)
         } else {
+            dbg!(&js_minify);
+
             js_minify
                 .as_ref()
                 .and_then(|v| {
-                    v.format
-                        .comments
-                        .clone()
-                        .unwrap_as_option(|v| v.map(JsMinifyCommentOption::Bool))
+                    v.format.comments.clone().unwrap_as_option(|v| match v {
+                        Some(v) => Some(JsMinifyCommentOption::Bool(v)),
+                        None => Some(JsMinifyCommentOption::Bool(false)),
+                    })
                 })
                 .unwrap_or_else(|| {
                     if cfg.minify.into_bool() {
