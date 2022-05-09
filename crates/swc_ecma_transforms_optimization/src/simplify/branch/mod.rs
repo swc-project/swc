@@ -1182,8 +1182,10 @@ impl VisitMut for Remover {
         }
 
         if s.cases.iter().all(|case| {
-            if case.test.is_some() {
-                return false;
+            if let Some(test) = case.test.as_deref() {
+                if test.may_have_side_effects() {
+                    return false;
+                }
             }
 
             if case.cons.is_empty() {
