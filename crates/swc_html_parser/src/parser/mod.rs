@@ -309,14 +309,7 @@ where
         }
 
         // 5.
-        let root = Node::new(Data::Element(Element {
-            span: Default::default(),
-            tag_name: "html".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        }));
+        let root = self.create_fake_html_element();
 
         // 6.
         self.append_node(self.document.as_ref().unwrap(), root.clone());
