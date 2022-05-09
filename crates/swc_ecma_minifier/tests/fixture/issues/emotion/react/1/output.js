@@ -632,10 +632,10 @@
                     }(function(rule) {
                         currentSheet.insert(rule);
                     }), 
-                ], serializer = (length = Utility_sizeof(collection = [
+                ], serializer = (collection = [
                     compat,
                     removeLabel
-                ].concat(stylisPlugins, finalizingPlugins)), function(element, index, children, callback) {
+                ].concat(stylisPlugins, finalizingPlugins), length = Utility_sizeof(collection), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
@@ -679,7 +679,8 @@
                 }
             }, Global = function(func) {
                 return (0, react.forwardRef)(function(props, ref) {
-                    return func(props, (0, react.useContext)(EmotionCacheContext), ref);
+                    var cache = (0, react.useContext)(EmotionCacheContext);
+                    return func(props, cache, ref);
                 });
             }(function(props, cache) {
                 var serialized = emotion_serialize_browser_esm_serializeStyles([

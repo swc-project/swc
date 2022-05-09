@@ -568,7 +568,11 @@
                         !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error1("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error1("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
                     }
                 }(propTypes, element1.props, "prop", name, element1);
-            } else void 0 === type.PropTypes || propTypesMisspellWarningShown || (propTypesMisspellWarningShown = !0, error1("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", getComponentName(type) || "Unknown"));
+            } else if (void 0 !== type.PropTypes && !propTypesMisspellWarningShown) {
+                propTypesMisspellWarningShown = !0;
+                var _name = getComponentName(type);
+                error1("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", _name || "Unknown");
+            }
             "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error1("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
         }
     }

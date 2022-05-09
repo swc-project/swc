@@ -1210,8 +1210,8 @@
         function(module, exports) {
             var objectProto = Object.prototype;
             module.exports = function(value) {
-                var Ctor = value && value.constructor;
-                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             };
         },
         function(module2, exports, __webpack_require__) {

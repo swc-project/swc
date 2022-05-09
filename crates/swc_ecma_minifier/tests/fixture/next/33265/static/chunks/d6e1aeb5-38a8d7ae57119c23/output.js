@@ -630,11 +630,11 @@
                 if ("function" != typeof listener) throw new Error("Invalid listener for " + objName(obj) + "#" + fnName + "; must be a function.");
             }, normalizeListenArgs = function(self, args, fnName) {
                 var target, type, listener, isTargetingSelf = args.length < 3 || args[0] === self || args[0] === self.eventBusEl_;
-                return isTargetingSelf ? (target = self.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self, fnName), validateEventType(type, self, fnName), validateListener(listener, self, fnName), {
+                return isTargetingSelf ? (target = self.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self, fnName), validateEventType(type, self, fnName), validateListener(listener, self, fnName), listener = bind(self, listener), {
                     isTargetingSelf: isTargetingSelf,
                     target: target,
                     type: type,
-                    listener: listener = bind(self, listener)
+                    listener: listener
                 };
             }, listen = function(target, method, type, listener) {
                 validateTarget(target, target, method), target.nodeName ? Events[method](target, type, listener) : target[method](type, listener);
@@ -955,7 +955,7 @@
                 }, _proto.currentDimension = function(widthOrHeight) {
                     var computedWidthOrHeight = 0;
                     if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw new Error("currentDimension only accepts width or height value");
-                    if (0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight = computedStyle(this.el_, widthOrHeight))) || isNaN(computedWidthOrHeight)) {
+                    if (computedWidthOrHeight = computedStyle(this.el_, widthOrHeight), 0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight)) || isNaN(computedWidthOrHeight)) {
                         var rule = "offset" + toTitleCase$1(widthOrHeight);
                         computedWidthOrHeight = this.el_[rule];
                     }
@@ -2364,12 +2364,12 @@
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Button, _ClickableComponent);
                 var _proto = Button.prototype;
                 return _proto.createEl = function(tag, props, attributes) {
-                    void 0 === props && (props = {}), void 0 === attributes && (attributes = {});
-                    var el = createEl("button", props = assign({
+                    void 0 === props && (props = {}), void 0 === attributes && (attributes = {}), tag = "button", props = assign({
                         className: this.buildCSSClass()
                     }, props), attributes = assign({
                         type: "button"
-                    }, attributes));
+                    }, attributes);
+                    var el = createEl(tag, props, attributes);
                     return el.appendChild(createEl("span", {
                         className: "vjs-icon-placeholder"
                     }, {
@@ -2478,7 +2478,7 @@
             PlayToggle1.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle1);
             var defaultImplementation = function(seconds, guide) {
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
+                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
                 implementation = customImplementation;
@@ -4787,7 +4787,7 @@
                             el.parentNode && el.parentNode.insertBefore(clone, el), Html5.disposeMediaElement(el), el = clone;
                         } else {
                             el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video");
-                            var attributes = mergeOptions$3({}, this.options_.tag && getAttributes(this.options_.tag));
+                            var tagAttributes = this.options_.tag && getAttributes(this.options_.tag), attributes = mergeOptions$3({}, tagAttributes);
                             TOUCH_ENABLED && !0 === this.options_.nativeControlsForTouch || delete attributes.controls, setAttributes(el, assign(attributes, {
                                 id: this.options_.techId,
                                 class: "vjs-tech"
@@ -5700,7 +5700,7 @@
                         vol = Math.max(0, Math.min(1, parseFloat(percentAsDecimal))), this.cache_.volume = vol, this.techCall_("setVolume", vol), vol > 0 && this.lastVolume_(vol);
                         return;
                     }
-                    return isNaN(vol = parseFloat(this.techGet_("volume"))) ? 1 : vol;
+                    return vol = parseFloat(this.techGet_("volume")), isNaN(vol) ? 1 : vol;
                 }, _proto.muted = function(_muted) {
                     if (void 0 !== _muted) {
                         this.techCall_("setMuted", _muted);
@@ -6609,7 +6609,7 @@
                 if (null === expired) return null;
                 expired = expired || 0;
                 var lastSegmentEndTime = intervalDuration(playlist, playlist.mediaSequence + playlist.segments.length, expired);
-                return useSafeLiveEnd && (lastSegmentEndTime -= liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist)), Math.max(0, lastSegmentEndTime);
+                return useSafeLiveEnd && (liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist), lastSegmentEndTime -= liveEdgePadding), Math.max(0, lastSegmentEndTime);
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
@@ -7192,8 +7192,8 @@
                     var nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
                     if (dateTimeObject < nextSegmentStart) break;
                 }
-                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
-                return dateTimeObject > new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
+                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration, lastSegmentEnd = new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration);
+                return dateTimeObject > lastSegmentEnd ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
                     estimatedStart: segment.videoTimingInfo ? segment.videoTimingInfo.transmuxedPresentationStart : Playlist.duration(playlist, playlist.mediaSequence + playlist.segments.indexOf(segment)),
                     type: segment.videoTimingInfo ? "accurate" : "estimate"
@@ -8477,7 +8477,7 @@
                     },
                     generateSampleTable: function(gops, baseDataOffset) {
                         var h, i, sample, currentGop, dataOffset = baseDataOffset || 0, samples = [];
-                        for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)dataOffset += (sample = sampleForFrame(currentGop[i], dataOffset)).size, samples.push(sample);
+                        for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
                         return samples;
                     },
                     concatenateNalData: function(gops) {
@@ -9656,7 +9656,7 @@
                         workingBytes.set(workingData.subarray(position, position + availableBytes)), workingWord = new DataView(workingBytes.buffer).getUint32(0), workingBitsAvailable = 8 * availableBytes, workingBytesAvailable -= availableBytes;
                     }, this.skipBits = function(count) {
                         var skipBytes;
-                        workingBitsAvailable > count ? (workingWord <<= count, workingBitsAvailable -= count) : (count -= workingBitsAvailable, count -= 8 * (skipBytes = Math.floor(count / 8)), workingBytesAvailable -= skipBytes, this.loadWord(), workingWord <<= count, workingBitsAvailable -= count);
+                        workingBitsAvailable > count ? (workingWord <<= count, workingBitsAvailable -= count) : (count -= workingBitsAvailable, skipBytes = Math.floor(count / 8), count -= 8 * skipBytes, workingBytesAvailable -= skipBytes, this.loadWord(), workingWord <<= count, workingBitsAvailable -= count);
                     }, this.readBits = function(size) {
                         var bits = Math.min(workingBitsAvailable, size), valu = workingWord >>> 32 - bits;
                         return ((workingBitsAvailable -= bits) > 0 ? workingWord <<= bits : workingBytesAvailable > 0 && this.loadWord(), (bits = size - bits) > 0) ? valu << bits | this.readBits(bits) : valu;
@@ -10291,7 +10291,7 @@
                     }
                 }, parseType_1 = function(buffer) {
                     var result = "";
-                    return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]), result;
+                    return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]);
                 }, toUnsigned$2 = bin.toUnsigned, findBox_1 = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) return null;
@@ -10386,14 +10386,14 @@
                             traf: matchingTraf
                         });
                     }), mdatTrafPairs.forEach(function(pair) {
-                        var result, mdat = pair.mdat, traf = pair.traf, tfhd = findBox_1(traf, [
+                        var samples, result, mdat = pair.mdat, traf = pair.traf, tfhd = findBox_1(traf, [
                             "tfhd"
                         ]), headerInfo = parseTfhd(tfhd[0]), trackId = headerInfo.trackId, tfdt = findBox_1(traf, [
                             "tfdt"
                         ]), baseMediaDecodeTime = tfdt.length > 0 ? parseTfdt(tfdt[0]).baseMediaDecodeTime : 0, truns = findBox_1(traf, [
                             "trun"
                         ]);
-                        videoTrackId === trackId && truns.length > 0 && (result = findSeiNals(mdat, parseSamples(truns, baseMediaDecodeTime, headerInfo), trackId), captionNals[trackId] || (captionNals[trackId] = {
+                        videoTrackId === trackId && truns.length > 0 && (samples = parseSamples(truns, baseMediaDecodeTime, headerInfo), result = findSeiNals(mdat, samples, trackId), captionNals[trackId] || (captionNals[trackId] = {
                             seiNals: [],
                             logs: []
                         }), captionNals[trackId].seiNals = captionNals[trackId].seiNals.concat(result.seiNals), captionNals[trackId].logs = captionNals[trackId].logs.concat(result.logs));
@@ -11578,7 +11578,7 @@
                 });
             }, comparePlaylistBandwidth = function(left, right) {
                 var leftBandwidth, rightBandwidth;
-                return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), leftBandwidth - (rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE);
+                return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, leftBandwidth - rightBandwidth;
             }, simpleSelector = function(master, playerBandwidth, playerWidth, playerHeight, limitRenditionByPlayerDimensions, masterPlaylistController) {
                 if (master) {
                     var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {
@@ -13325,15 +13325,15 @@
                 }, _proto.dispose = function() {
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
-            }(videojs.EventTarget), Decrypter1 = factory(transform1(getWorkerString(function() {
+            }(videojs.EventTarget), workerCode = transform1(getWorkerString(function() {
                 function createCommonjsModule(fn, basedir, module) {
-                    return fn(module = {
+                    return module = {
                         path: basedir,
                         exports: {},
                         require: function(path, base) {
                             return commonjsRequire(path, null == base ? module.path : base);
                         }
-                    }, module.exports), module.exports;
+                    }, fn(module, module.exports), module.exports;
                 }
                 function commonjsRequire() {
                     throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
@@ -13503,7 +13503,7 @@
                         ]);
                     });
                 };
-            }))), audioTrackKind_ = function(properties) {
+            })), Decrypter1 = factory(workerCode), audioTrackKind_ = function(properties) {
                 var kind = properties.default ? "main" : "alternative";
                 return properties.characteristics && properties.characteristics.indexOf("public.accessibility.describes-video") >= 0 && (kind = "main-desc"), kind;
             }, stopLoaders = function(segmentLoader, mediaType) {
@@ -14699,7 +14699,7 @@
                 comparePlaylistBandwidth: comparePlaylistBandwidth,
                 comparePlaylistResolution: function(left, right) {
                     var leftWidth, rightWidth;
-                    return (left.attributes.RESOLUTION && left.attributes.RESOLUTION.width && (leftWidth = left.attributes.RESOLUTION.width), leftWidth = leftWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.RESOLUTION && right.attributes.RESOLUTION.width && (rightWidth = right.attributes.RESOLUTION.width), leftWidth === (rightWidth = rightWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE) && left.attributes.BANDWIDTH && right.attributes.BANDWIDTH) ? left.attributes.BANDWIDTH - right.attributes.BANDWIDTH : leftWidth - rightWidth;
+                    return (left.attributes.RESOLUTION && left.attributes.RESOLUTION.width && (leftWidth = left.attributes.RESOLUTION.width), leftWidth = leftWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.RESOLUTION && right.attributes.RESOLUTION.width && (rightWidth = right.attributes.RESOLUTION.width), rightWidth = rightWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, leftWidth === rightWidth && left.attributes.BANDWIDTH && right.attributes.BANDWIDTH) ? left.attributes.BANDWIDTH - right.attributes.BANDWIDTH : leftWidth - rightWidth;
                 },
                 xhr: xhrFactory()
             };

@@ -13,6 +13,7 @@ use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
 use crate::{
+    alias::{collect_infects_from, AliasConfig},
     compress::{
         optimize::util::replace_id_with_expr,
         util::{is_directive, is_ident_used_by, replace_expr},
@@ -932,12 +933,14 @@ where
             return false;
         }
 
+        trace_op!("is_skippable_for_seq");
+
         match e {
             Expr::Ident(e) => {
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
-                            if is_ident_used_by(e.to_id(), &**a) {
+                            if is_ident_used_by(e.to_id(), &a.init) {
                                 log_abort!("ident used by a (var)");
                                 return false;
                             }
@@ -947,6 +950,62 @@ where
                                 log_abort!("ident used by a (expr)");
                                 return false;
                             }
+                        }
+                    }
+
+                    // We can't proceed if the rhs (a.id = b.right) is
+                    // initialized with an initializer
+                    // (a.right) which has a side effect for pc (b.left)
+                    //
+                    // ```js
+                    // 
+                    //  function f(x) {
+                    //      pc = 200;
+                    //      return 100;
+                    //  }
+                    //  function x() {
+                    //      var t = f();
+                    //      pc += t;
+                    //      return pc;
+                    //  }
+                    //  var pc = 0;
+                    //  console.log(x());
+                    // ```
+                    //
+                    let ids_used_by_a_init = match a {
+                        Mergable::Var(a) => a.init.as_ref().map(|init| {
+                            collect_infects_from(init, AliasConfig { marks: self.marks })
+                        }),
+                        Mergable::Expr(a) => match a {
+                            Expr::Assign(AssignExpr {
+                                left,
+                                right,
+                                op: op!("="),
+                                ..
+                            }) => {
+                                if left.as_ident().is_some() {
+                                    Some(collect_infects_from(
+                                        right,
+                                        AliasConfig { marks: self.marks },
+                                    ))
+                                } else {
+                                    None
+                                }
+                            }
+
+                            _ => None,
+                        },
+                    };
+
+                    if let Some(ids_used_by_a_init) = ids_used_by_a_init {
+                        let deps = self.data.expand_infected(ids_used_by_a_init, 64);
+
+                        let deps = match deps {
+                            Ok(v) => v,
+                            Err(()) => return false,
+                        };
+                        if deps.contains(&e.to_id()) {
+                            return false;
                         }
                     }
                 }
@@ -1240,7 +1299,7 @@ where
                     },
                 }
 
-                if should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b)? {
                     return Ok(false);
                 }
 
@@ -1249,7 +1308,7 @@ where
             }
 
             Expr::Assign(b) => {
-                if should_not_check_rhs_of_assign(a, b) {
+                if self.should_not_check_rhs_of_assign(a, b)? {
                     return Ok(false);
                 }
 
@@ -1258,6 +1317,10 @@ where
                     Some(v) => v.clone(),
                     None => return Ok(false),
                 };
+
+                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    return Ok(false);
+                }
 
                 if UsageFinder::find(&b_left, &b.right) {
                     return Err(());
@@ -1661,12 +1724,12 @@ where
 
             let used_by_b = idents_used_by(&*b);
 
-            for id in &deps {
-                if *id == left_id.to_id() {
+            for dep_id in &deps {
+                if *dep_id == left_id.to_id() {
                     continue;
                 }
 
-                if used_by_b.contains(id) {
+                if used_by_b.contains(dep_id) {
                     log_abort!("[X] sequences: Aborting because of deps");
                     return Err(());
                 }
@@ -1712,31 +1775,32 @@ where
 
         Ok(true)
     }
-}
 
-/// TODO(kdy1): Optimize this
-///
-/// See https://github.com/swc-project/swc/pull/3480
-///
-/// This works, but it should be optimized.
-///
-/// This check blocks optimization of clearly valid optimizations like `i += 1,
-/// arr[i]`
-fn should_not_check_rhs_of_assign(a: &Mergable, b: &mut AssignExpr) -> bool {
-    if let Some(a_id) = a.id() {
-        match a {
-            Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-            Mergable::Expr(Expr::Assign(..)) => {
-                let used_by_b = idents_used_by(&*b.right);
-                if used_by_b.contains(&a_id) {
-                    return true;
+    /// TODO(kdy1): Optimize this
+    ///
+    /// See https://github.com/swc-project/swc/pull/3480
+    ///
+    /// This works, but it should be optimized.
+    ///
+    /// This check blocks optimization of clearly valid optimizations like `i +=
+    /// 1, arr[i]`
+    //
+    fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> Result<bool, ()> {
+        if let Some(a_id) = a.id() {
+            match a {
+                Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
+                Mergable::Expr(Expr::Assign(..)) => {
+                    let used_by_b = idents_used_by(&*b.right);
+                    if used_by_b.contains(&a_id) {
+                        return Ok(true);
+                    }
                 }
+                _ => {}
             }
-            _ => {}
         }
-    }
 
-    false
+        Ok(false)
+    }
 }
 
 struct UsageCounter<'a> {
