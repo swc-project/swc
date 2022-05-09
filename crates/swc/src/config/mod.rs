@@ -282,7 +282,8 @@ impl Options {
         let mut cfg = self.config.clone();
         cfg.merge(config.unwrap_or_default());
 
-        let source_maps = cfg.source_maps.clone();
+        let mut source_maps = cfg.source_maps.clone();
+        source_maps.merge(self.source_maps.clone());
 
         let JscConfig {
             assumptions,
