@@ -524,7 +524,6 @@
             }
         });
     }(jQuery, this), function($, window, undefined) {
-        "$:nomunge";
         var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
             return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
