@@ -733,6 +733,18 @@ impl SimplifyExpr {
                 if let Known(v) = arg.as_number() {
                     self.changed = true;
 
+                    if v.is_nan() {
+                        *expr = preserve_effects(
+                            *span,
+                            Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                span.with_ctxt(self.unresolved_ctxt),
+                            )),
+                            iter::once(arg.take()),
+                        );
+                        return;
+                    }
+
                     *expr = preserve_effects(
                         *span,
                         Expr::Lit(Lit::Num(Number {
