@@ -65,7 +65,7 @@ impl Storage for ProgramData {
 
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
-                    e.get_mut().infects.extend(var_info.infects);
+                    e.get_mut().infected_by.extend(var_info.infected_by);
 
                     e.get_mut().no_side_effect_for_member_access =
                         e.get_mut().no_side_effect_for_member_access
@@ -218,7 +218,7 @@ impl ProgramData {
                 e.usage_count += 1;
             }
 
-            for other in e.infects.clone() {
+            for other in e.infected_by.clone() {
                 self.report(other, ctx, true, dejavu)
             }
         } else {
@@ -269,7 +269,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_infected_by(&mut self, other: Id) {
-        self.infects.push(other);
+        self.infected_by.push(other);
     }
 
     fn prevent_inline(&mut self) {

@@ -119,7 +119,7 @@ pub(crate) struct VarUsageInfo {
     pub pure_fn: bool,
 
     /// In `c = b`, `b` infects `c`.
-    infects: Vec<Id>,
+    infected_by: Vec<Id>,
 }
 
 impl VarUsageInfo {
@@ -128,7 +128,7 @@ impl VarUsageInfo {
     }
 
     pub fn is_infected(&self) -> bool {
-        !self.infects.is_empty()
+        !self.infected_by.is_empty()
     }
 
     pub fn reassigned(&self) -> bool {
@@ -185,7 +185,7 @@ impl ProgramData {
             }
 
             if let Some(info) = self.vars.get(&id) {
-                let ids = info.infects.clone();
+                let ids = info.infected_by.clone();
                 self.expand_infected_inner(ids, max_num, result)?;
             }
         }
