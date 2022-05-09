@@ -74,7 +74,6 @@ class B {
             //     resolver(unresolved_mark, top_level_mark, false)
             // ));
             module.visit_mut_with(&mut hygiene());
-            module.visit_mut_with(&mut HygieneRemover);
 
             module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
@@ -93,16 +92,6 @@ class B {
             println!("{}", code);
         });
     });
-}
-
-struct HygieneRemover;
-
-impl VisitMut for HygieneRemover {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = Default::default();
-    }
 }
 
 struct ShowSyntaxContext {
