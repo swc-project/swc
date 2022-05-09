@@ -20,6 +20,9 @@
 - **(es/minifier)** Unwrap blocks more carefully (#4586) ([8db3442](https://github.com/swc-project/swc/commit/8db3442216e84b0535fa2884208e19020f22ec19))
 
 
+- **(es/minifier)** Consider more aliases in sequences pass (#4583) ([3521ce0](https://github.com/swc-project/swc/commit/3521ce09e7a2c3168f17491196f6fbc835637380))
+
+
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
 
 
@@ -27,6 +30,9 @@
 
 
 - **(html/parser)** Add recovery for attributes on html and body (#4566) ([c7d20e4](https://github.com/swc-project/swc/commit/c7d20e43e63cb2c45cd589e3c72811575fca2f07))
+
+
+- **(node)** Use `jemallocator` on linux (#4591) ([af91094](https://github.com/swc-project/swc/commit/af91094b2db0809f02e6f0a6f07b021d12aa1512))
 
 ### Features
 
