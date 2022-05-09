@@ -65,6 +65,10 @@ impl<T> BoolOrDataConfig<T> {
     pub fn is_obj(&self) -> bool {
         matches!(self.0, Some(BoolOrData::Actual(_)))
     }
+
+    pub fn into_inner(self) -> Option<BoolOrData<T>> {
+        self.0
+    }
 }
 
 impl<T> From<T> for BoolOrDataConfig<T> {
