@@ -20,6 +20,9 @@
 
 
 
+- **(config)** Make all configuration overridable (#4575) ([7fc9bbc](https://github.com/swc-project/swc/commit/7fc9bbccd9ce867d9851cb3518501509b5a3f97e))
+
+
 - **(es/ast)** Add methods for parens (#4576) ([55d0ee6](https://github.com/swc-project/swc/commit/55d0ee6cba32d3a9d15cdb5485fb65a84bebe123))
 
 ### Miscellaneous Tasks
