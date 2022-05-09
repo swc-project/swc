@@ -112,6 +112,12 @@ function initialize() {
 }
 timer = setInterval(initialize, 100);
 
+
+() => {
+    let { l, ...rest } = {};
+    l = 1;
+}
+
 // valid
 () => {
     var x = 0;

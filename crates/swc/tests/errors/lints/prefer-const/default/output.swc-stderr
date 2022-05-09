@@ -166,3 +166,9 @@
  107 | let timer;
      :     ^^^^^
      `----
+
+  x 'rest' is never reassigned. Use 'const' insted
+     ,----
+ 117 | let { l, ...rest } = {};
+     :             ^^^^
+     `----

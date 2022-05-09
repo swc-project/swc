@@ -118,9 +118,14 @@ impl PreferConst {
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                             self.add_var_meta(key, initialized);
                         }
-                        _ => {}
+                        ObjectPatProp::Rest(RestPat { arg, .. }) => {
+                            self.collect_decl_pat(initialized, arg.as_ref());
+                        }
                     };
                 });
+            }
+            Pat::Rest(RestPat { arg, .. }) => {
+                self.collect_decl_pat(initialized, arg.as_ref());
             }
             _ => {}
         }
@@ -204,10 +209,9 @@ impl Visit for PreferConst {
 
     fn visit_var_decl(&mut self, var_decl: &VarDecl) {
         if let VarDeclKind::Let = var_decl.kind {
-            var_decl
-                .decls
-                .iter()
-                .for_each(|var_decl| self.collect_decl_pat(var_decl.init.is_some(), &var_decl.name))
+            var_decl.decls.iter().for_each(|var_decl| {
+                self.collect_decl_pat(var_decl.init.is_some(), &var_decl.name);
+            })
         }
 
         var_decl.visit_children_with(self);
@@ -219,6 +223,8 @@ impl Visit for PreferConst {
                 self.consider_mutation(pat.as_ref(), false);
             }
         }
+
+        assign_expr.visit_children_with(self);
     }
 
     fn visit_block_stmt(&mut self, block_stmt: &BlockStmt) {
