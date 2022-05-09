@@ -1674,7 +1674,7 @@ where
             //  var pc = 0;
             //  console.log(x());
 
-            let deps = self.data.expand_infected(deps);
+            let deps = self.data.expand_infected(deps, 32)?;
 
             let used_by_b = idents_used_by(&*b);
 
