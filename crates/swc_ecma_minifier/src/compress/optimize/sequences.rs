@@ -1659,19 +1659,6 @@ where
 
             let deps = idents_used_by_ignoring_nested(&*a_right);
 
-            let used_by_b = idents_used_by(&*b);
-
-            for id in &deps {
-                if *id == left_id.to_id() {
-                    continue;
-                }
-
-                if used_by_b.contains(id) {
-                    log_abort!("[X] sequences: Aborting because of deps");
-                    return Err(());
-                }
-            }
-
             // We can't proceed if the rhs (`t` below) is initialized with an
             // initializer which has a side effect for `a_id`
             //
@@ -1686,6 +1673,21 @@ where
             //  }
             //  var pc = 0;
             //  console.log(x());
+
+            let deps = self.data.expand_infected(deps);
+
+            let used_by_b = idents_used_by(&*b);
+
+            for dep_id in &deps {
+                if *dep_id == left_id.to_id() {
+                    continue;
+                }
+
+                if used_by_b.contains(dep_id) {
+                    log_abort!("[X] sequences: Aborting because of deps");
+                    return Err(());
+                }
+            }
         }
 
         {

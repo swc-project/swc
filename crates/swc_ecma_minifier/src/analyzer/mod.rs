@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -159,6 +160,14 @@ pub(crate) struct ProgramData {
 }
 
 impl ProgramData {
+    pub(crate) fn expand_infected(&mut self, ids: impl IntoIterator<Item = Id>) -> FxHashSet<Id> {
+        let mut result = FxHashSet::default();
+
+        for id in ids {}
+
+        result
+    }
+
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
