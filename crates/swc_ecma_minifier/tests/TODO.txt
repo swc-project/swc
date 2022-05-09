@@ -1,5 +1,4 @@
 asm/asm_mixed/input.js
-classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while/input.js
