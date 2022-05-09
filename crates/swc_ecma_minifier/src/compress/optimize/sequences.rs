@@ -939,7 +939,7 @@ where
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
-                            if is_ident_used_by(e.to_id(), &**a) {
+                            if is_ident_used_by(e.to_id(), &a.init) {
                                 log_abort!("ident used by a (var)");
                                 return false;
                             }
@@ -950,6 +950,39 @@ where
                                 return false;
                             }
                         }
+                    }
+
+                    // We can't proceed if the rhs (a.id = b.right) is
+                    // initialized with an initializer
+                    // (a.right) which has a side effect for pc (b.left)
+                    //
+                    // ```js
+                    // 
+                    //  function f(x) {
+                    //      pc = 200;
+                    //      return 100;
+                    //  }
+                    //  function x() {
+                    //      var t = f();
+                    //      pc += t;
+                    //      return pc;
+                    //  }
+                    //  var pc = 0;
+                    //  console.log(x());
+                    // ```
+                    //
+                    let ids_used_by_a_init = match a {
+                        Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
+                        Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+                    };
+
+                    let deps = self.data.expand_infected(ids_used_by_a_init, 64);
+                    let deps = match deps {
+                        Ok(v) => v,
+                        Err(()) => return false,
+                    };
+                    if deps.contains(&e.to_id()) {
+                        return false;
                     }
                 }
 
@@ -1728,25 +1761,6 @@ where
     /// This check blocks optimization of clearly valid optimizations like `i +=
     /// 1, arr[i]`
     //
-    /// # Rule 2
-    ///
-    /// We can't proceed if the rhs (a.id = b.right) is initialized with an
-    /// initializer (a.right) which has a side effect for pc (b.left)
-    ///
-    /// ```js
-    /// 
-    ///  function f(x) {
-    ///      pc = 200;
-    ///      return 100;
-    ///  }
-    ///  function x() {
-    ///      var t = f();
-    ///      pc += t;
-    ///      return pc;
-    ///  }
-    ///  var pc = 0;
-    ///  console.log(x());
-    /// ```
     fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> Result<bool, ()> {
         if let Some(a_id) = a.id() {
             match a {
