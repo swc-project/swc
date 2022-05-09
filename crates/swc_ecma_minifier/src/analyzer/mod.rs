@@ -160,7 +160,6 @@ pub(crate) struct ProgramData {
 }
 
 impl ProgramData {
-    #[allow(unused)]
     pub(crate) fn expand_infected(
         &self,
         ids: impl IntoIterator<Item = Id>,
