@@ -932,6 +932,8 @@ where
             return false;
         }
 
+        trace_op!("is_skippable_for_seq");
+
         match e {
             Expr::Ident(e) => {
                 if let Some(a) = a {
@@ -1658,23 +1660,6 @@ where
             // rand should not be inlined because of `index`.
 
             let deps = idents_used_by_ignoring_nested(&*a_right);
-
-            // We can't proceed if the rhs (`t` below) is initialized with an
-            // initializer which has a side effect for `a_id`
-            //
-            //  function f(x) {
-            //      pc = 200;
-            //      return 100;
-            //  }
-            //  function x() {
-            //      var t = f();
-            //      pc += t;
-            //      return pc;
-            //  }
-            //  var pc = 0;
-            //  console.log(x());
-
-            let deps = self.data.expand_infected(deps, 32)?;
 
             let used_by_b = idents_used_by(&*b);
 
