@@ -50,6 +50,14 @@ use testing::assert_eq;
         "properties/issue_3188_3/",
         "rename/function_catch_catch/",
         "yield/issue_2689/",
+        "collapse_vars/issue_1631_3",
+        "evaluate/issue_1760_1",
+        "functions/issue_2620_4",
+        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope",
+        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity",
+        "issue_1750/case_1",
+        "properties/issue_3188_3",
+        "yield/issue_2689",
         // We don't care about ie8
         "ie8",
         // tests with infinite loops
