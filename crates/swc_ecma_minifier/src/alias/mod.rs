@@ -64,7 +64,8 @@ impl InfectionCollector<'_> {
                 | js_word!("Number")
                 | js_word!("BigInt")
                 | js_word!("Boolean")
-                | js_word!("Math") => return,
+                | js_word!("Math")
+                | js_word!("Error") => return,
                 _ => {}
             }
         }
