@@ -13,7 +13,7 @@ use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
 use crate::{
-    alias::{collect_infects, AliasConfig},
+    alias::{collect_infects_from, AliasConfig},
     compress::{
         optimize::util::replace_id_with_expr,
         util::{is_directive, is_ident_used_by, replace_expr},
@@ -973,10 +973,9 @@ where
                     // ```
                     //
                     let ids_used_by_a_init = match a {
-                        Mergable::Var(a) => a
-                            .init
-                            .as_ref()
-                            .map(|init| collect_infects(init, AliasConfig { marks: self.marks })),
+                        Mergable::Var(a) => a.init.as_ref().map(|init| {
+                            collect_infects_from(init, AliasConfig { marks: self.marks })
+                        }),
                         Mergable::Expr(a) => match a {
                             Expr::Assign(AssignExpr {
                                 left,
@@ -985,7 +984,10 @@ where
                                 ..
                             }) => {
                                 if left.as_ident().is_some() {
-                                    Some(collect_infects(right, AliasConfig { marks: self.marks }))
+                                    Some(collect_infects_from(
+                                        right,
+                                        AliasConfig { marks: self.marks },
+                                    ))
                                 } else {
                                     None
                                 }

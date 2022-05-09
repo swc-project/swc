@@ -16,7 +16,7 @@ pub(crate) struct AliasConfig {
     pub marks: Marks,
 }
 
-pub(crate) fn collect_infects<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
+pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
 where
     N: for<'aa> VisitWith<InfectionCollector<'aa>>,
     N: VisitWith<BindingCollector<Id>>,
