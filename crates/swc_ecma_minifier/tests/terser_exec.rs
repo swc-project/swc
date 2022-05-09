@@ -39,7 +39,6 @@ use testing::assert_eq;
         "collapse_vars/issue_1631_2/",
         "collapse_vars/issue_1631_3/",
         "dead_code/try_catch_finally/",
-        "drop_unused/issue_1715_1/",
         "drop_unused/issue_1715_2/",
         "drop_unused/issue_1715_3/",
         "evaluate/issue_1760_1/",
