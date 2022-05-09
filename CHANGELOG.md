@@ -17,6 +17,9 @@
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
 
 
+- **(es/resolver)** Fix more try catch issues (#4582) ([56c3010](https://github.com/swc-project/swc/commit/56c3010f6ba0cdebf4a1631c4ad54e10584c0422))
+
+
 - **(html/parser)** Add recovery for attributes on html and body (#4566) ([c7d20e4](https://github.com/swc-project/swc/commit/c7d20e43e63cb2c45cd589e3c72811575fca2f07))
 
 ### Features
