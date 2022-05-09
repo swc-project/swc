@@ -95,7 +95,6 @@ properties/mangle_debug_suffix_keep_quoted/input.js
 properties/mangle_debug_true/input.js
 properties/mangle_properties/input.js
 properties/mangle_undeclared_properties/input.js
-properties/mangle_unquoted_properties/input.js
 properties/methods_keep_quoted_false/input.js
 properties/methods_keep_quoted_from_dead_code/input.js
 properties/methods_keep_quoted_true/input.js

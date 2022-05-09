@@ -462,6 +462,7 @@ properties/join_object_assignments_return_3/input.js
 properties/join_object_assignments_undefined_2/input.js
 properties/join_object_assignments_void_0/input.js
 properties/literal_duplicate_key_side_effects/input.js
+properties/mangle_unquoted_properties/input.js
 properties/prop_side_effects_1/input.js
 properties/prop_side_effects_2/input.js
 properties/sub_properties/input.js
