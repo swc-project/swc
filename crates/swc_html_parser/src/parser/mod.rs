@@ -267,7 +267,7 @@ where
     //
     // 14. Return the child nodes of root, in tree order.
     // TODO extract code for building tree from parser in TreeBuilder module
-    // TODO should context_element be RcNode
+    // TODO should context_element be RcNode?
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
@@ -282,9 +282,6 @@ where
         // Parser already created
         let context_tag_name = context_element.tag_name.clone();
         let context_node = Node::new(Data::Element(context_element));
-
-        self.is_fragment_case = true;
-        self.context_element = Some(context_node);
 
         // 4.
         match &*context_tag_name {
@@ -331,7 +328,8 @@ where
         }
 
         // 9.
-        // TODO fix me, case for HTML integration point.
+        self.context_element = Some(context_node);
+        self.is_fragment_case = true;
 
         // 10.
         self.reset_insertion_mode();
@@ -542,7 +540,7 @@ where
     // node is the current node.
     fn get_adjusted_current_node(&self) -> Option<&RcNode> {
         if self.is_fragment_case && self.open_elements_stack.items.len() == 1 {
-            self.context_element.as_ref();
+            return self.context_element.as_ref();
         }
 
         self.open_elements_stack.items.last()

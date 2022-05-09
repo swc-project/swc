@@ -27,7 +27,7 @@
         "ctxt": 0
       },
       "tagName": "foo",
-      "namespace": "http://www.w3.org/1999/xhtml",
+      "namespace": "http://www.w3.org/2000/svg",
       "attributes": [],
       "children": [],
       "content": null
