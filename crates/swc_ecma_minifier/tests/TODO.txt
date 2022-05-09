@@ -36,17 +36,10 @@ evaluate/issue_2535_1/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 functions/avoid_generating_duplicate_functions_compared_together_3/input.js
-functions/inline_true/input.js
-functions/inner_ref/input.js
 functions/issue_2084/input.js
 functions/issue_2114_2/input.js
-functions/issue_2601_1/input.js
-functions/issue_2604_1/input.js
-functions/issue_2620_1/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
-functions/issue_3016_3/input.js
-functions/issue_3018/input.js
 functions/issue_3076/input.js
 functions/loop_init_arg/input.js
 harmony/array_literal_with_spread_4a/input.js

@@ -201,6 +201,8 @@ functions/inline_2/input.js
 functions/inline_3/input.js
 functions/inline_loop_1/input.js
 functions/inline_loop_2/input.js
+functions/inline_true/input.js
+functions/inner_ref/input.js
 functions/issue_203/input.js
 functions/issue_2107/input.js
 functions/issue_2114_1/input.js
@@ -209,9 +211,12 @@ functions/issue_2476/input.js
 functions/issue_2531_1/input.js
 functions/issue_2531_2/input.js
 functions/issue_2531_3/input.js
+functions/issue_2601_1/input.js
 functions/issue_2601_2/input.js
+functions/issue_2604_1/input.js
 functions/issue_2604_2/input.js
 functions/issue_2616/input.js
+functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2630_1/input.js
 functions/issue_2630_2/input.js
@@ -225,7 +230,9 @@ functions/issue_2898/input.js
 functions/issue_3016_1/input.js
 functions/issue_3016_2/input.js
 functions/issue_3016_2_ie8/input.js
+functions/issue_3016_3/input.js
 functions/issue_3016_3_ie8/input.js
+functions/issue_3018/input.js
 functions/issue_3125/input.js
 functions/issue_3166/input.js
 functions/issue_t131a/input.js
