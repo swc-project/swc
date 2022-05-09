@@ -280,28 +280,33 @@ where
 
         // 3.
         // Parser already created
+        let context_namespace = context_element.namespace;
         let context_tag_name = context_element.tag_name.clone();
         let context_node = Node::new(Data::Element(context_element));
 
         // 4.
         match &*context_tag_name {
-            "title" | "textarea" => {
+            "title" | "textarea" if context_namespace == Namespace::HTML => {
                 self.input.set_input_state(State::Rcdata);
             }
-            "style" | "xmp" | "iframe" | "noembed" | "noframes" => {
+            "style" | "xmp" | "iframe" | "noembed" | "noframes"
+                if context_namespace == Namespace::HTML =>
+            {
                 self.input.set_input_state(State::Rawtext);
             }
-            "script" => {
+            "script" if context_namespace == Namespace::HTML => {
                 self.input.set_input_state(State::ScriptData);
             }
-            "noscript" => {
+            "noscript" if context_namespace == Namespace::HTML => {
                 if self.config.scripting_enabled {
                     self.input.set_input_state(State::Rawtext);
                 } else {
                     self.input.set_input_state(State::Data)
                 }
             }
-            "plaintext" => self.input.set_input_state(State::PlainText),
+            "plaintext" if context_namespace == Namespace::HTML => {
+                self.input.set_input_state(State::PlainText)
+            }
             _ => self.input.set_input_state(State::Data),
         }
 
