@@ -78,7 +78,10 @@ impl Visit for InfectionCollector<'_> {
             | op!("<")
             | op!("<=")
             | op!(">")
-            | op!(">=") => {
+            | op!(">=")
+            | op!("<<")
+            | op!(">>")
+            | op!(">>>") => {
                 let ctx = Ctx {
                     track_expr_ident: false,
                     ..self.ctx
