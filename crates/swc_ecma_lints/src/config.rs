@@ -172,4 +172,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noThrowLiteral")]
     pub no_throw_literal: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "preferConst")]
+    pub prefer_const: RuleConfig<()>,
 }

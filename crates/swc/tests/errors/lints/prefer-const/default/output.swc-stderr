@@ -1,0 +1,168 @@
+
+  x 'x1' is never reassigned. Use 'const' insted
+   ,----
+ 2 | let x1 = 1;
+   :     ^^
+   `----
+
+  x 'i' is never reassigned. Use 'const' insted
+   ,----
+ 7 | for (let i in [1, 2, 3]) {
+   :          ^
+   `----
+
+  x 'x2' is never reassigned. Use 'const' insted
+    ,----
+ 13 | let [x2 = -1, y2] = [1, 2];
+    :      ^^
+    `----
+
+  x 'x3' is never reassigned. Use 'const' insted
+    ,----
+ 18 | let { a: x3 = -1, b: y3 } = { a: 1, b: 2 };
+    :          ^^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 23 | (function () { let x = 1; foo(x); })();
+    :                    ^
+    `----
+
+  x 'i' is never reassigned. Use 'const' insted
+    ,----
+ 25 | (function () { for (let i in [1, 2, 3]) { foo(i); } })();
+    :                         ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 27 | (function () { for (let x of [1, 2, 3]) { foo(x); } })();
+    :                         ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 29 | (function () { let [x = -1, y] = [1, 2]; y = 0; })();
+    :                     ^
+    `----
+
+  x 'g' is never reassigned. Use 'const' insted
+    ,----
+ 32 | let f = (function () { let g = x; })();
+    :                            ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 36 | (function () { let { a: x = -1, b: y } = { a: 1, b: 2 }; y = 0; })();
+    :                         ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 40 | { let x = 1; foo(x); }
+    :       ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 45 | for (let i = 0; i < 10; ++i) { let x = 1; foo(x); }
+    :                                    ^
+    `----
+
+  x 'i' is never reassigned. Use 'const' insted
+    ,----
+ 49 | for (let i in [1, 2, 3]) { let x = 1; foo(x); }
+    :          ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 49 | for (let i in [1, 2, 3]) { let x = 1; foo(x); }
+    :                                ^
+    `----
+
+  x 'l' is never reassigned. Use 'const' insted
+    ,----
+ 55 | let l;
+    :     ^
+    `----
+
+  x 'a' is never reassigned. Use 'const' insted
+    ,----
+ 65 | ({ a } = 1);
+    :    ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 71 | let x;
+    :     ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 76 | switch (a) { case 0: let x; x = 0; }
+    :                          ^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+    ,----
+ 79 | (function () { let x; x = 1; })();
+    :                    ^
+    `----
+
+  x 'a' is never reassigned. Use 'const' insted
+    ,----
+ 82 | let { a = 0, b } = obj; b = 0; foo(a, b);
+    :       ^
+    `----
+
+  x 'c' is never reassigned. Use 'const' insted
+    ,----
+ 86 | let { a: { b, c } } = { a: { b: 1, c: 2 } }; b = 3;
+    :               ^
+    `----
+
+  x 'b' is never reassigned. Use 'const' insted
+    ,----
+ 90 | let { a: { b, c } } = { a: { b: 1, c: 2 } }
+    :            ^
+    `----
+
+  x 'c' is never reassigned. Use 'const' insted
+    ,----
+ 90 | let { a: { b, c } } = { a: { b: 1, c: 2 } }
+    :               ^
+    `----
+
+  x 'a' is never reassigned. Use 'const' insted
+    ,----
+ 94 | let [a] = [1]
+    :      ^
+    `----
+
+  x 'predicate' is never reassigned. Use 'const' insted
+    ,----
+ 99 | [, { foo: returnType, predicate }] = foo();
+    :                       ^^^^^^^^^
+    `----
+
+  x 'x' is never reassigned. Use 'const' insted
+     ,----
+ 103 | let x = 'x', y = 'y';
+     :     ^
+     `----
+
+  x 'y' is never reassigned. Use 'const' insted
+     ,----
+ 103 | let x = 'x', y = 'y';
+     :              ^
+     `----
+
+  x 'timer' is never reassigned. Use 'const' insted
+     ,----
+ 107 | let timer;
+     :     ^^^^^
+     `----
