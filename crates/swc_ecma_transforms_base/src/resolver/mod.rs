@@ -1552,20 +1552,16 @@ impl VisitMut for Hoister<'_, '_> {
         let old_exclude = self.excluded_from_catch.clone();
         self.excluded_from_catch = Default::default();
 
+        let old_in_catch_body = self.in_catch_body;
+
         let params: Vec<Id> = find_ids(&c.param);
 
         self.catch_param_decls
             .extend(params.into_iter().map(|v| v.0));
 
-        {
-            let old_in_catch_body = self.in_catch_body;
+        self.in_catch_body = true;
+        c.body.visit_mut_with(self);
 
-            self.in_catch_body = true;
-
-            c.body.visit_mut_with(self);
-
-            self.in_catch_body = old_in_catch_body;
-        }
         let orig = self.catch_param_decls.clone();
 
         // let mut excluded = find_ids::<_, Id>(&c.body);
@@ -1577,10 +1573,12 @@ impl VisitMut for Hoister<'_, '_> {
         //     self.resolver.mark_for_ref(&id.0).is_none()
         // });
 
+        self.in_catch_body = false;
         c.param.visit_mut_with(self);
 
         self.catch_param_decls = orig;
 
+        self.in_catch_body = old_in_catch_body;
         self.excluded_from_catch = old_exclude;
     }
 
