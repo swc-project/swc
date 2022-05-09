@@ -440,10 +440,12 @@ properties/issue_2208_4/input.js
 properties/issue_2208_5/input.js
 properties/issue_2208_6/input.js
 properties/issue_2208_7/input.js
+properties/issue_2208_8/input.js
 properties/issue_2208_9/input.js
 properties/issue_2513/input.js
 properties/issue_2816/input.js
 properties/issue_2816_ecma6/input.js
+properties/issue_3188_1/input.js
 properties/issue_869_1/input.js
 properties/issue_869_2/input.js
 properties/issue_t64/input.js
@@ -467,6 +469,8 @@ properties/mangle_debug_suffix/input.js
 properties/mangle_debug_suffix_keep_quoted/input.js
 properties/mangle_debug_true/input.js
 properties/mangle_unquoted_properties/input.js
+properties/native_prototype/input.js
+properties/new_this/input.js
 properties/prop_side_effects_1/input.js
 properties/prop_side_effects_2/input.js
 properties/sub_properties/input.js
