@@ -1,5 +1,6 @@
 use std::time::Instant;
 
+use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet,
     pass::{CompilerPass, Repeated},
@@ -510,5 +511,30 @@ pub fn now() -> Option<Instant> {
         None
     } else {
         Some(Instant::now())
+    }
+}
+
+pub(crate) fn contains_eval<N>(node: &N) -> bool
+where
+    N: VisitWith<EvalFinder>,
+{
+    let mut v = EvalFinder { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+pub(crate) struct EvalFinder {
+    found: bool,
+}
+
+impl Visit for EvalFinder {
+    noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        if i.sym == js_word!("eval") {
+            self.found = true;
+        }
     }
 }
