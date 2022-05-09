@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
     optimization::simplify::{dead_branch_remover, expr_simplifier},
     react, resolver,
 };
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 fn main() {
     let cm = Lrc::<SourceMap>::default();
@@ -51,7 +51,7 @@ class B {
             //     expr_simplifier(unresolved_mark, Default::default()),
             //     dead_branch_remover(unresolved_mark)
             // ));
-            let module = module.fold_with(&mut preset_env(
+            let mut module = module.fold_with(&mut preset_env(
                 top_level_mark,
                 Some(&comments),
                 swc_ecma_preset_env::Config {
@@ -73,8 +73,10 @@ class B {
             //     hygiene(),
             //     resolver(unresolved_mark, top_level_mark, false)
             // ));
-            let module = module.fold_with(&mut hygiene());
-            let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+            module.visit_mut_with(&mut hygiene());
+            module.visit_mut_with(&mut HygieneRemover);
+
+            module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
             let module = module.fold_with(&mut ShowSyntaxContext {
                 top_level_mark,
@@ -91,6 +93,16 @@ class B {
             println!("{}", code);
         });
     });
+}
+
+struct HygieneRemover;
+
+impl VisitMut for HygieneRemover {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.span.ctxt = Default::default();
+    }
 }
 
 struct ShowSyntaxContext {
