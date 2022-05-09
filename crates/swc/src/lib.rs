@@ -773,7 +773,6 @@ impl Compiler {
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 handler,
-                opts.is_module,
                 Some(config),
                 comments,
                 before_pass,

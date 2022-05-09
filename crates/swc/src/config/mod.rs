@@ -271,7 +271,6 @@ impl Options {
         output_path: Option<&Path>,
         source_file_name: Option<String>,
         handler: &Handler,
-        is_module: IsModule,
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
@@ -281,6 +280,7 @@ impl Options {
     {
         let mut cfg = self.config.clone();
         cfg.merge(config.unwrap_or_default());
+        let is_module = self.is_module;
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(cfg.source_maps.clone());
