@@ -7221,6 +7221,8 @@ where
                 }
 
                 self.insertion_mode = InsertionMode::InSelect;
+
+                return;
             }
 
             // 5. If node is a td or th element and last is false, then switch the insertion

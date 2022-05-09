@@ -10,27 +10,13 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 21,
+        "end": 8,
         "ctxt": 0
       },
       "tagName": "option",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": [
-        {
-          "type": "Element",
-          "span": {
-            "start": 8,
-            "end": 21,
-            "ctxt": 0
-          },
-          "tagName": "xh<optgroup",
-          "namespace": "http://www.w3.org/1999/xhtml",
-          "attributes": [],
-          "children": [],
-          "content": null
-        }
-      ],
+      "children": [],
       "content": null
     }
   ]
