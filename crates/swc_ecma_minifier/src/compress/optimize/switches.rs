@@ -4,7 +4,7 @@ use swc_ecma_utils::{prepend, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_primitive, mode::Mode};
+use crate::{compress::util::is_primitive, mode::Mode, util::idents_used_by};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -42,18 +42,31 @@ where
         let mut var_ids = vec![];
         let mut cases = Vec::new();
         let mut exact = None;
+        let mut prevent_exact = false;
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
+            if prevent_exact {
+                cases.push(case.take());
+                continue;
+            }
+
             if let Some(test) = case.test.as_ref() {
                 if let Some(e) = is_primitive(tail_expr(test)) {
                     if e.eq_ignore_span(tail) {
                         cases.push(case.take());
-                        exact = Some(idx);
-                        break;
+
+                        if !prevent_exact {
+                            exact = Some(idx);
+                            break;
+                        }
                     } else {
                         var_ids.extend(case.cons.extract_var_ids())
                     }
                 } else {
+                    if !idents_used_by(test).is_empty() {
+                        prevent_exact = true;
+                    }
+
                     cases.push(case.take())
                 }
             } else {
