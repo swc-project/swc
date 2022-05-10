@@ -70,7 +70,7 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
 
-  build-test-bins:
+  build-test-binaries:
     name: Build test files
     strategy:
       matrix:
@@ -106,6 +106,41 @@ jobs:
         with:
           name: test-bins
           path: test-bins.tar.gz
+
+  run-tests:
+    name: Run cargo tests
+    strategy:
+      matrix:
+        host:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        partition: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+    runs-on: ${{ matrix.host }}
+    needs: build-test-binaries
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: mkdir -p ~/.cargo/bin
+
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+
+      - name: Download archive
+        uses: actions/download-artifact@v3
+        with:
+          name: test-bins
+      # This example extracts artifacts to "build-artifacts/target" to demonstrate target-dir remapping.
+      - name: Extract artifacts
+        run: tar -xf test-bins.tar.gz --one-top-level=test-bins
+      - name: Run tests
+        run: |
+          ~/.cargo/bin/cargo-nextest nextest run --cargo-metadata test-bins/target/cargo-metadata.json \
+            --binaries-metadata test-bins/target/binaries-metadata.json \
+            --target-dir-remap test-bins/target \
+            --partition count:${{ matrix.partition }}/15
 
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
