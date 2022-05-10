@@ -21,7 +21,18 @@ pub mod writer;
 #[derive(Debug, Clone, Copy)]
 pub struct CodegenConfig {
     pub minify: bool,
+    pub scripting_enabled: bool,
 }
+
+impl Default for CodegenConfig {
+    fn default() -> Self {
+        CodegenConfig {
+            minify: false,
+            scripting_enabled: false,
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where
@@ -163,18 +174,13 @@ where
         }
 
         if !n.children.is_empty() {
-            let skip_escape_text = matches!(
-                &*n.tag_name,
-                "style"
-                | "script"
-                | "xmp"
-                | "iframe"
-                | "noembed"
-                | "noframes"
-                | "plaintext"
-                // TODO we need option here
-                | "noscript"
-            );
+            let skip_escape_text = match &*n.tag_name {
+                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => {
+                    true
+                }
+                "noscript" => self.config.scripting_enabled,
+                _ => false,
+            };
 
             let ctx = Ctx {
                 skip_escape_text,

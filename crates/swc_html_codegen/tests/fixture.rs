@@ -21,10 +21,22 @@ fn print_document(
     input: &Path,
     parser_config: Option<ParserConfig>,
     writer_config: Option<BasicHtmlWriterConfig>,
-    minify: bool,
+    codegen_config: Option<CodegenConfig>,
 ) {
     let dir = input.parent().unwrap();
-    let output = if minify {
+    let parser_config = match parser_config {
+        Some(parser_config) => parser_config,
+        _ => ParserConfig::default(),
+    };
+    let writer_config = match writer_config {
+        Some(writer_config) => writer_config,
+        _ => BasicHtmlWriterConfig::default(),
+    };
+    let codegen_config = match codegen_config {
+        Some(codegen_config) => codegen_config,
+        _ => CodegenConfig::default(),
+    };
+    let output = if codegen_config.minify {
         dir.join(format!(
             "output.min.{}",
             input.extension().unwrap().to_string_lossy()
@@ -34,15 +46,6 @@ fn print_document(
             "output.{}",
             input.extension().unwrap().to_string_lossy()
         ))
-    };
-
-    let parser_config = match parser_config {
-        Some(parser_config) => parser_config,
-        _ => ParserConfig::default(),
-    };
-    let writer_config = match writer_config {
-        Some(writer_config) => writer_config,
-        _ => BasicHtmlWriterConfig::default(),
     };
 
     run_test2(false, |cm, handler| {
@@ -57,7 +60,7 @@ fn print_document(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
+        let mut gen = CodeGenerator::new(wr, codegen_config);
 
         gen.emit(&document).unwrap();
 
@@ -92,10 +95,22 @@ fn print_document_fragment(
     context_element: Element,
     parser_config: Option<ParserConfig>,
     writer_config: Option<BasicHtmlWriterConfig>,
-    minify: bool,
+    codegen_config: Option<CodegenConfig>,
 ) {
     let dir = input.parent().unwrap();
-    let output = if minify {
+    let parser_config = match parser_config {
+        Some(parser_config) => parser_config,
+        _ => ParserConfig::default(),
+    };
+    let writer_config = match writer_config {
+        Some(writer_config) => writer_config,
+        _ => BasicHtmlWriterConfig::default(),
+    };
+    let codegen_config = match codegen_config {
+        Some(codegen_config) => codegen_config,
+        _ => CodegenConfig::default(),
+    };
+    let output = if codegen_config.minify {
         dir.join(format!(
             "output.min.{}",
             input.extension().unwrap().to_string_lossy()
@@ -105,15 +120,6 @@ fn print_document_fragment(
             "output.{}",
             input.extension().unwrap().to_string_lossy()
         ))
-    };
-
-    let parser_config = match parser_config {
-        Some(parser_config) => parser_config,
-        _ => ParserConfig::default(),
-    };
-    let writer_config = match writer_config {
-        Some(writer_config) => writer_config,
-        _ => BasicHtmlWriterConfig::default(),
     };
 
     run_test2(false, |cm, handler| {
@@ -133,7 +139,7 @@ fn print_document_fragment(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
+        let mut gen = CodeGenerator::new(wr, codegen_config);
 
         gen.emit(&document_fragment).unwrap();
 
@@ -172,6 +178,7 @@ fn verify_document(
     input: &Path,
     parser_config: Option<ParserConfig>,
     writer_config: Option<BasicHtmlWriterConfig>,
+    codegen_config: Option<CodegenConfig>,
     ignore_errors: bool,
 ) {
     let parser_config = match parser_config {
@@ -181,6 +188,10 @@ fn verify_document(
     let writer_config = match writer_config {
         Some(writer_config) => writer_config,
         _ => BasicHtmlWriterConfig::default(),
+    };
+    let codegen_config = match codegen_config {
+        Some(codegen_config) => codegen_config,
+        _ => CodegenConfig::default(),
     };
 
     testing::run_test2(false, |cm, handler| {
@@ -200,7 +211,7 @@ fn verify_document(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+        let mut gen = CodeGenerator::new(wr, codegen_config);
 
         gen.emit(&document).unwrap();
 
@@ -232,6 +243,7 @@ fn verify_document_fragment(
     context_element: Element,
     parser_config: Option<ParserConfig>,
     writer_config: Option<BasicHtmlWriterConfig>,
+    codegen_config: Option<CodegenConfig>,
     ignore_errors: bool,
 ) {
     let parser_config = match parser_config {
@@ -241,6 +253,10 @@ fn verify_document_fragment(
     let writer_config = match writer_config {
         Some(writer_config) => writer_config,
         _ => BasicHtmlWriterConfig::default(),
+    };
+    let codegen_config = match codegen_config {
+        Some(codegen_config) => codegen_config,
+        _ => CodegenConfig::default(),
     };
 
     testing::run_test2(false, |cm, handler| {
@@ -265,7 +281,7 @@ fn verify_document_fragment(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+        let mut gen = CodeGenerator::new(wr, codegen_config);
 
         gen.emit(&document_fragment).unwrap();
 
@@ -334,8 +350,24 @@ impl VisitMut for NormalizeTest {
 
 #[testing::fixture("tests/fixture/**/input.html")]
 fn test_document(input: PathBuf) {
-    print_document(&input, None, None, false);
-    print_document(&input, None, None, true);
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+        }),
+    );
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+        }),
+    );
 }
 
 #[testing::fixture("tests/document_fragment/**/input.html")]
@@ -352,7 +384,10 @@ fn test_document_fragment(input: PathBuf) {
         },
         None,
         None,
-        false,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+        }),
     );
     print_document_fragment(
         &input,
@@ -366,7 +401,10 @@ fn test_document_fragment(input: PathBuf) {
         },
         None,
         None,
-        true,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+        }),
     );
 }
 
@@ -380,18 +418,18 @@ fn test_indent_type_option(input: PathBuf) {
             indent_width: 2,
             linefeed: LineFeed::default(),
         }),
-        false,
+        None,
     );
 }
 
 #[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
 fn parser_verify(input: PathBuf) {
-    verify_document(&input, None, None, false);
+    verify_document(&input, None, None, None, false);
 }
 
 #[testing::fixture("../swc_html_parser/tests/recovery/**/*.html")]
 fn parser_recovery_verify(input: PathBuf) {
-    verify_document(&input, None, None, true);
+    verify_document(&input, None, None, None, true);
 }
 
 #[testing::fixture("../swc_html_parser/tests/html5lib-tests-fixture/**/*.html")]
@@ -399,6 +437,10 @@ fn html5lib_tests_verify(input: PathBuf) {
     let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
     let scripting_enabled = file_stem.contains("script_on");
     let parser_config = ParserConfig { scripting_enabled };
+    let codegen_config = CodegenConfig {
+        minify: false,
+        scripting_enabled,
+    };
 
     if file_stem.contains("fragment") {
         let mut context_element_namespace = Namespace::HTML;
@@ -437,8 +479,21 @@ fn html5lib_tests_verify(input: PathBuf) {
             content: None,
         };
 
-        verify_document_fragment(&input, context_element, Some(parser_config), None, true);
+        verify_document_fragment(
+            &input,
+            context_element,
+            Some(parser_config),
+            None,
+            Some(codegen_config),
+            true,
+        );
     } else {
-        verify_document(&input, Some(parser_config), None, true);
+        verify_document(
+            &input,
+            Some(parser_config),
+            None,
+            Some(codegen_config),
+            true,
+        );
     }
 }
