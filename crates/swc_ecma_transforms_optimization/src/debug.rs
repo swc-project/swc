@@ -5,6 +5,15 @@ use std::{fmt::Debug, mem::forget};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
+/// Assert in debug mode. This is noop in release build.
+pub fn debug_assert_valid<N>(node: &N)
+where
+    N: VisitWith<AssertValid>,
+{
+    #[cfg(debug_assertions)]
+    node.visit_with(&mut AssertValid { _priv: () });
+}
+
 #[cfg(debug_assertions)]
 struct Ctx<'a> {
     v: &'a dyn Debug,
@@ -17,7 +26,9 @@ impl Drop for Ctx<'_> {
     }
 }
 
-pub(crate) struct AssertValid;
+pub struct AssertValid {
+    _priv: (),
+}
 
 impl Visit for AssertValid {
     noop_visit_type!();

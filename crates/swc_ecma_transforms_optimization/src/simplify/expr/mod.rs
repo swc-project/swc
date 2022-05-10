@@ -13,10 +13,10 @@ use swc_ecma_utils::{
     preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprExt, NullType, NumberType,
     ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
-use crate::debug::AssertValid;
+use crate::debug::debug_assert_valid;
 
 #[cfg(test)]
 mod tests;
@@ -1211,7 +1211,9 @@ impl VisitMut for SimplifyExpr {
         }
 
         match expr {
-            Expr::Unary(_) => self.fold_unary(expr),
+            Expr::Unary(_) => {
+                self.fold_unary(expr);
+            }
             Expr::Bin(_) => self.fold_bin(expr),
             Expr::Member(_) => self.fold_member_expr(expr),
 
@@ -1433,9 +1435,7 @@ impl VisitMut for SimplifyExpr {
         self.is_arg_of_update = old_is_arg_of_update;
         self.is_modifying = old_is_modifying;
 
-        if cfg!(debug_assertions) {
-            s.visit_with(&mut AssertValid);
-        }
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
