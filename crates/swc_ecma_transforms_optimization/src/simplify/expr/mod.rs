@@ -1182,7 +1182,17 @@ impl VisitMut for SimplifyExpr {
                     }
                 }
                 // Preserve `this`
-                Expr::Member(..) => {}
+                Expr::Member(MemberExpr { obj, .. }) => match &**obj {
+                    Expr::Paren(..)
+                    | Expr::Seq(..)
+                    | Expr::Unary(..)
+                    | Expr::Bin(..)
+                    | Expr::Await(..)
+                    | Expr::Yield(..) => {}
+                    _ => {
+                        e.visit_mut_with(self);
+                    }
+                },
                 _ => {
                     e.visit_mut_with(self);
                 }
