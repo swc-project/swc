@@ -92,6 +92,15 @@ jobs:
           sharedKey: cargo-test-${{ runner.os }}
           cache-on-failure: true
 
+      - name: Cargo Target Cache
+        uses: actions/cache@v3
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.toml') }}
+            ${{ runner.os }}-cargo-test
+
       - name: Install nextest
         uses: taiki-e/install-action@nextest
 
