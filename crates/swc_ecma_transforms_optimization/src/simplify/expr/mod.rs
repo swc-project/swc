@@ -106,11 +106,21 @@ impl SimplifyExpr {
                 sym: js_word!("length"),
                 ..
             }) => KnownOp::Len,
-            MemberProp::Ident(Ident { sym, .. }) => KnownOp::IndexStr(sym.clone()),
+            MemberProp::Ident(Ident { sym, .. }) => {
+                if !self.in_callee {
+                    KnownOp::IndexStr(sym.clone())
+                } else {
+                    return;
+                }
+            }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                    if value.fract() == 0.0 {
-                        KnownOp::Index(*value as _)
+                if !self.in_callee {
+                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                        if value.fract() == 0.0 {
+                            KnownOp::Index(*value as _)
+                        } else {
+                            return;
+                        }
                     } else {
                         return;
                     }
@@ -1181,14 +1191,17 @@ impl VisitMut for SimplifyExpr {
                         seq.visit_mut_with(self);
                     }
                 }
+
                 _ => {
                     e.visit_mut_with(self);
                 }
             },
         }
-        self.in_callee = old_in_callee;
 
+        self.in_callee = false;
         n.args.visit_mut_with(self);
+
+        self.in_callee = old_in_callee;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
@@ -1370,7 +1383,10 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
+        let old_in_callee = self.in_callee;
+        self.in_callee = false;
         p.visit_mut_children_with(self);
+        self.in_callee = old_in_callee;
 
         if let Pat::Assign(a) = p {
             if a.right.is_undefined()
@@ -1395,7 +1411,18 @@ impl VisitMut for SimplifyExpr {
             return;
         }
 
-        e.visit_mut_children_with(self);
+        let old_in_callee = self.in_callee;
+        let len = e.exprs.len();
+        for (idx, e) in e.exprs.iter_mut().enumerate() {
+            if idx == len - 1 {
+                self.in_callee = old_in_callee;
+            } else {
+                self.in_callee = false;
+            }
+
+            e.visit_mut_with(self);
+        }
+        self.in_callee = old_in_callee;
 
         let len = e.exprs.len();
 
