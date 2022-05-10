@@ -162,6 +162,8 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
+    in_with_stmt: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -2843,6 +2845,19 @@ where
                 ..self.ctx
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                in_with_stmt: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
 
