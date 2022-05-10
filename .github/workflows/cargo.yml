@@ -91,14 +91,17 @@ jobs:
         run: mkdir -p target
 
       - name: Gather Cargo metadata
+        shell: bash
         run: cargo metadata --format-version=1 --all-features > target/cargo-metadata.json
 
       - name: Build tests and save binaries metadata
+        shell: bash
         run: |
           cargo nextest list --list-type binaries-only \
             --message-format json > target/binaries-metadata.json
 
       - name: Archive target directory
+        shell: bash
         run: tar -czf test-bins.tar.gz target
 
       - name: Upload archive to workflow
