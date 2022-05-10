@@ -138,6 +138,13 @@ jobs:
           node-version: "16"
           cache: "yarn"
 
+      # We need this because plugin test builds a rust library
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          target: wasm32-wasi
+
       - run: mkdir -p ~/.cargo/bin
 
       - name: Install nextest
@@ -156,6 +163,36 @@ jobs:
             --binaries-metadata test-bins/target/binaries-metadata.json \
             --target-dir-remap test-bins/target \
             --partition count:${{ matrix.partition }}/15
+
+      # Required for testing the bundler
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+          # I don't want to think deeply about this
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || \
+          yarn global add jest@27 mocha || true
+
+      - name: Configure path (windows)
+        shell: bash
+        if: runner.os == 'Windows'
+        run: |
+          echo $(yarn global bin) >> $GITHUB_PATH
+
+      - name: Verify dependencies
+        shell: bash
+        run: |
+          jest -v && mocha --version
 
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
@@ -401,43 +438,6 @@ jobs:
             os: ubuntu-latest
 
     steps:
-      # We explicitly do this to cache properly.
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          target: wasm32-wasi
-
-      - uses: denoland/setup-deno@v1
-        if: matrix.settings.crate == 'swc_bundler'
-        with:
-          deno-version: v1.x
-
-      - name: Install node dependencies
-        shell: bash
-        run: |
-          yarn
-          # I don't want to think deeply about this
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || true
-
-      - name: Configure path (windows)
-        shell: bash
-        if: runner.os == 'Windows'
-        run: |
-          echo $(yarn global bin) >> $GITHUB_PATH
-
-      - name: Verify dependencies
-        shell: bash
-        run: |
-          jest -v && mocha --version
-
       - name: Run cargo test
         run: |
           jest -v && mocha --version
