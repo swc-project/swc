@@ -41,6 +41,8 @@ where
     wr: W,
     config: CodegenConfig,
     ctx: Ctx,
+    // For legacy `<plaintext>`
+    is_plaintext: bool,
 }
 
 impl<W> CodeGenerator<W>
@@ -52,6 +54,7 @@ where
             wr,
             config,
             ctx: Default::default(),
+            is_plaintext: false,
         }
     }
 
@@ -173,13 +176,13 @@ where
             return Ok(());
         }
 
-        let is_plaintext = matches!(&*n.tag_name, "plaintext");
+        self.is_plaintext = matches!(&*n.tag_name, "plaintext");
 
         if !n.children.is_empty() {
             let skip_escape_text = match &*n.tag_name {
                 "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
                 "noscript" => self.config.scripting_enabled,
-                _ if is_plaintext => true,
+                _ if self.is_plaintext => true,
                 _ => false,
             };
 
@@ -192,7 +195,7 @@ where
                 .emit_list(&n.children, ListFormat::NotDelimited)?;
         }
 
-        if is_plaintext {
+        if self.is_plaintext {
             return Ok(());
         }
 
