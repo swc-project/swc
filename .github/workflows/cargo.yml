@@ -107,7 +107,7 @@ jobs:
       - name: Upload archive to workflow
         uses: actions/upload-artifact@v3
         with:
-          name: test-bins
+          name: test-bins-${{ runner.os }}
           path: test-bins.tar.gz
 
   run-tests:
@@ -156,10 +156,12 @@ jobs:
       - name: Download archive
         uses: actions/download-artifact@v3
         with:
-          name: test-bins
+          name: test-bins--${{ runner.os }}
+
       # This example extracts artifacts to "build-artifacts/target" to demonstrate target-dir remapping.
       - name: Extract artifacts
         run: tar -xf test-bins.tar.gz --one-top-level=test-bins
+
       - name: Run tests
         run: |
           ~/.cargo/bin/cargo-nextest nextest run --cargo-metadata test-bins/target/cargo-metadata.json \
