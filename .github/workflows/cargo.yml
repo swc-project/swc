@@ -84,6 +84,8 @@ jobs:
 
       - uses: actions-rs/toolchain@v1
 
+      - uses: Swatinem/rust-cache@v1
+
       - name: Install nextest
         uses: taiki-e/install-action@nextest
 
