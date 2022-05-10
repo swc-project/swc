@@ -15,19 +15,13 @@ use swc_html_parser::{parse_file, parser::ParserConfig};
 use swc_html_visit::{VisitMut, VisitMutWith};
 use testing::{assert_eq, run_test2, NormalizedOutput};
 
-fn print(input: &Path, config: Option<BasicHtmlWriterConfig>, minify: bool) {
+fn print(
+    input: &Path,
+    parser_config: Option<ParserConfig>,
+    writer_config: Option<BasicHtmlWriterConfig>,
+    minify: bool,
+) {
     let dir = input.parent().unwrap();
-    // let map = if minify {
-    //     dir.join(format!(
-    //         "output.min.{}.map",
-    //         input.extension().unwrap().to_string_lossy()
-    //     ))
-    // } else {
-    //     dir.join(format!(
-    //         "output.{}.map",
-    //         input.extension().unwrap().to_string_lossy()
-    //     ))
-    // };
     let output = if minify {
         dir.join(format!(
             "output.min.{}",
@@ -40,46 +34,29 @@ fn print(input: &Path, config: Option<BasicHtmlWriterConfig>, minify: bool) {
         ))
     };
 
+    let parser_config = match parser_config {
+        Some(parser_config) => parser_config,
+        _ => ParserConfig::default(),
+    };
+    let writer_config = match writer_config {
+        Some(writer_config) => writer_config,
+        _ => BasicHtmlWriterConfig::default(),
+    };
+
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
         let mut errors = vec![];
-        let mut document: Document = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut document: Document = parse_file(&fm, parser_config, &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
         }
 
         let mut html_str = String::new();
-        // let mut src_map_buf = vec![];
+        let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
+        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
 
-        {
-            let config = match config {
-                Some(config) => config,
-                _ => BasicHtmlWriterConfig::default(),
-            };
-            let wr = BasicHtmlWriter::new(
-                &mut html_str,
-                None, // Some(&mut src_map_buf),
-                config,
-            );
-
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
-
-            gen.emit(&document).unwrap();
-        }
-
-        // let source_map = cm.build_source_map(&mut src_map_buf);
-        // let mut source_map_output: Vec<u8> = vec![];
-        // source_map.to_writer(&mut source_map_output).unwrap();
-        // let str_source_map_output = String::from_utf8_lossy(&source_map_output);
-        // std::fs::write(map, &*str_source_map_output).expect("Unable to write file");
+        gen.emit(&document).unwrap();
 
         let fm_output = cm.load_file(&output).unwrap();
 
@@ -88,19 +65,13 @@ fn print(input: &Path, config: Option<BasicHtmlWriterConfig>, minify: bool) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut document_output: Document = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut document_output: Document = parse_file(&fm_output, parser_config, &mut errors)
+            .map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
-        for err in take(&mut errors) {
-            err.to_diagnostics(&handler).emit();
+        for error in take(&mut errors) {
+            error.to_diagnostics(&handler).emit();
         }
 
         document.visit_mut_with(&mut NormalizeTest);
@@ -113,49 +84,52 @@ fn print(input: &Path, config: Option<BasicHtmlWriterConfig>, minify: bool) {
     .unwrap();
 }
 
-fn verify(input: &Path) {
+fn verify(
+    input: &Path,
+    parser_config: Option<ParserConfig>,
+    writer_config: Option<BasicHtmlWriterConfig>,
+    ignore_errors: bool,
+) {
+    let parser_config = match parser_config {
+        Some(parser_config) => parser_config,
+        _ => ParserConfig::default(),
+    };
+    let writer_config = match writer_config {
+        Some(writer_config) => writer_config,
+        _ => BasicHtmlWriterConfig::default(),
+    };
+
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
-        let mut document: Document = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut document: Document =
+            parse_file(&fm, parser_config, &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
-        for err in take(&mut errors) {
-            err.to_diagnostics(&handler).emit();
+        if !ignore_errors {
+            for err in take(&mut errors) {
+                err.to_diagnostics(&handler).emit();
+            }
         }
 
         let mut html_str = String::new();
+        let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
+        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-        {
-            let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
-
-            gen.emit(&document).unwrap();
-        }
+        gen.emit(&document).unwrap();
 
         let new_fm = cm.new_source_file(FileName::Anon, html_str);
         let mut parsed_errors = vec![];
-        let mut parsed: Document = parse_file(
-            &new_fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut parsed_errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut parsed: Document =
+            parse_file(&new_fm, parser_config, &mut parsed_errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
-        for err in parsed_errors {
-            err.to_diagnostics(&handler).emit();
+        if !ignore_errors {
+            for err in parsed_errors {
+                err.to_diagnostics(&handler).emit();
+            }
         }
 
         document.visit_mut_with(&mut DropSpan);
@@ -203,16 +177,17 @@ impl VisitMut for NormalizeTest {
     }
 }
 
-#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/fixture/**/input.html")]
 fn test_fixture(input: PathBuf) {
-    print(&input, None, false);
-    print(&input, None, true);
+    print(&input, None, None, false);
+    print(&input, None, None, true);
 }
 
-#[testing::fixture("tests/options/indent_type/**/*.html")]
+#[testing::fixture("tests/options/indent_type/**/input.html")]
 fn test_indent_type_option(input: PathBuf) {
     print(
         &input,
+        None,
         Some(BasicHtmlWriterConfig {
             indent_type: IndentType::Tab,
             indent_width: 2,
@@ -223,7 +198,16 @@ fn test_indent_type_option(input: PathBuf) {
 }
 
 #[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
+fn parser_verify(input: PathBuf) {
+    verify(&input, None, None, false);
+}
+
+#[testing::fixture("../swc_html_parser/tests/recovery/**/*.html")]
+fn parser_recovery_verify(input: PathBuf) {
+    verify(&input, None, None, true);
+}
+
 #[testing::fixture("../swc_html_parser/tests/html5lib-tests-fixture/**/*.html")]
-fn verify_parser(input: PathBuf) {
-    verify(&input);
+fn html5lib_tests_verify(input: PathBuf) {
+    verify(&input, None, None, true);
 }
