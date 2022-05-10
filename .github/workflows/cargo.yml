@@ -87,6 +87,7 @@ jobs:
       - uses: Swatinem/rust-cache@v1
         with:
           sharedKey: cargo-test-${{ runner.os }}
+          cache-on-failure: true
 
       - name: Install nextest
         uses: taiki-e/install-action@nextest
