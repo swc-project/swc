@@ -5,7 +5,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::Span;
+use swc_common::{FileName, Span};
 use swc_html_ast::*;
 use swc_html_codegen::{
     writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig, IndentType, LineFeed},
@@ -112,33 +112,6 @@ fn run(input: &Path, minify: bool) {
     .unwrap();
 }
 
-struct NormalizeTest;
-
-impl VisitMut for NormalizeTest {
-    fn visit_mut_element(&mut self, n: &mut Element) {
-        n.visit_mut_children_with(self);
-
-        if &*n.tag_name == "body" {
-            if let Some(last) = n.children.last_mut() {
-                match last {
-                    Child::Text(text) => {
-                        // Drop value from the last `Text` node because characters after `</body>`
-                        // moved to body tag
-                        text.value = "".into();
-                    }
-                    _ => {
-                        unreachable!();
-                    }
-                }
-            }
-        }
-    }
-
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-}
-
 #[testing::fixture("tests/fixture/**/input.html")]
 fn html(input: PathBuf) {
     run(&input, false);
@@ -224,9 +197,100 @@ fn indent_type(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
+fn parser_test(input: PathBuf) {
+    eprintln!("{}", input.display());
+
+    testing::run_test2(false, |cm, handler| {
+        let fm = cm.load_file(&input).unwrap();
+
+        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
+
+        let fm_output = cm.load_file(&input).unwrap();
+        let mut errors = vec![];
+        let mut document: Document = parse_file(
+            &fm_output,
+            ParserConfig {
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
+
+        for err in take(&mut errors) {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        let mut html_str = String::new();
+
+        {
+            let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
+            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+
+            gen.emit(&document).unwrap();
+        }
+
+        eprintln!("==== ==== Codegen ==== ====\n{}\n", html_str);
+
+        let new_fm = cm.new_source_file(FileName::Anon, html_str);
+        let mut parsed_errors = vec![];
+        let mut parsed: Document = parse_file(
+            &new_fm,
+            ParserConfig {
+                ..Default::default()
+            },
+            &mut parsed_errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
+
+        for err in parsed_errors {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        document.visit_mut_with(&mut DropSpan);
+        parsed.visit_mut_with(&mut DropSpan);
+
+        assert_eq!(document, parsed);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 struct DropSpan;
 
 impl VisitMut for DropSpan {
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
+    }
+}
+
+struct NormalizeTest;
+
+impl VisitMut for NormalizeTest {
+    fn visit_mut_element(&mut self, n: &mut Element) {
+        n.visit_mut_children_with(self);
+
+        if &*n.tag_name == "body" {
+            if let Some(last) = n.children.last_mut() {
+                match last {
+                    Child::Text(text) => {
+                        // Drop value from the last `Text` node because characters after `</body>`
+                        // moved to body tag
+                        text.value = "".into();
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+            }
+        }
+    }
+
     fn visit_mut_span(&mut self, n: &mut Span) {
         *n = Default::default()
     }
