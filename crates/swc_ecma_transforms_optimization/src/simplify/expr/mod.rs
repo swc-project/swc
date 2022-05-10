@@ -1181,6 +1181,8 @@ impl VisitMut for SimplifyExpr {
                         seq.visit_mut_with(self);
                     }
                 }
+                // Preserve `this`
+                Expr::Member(..) => {}
                 _ => {
                     e.visit_mut_with(self);
                 }
