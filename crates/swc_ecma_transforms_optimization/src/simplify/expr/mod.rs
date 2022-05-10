@@ -1213,9 +1213,18 @@ impl VisitMut for SimplifyExpr {
         match expr {
             Expr::Unary(_) => {
                 self.fold_unary(expr);
+                debug_assert_valid(expr);
             }
-            Expr::Bin(_) => self.fold_bin(expr),
-            Expr::Member(_) => self.fold_member_expr(expr),
+            Expr::Bin(_) => {
+                self.fold_bin(expr);
+
+                debug_assert_valid(expr);
+            }
+            Expr::Member(_) => {
+                self.fold_member_expr(expr);
+
+                debug_assert_valid(expr);
+            }
 
             Expr::Cond(CondExpr {
                 span,
