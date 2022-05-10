@@ -5,6 +5,9 @@
 
 
 
+- **(es/fixer)** Handle `new yield` (#4598) ([d611d54](https://github.com/swc-project/swc/commit/d611d543eaff2a017c9742137a4594835aeb67f4))
+
+
 - **(es/minifier)** Fix switches (#4595) ([2ab7594](https://github.com/swc-project/swc/commit/2ab7594b4abf72c6e5d6da49b2c08e9faac44ffb))
 
 
