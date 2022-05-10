@@ -120,6 +120,44 @@ fn test_recovery(input: PathBuf, config: ParserConfig) {
     stderr.compare_to_file(&stderr_path).unwrap();
 }
 
+fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = testing::run_test2(false, |cm, handler| {
+        // Type annotation
+        if false {
+            return Ok(());
+        }
+
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
+
+        let document: PResult<Document> = parser.parse_document();
+
+        match document {
+            Ok(document) => {
+                document.visit_with(&mut SpanVisualizer { handler: &handler });
+
+                Err(())
+            }
+            Err(err) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
+            }
+        }
+    })
+    .unwrap_err();
+
+    output
+        .compare_to_file(&dir.join("span.rust-debug"))
+        .unwrap();
+}
+
 struct SpanVisualizer<'a> {
     handler: &'a Handler,
 }
@@ -160,42 +198,168 @@ impl Visit for SpanVisualizer<'_> {
     }
 }
 
-fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
-    let dir = input.parent().unwrap().to_path_buf();
+struct DomVisualizer<'a> {
+    dom_buf: &'a mut String,
+    indent: usize,
+}
 
-    let output = testing::run_test2(false, |cm, handler| {
-        // Type annotation
-        if false {
-            return Ok(());
+impl DomVisualizer<'_> {
+    fn get_ident(&self) -> String {
+        let mut indent = String::new();
+
+        indent.push_str("| ");
+        indent.push_str(&"  ".repeat(self.indent));
+
+        indent
+    }
+}
+
+impl VisitMut for DomVisualizer<'_> {
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
+        let mut document_type = String::new();
+
+        document_type.push_str(&self.get_ident());
+        document_type.push_str("<!DOCTYPE ");
+
+        if let Some(name) = &n.name {
+            document_type.push_str(name);
         }
 
-        let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
-        let mut parser = Parser::new(lexer, config);
+        if let Some(public_id) = &n.public_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(public_id);
+            document_type.push('"');
 
-        let document: PResult<Document> = parser.parse_document();
-
-        match document {
-            Ok(document) => {
-                document.visit_with(&mut SpanVisualizer { handler: &handler });
-
-                Err(())
+            if let Some(system_id) = &n.system_id {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push_str(system_id);
+                document_type.push('"');
+            } else {
+                document_type.push(' ');
+                document_type.push('"');
+                document_type.push('"');
             }
-            Err(err) => {
-                let mut d = err.to_diagnostics(&handler);
-
-                d.note(&format!("current token = {}", parser.dump_cur()));
-                d.emit();
-
-                panic!();
-            }
+        } else if let Some(system_id) = &n.system_id {
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push('"');
+            document_type.push(' ');
+            document_type.push('"');
+            document_type.push_str(system_id);
+            document_type.push('"');
         }
-    })
-    .unwrap_err();
 
-    output
-        .compare_to_file(&dir.join("span.rust-debug"))
-        .unwrap();
+        document_type.push('>');
+        document_type.push('\n');
+
+        self.dom_buf.push_str(&document_type);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_element(&mut self, n: &mut Element) {
+        let mut element = String::new();
+
+        element.push_str(&self.get_ident());
+        element.push('<');
+
+        match n.namespace {
+            Namespace::SVG => {
+                element.push_str("svg ");
+            }
+            Namespace::MATHML => {
+                element.push_str("math ");
+            }
+            _ => {}
+        }
+
+        element.push_str(&n.tag_name);
+        element.push('>');
+        element.push('\n');
+
+        let is_template = n.namespace == Namespace::HTML && &*n.tag_name == "template";
+
+        if is_template {
+            self.indent += 1;
+
+            element.push_str(&self.get_ident());
+            element.push_str("content");
+            element.push('\n');
+        }
+
+        n.attributes
+            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
+        self.dom_buf.push_str(&element);
+
+        let old_indent = self.indent;
+
+        self.indent += 1;
+
+        n.visit_mut_children_with(self);
+
+        self.indent = old_indent;
+
+        if is_template {
+            self.indent -= 1;
+        }
+    }
+
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        let mut attribute = String::new();
+
+        attribute.push_str(&self.get_ident());
+
+        if let Some(prefix) = &n.prefix {
+            attribute.push_str(prefix);
+            attribute.push(' ');
+        }
+
+        attribute.push_str(&n.name);
+        attribute.push('=');
+        attribute.push('"');
+
+        if let Some(value) = &n.value {
+            attribute.push_str(value);
+        }
+
+        attribute.push('"');
+        attribute.push('\n');
+
+        self.dom_buf.push_str(&attribute);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_text(&mut self, n: &mut Text) {
+        let mut text = String::new();
+
+        text.push_str(&self.get_ident());
+        text.push('"');
+        text.push_str(&n.value);
+        text.push('"');
+        text.push('\n');
+
+        self.dom_buf.push_str(&text);
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        let mut comment = String::new();
+
+        comment.push_str(&self.get_ident());
+        comment.push_str("<!-- ");
+        comment.push_str(&n.data);
+        comment.push_str(" -->");
+        comment.push('\n');
+
+        self.dom_buf.push_str(&comment);
+
+        n.visit_mut_children_with(self);
+    }
 }
 
 #[testing::fixture("tests/fixture/**/*.html")]
@@ -228,6 +392,9 @@ fn span_visualizer(input: PathBuf) {
         },
     )
 }
+
+// TODO add dom visualizer for fixtures and recovery tests
+// TODO add span visualizer for html5test_lib tests
 
 fn unescape(s: &str) -> Option<String> {
     let mut out = String::with_capacity(s.len());
@@ -752,170 +919,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
             assert_eq!(actual, expected);
         }
-    }
-}
-
-struct DomVisualizer<'a> {
-    dom_buf: &'a mut String,
-    indent: usize,
-}
-
-impl DomVisualizer<'_> {
-    fn get_ident(&self) -> String {
-        let mut indent = String::new();
-
-        indent.push_str("| ");
-        indent.push_str(&"  ".repeat(self.indent));
-
-        indent
-    }
-}
-
-impl VisitMut for DomVisualizer<'_> {
-    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
-        let mut document_type = String::new();
-
-        document_type.push_str(&self.get_ident());
-        document_type.push_str("<!DOCTYPE ");
-
-        if let Some(name) = &n.name {
-            document_type.push_str(name);
-        }
-
-        if let Some(public_id) = &n.public_id {
-            document_type.push(' ');
-            document_type.push('"');
-            document_type.push_str(public_id);
-            document_type.push('"');
-
-            if let Some(system_id) = &n.system_id {
-                document_type.push(' ');
-                document_type.push('"');
-                document_type.push_str(system_id);
-                document_type.push('"');
-            } else {
-                document_type.push(' ');
-                document_type.push('"');
-                document_type.push('"');
-            }
-        } else if let Some(system_id) = &n.system_id {
-            document_type.push(' ');
-            document_type.push('"');
-            document_type.push('"');
-            document_type.push(' ');
-            document_type.push('"');
-            document_type.push_str(system_id);
-            document_type.push('"');
-        }
-
-        document_type.push('>');
-        document_type.push('\n');
-
-        self.dom_buf.push_str(&document_type);
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_element(&mut self, n: &mut Element) {
-        let mut element = String::new();
-
-        element.push_str(&self.get_ident());
-        element.push('<');
-
-        match n.namespace {
-            Namespace::SVG => {
-                element.push_str("svg ");
-            }
-            Namespace::MATHML => {
-                element.push_str("math ");
-            }
-            _ => {}
-        }
-
-        element.push_str(&n.tag_name);
-        element.push('>');
-        element.push('\n');
-
-        let is_template = n.namespace == Namespace::HTML && &*n.tag_name == "template";
-
-        if is_template {
-            self.indent += 1;
-
-            element.push_str(&self.get_ident());
-            element.push_str("content");
-            element.push('\n');
-        }
-
-        n.attributes
-            .sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
-
-        self.dom_buf.push_str(&element);
-
-        let old_indent = self.indent;
-
-        self.indent += 1;
-
-        n.visit_mut_children_with(self);
-
-        self.indent = old_indent;
-
-        if is_template {
-            self.indent -= 1;
-        }
-    }
-
-    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
-        let mut attribute = String::new();
-
-        attribute.push_str(&self.get_ident());
-
-        if let Some(prefix) = &n.prefix {
-            attribute.push_str(prefix);
-            attribute.push(' ');
-        }
-
-        attribute.push_str(&n.name);
-        attribute.push('=');
-        attribute.push('"');
-
-        if let Some(value) = &n.value {
-            attribute.push_str(value);
-        }
-
-        attribute.push('"');
-        attribute.push('\n');
-
-        self.dom_buf.push_str(&attribute);
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_text(&mut self, n: &mut Text) {
-        let mut text = String::new();
-
-        text.push_str(&self.get_ident());
-        text.push('"');
-        text.push_str(&n.value);
-        text.push('"');
-        text.push('\n');
-
-        self.dom_buf.push_str(&text);
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_comment(&mut self, n: &mut Comment) {
-        let mut comment = String::new();
-
-        comment.push_str(&self.get_ident());
-        comment.push_str("<!-- ");
-        comment.push_str(&n.data);
-        comment.push_str(" -->");
-        comment.push('\n');
-
-        self.dom_buf.push_str(&comment);
-
-        n.visit_mut_children_with(self);
     }
 }
 
