@@ -785,6 +785,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "dbg-swc"
+version = "0.11.0"
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
