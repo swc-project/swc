@@ -173,12 +173,13 @@ where
             return Ok(());
         }
 
+        let is_plaintext = matches!(&*n.tag_name, "plaintext");
+
         if !n.children.is_empty() {
             let skip_escape_text = match &*n.tag_name {
-                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => {
-                    true
-                }
+                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
                 "noscript" => self.config.scripting_enabled,
+                _ if is_plaintext => true,
                 _ => false,
             };
 
@@ -189,6 +190,10 @@ where
 
             self.with_ctx(ctx)
                 .emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
+
+        if is_plaintext {
+            return Ok(());
         }
 
         write_raw!(self, "<");
