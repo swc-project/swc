@@ -63,7 +63,7 @@ where
                         var_ids.extend(case.cons.extract_var_ids())
                     }
                 } else {
-                    if !idents_used_by(test).is_empty() {
+                    if !test.is_ident() && !idents_used_by(test).is_empty() {
                         prevent_exact = true;
                     }
 
