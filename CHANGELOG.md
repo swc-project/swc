@@ -25,6 +25,12 @@
 
 - **(es/hygiene)** Drop syntax context (#4594) ([6ac4a23](https://github.com/swc-project/swc/commit/6ac4a23aa2fdf3854f23760cec70b36249df4cdc))
 
+### Testing
+
+
+
+- **(es/minifier)** Postpone tests which can be verified by execution tests (#4600) ([6918e3a](https://github.com/swc-project/swc/commit/6918e3a4fb7ad375dfaad3da6d9e21931bde987b))
+
 ## [1.2.181] - 2022-05-09
 
 ### Bug Fixes
