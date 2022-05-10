@@ -121,7 +121,21 @@ jobs:
     needs: build-test-binaries
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Handle line endings
+        shell: bash
+        if: runner.os == 'Windows'
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
 
       - run: mkdir -p ~/.cargo/bin
 
@@ -386,23 +400,6 @@ jobs:
             os: ubuntu-latest
 
     steps:
-      - name: Handle line endings
-        shell: bash
-        if: runner.os == 'Windows'
-        run: |
-          git config --system core.autocrlf false
-          git config --system core.eol lf
-
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      # Source map format
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          cache: "yarn"
-
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1
