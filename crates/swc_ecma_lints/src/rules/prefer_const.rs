@@ -103,10 +103,8 @@ impl PreferConst {
                 self.collect_decl_pat(initialized, left.as_ref());
             }
             Pat::Array(ArrayPat { elems, .. }) => {
-                elems.iter().for_each(|elem| {
-                    if let Some(elem) = elem {
-                        self.collect_decl_pat(initialized, elem);
-                    }
+                elems.iter().flatten().for_each(|elem| {
+                    self.collect_decl_pat(initialized, elem);
                 });
             }
             Pat::Object(ObjectPat { props, .. }) => {
