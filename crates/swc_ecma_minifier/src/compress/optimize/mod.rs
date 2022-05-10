@@ -9,8 +9,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    extract_var_ids, ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty,
-    ModuleItemLike, StmtLike, Type, Value,
+    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
@@ -28,7 +28,10 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
+    util::{
+        contains_eval, contains_leaping_continue_with_label, contains_leaping_yield, make_number,
+        ExprOptExt, ModuleItemExt,
+    },
 };
 
 mod arguments;
@@ -98,6 +101,8 @@ struct Ctx {
     #[allow(dead_code)]
     has_const_ann: bool,
 
+    dont_use_prepend_nor_append: bool,
+
     in_bool_ctx: bool,
 
     in_asm: bool,
@@ -156,6 +161,8 @@ struct Ctx {
     is_nested_if_return_merging: bool,
 
     dont_invoke_iife: bool,
+
+    in_with_stmt: bool,
 
     /// Current scope.
     scope: SyntaxContext,
@@ -777,7 +784,7 @@ where
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
                             if !usage.reassigned() && usage.pure_fn {
                                 self.changed = true;
-                                report_change!("Reducing funcion call to a variable");
+                                report_change!("Reducing function call to a variable");
 
                                 let args = args
                                     .take()
@@ -1297,10 +1304,11 @@ where
         }
     }
 
-    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool) {
+    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool, allow_fn_decl: bool) {
         match s {
             Stmt::Block(bs) => {
                 if bs.stmts.is_empty() {
+                    report_change!("Converting empty block to empty statement");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -1308,6 +1316,7 @@ where
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
                     if bs.span.has_mark(self.marks.fake_block) {
+                        report_change!("Unwrapping a fake block");
                         *s = bs.stmts.take().into_iter().next().unwrap();
                         return;
                     }
@@ -1351,6 +1360,7 @@ where
                             self.changed = true;
                             report_change!("optimizer: Removing empty block");
                             *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            return;
                         }
                     }
                 }
@@ -1362,7 +1372,7 @@ where
                             report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
-                        Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
+                        Stmt::Decl(Decl::Fn(..)) if allow_fn_decl && !self.ctx.in_strict => {
                             *s = bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
@@ -1373,7 +1383,7 @@ where
             }
 
             Stmt::If(s) => {
-                self.try_removing_block(&mut s.cons, true);
+                self.try_removing_block(&mut s.cons, true, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
                     Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
@@ -1381,21 +1391,21 @@ where
                 };
                 if can_remove_block_of_alt {
                     if let Some(alt) = &mut s.alt {
-                        self.try_removing_block(alt, true);
+                        self.try_removing_block(alt, true, false);
                     }
                 }
             }
 
             Stmt::ForIn(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             Stmt::For(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             Stmt::ForOf(s) => {
-                self.try_removing_block(&mut s.body, true);
+                self.try_removing_block(&mut s.body, true, false);
             }
 
             _ => {}
@@ -1646,7 +1656,9 @@ where
 
     fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
         if !self.options.keep_classnames {
-            self.remove_name_if_not_used(&mut e.ident);
+            if e.ident.is_some() && !contains_eval(&e.class, true) {
+                self.remove_name_if_not_used(&mut e.ident);
+            }
         }
 
         e.visit_mut_children_with(self);
@@ -1921,7 +1933,9 @@ where
         }
 
         if !self.options.keep_fnames {
-            self.remove_name_if_not_used(&mut e.ident);
+            if e.ident.is_some() && !contains_eval(&e.function, true) {
+                self.remove_name_if_not_used(&mut e.ident);
+            }
         }
 
         e.visit_mut_children_with(self);
@@ -2065,7 +2079,16 @@ where
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let old_label = self.label.take();
         self.label = Some(n.label.to_id());
-        n.visit_mut_children_with(self);
+
+        let ctx = Ctx {
+            dont_use_prepend_nor_append: contains_leaping_continue_with_label(
+                &n.body,
+                n.label.to_id(),
+            ),
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.label.is_none() {
             report_change!("Removing label `{}`", n.label);
@@ -2352,13 +2375,13 @@ where
 
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
-        self.try_removing_block(s, false);
+        self.try_removing_block(s, false, false);
 
         // These methods may modify prepend_stmts or append_stmts.
         self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
-        self.try_removing_block(s, false);
+        self.try_removing_block(s, false, false);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
@@ -2525,77 +2548,6 @@ where
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
-        }
-
-        if self.options.dead_code {
-            // copy from [Remover]
-            // TODO: make it better
-            let orig_len = stmts.len();
-
-            let mut new_stmts = Vec::with_capacity(stmts.len());
-
-            let mut iter = stmts.take().into_iter();
-            while let Some(stmt) = iter.next() {
-                let stmt = match stmt {
-                    // Remove empty statements.
-                    Stmt::Empty(..) => continue,
-
-                    // Control flow
-                    Stmt::Throw(..)
-                    | Stmt::Return { .. }
-                    | Stmt::Continue { .. }
-                    | Stmt::Break { .. } => {
-                        // Hoist function and `var` declarations above return.
-                        let mut decls = vec![];
-                        let mut hoisted_fns = vec![];
-                        for t in iter {
-                            match t.try_into_stmt() {
-                                Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                    hoisted_fns.push(Stmt::Decl(Decl::Fn(f)));
-                                }
-                                Ok(t) => {
-                                    let ids =
-                                        extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
-                                            span: i.span,
-                                            name: i.into(),
-                                            init: None,
-                                            definite: false,
-                                        });
-                                    decls.extend(ids);
-                                }
-                                Err(item) => new_stmts.push(item),
-                            }
-                        }
-
-                        if !decls.is_empty() {
-                            new_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls,
-                                declare: false,
-                            })));
-                        }
-
-                        new_stmts.push(stmt);
-                        new_stmts.extend(hoisted_fns);
-
-                        *stmts = new_stmts;
-                        if stmts.len() != orig_len {
-                            self.changed = true;
-
-                            report_change!("Dropping statements after a control keyword");
-                        }
-
-                        return;
-                    }
-
-                    _ => stmt,
-                };
-
-                new_stmts.push(stmt);
-            }
-
-            *stmts = new_stmts;
         }
     }
 
@@ -2780,7 +2732,7 @@ where
 
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
-        if !uses_eval {
+        if !uses_eval && !self.ctx.dont_use_prepend_nor_append {
             for v in vars.iter_mut() {
                 if v.init
                     .as_deref()
@@ -2893,6 +2845,19 @@ where
                 ..self.ctx
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                in_with_stmt: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
 

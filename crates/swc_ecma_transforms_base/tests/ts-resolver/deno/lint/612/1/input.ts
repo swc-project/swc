@@ -1,6 +1,4 @@
-
-    class T {
-        #foo(x) {}
-        #bar(x) {}
-    }
-  
+class T {
+    #foo(x) {}
+    #bar(x) {}
+}

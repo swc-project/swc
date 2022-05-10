@@ -14,7 +14,7 @@ export const obj = {
                 dataType: "script",
                 async: !1,
                 global: !1,
-                "throws": !0
+                throws: !0
             }) : jQuery.globalEval((node.text || node.textContent || node.innerHTML || "").replace(rcleanScript, "")));
             fragment = first = null;
         }

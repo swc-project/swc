@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /**
  * Extract red color out of a color integer:
  *
@@ -7,8 +7,7 @@
  * @param  {Number} color
  * @return {Number}
  */
-function red( color )
-{
+function red(color) {
     return color >> 16;
 }
 /**
@@ -19,9 +18,8 @@ function red( color )
  * @param  {Number} color
  * @return {Number}
  */
-function green( color )
-{
-    return ( color >> 8 ) & 0xFF;
+function green(color) {
+    return (color >> 8) & 0xff;
 }
 /**
  * Extract blue color out of a color integer:
@@ -31,9 +29,8 @@ function green( color )
  * @param  {Number} color
  * @return {Number}
  */
-function blue( color )
-{
-    return color & 0xFF;
+function blue(color) {
+    return color & 0xff;
 }
 /**
  * Converts an integer containing a color such as 0x00DEAD to a hex
@@ -42,11 +39,10 @@ function blue( color )
  * @param  {Number} int
  * @return {String}
  */
-function intToHex( int )
-{
-    const mask = '#000000';
-    const hex = int.toString( 16 );
-    return mask.substring( 0, 7 - hex.length ) + hex;
+function intToHex(int) {
+    const mask = "#000000";
+    const hex = int.toString(16);
+    return mask.substring(0, 7 - hex.length) + hex;
 }
 /**
  * Converts a hex string containing a color such as '#00DEAD' to
@@ -55,9 +51,8 @@ function intToHex( int )
  * @param  {Number} num
  * @return {String}
  */
-function hexToInt( hex )
-{
-    return parseInt( hex.substring( 1 ), 16 );
+function hexToInt(hex) {
+    return parseInt(hex.substring(1), 16);
 }
 module.exports = {
     red,

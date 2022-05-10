@@ -1,0 +1,9 @@
+| <html>
+|   <head>
+|   <body>
+|     <svg svg>
+|       <svg foreignObject>
+|         <div>
+|           "foo"
+|         <plaintext>
+|           "</foreignObject></svg><div>bar</div>"

@@ -1,16 +1,13 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitMutWith,
-    VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::info;
 
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
-use crate::{debug::dump, marks::Marks, option::MangleOptions};
+use crate::{debug::dump, marks::Marks, option::MangleOptions, util::contains_eval};
 
 pub(crate) fn name_mangler(options: MangleOptions, _marks: Marks) -> impl VisitMut {
     Mangler {
@@ -26,15 +23,6 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn contains_eval<N>(&self, node: &N) -> bool
-    where
-        N: VisitWith<EvalFinder>,
-    {
-        let mut v = EvalFinder { found: false };
-        node.visit_with(&mut v);
-        v.found
-    }
-
     fn get_map<N>(&self, node: &N) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<Analyzer>,
@@ -56,7 +44,7 @@ macro_rules! unit {
     ($name:ident, $T:ty) => {
         /// Only called if `eval` exists
         fn $name(&mut self, n: &mut $T) {
-            if self.contains_eval(n) {
+            if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n);
@@ -93,7 +81,7 @@ impl VisitMut for Mangler {
             info!("Before: {}", dump(&*m, true));
         }
 
-        if self.contains_eval(m) {
+        if contains_eval(m, true) {
             m.visit_mut_children_with(self);
         } else {
             let map = self.get_map(m);
@@ -107,13 +95,9 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
-        if self.contains_eval(s) {
-            return;
-        }
-
         self.preserved = idents_to_preserve(self.options.clone(), &*s);
 
-        if self.contains_eval(s) {
+        if contains_eval(s, true) {
             s.visit_mut_children_with(self);
             return;
         }
@@ -121,21 +105,5 @@ impl VisitMut for Mangler {
         let map = self.get_map(s);
 
         s.visit_mut_with(&mut rename(&map));
-    }
-}
-
-struct EvalFinder {
-    found: bool,
-}
-
-impl Visit for EvalFinder {
-    noop_visit_type!();
-
-    visit_obj_and_computed!();
-
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == js_word!("eval") {
-            self.found = true;
-        }
     }
 }

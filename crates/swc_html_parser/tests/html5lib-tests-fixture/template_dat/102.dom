@@ -1,0 +1,13 @@
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <select>
+|               <template>
+|                 content
+|                   "Foo"
+|       <caption>
+|         "A"

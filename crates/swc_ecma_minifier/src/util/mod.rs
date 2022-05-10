@@ -1,7 +1,8 @@
 use std::time::Instant;
 
+use rustc_hash::FxHashSet;
+use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, Span, Spanned, DUMMY_SP,
@@ -39,8 +40,6 @@ pub trait ModuleItemExt:
     }
 
     fn into_module_decl(self) -> Result<ModuleDecl, Stmt>;
-
-    fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
 }
 
 impl ModuleItemExt for Stmt {
@@ -54,10 +53,6 @@ impl ModuleItemExt for Stmt {
 
     fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
         Err(self)
-    }
-
-    fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
-        Some(self)
     }
 }
 
@@ -77,13 +72,6 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
-        }
-    }
-
-    fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
-        match self {
-            ModuleItem::ModuleDecl(_) => None,
-            ModuleItem::Stmt(s) => Some(s),
         }
     }
 }
@@ -208,6 +196,18 @@ pub(crate) trait SpanExt: Into<Span> {
 
 impl SpanExt for Span {}
 
+pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
+where
+    N: VisitWith<LeapFinder>,
+{
+    let mut v = LeapFinder {
+        target_label: Some(label),
+        ..Default::default()
+    };
+    n.visit_with(&mut v);
+    v.found_continue_with_label
+}
+
 pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
 where
     N: VisitWith<LeapFinder>,
@@ -220,18 +220,41 @@ where
 #[derive(Default)]
 pub(crate) struct LeapFinder {
     found_yield: bool,
+    found_continue_with_label: bool,
+    target_label: Option<Id>,
 }
 
 impl Visit for LeapFinder {
     noop_visit_type!();
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr) {
-        self.found_yield = true;
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class_method(&mut self, _: &ClassMethod) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_continue_stmt(&mut self, n: &ContinueStmt) {
+        n.visit_children_with(self);
+
+        if let Some(label) = &n.label {
+            self.found_continue_with_label |= self
+                .target_label
+                .as_ref()
+                .map_or(false, |l| *l == label.to_id());
+        }
     }
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
+    fn visit_yield_expr(&mut self, n: &YieldExpr) {
+        n.visit_children_with(self);
+
+        self.found_yield = true;
+    }
 }
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
@@ -356,7 +379,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    ids: AHashSet<Id>,
+    ids: FxHashSet<Id>,
     ignore_nested: bool,
 }
 
@@ -402,7 +425,7 @@ impl Visit for IdentUsageCollector {
 
 #[derive(Default)]
 pub(crate) struct CapturedIdCollector {
-    ids: AHashSet<Id>,
+    ids: FxHashSet<Id>,
     is_nested: bool,
 }
 
@@ -445,7 +468,7 @@ impl Visit for CapturedIdCollector {
     }
 }
 
-pub(crate) fn idents_captured_by<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<CapturedIdCollector>,
 {
@@ -457,7 +480,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -469,7 +492,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> AHashSet<Id>
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -523,5 +546,43 @@ pub fn now() -> Option<Instant> {
         None
     } else {
         Some(Instant::now())
+    }
+}
+
+pub(crate) fn contains_eval<N>(node: &N, include_with: bool) -> bool
+where
+    N: VisitWith<EvalFinder>,
+{
+    let mut v = EvalFinder {
+        found: false,
+        include_with,
+    };
+
+    node.visit_with(&mut v);
+    v.found
+}
+
+pub(crate) struct EvalFinder {
+    found: bool,
+    include_with: bool,
+}
+
+impl Visit for EvalFinder {
+    noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        if i.sym == js_word!("eval") {
+            self.found = true;
+        }
+    }
+
+    fn visit_with_stmt(&mut self, s: &WithStmt) {
+        if self.include_with {
+            self.found = true;
+        } else {
+            s.visit_children_with(self);
+        }
     }
 }

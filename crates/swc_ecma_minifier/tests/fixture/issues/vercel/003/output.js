@@ -1,5 +1,5 @@
-import { a, b } from './utils';
-'undefined' != typeof window && require('intersection-observer');
+import { a, b } from "./utils";
+"undefined" != typeof window && require("intersection-observer");
 const manager = function() {
     const c = new Map();
     function j(k) {

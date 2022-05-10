@@ -1,4 +1,3 @@
-
-for (var x in ['']) {
-    (x => 0)(x);
+for (var x in [""]) {
+    ((x) => 0)(x);
 }

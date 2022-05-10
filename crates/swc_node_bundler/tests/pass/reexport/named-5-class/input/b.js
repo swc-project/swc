@@ -1,3 +1,3 @@
-export class b { }
+export class b {}
 
-console.log('b', b);
+console.log("b", b);

@@ -4,26 +4,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ServiceError = void 0;
 var swcHelpers = require("@swc/helpers");
-var _class, _descriptor;
 const CD = ()=>{};
 const PD = ()=>{};
-let ServiceError = _class = CD(((_class = class ServiceError extends Error {
-    name = "ServiceError.BadResponse";
+let ServiceError = class ServiceError extends Error {
     constructor(...args){
         super(...args);
-        swcHelpers.initializerDefineProperty(this, "code", _descriptor, this);
+        this.code = ServiceError.Code.badResponse;
     }
-}) || _class, _descriptor = swcHelpers.applyDecoratedDescriptor(_class.prototype, "code", [
-    PD
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return ServiceError.Code.badResponse;
-    }
-}), _class)) || _class;
+    name = "ServiceError.BadResponse";
+};
 exports.ServiceError = ServiceError;
+swcHelpers.__decorate([
+    PD
+], ServiceError.prototype, "code", void 0);
+exports.ServiceError = ServiceError = swcHelpers.__decorate([
+    CD
+], ServiceError);
 (function(ServiceError1) {
     let Code;
     (function(Code) {

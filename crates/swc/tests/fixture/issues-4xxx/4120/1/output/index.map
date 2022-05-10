@@ -1,5 +1,5 @@
 {
-  "mappings": "AAQA,cAAe,CAAEA,CAAC,CARR,sFAAsF,CAQ5EC,CAAC,CALX,mJAA6J,CAKhJ,AAAC",
+  "mappings": "AAUA,cAAe,CAAEA,CAAC,CATd,sFAAsF,CAStEC,CAAC,CALjB,mJAA6J,CAK1I,AAAC",
   "names": [
     "a",
     "b"
@@ -8,7 +8,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "const a = \"\\u0591-\\u06ef\\u06fa-\\u08ff\\u200f\\ud802-\\ud803\\ud83a-\\ud83b\\ufb1d-\\ufdff\\ufe70-\\ufefc\";\n// a becomes \"\\u0591-\\u06EF\\u06FA-\\u08FF\\u200F\\\\\\0ud802-\\\\\\0ud803\\\\\\0ud83a-\\\\\\0ud83b\\uFB1D-\\uFDFF\\uFE70-\\uFEFC\"\n\nconst b = \"A-Za-z\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02b8\\u0300-\\u0590\\u0900-\\u1fff\\u200e\\u2c00-\\ud801\\ud804-\\ud839\\ud83c-\\udbff\\uf900-\\ufb1c\\ufe00-\\ufe6f\\ufefd-\\uffff\";\n// b becomes \"A-Za-z\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02B8\\u0300-\\u0590\\u0900-\\u1FFF\\u200E\\u2C00-\\\\\\0ud801\\\\\\0ud804-\\\\\\0ud839\\\\\\0ud83c-\\\\\\0udbff\\uF900-\\uFB1C\\uFE00-\\uFE6F\\uFEFD-\\uFFFF\"\n\n// ref: both strings are contained in 'google-protobuf'.\n\nexport default { a, b };"
+    "const a =\n    \"\\u0591-\\u06ef\\u06fa-\\u08ff\\u200f\\ud802-\\ud803\\ud83a-\\ud83b\\ufb1d-\\ufdff\\ufe70-\\ufefc\";\n// a becomes \"\\u0591-\\u06EF\\u06FA-\\u08FF\\u200F\\\\\\0ud802-\\\\\\0ud803\\\\\\0ud83a-\\\\\\0ud83b\\uFB1D-\\uFDFF\\uFE70-\\uFEFC\"\n\nconst b =\n    \"A-Za-z\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02b8\\u0300-\\u0590\\u0900-\\u1fff\\u200e\\u2c00-\\ud801\\ud804-\\ud839\\ud83c-\\udbff\\uf900-\\ufb1c\\ufe00-\\ufe6f\\ufefd-\\uffff\";\n// b becomes \"A-Za-z\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02B8\\u0300-\\u0590\\u0900-\\u1FFF\\u200E\\u2C00-\\\\\\0ud801\\\\\\0ud804-\\\\\\0ud839\\\\\\0ud83c-\\\\\\0udbff\\uF900-\\uFB1C\\uFE00-\\uFE6F\\uFEFD-\\uFFFF\"\n\n// ref: both strings are contained in 'google-protobuf'.\n\nexport default { a, b };\n"
   ],
   "version": 3
 }

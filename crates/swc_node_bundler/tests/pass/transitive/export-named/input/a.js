@@ -1,2 +1,2 @@
-export { foo, bar } from './common'
-export const baz = 'from a.js';
+export { foo, bar } from "./common";
+export const baz = "from a.js";

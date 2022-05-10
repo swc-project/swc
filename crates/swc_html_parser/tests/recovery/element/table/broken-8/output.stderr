@@ -1,0 +1,12 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                                                    ^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

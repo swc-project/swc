@@ -20,7 +20,7 @@ const adler32 = (adler, buf, len, pos) => {
         s2 %= 65521;
     }
 
-    return (s1 | (s2 << 16)) | 0;
+    return s1 | (s2 << 16) | 0;
 };
 
 export default adler32;

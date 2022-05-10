@@ -1,0 +1,27 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "foo"
+|       <math math>
+|         <math mtext>
+|           <i>
+|             "baz"
+|         <math annotation-xml>
+|           <svg svg>
+|             <svg desc>
+|               <b>
+|                 "eggs"
+|             <svg g>
+|               <svg foreignObject>
+|                 <p>
+|                   "spam"
+|                 <table>
+|                   <tbody>
+|                     <tr>
+|                       <td>
+|                         <img>
+|             <svg g>
+|               "quux"
+|       "bar"

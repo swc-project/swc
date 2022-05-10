@@ -1,13 +1,13 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true
-    },
-    "transform": {
-      "react": {
-        "pragma": "testPragma"
-      }
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "pragma": "testPragma"
+            }
+        }
     }
-  }
 }

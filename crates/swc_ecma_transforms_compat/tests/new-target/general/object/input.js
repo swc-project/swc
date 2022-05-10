@@ -1,11 +1,11 @@
 "use strict";
 
 const object = {
-  test() {
-    new.target;
-  },
+    test() {
+        new.target;
+    },
 
-  test2: function() {
-    new.target;
-  },
-}
+    test2: function () {
+        new.target;
+    },
+};

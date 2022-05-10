@@ -1,6 +1,6 @@
 {
-  "jsc": {
-    "externalHelpers": true,
-    "target": "es3"
-  }
+    "jsc": {
+        "externalHelpers": true,
+        "target": "es3"
+    }
 }

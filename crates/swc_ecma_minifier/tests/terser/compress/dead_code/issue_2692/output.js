@@ -1,7 +1,7 @@
 function f(a) {
-    return (a = g);
     function g() {
         return a;
     }
+    return a = g;
 }
 console.log(typeof f()());

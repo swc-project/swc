@@ -1,5 +1,5 @@
 {
-  "mappings": "CAAC,EAAE;AAAA,KAAK,CAERA,CAAC,EAAE,CAAA,GAAG;;AAENA,CAAC,EAAE,CAAC,CAAA,KAAK;AAETA,CAAC,EAAE,CAAC,CAAA,GAAG",
+  "mappings": "CAAC,EAAE,CAAC,CAAC,KAAK;AAEVA,CAAC,EAAE,CAAC,CAAC,GAAG;AAERA,CAAC,EAAE,CAAC,CAAC,KAAK;AAEVA,CAAC,EAAE,CAAC,CAAC,GAAG",
   "names": [
     "a"
   ],
@@ -7,7 +7,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "a()/*?*/\n\na()//?\n\na();/*?*/\n\na();//?\n"
+    "a(); /*?*/\n\na(); //?\n\na(); /*?*/\n\na(); //?\n"
   ],
   "version": 3
 }

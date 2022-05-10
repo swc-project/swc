@@ -1,4 +1,4 @@
-const items = []
+const items = [];
 for (const item of items) {
-    const { name, ...rest } = item
+    const { name, ...rest } = item;
 }

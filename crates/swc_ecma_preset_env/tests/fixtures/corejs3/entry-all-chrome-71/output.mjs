@@ -88,4 +88,4 @@ import "core-js/modules/esnext.weak-set.delete-all.js";
 import "core-js/modules/esnext.weak-set.from.js";
 import "core-js/modules/esnext.weak-set.of.js";
 import "core-js/modules/web.immediate.js";
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";

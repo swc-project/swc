@@ -18,7 +18,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, BindingIdent, PrivateName, TplElement,
+    BigInt, BindingIdent, TplElement,
 };
 
 #[ast_node("TsTypeAnnotation")]
@@ -101,7 +101,7 @@ pub struct TsQualifiedName {
     #[span(lo)]
     pub left: TsEntityName,
     #[span(hi)]
-    pub right: TsMemberName,
+    pub right: Ident,
 }
 
 #[ast_node]
@@ -114,18 +114,6 @@ pub enum TsEntityName {
 
     #[tag("Identifier")]
     Ident(Ident),
-}
-
-#[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[allow(variant_size_differences)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum TsMemberName {
-    #[tag("Identifier")]
-    Ident(Ident),
-
-    #[tag("PrivateName")]
-    PrivateName(PrivateName),
 }
 
 // ================

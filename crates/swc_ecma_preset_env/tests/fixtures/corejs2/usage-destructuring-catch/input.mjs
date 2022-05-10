@@ -1,3 +1,3 @@
 try {
-  a();
-} catch([b, c]) { }
+    a();
+} catch ([b, c]) {}

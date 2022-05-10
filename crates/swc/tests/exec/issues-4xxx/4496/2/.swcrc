@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "useDefineForClassFields": false
+        }
+    }
+}

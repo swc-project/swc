@@ -63,7 +63,7 @@ where
             };
 
             report_change!(
-                "collpase_vars: Decided to inline {}{:?}",
+                "collapse_vars: Decided to inline {}{:?}",
                 left.id.sym,
                 left.id.span.ctxt
             );

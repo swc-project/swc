@@ -8,5 +8,5 @@
  * This config is for the mocha test runner invoked by cargo to resolve its global setup file.
  */
 module.exports = {
-  require: require.resolve('./.mocha.setup.js')
+    require: require.resolve("./.mocha.setup.js"),
 };

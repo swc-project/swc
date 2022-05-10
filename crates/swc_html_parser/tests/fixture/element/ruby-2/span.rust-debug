@@ -1,0 +1,102 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :       ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :       ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :             ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :             ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :              ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :              ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                  ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                  ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                   ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                   ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                                      ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   :                                      ^
+   `----

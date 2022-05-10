@@ -61,32 +61,32 @@ const z = {
     tr: {
         regexp: /\u0130|\u0049|\u0049\u0307/g,
         map: {
-            İ: '\u0069',
-            I: '\u0131'
+            İ: "\u0069",
+            I: "\u0131"
         }
     },
     az: {
         regexp: /[\u0130]/g,
         map: {
-            İ: '\u0069',
-            I: '\u0131'
+            İ: "\u0069",
+            I: "\u0131"
         }
     },
     lt: {
         regexp: /[\u0049\u004A\u012E\u00CC\u00CD\u0128]/g,
         map: {
-            I: '\u0069\u0307',
-            J: '\u006A\u0307',
-            Į: '\u012F\u0307',
-            Ì: '\u0069\u0307\u0300',
-            Í: '\u0069\u0307\u0301',
-            Ĩ: '\u0069\u0307\u0303'
+            I: "\u0069\u0307",
+            J: "\u006A\u0307",
+            Į: "\u012F\u0307",
+            Ì: "\u0069\u0307\u0300",
+            Í: "\u0069\u0307\u0301",
+            Ĩ: "\u0069\u0307\u0303"
         }
     }
 };
 function A(a, b) {
     const c = b && z[b];
-    a = a == null ? '' : String(a);
+    a = a == null ? "" : String(a);
     if (c) {
         a = a.replace(c.regexp, (a)=>c.map[a]
         );
@@ -95,46 +95,46 @@ function A(a, b) {
 }
 function B(a, c, b) {
     if (a == null) {
-        return '';
+        return "";
     }
-    b = typeof b !== 'string' ? ' ' : b;
+    b = typeof b !== "string" ? " " : b;
     function d(c, a, d) {
         if (a === 0 || a === d.length - c.length) {
-            return '';
+            return "";
         }
-        return b || '';
+        return b || "";
     }
-    a = String(a).replace(w, '$1 $2').replace(x, '$1 $2').replace(y, d);
+    a = String(a).replace(w, "$1 $2").replace(x, "$1 $2").replace(y, d);
     return A(a, c);
 }
 const C = {
     tr: {
         regexp: /[\u0069]/g,
         map: {
-            i: '\u0130'
+            i: "\u0130"
         }
     },
     az: {
         regexp: /[\u0069]/g,
         map: {
-            i: '\u0130'
+            i: "\u0130"
         }
     },
     lt: {
         regexp: /[\u0069\u006A\u012F]\u0307|\u0069\u0307[\u0300\u0301\u0303]/g,
         map: {
-            i̇: '\u0049',
-            j̇: '\u004A',
-            į̇: '\u012E',
-            i̇̀: '\u00CC',
-            i̇́: '\u00CD',
-            i̇̃: '\u0128'
+            i̇: "\u0049",
+            j̇: "\u004A",
+            į̇: "\u012E",
+            i̇̀: "\u00CC",
+            i̇́: "\u00CD",
+            i̇̃: "\u0128"
         }
     }
 };
 function D(a, b) {
     const c = b && C[b];
-    a = a == null ? '' : String(a);
+    a = a == null ? "" : String(a);
     if (c) {
         a = a.replace(c.regexp, function(a) {
             return c.map[a];
@@ -145,14 +145,14 @@ function D(a, b) {
 function E(b, c, d) {
     let a = B(b, c);
     if (!d) {
-        a = a.replace(/ (?=\d)/g, '_');
+        a = a.replace(/ (?=\d)/g, "_");
     }
     return a.replace(/ (.)/g, function(b, a) {
         return D(a, c);
     });
 }
 function F(a, b) {
-    return B(a, b, '-');
+    return B(a, b, "-");
 }
 function G(g) {
     const b = [];
@@ -160,20 +160,20 @@ function G(g) {
     for (const a of g){
         if (c) {
             b.push(a);
-        } else if (a === '--') {
+        } else if (a === "--") {
             c = true;
             b.push(a);
-        } else if (a[0] === '-') {
-            const d = a[1] === '-';
-            if (a.includes('=')) {
-                const e = a.split('=');
+        } else if (a[0] === "-") {
+            const d = a[1] === "-";
+            if (a.includes("=")) {
+                const e = a.split("=");
                 const f = e.shift();
                 if (d) {
                     b.push(f);
                 } else {
                     h(f);
                 }
-                b.push(e.join('='));
+                b.push(e.join("="));
             } else if (d) {
                 b.push(a);
             } else {
@@ -185,32 +185,32 @@ function G(g) {
     }
     return b;
     function h(a) {
-        const c = a.slice(1).split('');
+        const c = a.slice(1).split("");
         if (isNaN(a[a.length - 1])) {
             c.forEach((a)=>b.push(`-${a}`)
             );
         } else {
             b.push(`-${c.shift()}`);
-            b.push(c.join(''));
+            b.push(c.join(""));
         }
     }
 }
 var a;
 (function(a) {
-    a["STRING"] = 'string';
-    a["NUMBER"] = 'number';
-    a["BOOLEAN"] = 'boolean';
+    a["STRING"] = "string";
+    a["NUMBER"] = "number";
+    a["BOOLEAN"] = "boolean";
 })(a || (a = {}));
 const g = (b, c, a)=>{
     if (~[
-        '1',
-        'true'
+        "1",
+        "true"
     ].indexOf(a)) {
         return true;
     }
     if (~[
-        '0',
-        'false'
+        "0",
+        "false"
     ].indexOf(a)) {
         return false;
     }
@@ -231,7 +231,7 @@ const H = {
     [a.BOOLEAN]: g
 };
 function I(c, a) {
-    while(a[0] === '-'){
+    while(a[0] === "-"){
         a = a.slice(1);
     }
     for (const b of c){
@@ -245,8 +245,8 @@ function J(h, d, l, i) {
     const j = {};
     for (const b of h){
         const f = E(b.name);
-        if (typeof d[f] === 'undefined' && typeof b.default !== 'undefined') {
-            d[f] = typeof b.default === 'function' ? b.default() : b.default;
+        if (typeof d[f] === "undefined" && typeof b.default !== "undefined") {
+            d[f] = typeof b.default === "function" ? b.default() : b.default;
             j[f] = true;
         }
     }
@@ -261,7 +261,7 @@ function J(h, d, l, i) {
     );
     for (const { name: k , option: a  } of g){
         if (!a) {
-            throw new Error('Unknown option: --' + k);
+            throw new Error("Unknown option: --" + k);
         }
         if (a.standalone) {
             if (e.length > 1) {
@@ -285,13 +285,13 @@ function J(h, d, l, i) {
         });
         const m = (a.args?.length || 0) > 1;
         a.args?.forEach((b, c)=>{
-            if (b.requiredValue && (typeof d[k] === 'undefined' || m && typeof d[k][c] === 'undefined')) {
+            if (b.requiredValue && (typeof d[k] === "undefined" || (m && typeof d[k][c] === "undefined"))) {
                 throw new Error(`Missing value for option: --${a.name}`);
             }
         });
         function n(a) {
             const b = E(a);
-            return typeof d[b] !== 'undefined';
+            return typeof d[b] !== "undefined";
         }
     }
     for (const c of h){
@@ -305,7 +305,7 @@ function J(h, d, l, i) {
         }
     }
     if (e.length === 0 && !i) {
-        throw new Error('No arguments.');
+        throw new Error("No arguments.");
     }
 }
 function K(q, d = {}) {
@@ -337,19 +337,19 @@ function K(q, d = {}) {
             k.push(c);
             continue;
         }
-        if (c === '--') {
+        if (c === "--") {
             j = true;
             continue;
         }
-        const s = c.length > 1 && c[0] === '-';
+        const s = c.length > 1 && c[0] === "-";
         const u = ()=>i[g + 1]
         ;
         if (s && !m) {
-            if (c[2] === '-' || c[1] === '-' && c.length === 3) {
+            if (c[2] === "-" || (c[1] === "-" && c.length === 3)) {
                 throw new Error(`Invalid flag name: ${c}`);
             }
-            r = c.indexOf('--no-') === 0;
-            const n = c.replace(/^-+(no-)?/, '');
+            r = c.indexOf("--no-") === 0;
+            const n = c.replace(/^-+(no-)?/, "");
             b = I(d.flags, n);
             if (!b) {
                 if (d.flags.length) {
@@ -365,7 +365,7 @@ function K(q, d = {}) {
                 throw new Error(`Missing name for option: ${c}`);
             }
             const f = E(b.name);
-            if (typeof e[f] !== 'undefined' && !b.collect) {
+            if (typeof e[f] !== "undefined" && !b.collect) {
                 throw new Error(`Duplicate option: ${c}`);
             }
             h = b.args?.length ? b.args : [
@@ -376,22 +376,22 @@ function K(q, d = {}) {
                     variadic: b.variadic,
                     list: b.list,
                     separator: b.separator
-                }
+                }, 
             ];
             let t = 0;
             let v = false;
             const o = e[f];
             w(b, h);
-            if (typeof e[f] === 'undefined') {
-                if (typeof b.default !== 'undefined') {
-                    e[f] = typeof b.default === 'function' ? b.default() : b.default;
+            if (typeof e[f] === "undefined") {
+                if (typeof b.default !== "undefined") {
+                    e[f] = typeof b.default === "function" ? b.default() : b.default;
                 } else if (h[t].requiredValue) {
                     throw new Error(`Missing value for option: --${b.name}`);
                 } else {
                     e[f] = true;
                 }
             }
-            if (typeof b.value !== 'undefined') {
+            if (typeof b.value !== "undefined") {
                 e[f] = b.value(e[f], o);
             } else if (b.collect) {
                 const p = o || [];
@@ -401,17 +401,17 @@ function K(q, d = {}) {
             function w(h, j) {
                 const b = j[t];
                 if (!b) {
-                    throw new Error('Unknown option: ' + u());
+                    throw new Error("Unknown option: " + u());
                 }
                 if (!b.type) {
                     b.type = a.BOOLEAN;
                 }
                 if (h.args?.length) {
-                    if ((typeof b.optionalValue === 'undefined' || b.optionalValue === false) && typeof b.requiredValue === 'undefined') {
+                    if ((typeof b.optionalValue === "undefined" || b.optionalValue === false) && typeof b.requiredValue === "undefined") {
                         b.requiredValue = true;
                     }
                 } else {
-                    if (b.type !== a.BOOLEAN && (typeof b.optionalValue === 'undefined' || b.optionalValue === false) && typeof b.requiredValue === 'undefined') {
+                    if (b.type !== a.BOOLEAN && (typeof b.optionalValue === "undefined" || b.optionalValue === false) && typeof b.requiredValue === "undefined") {
                         b.requiredValue = true;
                     }
                 }
@@ -432,9 +432,9 @@ function K(q, d = {}) {
                 let c;
                 let l = false;
                 if (b.list && m(b)) {
-                    const k = u().split(b.separator || ',').map((a)=>{
+                    const k = u().split(b.separator || ",").map((a)=>{
                         const c = n(h, b, a);
-                        if (typeof c === 'undefined') {
+                        if (typeof c === "undefined") {
                             throw new Error(`List item of option --${h?.name} must be of type ${b.type} but got: ${a}`);
                         }
                         return c;
@@ -454,10 +454,10 @@ function K(q, d = {}) {
                     if (!b.variadic) {
                         t++;
                     } else if (j[t + 1]) {
-                        throw new Error('An argument cannot follow an variadic argument: ' + u());
+                        throw new Error("An argument cannot follow an variadic argument: " + u());
                     }
                 }
-                if (typeof c !== 'undefined' && (j.length > 1 || b.variadic)) {
+                if (typeof c !== "undefined" && (j.length > 1 || b.variadic)) {
                     if (!e[f]) {
                         e[f] = [];
                     }
@@ -469,11 +469,11 @@ function K(q, d = {}) {
                     e[f] = c;
                 }
                 function m(b) {
-                    return !!(i[g + 1] && (b.optionalValue || b.requiredValue || b.variadic) && (i[g + 1][0] !== '-' || b.type === a.NUMBER && !isNaN(i[g + 1])) && b);
+                    return !!(i[g + 1] && (b.optionalValue || b.requiredValue || b.variadic) && (i[g + 1][0] !== "-" || (b.type === a.NUMBER && !isNaN(i[g + 1]))) && b);
                 }
                 function n(c, b, e) {
                     let f = d.parse ? d.parse(b.type || a.STRING, c, b, e) : L(c, b, e);
-                    if (typeof f !== 'undefined') {
+                    if (typeof f !== "undefined") {
                         l = true;
                     }
                     return f;
@@ -503,9 +503,9 @@ function L(d, b, e) {
     return c(d, b, e);
 }
 function M(a, b) {
-    return a.name === b || a.aliases && a.aliases.indexOf(b) !== -1;
+    return (a.name === b || (a.aliases && a.aliases.indexOf(b) !== -1));
 }
-function N(b, a = '', c = ' ') {
+function N(b, a = "", c = " ") {
     while(a.length < b){
         a += c;
     }
@@ -514,46 +514,46 @@ function N(b, a = '', c = ' ') {
 const { inspect: O  } = Deno;
 const P = /%[sdjoO%]/g;
 function Q(...a) {
-    if (typeof a[0] !== 'string') {
+    if (typeof a[0] !== "string") {
         let f = [];
         for(let c = 0; c < arguments.length; c++){
             f.push(O(arguments[c]));
         }
-        return f.join(' ');
+        return f.join(" ");
     }
     let d = 1;
     const g = a[0];
     const h = a.length;
     let e = String(g).replace(P, function(b) {
-        if (b === '%%') {
-            return '%';
+        if (b === "%%") {
+            return "%";
         }
         if (d >= h) {
             return b;
         }
         switch(b){
-            case '%s':
+            case "%s":
                 return String(a[d++]);
-            case '%d':
+            case "%d":
                 return String(Number(a[d++]));
-            case '%j':
+            case "%j":
                 try {
                     return JSON.stringify(a[d++]);
                 } catch (c) {
-                    return '[Circular]';
+                    return "[Circular]";
                 }
-            case '%o':
-            case '%O':
+            case "%o":
+            case "%O":
                 return O(a[d++]);
             default:
                 return b;
         }
     });
     for(let b = a[d]; d < h; b = a[++d]){
-        if (b == null || typeof b !== 'object') {
-            e += ' ' + b;
+        if (b == null || typeof b !== "object") {
+            e += " " + b;
         } else {
-            e += ' ' + O(b);
+            e += " " + O(b);
         }
     }
     return e;
@@ -566,8 +566,8 @@ class R extends b {
     }
     complete() {
         return [
-            'true',
-            'false'
+            "true",
+            "false"
         ];
     }
 }
@@ -588,7 +588,7 @@ class d {
         while(a[a.length - 1] && this.ARGUMENT_REGEX.test(a[a.length - 1])){
             b.unshift(a.pop());
         }
-        const d = b.join(' ');
+        const d = b.join(" ");
         return {
             args: a,
             typeDefinition: d
@@ -601,27 +601,27 @@ class d {
         const l = k.split(/ +/);
         for (const c of l){
             if (h) {
-                throw new Error('An argument can not follow an variadic argument.');
+                throw new Error("An argument can not follow an variadic argument.");
             }
             const e = c.split(this.ARGUMENT_DETAILS_REGEX);
             const d = e[2] || a.STRING;
             let b = {
-                optionalValue: c[0] !== '<',
+                optionalValue: c[0] !== "<",
                 name: e[1],
                 action: e[3] || d,
                 variadic: false,
-                list: d ? c.indexOf(d + '[]') !== -1 : false,
+                list: d ? c.indexOf(d + "[]") !== -1 : false,
                 type: d
             };
             if (!b.optionalValue && g) {
-                throw new Error('An required argument can not follow an optional argument.');
+                throw new Error("An required argument can not follow an optional argument.");
             }
-            if (c[0] === '[') {
+            if (c[0] === "[") {
                 g = true;
             }
             if (b.name.length > 3) {
-                const i = b.name.slice(0, 3) === '...';
-                const j = b.name.slice(-3) === '...';
+                const i = b.name.slice(0, 3) === "...";
+                const j = b.name.slice(-3) === "...";
                 h = b.variadic = i || j;
                 if (i) {
                     b.name = b.name.slice(3);
@@ -637,48 +637,48 @@ class d {
     }
     static highlightArguments(a) {
         if (!a) {
-            return '';
+            return "";
         }
         return this.parseArgumentsDefinition(a).map((a)=>this.highlightArgumentDetails(a)
-        ).join(' ');
+        ).join(" ");
     }
     static highlightArgumentDetails(b) {
-        let a = '';
-        a += t(b.optionalValue ? '[' : '<');
-        let c = '';
+        let a = "";
+        a += t(b.optionalValue ? "[" : "<");
+        let c = "";
         c += b.name;
         if (b.variadic) {
-            c += '...';
+            c += "...";
         }
         c = v(c);
         a += c;
-        a += t(':');
+        a += t(":");
         a += r(b.type);
         if (b.list) {
-            a += s('[]');
+            a += s("[]");
         }
-        a += t(b.optionalValue ? ']' : '>');
+        a += t(b.optionalValue ? "]" : ">");
         return a;
     }
 }
 d.ARGUMENT_REGEX = /^[<\[].+[\]>]$/;
 d.ARGUMENT_DETAILS_REGEX = /[<\[:>\]]/;
 const U = {
-    top: '─',
-    topMid: '┬',
-    topLeft: '┌',
-    topRight: '┐',
-    bottom: '─',
-    bottomMid: '┴',
-    bottomLeft: '└',
-    bottomRight: '┘',
-    left: '│',
-    leftMid: '├',
-    mid: '─',
-    midMid: '┼',
-    right: '│',
-    rightMid: '┤',
-    middle: '│'
+    top: "─",
+    topMid: "┬",
+    topLeft: "┌",
+    topRight: "┐",
+    bottom: "─",
+    bottomMid: "┴",
+    bottomLeft: "└",
+    bottomRight: "┘",
+    left: "│",
+    leftMid: "├",
+    mid: "─",
+    midMid: "┼",
+    right: "│",
+    rightMid: "┤",
+    middle: "│"
 };
 class V {
     get length() {
@@ -708,19 +708,19 @@ class V {
         return a;
     }
     border(a, b = true) {
-        if (b || typeof this.options.border === 'undefined') {
+        if (b || typeof this.options.border === "undefined") {
             this.options.border = a;
         }
         return this;
     }
     colSpan(a, b = true) {
-        if (b || typeof this.options.colSpan === 'undefined') {
+        if (b || typeof this.options.colSpan === "undefined") {
             this.options.colSpan = a;
         }
         return this;
     }
     rowSpan(a, b = true) {
-        if (b || typeof this.options.rowSpan === 'undefined') {
+        if (b || typeof this.options.rowSpan === "undefined") {
             this.options.rowSpan = a;
         }
         return this;
@@ -729,10 +729,10 @@ class V {
         return this.options.border === true;
     }
     getColSpan() {
-        return typeof this.options.colSpan === 'number' && this.options.colSpan > 0 ? this.options.colSpan : 1;
+        return typeof this.options.colSpan === "number" && this.options.colSpan > 0 ? this.options.colSpan : 1;
     }
     getRowSpan() {
-        return typeof this.options.rowSpan === 'number' && this.options.rowSpan > 0 ? this.options.rowSpan : 1;
+        return typeof this.options.rowSpan === "number" && this.options.rowSpan > 0 ? this.options.rowSpan : 1;
     }
 }
 class W extends Array {
@@ -744,13 +744,13 @@ class W extends Array {
         return b;
     }
     clone() {
-        const a = new W(...this.map((a)=>a instanceof V ? a.clone() : a
+        const a = new W(...this.map((a)=>(a instanceof V ? a.clone() : a)
         ));
         a.options = Object.assign({}, this.options);
         return a;
     }
     border(a, b = true) {
-        if (b || typeof this.options.border === 'undefined') {
+        if (b || typeof this.options.border === "undefined") {
             this.options.border = a;
         }
         return this;
@@ -759,8 +759,8 @@ class W extends Array {
         return this.options.border === true;
     }
     hasBorder() {
-        return this.getBorder() || this.some((a)=>a instanceof V && a.getBorder()
-        );
+        return (this.getBorder() || this.some((a)=>a instanceof V && a.getBorder()
+        ));
     }
     constructor(...a){
         super(...a);
@@ -768,13 +768,13 @@ class W extends Array {
     }
 }
 function X(f, g) {
-    let b = '';
+    let b = "";
     const d = g.split(/ /g);
     for(let c = 0; c < d.length; c++){
         let a = d[c];
-        let e = a.indexOf('\n') !== -1;
+        let e = a.indexOf("\n") !== -1;
         if (e) {
-            a = a.split('\n').shift();
+            a = a.split("\n").shift();
         }
         if (b) {
             const h = Z(a).length;
@@ -783,7 +783,7 @@ function X(f, g) {
                 break;
             }
         }
-        b += (c > 0 ? ' ' : '') + a;
+        b += (c > 0 ? " " : "") + a;
         if (e) {
             break;
         }
@@ -792,11 +792,11 @@ function X(f, g) {
 }
 const Y = /(\x1b|\e|\033)\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]/g;
 function Z(a) {
-    return a.replace(Y, '');
+    return a.replace(Y, "");
 }
 function $(b, a, c) {
-    return Math.max(...a.map((a)=>(a[b] instanceof V && a[b].getColSpan() > 1 ? '' : a[b]?.toString() || '').split('\n').map((a)=>{
-            const b = typeof c === 'undefined' ? a : X(c, a);
+    return Math.max(...a.map((a)=>(a[b] instanceof V && a[b].getColSpan() > 1 ? "" : a[b]?.toString() || "").split("\n").map((a)=>{
+            const b = typeof c === "undefined" ? a : X(c, a);
             return Z(b).length || 0;
         })
     ).flat());
@@ -808,12 +808,12 @@ class _ {
     }
     toString() {
         const a = this.createLayout();
-        return a.rows.length ? this.renderRows(a) : '';
+        return a.rows.length ? this.renderRows(a) : "";
     }
     createLayout() {
         Object.keys(this.options.chars).forEach((a)=>{
-            if (typeof this.options.chars[a] !== 'string') {
-                this.options.chars[a] = '';
+            if (typeof this.options.chars[a] !== "string") {
+                this.options.chars[a] = "";
             }
         });
         const e = this.table.getBorder() || this.table.hasBodyBorder();
@@ -885,10 +885,10 @@ class _ {
         return W.from(a).border(this.table.getBorder(), false);
     }
     createCell(a, b) {
-        return V.from(a ?? '').border(b.getBorder(), false);
+        return V.from(a ?? "").border(b.getBorder(), false);
     }
     renderRows(a) {
-        let c = '';
+        let c = "";
         const d = new Array(a.columns).fill(1);
         for(let b = 0; b < a.rows.length; b++){
             c += this.renderRow(d, b, a);
@@ -899,13 +899,13 @@ class _ {
         const d = a.rows[f];
         const g = a.rows[f - 1];
         const k = a.rows[f + 1];
-        let e = '';
+        let e = "";
         let h = 1;
         if (!j && f === 0 && d.hasBorder()) {
             e += this.renderBorderRow(undefined, d, c, a);
         }
         let i = false;
-        e += ' '.repeat(this.options.indent || 0);
+        e += " ".repeat(this.options.indent || 0);
         for(let b = 0; b < a.columns; b++){
             if (h > 1) {
                 h--;
@@ -929,14 +929,14 @@ class _ {
             if (d[a.columns - 1].getBorder()) {
                 e += this.options.chars.right;
             } else if (a.hasBorder) {
-                e += ' ';
+                e += " ";
             }
         }
-        e += '\n';
+        e += "\n";
         if (i) {
-            return e + this.renderRow(c, f, a, i);
+            return (e + this.renderRow(c, f, a, i));
         }
-        if (f === 0 && a.hasHeaderBorder || f < a.rows.length - 1 && a.hasBodyBorder) {
+        if ((f === 0 && a.hasHeaderBorder) || (f < a.rows.length - 1 && a.hasBodyBorder)) {
             e += this.renderBorderRow(d, k, c, a);
         }
         if (f === a.rows.length - 1 && d.hasBorder()) {
@@ -945,7 +945,7 @@ class _ {
         return e;
     }
     renderCell(b, f, m, n, a, i) {
-        let c = '';
+        let c = "";
         const j = f[b - 1];
         const e = f[b];
         if (!i) {
@@ -953,13 +953,13 @@ class _ {
                 if (e.getBorder()) {
                     c += this.options.chars.left;
                 } else if (a.hasBorder) {
-                    c += ' ';
+                    c += " ";
                 }
             } else {
                 if (e.getBorder() || j?.getBorder()) {
                     c += this.options.chars.middle;
                 } else if (a.hasBorder) {
-                    c += ' ';
+                    c += " ";
                 }
             }
         }
@@ -976,11 +976,11 @@ class _ {
         const { current: k , next: l  } = this.renderCellValue(e, g);
         f[b].setValue(l);
         if (a.hasBorder) {
-            c += ' '.repeat(a.padding[b]);
+            c += " ".repeat(a.padding[b]);
         }
         c += k;
         if (a.hasBorder || b < a.columns - 1) {
-            c += ' '.repeat(a.padding[b]);
+            c += " ".repeat(a.padding[b]);
         }
         return c;
     }
@@ -993,19 +993,19 @@ class _ {
         }
         const f = b.toString().slice(a.length + (e ? 0 : 1));
         const g = d - Z(a).length;
-        const h = a + ' '.repeat(g);
+        const h = a + " ".repeat(g);
         return {
             current: h,
             next: b.clone(f)
         };
     }
     renderBorderRow(g, b, e, f) {
-        let c = '';
+        let c = "";
         let d = 1;
         for(let a = 0; a < f.columns; a++){
             if (e[a] > 1) {
                 if (!b) {
-                    throw new Error('invalid layout');
+                    throw new Error("invalid layout");
                 }
                 if (d > 1) {
                     d--;
@@ -1015,7 +1015,7 @@ class _ {
             c += this.renderBorderCell(a, g, b, e, f);
             d = b?.[a].getColSpan() ?? 1;
         }
-        return c.length ? ' '.repeat(this.options.indent) + c + '\n' : '';
+        return c.length ? " ".repeat(this.options.indent) + c + "\n" : "";
     }
     renderBorderCell(b, q, j, o, k) {
         const e = q?.[b - 1];
@@ -1030,13 +1030,13 @@ class _ {
         ;
         const n = (a)=>(a?.getRowSpan() ?? 1) > 1
         ;
-        let a = '';
+        let a = "";
         if (b === 0) {
             if (o[b] > 1) {
                 if (c) {
                     a += this.options.chars.left;
                 } else {
-                    a += ' ';
+                    a += " ";
                 }
             } else if (c && d) {
                 a += this.options.chars.leftMid;
@@ -1045,10 +1045,10 @@ class _ {
             } else if (d) {
                 a += this.options.chars.topLeft;
             } else {
-                a += ' ';
+                a += " ";
             }
         } else if (b < k.columns) {
-            if (l && d || c && m) {
+            if ((l && d) || (c && m)) {
                 const r = i(e);
                 const s = i(f);
                 const t = i(g);
@@ -1108,7 +1108,7 @@ class _ {
             } else if (d) {
                 a += this.options.chars.topLeft;
             } else {
-                a += ' ';
+                a += " ";
             }
         }
         const p = k.padding[b] + k.width[b] + k.padding[b];
@@ -1118,7 +1118,7 @@ class _ {
                 if (c) {
                     a += this.options.chars.right;
                 } else {
-                    a += ' ';
+                    a += " ";
                 }
                 return a;
             }
@@ -1129,7 +1129,7 @@ class _ {
         } else if (d) {
             a += this.options.chars.top.repeat(p);
         } else {
-            a += ' '.repeat(p);
+            a += " ".repeat(p);
         }
         if (b === k.columns - 1) {
             if (c && d) {
@@ -1139,7 +1139,7 @@ class _ {
             } else if (d) {
                 a += this.options.chars.topRight;
             } else {
-                a += ' ';
+                a += " ";
             }
         }
         return a;
@@ -1186,35 +1186,35 @@ class aa extends Array {
         return new _(this, this.options).toString();
     }
     render() {
-        Deno.stdout.writeSync(l(this.toString() + '\n'));
+        Deno.stdout.writeSync(l(this.toString() + "\n"));
         return this;
     }
     maxCellWidth(a, b = true) {
-        if (b || typeof this.options.maxCellWidth === 'undefined') {
+        if (b || typeof this.options.maxCellWidth === "undefined") {
             this.options.maxCellWidth = a;
         }
         return this;
     }
     minCellWidth(a, b = true) {
-        if (b || typeof this.options.minCellWidth === 'undefined') {
+        if (b || typeof this.options.minCellWidth === "undefined") {
             this.options.minCellWidth = a;
         }
         return this;
     }
     indent(a, b = true) {
-        if (b || typeof this.options.indent === 'undefined') {
+        if (b || typeof this.options.indent === "undefined") {
             this.options.indent = a;
         }
         return this;
     }
     padding(a, b = true) {
-        if (b || typeof this.options.padding === 'undefined') {
+        if (b || typeof this.options.padding === "undefined") {
             this.options.padding = a;
         }
         return this;
     }
     border(a, b = true) {
-        if (b || typeof this.options.border === 'undefined') {
+        if (b || typeof this.options.border === "undefined") {
             this.options.border = a;
         }
         return this;
@@ -1245,12 +1245,12 @@ class aa extends Array {
         return this.options.border === true;
     }
     hasHeaderBorder() {
-        return this.getBorder() || this.headerRow instanceof W && this.headerRow.hasBorder();
+        return (this.getBorder() || (this.headerRow instanceof W && this.headerRow.hasBorder()));
     }
     hasBodyBorder() {
-        return this.getBorder() || this.some((a)=>a instanceof W ? a.hasBorder() : a.some((a)=>a instanceof V ? a.getBorder : false
+        return (this.getBorder() || this.some((a)=>a instanceof W ? a.hasBorder() : a.some((a)=>a instanceof V ? a.getBorder : false
             )
-        );
+        ));
     }
     hasBorder() {
         return this.hasHeaderBorder() || this.hasBodyBorder();
@@ -1276,47 +1276,47 @@ class ab {
         this.indent = 2;
     }
     generate() {
-        return this.generateHeader() + this.generateDescription() + this.generateOptions() + this.generateCommands() + this.generateEnvironmentVariables() + this.generateExamples() + '\n';
+        return (this.generateHeader() + this.generateDescription() + this.generateOptions() + this.generateCommands() + this.generateEnvironmentVariables() + this.generateExamples() + "\n");
     }
     generateHeader() {
-        return '\n' + aa.from([
+        return ("\n" + aa.from([
             [
-                p('Usage:'),
-                v(`${this.cmd.getName()}${this.cmd.getArgsDefinition() ? ' ' + this.cmd.getArgsDefinition() : ''}`)
+                p("Usage:"),
+                v(`${this.cmd.getName()}${this.cmd.getArgsDefinition() ? " " + this.cmd.getArgsDefinition() : ""}`), 
             ],
             [
-                p('Version:'),
+                p("Version:"),
                 t(`v${this.cmd.getVersion()}`)
-            ]
-        ]).indent(this.indent).padding(1).toString() + '\n';
+            ], 
+        ]).indent(this.indent).padding(1).toString() + "\n");
     }
     generateDescription() {
         if (!this.cmd.getDescription()) {
-            return '';
+            return "";
         }
-        return this.label('Description') + aa.from([
+        return (this.label("Description") + aa.from([
             [
                 this.cmd.getDescription()
             ]
-        ]).indent(this.indent * 2).maxCellWidth(140).padding(1).toString() + '\n';
+        ]).indent(this.indent * 2).maxCellWidth(140).padding(1).toString() + "\n");
     }
     generateOptions() {
         const a = this.cmd.getOptions(false);
         if (!a.length) {
-            return '';
+            return "";
         }
         const b = !!a.find((a)=>!!a.typeDefinition
         );
         if (b) {
-            return this.label('Options') + aa.from([
+            return (this.label("Options") + aa.from([
                 ...a.map((a)=>[
                         a.flags.split(/,? +/g).map((a)=>u(a)
-                        ).join(', '),
-                        d.highlightArguments(a.typeDefinition || ''),
-                        r(p('-')) + ' ' + a.description.split('\n').shift(),
-                        this.generateHints(a)
+                        ).join(", "),
+                        d.highlightArguments(a.typeDefinition || ""),
+                        r(p("-")) + " " + a.description.split("\n").shift(),
+                        this.generateHints(a), 
                     ]
-                )
+                ), 
             ]).padding([
                 2,
                 2,
@@ -1326,16 +1326,16 @@ class ab {
                 60,
                 80,
                 60
-            ]).toString() + '\n';
+            ]).toString() + "\n");
         }
-        return this.label('Options') + aa.from([
+        return (this.label("Options") + aa.from([
             ...a.map((a)=>[
                     a.flags.split(/,? +/g).map((a)=>u(a)
-                    ).join(', '),
-                    r(p('-')) + ' ' + a.description.split('\n').shift(),
-                    this.generateHints(a)
+                    ).join(", "),
+                    r(p("-")) + " " + a.description.split("\n").shift(),
+                    this.generateHints(a), 
                 ]
-            )
+            ), 
         ]).padding([
             2,
             2
@@ -1343,109 +1343,109 @@ class ab {
             60,
             80,
             60
-        ]).toString() + '\n';
+        ]).toString() + "\n");
     }
     generateCommands() {
         const a = this.cmd.getCommands(false);
         if (!a.length) {
-            return '';
+            return "";
         }
         const b = !!a.find((a)=>!!a.getArgsDefinition()
         );
         if (b) {
-            return this.label('Commands') + aa.from([
+            return (this.label("Commands") + aa.from([
                 ...a.map((a)=>[
                         [
                             a.getName(),
                             ...a.getAliases()
                         ].map((a)=>u(a)
-                        ).join(', '),
-                        d.highlightArguments(a.getArgsDefinition() || ''),
-                        r(p('-')) + ' ' + a.getDescription().split('\n').shift()
+                        ).join(", "),
+                        d.highlightArguments(a.getArgsDefinition() || ""),
+                        r(p("-")) + " " + a.getDescription().split("\n").shift(), 
                     ]
-                )
+                ), 
             ]).padding([
                 2,
                 2,
                 2
-            ]).indent(this.indent * 2).toString() + '\n';
+            ]).indent(this.indent * 2).toString() + "\n");
         }
-        return this.label('Commands') + aa.from([
+        return (this.label("Commands") + aa.from([
             ...a.map((a)=>[
                     [
                         a.getName(),
                         ...a.getAliases()
                     ].map((a)=>u(a)
-                    ).join(', '),
-                    r(p('-')) + ' ' + a.getDescription().split('\n').shift()
+                    ).join(", "),
+                    r(p("-")) + " " + a.getDescription().split("\n").shift(), 
                 ]
-            )
+            ), 
         ]).padding([
             2,
             2
-        ]).indent(this.indent * 2).toString() + '\n';
+        ]).indent(this.indent * 2).toString() + "\n");
     }
     generateEnvironmentVariables() {
         const a = this.cmd.getEnvVars(false);
         if (!a.length) {
-            return '';
+            return "";
         }
-        return this.label('Environment variables') + aa.from([
+        return (this.label("Environment variables") + aa.from([
             ...a.map((a)=>[
                     a.names.map((a)=>u(a)
-                    ).join(', '),
+                    ).join(", "),
                     d.highlightArgumentDetails(a.details),
-                    `${r(p('-'))} ${a.description}`
+                    `${r(p("-"))} ${a.description}`, 
                 ]
-            )
-        ]).padding(2).indent(this.indent * 2).toString() + '\n';
+            ), 
+        ]).padding(2).indent(this.indent * 2).toString() + "\n");
     }
     generateExamples() {
         const a = this.cmd.getExamples();
         if (!a.length) {
-            return '';
+            return "";
         }
-        return this.label('Examples') + aa.from(a.map((a)=>[
+        return (this.label("Examples") + aa.from(a.map((a)=>[
                 q(p(`${ac(a.name)}:`)),
-                `\n${a.description}`
+                `\n${a.description}`, 
             ]
-        )).padding(1).indent(this.indent * 2).maxCellWidth(150).toString() + '\n';
+        )).padding(1).indent(this.indent * 2).maxCellWidth(150).toString() + "\n");
     }
     generateHints(a) {
         const b = [];
         a.required && b.push(t(`required`));
-        typeof a.default !== 'undefined' && b.push(u(p(`Default: `)) + u(Q(a.default)));
+        typeof a.default !== "undefined" && b.push(u(p(`Default: `)) + u(Q(a.default)));
         a.depends && a.depends.length && b.push(r(p(`depends: `)) + a.depends.map((a)=>r(a)
-        ).join(', '));
+        ).join(", "));
         a.conflicts && a.conflicts.length && b.push(r(p(`conflicts: `)) + a.conflicts.map((a)=>r(a)
-        ).join(', '));
+        ).join(", "));
         if (b.length) {
-            return `(${b.join(', ')})`;
+            return `(${b.join(", ")})`;
         }
-        return '';
+        return "";
     }
     line(...a) {
-        return (a.length ? ' '.repeat(this.indent) + Q(...a) : '') + '\n';
+        return ((a.length ? " ".repeat(this.indent) + Q(...a) : "") + "\n");
     }
     label(a) {
-        return '\n' + this.line(p(`${a}:`)) + '\n';
+        return "\n" + this.line(p(`${a}:`)) + "\n";
     }
 }
 function ac(a) {
-    return (a?.charAt(0).toUpperCase() + a.slice(1)) ?? '';
+    return a?.charAt(0).toUpperCase() + a.slice(1) ?? "";
 }
 const { stdout: ad , stderr: ae  } = Deno;
 const c = Deno.permissions;
-const e = c && c.query && await c.query({
-    name: 'env'
-});
-const af = !!e && e.state === 'granted';
+const e = c && c.query && (await c.query({
+    name: "env"
+}));
+const af = !!e && e.state === "granted";
 class j {
     versionOption(a, c, b) {
         this._versionOption = a === false ? a : {
             flags: a,
             desc: c,
-            opts: typeof b === 'function' ? {
+            opts: typeof b === "function" ? {
                 action: b
             } : b
         };
@@ -1455,7 +1455,7 @@ class j {
         this._helpOption = a === false ? a : {
             flags: a,
             desc: c,
-            opts: typeof b === 'function' ? {
+            opts: typeof b === "function" ? {
                 action: b
             } : b
         };
@@ -1463,7 +1463,7 @@ class j {
     }
     command(g, c, h) {
         let f;
-        if (typeof c === 'string') {
+        if (typeof c === "string") {
             f = c;
             c = undefined;
         }
@@ -1471,7 +1471,7 @@ class j {
         const a = e.args.shift();
         const i = e.args;
         if (!a) {
-            throw this.error(new Error('Missing command name.'));
+            throw this.error(new Error("Missing command name."));
         }
         if (this.getBaseCommand(a, true)) {
             if (!h) {
@@ -1506,7 +1506,7 @@ class j {
         return this;
     }
     reset() {
-        return this.cmd = this;
+        return (this.cmd = this);
     }
     select(a) {
         const b = this.getBaseCommand(a, true);
@@ -1569,7 +1569,7 @@ class j {
             name: a,
             handler: c
         });
-        if (c instanceof b && typeof c.complete !== 'undefined') {
+        if (c instanceof b && typeof c.complete !== "undefined") {
             this.complete(a, (a, b)=>c.complete?.(a, b) || []
             , d);
         }
@@ -1633,7 +1633,7 @@ class j {
         return b;
     }
     option(g, h, e) {
-        if (typeof e === 'function') {
+        if (typeof e === "function") {
             return this.option(g, h, {
                 value: e
             });
@@ -1641,10 +1641,10 @@ class j {
         const c = d.splitArguments(g);
         const i = c.typeDefinition ? d.parseArgumentsDefinition(c.typeDefinition) : [];
         const a = {
-            name: '',
+            name: "",
             description: h,
             args: i,
-            flags: c.args.join(', '),
+            flags: c.args.join(", "),
             typeDefinition: c.typeDefinition,
             ...e
         };
@@ -1659,7 +1659,7 @@ class j {
             const f = l.trim();
             const k = /^--/.test(f);
             const b = k ? f.slice(2) : f.slice(1);
-            if (a.name === b || a.aliases && ~a.aliases.indexOf(b)) {
+            if (a.name === b || (a.aliases && ~a.aliases.indexOf(b))) {
                 throw this.error(new Error(`Duplicate command name: ${b}`));
             }
             if (!a.name && k) {
@@ -1688,7 +1688,7 @@ class j {
     }
     example(a, b) {
         if (this.cmd.hasExample(a)) {
-            throw this.error(new Error('Example already exists.'));
+            throw this.error(new Error("Example already exists."));
         }
         this.cmd.examples.push({
             name: a,
@@ -1699,7 +1699,7 @@ class j {
     env(b, e, f) {
         const c = d.splitArguments(b);
         if (!c.typeDefinition) {
-            c.typeDefinition = '<value:boolean>';
+            c.typeDefinition = "<value:boolean>";
         }
         if (c.args.some((a)=>this.cmd.getBaseEnvVar(a, true)
         )) {
@@ -1773,17 +1773,17 @@ class j {
         this.hasDefaults = true;
         this.reset();
         if (this._versionOption !== false) {
-            this.option(this._versionOption?.flags || '-V, --version', this._versionOption?.desc || 'Show the version number for this program.', Object.assign({
+            this.option(this._versionOption?.flags || "-V, --version", this._versionOption?.desc || "Show the version number for this program.", Object.assign({
                 standalone: true,
                 prepend: true,
                 action: async function() {
-                    await Deno.stdout.writeSync(l(this.getVersion() + '\n'));
+                    await Deno.stdout.writeSync(l(this.getVersion() + "\n"));
                     Deno.exit(0);
                 }
             }, this._versionOption?.opts ?? {}));
         }
         if (this._helpOption !== false) {
-            this.option(this._helpOption?.flags || '-h, --help', this._helpOption?.desc || 'Show this help.', Object.assign({
+            this.option(this._helpOption?.flags || "-h, --help", this._helpOption?.desc || "Show this help.", Object.assign({
                 standalone: true,
                 global: true,
                 prepend: true,
@@ -1832,9 +1832,9 @@ class j {
         };
     }
     async executeExecutable(b) {
-        const [f, ...c] = this.getPath().split(' ');
-        c.unshift(f.replace(/\.ts$/, ''));
-        const a = c.join('-');
+        const [f, ...c] = this.getPath().split(" ");
+        c.unshift(f.replace(/\.ts$/, ""));
+        const a = c.join("-");
         try {
             await Deno.run({
                 cmd: [
@@ -1851,7 +1851,7 @@ class j {
         try {
             await Deno.run({
                 cmd: [
-                    a + '.ts',
+                    a + ".ts",
                     ...b
                 ]
             });
@@ -1861,7 +1861,7 @@ class j {
                 throw e;
             }
         }
-        throw this.error(new Error(`Sub-command executable not found: ${a}${q('(.ts)')}`));
+        throw this.error(new Error(`Sub-command executable not found: ${a}${q("(.ts)")}`));
     }
     parseFlags(a) {
         try {
@@ -1896,7 +1896,7 @@ class j {
                     try {
                         this.parseType(a.type, {
                             name: b
-                        }, a, c || '');
+                        }, a, c || "");
                     } catch (d) {
                         throw new Error(`Environment variable '${b}' must be of type ${a.type} but got: ${c}`);
                     }
@@ -1910,7 +1910,7 @@ class j {
         if (!this.hasArguments()) {
             if (a.length) {
                 if (this.hasCommands(true)) {
-                    throw this.error(new Error(`Unknown command: ${a.join(' ')}`));
+                    throw this.error(new Error(`Unknown command: ${a.join(" ")}`));
                 } else {
                     throw this.error(new Error(`No arguments allowed for command: ${this._name}`));
                 }
@@ -1925,7 +1925,7 @@ class j {
                     const h = !!g.find((a)=>this.getOption(a, true)?.standalone
                     );
                     if (!h) {
-                        throw this.error(new Error('Missing argument(s): ' + e.join(', ')));
+                        throw this.error(new Error("Missing argument(s): " + e.join(", ")));
                     }
                 }
                 return c;
@@ -1945,7 +1945,7 @@ class j {
                 }
             }
             if (a.length) {
-                throw this.error(new Error(`To many arguments: ${a.join(' ')}`));
+                throw this.error(new Error(`To many arguments: ${a.join(" ")}`));
             }
         }
         return c;
@@ -1976,7 +1976,7 @@ class j {
         return this.aliases;
     }
     getPath() {
-        return this._parent ? this._parent.getPath() + ' ' + this._name : this._name;
+        return this._parent ? this._parent.getPath() + " " + this._name : this._name;
     }
     getArgsDefinition() {
         return this.argsDefinition;
@@ -1995,13 +1995,13 @@ class j {
         return !!this.argsDefinition;
     }
     getVersion() {
-        return this.ver || (this._parent?.getVersion() ?? '');
+        return this.ver || (this._parent?.getVersion() ?? "");
     }
     getDescription() {
-        return typeof this.desc === 'function' ? this.desc = this.desc() : this.desc;
+        return typeof this.desc === "function" ? (this.desc = this.desc()) : this.desc;
     }
     getShortDescription() {
-        return this.getDescription().trim().split('\n').shift();
+        return this.getDescription().trim().split("\n").shift();
     }
     hasOptions(a) {
         return this.getOptions(a).length > 0;
@@ -2038,7 +2038,7 @@ class j {
         return !!this.getOption(a, b);
     }
     getOption(a, b) {
-        return this.getBaseOption(a, b) ?? this.getGlobalOption(a, b);
+        return (this.getBaseOption(a, b) ?? this.getGlobalOption(a, b));
     }
     getBaseOption(c, b) {
         const a = this.options.find((a)=>a.name === c
@@ -2095,7 +2095,7 @@ class j {
         return !!this.getCommand(a, b);
     }
     getCommand(a, b) {
-        return this.getBaseCommand(a, b) ?? this.getGlobalCommand(a, b);
+        return (this.getBaseCommand(a, b) ?? this.getGlobalCommand(a, b));
     }
     getBaseCommand(b, c) {
         let a = this.commands.get(b);
@@ -2192,7 +2192,7 @@ class j {
         return !!this.getEnvVar(a, b);
     }
     getEnvVar(a, b) {
-        return this.getBaseEnvVar(a, b) ?? this.getGlobalEnvVar(a, b);
+        return (this.getBaseEnvVar(a, b) ?? this.getGlobalEnvVar(a, b));
     }
     getBaseEnvVar(c, b) {
         const a = this.envVars.find((a)=>a.names.indexOf(c) !== -1
@@ -2235,16 +2235,16 @@ class j {
         ae.writeSync(l(N(2) + r(Q(`[ERROR:${this._name}]`, ...a))));
     }
     log(...a) {
-        this.write(...a, '\n');
+        this.write(...a, "\n");
     }
     logError(...a) {
-        this.writeError(...a, '\n');
+        this.writeError(...a, "\n");
     }
     error(a, b = true) {
         if (this.shouldThrowErrors()) {
             return a;
         }
-        const c = af ? !!Deno.env.get('CLIFFY_DEBUG') : false;
+        const c = af ? !!Deno.env.get("CLIFFY_DEBUG") : false;
         b && this.help();
         this.logError(c ? a : a.message);
         this.log();
@@ -2260,32 +2260,32 @@ class j {
     constructor(){
         this.types = new Map([
             [
-                'string',
+                "string",
                 {
-                    name: 'string',
+                    name: "string",
                     handler: new T()
-                }
+                }, 
             ],
             [
-                'number',
+                "number",
                 {
-                    name: 'number',
+                    name: "number",
                     handler: new S()
-                }
+                }, 
             ],
             [
-                'boolean',
+                "boolean",
                 {
-                    name: 'boolean',
+                    name: "boolean",
                     handler: new R()
-                }
-            ]
+                }, 
+            ], 
         ]);
         this.rawArgs = [];
         this.literalArgs = [];
-        this._name = 'COMMAND';
-        this.ver = '0.0.0';
-        this.desc = '';
+        this._name = "COMMAND";
+        this.ver = "0.0.0";
+        this.desc = "";
         this.options = [];
         this.commands = new Map();
         this.examples = [];
@@ -2305,7 +2305,7 @@ class j {
     }
 }
 function ag(a, b) {
-    return B(a, b, '_');
+    return B(a, b, "_");
 }
 class ah {
     static generate(a) {
@@ -2362,20 +2362,20 @@ compdef _${ag(this.cmd.getPath())} ${this.cmd.getPath()}
 # vim: ft=zsh sw=4 ts=4 et
 `.trim();
     }
-    generateCompletions(a, b = '') {
+    generateCompletions(a, b = "") {
         if (!a.hasCommands(false) && !a.hasOptions(false) && !a.hasArguments()) {
-            return '';
+            return "";
         }
-        b = (b ? b + ' ' : '') + a.getName();
-        return `(( $+functions[_${ag(b)}] )) ||
-function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : '') + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a
+        b = (b ? b + " " : "") + a.getName();
+        return (`(( $+functions[_${ag(b)}] )) ||
+function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : "") + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a
         ).map((a)=>this.generateCompletions(a, b)
-        ).join('');
+        ).join(""));
     }
     generateCommandCompletions(c, d) {
         const e = c.getCommands(false);
         let a = e.map((a)=>`'${a.getName()}:${a.getShortDescription()}'`
-        ).join('\n            ');
+        ).join("\n            ");
         if (a) {
             a = `
         local -a commands
@@ -2385,7 +2385,7 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
         _describe 'command' commands`;
         }
         if (c.hasArguments()) {
-            const f = d.split(' ').slice(1).join(' ');
+            const f = d.split(" ").slice(1).join(" ");
             const g = c.getArguments()[0];
             const b = this.addAction(g, f);
             if (b) {
@@ -2399,22 +2399,22 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     }
     generateSubCommandCompletions(a, c) {
         if (a.hasCommands(false)) {
-            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ag(c + ' ' + a.getName())} ;;`
-            ).join('\n            ');
+            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ag(c + " " + a.getName())} ;;`
+            ).join("\n            ");
             return `\n
     function _command_args() {
         case "$words[1]" in\n            ${b}\n        esac
     }`;
         }
-        return '';
+        return "";
     }
     generateArgumentCompletions(a, c) {
         this.actions.clear();
         const g = this.generateOptions(a, c);
         let d = 0;
-        let b = '\n\n    _arguments -w -s -S -C';
+        let b = "\n\n    _arguments -w -s -S -C";
         if (a.hasOptions()) {
-            b += ` \\\n        ${g.join(' \\\n        ')}`;
+            b += ` \\\n        ${g.join(" \\\n        ")}`;
         }
         if (a.hasCommands(false) || a.hasArguments()) {
             b += ` \\\n        '${++d}: :_commands'`;
@@ -2422,12 +2422,12 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
         if (a.hasArguments() || a.hasCommands(false)) {
             const e = [];
             for (const f of a.getArguments().slice(1)){
-                const h = c.split(' ').slice(1).join(' ');
+                const h = c.split(" ").slice(1).join(" ");
                 const i = this.addAction(f, h);
-                e.push(`${++d}${f.optionalValue ? '::' : ':'}${i.name}`);
+                e.push(`${++d}${f.optionalValue ? "::" : ":"}${i.name}`);
             }
             b += e.map((a)=>`\\\n        '${a}'`
-            ).join('');
+            ).join("");
             if (a.hasCommands(false)) {
                 b += ` \\\n        '*:: :->command_args'`;
             }
@@ -2436,11 +2436,11 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     }
     generateOptions(a, d) {
         const b = [];
-        const c = d.split(' ');
+        const c = d.split(" ");
         c.shift();
-        const e = c.join(' ');
+        const e = c.join(" ");
         const f = a.getOptions(false).map((a)=>a.standalone ? a.flags.split(/[, ] */g) : false
-        ).flat().filter((a)=>typeof a === 'string'
+        ).flat().filter((a)=>typeof a === "string"
         );
         for (const g of a.getOptions(false)){
             b.push(this.generateOption(g, e, f));
@@ -2456,22 +2456,22 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
             ...c,
             ...a.flags.split(/[, ] */g)
         ];
-        let d = '';
+        let d = "";
         for (const b of a.args){
             const f = this.addAction(b, j);
             if (b.variadic) {
-                d += `${b.optionalValue ? '::' : ':'}${b.name}:->${f.name}`;
+                d += `${b.optionalValue ? "::" : ":"}${b.name}:->${f.name}`;
             } else {
-                d += `${b.optionalValue ? '::' : ':'}${b.name}:->${f.name}`;
+                d += `${b.optionalValue ? "::" : ":"}${b.name}:->${f.name}`;
             }
         }
-        const g = a.description.trim().split('\n').shift();
-        const h = a.collect ? '*' : '';
-        const i = a.flags.replace(/ +/g, '');
+        const g = a.description.trim().split("\n").shift();
+        const h = a.collect ? "*" : "";
+        const i = a.flags.replace(/ +/g, "");
         if (a.standalone) {
             return `'(- *)'{${h}${i}}'[${g}]${d}'`;
         } else {
-            const k = c.length ? `'(${c.join(' ')})'` : '';
+            const k = c.length ? `'(${c.join(" ")})'` : "";
             return `${k}{${h}${i}}'[${g}]${d}'`;
         }
     }
@@ -2497,9 +2497,9 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
             a.unshift(`command_args) _command_args ;;`);
         }
         if (a.length) {
-            return `\n\n    case "$state" in\n        ${a.join('\n        ')}\n    esac`;
+            return `\n\n    case "$state" in\n        ${a.join("\n        ")}\n    esac`;
         }
-        return '';
+        return "";
     }
 }
 new j();

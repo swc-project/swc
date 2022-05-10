@@ -1,3 +1,2 @@
-export async function setup() {
-}
+export async function setup() {}
 await setup();

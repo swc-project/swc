@@ -1,2 +1,1 @@
-class Foo extends UnknownNativeClass {
-}
+class Foo extends UnknownNativeClass {}

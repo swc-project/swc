@@ -20,9 +20,11 @@ pub trait ParserInput {
 
     fn reset(&mut self, state: &Self::State);
 
+    fn take_errors(&mut self) -> Vec<Error>;
+
     fn set_input_state(&mut self, state: State);
 
-    fn take_errors(&mut self) -> Vec<Error>;
+    fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool);
 }
 
 #[derive(Debug)]
@@ -119,5 +121,10 @@ where
 
     pub(super) fn set_input_state(&mut self, state: State) {
         self.input.set_input_state(state);
+    }
+
+    pub(super) fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
+        self.input
+            .set_adjusted_current_node_to_html_namespace(value);
     }
 }

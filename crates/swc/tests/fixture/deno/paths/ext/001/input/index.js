@@ -1,3 +1,3 @@
-import styles from '@styles/global.css';
+import styles from "@styles/global.css";
 
-console.log(styles)
+console.log(styles);

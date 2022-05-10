@@ -1,4 +1,3 @@
-import * as _a from './a';
+import * as _a from "./a";
 
-
-export { _a as a }
+export { _a as a };

@@ -76,7 +76,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
     isServerSide && dispatcher._setLang(language), y(function() {
         document.getElementsByTagName("html")[0].setAttribute("lang", language);
     }, [
-        language, 
+        language
     ]);
 }, useLink = function(options) {
     var dispatcher = F(DispatcherContext), hasMounted = s(!1), node = s(), originalOptions = s();
@@ -131,7 +131,7 @@ var useMeta = function(options) {
             content: options.content
         });
     }, [
-        options.content, 
+        options.content
     ]), y(function() {
         return dispatcher._addToQueue(META, metaObject.current), hasMounted.current = !0, function() {
             hasMounted.current = !1, dispatcher._removeFromQueue(META, metaObject.current);
@@ -143,13 +143,13 @@ var useMeta = function(options) {
         hasMounted.current && dispatcher._change(template ? TEMPLATE : TITLE, prevTitle.current, prevTitle.current = title);
     }, [
         title,
-        template, 
+        template
     ]), y(function() {
         return hasMounted.current = !0, dispatcher._addToQueue(template ? TEMPLATE : TITLE, prevTitle.current = title), function() {
             hasMounted.current = !1, dispatcher._removeFromQueue(template ? TEMPLATE : TITLE, prevTitle.current);
         };
     }, [
-        template, 
+        template
     ]);
 }, useTitleTemplate = function(template) {
     useTitle(template, !0);

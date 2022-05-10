@@ -28,14 +28,31 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 }
 function _asyncToGenerator(fn) {
     return function () {
-        var self = this, args = arguments;
+        var self = this,
+            args = arguments;
         return new Promise(function (resolve, reject) {
             var gen = fn.apply(self, args);
             function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+                asyncGeneratorStep(
+                    gen,
+                    resolve,
+                    reject,
+                    _next,
+                    _throw,
+                    "next",
+                    value
+                );
             }
             function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+                asyncGeneratorStep(
+                    gen,
+                    resolve,
+                    reject,
+                    _next,
+                    _throw,
+                    "throw",
+                    err
+                );
             }
             _next(undefined);
         });
@@ -44,22 +61,28 @@ function _asyncToGenerator(fn) {
 _asyncToGenerator(function* () {
     let counter = 0;
     let resolve;
-    let promise = new Promise((r) => resolve = r
-    );
+    let promise = new Promise((r) => (resolve = r));
     let iterable = {
         [Symbol.asyncIterator]() {
             return {
                 next() {
                     return promise;
-                }
+                },
             };
-        }
+        },
     };
     const res = _asyncToGenerator(function* () {
         {
-            var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+            var _iteratorAbruptCompletion = false,
+                _didIteratorError = false,
+                _iteratorError;
             try {
-                for (var _iterator = _asyncIterator(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false) {
+                for (
+                    var _iterator = _asyncIterator(iterable), _step;
+                    (_iteratorAbruptCompletion = !(_step =
+                        yield _iterator.next()).done);
+                    _iteratorAbruptCompletion = false
+                ) {
                     let _value = _step.value;
                     const value = _value;
                     counter++;
@@ -81,25 +104,21 @@ _asyncToGenerator(function* () {
             }
         }
         if (counter !== 2) {
-            throw new Error('');
+            throw new Error("");
         }
     })();
-    for (let v of [
-        0,
-        1
-    ]) {
+    for (let v of [0, 1]) {
         yield null;
         let oldresolve = resolve;
-        promise = new Promise((r) => resolve = r
-        );
+        promise = new Promise((r) => (resolve = r));
         oldresolve({
             value: v,
-            done: false
+            done: false,
         });
     }
     resolve({
         value: undefined,
-        done: true
+        done: true,
     });
     yield res;
 })();

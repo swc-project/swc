@@ -1,3 +1,3 @@
-import { FOO } from './a';
+import { FOO } from "./a";
 
 console.log(FOO);

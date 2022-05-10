@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 var _react = function(obj) {
     if (obj && obj.__esModule) return obj;
     if (null === obj || "object" !== _typeof(obj) && "function" != typeof obj) return {
-        "default": obj
+        default: obj
     };
     var cache = _getRequireWildcardCache();
     if (cache && cache.has(obj)) return cache.get(obj);
@@ -19,7 +19,7 @@ var _react = function(obj) {
 }(require("react")), _propTypes = _interopRequireDefault(require("prop-types")), _Item = _interopRequireDefault(require("./Item")), _compareObjects = _interopRequireDefault(require("./compareObjects"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
-        "default": obj
+        default: obj
     };
 }
 function _getRequireWildcardCache() {
@@ -117,9 +117,9 @@ var ItemsList = function(_Component) {
             if (!swcHelpers._instanceof(instance, Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, ItemsList1);
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-        return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [
+        return _this = _super.call.apply(_super, [
             this
-        ].concat(args))), "storeHighlightedItemReference", function(highlightedItem) {
+        ].concat(args)), _defineProperty(_assertThisInitialized(_this), "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
@@ -128,7 +128,7 @@ var ItemsList = function(_Component) {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
                 return (0, _compareObjects.default)(nextProps, this.props, [
-                    "itemProps"
+                    "itemProps", 
                 ]);
             }
         },
@@ -166,14 +166,14 @@ var ItemsList = function(_Component) {
                     }));
                 }));
             }
-        }
+        }, 
     ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
     itemProps: _propTypes.default.oneOfType([
         _propTypes.default.object,
-        _propTypes.default.func
+        _propTypes.default.func, 
     ]),
     renderItem: _propTypes.default.func.isRequired,
     renderItemData: _propTypes.default.object.isRequired,

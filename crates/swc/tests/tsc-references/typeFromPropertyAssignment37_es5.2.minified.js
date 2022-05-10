@@ -1,2 +1,1 @@
-var util = exports = module.exports = {}, util = require("./mod");
-util.existy;
+(exports = module.exports = {}, require("./mod")).existy;

@@ -1,7 +1,7 @@
 function a() {
-    return 'a';
+    return "a";
 }
 function b() {
-    return 'b';
+    return "b";
 }
 a();

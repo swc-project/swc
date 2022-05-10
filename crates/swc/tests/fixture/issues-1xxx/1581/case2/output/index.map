@@ -7,7 +7,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "export const foo = () => {\n    return 2;\n};"
+    "export const foo = () => {\n    return 2;\n};\n"
   ],
   "version": 3
 }

@@ -1,8 +1,8 @@
 {
-  "jsc": {
-    "target": "es2015",
-    "parser": {
-      "syntax": "typescript"
+    "jsc": {
+        "target": "es2015",
+        "parser": {
+            "syntax": "typescript"
+        }
     }
-  }
 }

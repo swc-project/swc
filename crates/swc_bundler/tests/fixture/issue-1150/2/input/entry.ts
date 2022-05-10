@@ -11,10 +11,7 @@ class A {
     #a: () => void;
     #c?: O;
     constructor(o: AOptions = {}) {
-        const {
-            a = defaultA,
-            c,
-        } = o;
+        const { a = defaultA, c } = o;
         this.#a = a;
         this.#c = c;
     }

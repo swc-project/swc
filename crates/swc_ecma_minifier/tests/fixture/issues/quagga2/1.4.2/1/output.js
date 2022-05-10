@@ -1,5 +1,5 @@
 !function(root, factory) {
-    'object' == typeof exports && 'object' == typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define([], factory) : 'object' == typeof exports ? exports.Quagga = factory() : root.Quagga = factory();
+    "object" == typeof exports && "object" == typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define([], factory) : "object" == typeof exports ? exports.Quagga = factory() : root.Quagga = factory();
 }(window, function() {
     return function(modules) {
         var installedModules = {};
@@ -18,19 +18,19 @@
                 get: getter
             });
         }, __webpack_require__.r = function(exports) {
-            'undefined' != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports, Symbol.toStringTag, {
-                value: 'Module'
-            }), Object.defineProperty(exports, '__esModule', {
+            "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports, Symbol.toStringTag, {
+                value: "Module"
+            }), Object.defineProperty(exports, "__esModule", {
                 value: !0
             });
         }, __webpack_require__.t = function(value, mode) {
             if (1 & mode && (value = __webpack_require__(value)), 8 & mode) return value;
-            if (4 & mode && 'object' == typeof value && value && value.__esModule) return value;
+            if (4 & mode && "object" == typeof value && value && value.__esModule) return value;
             var ns = Object.create(null);
-            if (__webpack_require__.r(ns), Object.defineProperty(ns, 'default', {
+            if (__webpack_require__.r(ns), Object.defineProperty(ns, "default", {
                 enumerable: !0,
                 value: value
-            }), 2 & mode && 'string' != typeof value) for(var key1 in value)__webpack_require__.d(ns, key1, (function(key) {
+            }), 2 & mode && "string" != typeof value) for(var key1 in value)__webpack_require__.d(ns, key1, (function(key) {
                 return value[key];
             }).bind(null, key1));
             return ns;
@@ -40,7 +40,7 @@
             } : function() {
                 return module;
             };
-            return __webpack_require__.d(getter, 'a', getter), getter;
+            return __webpack_require__.d(getter, "a", getter), getter;
         }, __webpack_require__.o = function(object, property) {
             return Object.prototype.hasOwnProperty.call(object, property);
         }, __webpack_require__.p = "/", __webpack_require__(__webpack_require__.s = 89);
@@ -197,7 +197,7 @@
                         for(i = 0; i < points.length; i++)sum += points[i].rad;
                         center.rad = sum / points.length, center.vec = vec2.clone([
                             Math.cos(center.rad),
-                            Math.sin(center.rad)
+                            Math.sin(center.rad), 
                         ]);
                     }
                     return _add(point), updateCenter(), {
@@ -285,7 +285,7 @@
                     for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
                     return found;
                 }
-                for(property || (property = 'rad'), i = 0; i < points.length; i++)addToCluster(point = cluster.createPoint(points[i], i, property)) || clusters.push(cluster.create(point, threshold));
+                for(property || (property = "rad"), i = 0; i < points.length; i++)addToCluster(point = cluster.createPoint(points[i], i, property)) || clusters.push(cluster.create(point, threshold));
                 return clusters;
             }
             function topGeneric(list, top, scoreFunc) {
@@ -341,11 +341,11 @@
                     60,
                     80
                 ], nrOfPatchesMap = {
-                    'x-small': 5,
+                    "x-small": 5,
                     small: 4,
                     medium: 3,
                     large: 2,
-                    'x-large': 1
+                    "x-large": 1
                 }, nrOfPatchesIdx = nrOfPatchesMap[patchSize] || nrOfPatchesMap.medium, nrOfPatches = nrOfPatchesList[nrOfPatchesIdx], desiredPatchSize = Math.floor(wideSide / nrOfPatches);
                 function findPatchSizeForDivisors(divisors) {
                     for(var i = 0, found = divisors[Math.floor(divisors.length / 2)]; i < divisors.length - 1 && divisors[i] < desiredPatchSize;)i++;
@@ -358,16 +358,16 @@
             }
             var _dimensionsConverters = {
                 top: function(dimension, context) {
-                    return '%' === dimension.unit ? Math.floor(context.height * (dimension.value / 100)) : null;
+                    return "%" === dimension.unit ? Math.floor(context.height * (dimension.value / 100)) : null;
                 },
                 right: function(dimension, context) {
-                    return '%' === dimension.unit ? Math.floor(context.width - context.width * (dimension.value / 100)) : null;
+                    return "%" === dimension.unit ? Math.floor(context.width - context.width * (dimension.value / 100)) : null;
                 },
                 bottom: function(dimension, context) {
-                    return '%' === dimension.unit ? Math.floor(context.height - context.height * (dimension.value / 100)) : null;
+                    return "%" === dimension.unit ? Math.floor(context.height - context.height * (dimension.value / 100)) : null;
                 },
                 left: function(dimension, context) {
-                    return '%' === dimension.unit ? Math.floor(context.width * (dimension.value / 100)) : null;
+                    return "%" === dimension.unit ? Math.floor(context.width * (dimension.value / 100)) : null;
                 }
             };
             function computeImageArea(inputWidth, inputHeight, area) {
@@ -377,7 +377,7 @@
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
                     var value, parsed = {
                         value: parseFloat(value = area[key]),
-                        unit: (value.indexOf('%'), value.length, '%')
+                        unit: (value.indexOf("%"), value.length, "%")
                     }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
@@ -426,10 +426,10 @@
                 },
                 toPointList: function(arr) {
                     var rows = arr.reduce(function(p, n) {
-                        var row = "[".concat(n.join(','), "]");
+                        var row = "[".concat(n.join(","), "]");
                         return p.push(row), p;
                     }, []);
-                    return "[".concat(rows.join(',\r\n'), "]");
+                    return "[".concat(rows.join(",\r\n"), "]");
                 },
                 threshold: function(arr, _threshold, scoreFunc) {
                     return arr.reduce(function(prev, next) {
@@ -533,7 +533,7 @@
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
                             for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, mu02 = label.m02 / label.m00 - y_ * y_, mu20 = label.m20 / label.m00 - x_ * x_, tmp = (mu02 - mu20) / (2 * mu11), tmp = 0.5 * Math.atan(tmp) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
-                                Math.sin(tmp)
+                                Math.sin(tmp), 
                             ]), result.push(label));
                             return result;
                         }
@@ -551,8 +551,8 @@
                     {
                         key: "show",
                         value: function(canvas) {
-                            var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext('2d');
-                            if (!ctx) throw new Error('Unable to get canvas context');
+                            var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext("2d");
+                            if (!ctx) throw new Error("Unable to get canvas context");
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
                             canvas.width = this.size.x, canvas.height = this.size.y;
                             var newFrame = new ImageData(data, frame.width, frame.height);
@@ -578,8 +578,8 @@
                                 0,
                                 0,
                                 0
-                            ], result = [], ctx = canvas.getContext('2d');
-                            if (!ctx) throw new Error('Unable to get canvas context');
+                            ], result = [], ctx = canvas.getContext("2d");
+                            if (!ctx) throw new Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
                                 hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
                                 var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
@@ -587,7 +587,7 @@
                             }
                             ctx.putImageData(frame, from.x, from.y);
                         }
-                    }
+                    }, 
                 ]), ImageWrapper;
             }();
             __webpack_exports__.a = ImageWrapper1;
@@ -611,7 +611,7 @@
         function(module, exports) {
             module.exports = function(value) {
                 var type = typeof value;
-                return null != value && ('object' == type || 'function' == type);
+                return null != value && ("object" == type || "function" == type);
             };
         },
         function(module, exports) {
@@ -625,12 +625,12 @@
             module.exports = merge;
         },
         function(module, exports, __webpack_require__) {
-            var freeGlobal = __webpack_require__(45), freeSelf = 'object' == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function('return this')();
+            var freeGlobal = __webpack_require__(45), freeSelf = "object" == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function("return this")();
             module.exports = root;
         },
         function(module, exports) {
             module.exports = function(value) {
-                return null != value && 'object' == typeof value;
+                return null != value && "object" == typeof value;
             };
         },
         function(module, exports) {
@@ -704,7 +704,7 @@
                     [
                         -1,
                         1
-                    ]
+                    ], 
                 ],
                 create: function(imageWrapper, labelWrapper) {
                     var pos, imageData = imageWrapper.data, labelData = labelWrapper.data, searchDirections = this.searchDirections, width = imageWrapper.size.x;
@@ -752,7 +752,7 @@
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol ? Symbol.toStringTag : void 0;
             module.exports = function(value) {
-                return null == value ? void 0 === value ? '[object Undefined]' : '[object Null]' : symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+                return null == value ? void 0 === value ? "[object Undefined]" : "[object Null]" : symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
             };
         },
         function(module, __webpack_exports__, __webpack_require__) {
@@ -772,20 +772,20 @@
                 function boxFromPatches(patches) {
                     var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
                     for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                        color: 'red'
+                        color: "red"
                     });
                     for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
                         Math.cos(overAvg),
                         Math.sin(overAvg),
                         -Math.sin(overAvg),
-                        Math.cos(overAvg)
+                        Math.cos(overAvg), 
                     ]), i = 0; i < patches.length; i++){
                         for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
                         _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(patch.box, {
                             x: 0,
                             y: 1
                         }, _canvasContainer.ctx.binary, {
-                            color: '#99ff00',
+                            color: "#99ff00",
                             lineWidth: 2
                         });
                     }
@@ -806,19 +806,19 @@
                         [
                             minx,
                             maxy
-                        ]
+                        ], 
                     ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
                         x: 0,
                         y: 1
                     }, _canvasContainer.ctx.binary, {
-                        color: '#ff0000',
+                        color: "#ff0000",
                         lineWidth: 2
                     }), scale = _config.halfSample ? 2 : 1, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
                     for(_config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
                         x: 0,
                         y: 1
                     }, _canvasContainer.ctx.binary, {
-                        color: '#ff0000',
+                        color: "#ff0000",
                         lineWidth: 2
                     }), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
                     return box;
@@ -832,7 +832,7 @@
                         for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
                         if (eligibleMoments.length >= 2) {
                             for(k = 0, matchingMoments = function(moments) {
-                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.90), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
+                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
                                 if (1 === topCluster.length) {
@@ -858,12 +858,12 @@
                                     ]),
                                     gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
                                         x + _subImageWrapper.size.x,
-                                        y + _subImageWrapper.size.y
+                                        y + _subImageWrapper.size.y, 
                                     ]),
                                     gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
                                         x,
                                         y + _subImageWrapper.size.y
-                                    ])
+                                    ]), 
                                 ],
                                 moments: matchingMoments,
                                 rad: avg,
@@ -882,12 +882,12 @@
                         _config = config, _inputImageWrapper = inputImageWrapper, _currentImageWrapper = _config.halfSample ? new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a({
                             x: _inputImageWrapper.size.x / 2 | 0,
                             y: _inputImageWrapper.size.y / 2 | 0
-                        }) : _inputImageWrapper, _patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(_config.patchSize, _currentImageWrapper.size), _numPatches.x = _currentImageWrapper.size.x / _patchSize.x | 0, _numPatches.y = _currentImageWrapper.size.y / _patchSize.y | 0, _binaryImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_currentImageWrapper.size, void 0, Uint8Array, !1), _labelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, void 0, Array, !0), skeletonImageData = new ArrayBuffer(65536), _subImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, 0, _patchSize.x * _patchSize.y)), _skelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, _patchSize.x * _patchSize.y * 3, _patchSize.x * _patchSize.y), void 0, !0), _skeletonizer = Object(_skeletonizer__WEBPACK_IMPORTED_MODULE_8__.a)('undefined' != typeof window ? window : 'undefined' != typeof self ? self : global, {
+                        }) : _inputImageWrapper, _patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(_config.patchSize, _currentImageWrapper.size), _numPatches.x = _currentImageWrapper.size.x / _patchSize.x | 0, _numPatches.y = _currentImageWrapper.size.y / _patchSize.y | 0, _binaryImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_currentImageWrapper.size, void 0, Uint8Array, !1), _labelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, void 0, Array, !0), skeletonImageData = new ArrayBuffer(65536), _subImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, 0, _patchSize.x * _patchSize.y)), _skelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, _patchSize.x * _patchSize.y * 3, _patchSize.x * _patchSize.y), void 0, !0), _skeletonizer = Object(_skeletonizer__WEBPACK_IMPORTED_MODULE_8__.a)("undefined" != typeof window ? window : "undefined" != typeof self ? self : global, {
                             size: _patchSize.x
                         }, skeletonImageData), _imageToPatchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a({
                             x: _currentImageWrapper.size.x / _subImageWrapper.size.x | 0,
                             y: _currentImageWrapper.size.y / _subImageWrapper.size.y | 0
-                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || 'undefined' == typeof document || (_canvasContainer.dom.binary = document.createElement('canvas'), _canvasContainer.dom.binary.className = 'binaryBuffer', !0 === _config.debug.showCanvas && document.querySelector('#debug').appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext('2d'), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
+                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer.dom.binary = document.createElement("canvas"), _canvasContainer.dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d"), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
                     },
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
@@ -901,7 +901,7 @@
                                 j
                             ], x, y));
                             if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                color: '#99ff00',
+                                color: "#99ff00",
                                 lineWidth: 2
                             });
                             return patchesFound;
@@ -938,7 +938,7 @@
                             for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
                             for(_patchGrid.zeroBorder(); (currIdx = notYetProcessed()) < _patchLabelGrid.data.length;)label++, trace(currIdx);
                             if (_config.debug.showPatchLabels) for(j = 0; j < _patchLabelGrid.data.length; j++)_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label && (patch = _imageToPatchGrid.data[j], hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                color: "rgb(".concat(rgb.join(','), ")"),
+                                color: "rgb(".concat(rgb.join(","), ")"),
                                 lineWidth: 2
                             }));
                             return label;
@@ -972,7 +972,7 @@
                             for(i = 0; i < topLabels.length; i++){
                                 for(sum = _patchLabelGrid.data.length, patches.length = 0; sum--;)_patchLabelGrid.data[sum] === topLabels[i].label && (patch = _imageToPatchGrid.data[sum], patches.push(patch));
                                 if ((box = boxFromPatches(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                    color: "rgb(".concat(rgb.join(','), ")"),
+                                    color: "rgb(".concat(rgb.join(","), ")"),
                                     lineWidth: 2
                                 });
                             }
@@ -1026,21 +1026,21 @@
             module.exports = Symbol;
         },
         function(module, exports, __webpack_require__) {
-            var nativeCreate = __webpack_require__(35)(Object, 'create');
+            var nativeCreate = __webpack_require__(35)(Object, "create");
             module.exports = nativeCreate;
         },
         function(module, exports, __webpack_require__) {
             var isKeyable = __webpack_require__(117);
             module.exports = function(map, key) {
                 var data = map.__data__;
-                return isKeyable(key) ? data['string' == typeof key ? 'string' : 'hash'] : data.map;
+                return isKeyable(key) ? data["string" == typeof key ? "string" : "hash"] : data.map;
             };
         },
         function(module, exports, __webpack_require__) {
             var baseIsArguments = __webpack_require__(132), isObjectLike = __webpack_require__(18), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, propertyIsEnumerable = objectProto.propertyIsEnumerable, isArguments = baseIsArguments(function() {
                 return arguments;
             }()) ? baseIsArguments : function(value) {
-                return isObjectLike(value) && hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+                return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
             };
             module.exports = isArguments;
         },
@@ -1048,7 +1048,7 @@
             var reIsUint = /^(?:0|[1-9]\d*)$/;
             module.exports = function(value, length) {
                 var type = typeof value;
-                return !!(length = null == length ? 9007199254740991 : length) && ('number' == type || 'symbol' != type && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+                return !!(length = null == length ? 9007199254740991 : length) && ("number" == type || "symbol" != type && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
             };
         },
         function(module, exports, __webpack_require__) {
@@ -1093,13 +1093,13 @@
             module.exports = function(value) {
                 if (!isObject(value)) return !1;
                 var tag = baseGetTag(value);
-                return '[object Function]' == tag || '[object GeneratorFunction]' == tag || '[object AsyncFunction]' == tag || '[object Proxy]' == tag;
+                return "[object Function]" == tag || "[object GeneratorFunction]" == tag || "[object AsyncFunction]" == tag || "[object Proxy]" == tag;
             };
         },
         function(module, exports, __webpack_require__) {
             var defineProperty = __webpack_require__(49);
             module.exports = function(object, key, value) {
-                '__proto__' == key && defineProperty ? defineProperty(object, key, {
+                "__proto__" == key && defineProperty ? defineProperty(object, key, {
                     configurable: !0,
                     enumerable: !0,
                     value: value,
@@ -1130,7 +1130,7 @@
         },
         function(module, exports) {
             module.exports = function(value) {
-                return 'number' == typeof value && value > -1 && value % 1 == 0 && value <= 9007199254740991;
+                return "number" == typeof value && value > -1 && value % 1 == 0 && value <= 9007199254740991;
             };
         },
         function(module, exports) {
@@ -1144,24 +1144,24 @@
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObjectLike = __webpack_require__(18);
             module.exports = function(value) {
-                return 'symbol' == typeof value || isObjectLike(value) && '[object Symbol]' == baseGetTag(value);
+                return "symbol" == typeof value || isObjectLike(value) && "[object Symbol]" == baseGetTag(value);
             };
         },
         function(module, exports, __webpack_require__) {
             var isSymbol = __webpack_require__(42), INFINITY = 1 / 0;
             module.exports = function(value) {
-                if ('string' == typeof value || isSymbol(value)) return value;
-                var result = value + '';
-                return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+                if ("string" == typeof value || isSymbol(value)) return value;
+                var result = value + "";
+                return "0" == result && 1 / value == -INFINITY ? "-0" : result;
             };
         },
         function(module, exports, __webpack_require__) {
-            var getNative = __webpack_require__(35), root = __webpack_require__(17), Map = getNative(root, 'Map');
+            var getNative = __webpack_require__(35), root = __webpack_require__(17), Map = getNative(root, "Map");
             module.exports = Map;
         },
         function(module, exports, __webpack_require__) {
             (function(global) {
-                var freeGlobal = 'object' == typeof global && global && global.Object === Object && global;
+                var freeGlobal = "object" == typeof global && global && global.Object === Object && global;
                 module.exports = freeGlobal;
             }).call(this, __webpack_require__(46));
         },
@@ -1197,8 +1197,8 @@
         function(module, exports, __webpack_require__) {
             var getNative = __webpack_require__(35), defineProperty = function() {
                 try {
-                    var func = getNative(Object, 'defineProperty');
-                    return func({}, '', {}), func;
+                    var func = getNative(Object, "defineProperty");
+                    return func({}, "", {}), func;
                 } catch (e) {}
             }();
             module.exports = defineProperty;
@@ -1210,13 +1210,13 @@
         function(module, exports) {
             var objectProto = Object.prototype;
             module.exports = function(value) {
-                var Ctor = value && value.constructor;
-                return value === ('function' == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             };
         },
         function(module2, exports, __webpack_require__) {
             (function(module) {
-                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && 'object' == typeof module && module && !module.nodeType && module, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
+                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
                 module.exports = nativeIsBuffer || stubFalse;
             }).call(this, __webpack_require__(38)(module2));
         },
@@ -1226,7 +1226,7 @@
         },
         function(module, exports) {
             module.exports = function(object, key) {
-                if (('constructor' !== key || 'function' != typeof object[key]) && '__proto__' != key) return object[key];
+                if (("constructor" !== key || "function" != typeof object[key]) && "__proto__" != key) return object[key];
             };
         },
         function(module, exports, __webpack_require__) {
@@ -1526,17 +1526,17 @@
                         },
                         debug: {
                             drawContour: function(canvas, firstContour) {
-                                var iq, q, p, ctx = canvas.getContext('2d'), pq = firstContour;
-                                for(ctx.strokeStyle = 'red', ctx.fillStyle = 'red', ctx.lineWidth = 1, iq = null !== pq ? pq.insideContours : null; null !== pq;){
+                                var iq, q, p, ctx = canvas.getContext("2d"), pq = firstContour;
+                                for(ctx.strokeStyle = "red", ctx.fillStyle = "red", ctx.lineWidth = 1, iq = null !== pq ? pq.insideContours : null; null !== pq;){
                                     switch(null !== iq ? (q = iq, iq = iq.nextpeer) : (q = pq, pq = pq.nextpeer, iq = null !== pq ? pq.insideContours : null), q.dir){
                                         case Rasterizer.CONTOUR_DIR.CW_DIR:
-                                            ctx.strokeStyle = 'red';
+                                            ctx.strokeStyle = "red";
                                             break;
                                         case Rasterizer.CONTOUR_DIR.CCW_DIR:
-                                            ctx.strokeStyle = 'blue';
+                                            ctx.strokeStyle = "blue";
                                             break;
                                         case Rasterizer.CONTOUR_DIR.UNKNOWN_DIR:
-                                            ctx.strokeStyle = 'green';
+                                            ctx.strokeStyle = "green";
                                     }
                                     p = q.firstVertex, ctx.beginPath(), ctx.moveTo(p.x, p.y);
                                     do p = p.next, ctx.lineTo(p.x, p.y);
@@ -1553,7 +1553,7 @@
         function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = function(stdlib, foreign, buffer) {
-                'use asm';
+                "use asm";
                 var images = new stdlib.Uint8Array(buffer);
                 var size = foreign.size | 0;
                 var imul = stdlib.Math.imul;
@@ -1710,7 +1710,7 @@
                 object !== source && baseFor(source, function(srcValue, key) {
                     if (stack || (stack = new Stack()), isObject(srcValue)) baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
                     else {
-                        var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + '', object, source, stack) : void 0;
+                        var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : void 0;
                         void 0 === newValue && (newValue = srcValue), assignMergeValue(object, key, newValue);
                     }
                 }, keysIn);
@@ -1798,7 +1798,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var isFunction = __webpack_require__(36), isMasked = __webpack_require__(105), isObject = __webpack_require__(14), toSource = __webpack_require__(107), reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+            var isFunction = __webpack_require__(36), isMasked = __webpack_require__(105), isObject = __webpack_require__(14), toSource = __webpack_require__(107), reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp("^" + funcToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
             module.exports = function(value) {
                 return !(!isObject(value) || isMasked(value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
             };
@@ -1822,13 +1822,13 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var uid, coreJsData = __webpack_require__(106), maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '';
+            var uid, coreJsData = __webpack_require__(106), maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "")) ? "Symbol(src)_1." + uid : "";
             module.exports = function(func) {
                 return !!maskSrcKey && maskSrcKey in func;
             };
         },
         function(module, exports, __webpack_require__) {
-            var coreJsData = __webpack_require__(17)['__core-js_shared__'];
+            var coreJsData = __webpack_require__(17)["__core-js_shared__"];
             module.exports = coreJsData;
         },
         function(module, exports) {
@@ -1839,10 +1839,10 @@
                         return funcToString.call(func);
                     } catch (e) {}
                     try {
-                        return func + '';
+                        return func + "";
                     } catch (e1) {}
                 }
-                return '';
+                return "";
             };
         },
         function(module, exports) {
@@ -1889,7 +1889,7 @@
                 var data = this.__data__;
                 if (nativeCreate) {
                     var result = data[key];
-                    return '__lodash_hash_undefined__' === result ? void 0 : result;
+                    return "__lodash_hash_undefined__" === result ? void 0 : result;
                 }
                 return hasOwnProperty.call(data, key) ? data[key] : void 0;
             };
@@ -1905,7 +1905,7 @@
             var nativeCreate = __webpack_require__(28);
             module.exports = function(key, value) {
                 var data = this.__data__;
-                return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && void 0 === value ? '__lodash_hash_undefined__' : value, this;
+                return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && void 0 === value ? "__lodash_hash_undefined__" : value, this;
             };
         },
         function(module, exports, __webpack_require__) {
@@ -1918,7 +1918,7 @@
         function(module, exports) {
             module.exports = function(value) {
                 var type = typeof value;
-                return 'string' == type || 'number' == type || 'symbol' == type || 'boolean' == type ? '__proto__' !== value : null === value;
+                return "string" == type || "number" == type || "symbol" == type || "boolean" == type ? "__proto__" !== value : null === value;
             };
         },
         function(module, exports, __webpack_require__) {
@@ -1963,7 +1963,7 @@
                     assignMergeValue(object, key, stacked);
                     return;
                 }
-                var newValue = customizer ? customizer(objValue, srcValue, key + '', object, source, stack) : void 0, isCommon = void 0 === newValue;
+                var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0, isCommon = void 0 === newValue;
                 if (isCommon) {
                     var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
                     newValue = srcValue, isArr || isBuff || isTyped ? isArray(objValue) ? newValue = objValue : isArrayLikeObject(objValue) ? newValue = copyArray(objValue) : isBuff ? (isCommon = !1, newValue = cloneBuffer(srcValue, !0)) : isTyped ? (isCommon = !1, newValue = cloneTypedArray(srcValue, !0)) : newValue = [] : isPlainObject(srcValue) || isArguments(srcValue) ? (newValue = objValue, isArguments(objValue) ? newValue = toPlainObject(objValue) : (!isObject(objValue) || isFunction(objValue)) && (newValue = initCloneObject(srcValue))) : isCommon = !1;
@@ -1973,7 +1973,7 @@
         },
         function(module3, exports, __webpack_require__) {
             (function(module) {
-                var root = __webpack_require__(17), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && 'object' == typeof module && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
+                var root = __webpack_require__(17), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
                 module.exports = function(buffer, isDeep) {
                     if (isDeep) return buffer.slice();
                     var length = buffer.length, result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
@@ -2009,7 +2009,7 @@
         function(module, exports, __webpack_require__) {
             var baseCreate = __webpack_require__(130), getPrototype = __webpack_require__(50), isPrototype = __webpack_require__(51);
             module.exports = function(object) {
-                return 'function' != typeof object.constructor || isPrototype(object) ? {} : baseCreate(getPrototype(object));
+                return "function" != typeof object.constructor || isPrototype(object) ? {} : baseCreate(getPrototype(object));
             };
         },
         function(module, exports, __webpack_require__) {
@@ -2035,7 +2035,7 @@
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObjectLike = __webpack_require__(18);
             module.exports = function(value) {
-                return isObjectLike(value) && '[object Arguments]' == baseGetTag(value);
+                return isObjectLike(value) && "[object Arguments]" == baseGetTag(value);
             };
         },
         function(module, exports, __webpack_require__) {
@@ -2053,16 +2053,16 @@
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), getPrototype = __webpack_require__(50), isObjectLike = __webpack_require__(18), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
             module.exports = function(value) {
-                if (!isObjectLike(value) || '[object Object]' != baseGetTag(value)) return !1;
+                if (!isObjectLike(value) || "[object Object]" != baseGetTag(value)) return !1;
                 var proto = getPrototype(value);
                 if (null === proto) return !0;
-                var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-                return 'function' == typeof Ctor && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
+                var Ctor = hasOwnProperty.call(proto, "constructor") && proto.constructor;
+                return "function" == typeof Ctor && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
             };
         },
         function(module, exports, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isLength = __webpack_require__(40), isObjectLike = __webpack_require__(18), typedArrayTags = {};
-            typedArrayTags['[object Float32Array]'] = typedArrayTags['[object Float64Array]'] = typedArrayTags['[object Int8Array]'] = typedArrayTags['[object Int16Array]'] = typedArrayTags['[object Int32Array]'] = typedArrayTags['[object Uint8Array]'] = typedArrayTags['[object Uint8ClampedArray]'] = typedArrayTags['[object Uint16Array]'] = typedArrayTags['[object Uint32Array]'] = !0, typedArrayTags['[object Arguments]'] = typedArrayTags['[object Array]'] = typedArrayTags['[object ArrayBuffer]'] = typedArrayTags['[object Boolean]'] = typedArrayTags['[object DataView]'] = typedArrayTags['[object Date]'] = typedArrayTags['[object Error]'] = typedArrayTags['[object Function]'] = typedArrayTags['[object Map]'] = typedArrayTags['[object Number]'] = typedArrayTags['[object Object]'] = typedArrayTags['[object RegExp]'] = typedArrayTags['[object Set]'] = typedArrayTags['[object String]'] = typedArrayTags['[object WeakMap]'] = !1, module.exports = function(value) {
+            typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0, typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1, module.exports = function(value) {
                 return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
             };
         },
@@ -2075,11 +2075,11 @@
         },
         function(module4, exports, __webpack_require__) {
             (function(module) {
-                var freeGlobal = __webpack_require__(45), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && 'object' == typeof module && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+                var freeGlobal = __webpack_require__(45), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && "object" == typeof module && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
                     try {
-                        var types = freeModule && freeModule.require && freeModule.require('util').types;
+                        var types = freeModule && freeModule.require && freeModule.require("util").types;
                         if (types) return types;
-                        return freeProcess && freeProcess.binding && freeProcess.binding('util');
+                        return freeProcess && freeProcess.binding && freeProcess.binding("util");
                     } catch (e) {}
                 }();
                 module.exports = nodeUtil;
@@ -2107,7 +2107,7 @@
             var baseTimes = __webpack_require__(142), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isBuffer = __webpack_require__(52), isIndex = __webpack_require__(31), isTypedArray = __webpack_require__(53), hasOwnProperty = Object.prototype.hasOwnProperty;
             module.exports = function(value, inherited) {
                 var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
-                for(var key in value)(inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && ('length' == key || isBuff && ('offset' == key || 'parent' == key) || isType && ('buffer' == key || 'byteLength' == key || 'byteOffset' == key) || isIndex(key, length))) && result.push(key);
+                for(var key in value)(inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && ("length" == key || isBuff && ("offset" == key || "parent" == key) || isType && ("buffer" == key || "byteLength" == key || "byteOffset" == key) || isIndex(key, length))) && result.push(key);
                 return result;
             };
         },
@@ -2122,7 +2122,7 @@
             module.exports = function(object) {
                 if (!isObject(object)) return nativeKeysIn(object);
                 var isProto = isPrototype(object), result = [];
-                for(var key in object)'constructor' == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
+                for(var key in object)"constructor" == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
                 return result;
             };
         },
@@ -2138,7 +2138,7 @@
             module.exports = function(assigner) {
                 return baseRest(function(object, sources) {
                     var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
-                    for(customizer = assigner.length > 3 && 'function' == typeof customizer ? (length--, customizer) : void 0, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? void 0 : customizer, length = 1), object = Object(object); ++index < length;){
+                    for(customizer = assigner.length > 3 && "function" == typeof customizer ? (length--, customizer) : void 0, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? void 0 : customizer, length = 1), object = Object(object); ++index < length;){
                         var source = sources[index];
                         source && assigner(object, source, index, customizer);
                     }
@@ -2149,7 +2149,7 @@
         function(module, exports, __webpack_require__) {
             var identity = __webpack_require__(57), overRest = __webpack_require__(58), setToString = __webpack_require__(59);
             module.exports = function(func, start) {
-                return setToString(overRest(func, start, identity), func + '');
+                return setToString(overRest(func, start, identity), func + "");
             };
         },
         function(module, exports) {
@@ -2170,7 +2170,7 @@
         function(module, exports, __webpack_require__) {
             var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57);
             module.exports = defineProperty ? function(func, string) {
-                return defineProperty(func, 'toString', {
+                return defineProperty(func, "toString", {
                     configurable: !0,
                     enumerable: !1,
                     value: constant(string),
@@ -2203,18 +2203,18 @@
             module.exports = function(value, index, object) {
                 if (!isObject(object)) return !1;
                 var type = typeof index;
-                return ('number' == type ? !!(isArrayLike(object) && isIndex(index, object.length)) : 'string' == type && index in object) && eq(object[index], value);
+                return ("number" == type ? !!(isArrayLike(object) && isIndex(index, object.length)) : "string" == type && index in object) && eq(object[index], value);
             };
         },
         function(module, exports) {
-            'undefined' == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+            "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 window.setTimeout(callback, 1000 / 60);
-            }), 'function' != typeof Math.imul && (Math.imul = function(a, b) {
+            }), "function" != typeof Math.imul && (Math.imul = function(a, b) {
                 var al = 0xffff & a, bl = 0xffff & b;
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
-            }), 'function' != typeof Object.assign && (Object.assign = function(target) {
-                'use strict';
-                if (null === target) throw new TypeError('Cannot convert undefined or null to object');
+            }), "function" != typeof Object.assign && (Object.assign = function(target) {
+                "use strict";
+                if (null === target) throw new TypeError("Cannot convert undefined or null to object");
                 for(var to = Object(target), index = 1; index < arguments.length; index++){
                     var nextSource = arguments[index];
                     if (null !== nextSource) for(var nextKey in nextSource)Object.prototype.hasOwnProperty.call(nextSource, nextKey) && (to[nextKey] = nextSource[nextKey]);
@@ -2762,7 +2762,7 @@
                     this.tryEntries = [
                         {
                             tryLoc: "root"
-                        }
+                        }, 
                     ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
                 }
                 function values(iterable) {
@@ -2874,7 +2874,7 @@
                             if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
                         }
                     },
-                    "catch": function(tryLoc) {
+                    catch: function(tryLoc) {
                         for(var i = this.tryEntries.length - 1; i >= 0; --i){
                             var entry = this.tryEntries[i];
                             if (entry.tryLoc === tryLoc) {
@@ -2934,14 +2934,14 @@
             module.exports = function(value, object) {
                 if (isArray(value)) return !1;
                 var type = typeof value;
-                return !!('number' == type || 'symbol' == type || 'boolean' == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object(object);
+                return !!("number" == type || "symbol" == type || "boolean" == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object(object);
             };
         },
         function(module, exports, __webpack_require__) {
             var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
                 var result = [];
-                return 46 === string.charCodeAt(0) && result.push(''), string.replace(rePropName, function(match, number, quote, subString) {
-                    result.push(quote ? subString.replace(reEscapeChar, '$1') : number || match);
+                return 46 === string.charCodeAt(0) && result.push(""), string.replace(rePropName, function(match, number, quote, subString) {
+                    result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
                 }), result;
             });
             module.exports = stringToPath;
@@ -2958,7 +2958,7 @@
         function(module, exports, __webpack_require__) {
             var MapCache = __webpack_require__(47);
             function memoize(func, resolver) {
-                if ('function' != typeof func || null != resolver && 'function' != typeof resolver) throw new TypeError('Expected a function');
+                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw new TypeError("Expected a function");
                 var memoized = function() {
                     var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
                     if (cache.has(key)) return cache.get(key);
@@ -2972,17 +2972,17 @@
         function(module, exports, __webpack_require__) {
             var baseToString = __webpack_require__(237);
             module.exports = function(value) {
-                return null == value ? '' : baseToString(value);
+                return null == value ? "" : baseToString(value);
             };
         },
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol ? Symbol.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             function baseToString(value) {
-                if ('string' == typeof value) return value;
-                if (isArray(value)) return arrayMap(value, baseToString) + '';
-                if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : '';
-                var result = value + '';
-                return '0' == result && 1 / value == -INFINITY ? '-0' : result;
+                if ("string" == typeof value) return value;
+                if (isArray(value)) return arrayMap(value, baseToString) + "";
+                if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : "";
+                var result = value + "";
+                return "0" == result && 1 / value == -INFINITY ? "-0" : result;
             }
             module.exports = baseToString;
         },
@@ -2999,7 +2999,7 @@
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
                     var key = toKey(path[index]), newValue = value;
-                    if ('__proto__' === key || 'constructor' === key || 'prototype' === key) return object;
+                    if ("__proto__" === key || "constructor" === key || "prototype" === key) break;
                     if (index != lastIndex) {
                         var objValue = nested[key];
                         void 0 === (newValue = customizer ? customizer(objValue, key, nested) : void 0) && (newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {});
@@ -3035,7 +3035,7 @@
         function(module, exports, __webpack_require__) {
             var flatten = __webpack_require__(244), overRest = __webpack_require__(58), setToString = __webpack_require__(59);
             module.exports = function(func) {
-                return setToString(overRest(func, void 0, flatten), func + '');
+                return setToString(overRest(func, void 0, flatten), func + "");
             };
         },
         function(module, exports, __webpack_require__) {
@@ -3263,20 +3263,20 @@
                 };
             }, Bresenham.debug = {
                 printFrequency: function(line, canvas) {
-                    var i, ctx = canvas.getContext('2d');
-                    for(canvas.width = line.length, canvas.height = 256, ctx.beginPath(), ctx.strokeStyle = 'blue', i = 0; i < line.length; i++)ctx.moveTo(i, 255), ctx.lineTo(i, 255 - line[i]);
+                    var i, ctx = canvas.getContext("2d");
+                    for(canvas.width = line.length, canvas.height = 256, ctx.beginPath(), ctx.strokeStyle = "blue", i = 0; i < line.length; i++)ctx.moveTo(i, 255), ctx.lineTo(i, 255 - line[i]);
                     ctx.stroke(), ctx.closePath();
                 },
                 printPattern: function(line, canvas) {
-                    var i, ctx = canvas.getContext('2d');
-                    for(i = 0, canvas.width = line.length, ctx.fillColor = 'black'; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
+                    var i, ctx = canvas.getContext("2d");
+                    for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
             var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
             (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
             var barcode_reader_BarcodeReader = function() {
                 function BarcodeReader(config, supplements) {
-                    return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", 'unknown'), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
+                    return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
                 }
                 return createClass_default()(BarcodeReader, [
                     {
@@ -3351,18 +3351,18 @@
                             }
                             return counters;
                         }
-                    }
+                    }, 
                 ], [
                     {
                         key: "Exception",
                         get: function() {
                             return {
-                                StartNotFoundException: 'Start-Info was not found!',
-                                CodeNotFoundException: 'Code could not be found!',
-                                PatternNotFoundException: 'Pattern could not be found!'
+                                StartNotFoundException: "Start-Info was not found!",
+                                CodeNotFoundException: "Code could not be found!",
+                                PatternNotFoundException: "Pattern could not be found!"
                             };
                         }
-                    }
+                    }, 
                 ]), BarcodeReader;
             }(), barcode_reader = barcode_reader_BarcodeReader, code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
@@ -4246,8 +4246,8 @@
                             1,
                             1,
                             2
-                        ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.30), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_128'), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
+                        ], 
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_128"), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
                         bar: [
                             0,
                             2,
@@ -4401,7 +4401,7 @@
                                         }
                                         break;
                                     case this.CODE_C:
-                                        if (code.code < 100) result.push(code.code < 10 ? '0' + code.code : code.code);
+                                        if (code.code < 100) result.push(code.code < 10 ? "0" + code.code : code.code);
                                         else switch(code.code !== this.STOP_CODE && (removeLastCharacter = !1), code.code){
                                             case this.CODE_A:
                                                 codeset = this.CODE_A;
@@ -4417,7 +4417,7 @@
                                 unshift && (codeset = codeset === this.CODE_A ? this.CODE_B : this.CODE_A);
                             }
                             return null === code ? null : (code.end = this._nextUnset(this._row, code.end), this._verifyTrailingWhitespace(code)) ? (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 !== rawResult[rawResult.length - 1] ? null : result.length ? (removeLastCharacter && result.splice(result.length - 1, 1), {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: startInfo.start,
                                 end: code.end,
                                 codeset: codeset,
@@ -4441,7 +4441,7 @@
                             for(var length = indices.length, sumNormalized = 0, sumExpected = 0; length--;)sumExpected += expected[indices[length]], sumNormalized += normalized[indices[length]];
                             return sumExpected / sumNormalized;
                         }
-                    }
+                    }, 
                 ]), Code128Reader;
             }(barcode_reader);
             function ownKeys(object, enumerableOnly) {
@@ -4599,7 +4599,7 @@
                     1,
                     1,
                     3
-                ]
+                ], 
             ], CODE_FREQUENCY = [
                 0,
                 11,
@@ -4634,7 +4634,7 @@
                     var _this;
                     return classCallCheck_default()(this, EANReader), _this = _super.call(this, merge_default()({
                         supplements: []
-                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_13'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.70), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
+                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_13"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1,
                         1,
                         1
@@ -4700,8 +4700,7 @@
                     {
                         key: "_findStart",
                         value: function() {
-                            for(var offset = this._nextSet(this._row), startInfo = null; !startInfo;){
-                                if (!(startInfo = this._findPattern(START_PATTERN, offset, !1, !0))) return null;
+                            for(var offset = this._nextSet(this._row), startInfo = null; !startInfo && (startInfo = this._findPattern(START_PATTERN, offset, !1, !0));){
                                 var leadingWhitespaceStart = startInfo.start - (startInfo.end - startInfo.start);
                                 if (leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
                                 offset = startInfo.end, startInfo = null;
@@ -4775,7 +4774,7 @@
                                     format: this.supplements[i].FORMAT
                                 };
                             } catch (err) {
-                                console.error('* decodeExtensions error in ', this.supplements[i], ': ', err);
+                                console.error("* decodeExtensions error in ", this.supplements[i], ": ", err);
                             }
                             return null;
                         }
@@ -4803,11 +4802,11 @@
                                 if (!this._verifyTrailingWhitespace(endInfo)) return null;
                                 resultInfo = {
                                     supplement: supplement,
-                                    code: result.join('') + supplement.code
+                                    code: result.join("") + supplement.code
                                 };
                             }
                             return _objectSpread(_objectSpread({
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: startInfo.start,
                                 end: code.end,
                                 startInfo: startInfo,
@@ -4816,9 +4815,9 @@
                                 format: this.FORMAT
                             });
                         }
-                    }
+                    }, 
                 ]), EANReader;
-            }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%').map(function(_char) {
+            }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
                 return _char.charCodeAt(0);
             })), CHARACTER_ENCODINGS = new Uint16Array([
                 0x034,
@@ -4837,10 +4836,10 @@
                 0x019,
                 0x118,
                 0x058,
-                0x00D,
-                0x10C,
-                0x04C,
-                0x01C,
+                0x00d,
+                0x10c,
+                0x04c,
+                0x01c,
                 0x103,
                 0x043,
                 0x142,
@@ -4852,19 +4851,19 @@
                 0x046,
                 0x016,
                 0x181,
-                0x0C1,
-                0x1C0,
+                0x0c1,
+                0x1c0,
                 0x091,
                 0x190,
-                0x0D0,
+                0x0d0,
                 0x085,
                 0x184,
-                0x0C4,
+                0x0c4,
                 0x094,
-                0x0A8,
-                0x0A2,
-                0x08A,
-                0x02A
+                0x0a8,
+                0x0a2,
+                0x08a,
+                0x02a, 
             ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
@@ -4890,7 +4889,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_39'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39"), _this;
                 }
                 return createClass_default()(Code39Reader, [
                     {
@@ -4905,7 +4904,7 @@
                                 0,
                                 0,
                                 0,
-                                0
+                                0, 
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
@@ -4972,7 +4971,7 @@
                                 0,
                                 0,
                                 0,
-                                0
+                                0, 
                             ]), result = [];
                             if (!(start = this._findStart())) return null;
                             var nextStart = this._nextSet(this._row, start.end);
@@ -4982,9 +4981,9 @@
                                 if (pattern < 0) return null;
                                 if (null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
-                            }while ('*' !== decodedChar)
+                            }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: start.start,
                                 end: nextStart,
                                 startInfo: start,
@@ -4992,7 +4991,7 @@
                                 format: this.FORMAT
                             } : null;
                         }
-                    }
+                    }, 
                 ]), Code39Reader;
             }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
                 IOQ: /[IOQ]/g,
@@ -5022,7 +5021,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_39_vin'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39_vin"), _this;
                 }
                 return createClass_default()(Code39VINReader, [
                     {
@@ -5037,9 +5036,9 @@
                             var result = get_default()(getPrototypeOf_default()(Code39VINReader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            return code ? (code = code.replace(patterns.IOQ, '')).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log('Failed AZ09 pattern code:', code), null) : null;
+                            return code ? (code = code.replace(patterns.IOQ, "")).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
-                    }
+                    }, 
                 ]), Code39VINReader;
             }(code_39_reader), codabar_reader_ALPHABET = [
                 48,
@@ -5061,7 +5060,7 @@
                 65,
                 66,
                 67,
-                68
+                68, 
             ], codabar_reader_CHARACTER_ENCODINGS = [
                 0x003,
                 0x006,
@@ -5079,15 +5078,15 @@
                 0x051,
                 0x054,
                 0x015,
-                0x01A,
+                0x01a,
                 0x029,
-                0x00B,
-                0x00E
+                0x00b,
+                0x00e, 
             ], START_END = [
-                0x01A,
+                0x01a,
                 0x029,
-                0x00B,
-                0x00E
+                0x00b,
+                0x00e
             ], codabar_reader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
@@ -5113,7 +5112,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'codabar'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
                 }
                 return createClass_default()(NewCodabarReader, [
                     {
@@ -5229,8 +5228,8 @@
                                 pos += 8;
                             }
                             return [
-                                'space',
-                                'bar'
+                                "space",
+                                "bar"
                             ].forEach(function(key) {
                                 var newkind = categorization[key];
                                 newkind.wide.min = Math.floor((newkind.narrow.size / newkind.narrow.counts + newkind.wide.size / newkind.wide.counts) / 2), newkind.narrow.max = Math.ceil(newkind.wide.min), newkind.wide.max = Math.ceil((2.0 * newkind.wide.size + 1.5) / newkind.wide.counts);
@@ -5269,7 +5268,7 @@
                             nextStart = nextStart > this._counters.length ? this._counters.length : nextStart;
                             var end = start.start + this._sumCounters(start.startCounter, nextStart - 8);
                             return {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: start.start,
                                 end: end,
                                 startInfo: start,
@@ -5277,7 +5276,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }
+                    }, 
                 ]), NewCodabarReader;
             }(barcode_reader), upc_reader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
@@ -5304,16 +5303,16 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'upc_a'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_a"), _this;
                 }
                 return createClass_default()(UPCReader, [
                     {
                         key: "decode",
                         value: function(row, start) {
                             var result = ean_reader.prototype.decode.call(this);
-                            return result && result.code && 13 === result.code.length && '0' === result.code.charAt(0) ? (result.code = result.code.substring(1), result) : null;
+                            return result && result.code && 13 === result.code.length && "0" === result.code.charAt(0) ? (result.code = result.code.substring(1), result) : null;
                         }
-                    }
+                    }, 
                 ]), UPCReader;
             }(ean_reader), ean_8_reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
@@ -5340,7 +5339,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_8'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_8"), _this;
                 }
                 return createClass_default()(EAN8Reader, [
                     {
@@ -5358,7 +5357,7 @@
                             }
                             return code;
                         }
-                    }
+                    }, 
                 ]), EAN8Reader;
             }(ean_reader), ean_2_reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
@@ -5385,7 +5384,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_2'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_2"), _this;
                 }
                 return createClass_default()(EAN2Reader, [
                     {
@@ -5398,10 +5397,10 @@
                                 if (!(code = this._decodeCode(offset))) return null;
                                 decodedCodes.push(code), result.push(code.code % 10), code.code >= 10 && (codeFrequency |= 1 << 1 - i), 1 !== i && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
                             }
-                            if (2 !== result.length || parseInt(result.join('')) % 4 !== codeFrequency) return null;
+                            if (2 !== result.length || parseInt(result.join("")) % 4 !== codeFrequency) return null;
                             var startInfo = this._findStart();
                             return {
-                                code: result.join(''),
+                                code: result.join(""),
                                 decodedCodes: decodedCodes,
                                 end: code.end,
                                 format: this.FORMAT,
@@ -5409,7 +5408,7 @@
                                 start: startInfo.start
                             };
                         }
-                    }
+                    }, 
                 ]), EAN2Reader;
             }(ean_reader), CHECK_DIGIT_ENCODINGS = [
                 24,
@@ -5421,7 +5420,7 @@
                 3,
                 10,
                 9,
-                5
+                5, 
             ], ean_5_reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
@@ -5447,7 +5446,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_5'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_5"), _this;
                 }
                 return createClass_default()(EAN5Reader, [
                     {
@@ -5471,7 +5470,7 @@
                             }(codeFrequency1)) return null;
                             var startInfo = this._findStart();
                             return {
-                                code: result1.join(''),
+                                code: result1.join(""),
                                 decodedCodes: decodedCodes,
                                 end: code.end,
                                 format: this.FORMAT,
@@ -5479,7 +5478,7 @@
                                 start: startInfo.start
                             };
                         }
-                    }
+                    }, 
                 ]), EAN5Reader;
             }(ean_reader);
             function upc_e_reader_ownKeys(object, enumerableOnly) {
@@ -5541,15 +5540,15 @@
                             21,
                             22,
                             26
-                        ]
+                        ], 
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
-                        1 / 6 * 7
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'upc_e'), _this;
+                        1 / 6 * 7, 
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_e"), _this;
                 }
                 return createClass_default()(UPCEReader, [
                     {
@@ -5631,7 +5630,7 @@
                             var trailingWhitespaceEnd = endInfo.end + (endInfo.end - endInfo.start) / 2;
                             return trailingWhitespaceEnd < this._row.length && this._matchRange(endInfo.end, trailingWhitespaceEnd, 0) ? endInfo : null;
                         }
-                    }
+                    }, 
                 ]), UPCEReader;
             }(ean_reader), i2of5_reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
@@ -5738,8 +5737,8 @@
                             1,
                             3,
                             1
-                        ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'i2of5'), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = 0.38, _this.AVG_CODE_ERROR = 0.09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
+                        ], 
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5"), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = 0.38, _this.AVG_CODE_ERROR = 0.09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
                 }
                 return createClass_default()(I2of5Reader, [
                     {
@@ -5790,8 +5789,7 @@
                     {
                         key: "_findStart",
                         value: function() {
-                            for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo;){
-                                if (!(startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0))) return null;
+                            for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo && (startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0));){
                                 if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4), leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
                                 offset = startInfo.end, startInfo = null;
                             }
@@ -5858,11 +5856,11 @@
                                     0,
                                     0,
                                     0
-                                ]
+                                ], 
                             ], codes = null; pos < counterLength;){
                                 for(var i = 0; i < 5; i++)counterPair[0][i] = counters[pos] * this.barSpaceRatio[0], counterPair[1][i] = counters[pos + 1] * this.barSpaceRatio[1], pos += 2;
                                 if (!(codes = this._decodePair(counterPair))) return null;
-                                for(var _i2 = 0; _i2 < codes.length; _i2++)result.push(codes[_i2].code + ''), decodedCodes.push(codes[_i2]);
+                                for(var _i2 = 0; _i2 < codes.length; _i2++)result.push(codes[_i2].code + ""), decodedCodes.push(codes[_i2]);
                             }
                             return codes;
                         }
@@ -5883,7 +5881,7 @@
                             if (!endInfo) return null;
                             var counters = this._fillCounters(startInfo.end, endInfo.start, !1);
                             return this._verifyCounterLength(counters) && this._decodePayload(counters, result, decodedCodes) ? result.length % 2 != 0 || result.length < 6 ? null : (decodedCodes.push(endInfo), {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,
                                 startInfo: startInfo,
@@ -5891,7 +5889,7 @@
                                 format: this.FORMAT
                             }) : null;
                         }
-                    }
+                    }, 
                 ]), I2of5Reader;
             }(barcode_reader), _2of5_reader_START_PATTERN = [
                 3,
@@ -5899,84 +5897,84 @@
                 3,
                 1,
                 1,
-                1
+                1, 
             ], STOP_PATTERN = [
                 3,
                 1,
                 1,
                 1,
-                3
+                3, 
             ], _2of5_reader_CODE_PATTERN = [
                 [
                     1,
                     1,
                     3,
                     3,
-                    1
+                    1, 
                 ],
                 [
                     3,
                     1,
                     1,
                     1,
-                    3
+                    3, 
                 ],
                 [
                     1,
                     3,
                     1,
                     1,
-                    3
+                    3, 
                 ],
                 [
                     3,
                     3,
                     1,
                     1,
-                    1
+                    1, 
                 ],
                 [
                     1,
                     1,
                     3,
                     1,
-                    3
+                    3, 
                 ],
                 [
                     3,
                     1,
                     3,
                     1,
-                    1
+                    1, 
                 ],
                 [
                     1,
                     3,
                     3,
                     1,
-                    1
+                    1, 
                 ],
                 [
                     1,
                     1,
                     1,
                     3,
-                    3
+                    3, 
                 ],
                 [
                     3,
                     1,
                     1,
                     3,
-                    1
+                    1, 
                 ],
                 [
                     1,
                     3,
                     1,
                     3,
-                    1
-                ]
+                    1, 
+                ], 
             ], START_PATTERN_LENGTH = _2of5_reader_START_PATTERN.reduce(function(sum, val) {
                 return sum + val;
             }, 0), _2of5_reader = function(_BarcodeReader) {
@@ -6007,7 +6005,7 @@
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", '2of5'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.30), _this;
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "2of5"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), _this;
                 }
                 return createClass_default()(TwoOfFiveReader, [
                     {
@@ -6041,7 +6039,7 @@
                         value: function() {
                             for(var startInfo = null, offset = this._nextSet(this._row), narrowBarWidth = 1, leadingWhitespaceStart = 0; !startInfo;){
                                 if (!(startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0))) return null;
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
+                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
                                 offset = startInfo.end, startInfo = null;
                             }
                             return startInfo;
@@ -6115,7 +6113,7 @@
                             decodedCodes.push(startInfo);
                             var result = [];
                             return this._decodePayload(counters, result, decodedCodes) ? result.length < 5 ? null : (decodedCodes.push(endInfo), {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,
                                 startInfo: startInfo,
@@ -6123,9 +6121,9 @@
                                 format: this.FORMAT
                             }) : null;
                         }
-                    }
+                    }, 
                 ]), TwoOfFiveReader;
-            }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*').map(function(_char) {
+            }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
                 return _char.charCodeAt(0);
             })), code_93_reader_CHARACTER_ENCODINGS = new Uint16Array([
                 0x114,
@@ -6137,45 +6135,45 @@
                 0x122,
                 0x150,
                 0x112,
-                0x10A,
-                0x1A8,
-                0x1A4,
-                0x1A2,
+                0x10a,
+                0x1a8,
+                0x1a4,
+                0x1a2,
                 0x194,
                 0x192,
-                0x18A,
+                0x18a,
                 0x168,
                 0x164,
                 0x162,
                 0x134,
-                0x11A,
+                0x11a,
                 0x158,
-                0x14C,
+                0x14c,
                 0x146,
-                0x12C,
+                0x12c,
                 0x116,
-                0x1B4,
-                0x1B2,
-                0x1AC,
-                0x1A6,
+                0x1b4,
+                0x1b2,
+                0x1ac,
+                0x1a6,
                 0x196,
-                0x19A,
-                0x16C,
+                0x19a,
+                0x16c,
                 0x166,
                 0x136,
-                0x13A,
-                0x12E,
-                0x1D4,
-                0x1D2,
-                0x1CA,
-                0x16E,
+                0x13a,
+                0x12e,
+                0x1d4,
+                0x1d2,
+                0x1ca,
+                0x16e,
                 0x176,
-                0x1AE,
+                0x1ae,
                 0x126,
-                0x1DA,
-                0x1D6,
+                0x1da,
+                0x1d6,
                 0x132,
-                0x15E
+                0x15e, 
             ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
@@ -6201,7 +6199,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_93'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_93"), _this;
                 }
                 return createClass_default()(Code93Reader, [
                     {
@@ -6234,11 +6232,11 @@
                                 0,
                                 0,
                                 0,
-                                0
+                                0, 
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
-                                    if (0x15E === this._toPattern(counter)) {
+                                    if (0x15e === this._toPattern(counter)) {
                                         var whiteSpaceMustStart = Math.floor(Math.max(0, patternStart - (i - patternStart) / 4));
                                         if (this._matchRange(whiteSpaceMustStart, patternStart, 0)) return {
                                             start: patternStart,
@@ -6265,37 +6263,37 @@
                         value: function(charArray) {
                             for(var length = charArray.length, result = [], i = 0; i < length; i++){
                                 var _char2 = charArray[i];
-                                if (_char2 >= 'a' && _char2 <= 'd') {
+                                if (_char2 >= "a" && _char2 <= "d") {
                                     if (i > length - 2) return null;
                                     var nextChar = charArray[++i], nextCharCode = nextChar.charCodeAt(0), decodedChar = void 0;
                                     switch(_char2){
-                                        case 'a':
-                                            if (!(nextChar >= 'A') || !(nextChar <= 'Z')) return null;
+                                        case "a":
+                                            if (!(nextChar >= "A") || !(nextChar <= "Z")) return null;
                                             decodedChar = String.fromCharCode(nextCharCode - 64);
                                             break;
-                                        case 'b':
-                                            if (nextChar >= 'A' && nextChar <= 'E') decodedChar = String.fromCharCode(nextCharCode - 38);
-                                            else if (nextChar >= 'F' && nextChar <= 'J') decodedChar = String.fromCharCode(nextCharCode - 11);
-                                            else if (nextChar >= 'K' && nextChar <= 'O') decodedChar = String.fromCharCode(nextCharCode + 16);
-                                            else if (nextChar >= 'P' && nextChar <= 'S') decodedChar = String.fromCharCode(nextCharCode + 43);
+                                        case "b":
+                                            if (nextChar >= "A" && nextChar <= "E") decodedChar = String.fromCharCode(nextCharCode - 38);
+                                            else if (nextChar >= "F" && nextChar <= "J") decodedChar = String.fromCharCode(nextCharCode - 11);
+                                            else if (nextChar >= "K" && nextChar <= "O") decodedChar = String.fromCharCode(nextCharCode + 16);
+                                            else if (nextChar >= "P" && nextChar <= "S") decodedChar = String.fromCharCode(nextCharCode + 43);
                                             else {
-                                                if (!(nextChar >= 'T') || !(nextChar <= 'Z')) return null;
+                                                if (!(nextChar >= "T") || !(nextChar <= "Z")) return null;
                                                 decodedChar = "\x7f";
                                             }
                                             break;
-                                        case 'c':
-                                            if (nextChar >= 'A' && nextChar <= 'O') decodedChar = String.fromCharCode(nextCharCode - 32);
+                                        case "c":
+                                            if (nextChar >= "A" && nextChar <= "O") decodedChar = String.fromCharCode(nextCharCode - 32);
                                             else {
-                                                if ('Z' !== nextChar) return null;
-                                                decodedChar = ':';
+                                                if ("Z" !== nextChar) return null;
+                                                decodedChar = ":";
                                             }
                                             break;
-                                        case 'd':
-                                            if (!(nextChar >= 'A') || !(nextChar <= 'Z')) return null;
+                                        case "d":
+                                            if (!(nextChar >= "A") || !(nextChar <= "Z")) return null;
                                             decodedChar = String.fromCharCode(nextCharCode + 32);
                                             break;
                                         default:
-                                            return console.warn('* code_93_reader _decodeExtended hit default case, this may be an error', decodedChar), null;
+                                            return console.warn("* code_93_reader _decodeExtended hit default case, this may be an error", decodedChar), null;
                                     }
                                     result.push(decodedChar);
                                 } else result.push(_char2);
@@ -6328,7 +6326,7 @@
                                 0,
                                 0,
                                 0,
-                                0
+                                0, 
                             ]), result = [], nextStart = this._nextSet(this._row, start.end);
                             do {
                                 counters = this._toCounters(nextStart, counters);
@@ -6336,9 +6334,9 @@
                                 if (pattern < 0) return null;
                                 if (null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
-                            }while ('*' !== decodedChar)
+                            }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
-                                code: result.join(''),
+                                code: result.join(""),
                                 start: start.start,
                                 end: nextStart,
                                 startInfo: start,
@@ -6346,7 +6344,7 @@
                                 format: this.FORMAT
                             } : null;
                         }
-                    }
+                    }, 
                 ]), Code93Reader;
             }(barcode_reader), code_32_reader_patterns = {
                 AEIO: /[AEIO]/g,
@@ -6376,16 +6374,16 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_32_reader'), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_32_reader"), _this;
                 }
                 return createClass_default()(Code32Reader, [
                     {
                         key: "_decodeCode32",
                         value: function(code) {
                             if (/[^0-9BCDFGHJKLMNPQRSTUVWXYZ]/.test(code)) return null;
-                            for(var res = 0, i = 0; i < code.length; i++)res = 32 * res + '0123456789BCDFGHJKLMNPQRSTUVWXYZ'.indexOf(code[i]);
-                            var code32 = '' + res;
-                            return code32.length < 9 && (code32 = ('000000000' + code32).slice(-9)), 'A' + code32;
+                            for(var res = 0, i = 0; i < code.length; i++)res = 32 * res + "0123456789BCDFGHJKLMNPQRSTUVWXYZ".indexOf(code[i]);
+                            var code32 = "" + res;
+                            return code32.length < 9 && (code32 = ("000000000" + code32).slice(-9)), "A" + code32;
                         }
                     },
                     {
@@ -6401,11 +6399,11 @@
                             if (!result) return null;
                             var code = result.code;
                             if (!code) return null;
-                            if (code = code.replace(code_32_reader_patterns.AEIO, ''), !this._checkChecksum(code)) return null;
+                            if (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code)) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
-                    }
+                    }, 
                 ]), Code32Reader;
             }(code_39_reader), READERS = {
                 code_128_reader: code_128_reader,
@@ -6419,7 +6417,7 @@
                 upc_reader: upc_reader,
                 upc_e_reader: upc_e_reader,
                 i2of5_reader: i2of5_reader,
-                '2of5_reader': _2of5_reader,
+                "2of5_reader": _2of5_reader,
                 code_93_reader: code_93_reader,
                 code_32_reader: code_32_reader
             }, barcode_decoder = {
@@ -6442,29 +6440,29 @@
                     function initReaders() {
                         config.readers.forEach(function(readerConfig) {
                             var reader, configuration = {}, supplements = [];
-                            'object' === typeof_default()(readerConfig) ? (reader = readerConfig.format, configuration = readerConfig.config) : 'string' == typeof readerConfig && (reader = readerConfig), console.log('Before registering reader: ', reader), configuration.supplements && (supplements = configuration.supplements.map(function(supplement) {
+                            "object" === typeof_default()(readerConfig) ? (reader = readerConfig.format, configuration = readerConfig.config) : "string" == typeof readerConfig && (reader = readerConfig), console.log("Before registering reader: ", reader), configuration.supplements && (supplements = configuration.supplements.map(function(supplement) {
                                 return new READERS[supplement]();
                             }));
                             try {
                                 var readerObj = new READERS[reader](configuration, supplements);
                                 _barcodeReaders.push(readerObj);
                             } catch (err) {
-                                throw console.error('* Error constructing reader ', reader, err), err;
+                                throw console.error("* Error constructing reader ", reader, err), err;
                             }
                         }), console.log("Registered Readers: ".concat(_barcodeReaders.map(function(reader) {
                             return JSON.stringify({
                                 format: reader.FORMAT,
                                 config: reader.config
                             });
-                        }).join(', ')));
+                        }).join(", ")));
                     }
                     function tryDecode(line) {
                         var i, result = null, barcodeLine = bresenham.getBarcodeLine(inputImageWrapper1, line[0], line[1]);
                         for(config.debug.showFrequency && (image_debug.a.drawPath(line, {
-                            x: 'x',
-                            y: 'y'
+                            x: "x",
+                            y: "y"
                         }, _canvas.ctx.overlay, {
-                            color: 'red',
+                            color: "red",
                             lineWidth: 3
                         }), bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency)), bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
                         return null === result ? null : {
@@ -6478,7 +6476,7 @@
                             x: 0,
                             y: 1
                         }, ctx, {
-                            color: 'blue',
+                            color: "blue",
                             lineWidth: 2
                         });
                         var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
@@ -6489,7 +6487,7 @@
                             {
                                 x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
-                            }
+                            }, 
                         ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
                         return null === (line2 = function(line, angle, ext) {
                             function extendLine(amount) {
@@ -6509,10 +6507,10 @@
                             }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
                             return result;
                         }(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
-                            x: 'x',
-                            y: 'y'
+                            x: "x",
+                            y: "y"
                         }, ctx, {
-                            color: 'red',
+                            color: "red",
                             lineWidth: 3
                         }), {
                             codeResult: result2.codeResult,
@@ -6523,12 +6521,12 @@
                         });
                     }
                     return function() {
-                        if ('undefined' != typeof document) {
-                            var $debug = document.querySelector('#debug.detection');
-                            _canvas.dom.frequency = document.querySelector('canvas.frequency'), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement('canvas'), _canvas.dom.frequency.className = 'frequency', $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext('2d'), _canvas.dom.pattern = document.querySelector('canvas.patternBuffer'), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement('canvas'), _canvas.dom.pattern.className = 'patternBuffer', $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext('2d'), _canvas.dom.overlay = document.querySelector('canvas.drawingBuffer'), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext('2d'));
+                        if ("undefined" != typeof document) {
+                            var $debug = document.querySelector("#debug.detection");
+                            _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
                         }
                     }(), initReaders(), function() {
-                        if ('undefined' != typeof document) {
+                        if ("undefined" != typeof document) {
                             var i, vis = [
                                 {
                                     node: _canvas.dom.frequency,
@@ -6537,9 +6535,9 @@
                                 {
                                     node: _canvas.dom.pattern,
                                     prop: config.debug.showPattern
-                                }
+                                }, 
                             ];
-                            for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = 'block' : vis[i].node.style.display = 'none';
+                            for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
                         }
                     }(), {
                         decodeFromBoundingBox: function(box) {
@@ -6563,7 +6561,7 @@
                             }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
-                            if (READERS[name]) throw new Error('cannot register existing reader', name);
+                            if (READERS[name]) throw new Error("cannot register existing reader", name);
                             READERS[name] = reader;
                         },
                         setReaders: function(readers) {
@@ -6585,11 +6583,11 @@
                 }
                 function _subscribe(event, callback, async) {
                     var subscription;
-                    if ('function' == typeof callback) subscription = {
+                    if ("function" == typeof callback) subscription = {
                         callback: callback,
                         async: async
                     };
-                    else if (!(subscription = callback).callback) throw new Error('Callback was not specified on options');
+                    else if (!(subscription = callback).callback) throw new Error("Callback was not specified on options");
                     getEvent(event).subscribers.push(subscription);
                 }
                 return {
@@ -6649,7 +6647,7 @@
                     return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
                 }
                 return Exception;
-            }(wrapNativeSuper_default()(Error)), ERROR_DESC = 'This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.';
+            }(wrapNativeSuper_default()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
             function enumerateDevices() {
                 try {
                     return navigator.mediaDevices.enumerateDevices();
@@ -6670,7 +6668,7 @@
                 return new Promise(function(resolve, reject) {
                     var attempts = 10;
                     function checkVideo() {
-                        attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception('Unable to play video stream. Is webcam working?', -1)), attempts--;
+                        attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
                     }
                     checkVideo();
                 });
@@ -6690,7 +6688,7 @@
                                     _context2.next = 11;
                                     break;
                                 }
-                                return video.setAttribute('autoplay', 'true'), video.setAttribute('muted', 'true'), video.setAttribute('playsinline', 'true'), video.srcObject = stream, video.addEventListener('loadedmetadata', function() {
+                                return video.setAttribute("autoplay", "true"), video.setAttribute("muted", "true"), video.setAttribute("playsinline", "true"), video.srcObject = stream, video.addEventListener("loadedmetadata", function() {
                                     video.play();
                                 }), _context2.abrupt("return", waitForVideo(video));
                             case 11:
@@ -6704,12 +6702,12 @@
             }
             function pickConstraints() {
                 var videoConstraints, normalized, videoConstraints1 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (videoConstraints = videoConstraints1, normalized = pick_default()(videoConstraints, [
-                    'width',
-                    'height',
-                    'facingMode',
-                    'aspectRatio',
-                    'deviceId'
-                ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log('WARNING: Constraint \'minAspectRatio\' is deprecated; Use \'aspectRatio\' instead')), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log('WARNING: Constraint \'facing\' is deprecated. Use \'facingMode\' instead\'')), normalized);
+                    "width",
+                    "height",
+                    "facingMode",
+                    "aspectRatio",
+                    "deviceId", 
+                ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
                 return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
                     audio: !1,
                     video: video
@@ -6724,7 +6722,7 @@
                                 return _context3.next = 2, enumerateDevices();
                             case 2:
                                 return devices = _context3.sent, _context3.abrupt("return", devices.filter(function(device) {
-                                    return 'videoinput' === device.kind;
+                                    return "videoinput" === device.kind;
                                 }));
                             case 4:
                             case "end":
@@ -6769,12 +6767,12 @@
                 },
                 getActiveStreamLabel: function() {
                     var track = getActiveTrack();
-                    return track ? track.label : '';
+                    return track ? track.label : "";
                 },
                 getActiveTrack: getActiveTrack
             }, camera_access = QuaggaJSCameraAccess, result_collector = {
                 create: function(config) {
-                    var _config$capacity, canvas = document.createElement('canvas'), ctx = canvas.getContext('2d'), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
+                    var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
                             var codeResult1, codeResult2, list, codeResult3, filter, result = {};
@@ -6782,7 +6780,7 @@
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult2[key];
                                 });
-                            }))) && (codeResult3 = codeResult1, 'function' != typeof (filter = config.filter) || filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            }))) && (codeResult3 = codeResult1, "function" != typeof (filter = config.filter) || filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
                         },
                         getResults: function() {
                             return results;
@@ -6791,18 +6789,18 @@
                 }
             }, config_config = {
                 inputStream: {
-                    name: 'Live',
-                    type: 'LiveStream',
+                    name: "Live",
+                    type: "LiveStream",
                     constraints: {
                         width: 640,
                         height: 480,
-                        facingMode: 'environment'
+                        facingMode: "environment"
                     },
                     area: {
-                        top: '0%',
-                        right: '0%',
-                        left: '0%',
-                        bottom: '0%'
+                        top: "0%",
+                        right: "0%",
+                        left: "0%",
+                        bottom: "0%"
                     },
                     singleChannel: !1
                 },
@@ -6810,7 +6808,7 @@
                 numOfWorkers: 0,
                 decoder: {
                     readers: [
-                        'code_128_reader'
+                        "code_128_reader"
                     ],
                     debug: {
                         drawBoundingBox: !1,
@@ -6821,7 +6819,7 @@
                 },
                 locator: {
                     halfSample: !0,
-                    patchSize: 'medium',
+                    patchSize: "medium",
                     debug: {
                         showCanvas: !1,
                         showPatches: !1,
@@ -6845,17 +6843,17 @@
                 classCallCheck_default()(this, CanvasContainer), defineProperty_default()(this, "ctx", void 0), defineProperty_default()(this, "dom", void 0), this.ctx = new QuaggaContext_CanvasInfo(), this.dom = new QuaggaContext_CanvasInfo();
             }, barcode_locator = __webpack_require__(23);
             function getViewPort_getViewPort(target) {
-                return 'undefined' == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector('string' == typeof target ? target : '#interactive.viewport');
+                return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
             }
             function getCanvasAndContext(selector, className) {
-                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, (canvas = document.querySelector(selector1)) || ((canvas = document.createElement('canvas')).className = className1), canvas), context = canvas1.getContext('2d');
+                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, (canvas = document.querySelector(selector1)) || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context
                 };
             }
             var ExifTags = {
-                0x0112: 'orientation'
+                0x0112: "orientation"
             }, AvailableTags = Object.keys(ExifTags).map(function(key) {
                 return ExifTags[key];
             });
@@ -6868,14 +6866,14 @@
                 });
             }
             function readEXIFData(file, start, exifTags) {
-                if ('Exif' !== getStringFromBuffer(file, start, 4)) return !1;
+                if ("Exif" !== getStringFromBuffer(file, start, 4)) return !1;
                 var bigEnd, tiffOffset = start + 6;
                 if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                 else {
-                    if (0x4D4D !== file.getUint16(tiffOffset)) return !1;
+                    if (0x4d4d !== file.getUint16(tiffOffset)) return !1;
                     bigEnd = !0;
                 }
-                if (0x002A !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
+                if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
                 var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
                 return !(firstIFDOffset < 0x00000008) && readTags(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
             }
@@ -6891,7 +6889,7 @@
                 return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
             }
             function getStringFromBuffer(buffer, start, length) {
-                for(var outstr = '', n = start; n < start + length; n++)outstr += String.fromCharCode(buffer.getUint8(n));
+                for(var outstr = "", n = start; n < start + length; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                 return outstr;
             }
             var ImageLoader = {};
@@ -6910,7 +6908,7 @@
                     for(var notloadedImgs = htmlImagesArray.notLoaded, x = 0; x < notloadedImgs.length; x++)if (notloadedImgs[x] === loadedImg) {
                         notloadedImgs.splice(x, 1);
                         for(var y = 0; y < htmlImagesSrcArray.length; y++){
-                            var imgName = htmlImagesSrcArray[y].substr(htmlImagesSrcArray[y].lastIndexOf('/'));
+                            var imgName = htmlImagesSrcArray[y].substr(htmlImagesSrcArray[y].lastIndexOf("/"));
                             if (-1 !== loadedImg.src.lastIndexOf(imgName)) {
                                 htmlImagesArray[y] = {
                                     img: loadedImg
@@ -6920,11 +6918,11 @@
                         }
                         break;
                     }
-                    0 === notloadedImgs.length && (console.log('Images loaded'), !1 === sequence ? (function(src) {
+                    0 === notloadedImgs.length && (console.log("Images loaded"), !1 === sequence ? (function(src) {
                         var url, tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
                         return /^blob:/i.test(src) ? (url = src, new Promise(function(resolve, reject) {
                             var http = new XMLHttpRequest();
-                            http.open('GET', url, !0), http.responseType = 'blob', http.onreadystatechange = function() {
+                            http.open("GET", url, !0), http.responseType = "blob", http.onreadystatechange = function() {
                                 http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
                             }, http.onerror = reject, http.send();
                         })).then(readToBuffer).then(function(buffer) {
@@ -6935,17 +6933,16 @@
                                     })[0];
                                     return exifTag && (result[exifTag] = selectedTag), result;
                                 }, {}), offset = 2;
-                                if (0xFF !== dataView.getUint8(0) || 0xD8 !== dataView.getUint8(1)) return !1;
-                                for(; offset < length;){
-                                    if (0xFF !== dataView.getUint8(offset)) return !1;
-                                    if (0xE1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
+                                if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
+                                for(; offset < length && 0xff === dataView.getUint8(offset);){
+                                    if (0xe1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
                                 return !1;
                             }(buffer, tags);
                         }) : Promise.resolve(null);
                     })(directory, [
-                        'orientation'
+                        "orientation"
                     ]).then(function(tags) {
                         htmlImagesArray[0].tags = tags, callback(htmlImagesArray);
                     }).catch(function(e) {
@@ -6956,16 +6953,16 @@
             var image_loader = ImageLoader, inputStreamFactory = {
                 createVideoStream: function(video) {
                     var _calculatedWidth, _calculatedHeight, _config = null, _eventNames = [
-                        'canrecord',
-                        'ended'
+                        "canrecord",
+                        "ended"
                     ], _eventHandlers = {}, _topRight = {
                         x: 0,
                         y: 0,
-                        type: 'Point'
+                        type: "Point"
                     }, _canvasSize = {
                         x: 0,
                         y: 0,
-                        type: 'XYSize'
+                        type: "XYSize"
                     }, inputStream = {
                         getRealWidth: function() {
                             return video.videoWidth;
@@ -6986,7 +6983,7 @@
                             _calculatedHeight = height;
                         },
                         setInputStream: function(config) {
-                            _config = config, this.setAttribute('src', void 0 !== config.src ? config.src : '');
+                            _config = config, this.setAttribute("src", void 0 !== config.src ? config.src : "");
                         },
                         ended: function() {
                             return video.ended;
@@ -7005,7 +7002,7 @@
                         },
                         setCurrentTime: function(time) {
                             var _config4;
-                            (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== 'LiveStream' && this.setAttribute('currentTime', time.toString());
+                            (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
                         },
                         addEventListener: function(event, f, bool) {
                             -1 !== _eventNames.indexOf(event) ? (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
@@ -7020,7 +7017,7 @@
                         },
                         trigger: function(eventName, args) {
                             var _config2, _config3, width, height, j, handlers = _eventHandlers[eventName];
-                            if ('canrecord' === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
+                            if ("canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
                         },
                         setTopRight: function(topRight) {
                             _topRight.x = topRight.x, _topRight.y = topRight.y;
@@ -7041,7 +7038,7 @@
                     return inputStream;
                 },
                 createLiveStream: function(video) {
-                    video && video.setAttribute('autoplay', 'true');
+                    video && video.setAttribute("autoplay", "true");
                     var that = inputStreamFactory.createVideoStream(video);
                     return that.ended = function() {
                         return !1;
@@ -7049,16 +7046,16 @@
                 },
                 createImageStream: function() {
                     var calculatedWidth, calculatedHeight, _config = null, width = 0, height = 0, frameIdx = 0, paused = !0, loaded = !1, imgArray = null, size = 0, baseUrl = null, _ended = !1, _eventNames = [
-                        'canrecord',
-                        'ended'
+                        "canrecord",
+                        "ended"
                     ], _eventHandlers = {}, _topRight = {
                         x: 0,
                         y: 0,
-                        type: 'Point'
+                        type: "Point"
                     }, _canvasSize = {
                         x: 0,
                         y: 0,
-                        type: 'XYSize'
+                        type: "XYSize"
                     };
                     function publishEvent(eventName, args) {
                         var j, handlers = _eventHandlers[eventName];
@@ -7098,7 +7095,7 @@
                                 }
                                 else width = imgs[0].img.width, height = imgs[0].img.height;
                                 calculatedWidth = null !== (_config5 = _config) && void 0 !== _config5 && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, calculatedHeight = null !== (_config6 = _config) && void 0 !== _config6 && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = calculatedWidth, _canvasSize.y = calculatedHeight, loaded = !0, frameIdx = 0, setTimeout(function() {
-                                    publishEvent('canrecord', []);
+                                    publishEvent("canrecord", []);
                                 }, 0);
                             }, 1, size, null === (_config7 = _config) || void 0 === _config7 ? void 0 : _config7.sequence);
                         },
@@ -7141,7 +7138,7 @@
                         getFrame: function() {
                             var frame, _imgArray;
                             return loaded ? (!paused && (frame = null === (_imgArray = imgArray) || void 0 === _imgArray ? void 0 : _imgArray[frameIdx], frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
-                                _ended = !0, publishEvent('ended', []);
+                                _ended = !0, publishEvent("ended", []);
                             }, 0)), frame) : null;
                         }
                     };
@@ -7150,7 +7147,7 @@
             }, input_stream_browser = inputStreamFactory, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
             FrameGrabber.create = function(inputStream, canvas2) {
                 var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
-                return (_canvas = canvas2 || document.createElement('canvas')).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext('2d'), _data = new Uint8Array(_size.x * _size.y), console.log('FrameGrabber', JSON.stringify({
+                return (_canvas = canvas2 || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
                     size: _size,
                     topRight: topRight,
                     videoSize: _videoSize,
@@ -7162,7 +7159,7 @@
                 }, _that.grab = function() {
                     var canvas, targetSize, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
-                        if (canvas = _canvas, targetSize = _canvasSize, canvas.width !== targetSize.x && (console.log('WARNING: canvas-size needs to be adjusted'), canvas.width = targetSize.x), canvas.height !== targetSize.y && (console.log('WARNING: canvas-size needs to be adjusted'), canvas.height = targetSize.y), 'ImageStream' === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
+                        if (canvas = _canvas, targetSize = _canvasSize, canvas.width !== targetSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = targetSize.x), canvas.height !== targetSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = targetSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
                                 drawAngle = 90 * TO_RADIANS;
                                 break;
@@ -7204,15 +7201,15 @@
                     var imageWrapper, Quagga = factory().default;
                     if (!Quagga) {
                         self.postMessage({
-                            event: 'error',
-                            message: 'Quagga could not be created'
+                            event: "error",
+                            message: "Quagga could not be created"
                         });
                         return;
                     }
                 }
                 function onProcessed(result) {
                     self.postMessage({
-                        event: 'processed',
+                        event: "processed",
                         imageData: imageWrapper.data,
                         result: result
                     }, [
@@ -7221,36 +7218,36 @@
                 }
                 function workerInterfaceReady() {
                     self.postMessage({
-                        event: 'initialized',
+                        event: "initialized",
                         imageData: imageWrapper.data
                     }, [
                         imageWrapper.data.buffer
                     ]);
                 }
                 self.onmessage = function(e) {
-                    if ('init' === e.data.cmd) {
+                    if ("init" === e.data.cmd) {
                         var config = e.data.config;
                         config.numOfWorkers = 0, imageWrapper = new Quagga.ImageWrapper({
                             x: e.data.size.x,
                             y: e.data.size.y
                         }, new Uint8Array(e.data.imageData)), Quagga.init(config, workerInterfaceReady, imageWrapper), Quagga.onProcessed(onProcessed);
-                    } else 'process' === e.data.cmd ? (imageWrapper.data = new Uint8Array(e.data.imageData), Quagga.start()) : 'setReaders' === e.data.cmd ? Quagga.setReaders(e.data.readers) : 'registerReader' === e.data.cmd && Quagga.registerReader(e.data.name, e.data.reader);
+                    } else "process" === e.data.cmd ? (imageWrapper.data = new Uint8Array(e.data.imageData), Quagga.start()) : "setReaders" === e.data.cmd ? Quagga.setReaders(e.data.readers) : "registerReader" === e.data.cmd && Quagga.registerReader(e.data.name, e.data.reader);
                 };
             }
             function initWorker(config, inputStream, cb) {
-                var blob, factorySource, config1, blobURL = ('undefined' != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
-                    '(' + workerInterface.toString() + ')(' + factorySource + ');'
+                var blob, factorySource, config1, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
+                    "(" + workerInterface.toString() + ")(" + factorySource + ");", 
                 ], {
-                    type: 'text/javascript'
+                    type: "text/javascript"
                 }), window.URL.createObjectURL(blob)), workerThread = {
                     worker: new Worker(blobURL),
                     imageData: new Uint8Array(inputStream.getWidth() * inputStream.getHeight()),
                     busy: !0
                 };
                 workerThread.worker.onmessage = function(e) {
-                    'initialized' === e.data.event ? (URL.revokeObjectURL(blobURL), workerThread.busy = !1, workerThread.imageData = new Uint8Array(e.data.imageData), console.log('Worker initialized'), cb(workerThread)) : 'processed' === e.data.event ? (workerThread.imageData = new Uint8Array(e.data.imageData), workerThread.busy = !1) : 'error' === e.data.event && console.log('Worker error: ' + e.data.message);
+                    "initialized" === e.data.event ? (URL.revokeObjectURL(blobURL), workerThread.busy = !1, workerThread.imageData = new Uint8Array(e.data.imageData), console.log("Worker initialized"), cb(workerThread)) : "processed" === e.data.event ? (workerThread.imageData = new Uint8Array(e.data.imageData), workerThread.busy = !1) : "error" === e.data.event && console.log("Worker error: " + e.data.message);
                 }, workerThread.worker.postMessage({
-                    cmd: 'init',
+                    cmd: "init",
                     size: {
                         x: inputStream.getWidth(),
                         y: inputStream.getHeight()
@@ -7269,7 +7266,7 @@
                 var increaseBy = capacity - workerPool.length;
                 if (0 === increaseBy && cb) cb();
                 else if (increaseBy < 0) workerPool.slice(increaseBy).forEach(function(workerThread) {
-                    workerThread.worker.terminate(), console.log('Worker terminated!');
+                    workerThread.worker.terminate(), console.log("Worker terminated!");
                 }), workerPool = workerPool.slice(0, increaseBy), cb && cb();
                 else {
                     var workerInitialized = function(workerThread) {
@@ -7296,7 +7293,7 @@
                             var frameGrabber, availableWorker, _this$context$inputIm2, _this$context$inputIm, workersUpdated = (frameGrabber = _this.context.framegrabber, workerPool.length ? !!(availableWorker = workerPool.filter(function(workerThread) {
                                 return !workerThread.busy;
                             })[0]) && (frameGrabber.attachData(availableWorker.imageData), frameGrabber.grab() && (availableWorker.busy = !0, availableWorker.worker.postMessage({
-                                cmd: 'process',
+                                cmd: "process",
                                 imageData: availableWorker.imageData
                             }, [
                                 availableWorker.imageData.buffer
@@ -7313,7 +7310,7 @@
                                 var inputStream, imageWrapper3, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper3 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper3 || new image_wrapper.a({
                                     x: inputStream.getWidth(),
                                     y: inputStream.getHeight(),
-                                    type: 'XYSize'
+                                    type: "XYSize"
                                 }), console.log("image wrapper size ".concat(inputImageWrapper.size)), boxSize = [
                                     Object(gl_vec2.clone)([
                                         0,
@@ -7325,12 +7322,12 @@
                                     ]),
                                     Object(gl_vec2.clone)([
                                         inputImageWrapper.size.x,
-                                        inputImageWrapper.size.y
+                                        inputImageWrapper.size.y, 
                                     ]),
                                     Object(gl_vec2.clone)([
                                         inputImageWrapper.size.x,
                                         0
-                                    ])
+                                    ]), 
                                 ], barcode_locator.a.init(inputImageWrapper, locator), {
                                     inputImageWrapper: inputImageWrapper,
                                     boxSize: boxSize
@@ -7364,8 +7361,8 @@
                                 var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context ? void 0 : null === (_context$config = context.config) || void 0 === _context$config ? void 0 : null === (_context$config$input = _context$config.inputStream) || void 0 === _context$config$input ? void 0 : _context$config$input.target), type = null == context ? void 0 : null === (_context$config2 = context.config) || void 0 === _context$config2 ? void 0 : null === (_context$config2$inpu = _context$config2.inputStream) || void 0 === _context$config2$inpu ? void 0 : _context$config2$inpu.type;
                                 if (!type) return null;
                                 var container = function(canvasSize) {
-                                    if ('undefined' != typeof document) {
-                                        var image = getCanvasAndContext('canvas.imgBuffer', 'imgBuffer'), overlay = getCanvasAndContext('canvas.drawingBuffer', 'drawingBuffer');
+                                    if ("undefined" != typeof document) {
+                                        var image = getCanvasAndContext("canvas.imgBuffer", "imgBuffer"), overlay = getCanvasAndContext("canvas.drawingBuffer", "drawingBuffer");
                                         return image.canvas.width = overlay.canvas.width = canvasSize.x, image.canvas.height = overlay.canvas.height = canvasSize.y, {
                                             dom: {
                                                 image: image.canvas,
@@ -7390,7 +7387,7 @@
                                     }
                                 };
                                 var dom = container.dom;
-                                return 'undefined' != typeof document && viewport && ('ImageStream' !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
+                                return "undefined" != typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
                             }(this.context);
                             if (container1) {
                                 var ctx = container1.ctx, dom1 = container1.dom;
@@ -7403,21 +7400,21 @@
                         value: function(callback) {
                             if (this.context.config && this.context.config.inputStream) {
                                 var _this$context$config$ = this.context.config.inputStream, inputType = _this$context$config$.type, constraints = _this$context$config$.constraints, _setupInputStream = function() {
-                                    var type = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 'LiveStream', viewport = arguments.length > 1 ? arguments[1] : void 0, InputStream = arguments.length > 2 ? arguments[2] : void 0;
+                                    var type = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "LiveStream", viewport = arguments.length > 1 ? arguments[1] : void 0, InputStream = arguments.length > 2 ? arguments[2] : void 0;
                                     switch(type){
-                                        case 'VideoStream':
-                                            var video = document.createElement('video');
+                                        case "VideoStream":
+                                            var video = document.createElement("video");
                                             return {
                                                 video: video,
                                                 inputStream: InputStream.createVideoStream(video)
                                             };
-                                        case 'ImageStream':
+                                        case "ImageStream":
                                             return {
                                                 inputStream: InputStream.createImageStream()
                                             };
-                                        case 'LiveStream':
+                                        case "LiveStream":
                                             var _video = null;
-                                            return !viewport || (_video = viewport.querySelector('video')) || (_video = document.createElement('video'), viewport.appendChild(_video)), {
+                                            return !viewport || (_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video)), {
                                                 video: _video,
                                                 inputStream: InputStream.createLiveStream(_video)
                                             };
@@ -7428,11 +7425,11 @@
                                             };
                                     }
                                 }(inputType, this.getViewPort(), input_stream_browser), video1 = _setupInputStream.video, inputStream = _setupInputStream.inputStream;
-                                'LiveStream' === inputType && video1 && camera_access.request(video1, constraints).then(function() {
-                                    return inputStream.trigger('canrecord');
+                                "LiveStream" === inputType && video1 && camera_access.request(video1, constraints).then(function() {
+                                    return inputStream.trigger("canrecord");
                                 }).catch(function(err) {
                                     return callback(err);
-                                }), inputStream.setAttribute('preload', 'auto'), inputStream.setInputStream(this.context.config.inputStream), inputStream.addEventListener('canrecord', this.canRecord.bind(void 0, callback)), this.context.inputStream = inputStream;
+                                }), inputStream.setAttribute("preload", "auto"), inputStream.setInputStream(this.context.config.inputStream), inputStream.addEventListener("canrecord", this.canRecord.bind(void 0, callback)), this.context.inputStream = inputStream;
                             }
                         }
                     },
@@ -7445,8 +7442,8 @@
                                     Object(gl_vec2.clone)(this.context.boxSize[0]),
                                     Object(gl_vec2.clone)(this.context.boxSize[1]),
                                     Object(gl_vec2.clone)(this.context.boxSize[2]),
-                                    Object(gl_vec2.clone)(this.context.boxSize[3])
-                                ]
+                                    Object(gl_vec2.clone)(this.context.boxSize[3]), 
+                                ], 
                             ];
                         }
                     },
@@ -7482,7 +7479,7 @@
                         key: "publishResult",
                         value: function() {
                             var result = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null, imageData = arguments.length > 1 ? arguments[1] : void 0, resultToPublish = result;
-                            result && this.context.onUIThread && (this.transformResult(result), this.addResult(result, imageData), resultToPublish = result.barcodes || result), events1.publish('processed', resultToPublish), this.hasCodeResult(result) && events1.publish('detected', resultToPublish);
+                            result && this.context.onUIThread && (this.transformResult(result), this.addResult(result, imageData), resultToPublish = result.barcodes || result), events1.publish("processed", resultToPublish), this.hasCodeResult(result) && events1.publish("detected", resultToPublish);
                         }
                     },
                     {
@@ -7513,7 +7510,7 @@
                         key: "start",
                         value: function() {
                             var _this$context$config5, _this$context$config6;
-                            this.context.onUIThread && (null === (_this$context$config5 = this.context.config) || void 0 === _this$context$config5 ? void 0 : null === (_this$context$config6 = _this$context$config5.inputStream) || void 0 === _this$context$config6 ? void 0 : _this$context$config6.type) === 'LiveStream' ? this.startContinuousUpdate() : this.update();
+                            this.context.onUIThread && (null === (_this$context$config5 = this.context.config) || void 0 === _this$context$config5 ? void 0 : null === (_this$context$config6 = _this$context$config5.inputStream) || void 0 === _this$context$config6 ? void 0 : _this$context$config6.type) === "LiveStream" ? this.startContinuousUpdate() : this.update();
                         }
                     },
                     {
@@ -7523,7 +7520,7 @@
                             return regenerator_default.a.wrap(function(_context) {
                                 for(;;)switch(_context.prev = _context.next){
                                     case 0:
-                                        if (this.context.stopped = !0, adjustWorkerPool(0), !(null !== (_this$context$config7 = this.context.config) && void 0 !== _this$context$config7 && _this$context$config7.inputStream && 'LiveStream' === this.context.config.inputStream.type)) {
+                                        if (this.context.stopped = !0, adjustWorkerPool(0), !(null !== (_this$context$config7 = this.context.config) && void 0 !== _this$context$config7 && _this$context$config7.inputStream && "LiveStream" === this.context.config.inputStream.type)) {
                                             _context.next = 6;
                                             break;
                                         }
@@ -7545,7 +7542,7 @@
                             var readers1;
                             this.context.decoder && this.context.decoder.setReaders(readers), readers1 = readers, workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
-                                    cmd: 'setReaders',
+                                    cmd: "setReaders",
                                     readers: readers1
                                 });
                             });
@@ -7557,13 +7554,13 @@
                             var name1, reader1;
                             barcode_decoder.registerReader(name, reader), this.context.decoder && this.context.decoder.registerReader(name, reader), name1 = name, reader1 = reader, workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
-                                    cmd: 'registerReader',
+                                    cmd: "registerReader",
                                     name: name1,
                                     reader: reader1
                                 });
                             });
                         }
-                    }
+                    }, 
                 ]), Quagga;
             }(), instance = new quagga_Quagga(), quagga_context = instance.context, QuaggaJSStaticInterface = {
                 init: function(config, cb, imageWrapper) {
@@ -7584,45 +7581,45 @@
                     quagga_context.stopped = !0;
                 },
                 onDetected: function(callback) {
-                    if (!callback || 'function' != typeof callback && ('object' !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace('* warning: Quagga.onDetected called with invalid callback, ignoring');
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
+                        console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                         return;
                     }
-                    events1.subscribe('detected', callback);
+                    events1.subscribe("detected", callback);
                 },
                 offDetected: function(callback) {
-                    events1.unsubscribe('detected', callback);
+                    events1.unsubscribe("detected", callback);
                 },
                 onProcessed: function(callback) {
-                    if (!callback || 'function' != typeof callback && ('object' !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace('* warning: Quagga.onProcessed called with invalid callback, ignoring');
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
+                        console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                         return;
                     }
-                    events1.subscribe('processed', callback);
+                    events1.subscribe("processed", callback);
                 },
                 offProcessed: function(callback) {
-                    events1.unsubscribe('processed', callback);
+                    events1.unsubscribe("processed", callback);
                 },
                 setReaders: function(readers) {
                     if (!readers) {
-                        console.trace('* warning: Quagga.setReaders called with no readers, ignoring');
+                        console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
                         return;
                     }
                     instance.setReaders(readers);
                 },
                 registerReader: function(name, reader) {
                     if (!name) {
-                        console.trace('* warning: Quagga.registerReader called with no name, ignoring');
+                        console.trace("* warning: Quagga.registerReader called with no name, ignoring");
                         return;
                     }
                     if (!reader) {
-                        console.trace('* warning: Quagga.registerReader called with no reader, ignoring');
+                        console.trace("* warning: Quagga.registerReader called with no reader, ignoring");
                         return;
                     }
                     instance.registerReader(name, reader);
                 },
                 registerResultCollector: function(resultCollector) {
-                    resultCollector && 'function' == typeof resultCollector.addResult && (quagga_context.resultCollector = resultCollector);
+                    resultCollector && "function" == typeof resultCollector.addResult && (quagga_context.resultCollector = resultCollector);
                 },
                 get canvas () {
                     return quagga_context.canvasContainer;
@@ -7631,7 +7628,7 @@
                     var _this = this, quaggaInstance = new quagga_Quagga();
                     return (config = merge_default()({
                         inputStream: {
-                            type: 'ImageStream',
+                            type: "ImageStream",
                             sequence: !1,
                             size: 800,
                             src: config.src
@@ -7640,10 +7637,10 @@
                         locator: {
                             halfSample: !1
                         }
-                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ('undefined' == typeof Blob || 'undefined' == typeof Worker) && (console.warn('* no Worker and/or Blob support - forcing numOfWorkers to 0'), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
+                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
-                                events1.once('processed', function(result) {
+                                events1.once("processed", function(result) {
                                     quaggaInstance.stop(), resultCallback && resultCallback.call(null, result), resolve(result);
                                 }, !0), quaggaInstance.start();
                             }, null, quaggaInstance);

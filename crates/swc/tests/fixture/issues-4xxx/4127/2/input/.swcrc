@@ -1,8 +1,5 @@
 {
-    "test": [
-        ".*.ts$",
-        ".*.mts$"
-    ],
+    "test": [".*.ts$", ".*.mts$"],
     "jsc": {
         "parser": {
             "syntax": "typescript",

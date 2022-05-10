@@ -4,8 +4,8 @@ import {
     buildSchema,
     addModelToTypegoose,
     deleteModel,
-} from '@typegoose/typegoose';
-import * as typegoose from '@typegoose/typegoose';
+} from "@typegoose/typegoose";
+import * as typegoose from "@typegoose/typegoose";
 // typegoose.mongoose.set('debug', true);
 setGlobalOptions({
     options: {
@@ -13,11 +13,11 @@ setGlobalOptions({
     },
     schemaOptions: {
         timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
+            createdAt: "created_at",
+            updatedAt: "updated_at",
         },
     },
 });
-import { schemas } from './schemas';
+import { schemas } from "./schemas";
 
-console.log(schemas)
+console.log(schemas);

@@ -3,7 +3,6 @@ use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
     env, fmt,
-    hash::BuildHasher,
     path::{Path, PathBuf},
     rc::Rc as RustRc,
     sync::Arc,
@@ -15,6 +14,7 @@ use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
@@ -28,6 +28,10 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
+use swc_config::{
+    config_types::{BoolConfig, BoolOr, BoolOrDataConfig},
+    merge::Merge,
+};
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
@@ -40,7 +44,7 @@ use swc_ecma_loader::{
 };
 use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
-    MangleOptions, ManglePropertiesOptions,
+    MangleOptions,
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
@@ -61,7 +65,6 @@ use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
-use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
     dropped_comments_preserver::dropped_comments_preserver,
@@ -71,7 +74,6 @@ use crate::{
 
 #[cfg(test)]
 mod tests;
-pub mod util;
 
 #[derive(Clone, Debug, Copy)]
 pub enum IsModule {
@@ -269,7 +271,6 @@ impl Options {
         output_path: Option<&Path>,
         source_file_name: Option<String>,
         handler: &Handler,
-        is_module: IsModule,
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
@@ -277,11 +278,12 @@ impl Options {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        let mut config = config.unwrap_or_default();
-        config.merge(&self.config);
+        let mut cfg = self.config.clone();
+        cfg.merge(config.unwrap_or_default());
+        let is_module = self.is_module;
 
         let mut source_maps = self.source_maps.clone();
-        source_maps.merge(&config.source_maps);
+        source_maps.merge(cfg.source_maps.clone());
 
         let JscConfig {
             assumptions,
@@ -298,7 +300,11 @@ impl Options {
             lints,
             preserve_all_comments,
             ..
-        } = config.jsc;
+        } = cfg.jsc;
+        let loose = loose.into_bool();
+        let preserve_all_comments = preserve_all_comments.into_bool();
+        let keep_class_names = keep_class_names.into_bool();
+        let external_helpers = external_helpers.into_bool();
 
         let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
@@ -338,7 +344,10 @@ impl Options {
             js_minify = js_minify.map(|c| {
                 let compress = c
                     .compress
-                    .into_obj()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
                     .map(|mut c| {
                         if c.toplevel.is_none() {
                             c.toplevel = Some(TerserTopLevelOptions::Bool(true));
@@ -346,19 +355,22 @@ impl Options {
 
                         c
                     })
-                    .map(BoolOrObject::Obj)
-                    .unwrap_or(BoolOrObject::Bool(false));
+                    .map(BoolOrDataConfig::from_obj)
+                    .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
 
                 let mangle = c
                     .mangle
-                    .into_obj()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
                     .map(|mut c| {
                         c.top_level = true;
 
                         c
                     })
-                    .map(BoolOrObject::Obj)
-                    .unwrap_or(BoolOrObject::Bool(false));
+                    .map(BoolOrDataConfig::from_obj)
+                    .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
 
                 JsMinifyOptions {
                     compress,
@@ -371,9 +383,21 @@ impl Options {
         let regenerator = transform.regenerator.clone();
 
         let preserve_comments = if preserve_all_comments {
-            Some(BoolOrObject::from(true))
+            BoolOr::Bool(true)
         } else {
-            js_minify.as_ref().map(|v| v.format.comments.clone())
+            js_minify
+                .as_ref()
+                .map(|v| match v.format.comments.clone().into_inner() {
+                    Some(v) => v,
+                    None => BoolOr::Bool(false),
+                })
+                .unwrap_or_else(|| {
+                    BoolOr::Data(if cfg.minify.into_bool() {
+                        JsMinifyCommentOption::PreserveSomeComments
+                    } else {
+                        JsMinifyCommentOption::PreserveAllComments
+                    })
+                })
         };
 
         if syntax.typescript() {
@@ -397,7 +421,10 @@ impl Options {
             }
         };
 
-        let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
+        let enable_simplifier = optimizer
+            .as_ref()
+            .map(|v| v.simplify.into_bool())
+            .unwrap_or_default();
 
         let optimization = {
             if let Some(opts) = optimizer.and_then(|o| o.globals) {
@@ -439,18 +466,18 @@ impl Options {
             Some(hygiene::Config { keep_class_names })
         })
         .fixer(!self.disable_fixer)
-        .preset_env(config.env)
+        .preset_env(cfg.env)
         .regenerator(regenerator)
         .finalize(
             base_url,
             paths.into_iter().collect(),
             base,
             syntax,
-            config.module,
+            cfg.module,
             comments,
         );
 
-        let keep_import_assertions = experimental.keep_import_assertions;
+        let keep_import_assertions = experimental.keep_import_assertions.into_bool();
 
         // Embedded runtime plugin target, based on assumption we have
         // 1. filesystem access for the cache
@@ -528,6 +555,7 @@ impl Options {
                 decorators(decorators::Config {
                     legacy: transform.legacy_decorator,
                     emit_metadata: transform.decorator_metadata,
+                    use_define_for_class_fields: !assumptions.set_public_class_fields
                 }),
                 syntax.decorators()
             ),
@@ -569,15 +597,15 @@ impl Options {
 
         Ok(BuiltInput {
             program,
-            minify: config.minify,
+            minify: cfg.minify.into_bool(),
             pass,
             external_helpers,
             syntax,
             target: es_version,
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
-            inline_sources_content: config.inline_sources_content,
-            input_source_map: config.input_source_map.clone(),
+            inline_sources_content: cfg.inline_sources_content.into_bool(),
+            input_source_map: cfg.input_source_map.clone().unwrap_or_default(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             comments: comments.cloned(),
@@ -647,17 +675,8 @@ impl Default for Rc {
                 exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
             Config {
@@ -669,17 +688,8 @@ impl Default for Rc {
                         tsx: true,
                         ..Default::default()
                     })),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
             Config {
@@ -691,17 +701,8 @@ impl Default for Rc {
                         tsx: false,
                         ..Default::default()
                     })),
-                    transform: None,
-                    external_helpers: false,
-                    target: Default::default(),
-                    loose: false,
-                    keep_class_names: false,
                     ..Default::default()
                 },
-                module: None,
-                minify: false,
-                source_maps: None,
-                input_source_map: InputSourceMap::default(),
                 ..Default::default()
             },
         ])
@@ -746,7 +747,7 @@ impl Rc {
 }
 
 /// A single object in the `.swcrc` file
-#[derive(Debug, Default, Clone, Deserialize)]
+#[derive(Debug, Default, Clone, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
@@ -765,17 +766,17 @@ pub struct Config {
     pub module: Option<ModuleConfig>,
 
     #[serde(default)]
-    pub minify: bool,
+    pub minify: BoolConfig<false>,
 
     #[serde(default)]
-    pub input_source_map: InputSourceMap,
+    pub input_source_map: Option<InputSourceMap>,
 
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
-    #[serde(default = "true_by_default")]
-    pub inline_sources_content: bool,
+    #[serde(default)]
+    pub inline_sources_content: BoolConfig<true>,
 
     #[serde(default)]
     pub error: ErrorConfig,
@@ -789,10 +790,10 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
-    pub compress: BoolOrObject<TerserCompressorOptions>,
+    pub compress: BoolOrDataConfig<TerserCompressorOptions>,
 
     #[serde(default)]
-    pub mangle: BoolOrObject<MangleOptions>,
+    pub mangle: BoolOrDataConfig<MangleOptions>,
 
     #[serde(default)]
     pub format: JsMinifyFormatOptions,
@@ -816,7 +817,7 @@ pub struct JsMinifyOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub source_map: BoolOrObject<TerserSourceMapOption>,
+    pub source_map: BoolOrDataConfig<TerserSourceMapOption>,
 
     #[serde(default)]
     pub output_path: Option<String>,
@@ -863,7 +864,7 @@ pub struct JsMinifyFormatOptions {
     pub braces: bool,
 
     #[serde(default)]
-    pub comments: BoolOrObject<JsMinifyCommentOption>,
+    pub comments: BoolOrDataConfig<JsMinifyCommentOption>,
 
     /// Not implemented yet.
     #[serde(default)]
@@ -871,7 +872,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "indent_level")]
-    pub indent_level: usize,
+    pub indent_level: Option<usize>,
 
     /// Not implemented yet.
     #[serde(default, alias = "indent_start")]
@@ -891,7 +892,7 @@ pub struct JsMinifyFormatOptions {
 
     /// Not implemented yet.
     #[serde(default, alias = "max_line_len")]
-    pub max_line_len: BoolOrObject<usize>,
+    pub max_line_len: usize,
 
     /// Not implemented yet.
     #[serde(default)]
@@ -1053,13 +1054,13 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
-    pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+    pub preserve_comments: BoolOr<JsMinifyCommentOption>,
 
     pub inline_sources_content: bool,
 }
 
 /// `jsc` in  `.swcrc`.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
     #[serde(default)]
@@ -1072,16 +1073,16 @@ pub struct JscConfig {
     pub transform: Option<TransformConfig>,
 
     #[serde(default)]
-    pub external_helpers: bool,
+    pub external_helpers: BoolConfig<false>,
 
     #[serde(default)]
     pub target: Option<EsVersion>,
 
     #[serde(default)]
-    pub loose: bool,
+    pub loose: BoolConfig<false>,
 
     #[serde(default)]
-    pub keep_class_names: bool,
+    pub keep_class_names: BoolConfig<false>,
 
     #[serde(default)]
     pub base_url: PathBuf,
@@ -1099,11 +1100,11 @@ pub struct JscConfig {
     pub lints: LintConfig,
 
     #[serde(default)]
-    pub preserve_all_comments: bool,
+    pub preserve_all_comments: BoolConfig<false>,
 }
 
 /// `jsc.experimental` in `.swcrc`
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscExperimental {
     /// This requires cargo feature `plugin`.
@@ -1111,7 +1112,7 @@ pub struct JscExperimental {
     pub plugins: Option<Vec<PluginConfig>>,
     /// If true, keeps import assertions in the output.
     #[serde(default)]
-    pub keep_import_assertions: bool,
+    pub keep_import_assertions: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.
@@ -1119,19 +1120,6 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
-}
-
-impl Merge for JscExperimental {
-    fn merge(&mut self, from: &Self) {
-        if self.plugins.is_none() {
-            self.plugins = from.plugins.clone();
-        }
-        if self.cache_root.is_none() {
-            self.cache_root = from.cache_root.clone();
-        }
-
-        self.keep_import_assertions |= from.keep_import_assertions;
-    }
 }
 
 /// `paths` section of `tsconfig.json`.
@@ -1160,7 +1148,7 @@ impl ModuleConfig {
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
-        root_mark: Mark,
+        unresolved_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
@@ -1186,7 +1174,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(chain!(
                         base_pass,
-                        modules::common_js::common_js(root_mark, config, Some(scope),)
+                        modules::common_js::common_js(unresolved_mark, config, Some(scope),)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1195,7 +1183,7 @@ impl ModuleConfig {
                         modules::common_js::common_js_with_resolver(
                             resolver,
                             base,
-                            root_mark,
+                            unresolved_mark,
                             config,
                             Some(scope),
                         )
@@ -1206,13 +1194,22 @@ impl ModuleConfig {
                 let base_pass = module_hoister();
 
                 if paths.is_empty() {
-                    Box::new(chain!(base_pass, modules::umd::umd(cm, root_mark, config)))
+                    Box::new(chain!(
+                        base_pass,
+                        modules::umd::umd(cm, unresolved_mark, config)
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
                     Box::new(chain!(
                         base_pass,
-                        modules::umd::umd_with_resolver(resolver, base, cm, root_mark, config,)
+                        modules::umd::umd_with_resolver(
+                            resolver,
+                            base,
+                            cm,
+                            unresolved_mark,
+                            config,
+                        )
                     ))
                 }
             }
@@ -1232,12 +1229,15 @@ impl ModuleConfig {
             }
             Some(ModuleConfig::SystemJs(config)) => {
                 if paths.is_empty() {
-                    Box::new(modules::system_js::system_js(root_mark, config))
+                    Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
                     Box::new(modules::system_js::system_js_with_resolver(
-                        resolver, base, root_mark, config,
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
                     ))
                 }
             }
@@ -1283,21 +1283,21 @@ pub struct HiddenTransformConfig {
     pub jest: bool,
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: HashMap<JsWord, HashMap<JsWord, String>>,
+    pub globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
 
-    #[serde(default = "true_by_default")]
-    pub simplify: bool,
+    #[serde(default)]
+    pub simplify: BoolConfig<true>,
 
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
@@ -1314,15 +1314,10 @@ fn default_jsonify_min_cost() -> usize {
     1024
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ErrorConfig {
-    pub filename: bool,
-}
-impl Default for ErrorConfig {
-    fn default() -> Self {
-        ErrorConfig { filename: true }
-    }
+    pub filename: BoolConfig<true>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -1522,284 +1517,6 @@ fn default_env_name() -> String {
     match env::var("NODE_ENV") {
         Ok(v) => v,
         Err(_) => "development".into(),
-    }
-}
-
-pub trait Merge {
-    /// Apply overrides from `from`
-    fn merge(&mut self, from: &Self);
-}
-
-impl<T: Clone> Merge for Option<T>
-where
-    T: Merge,
-{
-    fn merge(&mut self, from: &Option<T>) {
-        if let Some(ref from) = *from {
-            match *self {
-                Some(ref mut v) => v.merge(from),
-                None => *self = Some(from.clone()),
-            }
-        }
-    }
-}
-
-impl Merge for Config {
-    fn merge(&mut self, from: &Self) {
-        self.jsc.merge(&from.jsc);
-        self.module.merge(&from.module);
-        self.minify.merge(&from.minify);
-        self.env.merge(&from.env);
-        self.source_maps.merge(&from.source_maps);
-        self.input_source_map.merge(&from.input_source_map);
-        self.inline_sources_content
-            .merge(&from.inline_sources_content);
-    }
-}
-
-impl Merge for JsMinifyOptions {
-    fn merge(&mut self, from: &Self) {
-        self.compress.merge(&from.compress);
-        self.mangle.merge(&from.mangle);
-        self.format.merge(&from.format);
-        self.ecma.merge(&from.ecma);
-        self.keep_classnames |= from.keep_classnames;
-        self.keep_fnames |= from.keep_fnames;
-        self.safari10 |= from.safari10;
-        self.toplevel |= from.toplevel;
-        self.inline_sources_content |= from.inline_sources_content;
-    }
-}
-
-impl Merge for TerserCompressorOptions {
-    fn merge(&mut self, from: &Self) {
-        self.defaults |= from.defaults;
-        // TODO
-    }
-}
-
-impl Merge for MangleOptions {
-    fn merge(&mut self, from: &Self) {
-        self.props.merge(&from.props);
-
-        self.top_level |= from.top_level;
-        self.keep_class_names |= from.keep_class_names;
-        self.keep_fn_names |= from.keep_fn_names;
-        self.keep_private_props |= from.keep_private_props;
-        self.safari10 |= from.safari10;
-    }
-}
-
-impl Merge for JsMinifyFormatOptions {
-    fn merge(&mut self, from: &Self) {
-        self.comments.merge(&from.comments);
-    }
-}
-
-impl Merge for JsMinifyCommentOption {
-    fn merge(&mut self, _: &Self) {}
-}
-
-impl Merge for ManglePropertiesOptions {
-    fn merge(&mut self, from: &Self) {
-        self.undeclared |= from.undeclared;
-    }
-}
-
-impl Merge for TerserEcmaVersion {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for SourceMapsConfig {
-    fn merge(&mut self, _: &Self) {}
-}
-
-impl Merge for InputSourceMap {
-    fn merge(&mut self, r: &Self) {
-        if let InputSourceMap::Bool(false) = *self {
-            *self = r.clone();
-        }
-    }
-}
-
-impl Merge for swc_ecma_preset_env::Config {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for JscConfig {
-    fn merge(&mut self, from: &Self) {
-        self.assumptions.merge(&from.assumptions);
-        self.syntax.merge(&from.syntax);
-        self.transform.merge(&from.transform);
-        self.external_helpers.merge(&from.external_helpers);
-        self.target.merge(&from.target);
-        self.loose.merge(&from.loose);
-        self.keep_class_names.merge(&from.keep_class_names);
-        self.paths.merge(&from.paths);
-        self.minify.merge(&from.minify);
-        self.experimental.merge(&from.experimental);
-        self.preserve_all_comments
-            .merge(&from.preserve_all_comments)
-    }
-}
-
-impl<K, V, S> Merge for IndexMap<K, V, S>
-where
-    K: Clone + Eq + std::hash::Hash,
-    V: Clone,
-    S: Clone + BuildHasher,
-{
-    fn merge(&mut self, from: &Self) {
-        if self.is_empty() {
-            *self = (*from).clone();
-        }
-    }
-}
-
-impl<K, V, S> Merge for HashMap<K, V, S>
-where
-    K: Clone + Eq + std::hash::Hash,
-    V: Clone,
-    S: Clone + BuildHasher,
-{
-    fn merge(&mut self, from: &Self) {
-        if self.is_empty() {
-            *self = (*from).clone();
-        } else {
-            for (k, v) in from {
-                self.entry(k.clone()).or_insert_with(|| v.clone());
-            }
-        }
-    }
-}
-
-impl Merge for EsVersion {
-    fn merge(&mut self, from: &Self) {
-        if *self < *from {
-            *self = *from
-        }
-    }
-}
-
-impl Merge for Option<ModuleConfig> {
-    fn merge(&mut self, from: &Self) {
-        if let Some(ref c2) = *from {
-            *self = Some(c2.clone())
-        }
-    }
-}
-
-impl Merge for bool {
-    fn merge(&mut self, from: &Self) {
-        *self |= *from
-    }
-}
-
-impl Merge for Syntax {
-    fn merge(&mut self, from: &Self) {
-        match (&mut *self, from) {
-            (Syntax::Es(a), Syntax::Es(b)) => {
-                a.merge(b);
-            }
-            (Syntax::Typescript(a), Syntax::Typescript(b)) => {
-                a.merge(b);
-            }
-            _ => {
-                *self = *from;
-            }
-        }
-    }
-}
-
-impl Merge for swc_ecma_parser::EsConfig {
-    fn merge(&mut self, from: &Self) {
-        self.jsx |= from.jsx;
-        self.fn_bind |= from.fn_bind;
-        self.decorators |= from.decorators;
-        self.decorators_before_export |= from.decorators_before_export;
-        self.export_default_from |= from.export_default_from;
-        self.import_assertions |= from.import_assertions;
-        self.private_in_object |= from.private_in_object;
-    }
-}
-
-impl Merge for swc_ecma_parser::TsConfig {
-    fn merge(&mut self, from: &Self) {
-        self.tsx |= from.tsx;
-        self.decorators |= from.decorators;
-    }
-}
-
-impl Merge for Assumptions {
-    fn merge(&mut self, from: &Self) {
-        self.array_like_is_iterable |= from.array_like_is_iterable;
-        self.constant_reexports |= from.constant_reexports;
-        self.constant_super |= from.constant_super;
-        self.enumerable_module_meta |= from.enumerable_module_meta;
-        self.ignore_function_length |= from.ignore_function_length;
-        self.ignore_function_name |= from.ignore_function_name;
-        self.ignore_to_primitive_hint |= from.ignore_to_primitive_hint;
-        self.iterable_is_array |= from.iterable_is_array;
-        self.mutable_template_object |= from.mutable_template_object;
-        self.no_class_calls |= from.no_class_calls;
-        self.no_document_all |= from.no_document_all;
-        self.no_incomplete_ns_import_detection |= from.no_incomplete_ns_import_detection;
-        self.no_new_arrows |= from.no_new_arrows;
-        self.object_rest_no_symbols |= from.object_rest_no_symbols;
-        self.private_fields_as_properties |= from.private_fields_as_properties;
-        self.pure_getters |= from.pure_getters;
-        self.set_class_methods |= from.set_class_methods;
-        self.set_computed_properties |= from.set_computed_properties;
-        self.set_public_class_fields |= from.set_public_class_fields;
-        self.set_spread_properties |= from.set_spread_properties;
-        self.skip_for_of_iterator_closing |= from.skip_for_of_iterator_closing;
-        self.super_is_callable_constructor |= from.super_is_callable_constructor;
-        self.ts_enum_is_readonly |= from.ts_enum_is_readonly;
-    }
-}
-
-impl Merge for TransformConfig {
-    fn merge(&mut self, from: &Self) {
-        self.optimizer.merge(&from.optimizer);
-        self.const_modules.merge(&from.const_modules);
-        self.react.merge(&from.react);
-        self.hidden.merge(&from.hidden);
-    }
-}
-
-impl Merge for OptimizerConfig {
-    fn merge(&mut self, from: &Self) {
-        self.globals.merge(&from.globals)
-    }
-}
-
-impl Merge for GlobalPassOption {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone();
-    }
-}
-
-impl Merge for react::Options {
-    fn merge(&mut self, from: &Self) {
-        if *from != react::Options::default() {
-            *self = from.clone();
-        }
-    }
-}
-
-impl Merge for ConstModulesConfig {
-    fn merge(&mut self, from: &Self) {
-        *self = from.clone()
-    }
-}
-
-impl Merge for HiddenTransformConfig {
-    fn merge(&mut self, from: &Self) {
-        self.jest |= from.jest;
     }
 }
 

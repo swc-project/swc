@@ -1,4 +1,4 @@
-const water = 'Water';
+const water = "Water";
 function isWater(x) {
     return x === water;
 }

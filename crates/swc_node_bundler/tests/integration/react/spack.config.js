@@ -1,10 +1,8 @@
-
-
 module.exports = {
     entry: {
-        'web': __dirname + '/src/index.tsx',
+        web: __dirname + "/src/index.tsx",
     },
     output: {
-        path: __dirname + '/lib'
+        path: __dirname + "/lib",
     },
 };

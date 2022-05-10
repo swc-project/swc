@@ -1,0 +1,7 @@
+| <html>
+|   <head>
+|   <body>
+|     <foo>
+|       bar="baz"
+|       <potato>
+|         quack="duck"

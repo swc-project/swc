@@ -1,4 +1,4 @@
 {
-  "name": "app",
-  "main": "file.js"
+    "name": "app",
+    "main": "file.js"
 }

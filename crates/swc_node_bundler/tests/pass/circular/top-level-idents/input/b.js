@@ -1,3 +1,3 @@
-import './c';
+import "./c";
 
-console.log('b');
+console.log("b");

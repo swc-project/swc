@@ -1,4 +1,3 @@
-
 if (!name && !callback && !context) {
-    console.log('foo')
+    console.log("foo");
 }

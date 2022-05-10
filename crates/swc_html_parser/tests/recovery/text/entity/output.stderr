@@ -202,3 +202,21 @@
  45 | &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
     : ^^^^^^
     `----
+
+  x Missing semicolon after character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:48:1]
+ 48 | FOO&#xBAR
+    :    ^^^^^^
+    `----
+
+  x Missing semicolon after character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:49:1]
+ 49 | FOO&#x41BAR
+    :    ^^^^^^^^
+    `----
+
+  x Missing semicolon after character reference
+    ,-[$DIR/tests/recovery/text/entity/input.html:50:1]
+ 50 | FOO&#x41ZOO
+    :    ^^^^^^
+    `----

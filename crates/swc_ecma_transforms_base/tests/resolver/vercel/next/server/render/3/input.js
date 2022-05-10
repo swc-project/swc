@@ -7,8 +7,7 @@ function top() {
                 const drainHandler = () => {
                     const prevCallbacks = underlyingStream.queuedCallbacks;
                     underlyingStream.queuedCallbacks = [];
-                    prevCallbacks.forEach((callback) => callback()
-                    );
+                    prevCallbacks.forEach((callback) => callback());
                 };
                 res.on("drain", drainHandler);
                 underlyingStream = {
@@ -18,27 +17,31 @@ function top() {
                         next(err);
                     },
                     writable: res,
-                    queuedCallbacks: []
+                    queuedCallbacks: [],
                 };
                 startWriting();
             });
         }
     };
-    const { abort, startWriting } = ReactDOMServer.pipeToNodeWritable(element, stream, {
-        onError(error) {
-            if (!resolved) {
-                resolved = true;
-                reject(error);
-            }
-            abort();
-        },
-        onCompleteShell() {
-            if (!generateStaticHTML) {
+    const { abort, startWriting } = ReactDOMServer.pipeToNodeWritable(
+        element,
+        stream,
+        {
+            onError(error) {
+                if (!resolved) {
+                    resolved = true;
+                    reject(error);
+                }
+                abort();
+            },
+            onCompleteShell() {
+                if (!generateStaticHTML) {
+                    doResolve();
+                }
+            },
+            onCompleteAll() {
                 doResolve();
-            }
-        },
-        onCompleteAll() {
-            doResolve();
+            },
         }
-    });
+    );
 }

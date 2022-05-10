@@ -2,7 +2,7 @@ import "core-js/modules/web.dom.iterable.js";
 Array.from;
 Map;
 a.includes();
-b['find'];
+b["find"];
 c.prototype.findIndex();
 d.fill.bind();
 e.padStart.apply();

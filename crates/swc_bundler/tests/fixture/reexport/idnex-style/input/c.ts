@@ -1,3 +1,3 @@
-export class C { }
+export class C {}
 
-export function utilForC() { }
+export function utilForC() {}

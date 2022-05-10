@@ -1,13 +1,13 @@
 class Test {
     constructor(name) {
-        this.name = name
+        this.name = name;
     }
 
     print = async (arg) => {
-        console.log(this.name, arg)
-    }
+        console.log(this.name, arg);
+    };
 }
 
 function Parent() {
-    new Test('name').print('test')
+    new Test("name").print("test");
 }

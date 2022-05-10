@@ -9,4 +9,4 @@ class A {
     }
 }
 
-console.log(A); 
+console.log(A);

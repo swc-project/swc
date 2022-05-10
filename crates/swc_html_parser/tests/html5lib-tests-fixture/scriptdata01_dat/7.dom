@@ -1,0 +1,7 @@
+| <html>
+|   <head>
+|   <body>
+|     "FOO"
+|     <script>
+|       "'<'"
+|     "BAR"

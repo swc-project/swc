@@ -1,5 +1,3 @@
 async function foo() {
-    const {
-        bar: { } = {}
-    } = baz;
+    const { bar: {} = {} } = baz;
 }

@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 (M || (M = {})).a = 1;
-var M, m, M2, M3, m = M;
+var M, M2, M3, m = M;
 M.a, m.a, function(M21) {
     (M21.Point || (M21.Point = {})).Origin = function() {
         return {

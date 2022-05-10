@@ -1,8 +1,6 @@
-
-    function foo() {
-        target++;
-        {
-            var target = 0;
-        }
+function foo() {
+    target++;
+    {
+        var target = 0;
     }
-    
+}

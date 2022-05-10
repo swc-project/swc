@@ -1,0 +1,12 @@
+| <html>
+|   <head>
+|   <body>
+|     <template>
+|       content
+|         <thead>
+|         <template>
+|           content
+|             <tr>
+|         <tbody>
+|           <tr>
+|         <tfoot>

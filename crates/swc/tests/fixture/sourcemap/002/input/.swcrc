@@ -1,19 +1,19 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true,
-      "dynamicImport": false,
-      "decorators": false
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": false,
+            "decorators": false
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "target": "es5",
+        "loose": false,
+        "externalHelpers": true
     },
-    "transform": {
-      "legacyDecorator": true,
-      "decoratorMetadata": true
-    },
-    "target": "es5",
-    "loose": false,
-    "externalHelpers": true
-  },
-  "sourceMaps": true,
-  "inlineSourcesContent": true
+    "sourceMaps": true,
+    "inlineSourcesContent": true
 }

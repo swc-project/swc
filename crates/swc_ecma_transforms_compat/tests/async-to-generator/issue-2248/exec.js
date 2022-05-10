@@ -1,9 +1,9 @@
 const foo = async () => {
     try {
-        console.log(1)
+        console.log(1);
     } catch (err) {
-        console.log(err.message)
+        console.log(err.message);
     }
-}
+};
 
-foo()
+foo();

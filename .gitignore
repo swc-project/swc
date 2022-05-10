@@ -58,3 +58,6 @@ pkg/
 *.mm_profdata
 .tsbuildinfo
 .swc/
+
+# Used by scripts
+*.tmp.txt

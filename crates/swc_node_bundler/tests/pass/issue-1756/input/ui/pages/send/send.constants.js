@@ -1,1 +1,1 @@
-import '../../../app/scripts/lib/util.js';
+import "../../../app/scripts/lib/util.js";

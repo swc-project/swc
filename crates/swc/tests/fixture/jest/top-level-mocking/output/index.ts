@@ -1,4 +1,4 @@
 "use strict";
 jest.enableAutomock();
 jest.disableAutomock();
-require('x');
+require("x");

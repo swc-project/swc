@@ -226,8 +226,8 @@ export default function o(c) {
 };
 var p = {
     "-": "",
-    "_": " ",
-    "0": "0"
+    _: " ",
+    0: "0"
 }, q = /^\s*\d+/, r = /^%/, s = /[\\^$*+?|[\]().{}]/g;
 function t(a, f, c) {
     var d = a < 0 ? "-" : "", b = (d ? -a : a) + "", e = b.length;

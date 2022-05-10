@@ -8,4 +8,4 @@ import "core-js/modules/web.dom-collections.iterator.js";
 Object.keys(foo);
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var { assign  } = Object;
-'defineProperty' in Object;
+"defineProperty" in Object;

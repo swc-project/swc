@@ -1485,32 +1485,27 @@ class Foo {
 "#,
     r#"
 var _foo = new WeakMap();
-var Foo =
-/*#__PURE__*/
-function () {
-  "use strict";
-
-  function Foo() {
-    _classCallCheck(this, Foo);
-
-    _classPrivateFieldInit(this, _foo, {
-      writable: true,
-      value: 0
-    });
-  }
-
-  _createClass(Foo, [{
-    key: "test",
-    value: function test(other) {
-      var _this_foo, _obj, _this_foo1, _obj1;
-
-      _classPrivateFieldSet(this, _foo, (_this_foo = +_classPrivateFieldGet(this, _foo)) + 1), _this_foo;
-      _classPrivateFieldSet(this, _foo, +_classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(_obj = other.obj, _foo, (_this_foo1 = +_classPrivateFieldGet(_obj, _foo)) + 1), _this_foo1;
-      _classPrivateFieldSet(_obj1 = other.obj, _foo, +_classPrivateFieldGet(_obj1, _foo) + 1);
+var Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
+        _classPrivateFieldInit(this, _foo, {
+            writable: true,
+            value: 0
+        });
     }
-  }]);
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test(other) {
+                _classPrivateFieldUpdate(this, _foo).value++;
+                ++_classPrivateFieldUpdate(this, _foo).value;
+                _classPrivateFieldUpdate(other.obj, _foo).value++;
+                ++_classPrivateFieldUpdate(other.obj, _foo).value;
+            }
+        }
+    ]);
+    return Foo;
 }();
 "#
 );
@@ -2725,33 +2720,32 @@ class Foo {
     }
 }
 ",
-    "
+    r#"
 var _x = new WeakMap();
 var Foo = function () {
-  \"use strict\";
-  function Foo() {
-    _classCallCheck(this, Foo);
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
 
-    _classPrivateFieldInit(this, _x, {
-      writable: true,
-      value: 0
-    });
-  }
-
-  _createClass(Foo, [{
-    key: \"test\",
-    value: function test() {
-      var _this_x;
-
-      _classPrivateFieldSet(this, _x, (_this_x = +_classPrivateFieldGet(this, _x)) + 1), _this_x;
-
-      _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
+        _classPrivateFieldInit(this, _x, {
+            writable: true,
+            value: 0
+        });
     }
-  }]);
 
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test() {
+                _classPrivateFieldUpdate(this, _x).value++;
+                ++_classPrivateFieldUpdate(this, _x).value;
+            }
+        }
+    ]);
+
+    return Foo;
 }();
-"
+"#
 );
 
 test!(
@@ -2768,33 +2762,30 @@ class Foo {
     }
 }
 ",
-    "
+    r#"
 var Foo = function () {
-  \"use strict\";
+  "use strict";
   function Foo() {
-    _classCallCheck(this, Foo);
+      _classCallCheck(this, Foo);
   }
 
-  _createClass(Foo, [{
-    key: \"test\",
-    value: function test() {
-      var _this_x;
-
-      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (_this_x = \
-     +_classStaticPrivateFieldSpecGet(Foo, Foo, _x)) + 1), _this_x;
-
-      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) \
-     + 1);
-    }
-  }]);
+  _createClass(Foo, [
+      {
+          key: "test",
+          value: function test() {
+              _classStaticPrivateFieldUpdate(Foo, Foo, _x).value++;
+              ++_classStaticPrivateFieldUpdate(Foo, Foo, _x).value;
+          }
+      }
+  ]);
 
   return Foo;
 }();
-
 var _x = {
   writable: true,
   value: 0
-};"
+};
+"#
 );
 
 test!(
@@ -3518,17 +3509,17 @@ class Foo {
     r#"
 var _client = new WeakMap();
 var Foo = function Foo(props) {
-  "use strict";
+    "use strict";
 
-  _classCallCheck(this, Foo);
+    _classCallCheck(this, Foo);
 
-  _classPrivateFieldInit(this, _client, {
-    writable: true,
-    value: void 0
-  });
+    _classPrivateFieldInit(this, _client, {
+        writable: true,
+        value: void 0
+    });
 
-  _classPrivateFieldSet(this, _client, 1);
-  [this.x = _classPrivateFieldGet(this, _client), _classPrivateFieldDestructureSet(this, _client).value, this.y = _classPrivateFieldGet(this, _client)] = props;
+    _classPrivateFieldSet(this, _client, 1);
+    [this.x = _classPrivateFieldGet(this, _client), _classPrivateFieldDestructureSet(this, _client).value, this.y = _classPrivateFieldGet(this, _client)] = props;
 };
 "#
 );
@@ -5819,9 +5810,8 @@ class A {
 var _D = new WeakMap();
 class A {
     B() {
-        var _C, _this_D;
         1;
-        _classPrivateFieldSet(_C = C, _D, (_this_D = +_classPrivateFieldGet(_C, _D)) + 1), _this_D;
+        _classPrivateFieldUpdate(C, _D).value++;
         E(function() {});
     }
     constructor(){
@@ -5972,6 +5962,35 @@ var _prop2 = {
         console.log(_classStaticPrivateFieldSpecGet(Foo, Foo, _prop1));
     })()
 };
+"
+);
+
+test!(
+    syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    issue_4473,
+    "
+var test1 = class X {
+  [Symbol.toStringTag]() {}
+}
+
+function a() {
+  const b = class Y {
+    x() {
+    }
+  }
+}
+",
+    "
+let _toStringTag;
+var test1 = (_toStringTag = Symbol.toStringTag, class X {
+    [_toStringTag]() {}
+});
+function a() {
+    const b = class Y {
+        x() {}
+    };
+}
 "
 );
 

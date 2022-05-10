@@ -1,4 +1,4 @@
 "use strict";
 beforeEach(()=>{
-    jest.mock('someNode');
+    jest.mock("someNode");
 });

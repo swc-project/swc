@@ -1,0 +1,242 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 43,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 43,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 18,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 43,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 15,
+                "end": 23,
+                "ctxt": 0
+              },
+              "tagName": "i",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 18,
+                    "end": 19,
+                    "ctxt": 0
+                  },
+                  "value": "a"
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 19,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "tagName": "b",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 22,
+                        "end": 23,
+                        "ctxt": 0
+                      },
+                      "value": "b"
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 19,
+                "end": 37,
+                "ctxt": 0
+              },
+              "tagName": "b",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 23,
+                "end": 43,
+                "ctxt": 0
+              },
+              "tagName": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 19,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "tagName": "b",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 15,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "tagName": "i",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 28,
+                            "end": 29,
+                            "ctxt": 0
+                          },
+                          "value": "c"
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 29,
+                            "end": 33,
+                            "ctxt": 0
+                          },
+                          "tagName": "a",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 32,
+                                "end": 33,
+                                "ctxt": 0
+                              },
+                              "value": "d"
+                            }
+                          ],
+                          "content": null
+                        }
+                      ],
+                      "content": null
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 29,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "tagName": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 37,
+                            "end": 38,
+                            "ctxt": 0
+                          },
+                          "value": "e"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 29,
+                    "end": 43,
+                    "ctxt": 0
+                  },
+                  "tagName": "a",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 42,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "value": "f"
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 ({
-  foo() {
-    function bar() {
-      bar;
-    }
-  },
+    foo() {
+        function bar() {
+            bar;
+        }
+    },
 });

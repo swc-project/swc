@@ -295,7 +295,34 @@ impl OpenElementsStack {
     // optgroup in the HTML namespace
     // option in the HTML namespace
     pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
-        self.has_element_target_node_in_specific_scope(tag_name, SELECT_SCOPE)
+        let mut iter = self.items.iter().rev();
+        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        let mut node = iter.next();
+
+        while let Some(inner_node) = node {
+            // 2. If node is the target node, terminate in a match state.
+            if get_tag_name!(inner_node) == tag_name
+                && get_namespace!(inner_node) == Namespace::HTML
+            {
+                return true;
+            }
+
+            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // failure state.
+            if SELECT_SCOPE.iter().all(|(tag_name, namespace)| {
+                get_tag_name!(inner_node) != *tag_name && get_namespace!(inner_node) != *namespace
+            }) {
+                return false;
+            }
+
+            // 4. Otherwise, set node to the previous entry in the stack of open elements
+            // and return to step 2. (This will never fail, since the loop will always
+            // terminate in the previous step if the top of the stack — an html element — is
+            // reached.)
+            node = iter.next();
+        }
+
+        false
     }
 
     // When the steps above require the UA to clear the stack back to a table
@@ -411,18 +438,20 @@ impl OpenElementsStack {
     // integration point, or an element in the HTML namespace, pop elements from
     // the stack of open elements.
     pub fn pop_until_in_foreign(&mut self) {
-        while let Some(node) = self.pop() {
+        while let Some(node) = self.items.last() {
             match &node.data {
                 Data::Element(Element { namespace, .. }) if *namespace == Namespace::HTML => {
                     break;
                 }
-                _ if is_mathml_text_integration_point(Some(&node))
-                    || is_html_integration_point(Some(&node)) =>
+                _ if is_mathml_text_integration_point(Some(node))
+                    || is_html_integration_point(Some(node)) =>
                 {
                     break;
                 }
                 _ => {}
             }
+
+            self.pop();
         }
     }
 }

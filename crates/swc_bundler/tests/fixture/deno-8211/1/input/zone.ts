@@ -1,1 +1,1 @@
-export default class Zone { }
+export default class Zone {}

@@ -1,2 +1,2 @@
-import F = require("yaml")
-console.log(F)
+import F = require("yaml");
+console.log(F);

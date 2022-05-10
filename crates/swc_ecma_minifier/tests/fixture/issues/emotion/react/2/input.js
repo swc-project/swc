@@ -1,10 +1,8 @@
-
 /* harmony default export */
-var emotion_memoize_browser_esm = (memoize);
+var emotion_memoize_browser_esm = memoize;
 
 var hyphenateRegex = /[A-Z]|^ms/g;
 var animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g;
-
 
 var unitlessKeys = {
     animationIterationCount: 1,
@@ -52,10 +50,10 @@ var unitlessKeys = {
     strokeDashoffset: 1,
     strokeMiterlimit: 1,
     strokeOpacity: 1,
-    strokeWidth: 1
+    strokeWidth: 1,
 };
 
-var unitless_browser_esm = (unitlessKeys);
+var unitless_browser_esm = unitlessKeys;
 
 var isCustomProperty = function isCustomProperty(property) {
     return property.charCodeAt(1) === 45;
@@ -65,31 +63,31 @@ var labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g;
 
 var cursor;
 
-var hash_browser_esm = (murmur2);
-
+var hash_browser_esm = murmur2;
 
 function handleInterpolation(mergedProps, registered, interpolation) {
     if (interpolation == null) {
-        return '';
+        return "";
     }
 
     if (interpolation.__emotion_styles !== undefined) {
-        if (false) { }
+        if (false) {
+        }
 
         return interpolation;
     }
 
     switch (typeof interpolation) {
-        case 'boolean': {
-            return '';
+        case "boolean": {
+            return "";
         }
 
-        case 'object': {
+        case "object": {
             if (interpolation.anim === 1) {
                 cursor = {
                     name: interpolation.name,
                     styles: interpolation.styles,
-                    next: cursor
+                    next: cursor,
                 };
                 return interpolation.name;
             }
@@ -104,7 +102,7 @@ function handleInterpolation(mergedProps, registered, interpolation) {
                         cursor = {
                             name: next.name,
                             styles: next.styles,
-                            next: cursor
+                            next: cursor,
                         };
                         next = next.next;
                     }
@@ -112,33 +110,38 @@ function handleInterpolation(mergedProps, registered, interpolation) {
 
                 var styles = interpolation.styles + ";";
 
-                if (false) { }
+                if (false) {
+                }
 
                 return styles;
             }
 
-            return createStringFromObject(mergedProps, registered, interpolation);
+            return createStringFromObject(
+                mergedProps,
+                registered,
+                interpolation
+            );
         }
 
-        case 'function': {
+        case "function": {
             if (mergedProps !== undefined) {
                 var previousCursor = cursor;
                 var result = interpolation(mergedProps);
                 cursor = previousCursor;
                 return handleInterpolation(mergedProps, registered, result);
-            } else if (false) { }
+            } else if (false) {
+            }
 
             break;
         }
 
-        case 'string':
+        case "string":
             if (false) {
                 var replaced, matched;
             }
 
             break;
     } // finalize string values (regular strings and functions interpolated into css calls)
-
 
     if (registered == null) {
         return interpolation;
@@ -148,14 +151,18 @@ function handleInterpolation(mergedProps, registered, interpolation) {
     return cached !== undefined ? cached : interpolation;
 }
 
-
 export function serializeStyles(args, registered, mergedProps) {
-    if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null && args[0].styles !== undefined) {
+    if (
+        args.length === 1 &&
+        typeof args[0] === "object" &&
+        args[0] !== null &&
+        args[0].styles !== undefined
+    ) {
         return args[0];
     }
 
     var stringMode = true;
-    var styles = '';
+    var styles = "";
     cursor = undefined;
     var strings = args[0];
 
@@ -163,17 +170,18 @@ export function serializeStyles(args, registered, mergedProps) {
         stringMode = false;
         styles += handleInterpolation(mergedProps, registered, strings);
     } else {
-        if (false) { }
+        if (false) {
+        }
 
         styles += strings[0];
     } // we start at 1 since we've already handled the first arg
-
 
     for (var i = 1; i < args.length; i++) {
         styles += handleInterpolation(mergedProps, registered, args[i]);
 
         if (stringMode) {
-            if (false) { }
+            if (false) {
+            }
 
             styles += strings[i];
         }
@@ -181,67 +189,95 @@ export function serializeStyles(args, registered, mergedProps) {
 
     var sourceMap;
 
-    if (false) { } // using a global regex with .exec is stateful so lastIndex has to be reset each time
-
+    if (false) {
+    } // using a global regex with .exec is stateful so lastIndex has to be reset each time
 
     labelPattern.lastIndex = 0;
-    var identifierName = '';
+    var identifierName = "";
     var match; // https://esbench.com/bench/5b809c2cf2949800a0f61fb5
 
     while ((match = labelPattern.exec(styles)) !== null) {
-        identifierName += '-' + // $FlowFixMe we know it's not null
+        identifierName +=
+            "-" + // $FlowFixMe we know it's not null
             match[1];
     }
 
     var name = hash_browser_esm(styles) + identifierName;
 
-    if (false) { }
+    if (false) {
+    }
 
     return {
         name: name,
         styles: styles,
-        next: cursor
+        next: cursor,
     };
 }
 
 function createStringFromObject(mergedProps, registered, obj) {
-    var string = '';
+    var string = "";
 
     if (Array.isArray(obj)) {
         for (var i = 0; i < obj.length; i++) {
-            string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
+            string +=
+                handleInterpolation(mergedProps, registered, obj[i]) + ";";
         }
     } else {
         for (var _key in obj) {
             var value = obj[_key];
 
-            if (typeof value !== 'object') {
+            if (typeof value !== "object") {
                 if (registered != null && registered[value] !== undefined) {
                     string += _key + "{" + registered[value] + "}";
                 } else if (isProcessableValue(value)) {
-                    string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";";
+                    string +=
+                        processStyleName(_key) +
+                        ":" +
+                        processStyleValue(_key, value) +
+                        ";";
                 }
             } else {
-                if (_key === 'NO_COMPONENT_SELECTOR' && "production" !== 'production') { }
+                if (
+                    _key === "NO_COMPONENT_SELECTOR" &&
+                    "production" !== "production"
+                ) {
+                }
 
-                if (Array.isArray(value) && typeof value[0] === 'string' && (registered == null || registered[value[0]] === undefined)) {
+                if (
+                    Array.isArray(value) &&
+                    typeof value[0] === "string" &&
+                    (registered == null || registered[value[0]] === undefined)
+                ) {
                     for (var _i = 0; _i < value.length; _i++) {
                         if (isProcessableValue(value[_i])) {
-                            string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";";
+                            string +=
+                                processStyleName(_key) +
+                                ":" +
+                                processStyleValue(_key, value[_i]) +
+                                ";";
                         }
                     }
                 } else {
-                    var interpolated = handleInterpolation(mergedProps, registered, value);
+                    var interpolated = handleInterpolation(
+                        mergedProps,
+                        registered,
+                        value
+                    );
 
                     switch (_key) {
-                        case 'animation':
-                        case 'animationName': {
-                            string += processStyleName(_key) + ":" + interpolated + ";";
+                        case "animation":
+                        case "animationName": {
+                            string +=
+                                processStyleName(_key) +
+                                ":" +
+                                interpolated +
+                                ";";
                             break;
                         }
 
                         default: {
-                            if (false) { }
+                            if (false) {
+                            }
 
                             string += _key + "{" + interpolated + "}";
                         }
@@ -267,20 +303,23 @@ function murmur2(str) {
         len = str.length;
 
     for (; len >= 4; ++i, len -= 4) {
-        k = str.charCodeAt(i) & 0xff | (str.charCodeAt(++i) & 0xff) << 8 | (str.charCodeAt(++i) & 0xff) << 16 | (str.charCodeAt(++i) & 0xff) << 24;
+        k =
+            (str.charCodeAt(i) & 0xff) |
+            ((str.charCodeAt(++i) & 0xff) << 8) |
+            ((str.charCodeAt(++i) & 0xff) << 16) |
+            ((str.charCodeAt(++i) & 0xff) << 24);
         k =
             /* Math.imul(k, m): */
-            (k & 0xffff) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16);
+            (k & 0xffff) * 0x5bd1e995 + (((k >>> 16) * 0xe995) << 16);
         k ^=
             /* k >>> r: */
             k >>> 24;
         h =
             /* Math.imul(k, m): */
-            (k & 0xffff) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^
+            ((k & 0xffff) * 0x5bd1e995 + (((k >>> 16) * 0xe995) << 16)) ^
             /* Math.imul(h, m): */
-            (h & 0xffff) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+            ((h & 0xffff) * 0x5bd1e995 + (((h >>> 16) * 0xe995) << 16));
     } // Handle the last few bytes of the input array
-
 
     switch (len) {
         case 3:
@@ -293,36 +332,39 @@ function murmur2(str) {
             h ^= str.charCodeAt(i) & 0xff;
             h =
                 /* Math.imul(h, m): */
-                (h & 0xffff) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+                (h & 0xffff) * 0x5bd1e995 + (((h >>> 16) * 0xe995) << 16);
     } // Do a few final mixes of the hash to ensure the last few
     // bytes are well-incorporated.
-
 
     h ^= h >>> 13;
     h =
         /* Math.imul(h, m): */
-        (h & 0xffff) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
-    return ((h ^ h >>> 15) >>> 0).toString(36);
+        (h & 0xffff) * 0x5bd1e995 + (((h >>> 16) * 0xe995) << 16);
+    return ((h ^ (h >>> 15)) >>> 0).toString(36);
 }
 
 function isProcessableValue(value) {
-    return value != null && typeof value !== 'boolean';
+    return value != null && typeof value !== "boolean";
 }
 
-var processStyleName = /* #__PURE__ */ emotion_memoize_browser_esm(function (styleName) {
-    return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, '-$&').toLowerCase();
+var processStyleName = /* #__PURE__ */ emotion_memoize_browser_esm(function (
+    styleName
+) {
+    return isCustomProperty(styleName)
+        ? styleName
+        : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
 });
 
 var processStyleValue = function processStyleValue(key, value) {
     switch (key) {
-        case 'animation':
-        case 'animationName': {
-            if (typeof value === 'string') {
+        case "animation":
+        case "animationName": {
+            if (typeof value === "string") {
                 return value.replace(animationRegex, function (match, p1, p2) {
                     cursor = {
                         name: p1,
                         styles: p2,
-                        next: cursor
+                        next: cursor,
                     };
                     return p1;
                 });
@@ -330,8 +372,13 @@ var processStyleValue = function processStyleValue(key, value) {
         }
     }
 
-    if (unitless_browser_esm[key] !== 1 && !isCustomProperty(key) && typeof value === 'number' && value !== 0) {
-        return value + 'px';
+    if (
+        unitless_browser_esm[key] !== 1 &&
+        !isCustomProperty(key) &&
+        typeof value === "number" &&
+        value !== 0
+    ) {
+        return value + "px";
     }
 
     return value;

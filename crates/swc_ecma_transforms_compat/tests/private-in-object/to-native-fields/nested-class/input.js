@@ -1,13 +1,13 @@
 class Foo {
-  #foo = 1;
+    #foo = 1;
 
-  test() {
-    class Nested {
-      test() {
+    test() {
+        class Nested {
+            test() {
+                #foo in this;
+            }
+        }
+
         #foo in this;
-      }
     }
-
-    #foo in this;
-  }
 }

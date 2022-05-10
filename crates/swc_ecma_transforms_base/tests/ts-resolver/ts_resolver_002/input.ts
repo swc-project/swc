@@ -1,4 +1,2 @@
-
-    class A {}
-    new A();
-    
+class A {}
+new A();

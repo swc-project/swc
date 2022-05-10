@@ -23,8 +23,10 @@ jobs:
   check-license:
     name: Check license
     runs-on: ubuntu-latest
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -44,6 +46,8 @@ jobs:
   check:
     name: Check
     runs-on: ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     strategy:
       fail-fast: false
       matrix:
@@ -52,7 +56,7 @@ jobs:
           - macos-10.15
           - windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -62,7 +66,7 @@ jobs:
         with:
           profile: minimal
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"
@@ -89,9 +93,13 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
+          - crate: binding_commons
+            os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
           - crate: binding_core_wasm
+            os: ubuntu-latest
+          - crate: binding_css_node
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
@@ -132,6 +140,10 @@ jobs:
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_common
             os: windows-latest
+          - crate: swc_config
+            os: ubuntu-latest
+          - crate: swc_config_macro
+            os: ubuntu-latest
           - crate: swc_css
             os: ubuntu-latest
           - crate: swc_css_ast
@@ -318,12 +330,12 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
       # Source map format
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"

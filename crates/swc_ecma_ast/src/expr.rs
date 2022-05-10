@@ -161,6 +161,32 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
+impl Expr {
+    /// Normalize parenthesized expressions.
+    ///
+    /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
+    ///
+    /// If `self` is not a parenthesized expression, it will be returned as is.
+    pub fn unwrap_parens(&self) -> &Expr {
+        match self {
+            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens(),
+            _ => self,
+        }
+    }
+
+    /// Normalize parenthesized expressions.
+    ///
+    /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
+    ///
+    /// If `self` is not a parenthesized expression, it will be returned as is.
+    pub fn unwrap_parens_mut(&mut self) -> &mut Expr {
+        match self {
+            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens_mut(),
+            _ => self,
+        }
+    }
+}
+
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Expr {

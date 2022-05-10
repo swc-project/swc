@@ -1,3 +1,3 @@
-import { a as b } from './b';
+import { a as b } from "./b";
 
-export { b as a }
+export { b as a };

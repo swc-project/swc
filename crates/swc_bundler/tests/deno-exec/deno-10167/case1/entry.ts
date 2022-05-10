@@ -1,3 +1,1 @@
-export function myFunc({ ...data }: {
-    field: string,
-}) { }
+export function myFunc({ ...data }: { field: string }) {}

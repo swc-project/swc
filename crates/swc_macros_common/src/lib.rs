@@ -1,9 +1,10 @@
 extern crate proc_macro;
 
-use pmutil::synom_ext::FromSpan;
 #[cfg(procmacro2_semver_exempt)]
 use pmutil::SpanExt;
+use pmutil::{synom_ext::FromSpan, Quote, SpanExt};
 use proc_macro2::Span;
+use quote::ToTokens;
 use syn::*;
 
 pub mod binder;
@@ -76,6 +77,32 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
     }
 
     Some(parse_tts(attr))
+}
+
+pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
+    Expr::Field(ExprField {
+        attrs: Default::default(),
+        base: syn::parse2(obj.to_token_stream())
+            .expect("swc_macros_common::access_field: failed to parse object"),
+        dot_token: Span::call_site().as_token(),
+        member: match &f.ident {
+            Some(id) => Member::Named(id.clone()),
+            _ => Member::Unnamed(Index {
+                index: idx as _,
+                span: Span::call_site(),
+            }),
+        },
+    })
+}
+
+pub fn join_stmts(stmts: &[Stmt]) -> Quote {
+    let mut q = Quote::new_call_site();
+
+    for s in stmts {
+        q.push_tokens(s);
+    }
+
+    q
 }
 
 /// fail! is a panic! with location reporting.

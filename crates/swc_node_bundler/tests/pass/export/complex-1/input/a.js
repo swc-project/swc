@@ -1,5 +1,5 @@
-import { b } from './b';
+import { b } from "./b";
 
-export const a = '1';
+export const a = "1";
 
 console.log(b);

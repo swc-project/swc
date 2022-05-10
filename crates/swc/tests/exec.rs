@@ -1,5 +1,5 @@
 use std::{
-    fs::{self, create_dir_all, rename},
+    fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -8,7 +8,7 @@ use std::{
 use anyhow::{bail, Context, Error};
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
-    try_with_handler, Compiler, HandlerOpts,
+    try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
 };
 use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
@@ -63,9 +63,10 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         if let Some(ext) = entry.extension() {
             if ext == "ts" {
                 let ts = Syntax::Typescript(TsConfig {
+                    decorators: true,
                     ..Default::default()
                 });
-                return vec![ts, default_es];
+                return vec![ts];
             }
         }
 
@@ -83,12 +84,12 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                     jsc: JscConfig {
                         syntax: Some(syntax),
                         transform: None,
-                        external_helpers,
+                        external_helpers: external_helpers.into(),
                         target: Some(target),
                         minify: if minify {
                             Some(JsMinifyOptions {
-                                compress: true.into(),
-                                mangle: true.into(),
+                                compress: BoolOrDataConfig::from_bool(true),
+                                mangle: BoolOrDataConfig::from_bool(true),
                                 format: Default::default(),
                                 ecma: Default::default(),
                                 keep_classnames: Default::default(),
@@ -106,7 +107,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                         ..Default::default()
                     },
                     module: Some(ModuleConfig::CommonJs(Default::default())),
-                    minify,
+                    minify: minify.into(),
                     ..Default::default()
                 },
                 source_maps: if source_map {
@@ -128,16 +129,7 @@ fn run_fixture_test(entry: PathBuf) {
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);
-    let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
-    let expected_stdout = stdout_of(
-        &input_code,
-        if entry.extension().unwrap() == "mjs" {
-            NodeModuleType::Module
-        } else {
-            NodeModuleType::CommonJs
-        },
-    )
-    .expect("failed to get stdout");
+    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
 
     eprintln!(
         "----- {} -----\n{}\n-----",
@@ -154,6 +146,60 @@ fn run_fixture_test(entry: PathBuf) {
     // Test was successful.
 
     unignore(&entry);
+}
+
+fn get_expected_stdout(input: &Path) -> Result<String, Error> {
+    let cm = Arc::new(SourceMap::default());
+    let c = Compiler::new(cm.clone());
+
+    try_with_handler(
+        cm.clone(),
+        HandlerOpts {
+            color: ColorConfig::Always,
+            skip_filename: true,
+        },
+        |handler| {
+            let fm = cm.load_file(input).context("failed to load file")?;
+
+            let res = c
+                .process_js_file(
+                    fm,
+                    handler,
+                    &Options {
+                        config: Config {
+                            jsc: JscConfig {
+                                target: Some(EsVersion::Es2021),
+                                syntax: Some(Syntax::Typescript(TsConfig {
+                                    decorators: true,
+                                    ..Default::default()
+                                })),
+                                ..Default::default()
+                            },
+                            module: match input.extension() {
+                                Some(ext) if ext == "ts" => {
+                                    Some(ModuleConfig::CommonJs(Default::default()))
+                                }
+                                Some(ext) if ext == "mjs" => None,
+                                _ => None,
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                )
+                .context("failed to process file")?;
+
+            let res = stdout_of(
+                &res.code,
+                match input.extension() {
+                    Some(ext) if ext == "mjs" => NodeModuleType::Module,
+                    _ => NodeModuleType::CommonJs,
+                },
+            )?;
+
+            Ok(res)
+        },
+    )
 }
 
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`

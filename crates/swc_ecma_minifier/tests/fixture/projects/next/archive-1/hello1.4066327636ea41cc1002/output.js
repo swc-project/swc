@@ -1,7 +1,7 @@
 "use strict";
 (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
     [
-        358, 
+        358
     ],
     {
         1901: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {

@@ -1,7 +1,7 @@
 function test() {
     return (
         <>
-            <A b='\' />
+            <A b="\" />
         </>
     );
 }

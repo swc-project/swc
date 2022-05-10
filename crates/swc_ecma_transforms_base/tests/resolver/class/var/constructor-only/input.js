@@ -1,1 +1,1 @@
-var Foo = function Foo() { }
+var Foo = function Foo() {};

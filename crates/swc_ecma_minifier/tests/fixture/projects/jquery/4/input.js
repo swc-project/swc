@@ -5,10 +5,12 @@ export const obj = {
             return null;
         }
         try {
-            if (window.DOMParser) { // Standard
+            if (window.DOMParser) {
+                // Standard
                 tmp = new DOMParser();
                 xml = tmp.parseFromString(data, "text/xml");
-            } else { // IE
+            } else {
+                // IE
                 xml = new ActiveXObject("Microsoft.XMLDOM");
                 xml.async = "false";
                 xml.loadXML(data);
@@ -16,9 +18,13 @@ export const obj = {
         } catch (e) {
             xml = undefined;
         }
-        if (!xml || !xml.documentElement || xml.getElementsByTagName("parsererror").length) {
+        if (
+            !xml ||
+            !xml.documentElement ||
+            xml.getElementsByTagName("parsererror").length
+        ) {
             jQuery.error("Invalid XML: " + data);
         }
         return xml;
-    }
-}
+    },
+};

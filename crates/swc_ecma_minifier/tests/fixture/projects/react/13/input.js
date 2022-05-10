@@ -1,5 +1,5 @@
 function validateChildKeys(node, parentType) {
-    if (typeof node !== 'object') {
+    if (typeof node !== "object") {
         return;
     }
 
@@ -19,7 +19,7 @@ function validateChildKeys(node, parentType) {
     } else if (node) {
         var iteratorFn = getIteratorFn(node);
 
-        if (typeof iteratorFn === 'function') {
+        if (typeof iteratorFn === "function") {
             // Entry iterators used to provide implicit keys,
             // but now we print a separate warning for them later.
             if (iteratorFn !== node.entries) {

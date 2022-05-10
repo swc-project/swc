@@ -1,1 +1,3 @@
-let a = null, b = 2; console.log(a ??= b);
+let a = null,
+    b = 2;
+console.log((a ??= b));

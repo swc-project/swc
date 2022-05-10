@@ -1,2 +1,2 @@
-console.log('a-b');
-exports.default = 'ab';
+console.log("a-b");
+exports.default = "ab";

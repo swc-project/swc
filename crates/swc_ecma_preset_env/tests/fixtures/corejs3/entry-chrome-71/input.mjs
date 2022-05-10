@@ -1,17 +1,17 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 const foo = {
-  a: true,
+    a: true,
 };
 
 const bar = {
-  ...foo,
-  b: false,
+    ...foo,
+    b: false,
 };
 
 async function baz() {
-  for await (const x of someAsyncThing()) {
-    console.log(x);
-  }
+    for await (const x of someAsyncThing()) {
+        console.log(x);
+    }
 }

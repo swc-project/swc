@@ -1,9 +1,13 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-        typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.vlq = {}));
-})(this, (function (exports) {
-    'use strict';
+    typeof exports === "object" && typeof module !== "undefined"
+        ? factory(exports)
+        : typeof define === "function" && define.amd
+        ? define(["exports"], factory)
+        : ((global =
+              typeof globalThis !== "undefined" ? globalThis : global || self),
+          factory((global.vlq = {})));
+})(this, function (exports) {
+    "use strict";
 
     /** @type {Record<string, number>} */
     let char_to_integer = {};
@@ -11,8 +15,8 @@
     /** @type {Record<number, string>} */
     let integer_to_char = {};
 
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
-        .split('')
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+        .split("")
         .forEach(function (char, i) {
             char_to_integer[char] = i;
             integer_to_char[i] = char;
@@ -30,7 +34,7 @@
             let integer = char_to_integer[string[i]];
 
             if (integer === undefined) {
-                throw new Error('Invalid character (' + string[i] + ')');
+                throw new Error("Invalid character (" + string[i] + ")");
             }
 
             const has_continuation_bit = integer & 32;
@@ -60,11 +64,11 @@
 
     /** @param {number | number[]} value */
     function encode(value) {
-        if (typeof value === 'number') {
+        if (typeof value === "number") {
             return encode_integer(value);
         }
 
-        let result = '';
+        let result = "";
         for (let i = 0; i < value.length; i += 1) {
             result += encode_integer(value[i]);
         }
@@ -74,7 +78,7 @@
 
     /** @param {number} num */
     function encode_integer(num) {
-        let result = '';
+        let result = "";
 
         if (num < 0) {
             num = (-num << 1) | 1;
@@ -99,6 +103,5 @@
     exports.decode = decode;
     exports.encode = encode;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
-}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+});

@@ -4,9 +4,9 @@ import { printQuestion } from "./mod.ts";
 export const getNumericInput = (): Promise<number> => Promise.resolve(4);
 
 export async function getUserInput(): Promise<string> {
-  printQuestion("What would you like to enter");
+    printQuestion("What would you like to enter");
 
-  const reader = readLines(Deno.stdin);
+    const reader = readLines(Deno.stdin);
 
-  return (await reader.next()).value;
+    return (await reader.next()).value;
 }

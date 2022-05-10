@@ -45,6 +45,12 @@
  8 | `-> </html>
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:1:1]
+ 1 | <!DOCTYPE HTML>
+   : ^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
  3 | ,-> <head>

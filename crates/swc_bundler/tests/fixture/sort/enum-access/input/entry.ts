@@ -1,7 +1,7 @@
-import { foo } from './b';
+import { foo } from "./b";
 
 function lazy() {
-    foo()
+    foo();
 }
 
 lazy();

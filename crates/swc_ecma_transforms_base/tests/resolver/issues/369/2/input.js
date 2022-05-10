@@ -1,6 +1,6 @@
-function a() { }
-function b() { }
+function a() {}
+function b() {}
 function foo({ a: b }) {
-    expect(b).toBe('a')
+    expect(b).toBe("a");
 }
-foo({ a: 'a' })
+foo({ a: "a" });

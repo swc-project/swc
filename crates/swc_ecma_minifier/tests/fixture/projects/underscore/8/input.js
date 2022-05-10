@@ -4,12 +4,12 @@ _.throttle = function (func, wait, options) {
     var previous = 0;
     options || (options = {});
     var later = function () {
-        previous = options.leading === false ? 0 : new Date;
+        previous = options.leading === false ? 0 : new Date();
         timeout = null;
         result = func.apply(context, args);
     };
     return function () {
-        var now = new Date;
+        var now = new Date();
         if (!previous && options.leading === false) previous = now;
         var remaining = wait - (now - previous);
         context = this;

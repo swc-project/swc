@@ -15,17 +15,17 @@ _arr9[Symbol.iterator2]();
 
 G.assign; // static method
 function H(WeakMap) {
-  var blah = new WeakMap();
+    var blah = new WeakMap();
 } // shadowed
 
 // not covered by this plugin
-var asdf = 'copyWithin';
+var asdf = "copyWithin";
 i[asdf]; // computed with identifier
 j[`copyWithin`]; // computed with template
 var { [asdf]: _a } = k; // computed
 
 const foo = new Promise((resolve) => {
-  resolve(new Map());
+    resolve(new Map());
 });
 
 queueMicrotask(() => globalThis);

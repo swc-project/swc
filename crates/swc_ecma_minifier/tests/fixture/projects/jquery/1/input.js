@@ -9,30 +9,40 @@ export const obj = {
 
         // Handle HTML strings
         if (typeof selector === "string") {
-            if (selector.charAt(0) === "<" && selector.charAt(selector.length - 1) === ">" && selector.length >= 3) {
+            if (
+                selector.charAt(0) === "<" &&
+                selector.charAt(selector.length - 1) === ">" &&
+                selector.length >= 3
+            ) {
                 // Assume that strings that start and end with <> are HTML and skip the regex check
                 match = [null, selector, null];
-
             } else {
                 match = rquickExpr.exec(selector);
             }
 
             // Match html or make sure no context is specified for #id
             if (match && (match[1] || !context)) {
-
                 // HANDLE: $(html) -> $(array)
                 if (match[1]) {
                     context = context instanceof jQuery ? context[0] : context;
 
                     // scripts is true for back-compat
-                    jQuery.merge(this, jQuery.parseHTML(
-                        match[1],
-                        context && context.nodeType ? context.ownerDocument || context : document,
-                        true
-                    ));
+                    jQuery.merge(
+                        this,
+                        jQuery.parseHTML(
+                            match[1],
+                            context && context.nodeType
+                                ? context.ownerDocument || context
+                                : document,
+                            true
+                        )
+                    );
 
                     // HANDLE: $(html, props)
-                    if (rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) {
+                    if (
+                        rsingleTag.test(match[1]) &&
+                        jQuery.isPlainObject(context)
+                    ) {
                         for (match in context) {
                             // Properties of context are called as methods if possible
                             if (jQuery.isFunction(this[match])) {
@@ -99,4 +109,4 @@ export const obj = {
 
         return jQuery.makeArray(selector, this);
     },
-}
+};

@@ -8,7 +8,7 @@
                 "/spread",
                 function() {
                     return __webpack_require__(1767);
-                }
+                }, 
             ]);
         },
         2726: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -27,7 +27,7 @@
             }, components_Form = function(param) {
                 var value = param.value, onChange = param.onChange;
                 return (0, react.useEffect)(function() {
-                    console.log('EFFECT');
+                    console.log("EFFECT");
                 }, []), (0, jsx_runtime.jsx)(components_Input, {
                     value: value,
                     onChange: onChange
@@ -37,7 +37,7 @@
         1767: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
-                "default": function() {
+                default: function() {
                     return PageWithSpread;
                 }
             });
@@ -64,7 +64,7 @@
                 }({}, props));
             };
             function PageWithSpread() {
-                var ref = (0, react.useState)(''), text = ref[0], setText = ref[1], handleChange = (0, react.useCallback)(function(e) {
+                var ref = (0, react.useState)(""), text = ref[0], setText = ref[1], handleChange = (0, react.useCallback)(function(e) {
                     setText(e.target.value);
                 }, []);
                 return (0, jsx_runtime.jsx)(components_Container, {
@@ -82,5 +82,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2809);
         }), _N_E = __webpack_require__.O();
-    }
+    }, 
 ]);

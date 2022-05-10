@@ -1,6 +1,6 @@
-import * as React from "https://esm.sh/react@17.0.1"
+import * as React from "https://esm.sh/react@17.0.1";
 
-console.log(React)
+console.log(React);
 if (!React) {
-    throw new Error()
+    throw new Error();
 }

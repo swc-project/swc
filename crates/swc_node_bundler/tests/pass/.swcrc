@@ -1,9 +1,9 @@
 {
-  "jsc": {
-    "target": "es2016",
-    "parser": {
-      "syntax": "ecmascript",
-      "dynamicImport": true
+    "jsc": {
+        "target": "es2016",
+        "parser": {
+            "syntax": "ecmascript",
+            "dynamicImport": true
+        }
     }
-  }
 }

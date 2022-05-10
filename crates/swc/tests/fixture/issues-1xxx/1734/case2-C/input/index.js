@@ -1,3 +1,3 @@
-import baz, { foo } from './A'
+import baz, { foo } from "./A";
 
-console.log(baz, foo) // <-- baz foo
+console.log(baz, foo); // <-- baz foo

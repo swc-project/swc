@@ -421,7 +421,8 @@ test!(
         chain!(
             decorators(decorators::Config {
                 legacy: true,
-                emit_metadata: false
+                emit_metadata: false,
+                use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
@@ -439,26 +440,20 @@ test!(
 }
 ",
     "
-var _class, _descriptor;
-let X = ((_class = class X {
-    x() {
-        const localVar = aFunctionSomewhere();
-        return localVar;
+
+    export default class X {
+        constructor(){
+            this.anything = 0;
+        }
+        x() {
+            const localVar = aFunctionSomewhere();
+            return localVar;
+        }
     }
-    constructor(){
-        _initializerDefineProperty(this, \"anything\", _descriptor, this);
-    }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"anything\", [
-    whatever
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return 0;
-    }
-}), _class);
-export { X as default };"
+    __decorate([
+        whatever
+    ], X.prototype, \"anything\", void 0);
+    "
 );
 
 test!(
@@ -473,7 +468,8 @@ test!(
         chain!(
             decorators(decorators::Config {
                 legacy: true,
-                emit_metadata: false
+                emit_metadata: false,
+                use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),

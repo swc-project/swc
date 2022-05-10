@@ -1,5 +1,3 @@
 export default () => {
-    return <Input
-        pattern=".*\S+.*"
-    />
-}
+    return <Input pattern=".*\S+.*" />;
+};

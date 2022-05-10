@@ -1,6 +1,6 @@
 export default function example(html) {
     const test = () => {
-        return 'test';
+        return "test";
     };
-    return html`${test()}`
+    return html`${test()}`;
 }

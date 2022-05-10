@@ -1,3 +1,3 @@
-import { path } from './deps.ts';
+import { path } from "./deps.ts";
 console.log(path);
-console.log(path.join('/', 'example'));
+console.log(path.join("/", "example"));

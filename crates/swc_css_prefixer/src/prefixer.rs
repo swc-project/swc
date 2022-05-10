@@ -1254,6 +1254,11 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust");
             }
 
+            "print-color-adjust" => {
+                add_declaration!(Prefix::Moz, "color-adjust");
+                add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust");
+            }
+
             "columns" => {
                 add_declaration!(Prefix::Webkit, "-webkit-columns");
                 add_declaration!(Prefix::Moz, "-moz-columns");

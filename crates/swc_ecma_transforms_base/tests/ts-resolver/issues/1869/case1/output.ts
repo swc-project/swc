@@ -1,23 +1,23 @@
 const ZQLExport__1: IZQL = class ZQL__3 {
     private static requiredMap = {
         [ZQLAction.QUERY]: [
-            'tableName'
+            "tableName"
         ],
         [ZQLAction.SUM]: [
-            'tableName',
-            'fields',
-            'sumBy'
+            "tableName",
+            "fields",
+            "sumBy"
         ],
         [ZQLAction.COUNT]: [
-            'tableName'
+            "tableName"
         ],
         [ZQLAction.GET_API]: [
-            'api',
-            'output'
+            "api",
+            "output"
         ],
         [ZQLAction.SEARCH]: [
-            'keyword'
+            "keyword"
         ]
     };
-    private static zqlQueryTemplate: (...values: any[]) => string = ZQL__3.zqlTemplateParser`query ${'fnName'}${'fnName?.('}${'tableName'}${'fields?..'}${'fields'}${'fnName?.)'} ${'condition?.where'} ${'condition'} ${'restrictBy'} ${'returnWith'} ${'groupBy'} ${'orderBy'} ${'orderDirection'} ${'limit'} ${'offset'} ${'namedAs'}`;
+    private static zqlQueryTemplate: (...values: any[]) => string = ZQL__3.zqlTemplateParser`query ${"fnName"}${"fnName?.("}${"tableName"}${"fields?.."}${"fields"}${"fnName?.)"} ${"condition?.where"} ${"condition"} ${"restrictBy"} ${"returnWith"} ${"groupBy"} ${"orderBy"} ${"orderDirection"} ${"limit"} ${"offset"} ${"namedAs"}`;
 };

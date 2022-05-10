@@ -1,8 +1,8 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "ecmascript",
-      "jsx": true
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        }
     }
-  }
 }

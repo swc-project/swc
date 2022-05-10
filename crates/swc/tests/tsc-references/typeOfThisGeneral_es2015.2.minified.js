@@ -7,16 +7,14 @@ class MyTestClass {
     static staticFn(t = this) {
         var p, t = MyTestClass;
         t.staticCanary;
-        var p = this, p = MyTestClass;
+        var p = MyTestClass;
         p.staticCanary;
     }
     static get staticProp() {
-        var p, p = this, p = MyTestClass;
-        return p.staticCanary, this;
+        return MyTestClass.staticCanary, this;
     }
     static set staticProp(v) {
-        var p, p = this, p = MyTestClass;
-        p.staticCanary;
+        MyTestClass.staticCanary;
     }
     constructor(){
         this.someFunc = ()=>{}, this.canary, this.canary = 3;
@@ -31,16 +29,14 @@ class MyGenericTestClass {
     static staticFn(t = this) {
         var p, t = MyGenericTestClass;
         t.staticCanary;
-        var p = this, p = MyGenericTestClass;
+        var p = MyGenericTestClass;
         p.staticCanary;
     }
     static get staticProp() {
-        var p, p = this, p = MyGenericTestClass;
-        return p.staticCanary, this;
+        return MyGenericTestClass.staticCanary, this;
     }
     static set staticProp(v) {
-        var p, p = this, p = MyGenericTestClass;
-        p.staticCanary;
+        MyGenericTestClass.staticCanary;
     }
     constructor(){
         this.someFunc = ()=>{}, this.canary, this.canary = 3;

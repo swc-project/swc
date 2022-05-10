@@ -1,4 +1,3 @@
-import A from './subfolder/A'
-
+import A from "./subfolder/A";
 
 console.log(A);

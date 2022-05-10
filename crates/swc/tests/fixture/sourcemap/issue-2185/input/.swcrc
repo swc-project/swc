@@ -1,6 +1,6 @@
 {
-  "sourceMaps": true,
-  "jsc": {
-    "target": "es2015"
-  }
+    "sourceMaps": true,
+    "jsc": {
+        "target": "es2015"
+    }
 }

@@ -1,2 +1,6 @@
-namespace N { @foo class C1 { } }
-@foo class C2 { }
+namespace N {
+    @foo
+    class C1 {}
+}
+@foo
+class C2 {}

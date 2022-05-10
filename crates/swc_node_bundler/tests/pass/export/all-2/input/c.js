@@ -1,1 +1,1 @@
-export class Root { }
+export class Root {}

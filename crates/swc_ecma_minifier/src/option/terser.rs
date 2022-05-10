@@ -247,11 +247,7 @@ pub struct TerserCompressorOptions {
     pub pristine_globals: Option<bool>,
 }
 
-impl Default for TerserCompressorOptions {
-    fn default() -> Self {
-        serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
-    }
-}
+impl_default!(TerserCompressorOptions);
 
 impl TerserCompressorOptions {
     pub fn into_config(self, cm: Lrc<SourceMap>) -> CompressOptions {

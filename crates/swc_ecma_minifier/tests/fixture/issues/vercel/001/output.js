@@ -1,1 +1,1 @@
-new RegExp('^/(?!_next).*$');
+new RegExp("^/(?!_next).*$");

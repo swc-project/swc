@@ -1,3 +1,3 @@
-const b = 1
+const b = 1;
 
-export { b as a }
+export { b as a };

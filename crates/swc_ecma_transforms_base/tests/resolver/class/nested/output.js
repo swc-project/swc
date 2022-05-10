@@ -9,11 +9,11 @@ var Outer__1 = function(_Hello__2) {
             }
             _createClass(Inner__5, [
                 {
-                    key: _get(_getPrototypeOf(Outer__2.prototype), 'toString', _assertThisInitialized(_this__4)).call(_this__4),
+                    key: _get(_getPrototypeOf(Outer__2.prototype), "toString", _assertThisInitialized(_this__4)).call(_this__4),
                     value: function() {
-                        return 'hello';
+                        return "hello";
                     }
-                }
+                }, 
             ]);
             return Inner__5;
         }();

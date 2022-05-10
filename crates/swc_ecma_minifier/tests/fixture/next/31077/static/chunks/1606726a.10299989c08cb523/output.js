@@ -15,13 +15,13 @@
                 EditorView: function() {
                     return EditorView;
                 },
-                "__endComposition": function() {
+                __endComposition: function() {
                     return endComposition;
                 },
-                "__parseFromClipboard": function() {
+                __parseFromClipboard: function() {
                     return parseFromClipboard;
                 },
-                "__serializeForClipboard": function() {
+                __serializeForClipboard: function() {
                     return serializeForClipboard;
                 }
             });
@@ -35,7 +35,7 @@
                 var chrome = !ie && /Chrome\/(\d+)/.exec(navigator.userAgent);
                 result1.chrome = !!chrome, result1.chrome_version = chrome && +chrome[1], result1.safari = !ie && /Apple Computer/.test(navigator.vendor), result1.ios = result1.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2), result1.mac = result1.ios || /Mac/.test(navigator.platform), result1.android = /Android \d/.test(navigator.userAgent), result1.webkit = "webkitFontSmoothing" in document.documentElement.style, result1.webkit_version = result1.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
-                    0
+                    0, 
                 ])[1];
             }
             var domIndex = function(node) {
@@ -605,7 +605,7 @@
                         offset: pos
                     };
                 }, CompositionViewDesc.prototype.ignoreMutation = function(mut) {
-                    return 'characterData' === mut.type && mut.target.nodeValue == mut.oldValue;
+                    return "characterData" === mut.type && mut.target.nodeValue == mut.oldValue;
                 }, Object.defineProperties(CompositionViewDesc.prototype, prototypeAccessors$2), CompositionViewDesc;
             }(ViewDesc1), MarkViewDesc1 = function(ViewDesc) {
                 function MarkViewDesc(parent, mark, dom, contentDOM) {
@@ -839,11 +839,11 @@
             }
             OuterDecoLevel.prototype = Object.create(null);
             var noDeco = [
-                new OuterDecoLevel
+                new OuterDecoLevel()
             ];
             function computeOuterDeco(outerDeco, node, needsWrap) {
                 if (0 == outerDeco.length) return noDeco;
-                for(var top = needsWrap ? noDeco[0] : new OuterDecoLevel, result = [
+                for(var top = needsWrap ? noDeco[0] : new OuterDecoLevel(), result = [
                     top
                 ], i = 0; i < outerDeco.length; i++){
                     var attrs = outerDeco[i].type.attrs;
@@ -894,7 +894,7 @@
                 this.top = top, this.lock = lockedNode, this.index = 0, this.stack = [], this.changed = !1, this.preMatch = preMatch1(top.node.content, top.children);
             };
             function preMatch1(frag, descs) {
-                for(var fI = frag.childCount, dI = descs.length, matched = new Map; fI > 0 && dI > 0; dI--){
+                for(var fI = frag.childCount, dI = descs.length, matched = new Map(); fI > 0 && dI > 0; dI--){
                     var desc = descs[dI - 1], node = desc.node;
                     if (node) {
                         if (node != frag.child(fI - 1)) break;
@@ -1336,11 +1336,13 @@
                     }
                     firstChild = wrap.firstChild;
                 }
-                return firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context)), {
+                firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context));
+                var text = view.someProp("clipboardTextSerializer", function(f) {
+                    return f(slice);
+                }) || slice.content.textBetween(0, slice.content.size, "\n\n");
+                return {
                     dom: wrap,
-                    text: view.someProp("clipboardTextSerializer", function(f) {
-                        return f(slice);
-                    }) || slice.content.textBetween(0, slice.content.size, "\n\n")
+                    text: text
                 };
             }
             function parseFromClipboard(view, text, html, plainText, $context) {
@@ -1519,7 +1521,7 @@
                     result1.ie && result1.ie_version <= 11 && mutations.some(function(m) {
                         return "childList" == m.type && m.removedNodes.length || "characterData" == m.type && m.oldValue.length > m.target.nodeValue.length;
                     }) ? this$1.flushSoon() : this$1.flush();
-                }), this.currentSelection = new SelectionState, useCharData && (this.onCharData = function(e) {
+                }), this.currentSelection = new SelectionState(), useCharData && (this.onCharData = function(e) {
                     this$1.queue.push({
                         target: e.target,
                         type: "characterData",
@@ -1613,10 +1615,10 @@
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
-                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length, to = desc.localPosFromDOM(mut.target, toOffset, 1);
                     return {
                         from: from,
-                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
+                        to: to
                     };
                 }
                 return "attributes" == mut.type ? {
@@ -2168,7 +2170,7 @@
                     } else mustRebuild = !0;
                 }
                 if (mustRebuild) {
-                    var built = buildTree(mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), node, 0, options);
+                    var decorations = mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
                     newLocal = built.local;
                     for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
                     for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){
@@ -2247,7 +2249,7 @@
                     var result = f(view.state);
                     result && result != empty1 && found.push(result);
                 }), view.cursorWrapper && found.push(DecorationSet.create(view.state.doc, [
-                    view.cursorWrapper.deco
+                    view.cursorWrapper.deco, 
                 ])), DecorationGroup.from(found);
             }
             DecorationGroup.prototype.map = function(mapping, doc) {
@@ -2367,7 +2369,14 @@
                                     var adjust = Math.max(0, start - Math.min(endA, endB));
                                     preferredPos -= endA + adjust - start;
                                 }
-                                return endA < start && a.size < b.size ? (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0, endB = start + (endB - endA), endA = start) : endB < start && (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0, endA = start + (endA - endB), endB = start), {
+                                if (endA < start && a.size < b.size) {
+                                    var move = preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0;
+                                    start -= move, endB = start + (endB - endA), endA = start;
+                                } else if (endB < start) {
+                                    var move$1 = preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0;
+                                    start -= move$1, endA = start + (endA - endB), endB = start;
+                                }
+                                return {
                                     start: start,
                                     endA: endA,
                                     endB: endB
@@ -2742,5 +2751,5 @@
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));
             }, Object.defineProperties(EditorView.prototype, prototypeAccessors$21);
         }
-    }
+    }, 
 ]);

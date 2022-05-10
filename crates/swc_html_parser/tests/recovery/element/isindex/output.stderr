@@ -1,0 +1,6 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
