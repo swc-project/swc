@@ -110,6 +110,7 @@ jobs:
   run-tests:
     name: Run cargo tests
     strategy:
+      fail-fast: false
       matrix:
         host:
           - ubuntu-latest
