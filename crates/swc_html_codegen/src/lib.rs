@@ -18,19 +18,10 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct CodegenConfig {
     pub minify: bool,
     pub scripting_enabled: bool,
-}
-
-impl Default for CodegenConfig {
-    fn default() -> Self {
-        CodegenConfig {
-            minify: false,
-            scripting_enabled: false,
-        }
-    }
 }
 
 #[derive(Debug)]
