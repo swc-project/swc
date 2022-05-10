@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Fix switch with a unknown case (#4597) ([8944a3b](https://github.com/swc-project/swc/commit/8944a3bdf54497a6ab03194b3d96ccfe902c016b))
 
+
+- **(es/minifier)** Preserve more `this` (#4599) ([859dc44](https://github.com/swc-project/swc/commit/859dc440b43c0dbd17ef8cee2998de3ce8c009a0))
+
 ### Features
 
 
