@@ -34,7 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "issue_1750/case_1/",
         "properties/issue_3188_3/",
         // We don't care about ie8
         "ie8",
