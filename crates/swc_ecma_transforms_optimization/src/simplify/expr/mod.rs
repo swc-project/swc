@@ -1383,7 +1383,10 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
+        let old_in_callee = self.in_callee;
+        self.in_callee = false;
         p.visit_mut_children_with(self);
+        self.in_callee = old_in_callee;
 
         if let Pat::Assign(a) = p {
             if a.right.is_undefined()
