@@ -106,11 +106,21 @@ impl SimplifyExpr {
                 sym: js_word!("length"),
                 ..
             }) => KnownOp::Len,
-            MemberProp::Ident(Ident { sym, .. }) => KnownOp::IndexStr(sym.clone()),
+            MemberProp::Ident(Ident { sym, .. }) => {
+                if !self.in_callee {
+                    KnownOp::IndexStr(sym.clone())
+                } else {
+                    return;
+                }
+            }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                    if value.fract() == 0.0 {
-                        KnownOp::Index(*value as _)
+                if !self.in_callee {
+                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                        if value.fract() == 0.0 {
+                            KnownOp::Index(*value as _)
+                        } else {
+                            return;
+                        }
                     } else {
                         return;
                     }
@@ -1187,9 +1197,11 @@ impl VisitMut for SimplifyExpr {
                 }
             },
         }
-        self.in_callee = old_in_callee;
 
+        self.in_callee = false;
         n.args.visit_mut_with(self);
+
+        self.in_callee = old_in_callee;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
