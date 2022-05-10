@@ -100,6 +100,9 @@ fn wrap_module(
         ident: None,
         function: Function {
             params: vec![
+                // TODO: Remap syntax context of `module` and `exports`
+                // Those are unresolved, but it's actually an injected variable.
+                //
                 // module
                 Param {
                     span: DUMMY_SP,

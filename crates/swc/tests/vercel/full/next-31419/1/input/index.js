@@ -1,4 +1,4 @@
-Promise.all(assignAll).then(async function (value) {
+Promise.all(assignAll).then(async function (obj) {
     let removeQuery = `DELETE FROM "TABLE" WHERE "UUID" IN ( `;
 
     for (let key in obj) {

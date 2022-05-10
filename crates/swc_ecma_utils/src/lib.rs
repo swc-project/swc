@@ -1156,7 +1156,18 @@ pub trait ExprExt {
         }
 
         match *self.as_expr() {
-            Expr::Member(MemberExpr { ref obj, .. }) if obj.is_global_ref_to(ctx, "Math") => true,
+            Expr::Member(MemberExpr { ref obj, .. }) => {
+                obj.is_global_ref_to(ctx, "Math")
+                    || match &**obj {
+                        // Allow dummy span
+                        Expr::Ident(Ident {
+                            span,
+                            sym: js_word!("Math"),
+                            ..
+                        }) => span.ctxt == SyntaxContext::empty(),
+                        _ => false,
+                    }
+            }
 
             Expr::Fn(FnExpr {
                 function:
@@ -1183,11 +1194,18 @@ pub trait ExprExt {
                         &*i.sym,
                         "Infinity"
                             | "NaN"
+                            | "Math"
                             | "undefined"
                             | "Object"
+                            | "Array"
+                            | "Promise"
                             | "Boolean"
                             | "Number"
                             | "String"
+                            | "Bigint"
+                            | "Error"
+                            | "RegExp"
+                            | "Function"
                     )
                 } else {
                     false

@@ -3,6 +3,7 @@ use std::{fmt::Write, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ExprExt;
 
 use super::Pure;
 use crate::compress::{
@@ -480,6 +481,22 @@ impl Pure<'_> {
             }
 
             _ => {}
+        }
+
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) = e
+        {
+            if callee.is_pure_callee(&self.expr_ctx) {
+                self.changed = true;
+                report_change!("Dropping pure call as callee is pure");
+                *e = self
+                    .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
+                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
         }
 
         if self.options.unused {
