@@ -1193,8 +1193,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                     // TODO remove me when we will implement `raw` and keep original newlines in
                     // `raw`
-                    if path.contains("domjs-unsafe_dat/1.html")
-                        || path.contains("plain-text-unsafe_dat/24.html")
+                    if (path.contains("domjs-unsafe_dat") && path.contains("1.html"))
+                        || (path.contains("plain-text-unsafe_dat") && path.contains("24.html"))
                     {
                         return Ok(());
                     }
