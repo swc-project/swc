@@ -344,15 +344,22 @@ impl SimplifyExpr {
                     Known(v) => {
                         self.changed = true;
 
-                        *expr = preserve_effects(
-                            *span,
+                        let value_expr = if !v.is_nan() {
                             Expr::Lit(Lit::Num(Number {
                                 value: v,
                                 span: *span,
                                 raw: None,
-                            })),
-                            { iter::once(left.take()).chain(iter::once(right.take())) },
-                        );
+                            }))
+                        } else {
+                            Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                span.with_ctxt(self.unresolved_ctxt),
+                            ))
+                        };
+
+                        *expr = preserve_effects(*span, value_expr, {
+                            iter::once(left.take()).chain(iter::once(right.take()))
+                        });
                         return;
                     }
                     _ => {}
