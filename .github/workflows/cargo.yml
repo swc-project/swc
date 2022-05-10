@@ -151,22 +151,6 @@ jobs:
           profile: minimal
           target: wasm32-wasi
 
-      - name: Download archive
-        uses: actions/download-artifact@v3
-        with:
-          name: test-bins--${{ runner.os }}
-
-      # This example extracts artifacts to "build-artifacts/target" to demonstrate target-dir remapping.
-      - name: Extract artifacts
-        run: tar -xf test-bins.tar.gz --one-top-level=test-bins
-
-      - name: Run tests
-        run: |
-          ~/.cargo/bin/cargo-nextest nextest run --cargo-metadata test-bins/target/cargo-metadata.json \
-            --binaries-metadata test-bins/target/binaries-metadata.json \
-            --target-dir-remap test-bins/target \
-            --partition count:${{ matrix.partition }}/15
-
       # Required for testing the bundler
       - uses: denoland/setup-deno@v1
         with:
@@ -196,6 +180,22 @@ jobs:
         shell: bash
         run: |
           jest -v && mocha --version
+
+      - name: Download archive
+        uses: actions/download-artifact@v3
+        with:
+          name: test-bins--${{ runner.os }}
+
+      # This example extracts artifacts to "build-artifacts/target" to demonstrate target-dir remapping.
+      - name: Extract artifacts
+        run: tar -xf test-bins.tar.gz --one-top-level=test-bins
+
+      - name: Run tests
+        run: |
+          ~/.cargo/bin/cargo-nextest nextest run --cargo-metadata test-bins/target/cargo-metadata.json \
+            --binaries-metadata test-bins/target/binaries-metadata.json \
+            --target-dir-remap test-bins/target \
+            --partition count:${{ matrix.partition }}/15
 
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
