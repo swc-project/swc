@@ -15,7 +15,7 @@ use swc_html_parser::{parse_file, parser::ParserConfig};
 use swc_html_visit::{VisitMut, VisitMutWith};
 use testing::{assert_eq, run_test2, NormalizedOutput};
 
-fn run(input: &Path, minify: bool) {
+fn print(input: &Path, config: Option<BasicHtmlWriterConfig>, minify: bool) {
     let dir = input.parent().unwrap();
     // let map = if minify {
     //     dir.join(format!(
@@ -42,9 +42,6 @@ fn run(input: &Path, minify: bool) {
 
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
-
-        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
-
         let mut errors = vec![];
         let mut document: Document = parse_file(
             &fm,
@@ -63,10 +60,14 @@ fn run(input: &Path, minify: bool) {
         // let mut src_map_buf = vec![];
 
         {
+            let config = match config {
+                Some(config) => config,
+                _ => BasicHtmlWriterConfig::default(),
+            };
             let wr = BasicHtmlWriter::new(
                 &mut html_str,
                 None, // Some(&mut src_map_buf),
-                BasicHtmlWriterConfig::default(),
+                config,
             );
 
             let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
@@ -112,104 +113,12 @@ fn run(input: &Path, minify: bool) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.html")]
-fn html(input: PathBuf) {
-    run(&input, false);
-    run(&input, true);
-}
-
-#[testing::fixture("tests/options/indent_type/**/input.html")]
-fn indent_type(input: PathBuf) {
-    let dir = input.parent().unwrap();
-    let output = dir.join(format!(
-        "output.{}",
-        input.extension().unwrap().to_string_lossy()
-    ));
-
-    run_test2(false, |cm, handler| {
+fn verify(input: &Path) {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
-
-        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
-
         let mut errors = vec![];
         let mut document: Document = parse_file(
             &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
-
-        for err in take(&mut errors) {
-            err.to_diagnostics(&handler).emit();
-        }
-
-        let mut html_str = String::new();
-
-        {
-            let wr = BasicHtmlWriter::new(
-                &mut html_str,
-                None,
-                BasicHtmlWriterConfig {
-                    indent_type: IndentType::Tab,
-                    indent_width: 2,
-                    linefeed: LineFeed::default(),
-                },
-            );
-
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
-
-            gen.emit(&document).unwrap();
-        }
-
-        println!("{:?}", output);
-
-        let fm_output = cm.load_file(&output).unwrap();
-
-        NormalizedOutput::from(html_str)
-            .compare_to_file(output)
-            .unwrap();
-
-        let mut errors = vec![];
-        let mut document_output: Document = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
-
-        for err in take(&mut errors) {
-            err.to_diagnostics(&handler).emit();
-        }
-
-        document.visit_mut_with(&mut NormalizeTest);
-        document_output.visit_mut_with(&mut NormalizeTest);
-
-        assert_eq!(document, document_output);
-
-        Ok(())
-    })
-    .unwrap();
-}
-
-#[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
-fn parser_test(input: PathBuf) {
-    eprintln!("{}", input.display());
-
-    testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(&input).unwrap();
-
-        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
-
-        let fm_output = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
-        let mut document: Document = parse_file(
-            &fm_output,
             ParserConfig {
                 ..Default::default()
             },
@@ -231,8 +140,6 @@ fn parser_test(input: PathBuf) {
 
             gen.emit(&document).unwrap();
         }
-
-        eprintln!("==== ==== Codegen ==== ====\n{}\n", html_str);
 
         let new_fm = cm.new_source_file(FileName::Anon, html_str);
         let mut parsed_errors = vec![];
@@ -294,4 +201,29 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_span(&mut self, n: &mut Span) {
         *n = Default::default()
     }
+}
+
+#[testing::fixture("tests/fixture/**/*.html")]
+fn test_fixture(input: PathBuf) {
+    print(&input, None, false);
+    print(&input, None, true);
+}
+
+#[testing::fixture("tests/options/indent_type/**/*.html")]
+fn test_indent_type_option(input: PathBuf) {
+    print(
+        &input,
+        Some(BasicHtmlWriterConfig {
+            indent_type: IndentType::Tab,
+            indent_width: 2,
+            linefeed: LineFeed::default(),
+        }),
+        false,
+    );
+}
+
+#[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
+#[testing::fixture("../swc_html_parser/tests/html5lib-tests-fixture/**/*.html")]
+fn verify_parser(input: PathBuf) {
+    verify(&input);
 }
