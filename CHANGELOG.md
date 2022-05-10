@@ -25,6 +25,9 @@
 
 - **(es/hygiene)** Drop syntax context (#4594) ([6ac4a23](https://github.com/swc-project/swc/commit/6ac4a23aa2fdf3854f23760cec70b36249df4cdc))
 
+
+- **(es/lints)** Implement `prefer-const` rule without options (#4584) ([e65bf3d](https://github.com/swc-project/swc/commit/e65bf3d02559e2e2ca31a1e190244b1ee9e19843))
+
 ### Testing
 
 
