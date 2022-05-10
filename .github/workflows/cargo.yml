@@ -1,16 +1,6 @@
 name: Cargo
 
 on: [push, pull_request]
-#on:
-#  push:
-#    # Ignore commits created by bors
-#    branches-ignore:
-#      - 'staging'
-#      - 'trying'
-#  pull_request:
-#    branches-ignore:
-#      - 'staging'
-#      - 'trying'
 
 env:
   CARGO_INCREMENTAL: 0
