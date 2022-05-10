@@ -184,9 +184,11 @@ where
                 _ if self.is_plaintext => true,
                 _ => false,
             };
+            let need_extra_newline_in_text = matches!(&*n.tag_name, "textarea" | "pre");
 
             let ctx = Ctx {
                 skip_escape_text,
+                need_extra_newline_in_text,
                 ..self.ctx
             };
 
@@ -239,25 +241,29 @@ where
         if self.ctx.skip_escape_text {
             write_str!(self, n.span, &n.value);
         } else {
-            let mut text = String::new();
+            let mut data = String::new();
+
+            if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
+                data.push('\n');
+            }
 
             for c in n.value.chars() {
                 match c {
                     '&' => {
-                        text.push_str(&String::from("&amp;"));
+                        data.push_str(&String::from("&amp;"));
                     }
                     '<' => {
-                        text.push_str(&String::from("&lt;"));
+                        data.push_str(&String::from("&lt;"));
                     }
                     '>' => {
-                        text.push_str(&String::from("&gt;"));
+                        data.push_str(&String::from("&gt;"));
                     }
-                    '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
-                    _ => text.push(c),
+                    '\u{00A0}' => data.push_str(&String::from("&nbsp;")),
+                    _ => data.push(c),
                 }
             }
 
-            write_str!(self, n.span, &text);
+            write_str!(self, n.span, &data);
         }
     }
 
