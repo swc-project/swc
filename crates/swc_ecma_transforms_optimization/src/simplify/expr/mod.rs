@@ -16,6 +16,8 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
+use crate::debug::debug_assert_valid;
+
 #[cfg(test)]
 mod tests;
 
@@ -342,15 +344,22 @@ impl SimplifyExpr {
                     Known(v) => {
                         self.changed = true;
 
-                        *expr = preserve_effects(
-                            *span,
+                        let value_expr = if !v.is_nan() {
                             Expr::Lit(Lit::Num(Number {
                                 value: v,
                                 span: *span,
                                 raw: None,
-                            })),
-                            { iter::once(left.take()).chain(iter::once(right.take())) },
-                        );
+                            }))
+                        } else {
+                            Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                span.with_ctxt(self.unresolved_ctxt),
+                            ))
+                        };
+
+                        *expr = preserve_effects(*span, value_expr, {
+                            iter::once(left.take()).chain(iter::once(right.take()))
+                        });
                         return;
                     }
                     _ => {}
@@ -413,13 +422,23 @@ impl SimplifyExpr {
                                 {
                                     self.changed = true;
                                     let span = *span;
-                                    *expr = preserve_effects(
-                                        span,
+
+                                    let value_expr = if !v.is_nan() {
                                         Expr::Lit(Lit::Num(Number {
                                             value: v,
                                             span,
                                             raw: None,
-                                        })),
+                                        }))
+                                    } else {
+                                        Expr::Ident(Ident::new(
+                                            js_word!("NaN"),
+                                            span.with_ctxt(self.unresolved_ctxt),
+                                        ))
+                                    };
+
+                                    *expr = preserve_effects(
+                                        span,
+                                        value_expr,
                                         iter::once(left.take()).chain(iter::once(right.take())),
                                     );
                                 }
@@ -1209,9 +1228,20 @@ impl VisitMut for SimplifyExpr {
         }
 
         match expr {
-            Expr::Unary(_) => self.fold_unary(expr),
-            Expr::Bin(_) => self.fold_bin(expr),
-            Expr::Member(_) => self.fold_member_expr(expr),
+            Expr::Unary(_) => {
+                self.fold_unary(expr);
+                debug_assert_valid(expr);
+            }
+            Expr::Bin(_) => {
+                self.fold_bin(expr);
+
+                debug_assert_valid(expr);
+            }
+            Expr::Member(_) => {
+                self.fold_member_expr(expr);
+
+                debug_assert_valid(expr);
+            }
 
             Expr::Cond(CondExpr {
                 span,
@@ -1430,6 +1460,8 @@ impl VisitMut for SimplifyExpr {
         s.visit_mut_children_with(self);
         self.is_arg_of_update = old_is_arg_of_update;
         self.is_modifying = old_is_modifying;
+
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
@@ -1471,6 +1503,10 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = true;
         n.visit_mut_children_with(self);
         self.is_modifying = old;
+    }
+
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
     }
 }
 
