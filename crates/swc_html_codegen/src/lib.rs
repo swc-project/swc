@@ -106,15 +106,21 @@ where
             }
 
             doctype.push(' ');
-            doctype.push('"');
+
+            let public_id_quote = if public_id.contains('"') { '\'' } else { '"' };
+
+            doctype.push(public_id_quote);
             doctype.push_str(public_id);
-            doctype.push('"');
+            doctype.push(public_id_quote);
 
             if let Some(system_id) = &n.system_id {
                 doctype.push(' ');
-                doctype.push('"');
+
+                let system_id_quote = if system_id.contains('"') { '\'' } else { '"' };
+
+                doctype.push(system_id_quote);
                 doctype.push_str(system_id);
-                doctype.push('"');
+                doctype.push(system_id_quote);
             }
         } else if let Some(system_id) = &n.system_id {
             doctype.push(' ');
@@ -125,10 +131,12 @@ where
                 doctype.push_str("SYSTEM");
             }
 
+            let system_id_quote = if system_id.contains('"') { '\'' } else { '"' };
+
             doctype.push(' ');
-            doctype.push('"');
+            doctype.push(system_id_quote);
             doctype.push_str(system_id);
-            doctype.push('"');
+            doctype.push(system_id_quote);
         }
 
         doctype.push('>');
