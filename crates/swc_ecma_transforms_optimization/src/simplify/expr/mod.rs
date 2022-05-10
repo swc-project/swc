@@ -1189,10 +1189,11 @@ impl VisitMut for SimplifyExpr {
                     | Expr::Unary(..)
                     | Expr::Bin(..)
                     | Expr::Await(..)
-                    | Expr::Yield(..) => {}
-                    _ => {
+                    | Expr::Yield(..) => {
                         e.visit_mut_with(self);
                     }
+
+                    _ => {}
                 },
                 _ => {
                     e.visit_mut_with(self);
