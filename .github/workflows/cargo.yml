@@ -73,6 +73,8 @@ jobs:
   build-test-binaries:
     name: Build test files
     strategy:
+      # We use this because of cache
+      fail-fast: false
       matrix:
         host:
           - ubuntu-latest
