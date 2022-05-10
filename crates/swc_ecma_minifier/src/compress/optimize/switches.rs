@@ -87,7 +87,7 @@ where
                 cases.retain(|case| case.test.is_some());
             }
 
-            if !may_match_other_than_exact && cases.len() == 2 {
+            if cases.len() == 2 {
                 let last = cases.last_mut().unwrap();
 
                 self.changed = true;
