@@ -1,1 +1,5 @@
-if ("bar" === foo) baz();
+switch (foo) {
+    case "bar":
+        baz();
+    case moo:
+}

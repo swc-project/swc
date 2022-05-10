@@ -1177,7 +1177,22 @@ pub trait ExprExt {
         }
 
         match self.as_expr() {
-            Expr::Ident(i) => i.span.ctxt == ctx.unresolved_ctxt,
+            Expr::Ident(i) => {
+                if i.span.ctxt == ctx.unresolved_ctxt {
+                    !matches!(
+                        &*i.sym,
+                        "Infinity"
+                            | "NaN"
+                            | "undefined"
+                            | "Object"
+                            | "Boolean"
+                            | "Number"
+                            | "String"
+                    )
+                } else {
+                    false
+                }
+            }
 
             Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
                 false
