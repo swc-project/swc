@@ -96,7 +96,8 @@ jobs:
         uses: taiki-e/install-action@nextest
 
       - name: Create target directory
-        run: mkdir -p target
+        shell: bash
+        run: mkdir -p target || true
 
       - name: Gather Cargo metadata
         shell: bash
