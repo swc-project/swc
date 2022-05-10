@@ -6,6 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory, Id};
+use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith};
 
 use self::{

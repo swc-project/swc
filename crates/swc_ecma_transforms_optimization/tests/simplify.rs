@@ -502,7 +502,7 @@ test!(
                     ..Default::default()
                 }
             ),
-            dce(Default::default()),
+            dce(Default::default(), unresolved_mark),
             inlining(Default::default())
         )
     },

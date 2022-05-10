@@ -20,10 +20,13 @@ where
                 node = node.fold_with(&mut constant_propagation())
             }
             if !self.config.disable_dce {
-                node = node.fold_with(&mut Repeat::new(dce::dce(dce::Config {
-                    // TODO(kdy1): Apply mark to wrapped esms and use it at here.
-                    module_mark: None,
-                })));
+                node = node.fold_with(&mut Repeat::new(dce::dce(
+                    dce::Config {
+                        // TODO(kdy1): Apply mark to wrapped esms and use it at here.
+                        module_mark: None,
+                    },
+                    self.unresolved_mark,
+                )));
             }
             node
         })

@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
+use swc_common::{errors::HANDLER, input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
@@ -9,7 +9,6 @@ use swc_ecma_lints::{
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::VisitMutWith;
 
 #[testing::fixture("tests/pass/**/input.js")]

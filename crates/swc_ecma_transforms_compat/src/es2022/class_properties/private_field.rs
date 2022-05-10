@@ -3,14 +3,15 @@ use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    errors::HANDLER,
     util::take::Take,
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, opt_chain_test, prepend, quote_ident, undefined,
-    ExprFactory, HANDLER,
+    alias_ident_for, alias_if_required, opt_chain_test, prepend_stmt, quote_ident, undefined,
+    ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -175,7 +176,7 @@ macro_rules! take_vars {
             f.visit_mut_children_with(self);
 
             if !self.vars.is_empty() {
-                prepend(
+                prepend_stmt(
                     &mut f.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,

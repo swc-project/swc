@@ -86,6 +86,8 @@ where
 {
     config: Config,
 
+    unresolved_mark: Mark,
+
     globals: &'a Globals,
     cm: Lrc<SourceMap>,
     loader: L,
@@ -138,6 +140,7 @@ where
                 injected_ctxt,
                 scope: Default::default(),
                 hook,
+                unresolved_mark: Mark::new(),
             }
         })
     }

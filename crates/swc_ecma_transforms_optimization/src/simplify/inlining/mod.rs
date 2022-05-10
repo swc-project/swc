@@ -7,6 +7,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_ids, undefined, Id};
+use swc_ecma_utils::{contains_this_expr, find_pat_ids, ident::IdentLike, undefined, Id};
+use swc_ecma_utils::{contains_this_expr, find_pat_ids, ident::IdentLike, undefined};
+use swc_ecma_utils::{contains_this_expr, find_pat_ids, undefined};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
@@ -157,7 +160,7 @@ impl VisitMut for Inlining<'_> {
 
         if self.scope.is_inline_prevented(&e.right) {
             // Prevent inline for lhd
-            let ids: Vec<Id> = find_ids(&e.left);
+            let ids: Vec<Id> = find_pat_ids(&e.left);
             for id in ids {
                 self.scope.prevent_inline(&id);
             }
@@ -214,7 +217,7 @@ impl VisitMut for Inlining<'_> {
             node.param.visit_mut_with(child);
             match child.phase {
                 Phase::Analysis => {
-                    let ids: Vec<Id> = find_ids(&node.param);
+                    let ids: Vec<Id> = find_pat_ids(&node.param);
                     for id in ids {
                         child.scope.prevent_inline(&id);
                     }

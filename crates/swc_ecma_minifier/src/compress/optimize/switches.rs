@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, ExprExt, ExprFactory, StmtExt};
+use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -33,7 +33,7 @@ where
 
         let discriminant = &mut stmt.discriminant;
 
-        let tail = if let Some(e) = is_primitive(tail_expr(discriminant)) {
+        let tail = if let Some(e) = is_primitive(&self.expr_ctx, tail_expr(discriminant)) {
             e
         } else {
             return;
@@ -46,7 +46,7 @@ where
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
             if let Some(test) = case.test.as_ref() {
-                if let Some(e) = is_primitive(tail_expr(test)) {
+                if let Some(e) = is_primitive(&self.expr_ctx, tail_expr(test)) {
                     if e.eq_ignore_span(tail) {
                         cases.push(case.take());
 
@@ -94,7 +94,7 @@ where
                 report_change!("switches: Turn exact match into default");
                 // so that following pass could turn it into if else
                 if let Some(test) = last.test.take() {
-                    prepend(&mut last.cons, test.into_stmt())
+                    prepend_stmt(&mut last.cons, test.into_stmt())
                 }
             }
         }
@@ -199,7 +199,7 @@ where
         let has_side_effect = cases.iter().skip(last).rposition(|case| {
             case.test
                 .as_deref()
-                .map(|test| test.may_have_side_effects())
+                .map(|test| test.may_have_side_effects(&self.expr_ctx))
                 .unwrap_or(false)
         });
 
@@ -230,7 +230,7 @@ where
             let start = cases.iter().enumerate().rposition(|(idx, case)| {
                 case.test
                     .as_deref()
-                    .map(|test| test.may_have_side_effects())
+                    .map(|test| test.may_have_side_effects(&self.expr_ctx))
                     .unwrap_or(false)
                     || (idx != end && !case.cons.is_empty())
             });
@@ -272,7 +272,7 @@ where
                 cannot_cross_block |= cases[j]
                     .test
                     .as_deref()
-                    .map(|test| is_primitive(test).is_none())
+                    .map(|test| is_primitive(&self.expr_ctx, test).is_none())
                     .unwrap_or(false)
                     || !(cases[j].cons.is_empty()
                         || cases[j].cons.terminates()

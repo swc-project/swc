@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::prepend;
+use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
 use swc_trace_macro::swc_trace;
 
@@ -64,7 +64,7 @@ impl Fold for AsyncArrowsInClass {
     fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut stmts = stmts.fold_children_with(self);
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut stmts,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -81,7 +81,7 @@ impl Fold for AsyncArrowsInClass {
     fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         let mut stmts = stmts.fold_children_with(self);
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

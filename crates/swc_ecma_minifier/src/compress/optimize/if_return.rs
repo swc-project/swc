@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, undefined, StmtExt, StmtLike};
+use swc_ecma_utils::{prepend_stmt, undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -73,7 +73,7 @@ where
 
             match &mut **alt_of_alt {
                 Stmt::Block(alt_of_alt) => {
-                    prepend(
+                    prepend_stmt(
                         &mut alt_of_alt.stmts,
                         Stmt::If(IfStmt {
                             span: *span_of_alt,
@@ -420,7 +420,7 @@ where
                     if seq
                         .exprs
                         .last()
-                        .map(|v| is_pure_undefined(v))
+                        .map(|v| is_pure_undefined(&self.expr_ctx, v))
                         .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);

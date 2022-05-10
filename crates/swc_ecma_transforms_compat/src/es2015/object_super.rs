@@ -4,7 +4,8 @@ use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, is_rest_arguments, prepend, private_ident, quote_ident, ExprFactory, IdentExt,
+    alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
+    IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -27,7 +28,7 @@ impl VisitMut for ObjectSuper {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
         if !self.extra_vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 n,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -52,7 +53,7 @@ impl VisitMut for ObjectSuper {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
         if !self.extra_vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -87,7 +88,7 @@ impl VisitMut for ObjectSuper {
                         function.visit_mut_with(&mut replacer);
                         if !replacer.vars.is_empty() {
                             if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
-                                prepend(
+                                prepend_stmt(
                                     stmts,
                                     Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,

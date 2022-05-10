@@ -22,6 +22,7 @@ impl Pure<'_> {
             },
         }
 
-        e.args.retain(|arg| arg.expr.may_have_side_effects());
+        e.args
+            .retain(|arg| arg.expr.may_have_side_effects(&self.expr_ctx));
     }
 }

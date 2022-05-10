@@ -4,7 +4,7 @@ use indexmap::IndexMap;
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, IsDirective};
+use swc_ecma_utils::{find_pat_ids, IsDirective};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 pub fn module_hoister() -> impl Fold + VisitMut + CompilerPass {
@@ -199,7 +199,7 @@ impl VisitMut for ModuleHoister {
                         match decl {
                             Decl::Class(class_decl) => vec![class_decl.ident.sym.clone()],
                             Decl::Fn(fn_decl) => vec![fn_decl.ident.sym.clone()],
-                            Decl::Var(var_decl) => find_ids(var_decl)
+                            Decl::Var(var_decl) => find_pat_ids(var_decl)
                                 .into_iter()
                                 .map(|x: Ident| x.sym)
                                 .collect(),

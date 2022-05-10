@@ -3,7 +3,7 @@
 use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
-use swc_ecma_utils::Id;
+use swc_ecma_ast::Id;
 use swc_trace_macro::swc_trace;
 
 use super::case::Loc;

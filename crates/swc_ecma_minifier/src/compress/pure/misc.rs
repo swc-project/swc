@@ -44,7 +44,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if is_pure_undefined(&call.args[0].expr) {
+            if is_pure_undefined(&self.expr_ctx, &call.args[0].expr) {
                 ",".into()
             } else {
                 match &*call.args[0].expr {
@@ -89,7 +89,7 @@ impl Pure<'_> {
             .iter()
             .filter_map(|v| v.as_ref())
             .any(|v| match &*v.expr {
-                e if is_pure_undefined(e) => false,
+                e if is_pure_undefined(&self.expr_ctx, e) => false,
                 Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                 _ => true,
             });
@@ -114,7 +114,7 @@ impl Pure<'_> {
                 .iter()
                 .filter_map(|v| v.as_ref())
                 .any(|v| match &*v.expr {
-                    e if is_pure_undefined(e) => false,
+                    e if is_pure_undefined(&self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
@@ -148,7 +148,7 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(e) => {}
+                        e if is_pure_undefined(&self.expr_ctx, e) => {}
                         Expr::Lit(Lit::Null(..)) => {}
                         _ => {
                             add(&mut res, expr);
@@ -178,7 +178,7 @@ impl Pure<'_> {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
-                    e if is_pure_undefined(e) => {}
+                    e if is_pure_undefined(&self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
@@ -206,7 +206,7 @@ impl Pure<'_> {
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         if let Some(e) = s.arg.as_deref() {
-            if is_pure_undefined(e) {
+            if is_pure_undefined(&self.expr_ctx, e) {
                 self.changed = true;
                 report_change!("Dropped `undefined` from `return undefined`");
                 s.arg.take();

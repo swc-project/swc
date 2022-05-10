@@ -11,6 +11,11 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, find_ids, prepend, private_ident, quote_ident,
     quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_arguments, contains_this_expr, find_pat_ids, ident::IdentLike, prepend, private_ident,
+    quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_arguments, contains_this_expr, find_pat_ids, prepend, private_ident, quote_ident,
+    contains_arguments, contains_this_expr, find_pat_ids, prepend_stmt, private_ident, quote_ident,
+    quote_str, undefined, var::VarCollector, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
@@ -587,7 +592,7 @@ impl BlockScoping {
         stmts.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -645,7 +650,7 @@ impl Visit for InfectionFinder<'_> {
         node.right.visit_with(self);
 
         if self.found {
-            let ids = find_ids(&node.left);
+            let ids = find_pat_ids(&node.left);
             self.vars.extend(ids);
         }
 
@@ -694,7 +699,7 @@ impl Visit for InfectionFinder<'_> {
         node.init.visit_with(self);
 
         if self.found {
-            let ids = find_ids(&node.name);
+            let ids = find_pat_ids(&node.name);
             self.vars.extend(ids);
         }
 
@@ -745,7 +750,7 @@ impl VisitMut for FlowHelper<'_> {
                 }
             }
             PatOrExpr::Pat(p) => {
-                let ids: Vec<Id> = find_ids(p);
+                let ids: Vec<Id> = find_pat_ids(p);
 
                 for id in ids {
                     self.check(id);

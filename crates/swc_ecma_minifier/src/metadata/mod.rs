@@ -4,6 +4,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, Id};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -232,7 +234,7 @@ impl Visit for TopLevelBindingCollector {
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
-        let ids: Vec<Id> = find_ids(&v.decls);
+        let ids: Vec<Id> = find_pat_ids(&v.decls);
 
         for id in ids {
             self.add(id)

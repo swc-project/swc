@@ -2,7 +2,7 @@ use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::{
@@ -156,7 +156,7 @@ where
                         Decl::Class(ref c) => &c.ident,
                         Decl::Fn(ref f) => &f.ident,
                         Decl::Var(ref var) => {
-                            let ids: Vec<Id> = find_ids(&var.decls);
+                            let ids: Vec<Id> = find_pat_ids(&var.decls);
                             for id in ids {
                                 v.push(Specifier::Specific {
                                     local: id,

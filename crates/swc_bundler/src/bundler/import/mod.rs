@@ -8,6 +8,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, Id};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Bundler;
@@ -641,7 +643,7 @@ where
                         }
                     }
 
-                    let ids: Vec<Ident> = find_ids(&node.name);
+                    let ids: Vec<Ident> = find_pat_ids(&node.name);
 
                     let decl = ImportDecl {
                         span,

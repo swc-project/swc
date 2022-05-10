@@ -1,5 +1,4 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
 
 pub(crate) trait Mode: Send + Sync {
     fn store(&self, id: Id, value: &Expr);

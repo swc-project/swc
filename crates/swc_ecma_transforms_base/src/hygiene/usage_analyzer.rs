@@ -4,6 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{Id, StmtOrModuleItem};
+use swc_ecma_utils::StmtOrModuleItem;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{debug, span, trace, Level};
 

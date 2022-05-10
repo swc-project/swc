@@ -27,6 +27,6 @@ pub fn simplifier(unresolved_mark: Mark, c: Config) -> impl RepeatedJsPass {
         expr_simplifier(unresolved_mark, c.expr),
         inlining::inlining(c.inlining),
         dead_branch_remover(unresolved_mark),
-        dce::dce(c.dce)
+        dce::dce(c.dce, unresolved_mark)
     ))
 }

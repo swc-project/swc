@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, private_ident, ExprFactory};
+use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
@@ -135,7 +135,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_module(&mut self, n: Module) -> Module {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend(&mut body, ModuleItem::Stmt(var))
+            prepend_stmt(&mut body, ModuleItem::Stmt(var))
         }
 
         Module { body, ..n }
@@ -144,7 +144,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_script(&mut self, n: Script) -> Script {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend(&mut body, var)
+            prepend_stmt(&mut body, var)
         }
 
         Script { body, ..n }

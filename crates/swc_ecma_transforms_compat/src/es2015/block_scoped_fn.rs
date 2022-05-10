@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::UsageFinder;
+use swc_ecma_utils::IdentUsageFinder;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -34,7 +34,7 @@ impl VisitMut for BlockScopedFns {
             } else {
                 match stmt {
                     Stmt::Decl(Decl::Fn(decl)) => {
-                        if UsageFinder::find(&decl.ident, &decl.function) {
+                        if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
                             extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
                             continue;
                         }

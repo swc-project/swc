@@ -4,6 +4,8 @@ use rustc_hash::FxHashMap;
 use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, ExprCtx, ExprExt, Id};
+use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -76,9 +78,9 @@ impl<M> Drop for WithCtx<'_, '_, M> {
     }
 }
 
-pub(crate) fn class_has_side_effect(c: &Class) -> bool {
+pub(crate) fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
     if let Some(e) = &c.super_class {
-        if e.may_have_side_effects() {
+        if e.may_have_side_effects(expr_ctx) {
             return true;
         }
     }
@@ -87,7 +89,7 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
         match m {
             ClassMember::Method(p) => {
                 if let PropName::Computed(key) = &p.key {
-                    if key.expr.may_have_side_effects() {
+                    if key.expr.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
@@ -95,20 +97,20 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
 
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &p.key {
-                    if key.expr.may_have_side_effects() {
+                    if key.expr.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
 
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects() {
+                    if v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
             ClassMember::PrivateProp(p) => {
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects() {
+                    if v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }

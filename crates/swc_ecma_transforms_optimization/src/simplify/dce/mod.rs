@@ -4,18 +4,28 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Mark, DUMMY_SP,
+    Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{
+    collect_decls, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value,
+};
+use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, span, trace, Level};
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
-pub fn dce(config: Config) -> impl Fold + VisitMut + Repeated + CompilerPass {
+pub fn dce(
+    config: Config,
+    unresolved_mark: Mark,
+) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
+        expr_ctx: ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        },
         config,
         changed: false,
         pass: 0,
@@ -34,6 +44,8 @@ pub struct Config {
 }
 
 struct TreeShaker {
+    expr_ctx: ExprCtx,
+
     config: Config,
     changed: bool,
     pass: u16,
@@ -245,7 +257,7 @@ impl VisitMut for TreeShaker {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
-        if !n.right.may_have_side_effects() {
+        if !n.right.may_have_side_effects(&self.expr_ctx) {
             if let Some(id) = n.left.as_ident() {
                 if self.can_drop_assignment_to(id.to_id()) {
                     self.changed = true;
@@ -458,7 +470,7 @@ impl VisitMut for TreeShaker {
         }
 
         if let Stmt::If(if_stmt) = s {
-            if let Value::Known(v) = if_stmt.test.as_pure_bool() {
+            if let Value::Known(v) = if_stmt.test.as_pure_bool(&self.expr_ctx) {
                 if v {
                     if if_stmt.alt.is_some() {
                         self.changed = true;
@@ -483,7 +495,7 @@ impl VisitMut for TreeShaker {
 
             if if_stmt.alt.is_empty()
                 && if_stmt.cons.is_empty()
-                && !if_stmt.test.may_have_side_effects()
+                && !if_stmt.test.may_have_side_effects(&self.expr_ctx)
             {
                 debug!("Dropping an if statement");
                 self.changed = true;
@@ -496,7 +508,7 @@ impl VisitMut for TreeShaker {
             Stmt::Expr(es) => {
                 if match &*es.expr {
                     Expr::Lit(Lit::Str(..)) => false,
-                    _ => !es.expr.may_have_side_effects(),
+                    _ => !es.expr.may_have_side_effects(&self.expr_ctx),
                 } {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
@@ -540,7 +552,7 @@ impl VisitMut for TreeShaker {
         v.visit_mut_children_with(self);
 
         let can_drop = if let Some(init) = &v.init {
-            !init.may_have_side_effects()
+            !init.may_have_side_effects(&self.expr_ctx)
         } else {
             true
         };

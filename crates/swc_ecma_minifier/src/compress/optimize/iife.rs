@@ -6,6 +6,8 @@ use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, D
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, find_ids, undefined, ExprFactory, Id,
+    contains_arguments, contains_this_expr, find_pat_ids, ident::IdentLike, undefined, ExprFactory,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -704,7 +706,7 @@ where
             for stmt in &body.stmts {
                 if let Stmt::Decl(Decl::Var(var)) = stmt {
                     for decl in &var.decls {
-                        let ids: Vec<Id> = find_ids(&decl.name);
+                        let ids: Vec<Id> = find_pat_ids(&decl.name);
 
                         remap.extend(ids.into_iter().map(|id| {
                             (

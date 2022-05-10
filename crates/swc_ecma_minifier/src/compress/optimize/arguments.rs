@@ -4,6 +4,8 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, Id};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, Id};
+use swc_ecma_utils::{find_pat_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
@@ -89,7 +91,7 @@ where
 
         {
             // If a function has a variable named `arguments`, we abort.
-            let data: Vec<Id> = find_ids(&f.body);
+            let data: Vec<Id> = find_pat_ids(&f.body);
             for id in &data {
                 if id.0 == js_word!("arguments") {
                     return;

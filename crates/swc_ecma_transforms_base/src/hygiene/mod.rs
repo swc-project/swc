@@ -1,7 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 use self::{

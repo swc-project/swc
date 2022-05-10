@@ -18,6 +18,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, undefined, DestructuringFinder,
     ExprFactory, Id,
+    member_expr, private_ident, quote_ident, quote_str, undefined, DestructuringFinder, ExprFactory,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 

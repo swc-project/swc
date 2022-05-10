@@ -7,6 +7,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, Id, StmtLike,
     UsageFinder,
+    contains_arguments, contains_this_expr, ident::IdentLike, prepend_stmts, undefined, ExprExt,
+    IdentUsageFinder, StmtLike,
+    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
+    StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
@@ -439,7 +443,7 @@ where
                         if right.exprs.len() >= 2
                             && right.exprs[..right.exprs.len() - 1]
                                 .iter()
-                                .all(|e| !e.may_have_side_effects())
+                                .all(|e| !e.may_have_side_effects(&self.expr_ctx))
                         {
                             return true;
                         }
@@ -464,7 +468,7 @@ where
                     Expr::Seq(mut right)
                         if right.exprs[..right.exprs.len() - 1]
                             .iter()
-                            .all(|e| !e.may_have_side_effects()) =>
+                            .all(|e| !e.may_have_side_effects(&self.expr_ctx)) =>
                     {
                         new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
                         new_exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -549,7 +553,7 @@ where
         }
 
         if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(last) {
+            if is_pure_undefined(&self.expr_ctx, last) {
                 self.changed = true;
                 report_change!("sequences: Shifting void");
 
@@ -781,7 +785,7 @@ where
 
                                 match bv.init.as_deref_mut() {
                                     Some(b_init) => {
-                                        if UsageFinder::find(&an.id, b_init) {
+                                        if IdentUsageFinder::find(&an.to_id(), b_init) {
                                             log_abort!(
                                                 "We can't duplicated binding because initializer \
                                                  uses the previous declaration of the variable"
@@ -1116,7 +1120,7 @@ where
             _ => {}
         }
 
-        if !e.may_have_side_effects() {
+        if !e.may_have_side_effects(&self.expr_ctx) {
             return true;
         }
 
@@ -1248,7 +1252,7 @@ where
                     return Ok(true);
                 }
 
-                if obj.may_have_side_effects() {
+                if obj.may_have_side_effects(&self.expr_ctx) {
                     return Ok(false);
                 }
 
@@ -1322,7 +1326,7 @@ where
                     return Ok(false);
                 }
 
-                if UsageFinder::find(&b_left, &b.right) {
+                if IdentUsageFinder::find(&b_left.to_id(), &b.right) {
                     return Err(());
                 }
 
@@ -1700,7 +1704,15 @@ where
             }
         };
 
-        if a_right.is_this() || a_right.is_ident_ref_to(js_word!("arguments")) {
+        if a_right.is_this()
+            || matches!(
+                &**a_right,
+                Expr::Ident(Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                })
+            )
+        {
             return Ok(false);
         }
         if contains_arguments(&**a_right) {

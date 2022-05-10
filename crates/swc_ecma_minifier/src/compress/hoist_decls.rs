@@ -1,6 +1,9 @@
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id, StmtLike};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, Id, StmtLike};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, StmtLike};
+use swc_ecma_utils::{find_pat_ids, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
@@ -51,7 +54,7 @@ impl Hoister<'_> {
             Some(stmt) => match stmt {
                 Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                 Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                    let ids: Vec<Id> = find_ids(&var.decls);
+                    let ids: Vec<Id> = find_pat_ids(&var.decls);
 
                     if ids.iter().any(|id| {
                         self.data
@@ -103,7 +106,7 @@ impl Hoister<'_> {
                         )) if found_non_var_decl => {
                             let mut exprs = vec![];
                             for decl in var.decls {
-                                let ids: Vec<Ident> = find_ids(&decl.name);
+                                let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
                                     if done.insert(id.to_id()) {

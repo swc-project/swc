@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, opt_chain_test, prepend, private_ident, undefined, ExprFactory,
+    alias_if_required, opt_chain_test, prepend_stmt, private_ident, undefined, ExprFactory,
     IntoIndirectCall, StmtLike,
 };
 use swc_ecma_visit::{
@@ -147,7 +147,7 @@ impl OptChaining {
             });
 
             if !vars_without_init.is_empty() {
-                prepend(
+                prepend_stmt(
                     &mut stmts_updated,
                     T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -170,7 +170,7 @@ impl OptChaining {
         }
 
         if !self.vars_without_init.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut new,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

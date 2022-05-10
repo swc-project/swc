@@ -1,9 +1,9 @@
 #![allow(clippy::needless_update)]
 
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
+use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_utils::undefined;
+use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
 
@@ -54,6 +54,9 @@ pub(crate) fn pure_optimizer<'a>(
         options,
         config,
         marks,
+        expr_ctx: ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+        },
         data,
         ctx: Ctx {
             top_level: true,
@@ -67,6 +70,7 @@ struct Pure<'a> {
     options: &'a CompressOptions,
     config: PureOptimizerConfig,
     marks: Marks,
+    expr_ctx: ExprCtx,
 
     #[allow(unused)]
     data: Option<&'a ProgramData>,
@@ -160,6 +164,7 @@ impl Pure<'_> {
         {
             for node in nodes {
                 let mut v = Pure {
+                    expr_ctx: self.expr_ctx.clone(),
                     changed: false,
                     ..*self
                 };
@@ -174,6 +179,7 @@ impl Pure<'_> {
                     .map(|node| {
                         GLOBALS.set(globals, || {
                             let mut v = Pure {
+                                expr_ctx: self.expr_ctx.clone(),
                                 ctx: Ctx {
                                     par_depth: self.ctx.par_depth + 1,
                                     ..self.ctx
