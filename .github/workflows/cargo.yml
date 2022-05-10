@@ -136,6 +136,9 @@ jobs:
         with:
           submodules: true
 
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -147,11 +150,6 @@ jobs:
         with:
           profile: minimal
           target: wasm32-wasi
-
-      - run: mkdir -p ~/.cargo/bin
-
-      - name: Install nextest
-        uses: taiki-e/install-action@nextest
 
       - name: Download archive
         uses: actions/download-artifact@v3
