@@ -1183,7 +1183,8 @@ impl VisitMut for SimplifyExpr {
                 }
                 // Preserve `this`
                 Expr::Member(MemberExpr { obj, .. }) => match &**obj {
-                    Expr::Paren(..)
+                    Expr::Lit(..)
+                    | Expr::Paren(..)
                     | Expr::Seq(..)
                     | Expr::Unary(..)
                     | Expr::Bin(..)
