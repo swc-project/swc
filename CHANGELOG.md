@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Fix switches (#4595) ([2ab7594](https://github.com/swc-project/swc/commit/2ab7594b4abf72c6e5d6da49b2c08e9faac44ffb))
 
+
+- **(es/minifier)** Fix `with` and `NaN` (#4596) ([097ff1d](https://github.com/swc-project/swc/commit/097ff1ddc1675e1168b319da009221e345e2f4ea))
+
 ### Features
 
 
