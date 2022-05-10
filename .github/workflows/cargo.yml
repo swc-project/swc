@@ -207,121 +207,33 @@ jobs:
       matrix:
         settings:
           # Use scripts/github/create-matrix.sh to create this.
-          - crate: ast_node
-            os: ubuntu-latest
-          - crate: better_scoped_tls
-            os: ubuntu-latest
-          - crate: binding_commons
-            os: ubuntu-latest
-          - crate: binding_core_node
-            os: ubuntu-latest
-          - crate: binding_core_wasm
-            os: ubuntu-latest
-          - crate: binding_css_node
-            os: ubuntu-latest
-          - crate: enum_kind
-            os: ubuntu-latest
-          - crate: from_variant
-            os: ubuntu-latest
-          - crate: jsdoc
-            os: ubuntu-latest
-          - crate: node_macro_deps
-            os: ubuntu-latest
-          - crate: preset_env_base
-            os: ubuntu-latest
-          - crate: string_enum
-            os: ubuntu-latest
           - crate: swc
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin
           - crate: swc
             os: windows-latest
-          - crate: swc_atoms
-            os: ubuntu-latest
           - crate: swc_bundler
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_cached
-            os: ubuntu-latest
           - crate: swc_cli
             os: ubuntu-latest
             check: |
               cargo check
               cargo check --features plugin
-          - crate: swc_cli
-            os: windows-latest
           - crate: swc_common
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_common
-            os: windows-latest
-          - crate: swc_config
-            os: ubuntu-latest
-          - crate: swc_config_macro
-            os: ubuntu-latest
-          - crate: swc_css
-            os: ubuntu-latest
-          - crate: swc_css_ast
-            os: ubuntu-latest
-          - crate: swc_css_codegen
-            os: ubuntu-latest
-          - crate: swc_css_codegen
-            os: windows-latest
-          - crate: swc_css_codegen_macros
-            os: ubuntu-latest
-          - crate: swc_css_lints
-            os: ubuntu-latest
-          - crate: swc_css_minifier
-            os: ubuntu-latest
-          - crate: swc_css_parser
-            os: ubuntu-latest
-          - crate: swc_css_parser
-            os: windows-latest
-          - crate: swc_css_prefixer
-            os: ubuntu-latest
-          - crate: swc_css_utils
-            os: ubuntu-latest
-          - crate: swc_css_visit
-            os: ubuntu-latest
           - crate: swc_ecma_ast
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_codegen
-            os: ubuntu-latest
-          - crate: swc_ecma_codegen
-            os: windows-latest
-          - crate: swc_ecma_codegen_macros
-            os: ubuntu-latest
-          - crate: swc_ecma_dep_graph
-            os: ubuntu-latest
-          - crate: swc_ecma_ext_transforms
-            os: ubuntu-latest
-          - crate: swc_ecma_lints
-            os: ubuntu-latest
           - crate: swc_ecma_loader
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_loader
-            os: windows-latest
-          - crate: swc_ecma_minifier
-            os: ubuntu-latest
-          - crate: swc_ecma_parser
-            os: ubuntu-latest
-          - crate: swc_ecma_parser
-            os: windows-latest
-          - crate: swc_ecma_preset_env
-            os: ubuntu-latest
-          - crate: swc_ecma_preset_env
-            os: windows-latest
-          - crate: swc_ecma_quote
-            os: ubuntu-latest
-          - crate: swc_ecma_quote_macros
-            os: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             check: |
@@ -330,115 +242,23 @@ jobs:
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_transforms_classes
-            os: ubuntu-latest
           - crate: swc_ecma_transforms_compat
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_transforms_macros
-            os: ubuntu-latest
-          - crate: swc_ecma_transforms_module
-            os: ubuntu-latest
-          - crate: swc_ecma_transforms_module
-            os: windows-latest
           - crate: swc_ecma_transforms_optimization
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_transforms_proposal
-            os: ubuntu-latest
-          - crate: swc_ecma_transforms_react
-            os: ubuntu-latest
-          - crate: swc_ecma_transforms_testing
-            os: ubuntu-latest
-          - crate: swc_ecma_transforms_testing
-            os: windows-latest
-          - crate: swc_ecma_transforms_typescript
-            os: ubuntu-latest
           - crate: swc_ecma_utils
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecma_visit
-            os: ubuntu-latest
-          - crate: swc_ecmascript
-            os: ubuntu-latest
-          - crate: swc_eq_ignore_macros
-            os: ubuntu-latest
-          - crate: swc_error_reporters
-            os: ubuntu-latest
-          - crate: swc_estree_ast
-            os: ubuntu-latest
-          - crate: swc_estree_compat
-            os: ubuntu-latest
-          - crate: swc_fast_graph
-            os: ubuntu-latest
-          - crate: swc_graph_analyzer
-            os: ubuntu-latest
-          - crate: swc_html
-            os: ubuntu-latest
-          - crate: swc_html_ast
-            os: ubuntu-latest
-          - crate: swc_html_codegen
-            os: ubuntu-latest
-          - crate: swc_html_codegen
-            os: windows-latest
-          - crate: swc_html_codegen_macros
-            os: ubuntu-latest
-          - crate: swc_html_minifier
-            os: ubuntu-latest
-          - crate: swc_html_parser
-            os: ubuntu-latest
-          - crate: swc_html_parser
-            os: windows-latest
-          - crate: swc_html_visit
-            os: ubuntu-latest
-          - crate: swc_macros_common
-            os: ubuntu-latest
-          - crate: swc_node_base
-            os: ubuntu-latest
           - crate: swc_node_bundler
             os: ubuntu-latest
             check: |
               cargo check
               cargo check --no-default-features --features swc_v2
-          - crate: swc_node_bundler
-            os: windows-latest
-          - crate: swc_node_comments
-            os: ubuntu-latest
-          - crate: swc_plugin
-            os: ubuntu-latest
-          - crate: swc_plugin
-            os: windows-latest
-          - crate: swc_plugin_macro
-            os: ubuntu-latest
-          - crate: swc_plugin_proxy
-            os: ubuntu-latest
-          - crate: swc_plugin_runner
-            os: ubuntu-latest
-          - crate: swc_plugin_runner
-            os: macos-latest
-          - crate: swc_plugin_runner
-            os: windows-latest
-          - crate: swc_plugin_testing
-            os: ubuntu-latest
-          - crate: swc_plugin_testing
-            os: windows-latest
-          - crate: swc_timer
-            os: ubuntu-latest
-          - crate: swc_trace_macro
-            os: ubuntu-latest
-          - crate: swc_visit
-            os: ubuntu-latest
-          - crate: swc_visit_macros
-            os: ubuntu-latest
-          - crate: swc_webpack_ast
-            os: ubuntu-latest
-          - crate: testing
-            os: ubuntu-latest
-          - crate: testing_macros
-            os: ubuntu-latest
 
     steps:
       - name: Run cargo test
