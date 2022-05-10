@@ -155,10 +155,8 @@ impl PreferConst {
             Pat::Ident(BindingIdent { id, .. }) => {
                 self.consider_mutation_for_ident(id, destructuring_assign);
             }
-            Pat::Array(ArrayPat { elems, .. }) => elems.iter().for_each(|elem| {
-                if let Some(pat) = elem {
-                    self.consider_mutation(pat, destructuring_assign);
-                }
+            Pat::Array(ArrayPat { elems, .. }) => elems.iter().flatten().for_each(|elem| {
+                self.consider_mutation(elem, destructuring_assign);
             }),
             Pat::Object(ObjectPat { props, .. }) => {
                 props.iter().for_each(|prop| match prop {
