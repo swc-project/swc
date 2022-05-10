@@ -319,7 +319,6 @@ issue_1052/defun_hoist_funs/input.js
 issue_1052/multiple_functions/input.js
 issue_1052/not_hoisted_when_already_nested/input.js
 issue_1052/single_function/input.js
-issue_1105/Infinity_in_with_scope/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/input.js
 issue_1105/check_drop_unused_in_peer_function/input.js

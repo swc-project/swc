@@ -707,6 +707,7 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
+issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
