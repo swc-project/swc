@@ -758,7 +758,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 struct DomVisualizer<'a> {
     dom_buf: &'a mut String,
     indent: usize,
-    replace_newlines: bool,
 }
 
 impl DomVisualizer<'_> {
@@ -896,15 +895,7 @@ impl VisitMut for DomVisualizer<'_> {
 
         text.push_str(&self.get_ident());
         text.push('"');
-
-        // TODO remove me when we will implement `raw` and keep original newlines in
-        // `raw`
-        if self.replace_newlines {
-            text.push_str(&n.value.replace("\r\n", "\n").replace('\r', "\n"));
-        } else {
-            text.push_str(&n.value);
-        }
-
+        text.push_str(&n.value);
         text.push('"');
         text.push('\n');
 
@@ -1160,7 +1151,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     document_fragment.visit_mut_with(&mut DomVisualizer {
                         dom_buf: &mut dom_buf,
                         indent: 0,
-                        replace_newlines: false,
                     });
 
                     let dir = input.parent().unwrap().to_path_buf();
@@ -1199,20 +1189,21 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                         return Ok(());
                     }
 
-                    let mut dom_buf = String::new();
-                    let mut replace_newlines = false;
                     let path = input.to_string_lossy();
 
+                    // TODO remove me when we will implement `raw` and keep original newlines in
+                    // `raw`
                     if path.contains("domjs-unsafe_dat/1.html")
                         || path.contains("plain-text-unsafe_dat/24.html")
                     {
-                        replace_newlines = true;
+                        return Ok(());
                     }
+
+                    let mut dom_buf = String::new();
 
                     document.visit_mut_with(&mut DomVisualizer {
                         dom_buf: &mut dom_buf,
                         indent: 0,
-                        replace_newlines,
                     });
 
                     let dir = input.parent().unwrap().to_path_buf();
