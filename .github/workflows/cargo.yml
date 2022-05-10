@@ -69,6 +69,44 @@ jobs:
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
+
+  build-test-bins:
+    name: Build test files
+    strategy:
+      matrix:
+        host:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.host }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+
+      - name: Create target directory
+        run: mkdir -p target
+
+      - name: Gather Cargo metadata
+        run: cargo metadata --format-version=1 --all-features > target/cargo-metadata.json
+
+      - name: Build tests and save binaries metadata
+        run: |
+          cargo nextest list --list-type binaries-only \
+            --message-format json > target/binaries-metadata.json
+
+      - name: Archive target directory
+        run: tar -czf test-bins.tar.gz target
+
+      - name: Upload archive to workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-bins
+          path: test-bins.tar.gz
+
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.os }}
