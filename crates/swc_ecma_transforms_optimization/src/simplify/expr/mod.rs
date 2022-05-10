@@ -1411,7 +1411,18 @@ impl VisitMut for SimplifyExpr {
             return;
         }
 
-        e.visit_mut_children_with(self);
+        let old_in_callee = self.in_callee;
+        let len = e.exprs.len();
+        for (idx, e) in e.exprs.iter_mut().enumerate() {
+            if idx == len - 1 {
+                self.in_callee = old_in_callee;
+            } else {
+                self.in_callee = false;
+            }
+
+            e.visit_mut_with(self);
+        }
+        self.in_callee = old_in_callee;
 
         let len = e.exprs.len();
 
