@@ -1504,6 +1504,10 @@ impl VisitMut for SimplifyExpr {
         n.visit_mut_children_with(self);
         self.is_modifying = old;
     }
+
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+    }
 }
 
 /// make a new boolean expression preserving side effects, if any.
