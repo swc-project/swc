@@ -900,7 +900,7 @@ impl VisitMut for DomVisualizer<'_> {
         // TODO remove me when we will implement `raw` and keep original newlines in
         // `raw`
         if self.replace_newlines {
-            text.push_str(&n.value.replace('\r', "\n"));
+            text.push_str(&n.value.replace("\r\n", "\n").replace('\r', "\n"));
         } else {
             text.push_str(&n.value);
         }
