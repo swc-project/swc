@@ -1,4 +1,4 @@
-# [short title of solved problem and solution]
+# Reserve `BytePos(0)` for dummy spans
 
 -   Status: accepted
 -   Deciders: @kdy1
