@@ -1470,8 +1470,15 @@ mod tests {
     /// that this can span lines and so on.
     fn span_from_selection(input: &str, selection: &str) -> Span {
         assert_eq!(input.len(), selection.len());
-        let left_index = selection.find('~').unwrap() as u32;
-        let right_index = selection.rfind('~').map(|x| x as u32).unwrap_or(left_index);
+        // +1 as BytePos starts at 1
+        let left_index = (selection.find('~').unwrap() + 1) as u32;
+        let right_index = selection
+            .rfind('~')
+            .map(|x| {
+                // +1 as BytePos starts at 1
+                (x + 1) as u32
+            })
+            .unwrap_or(left_index);
         Span::new(BytePos(left_index), BytePos(right_index + 1), NO_EXPANSION)
     }
 

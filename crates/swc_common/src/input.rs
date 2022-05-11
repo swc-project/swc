@@ -304,22 +304,22 @@ mod tests {
     #[test]
     fn src_input_smoke_01() {
         let _ = with_test_sess("foo/d", |mut i| {
-            assert_eq!(i.cur_pos(), BytePos(0));
-            assert_eq!(i.last_pos, BytePos(0));
-            assert_eq!(i.start_pos, BytePos(0));
+            assert_eq!(i.cur_pos(), BytePos(1));
+            assert_eq!(i.last_pos, BytePos(1));
+            assert_eq!(i.start_pos, BytePos(1));
             assert_eq!(i.uncons_while(|c| c.is_alphabetic()), "foo");
 
             // assert_eq!(i.cur_pos(), BytePos(4));
-            assert_eq!(i.last_pos, BytePos(3));
-            assert_eq!(i.start_pos, BytePos(3));
+            assert_eq!(i.last_pos, BytePos(4));
+            assert_eq!(i.start_pos, BytePos(4));
             assert_eq!(i.cur(), Some('/'));
 
             i.bump();
-            assert_eq!(i.last_pos, BytePos(4));
+            assert_eq!(i.last_pos, BytePos(5));
             assert_eq!(i.cur(), Some('d'));
 
             i.bump();
-            assert_eq!(i.last_pos, BytePos(5));
+            assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.cur(), None);
         });
     }
