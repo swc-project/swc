@@ -3,7 +3,7 @@ use std::mem::swap;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
 use super::Pure;
 use crate::{
@@ -193,7 +193,10 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if delete.arg.may_have_side_effects(&self.expr_ctx) {
+        if delete.arg.may_have_side_effects(&ExprCtx {
+            is_unresolved_ref_safe: true,
+            ..self.expr_ctx.clone()
+        }) {
             return;
         }
 

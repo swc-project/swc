@@ -21,6 +21,7 @@ pub fn dce(
     as_folder(TreeShaker {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+            is_unresolved_ref_safe: false,
         },
         config,
         changed: false,

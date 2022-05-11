@@ -44,6 +44,7 @@ pub fn expr_simplifier(
     as_folder(SimplifyExpr {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+            is_unresolved_ref_safe: false,
         },
         config,
         changed: false,

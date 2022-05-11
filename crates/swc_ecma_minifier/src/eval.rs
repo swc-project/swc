@@ -29,6 +29,7 @@ impl Evaluator {
         Evaluator {
             expr_ctx: ExprCtx {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+                is_unresolved_ref_safe: false,
             },
 
             module,

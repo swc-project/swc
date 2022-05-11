@@ -29,6 +29,7 @@ pub fn dead_branch_remover(unresolved_mark: Mark) -> impl RepeatedJsPass + Visit
         normal_block: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+            is_unresolved_ref_safe: false,
         },
     })
 }
