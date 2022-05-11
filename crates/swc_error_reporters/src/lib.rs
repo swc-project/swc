@@ -83,11 +83,8 @@ impl SourceCode for MietteSourceCode<'_> {
 
         let mut src = self
             .0
-            .with_snippet_of_span(span, |s| {
-                // Safety: SourceMap does not deallocate strings
-                unsafe { transmute::<&str, &str>(s) }
-            })
-            .map_err(|_| MietteError::OutOfBounds)?;
+            .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
+            .unwrap_or(" ");
 
         if span.lo == span.hi {
             src = " ";
