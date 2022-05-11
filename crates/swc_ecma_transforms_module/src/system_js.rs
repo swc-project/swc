@@ -4,8 +4,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, undefined,
-    var::VarCollector, ExprFactory,
+    member_expr, private_ident, quote_ident, quote_str, undefined, var::VarCollector, ExprFactory,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
