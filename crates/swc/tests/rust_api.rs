@@ -138,7 +138,7 @@ fn shopify_2_same_opt() {
                         dts: false,
                         no_early_errors: false,
                     })),
-                    transform: None,
+                    transform: None.into(),
                     external_helpers: false.into(),
                     target: Some(EsVersion::Es5),
                     loose: false.into(),

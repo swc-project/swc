@@ -195,7 +195,7 @@ fn verify_document(
     };
 
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(&input).unwrap();
+        let fm = cm.load_file(input).unwrap();
         let mut errors = vec![];
 
         let mut document =
@@ -260,7 +260,7 @@ fn verify_document_fragment(
     };
 
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(&input).unwrap();
+        let fm = cm.load_file(input).unwrap();
         let mut errors = vec![];
 
         let mut document_fragment = parse_file_as_document_fragment(
@@ -328,13 +328,10 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if let Some(last) = n.children.last_mut() {
-            match last {
-                Child::Text(_) => {
-                    // Drop value from the last `Text` node because characters after `</body>`
-                    // moved to body tag
-                    n.children.remove(n.children.len() - 1);
-                }
-                _ => {}
+            if let Child::Text(_) = last {
+                // Drop value from the last `Text` node because characters after `</body>`
+                // moved to body tag
+                n.children.remove(n.children.len() - 1);
             }
         }
     }
@@ -344,13 +341,10 @@ impl VisitMut for NormalizeTest {
 
         if &*n.tag_name == "body" {
             if let Some(last) = n.children.last_mut() {
-                match last {
-                    Child::Text(text) => {
-                        // Drop value from the last `Text` node because characters after `</body>`
-                        // moved to body tag
-                        text.value = "".into();
-                    }
-                    _ => {}
+                if let Child::Text(text) = last {
+                    // Drop value from the last `Text` node because characters after `</body>`
+                    // moved to body tag
+                    text.value = "".into();
                 }
             }
         }

@@ -555,9 +555,10 @@ fn issue_879() {
                         ..Default::default()
                     })),
                     transform: Some(TransformConfig {
-                        legacy_decorator: true,
+                        legacy_decorator: true.into(),
                         ..Default::default()
-                    }),
+                    })
+                    .into(),
                     ..Default::default()
                 },
                 ..Default::default()

@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::merge::Merge;
 
+/// You can create this type like `true.into()` or `false.into()`.
 #[derive(
     Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
 )]

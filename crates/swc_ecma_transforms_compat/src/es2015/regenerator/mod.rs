@@ -3,6 +3,7 @@ use std::mem::take;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, prepend_stmt, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
@@ -18,7 +19,7 @@ mod case;
 mod hoist;
 mod leap;
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(rename_all = "camelCase")]
 
 pub struct Config {
