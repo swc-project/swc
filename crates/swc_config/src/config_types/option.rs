@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::merge::Merge;
 
+/// You can create this type like `Some(...).into()` or `None.into()`.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct MergingOption<T>(Option<T>)
 where
