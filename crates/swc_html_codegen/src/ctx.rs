@@ -23,6 +23,7 @@ where
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct Ctx {
     pub skip_escape_text: bool,
+    pub need_extra_newline_in_text: bool,
 }
 
 pub(super) struct WithCtx<'w, I: 'w + HtmlWriter> {

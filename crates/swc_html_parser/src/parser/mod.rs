@@ -39,6 +39,7 @@ enum AdjustAttributes {
     Svg,
 }
 
+// TODO should not be public
 #[derive(Debug, Clone)]
 pub struct TokenAndInfo {
     pub span: Span,
