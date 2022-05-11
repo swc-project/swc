@@ -51,6 +51,8 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
 
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onabort",
+    "onautocomplete",
+    "onautocompleteerror",
     "onauxclick",
     "onbeforematch",
     "oncancel",
@@ -80,9 +82,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onkeydown",
     "onkeypress",
     "onkeyup",
-    "onloadeddata",
-    "onloadedmetadata",
-    "onloadstart",
+    "onmousewheel",
     "onmousedown",
     "onmouseenter",
     "onmouseleave",
@@ -117,6 +117,9 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onerror",
     "onfocus",
     "onload",
+    "onloadeddata",
+    "onloadedmetadata",
+    "onloadstart",
     "onresize",
     "onscroll",
     "onafterprint",
@@ -140,10 +143,11 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onpaste",
     "onreadystatechange",
     "onvisibilitychange",
+    "onshow",
+    "onsort",
 ];
 
-// TODO improve list - event handlers + remove multiple whitespace from class +
-// test for custom elements
+// TODO remove multiple whitespace from class + test for custom elements
 static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "class",
     "style",
@@ -157,7 +161,9 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "colspan",
 ];
 
-struct Minifier {}
+struct Minifier {
+    current_element_namespace: Option<Namespace>,
+}
 
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
@@ -166,10 +172,6 @@ impl Minifier {
 
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
-    }
-
-    fn allow_to_trim(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -280,11 +282,21 @@ impl Minifier {
 
         false
     }
+
+    fn allow_to_trim(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
+        let old_current_element_namespace = self.current_element_namespace;
+
+        self.current_element_namespace = Some(n.namespace);
+
         n.visit_mut_children_with(self);
+
+        self.current_element_namespace = old_current_element_namespace;
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
 
@@ -301,14 +313,19 @@ impl VisitMut for Minifier {
                 return true;
             }
 
+            let is_empty_value = (&*attribute.value.as_ref().unwrap()).trim().is_empty();
+
             if self.is_default_attribute_value(
                 n.namespace,
                 &n.tag_name,
                 &attribute.name,
                 attribute.value.as_ref().unwrap(),
-            ) || (matches!(&*attribute.name, "id" | "class" | "style")
-                && (&*attribute.value.as_ref().unwrap()).trim().is_empty())
+            ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
             {
+                return false;
+            }
+
+            if self.is_event_handler_attribute(&attribute.name) && is_empty_value {
                 return false;
             }
 
@@ -323,32 +340,30 @@ impl VisitMut for Minifier {
             return;
         }
 
-        let value = n.value.as_ref().unwrap();
+        let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
 
-        match &n.name {
-            name if self.is_boolean_attribute(name) => {
-                n.value = None;
-            }
-            name if self.is_event_handler_attribute(name)
-                && value.to_lowercase().starts_with("javascript:") =>
-            {
-                let new_value: String = value.as_ref().chars().skip(11).collect();
-
-                n.value = Some(new_value.into());
-            }
-            _ => {}
-        }
-
-        if self.is_boolean_attribute(&n.name) {
+        if is_element_html_namespace && self.is_boolean_attribute(&n.name) {
             n.value = None;
 
             return;
         }
 
-        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
+        let mut value = &*n.value.as_ref().unwrap().clone();
+
+        if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
+            n.value = Some("".into());
+
+            return;
+        }
 
         if self.allow_to_trim(&n.name) {
             value = value.trim();
+        }
+
+        if self.is_event_handler_attribute(&n.name)
+            && value.to_lowercase().starts_with("javascript:")
+        {
+            value = &value[11..];
         }
 
         n.value = Some(value.into());
@@ -356,5 +371,7 @@ impl VisitMut for Minifier {
 }
 
 pub fn minify(document: &mut Document) {
-    document.visit_mut_with(&mut Minifier {});
+    document.visit_mut_with(&mut Minifier {
+        current_element_namespace: None,
+    });
 }
