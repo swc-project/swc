@@ -1,8 +1,8 @@
-use std::sync::atomic::Ordering;
+use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
 use swc_atoms::js_word;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -68,6 +68,7 @@ where
 
         let stmt = ModuleItem::Stmt(wrap_module(
             SyntaxContext::empty(),
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
             info.local_ctxt(),
             load_var,
             module.into(),
@@ -91,18 +92,27 @@ where
 
 fn wrap_module(
     helper_ctxt: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     local_ctxt: SyntaxContext,
     load_var: Ident,
-    dep: Module,
+    mut dep: Module,
 ) -> Stmt {
+    {
+        // Remap syntax context of `module` and `exports`
+        // Those are unresolved, but it's actually an injected variable.
+
+        let mut from = HashMap::default();
+        from.insert(("module".into(), unresolved_ctxt), local_ctxt);
+        from.insert(("export".into(), unresolved_ctxt), local_ctxt);
+
+        dep.visit_mut_with(&mut Remapper { vars: from })
+    }
+
     // ... body of foo
     let module_fn = Expr::Fn(FnExpr {
         ident: None,
         function: Function {
             params: vec![
-                // TODO: Remap syntax context of `module` and `exports`
-                // Those are unresolved, but it's actually an injected variable.
-                //
                 // module
                 Param {
                     span: DUMMY_SP,
@@ -357,6 +367,20 @@ impl VisitMut for DefaultHandler {
                     prop: MemberProp::Ident(quote_ident!("exports")),
                 });
             }
+        }
+    }
+}
+
+struct Remapper {
+    vars: AHashMap<Id, SyntaxContext>,
+}
+
+impl VisitMut for Remapper {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if let Some(v) = self.vars.get(&i.to_id()).copied() {
+            i.span.ctxt = v;
         }
     }
 }
