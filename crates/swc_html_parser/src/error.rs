@@ -26,8 +26,8 @@ impl Error {
         }
     }
 
-    pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
-        let msg: Cow<_> = match &self.inner.1 {
+    pub fn message(&self) -> Cow<'static, str> {
+        match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
             ErrorKind::ControlCharacterInInputStream => "Control character in input stream".into(),
             ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
@@ -138,8 +138,11 @@ impl Error {
                 "Eof in element that can contain only text".into()
             }
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
-        };
-        handler.struct_span_err(self.inner.0, &msg)
+        }
+    }
+
+    pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
+        handler.struct_span_err(self.inner.0, &self.message())
     }
 }
 
