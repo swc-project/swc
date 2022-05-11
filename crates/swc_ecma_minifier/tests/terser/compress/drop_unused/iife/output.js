@@ -1,1 +1,3 @@
-function f() {}
+function f() {
+    b;
+}
