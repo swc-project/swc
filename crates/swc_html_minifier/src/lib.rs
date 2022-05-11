@@ -215,6 +215,12 @@ impl Minifier {
                 )
                 | (Namespace::HTML, "form", "method", "get")
                 | (Namespace::HTML, "form", "target", "_self")
+                | (
+                    Namespace::HTML,
+                    "form",
+                    "enctype",
+                    "application/x-www-form-urlencoded"
+                )
                 | (Namespace::HTML, "input", "type", "text")
                 | (Namespace::HTML, "input", "size", "20")
                 | (Namespace::HTML, "track", "kind", "subtitles")
