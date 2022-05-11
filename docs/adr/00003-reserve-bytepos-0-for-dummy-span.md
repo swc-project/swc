@@ -17,15 +17,16 @@ It especially caused various issues on source maps.
 ## Considered Options
 
 -   Preserving current semantics.
+-   Adding one empty file to `SourceMap` each time we create one.
 
 ## Decision Outcome
 
-Chosen option: "[option 1]", because [justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force force | … | comes out best (see below)].
+Reserving `0` of `BytePos` provides guarantee which can be used by various codegen crates.
+As `BytePos(0)` is reserved, `swc_ecma_codegen` can know if a `BytePos` is dummy without checking both of `lo` and `hi`.
 
-### Positive Consequences <!-- optional -->
+### Positive Consequences
 
--   [e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]
--   …
+-   Cleaner code, as detecting if a `BytePos` is dummy become easier.
 
 ### Negative Consequences <!-- optional -->
 
