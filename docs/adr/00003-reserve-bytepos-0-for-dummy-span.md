@@ -4,19 +4,15 @@
 -   Deciders: @kdy1
 -   Date: 2020-05-11
 
-Technical Story: [description | ticket/issue URL] <!-- optional -->
-
-`BytePos(0)` was causing lots of problems.
-
 ## Context and Problem Statement
 
-[Describe the context and problem statement, e.g., in free form using two to three sentences. You may want to articulate the problem in form of a question.]
+`BytePos(0)` was causing lots of problems because a span generated for user input can have `BytePos(0)`.
+We tried various ways to distinguish the user input from synthesized spans, but all were not successful.
+It especially caused various issues on source maps.
 
 ## Decision Drivers <!-- optional -->
 
--   [driver 1, e.g., a force, facing concern, …]
--   [driver 2, e.g., a force, facing concern, …]
--   … <!-- numbers of drivers can vary -->
+-   Source map issues, cause by `BytePos(0)`.
 
 ## Considered Options
 
