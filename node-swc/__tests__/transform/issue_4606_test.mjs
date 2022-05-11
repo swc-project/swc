@@ -2,7 +2,7 @@ import swc from "../../..";
 
 
 it("should override react", async () => {
-  const code = await swc.transform(`export default function foo() {
+  const { code } = await swc.transform(`export default function foo() {
     return <div>Hello</div>;
 }`, {
     "jsc": {
@@ -23,7 +23,6 @@ it("should override react", async () => {
     "module": {
       "type": "es6"
     }
-  })
-    .code.trim();
+  });
   expect(code).toMatchInlineSnapshot(`foo`);
 });
