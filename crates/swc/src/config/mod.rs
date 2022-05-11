@@ -1258,10 +1258,10 @@ pub struct TransformConfig {
     pub optimizer: Option<OptimizerConfig>,
 
     #[serde(default)]
-    pub legacy_decorator: bool,
+    pub legacy_decorator: BoolConfig<false>,
 
     #[serde(default)]
-    pub decorator_metadata: bool,
+    pub decorator_metadata: BoolConfig<false>,
 
     #[serde(default)]
     pub hidden: HiddenTransformConfig,
@@ -1270,10 +1270,10 @@ pub struct TransformConfig {
     pub regenerator: regenerator::Config,
 
     #[serde(default)]
-    pub treat_const_enum_as_enum: bool,
+    pub treat_const_enum_as_enum: BoolConfig<false>,
 
     #[serde(default)]
-    pub use_define_for_class_fields: bool,
+    pub use_define_for_class_fields: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
