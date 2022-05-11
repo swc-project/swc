@@ -145,7 +145,6 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
 // TODO improve list - event handlers + remove multiple whitespace from class +
 // test for custom elements
 static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
-    "id",
     "class",
     "style",
     "tabindex",
