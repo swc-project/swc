@@ -160,7 +160,9 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "colspan",
 ];
 
-static ALLOW_TO_REPLACE_MULTIPLE_SPACES: &[&str] = &["class", "srcset", "sizes"];
+static COMMA_SEPARATED_ATTRIBUTES: &[&str] = &["srcset", "sizes"];
+
+static MULTIPLE_SPACES_ATTRIBUTES: &[&str] = &["class"];
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
@@ -173,6 +175,14 @@ impl Minifier {
 
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_comma_separated_attribute(&self, name: &str) -> bool {
+        COMMA_SEPARATED_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_multiple_spaces_attribute(&self, name: &str) -> bool {
+        MULTIPLE_SPACES_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -293,10 +303,6 @@ impl Minifier {
     fn allow_to_trim(&self, name: &str) -> bool {
         ALLOW_TO_TRIM_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
-
-    fn allow_to_replace_multiple_spaces(&self, name: &str) -> bool {
-        ALLOW_TO_REPLACE_MULTIPLE_SPACES.contains(&name)
-    }
 }
 
 impl VisitMut for Minifier {
@@ -372,12 +378,30 @@ impl VisitMut for Minifier {
             return;
         }
 
-        if self.allow_to_trim(&n.name) {
-            value = value.trim().to_string();
+        if self.is_comma_separated_attribute(&n.name) {
+            let values = value.split(",");
+
+            let mut new_values = vec![];
+
+            for value in values {
+                new_values.push(value.trim());
+            }
+
+            n.value = Some(new_values.join(",").into());
+
+            return;
         }
 
-        if self.allow_to_replace_multiple_spaces(&n.name) {
+        if self.is_multiple_spaces_attribute(&n.name) {
             value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+
+            n.value = Some(value.into());
+
+            return;
+        }
+
+        if self.allow_to_trim(&n.name) {
+            value = value.trim().to_string();
         }
 
         if self.is_event_handler_attribute(&n.name)
