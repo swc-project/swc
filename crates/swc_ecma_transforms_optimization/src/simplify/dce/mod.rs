@@ -7,11 +7,9 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value};
 use swc_ecma_utils::{
-    collect_decls, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value,
+    collect_decls, ident::IdentLike, ExprCtx, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value,
 };
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };

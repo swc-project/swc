@@ -9,12 +9,10 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
-use swc_ecma_utils::{default_constructor, prepend, private_ident, quote_ident, ExprFactory, Id};
 use swc_ecma_utils::{
-    default_constructor, ident::IdentLike, prepend_stmt, private_ident, quote_ident, ExprFactory,
-    Id,
+    default_constructor, ident::IdentLike, prepend, prepend_stmt, private_ident, quote_ident,
+    ExprFactory, Id,
 };
-use swc_ecma_utils::{default_constructor, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };

@@ -7,9 +7,7 @@ use swc_common::{
     FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, Id};
-use swc_ecma_utils::find_pat_ids;
+use swc_ecma_utils::{find_ids, find_pat_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Bundler;

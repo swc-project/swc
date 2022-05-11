@@ -5,9 +5,8 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_ids, undefined, ExprFactory, Id,
-    contains_arguments, contains_this_expr, find_pat_ids, ident::IdentLike, undefined, ExprFactory,
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
+    contains_arguments, contains_this_expr, find_ids, find_pat_ids, ident::IdentLike, undefined,
+    ExprFactory, Id,
 };
 use swc_ecma_visit::VisitMutWith;
 

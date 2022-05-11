@@ -13,12 +13,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend,
-    private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
     alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
-    prepend_stmt, private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory,
-    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend_stmt,
-    private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory,
+    prepend, prepend_stmt, private_ident, prop_name_to_expr, quote_ident, var::VarCollector,
+    ExprFactory, Id,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,

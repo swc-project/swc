@@ -2,8 +2,7 @@
 
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// This pass is kind of inliner, but it's far faster.

@@ -1,10 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ExprExt, UsageFinder};
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, IdentUsageFinder};
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, ExprExt, IdentUsageFinder};
-use swc_ecma_utils::{find_pat_ids, ExprExt, IdentUsageFinder};
+use swc_ecma_utils::{
+    find_ids, find_pat_ids, ident::IdentLike, ExprExt, IdentUsageFinder, UsageFinder,
+};
 
 use super::Optimizer;
 use crate::{

@@ -8,9 +8,7 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{Id, IsEmpty, StmtLike, StmtOrModuleItem};
-use swc_ecma_utils::{ident::IdentLike, IsEmpty, StmtLike, StmtOrModuleItem};
-use swc_ecma_utils::{IsEmpty, StmtLike, StmtOrModuleItem};
+use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
