@@ -16,7 +16,6 @@ It especially caused various issues on source maps.
 
 ## Considered Options
 
--   Preserving current semantics.
 -   Adding one empty file to `SourceMap` each time we create one.
 
 ## Decision Outcome
@@ -28,41 +27,6 @@ As `BytePos(0)` is reserved, `swc_ecma_codegen` can know if a `BytePos` is dummy
 
 -   Cleaner code, as detecting if a `BytePos` is dummy become easier.
 
-### Negative Consequences <!-- optional -->
+### Adding one empty file to `SourceMap` each time we create one.
 
--   [e.g., compromising quality attribute, follow-up decisions required, …]
--   …
-
-## Pros and Cons of the Options <!-- optional -->
-
-### [option 1]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
--   Good, because [argument a]
--   Good, because [argument b]
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
-
-### [option 2]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
--   Good, because [argument a]
--   Good, because [argument b]
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
-
-### [option 3]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
--   Good, because [argument a]
--   Good, because [argument b]
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
-
-## Links <!-- optional -->
-
--   [Link type] [Link to ADR] <!-- example: Refined by [ADR-0005](0005-example.md) -->
--   … <!-- numbers of links can vary -->
+This is a code smell, and if we select this, we can't depend on the fact `BytePos(0)` is dummy.
