@@ -451,7 +451,7 @@ fn parser_recovery_verify(input: PathBuf) {
     verify_document(&input, None, None, None, true);
 }
 
-// TODO - remove exclude when we implement `raw` to catch broken cases
+// TODO - remove exclude when we implement `raw`, `context_element` and etc
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(

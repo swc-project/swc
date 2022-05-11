@@ -42,7 +42,13 @@ fn minify_fixtures(input: PathBuf) {
         let mut html_str = String::new();
         {
             let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+            let mut gen = CodeGenerator::new(
+                wr,
+                CodegenConfig {
+                    scripting_enabled: false,
+                    minify: true,
+                },
+            );
 
             gen.emit(&ss).unwrap();
         }
@@ -88,7 +94,13 @@ fn minify_recovery(input: PathBuf) {
         let mut html_str = String::new();
         {
             let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+            let mut gen = CodeGenerator::new(
+                wr,
+                CodegenConfig {
+                    scripting_enabled: false,
+                    minify: true,
+                },
+            );
 
             gen.emit(&ss).unwrap();
         }
