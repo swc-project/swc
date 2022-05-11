@@ -971,6 +971,9 @@ pub trait Pos {
 ///
 /// # Reserved
 ///
+///  - 0 is reserved for dummy spans. It means `BytePos(0)` means the `BytePos`
+///    is synthesized by the compiler.
+///
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
 /// `u32::MAX` is special value used to generate source map entries.
