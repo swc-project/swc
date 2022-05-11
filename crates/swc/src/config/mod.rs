@@ -29,7 +29,7 @@ use swc_common::{
     FileName, Mark, SourceMap, SyntaxContext,
 };
 use swc_config::{
-    config_types::{BoolConfig, BoolOr, BoolOrDataConfig},
+    config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
     merge::Merge,
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
@@ -323,7 +323,7 @@ impl Options {
 
         let mut program = parse(syntax, es_version, is_module)?;
 
-        let mut transform = transform.unwrap_or_default();
+        let mut transform = transform.into_inner().unwrap_or_default();
 
         // Do a resolver pass before everything.
         //
@@ -1070,7 +1070,7 @@ pub struct JscConfig {
     pub syntax: Option<Syntax>,
 
     #[serde(default)]
-    pub transform: Option<TransformConfig>,
+    pub transform: MergingOption<TransformConfig>,
 
     #[serde(default)]
     pub external_helpers: BoolConfig<false>,
@@ -1245,7 +1245,7 @@ impl ModuleConfig {
     }
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct TransformConfig {
     #[serde(default)]

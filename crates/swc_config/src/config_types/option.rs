@@ -9,7 +9,7 @@ impl<T> MergingOption<T>
 where
     T: Merge + Default,
 {
-    pub fn unwrap(self) -> Option<T> {
+    pub fn into_inner(self) -> Option<T> {
         self.0
     }
 }
