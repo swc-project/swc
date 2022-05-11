@@ -3,7 +3,7 @@ use std::mem::swap;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtExt, StmtLike};
+use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{

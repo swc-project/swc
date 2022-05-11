@@ -74,6 +74,7 @@ impl IdentLike for Ident {
     }
 }
 
+#[deprecated = "Use i.to_id() instead"]
 #[inline(always)]
 pub fn id(i: &Ident) -> Id {
     (i.sym.clone(), i.span.ctxt())

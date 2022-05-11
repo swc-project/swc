@@ -1,6 +1,5 @@
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{

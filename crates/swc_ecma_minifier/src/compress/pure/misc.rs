@@ -3,7 +3,6 @@ use std::{fmt::Write, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
 use crate::compress::{
