@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Preserve more `this` (#4599) ([859dc44](https://github.com/swc-project/swc/commit/859dc440b43c0dbd17ef8cee2998de3ce8c009a0))
 
+
+- **(html/parser)** Fix bugs (#4592) ([7166dbf](https://github.com/swc-project/swc/commit/7166dbf5a626170f36e9282dfc625d1ace781511))
+
 ### Features
 
 
@@ -26,10 +29,19 @@
 - **(css/parser)** Add a method to get error message (#4588) ([04dd3dd](https://github.com/swc-project/swc/commit/04dd3ddc5d2953ae9ba4b944853db57bf1ed217d))
 
 
+- **(es/ast)** Improve `Id` APIs (#4614) ([2c861bd](https://github.com/swc-project/swc/commit/2c861bd9e515ed0c9bfa653ed79d9e6941b05078))
+
+
 - **(es/hygiene)** Drop syntax context (#4594) ([6ac4a23](https://github.com/swc-project/swc/commit/6ac4a23aa2fdf3854f23760cec70b36249df4cdc))
 
 
 - **(es/lints)** Implement `prefer-const` rule without options (#4584) ([e65bf3d](https://github.com/swc-project/swc/commit/e65bf3d02559e2e2ca31a1e190244b1ee9e19843))
+
+### Refactor
+
+
+
+- **(html)** Refactor parser and codegen (#4611) ([7c6627f](https://github.com/swc-project/swc/commit/7c6627fc2106a6553ebce353d53f61917205fee2))
 
 ### Testing
 
