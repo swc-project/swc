@@ -68,7 +68,6 @@ where
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Entity {
-    codepoints: Vec<u32>,
     characters: String,
 }
 
@@ -80,7 +79,6 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
 });
 
 #[derive(Debug, Clone)]
-#[allow(unused)]
 pub enum State {
     Data,
     Rcdata,
@@ -4985,8 +4983,6 @@ where
                 let mut entity_cur_pos: Option<BytePos> = None;
                 let mut entity_temporary_buffer = None;
 
-                // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
-                // and speedy
                 while let Some(c) = &self.consume_next_char() {
                     if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                         temporary_buffer.push(*c);
@@ -5000,9 +4996,10 @@ where
                         }
 
                         // We stop when:
+                        //
                         // - not ascii alphanumeric
                         // - we consume more characters than the longest entity
-                        if !c.is_ascii_alphanumeric() || temporary_buffer.len() > 33 {
+                        if !c.is_ascii_alphanumeric() || temporary_buffer.len() > 32 {
                             break;
                         }
                     }
