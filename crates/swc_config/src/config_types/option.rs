@@ -20,6 +20,16 @@ where
     }
 }
 
+impl<T> From<Option<T>> for MergingOption<T>
+where
+    T: Merge + Default,
+{
+    #[inline]
+    fn from(v: Option<T>) -> Self {
+        Self(v)
+    }
+}
+
 impl<T> Merge for MergingOption<T>
 where
     T: Merge + Default,
