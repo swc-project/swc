@@ -274,12 +274,12 @@ mod tests {
     fn src_input_slice_1() {
         let _ = with_test_sess("foo/d", |mut i| {
             assert_eq!(i.slice(BytePos(1), BytePos(2)), "f");
-            assert_eq!(i.last_pos, BytePos(1));
-            assert_eq!(i.start_pos, BytePos(1));
+            assert_eq!(i.last_pos, BytePos(2));
+            assert_eq!(i.start_pos, BytePos(2));
             assert_eq!(i.cur(), Some('o'));
 
             assert_eq!(i.slice(BytePos(2), BytePos(4)), "oo");
-            assert_eq!(i.slice(BytePos(1), BytePos(5)), "foo");
+            assert_eq!(i.slice(BytePos(1), BytePos(4)), "foo");
             assert_eq!(i.last_pos, BytePos(4));
             assert_eq!(i.start_pos, BytePos(4));
             assert_eq!(i.cur(), Some('/'));
