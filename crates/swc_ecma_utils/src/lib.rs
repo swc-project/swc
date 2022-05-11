@@ -1206,6 +1206,7 @@ pub trait ExprExt {
                             | "Error"
                             | "RegExp"
                             | "Function"
+                            | "document"
                     )
                 } else {
                     false
