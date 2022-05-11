@@ -38,8 +38,11 @@ trait SpanRange: Sized {
 impl SpanRange for usize {
     fn into_span(self) -> Span {
         Span::new(
-            BytePos(self as _),
-            BytePos((self + 1usize) as _),
+            // +1 as bytepos starts at 1
+            BytePos((self + 1) as _),
+            // +1 as bytepos starts at 1
+            // +1 as hi is exclusive
+            BytePos((self + 1 + 1) as _),
             Default::default(),
         )
     }
@@ -52,8 +55,10 @@ impl SpanRange for Span {
 impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
         Span::new(
-            BytePos(self.start as _),
-            BytePos(self.end as _),
+            // +1 as bytepos starts at 1
+            BytePos((self.start + 1) as _),
+            // +1 as bytepos starts at 1
+            BytePos((self.end + 1) as _),
             Default::default(),
         )
     }
