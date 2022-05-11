@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 22,
+    "start": 1,
+    "end": 23,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 22,
+        "start": 1,
+        "end": 23,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 14,
+          "start": 2,
+          "end": 15,
           "ctxt": 0
         },
         "value": "-ms-keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 15,
-          "end": 19,
+          "start": 16,
+          "end": 20,
           "ctxt": 0
         },
         "value": "name",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 20,
-          "end": 22,
+          "start": 21,
+          "end": 23,
           "ctxt": 0
         },
         "name": "{",
