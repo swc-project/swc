@@ -168,7 +168,7 @@ impl Pure<'_> {
                 {
                     //
                     if let Expr::Ident(b_callee_obj) = &**b_callee_obj {
-                        if b_callee_obj.sym != var_name.sym {
+                        if b_callee_obj.to_id() != var_name.to_id() {
                             continue;
                         }
                     }
