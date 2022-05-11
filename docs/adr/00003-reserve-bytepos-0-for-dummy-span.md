@@ -16,10 +16,7 @@ It especially caused various issues on source maps.
 
 ## Considered Options
 
--   [option 1]
--   [option 2]
--   [option 3]
--   … <!-- numbers of options can vary -->
+-   Preserving current semantics.
 
 ## Decision Outcome
 
