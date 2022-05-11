@@ -37,6 +37,12 @@
 
 - **(es/lints)** Implement `prefer-const` rule without options (#4584) ([e65bf3d](https://github.com/swc-project/swc/commit/e65bf3d02559e2e2ca31a1e190244b1ee9e19843))
 
+### Refactor
+
+
+
+- **(html)** Refactor parser and codegen (#4611) ([7c6627f](https://github.com/swc-project/swc/commit/7c6627fc2106a6553ebce353d53f61917205fee2))
+
 ### Testing
 
 
