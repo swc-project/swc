@@ -1271,7 +1271,7 @@ impl SourceMapper for SourceMap {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct FilePathMapping {
     mapping: Vec<(PathBuf, PathBuf)>,
 }
