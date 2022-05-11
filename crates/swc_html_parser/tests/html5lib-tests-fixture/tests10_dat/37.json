@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 71,
+    "start": 1,
+    "end": 72,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 71,
+        "end": 72,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 7,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 71,
+            "end": 72,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 71,
+                "start": 1,
+                "end": 72,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 6,
-                    "end": 34,
+                    "start": 7,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "mi",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 10,
-                        "end": 34,
+                        "start": 11,
+                        "end": 35,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -78,8 +78,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 15,
-                            "end": 34,
+                            "start": 16,
+                            "end": 35,
                             "ctxt": 0
                           },
                           "tagName": "object",
@@ -89,8 +89,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 23,
-                                "end": 34,
+                                "start": 24,
+                                "end": 35,
                                 "ctxt": 0
                               },
                               "tagName": "div",
@@ -100,8 +100,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 28,
-                                    "end": 34,
+                                    "start": 29,
+                                    "end": 35,
                                     "ctxt": 0
                                   },
                                   "tagName": "span",
@@ -125,8 +125,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 67,
-                    "end": 71,
+                    "start": 68,
+                    "end": 72,
                     "ctxt": 0
                   },
                   "tagName": "mi",

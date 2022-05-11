@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 71,
+    "start": 1,
+    "end": 72,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 71,
+        "start": 1,
+        "end": 72,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 20,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 10,
-                "end": 20,
+                "start": 11,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -62,7 +62,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 71,
+            "end": 72,
             "ctxt": 0
           },
           "tagName": "body",

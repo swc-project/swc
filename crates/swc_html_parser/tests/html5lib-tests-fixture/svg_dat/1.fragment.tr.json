@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 0,
-    "end": 24,
+    "start": 1,
+    "end": 25,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 20,
+        "start": 1,
+        "end": 21,
         "ctxt": 0
       },
       "tagName": "svg",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 5,
-            "end": 20,
+            "start": 6,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "tr",
@@ -31,8 +31,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 9,
-                "end": 20,
+                "start": 10,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "td",
@@ -42,8 +42,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 13,
-                    "end": 20,
+                    "start": 14,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "tagName": "title",

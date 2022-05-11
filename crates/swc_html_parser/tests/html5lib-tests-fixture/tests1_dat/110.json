@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 80,
+    "start": 1,
+    "end": 81,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 62,
+        "end": 63,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 62,
+            "end": 63,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 62,
+                "start": 1,
+                "end": 63,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 7,
-                    "end": 17,
+                    "start": 8,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "tagName": "colgroup",
@@ -69,8 +69,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 17,
-                    "end": 24,
+                    "start": 18,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -82,8 +82,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 24,
-                    "end": 34,
+                    "start": 25,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "colgroup",
@@ -96,7 +96,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 38,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -106,8 +106,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 34,
-                        "end": 38,
+                        "start": 35,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -122,8 +122,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 38,
-                    "end": 48,
+                    "start": 39,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "tagName": "colgroup",
@@ -136,7 +136,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 52,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -147,7 +147,7 @@
                       "type": "Element",
                       "span": {
                         "start": 0,
-                        "end": 52,
+                        "end": 53,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -157,8 +157,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 48,
-                            "end": 52,
+                            "start": 49,
+                            "end": 53,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -176,8 +176,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 52,
-                    "end": 62,
+                    "start": 53,
+                    "end": 63,
                     "ctxt": 0
                   },
                   "tagName": "colgroup",

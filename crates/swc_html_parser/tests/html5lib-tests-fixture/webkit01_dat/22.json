@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 116,
+    "start": 1,
+    "end": 117,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 12,
+        "start": 1,
+        "end": 13,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 12,
+            "end": 13,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 6,
-            "end": 12,
+            "start": 7,
+            "end": 13,
             "ctxt": 0
           },
           "tagName": "body",
@@ -50,8 +50,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 26,
-        "end": 44,
+        "start": 27,
+        "end": 45,
         "ctxt": 0
       },
       "data": " Comment A "
@@ -59,8 +59,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 44,
-        "end": 62,
+        "start": 45,
+        "end": 63,
         "ctxt": 0
       },
       "data": " Comment B "
@@ -68,8 +68,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 62,
-        "end": 80,
+        "start": 63,
+        "end": 81,
         "ctxt": 0
       },
       "data": " Comment C "
@@ -77,8 +77,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 80,
-        "end": 98,
+        "start": 81,
+        "end": 99,
         "ctxt": 0
       },
       "data": " Comment D "
@@ -86,8 +86,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 98,
-        "end": 116,
+        "start": 99,
+        "end": 117,
         "ctxt": 0
       },
       "data": " Comment E "
