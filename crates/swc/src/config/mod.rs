@@ -330,8 +330,9 @@ impl Options {
         // We do this before creating custom passes, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
-            assumptions.set_class_methods = !transform.use_define_for_class_fields;
-            assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
+            assumptions.set_class_methods = !transform.use_define_for_class_fields.into_bool();
+            assumptions.set_public_class_fields =
+                !transform.use_define_for_class_fields.into_bool();
         }
 
         program.visit_mut_with(&mut resolver(

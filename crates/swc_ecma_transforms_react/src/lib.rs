@@ -42,6 +42,7 @@ where
     C: Comments + Clone,
 {
     let Options { development, .. } = options;
+    let development = development.unwrap_or(false);
 
     let refresh_options = options.refresh.take();
 

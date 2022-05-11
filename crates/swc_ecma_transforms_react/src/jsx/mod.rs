@@ -15,6 +15,7 @@ use swc_common::{
     util::take::Take,
     FileName, Mark, SourceMap, Span, Spanned, DUMMY_SP,
 };
+use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
@@ -46,61 +47,43 @@ impl Default for Runtime {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq, Merge)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct Options {
     /// If this is `true`, swc will behave just like babel 8 with
     /// `BABEL_8_BREAKING: true`.
     #[serde(skip, default)]
-    pub next: bool,
+    pub next: Option<bool>,
 
     #[serde(default)]
     pub runtime: Option<Runtime>,
 
     /// For automatic runtime
-    #[serde(default = "default_import_source")]
-    pub import_source: String,
-
-    #[serde(default = "default_pragma")]
-    pub pragma: String,
-    #[serde(default = "default_pragma_frag")]
-    pub pragma_frag: String,
-
-    #[serde(default = "default_throw_if_namespace")]
-    pub throw_if_namespace: bool,
+    #[serde(default)]
+    pub import_source: Option<String>,
 
     #[serde(default)]
-    pub development: bool,
+    pub pragma: Option<String>,
+    #[serde(default)]
+    pub pragma_frag: Option<String>,
+
+    #[serde(default)]
+    pub throw_if_namespace: Option<bool>,
+
+    #[serde(default)]
+    pub development: Option<bool>,
 
     /// TODO: Remove this field.
     #[serde(default, alias = "useBuiltIns")]
-    pub use_builtins: bool,
+    pub use_builtins: Option<bool>,
 
     #[serde(default)]
-    pub use_spread: bool,
+    pub use_spread: Option<bool>,
 
     #[serde(default, deserialize_with = "deserialize_refresh")]
     // default to disabled since this is still considered as experimental by now
     pub refresh: Option<RefreshOptions>,
-}
-
-impl Default for Options {
-    fn default() -> Self {
-        Options {
-            next: false,
-            runtime: Default::default(),
-            import_source: default_import_source(),
-            pragma: default_pragma(),
-            pragma_frag: default_pragma_frag(),
-            throw_if_namespace: default_throw_if_namespace(),
-            development: false,
-            use_builtins: false,
-            use_spread: false,
-            // since this is considered experimental, we disable it by default
-            refresh: None,
-        }
-    }
 }
 
 fn default_import_source() -> String {
@@ -202,21 +185,36 @@ where
     as_folder(Jsx {
         cm: cm.clone(),
         top_level_mark,
-        next: options.next,
+        next: options.next.unwrap_or(false),
         runtime: options.runtime.unwrap_or_default(),
-        import_source: options.import_source.into(),
+        import_source: options
+            .import_source
+            .unwrap_or_else(default_import_source)
+            .into(),
         import_jsx: None,
         import_jsxs: None,
         import_fragment: None,
         import_create_element: None,
 
-        pragma: parse_expr_for_jsx(&cm, "pragma", options.pragma, top_level_mark),
+        pragma: parse_expr_for_jsx(
+            &cm,
+            "pragma",
+            options.pragma.unwrap_or_else(default_pragma),
+            top_level_mark,
+        ),
         comments,
-        pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
-        use_builtins: options.use_builtins,
-        use_spread: options.use_spread,
-        development: options.development,
-        throw_if_namespace: options.throw_if_namespace,
+        pragma_frag: parse_expr_for_jsx(
+            &cm,
+            "pragmaFrag",
+            options.pragma_frag.unwrap_or_else(default_pragma_frag),
+            top_level_mark,
+        ),
+        use_builtins: options.use_builtins.unwrap_or_default(),
+        use_spread: options.use_spread.unwrap_or_default(),
+        development: options.development.unwrap_or_default(),
+        throw_if_namespace: options
+            .throw_if_namespace
+            .unwrap_or_else(default_throw_if_namespace),
         top_level_node: true,
     })
 }

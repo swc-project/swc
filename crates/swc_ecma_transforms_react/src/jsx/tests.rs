@@ -59,13 +59,15 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
+    options.options.next = Some(options.babel_8_breaking || options.options.runtime.is_some());
 
     if !options.babel_8_breaking && options.options.runtime.is_none() {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    options.options.use_builtins |= options.use_builtins;
+    if options.use_builtins {
+        options.options.use_builtins = Some(true);
+    }
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
@@ -83,13 +85,15 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
+    options.options.next = Some(options.babel_8_breaking || options.options.runtime.is_some());
 
     if !options.babel_8_breaking && options.options.runtime.is_none() {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    options.options.use_builtins |= options.use_builtins;
+    if options.use_builtins {
+        options.options.use_builtins = Some(true);
+    }
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         react(
@@ -430,7 +434,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: "dom".into(),
+            pragma: Some("dom".into()),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1065,8 +1069,8 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: "h".into(),
-            throw_if_namespace: false,
+            pragma: Some("h".into()),
+            throw_if_namespace: false.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1162,7 +1166,7 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true,
+            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1184,7 +1188,7 @@ test!(
     |t| tr(
         t,
         Options {
-            use_spread: true,
+            use_spread: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1203,7 +1207,7 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true,
+            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1226,7 +1230,7 @@ test!(
             tr(
                 t,
                 Options {
-                    use_builtins: true,
+                    use_builtins: true.into(),
                     ..Default::default()
                 },
                 top_level_mark
@@ -1251,7 +1255,7 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true,
+            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1273,7 +1277,7 @@ test!(
             tr(
                 t,
                 Options {
-                    use_builtins: true,
+                    use_builtins: true.into(),
                     ..Default::default()
                 },
                 top_level_mark
@@ -1307,7 +1311,7 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true,
+            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
