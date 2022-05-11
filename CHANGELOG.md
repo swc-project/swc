@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Refactor
+
+
+
+- **(html/parser)** Remove unused code (#4613) ([a378e1e](https://github.com/swc-project/swc/commit/a378e1e041a60e0a80f5a2e97c534b96b49888e4))
+
+## [1.2.182] - 2022-05-11
+
 ### Bug Fixes
 
 
