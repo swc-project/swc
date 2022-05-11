@@ -40,11 +40,11 @@ fn paths_resolver(
 
 #[test]
 fn jsc_paths_issue_4532() {
-    let provider = paths_resolver("paths/issue-4532/", vec![]);
+    let provider = paths_resolver("tests/paths/issue-4532/", vec![]);
 
     run_test2(false, |cm, _| {
         let fm = cm
-            .load_file(Path::new("paths/issue-4532/index.ts"))
+            .load_file(Path::new("tests/paths/issue-4532/index.ts"))
             .unwrap();
 
         let resolved = provider
