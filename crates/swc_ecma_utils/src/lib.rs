@@ -23,6 +23,7 @@ use swc_ecma_visit::{
 };
 use tracing::trace;
 
+#[allow(deprecated)]
 pub use self::{
     factory::{ExprFactory, IntoIndirectCall},
     ident::{id, Id},

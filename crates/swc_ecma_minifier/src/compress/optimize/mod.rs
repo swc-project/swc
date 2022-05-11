@@ -9,8 +9,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
+    Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
@@ -161,6 +161,8 @@ struct Ctx {
     is_nested_if_return_merging: bool,
 
     dont_invoke_iife: bool,
+
+    in_with_stmt: bool,
 
     /// Current scope.
     scope: SyntaxContext,
@@ -2843,6 +2845,19 @@ where
                 ..self.ctx
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                in_with_stmt: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
 

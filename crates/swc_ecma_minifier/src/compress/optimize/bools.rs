@@ -2,7 +2,6 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike,
     undefined, ExprExt, Type,
     Value::{self, Known},
 };

@@ -30,6 +30,13 @@ pub struct BindingIdent {
     pub type_ann: Option<TsTypeAnn>,
 }
 
+impl BindingIdent {
+    /// See [Ident#to_id] for documentation.
+    pub fn to_id(&self) -> Id {
+        self.id.to_id()
+    }
+}
+
 impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
         Self { id, type_ann: None }
@@ -112,6 +119,11 @@ impl From<Ident> for Id {
 }
 
 impl Ident {
+    /// Creates `Id` using `JsWord` and `SyntaxContext` of `self`.
+    pub fn to_id(&self) -> Id {
+        (self.sym.clone(), self.span.ctxt)
+    }
+
     /// Returns true if `c` is a valid character for an identifier start.
     pub fn is_valid_start(c: char) -> bool {
         c == '$' || c == '_' || c.is_ascii_alphabetic() || {

@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, UsageFinder};
+use swc_ecma_utils::{find_ids, ExprExt, UsageFinder};
 
 use super::Optimizer;
 use crate::{

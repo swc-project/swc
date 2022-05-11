@@ -25,6 +25,10 @@ import { parsePrComments } from "./comment-parser";
 
     const actions = await parsePrComments(prNumber);
 
+    if (actions.length === 0) {
+        throw new Error("This commit does not require a bump commit");
+    }
+
     for (const action of actions) {
         console.log(action);
 

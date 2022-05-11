@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;

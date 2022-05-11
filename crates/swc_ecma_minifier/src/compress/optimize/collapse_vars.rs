@@ -1,5 +1,4 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 
 use super::Optimizer;
 use crate::mode::Mode;

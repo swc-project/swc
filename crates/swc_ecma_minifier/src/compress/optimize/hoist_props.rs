@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, ident::IdentLike};
+use swc_ecma_utils::contains_this_expr;
 
 use super::Optimizer;
 use crate::mode::Mode;

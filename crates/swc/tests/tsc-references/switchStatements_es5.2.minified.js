@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 (M || (M = {})).fn = function(x) {
     return "";
-};
-var M, C = function() {
+}, void 0 === x || swcHelpers.typeOf(x), void 0 === M || swcHelpers.typeOf(M), M.fn(1);
+var M, x, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 }, D = function(C1) {
@@ -14,4 +14,11 @@ var M, C = function() {
     }
     return D;
 }(C);
-new C();
+switch(new C()){
+    case new D():
+    case {
+        id: 12,
+        name: ""
+    }:
+    case new C():
+}

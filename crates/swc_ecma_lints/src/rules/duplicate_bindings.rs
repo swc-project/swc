@@ -6,7 +6,6 @@ use swc_common::{
     Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};

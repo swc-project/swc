@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
-use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
+use swc_ecma_utils::{contains_this_expr, find_ids, undefined, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
