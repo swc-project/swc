@@ -162,7 +162,7 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
 
 static COMMA_SEPARATED_ATTRIBUTES: &[&str] = &["srcset", "sizes"];
 
-static MULTIPLE_SPACES_ATTRIBUTES: &[&str] = &["class"];
+static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &["class"];
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
@@ -181,8 +181,8 @@ impl Minifier {
         COMMA_SEPARATED_ATTRIBUTES.contains(&name)
     }
 
-    fn is_multiple_spaces_attribute(&self, name: &str) -> bool {
-        MULTIPLE_SPACES_ATTRIBUTES.contains(&name)
+    fn is_space_separated_attribute(&self, name: &str) -> bool {
+        SPACE_SEPARATED_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -372,32 +372,34 @@ impl VisitMut for Minifier {
             }
         };
 
-        if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
-            n.value = Some("".into());
+        if is_element_html_namespace {
+            if &n.name == "contenteditable" && value == "true" {
+                n.value = Some("".into());
 
-            return;
-        }
-
-        if self.is_comma_separated_attribute(&n.name) {
-            let values = value.split(",");
-
-            let mut new_values = vec![];
-
-            for value in values {
-                new_values.push(value.trim());
+                return;
             }
 
-            n.value = Some(new_values.join(",").into());
+            if self.is_comma_separated_attribute(&n.name) {
+                let values = value.split(',');
 
-            return;
-        }
+                let mut new_values = vec![];
 
-        if self.is_multiple_spaces_attribute(&n.name) {
-            value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+                for value in values {
+                    new_values.push(value.trim());
+                }
 
-            n.value = Some(value.into());
+                n.value = Some(new_values.join(",").into());
 
-            return;
+                return;
+            }
+
+            if self.is_space_separated_attribute(&n.name) {
+                value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+
+                n.value = Some(value.into());
+
+                return;
+            }
         }
 
         if self.allow_to_trim(&n.name) {
