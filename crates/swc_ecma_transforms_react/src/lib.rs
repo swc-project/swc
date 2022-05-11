@@ -5,7 +5,7 @@ use swc_ecma_visit::Fold;
 
 pub use self::{
     display_name::display_name,
-    jsx::{jsx, parse_expr_for_jsx, JsxDirectives, Options, Runtime},
+    jsx::*,
     jsx_self::jsx_self,
     jsx_src::jsx_src,
     pure_annotations::pure_annotations,

@@ -57,7 +57,8 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver,
+    react::{self, default_pragma, default_pragma_frag},
+    resolver,
     typescript::{self, TSEnumConfig},
     Assumptions,
 };
@@ -402,7 +403,7 @@ impl Options {
         };
 
         if syntax.typescript() {
-            transform.legacy_decorator = true;
+            transform.legacy_decorator = true.into();
         }
         let optimizer = transform.optimizer;
 
@@ -554,8 +555,8 @@ impl Options {
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
-                    legacy: transform.legacy_decorator,
-                    emit_metadata: transform.decorator_metadata,
+                    legacy: transform.legacy_decorator.into_bool(),
+                    emit_metadata: transform.decorator_metadata.into_bool(),
                     use_define_for_class_fields: !assumptions.set_public_class_fields
                 }),
                 syntax.decorators()
@@ -567,10 +568,24 @@ impl Options {
                 typescript::strip_with_jsx(
                     cm.clone(),
                     typescript::Config {
-                        pragma: Some(transform.react.pragma.clone()),
-                        pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        pragma: Some(
+                            transform
+                                .react
+                                .pragma
+                                .clone()
+                                .unwrap_or_else(default_pragma)
+                        ),
+                        pragma_frag: Some(
+                            transform
+                                .react
+                                .pragma_frag
+                                .clone()
+                                .unwrap_or_else(default_pragma_frag)
+                        ),
                         ts_enum_config: TSEnumConfig {
-                            treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
+                            treat_const_enum_as_enum: transform
+                                .treat_const_enum_as_enum
+                                .into_bool(),
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
@@ -589,7 +604,7 @@ impl Options {
                 syntax.jsx()
             ),
             pass,
-            Optional::new(jest::jest(), transform.hidden.jest),
+            Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
             Optional::new(
                 dropped_comments_preserver(comments.cloned()),
                 preserve_all_comments
@@ -1277,11 +1292,11 @@ pub struct TransformConfig {
     pub use_define_for_class_fields: BoolConfig<false>,
 }
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct HiddenTransformConfig {
     #[serde(default)]
-    pub jest: bool,
+    pub jest: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

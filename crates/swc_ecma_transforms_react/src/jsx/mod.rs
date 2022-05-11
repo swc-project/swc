@@ -86,15 +86,15 @@ pub struct Options {
     pub refresh: Option<RefreshOptions>,
 }
 
-fn default_import_source() -> String {
+pub fn default_import_source() -> String {
     "react".into()
 }
 
-fn default_pragma() -> String {
+pub fn default_pragma() -> String {
     "React.createElement".into()
 }
 
-fn default_pragma_frag() -> String {
+pub fn default_pragma_frag() -> String {
     "React.Fragment".into()
 }
 
