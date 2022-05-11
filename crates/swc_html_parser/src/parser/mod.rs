@@ -7497,12 +7497,12 @@ where
         &mut self,
         override_target: Option<RcNode>,
     ) -> PResult<InsertionPosition> {
-        // TODO avoid `unreachable` and return `Option` and improve error reporting
         // 1.
         let target = override_target.unwrap_or_else(|| {
             if let Some(last) = self.open_elements_stack.items.last() {
                 last.clone()
             } else {
+                // Unreachable, because we always have `html` element on top
                 unreachable!();
             }
         });
@@ -7886,7 +7886,8 @@ where
             {
                 Some((i, _)) => i,
                 None => {
-                    // TODO error - have parent but couldn't find in parent's children
+                    // Unreachable, otherwise node has a parent but couldn't found in parent's
+                    // children
                     unreachable!();
                 }
             };
