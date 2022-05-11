@@ -472,7 +472,7 @@ where
         }
 
         if let Decl::Class(c) = decl {
-            if class_has_side_effect(&c.class) {
+            if class_has_side_effect(&self.expr_ctx, &c.class) {
                 return;
             }
         }
@@ -754,7 +754,7 @@ where
                 return;
             }
 
-            if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+            if contains_ident_ref(&f.function.body, &f.ident.as_ref().unwrap().to_id()) {
                 return;
             }
 

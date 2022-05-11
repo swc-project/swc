@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
-use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
@@ -194,7 +194,7 @@ impl VisitMut for NewTarget {
         stmts.visit_mut_children_with(self);
 
         if let Some(var) = self.var.take() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -211,7 +211,7 @@ impl VisitMut for NewTarget {
 
         if !self.in_arrow_expr {
             if let Some(var) = self.var.take() {
-                prepend(
+                prepend_stmt(
                     stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,

@@ -1,15 +1,15 @@
 var C, DD;
 export var A;
-!function(A) {}(A || (A = {}));
+A || (A = {});
 export var B;
 !function(B) {
     B[B.Member = 0] = "Member";
-}(B || (B = {})), C = {};
-!function(DD) {}(DD || (DD = {}));
+}(B || (B = {})), C || (C = {});
+DD || (DD = {});
 export var E;
-!function(E) {}(E || (E = {}));
+E || (E = {});
 export var F;
-!function(F) {}(F || (F = {}));
+F || (F = {});
 export var G;
 !function(G) {
     G[G.A = 1] = "A", G[G.B = 2] = "B", G[G.C = 3] = "C";

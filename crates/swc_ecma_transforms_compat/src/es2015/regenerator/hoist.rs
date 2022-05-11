@@ -2,7 +2,7 @@ use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, private_ident};
+use swc_ecma_utils::{find_pat_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -34,7 +34,7 @@ impl Hoister {
     fn var_decl_to_expr(&mut self, mut var: VarDecl) -> Expr {
         var.visit_mut_children_with(self);
 
-        let ids = find_ids(&var);
+        let ids = find_pat_ids(&var);
         self.vars.extend(ids);
 
         let mut exprs = vec![];
@@ -160,7 +160,7 @@ impl VisitMut for Hoister {
             VarDeclOrPat::VarDecl(var) => {
                 if var.decls.len() == 1 && var.decls[0].init.is_none() {
                     let pat = var.decls.remove(0).name;
-                    self.vars.extend(find_ids(&pat));
+                    self.vars.extend(find_pat_ids(&pat));
 
                     *v = pat.into();
                 }

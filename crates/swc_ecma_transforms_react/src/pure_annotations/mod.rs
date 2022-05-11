@@ -1,7 +1,6 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]

@@ -30,7 +30,7 @@ where
             _ => {}
         }
 
-        if negate_cost(&stmt.test, true, false) < 0 {
+        if negate_cost(&self.expr_ctx, &stmt.test, true, false) < 0 {
             report_change!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
                 in_bool_ctx: true,
@@ -63,7 +63,7 @@ where
             _ => return,
         };
 
-        if !cond.cons.may_have_side_effects() {
+        if !cond.cons.may_have_side_effects(&self.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? useless : alt` => `cond || alt`");
             *e = Expr::Bin(BinExpr {
@@ -75,7 +75,7 @@ where
             return;
         }
 
-        if !cond.alt.may_have_side_effects() {
+        if !cond.alt.may_have_side_effects(&self.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? cons : useless` => `cond && cons`");
             *e = Expr::Bin(BinExpr {

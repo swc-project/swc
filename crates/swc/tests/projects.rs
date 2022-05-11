@@ -14,6 +14,7 @@ use swc::{
 use swc_common::{
     chain,
     comments::{Comment, SingleThreadedComments},
+    errors::HANDLER,
     BytePos, FileName,
 };
 use swc_ecma_ast::{EsVersion, *};
@@ -22,7 +23,6 @@ use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
 };
-use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;

@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
-    member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
+    member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -431,7 +431,7 @@ impl VisitMut for Params {
         if let Some(decls) = decls {
             if let BlockStmtOrExpr::Expr(v) = body {
                 let mut stmts = vec![];
-                prepend(&mut stmts, decls);
+                prepend_stmt(&mut stmts, decls);
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(v.take()),
@@ -489,13 +489,13 @@ impl VisitMut for Params {
                     if let Some(this_id) = this_id {
                         init_this(stmts, &this_id)
                     }
-                    prepend(stmts, stmt);
+                    prepend_stmt(stmts, stmt);
                 }
             } else {
                 let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
-                    prepend(stmts, stmt);
+                    prepend_stmt(stmts, stmt);
                 }
             }
         }
@@ -703,7 +703,7 @@ impl VisitMut for Params {
         let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend(stmts, ModuleItem::Stmt(stmt));
+            prepend_stmt(stmts, ModuleItem::Stmt(stmt));
         }
     }
 
@@ -715,7 +715,7 @@ impl VisitMut for Params {
         let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(stmt) = decl {
-            prepend(stmts, stmt);
+            prepend_stmt(stmts, stmt);
         }
     }
 }

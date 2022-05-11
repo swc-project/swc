@@ -13,8 +13,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend,
-    private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
+    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, prepend_stmt,
+    private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
@@ -2006,7 +2006,7 @@ where
 
         module.visit_mut_children_with(self);
         if !self.uninitialized_vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut module.body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -2335,7 +2335,7 @@ where
         }
 
         if !self.keys.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -2420,7 +2420,7 @@ where
         n.visit_mut_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut n.body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -2503,7 +2503,7 @@ where
         }
 
         if !self.keys.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

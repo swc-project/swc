@@ -413,7 +413,7 @@ impl Pure<'_> {
         }
 
         if !stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::If(s)) => s.test.as_bool().1.is_known(),
+            Some(Stmt::If(s)) => s.test.cast_to_bool(&self.expr_ctx).1.is_known(),
             _ => false,
         }) {
             return;
@@ -428,7 +428,7 @@ impl Pure<'_> {
             match stmt.try_into_stmt() {
                 Ok(stmt) => match stmt {
                     Stmt::If(mut s) => {
-                        if let Value::Known(v) = s.test.as_bool().1 {
+                        if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
                             let mut var_ids = vec![];
                             new.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,

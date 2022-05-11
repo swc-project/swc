@@ -6,13 +6,13 @@ Promise.all(assignAll).then(function() {
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
                 case 0:
-                    d = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', a.t0 = regeneratorRuntime.keys(obj);
+                    d = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', a.t0 = regeneratorRuntime.keys(c);
                 case 2:
                     if ((a.t1 = a.t0()).done) {
                         a.next = 12;
                         break;
                     }
-                    return f = obj[e = a.t1.value], d += "'".concat(f.id, "', "), a.next = 8, listOfUser(f.id);
+                    return f = c[e = a.t1.value], d += "'".concat(f.id, "', "), a.next = 8, listOfUser(f.id);
                 case 8:
                     (g = a.sent).forEach(function(a) {
                         insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(f.id, "', now());");

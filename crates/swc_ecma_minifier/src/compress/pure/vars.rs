@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, StmtLike};
+use swc_ecma_utils::{prepend_stmt, StmtLike};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -227,7 +227,7 @@ impl Pure<'_> {
         stmts.visit_mut_with(&mut prepender);
 
         if !prepender.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

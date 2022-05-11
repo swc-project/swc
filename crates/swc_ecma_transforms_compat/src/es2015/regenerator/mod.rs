@@ -5,7 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_this_expr, prepend, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
+    contains_this_expr, prepend_stmt, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -90,7 +90,7 @@ impl Regenerator {
             item.visit_mut_children_with(self);
 
             if !self.top_level_vars.is_empty() {
-                prepend(
+                prepend_stmt(
                     &mut new,
                     T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -197,7 +197,7 @@ impl VisitMut for Regenerator {
                 span: DUMMY_SP,
                 local: rt_ident,
             });
-            prepend(
+            prepend_stmt(
                 &mut m.body,
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
@@ -306,7 +306,7 @@ impl VisitMut for Regenerator {
         s.visit_mut_children_with(self);
 
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(
+            prepend_stmt(
                 &mut s.body,
                 require_rt(
                     self.unresolved_mark,

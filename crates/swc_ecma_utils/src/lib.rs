@@ -13,8 +13,6 @@ use std::{
 };
 
 use swc_atoms::{js_word, JsWord};
-#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
-pub use swc_common::errors::HANDLER;
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -26,7 +24,6 @@ use tracing::trace;
 #[allow(deprecated)]
 pub use self::{
     factory::{ExprFactory, IntoIndirectCall},
-    ident::{id, Id},
     value::{
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,
@@ -104,11 +101,11 @@ where
     visitor.found
 }
 
-pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
+pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Id) -> bool
 where
-    N: VisitWith<IdentFinder<'a>>,
+    N: VisitWith<IdentRefFinder<'a>>,
 {
-    let mut visitor = IdentFinder {
+    let mut visitor = IdentRefFinder {
         found: false,
         ident,
     };
@@ -116,21 +113,19 @@ where
     visitor.found
 }
 
-pub struct IdentFinder<'a> {
-    ident: &'a Ident,
+pub struct IdentRefFinder<'a> {
+    ident: &'a Id,
     found: bool,
 }
 
-impl Visit for IdentFinder<'_> {
+impl Visit for IdentRefFinder<'_> {
     noop_visit_type!();
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match *e {
-            Expr::Ident(ref i)
-                if i.sym == self.ident.sym && i.span.ctxt() == self.ident.span.ctxt() =>
-            {
+            Expr::Ident(ref i) if i.sym == self.ident.0 && i.span.ctxt == self.ident.1 => {
                 self.found = true;
             }
             _ => {}
@@ -473,6 +468,20 @@ impl Visit for Hoister {
     }
 }
 
+#[derive(Debug, Clone)]
+
+pub struct ExprCtx {
+    /// This [SyntaxContext] should be applied only to unresolved references.
+    ///
+    /// In other words, this should be applied to identifier references to
+    /// global objects like `Object` or `Math`, and when those are not shadowed
+    /// by a local declaration.
+    pub unresolved_ctxt: SyntaxContext,
+
+    /// True for argument of `typeof`.
+    pub is_unresolved_ref_safe: bool,
+}
+
 /// Extension methods for [Expr].
 pub trait ExprExt {
     fn as_expr(&self) -> &Expr;
@@ -535,11 +544,18 @@ pub trait ExprExt {
 
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
-        self.is_ident_ref_to(js_word!("NaN"))
+        // NaN is special
+        matches!(
+            self.as_expr(),
+            Expr::Ident(Ident {
+                sym: js_word!("NaN"),
+                ..
+            })
+        )
     }
 
-    fn is_undefined(&self) -> bool {
-        self.is_ident_ref_to(js_word!("undefined"))
+    fn is_undefined(&self, ctx: &ExprCtx) -> bool {
+        self.is_global_ref_to(ctx, "undefined")
     }
 
     fn is_void(&self) -> bool {
@@ -552,14 +568,17 @@ pub trait ExprExt {
         )
     }
 
-    /// Is `self` an IdentifierReference to `id`?
-    fn is_ident_ref_to(&self, id: JsWord) -> bool {
-        matches!(*self.as_expr(), Expr::Ident(Ident { ref sym, .. }) if *sym == id)
+    /// Returns `true` if `id` references a global object.
+    fn is_global_ref_to(&self, ctx: &ExprCtx, id: &str) -> bool {
+        match self.as_expr() {
+            Expr::Ident(i) => i.span.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+            _ => false,
+        }
     }
 
     /// Get bool value of `self` if it does not have any side effects.
-    fn as_pure_bool(&self) -> BoolValue {
-        match self.as_bool() {
+    fn as_pure_bool(&self, ctx: &ExprCtx) -> BoolValue {
+        match self.cast_to_bool(ctx) {
             (Pure, Known(b)) => Known(b),
             _ => Unknown,
         }
@@ -569,24 +588,24 @@ pub trait ExprExt {
     /// This method emulates the `Boolean()` JavaScript cast function.
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
-    fn as_bool(&self) -> (Purity, BoolValue) {
+    fn cast_to_bool(&self, ctx: &ExprCtx) -> (Purity, BoolValue) {
         let expr = self.as_expr();
-        if expr.is_ident_ref_to(js_word!("undefined")) {
+        if expr.is_global_ref_to(ctx, "undefined") {
             return (Pure, Known(false));
         }
-        if expr.is_ident_ref_to(js_word!("NaN")) {
+        if expr.is_nan() {
             return (Pure, Known(false));
         }
 
         let val = match expr {
-            Expr::Paren(ref e) => return e.expr.as_bool(),
+            Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
 
             Expr::Assign(AssignExpr {
                 ref right,
                 op: op!("="),
                 ..
             }) => {
-                let (_, v) = right.as_bool();
+                let (_, v) = right.cast_to_bool(ctx);
                 return (MayBeImpure, v);
             }
 
@@ -595,7 +614,7 @@ pub trait ExprExt {
                 arg,
                 ..
             }) => {
-                let v = arg.as_number();
+                let v = arg.as_pure_number(ctx);
                 match v {
                     Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
                     Unknown => return (MayBeImpure, Unknown),
@@ -607,10 +626,10 @@ pub trait ExprExt {
                 ref arg,
                 ..
             }) => {
-                let (p, v) = arg.as_bool();
+                let (p, v) = arg.cast_to_bool(ctx);
                 return (p, !v);
             }
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().as_bool().1,
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().cast_to_bool(ctx).1,
 
             Expr::Bin(BinExpr {
                 left,
@@ -618,8 +637,8 @@ pub trait ExprExt {
                 right,
                 ..
             }) => {
-                let (lp, ln) = left.cast_to_number();
-                let (rp, rn) = right.cast_to_number();
+                let (lp, ln) = left.cast_to_number(ctx);
+                let (rp, rn) = right.cast_to_number(ctx);
 
                 return (
                     lp + rp,
@@ -642,8 +661,8 @@ pub trait ExprExt {
                 right,
                 ..
             }) => {
-                let lv = left.as_number();
-                let rv = right.as_number();
+                let lv = left.as_pure_number(ctx);
+                let rv = right.as_pure_number(ctx);
 
                 match (lv, rv) {
                     (Known(lv), Known(rv)) => {
@@ -677,8 +696,8 @@ pub trait ExprExt {
             }) => {
                 // TODO: Ignore purity if value cannot be reached.
 
-                let (lp, lv) = left.as_bool();
-                let (rp, rv) = right.as_bool();
+                let (lp, lv) = left.cast_to_bool(ctx);
+                let (rp, rv) = right.cast_to_bool(ctx);
 
                 let v = if *op == op!("&") {
                     lv.and(rv)
@@ -699,12 +718,12 @@ pub trait ExprExt {
                 ref right,
                 ..
             }) => {
-                let (lp, lv) = left.as_bool();
+                let (lp, lv) = left.cast_to_bool(ctx);
                 if let Known(true) = lv {
                     return (lp, lv);
                 }
 
-                let (rp, rv) = right.as_bool();
+                let (rp, rv) = right.cast_to_bool(ctx);
                 if let Known(true) = rv {
                     return (lp + rp, rv);
                 }
@@ -718,12 +737,12 @@ pub trait ExprExt {
                 ref right,
                 ..
             }) => {
-                let (lp, lv) = left.as_bool();
+                let (lp, lv) = left.cast_to_bool(ctx);
                 if let Known(false) = lv {
                     return (lp, lv);
                 }
 
-                let (rp, rv) = right.as_bool();
+                let (rp, rv) = right.cast_to_bool(ctx);
                 if let Known(false) = rv {
                     return (lp + rp, rv);
                 }
@@ -786,14 +805,14 @@ pub trait ExprExt {
             _ => Unknown,
         };
 
-        if expr.may_have_side_effects() {
+        if expr.may_have_side_effects(ctx) {
             (MayBeImpure, val)
         } else {
             (Pure, val)
         }
     }
 
-    fn cast_to_number(&self) -> (Purity, Value<f64>) {
+    fn cast_to_number(&self, ctx: &ExprCtx) -> (Purity, Value<f64>) {
         let expr = self.as_expr();
         let v = match expr {
             Expr::Lit(l) => match l {
@@ -826,7 +845,7 @@ pub trait ExprExt {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => match arg.as_bool() {
+            }) => match arg.cast_to_bool(ctx) {
                 (Pure, Known(v)) => {
                     if v {
                         0.0
@@ -841,7 +860,7 @@ pub trait ExprExt {
                 ref arg,
                 ..
             }) => {
-                if arg.may_have_side_effects() {
+                if arg.may_have_side_effects(ctx) {
                     return (MayBeImpure, Known(NAN));
                 } else {
                     NAN
@@ -851,7 +870,7 @@ pub trait ExprExt {
             Expr::Tpl(..) | Expr::Object(ObjectLit { .. }) | Expr::Array(ArrayLit { .. }) => {
                 return (
                     Pure,
-                    num_from_str(&*match self.as_string() {
+                    num_from_str(&*match self.as_pure_string(ctx) {
                         Known(v) => v,
                         Unknown => return (MayBeImpure, Unknown),
                     }),
@@ -860,7 +879,7 @@ pub trait ExprExt {
 
             Expr::Seq(seq) => {
                 if let Some(last) = seq.exprs.last() {
-                    let (_, v) = last.cast_to_number();
+                    let (_, v) = last.cast_to_number(ctx);
 
                     // TODO: Purity
                     return (MayBeImpure, v);
@@ -878,8 +897,8 @@ pub trait ExprExt {
     /// Emulates javascript Number() cast function.
     ///
     /// Note: This method returns [Known] only if it's pure.
-    fn as_number(&self) -> Value<f64> {
-        let (purity, v) = self.cast_to_number();
+    fn as_pure_number(&self, ctx: &ExprCtx) -> Value<f64> {
+        let (purity, v) = self.cast_to_number(ctx);
         if !purity.is_pure() {
             return Unknown;
         }
@@ -888,7 +907,7 @@ pub trait ExprExt {
     }
 
     /// Returns Known only if it's pure.
-    fn as_string(&self) -> Value<Cow<'_, str>> {
+    fn as_pure_string(&self, ctx: &ExprCtx) -> Value<Cow<'_, str>> {
         let expr = self.as_expr();
         match *expr {
             Expr::Lit(ref l) => match *l {
@@ -919,7 +938,7 @@ pub trait ExprExt {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => Known(Cow::Borrowed(match arg.as_pure_bool() {
+            }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
                 Known(v) => {
                     if v {
                         "false"
@@ -943,7 +962,7 @@ pub trait ExprExt {
                                     sym: js_word!("undefined"),
                                     ..
                                 }) => Cow::Borrowed(""),
-                                _ => match expr.as_string() {
+                                _ => match expr.as_pure_string(ctx) {
                                     Known(v) => v,
                                     Unknown => return Value::Unknown,
                                 },
@@ -1134,14 +1153,23 @@ pub trait ExprExt {
         }
     }
 
-    fn is_pure_callee(&self) -> bool {
-        if self.is_ident_ref_to(js_word!("Date")) {
+    fn is_pure_callee(&self, ctx: &ExprCtx) -> bool {
+        if self.is_global_ref_to(ctx, "Date") {
             return true;
         }
 
         match *self.as_expr() {
-            Expr::Member(MemberExpr { ref obj, .. }) if obj.is_ident_ref_to(js_word!("Math")) => {
-                true
+            Expr::Member(MemberExpr { ref obj, .. }) => {
+                obj.is_global_ref_to(ctx, "Math")
+                    || match &**obj {
+                        // Allow dummy span
+                        Expr::Ident(Ident {
+                            span,
+                            sym: js_word!("Math"),
+                            ..
+                        }) => span.ctxt == SyntaxContext::empty(),
+                        _ => false,
+                    }
             }
 
             Expr::Fn(FnExpr {
@@ -1157,19 +1185,46 @@ pub trait ExprExt {
         }
     }
 
-    fn may_have_side_effects(&self) -> bool {
-        if self.is_pure_callee() {
+    fn may_have_side_effects(&self, ctx: &ExprCtx) -> bool {
+        if self.is_pure_callee(ctx) {
             return false;
         }
 
-        match *self.as_expr() {
-            Expr::Lit(..)
-            | Expr::Ident(..)
-            | Expr::This(..)
-            | Expr::PrivateName(..)
-            | Expr::TsConstAssertion(..) => false,
+        match self.as_expr() {
+            Expr::Ident(i) => {
+                if ctx.is_unresolved_ref_safe {
+                    return false;
+                }
 
-            Expr::Paren(ref e) => e.expr.may_have_side_effects(),
+                if i.span.ctxt == ctx.unresolved_ctxt {
+                    !matches!(
+                        &*i.sym,
+                        "Infinity"
+                            | "NaN"
+                            | "Math"
+                            | "undefined"
+                            | "Object"
+                            | "Array"
+                            | "Promise"
+                            | "Boolean"
+                            | "Number"
+                            | "String"
+                            | "Bigint"
+                            | "Error"
+                            | "RegExp"
+                            | "Function"
+                            | "document"
+                    )
+                } else {
+                    false
+                }
+            }
+
+            Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
+                false
+            }
+
+            Expr::Paren(ref e) => e.expr.may_have_side_effects(ctx),
 
             // Function expression does not have any side effect if it's not used.
             Expr::Fn(..) | Expr::Arrow(ArrowExpr { .. }) => false,
@@ -1179,13 +1234,13 @@ pub trait ExprExt {
             Expr::Array(ArrayLit { ref elems, .. }) => elems
                 .iter()
                 .filter_map(|e| e.as_ref())
-                .any(|e| e.expr.may_have_side_effects()),
-            Expr::Unary(UnaryExpr { ref arg, .. }) => arg.may_have_side_effects(),
+                .any(|e| e.expr.may_have_side_effects(ctx)),
+            Expr::Unary(UnaryExpr { ref arg, .. }) => arg.may_have_side_effects(ctx),
             Expr::Bin(BinExpr {
                 ref left,
                 ref right,
                 ..
-            }) => left.may_have_side_effects() || right.may_have_side_effects(),
+            }) => left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx),
 
             //TODO
             Expr::Tpl(_) => true,
@@ -1219,8 +1274,8 @@ pub trait ExprExt {
                         ..
                     }),
                 ..
-            }) if callee.is_pure_callee() => {
-                args.iter().any(|arg| arg.expr.may_have_side_effects())
+            }) if callee.is_pure_callee(ctx) => {
+                args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
             }
 
             Expr::Call(_)
@@ -1229,7 +1284,9 @@ pub trait ExprExt {
                 ..
             }) => true,
 
-            Expr::Seq(SeqExpr { ref exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects()),
+            Expr::Seq(SeqExpr { ref exprs, .. }) => {
+                exprs.iter().any(|e| e.may_have_side_effects(ctx))
+            }
 
             Expr::Cond(CondExpr {
                 ref test,
@@ -1237,9 +1294,9 @@ pub trait ExprExt {
                 ref alt,
                 ..
             }) => {
-                test.may_have_side_effects()
-                    || cons.may_have_side_effects()
-                    || alt.may_have_side_effects()
+                test.may_have_side_effects(ctx)
+                    || cons.may_have_side_effects(ctx)
+                    || alt.may_have_side_effects(ctx)
             }
 
             Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match node {
@@ -1247,15 +1304,15 @@ pub trait ExprExt {
                     Prop::Shorthand(..) => false,
                     Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
                         let k = match *key {
-                            PropName::Computed(ref e) => e.expr.may_have_side_effects(),
+                            PropName::Computed(ref e) => e.expr.may_have_side_effects(ctx),
                             _ => false,
                         };
 
-                        k || value.may_have_side_effects()
+                        k || value.may_have_side_effects(ctx)
                     }
                     _ => true,
                 },
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(),
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(ctx),
             }),
 
             Expr::JSXMember(..)
@@ -1268,7 +1325,7 @@ pub trait ExprExt {
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => {
-                expr.may_have_side_effects()
+                expr.may_have_side_effects(ctx)
             }
 
             Expr::Invalid(..) => true,
@@ -1762,6 +1819,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     )
 }
 
+/// Creates `void 0`.
 #[inline]
 pub fn undefined(span: Span) -> Box<Expr> {
     Expr::Unary(UnaryExpr {
@@ -1812,7 +1870,7 @@ pub fn opt_chain_test(
 
 /// inject `branch` after directives
 #[inline(never)]
-pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
+pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
         .position(|item| match item.as_stmt() {
@@ -1907,7 +1965,7 @@ pub struct DestructuringFinder<'a, I: IdentLike> {
 }
 
 /// Finds all **binding** idents of `node`.
-pub fn find_ids<T, I: IdentLike>(node: &T) -> Vec<I>
+pub fn find_pat_ids<T, I: IdentLike>(node: &T) -> Vec<I>
 where
     T: for<'any> VisitWith<DestructuringFinder<'any, I>>,
 {
@@ -1967,29 +2025,29 @@ impl VisitMut for DropSpan {
 }
 
 /// Finds usage of `ident`
-pub struct UsageFinder<'a> {
-    ident: &'a Ident,
+pub struct IdentUsageFinder<'a> {
+    ident: &'a Id,
     found: bool,
 }
 
-impl<'a> Visit for UsageFinder<'a> {
+impl<'a> Visit for IdentUsageFinder<'a> {
     noop_visit_type!();
 
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
+        if i.span.ctxt == self.ident.1 && i.sym == self.ident.0 {
             self.found = true;
         }
     }
 }
 
-impl<'a> UsageFinder<'a> {
-    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
+impl<'a> IdentUsageFinder<'a> {
+    pub fn find<N>(ident: &'a Id, node: &N) -> bool
     where
         N: VisitWith<Self>,
     {
-        let mut v = UsageFinder {
+        let mut v = IdentUsageFinder {
             ident,
             found: false,
         };
@@ -1998,173 +2056,180 @@ impl<'a> UsageFinder<'a> {
     }
 }
 
-/// make a new expression which evaluates `val` preserving side effects, if any.
-pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
-where
-    I: IntoIterator<Item = Box<Expr>>,
-{
-    let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-        extract_side_effects_to(&mut v, e);
-        v
-    });
+impl ExprCtx {
+    /// make a new expression which evaluates `val` preserving side effects, if
+    /// any.
+    pub fn preserve_effects<I>(&self, span: Span, val: Expr, exprs: I) -> Expr
+    where
+        I: IntoIterator<Item = Box<Expr>>,
+    {
+        let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
+            self.extract_side_effects_to(&mut v, *e);
+            v
+        });
 
-    if exprs.is_empty() {
-        val
-    } else {
-        exprs.push(Box::new(val));
+        if exprs.is_empty() {
+            val
+        } else {
+            exprs.push(Box::new(val));
 
-        Expr::Seq(SeqExpr { exprs, span })
-    }
-}
-
-/// Add side effects of `expr` to `to`.
-//
-/// This function preserves order and conditions. (think a() ? yield b() : c())
-#[allow(clippy::vec_box)]
-pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
-    let expr = *expr;
-    match expr {
-        Expr::Lit(..)
-        | Expr::This(..)
-        | Expr::Fn(..)
-        | Expr::Arrow(..)
-        | Expr::Ident(..)
-        | Expr::PrivateName(..) => {}
-
-        // In most case, we can do nothing for this.
-        Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
-            to.push(Box::new(expr))
+            Expr::Seq(SeqExpr { exprs, span })
         }
+    }
 
-        // TODO
-        Expr::MetaProp(_) => to.push(Box::new(expr)),
+    /// Add side effects of `expr` to `to`.
+    //
+    /// This function preserves order and conditions. (think a() ? yield b() :
+    /// c())
+    #[allow(clippy::vec_box)]
+    pub fn extract_side_effects_to(&self, to: &mut Vec<Box<Expr>>, expr: Expr) {
+        match expr {
+            Expr::Lit(..)
+            | Expr::This(..)
+            | Expr::Fn(..)
+            | Expr::Arrow(..)
+            | Expr::Ident(..)
+            | Expr::PrivateName(..) => {}
 
-        Expr::Call(_) => to.push(Box::new(expr)),
-        Expr::New(e) => {
-            // Known constructors
-            if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                if *sym == js_word!("Date") && e.args.is_empty() {
-                    return;
-                }
+            // In most case, we can do nothing for this.
+            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
+                to.push(Box::new(expr))
             }
 
-            to.push(Box::new(Expr::New(e)))
-        }
-        Expr::Member(_)
-        | Expr::SuperProp(_)
-        | Expr::OptChain(OptChainExpr {
-            base: OptChainBase::Member(_),
-            ..
-        }) => to.push(Box::new(expr)),
+            // TODO
+            Expr::MetaProp(_) => to.push(Box::new(expr)),
 
-        // We are at here because we could not determine value of test.
-        //TODO: Drop values if it does not have side effects.
-        Expr::Cond(_) => to.push(Box::new(expr)),
-
-        Expr::Unary(UnaryExpr { arg, .. }) => extract_side_effects_to(to, arg),
-        Expr::Bin(BinExpr { left, right, .. }) => {
-            extract_side_effects_to(to, left);
-            extract_side_effects_to(to, right);
-        }
-        Expr::Seq(SeqExpr { exprs, .. }) => exprs
-            .into_iter()
-            .for_each(|e| extract_side_effects_to(to, e)),
-
-        Expr::Paren(e) => extract_side_effects_to(to, e.expr),
-
-        Expr::Object(ObjectLit {
-            span, mut props, ..
-        }) => {
-            //
-            let mut has_spread = false;
-            props.retain(|node| match node {
-                PropOrSpread::Prop(node) => match &**node {
-                    Prop::Shorthand(..) => false,
-                    Prop::KeyValue(KeyValueProp { key, value }) => {
-                        if let PropName::Computed(e) = key {
-                            if e.expr.may_have_side_effects() {
-                                return true;
-                            }
-                        }
-
-                        value.may_have_side_effects()
+            Expr::Call(_) => to.push(Box::new(expr)),
+            Expr::New(e) => {
+                // Known constructors
+                if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
+                    if *sym == js_word!("Date") && e.args.is_empty() {
+                        return;
                     }
-                    Prop::Getter(GetterProp { key, .. })
-                    | Prop::Setter(SetterProp { key, .. })
-                    | Prop::Method(MethodProp { key, .. }) => {
-                        if let PropName::Computed(e) = key {
-                            e.expr.may_have_side_effects()
-                        } else {
-                            false
-                        }
-                    }
-                    Prop::Assign(..) => {
-                        unreachable!("assign property in object literal is not a valid syntax")
-                    }
-                },
-                PropOrSpread::Spread(SpreadElement { .. }) => {
-                    has_spread = true;
-                    true
                 }
-            });
 
-            if has_spread {
-                to.push(Box::new(Expr::Object(ObjectLit { span, props })))
-            } else {
-                props.into_iter().for_each(|prop| match prop {
-                    PropOrSpread::Prop(node) => match *node {
-                        Prop::Shorthand(..) => {}
+                to.push(Box::new(Expr::New(e)))
+            }
+            Expr::Member(_)
+            | Expr::SuperProp(_)
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(_),
+                ..
+            }) => to.push(Box::new(expr)),
+
+            // We are at here because we could not determine value of test.
+            //TODO: Drop values if it does not have side effects.
+            Expr::Cond(_) => to.push(Box::new(expr)),
+
+            Expr::Unary(UnaryExpr { arg, .. }) => self.extract_side_effects_to(to, *arg),
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.extract_side_effects_to(to, *left);
+                self.extract_side_effects_to(to, *right);
+            }
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs
+                .into_iter()
+                .for_each(|e| self.extract_side_effects_to(to, *e)),
+
+            Expr::Paren(e) => self.extract_side_effects_to(to, *e.expr),
+
+            Expr::Object(ObjectLit {
+                span, mut props, ..
+            }) => {
+                //
+                let mut has_spread = false;
+                props.retain(|node| match node {
+                    PropOrSpread::Prop(node) => match &**node {
+                        Prop::Shorthand(..) => false,
                         Prop::KeyValue(KeyValueProp { key, value }) => {
                             if let PropName::Computed(e) = key {
-                                extract_side_effects_to(to, e.expr);
+                                if e.expr.may_have_side_effects(self) {
+                                    return true;
+                                }
                             }
 
-                            extract_side_effects_to(to, value)
+                            value.may_have_side_effects(self)
                         }
                         Prop::Getter(GetterProp { key, .. })
                         | Prop::Setter(SetterProp { key, .. })
                         | Prop::Method(MethodProp { key, .. }) => {
                             if let PropName::Computed(e) = key {
-                                extract_side_effects_to(to, e.expr)
+                                e.expr.may_have_side_effects(self)
+                            } else {
+                                false
                             }
                         }
                         Prop::Assign(..) => {
                             unreachable!("assign property in object literal is not a valid syntax")
                         }
                     },
-                    _ => unreachable!(),
-                })
+                    PropOrSpread::Spread(SpreadElement { .. }) => {
+                        has_spread = true;
+                        true
+                    }
+                });
+
+                if has_spread {
+                    to.push(Box::new(Expr::Object(ObjectLit { span, props })))
+                } else {
+                    props.into_iter().for_each(|prop| match prop {
+                        PropOrSpread::Prop(node) => match *node {
+                            Prop::Shorthand(..) => {}
+                            Prop::KeyValue(KeyValueProp { key, value }) => {
+                                if let PropName::Computed(e) = key {
+                                    self.extract_side_effects_to(to, *e.expr);
+                                }
+
+                                self.extract_side_effects_to(to, *value)
+                            }
+                            Prop::Getter(GetterProp { key, .. })
+                            | Prop::Setter(SetterProp { key, .. })
+                            | Prop::Method(MethodProp { key, .. }) => {
+                                if let PropName::Computed(e) = key {
+                                    self.extract_side_effects_to(to, *e.expr)
+                                }
+                            }
+                            Prop::Assign(..) => {
+                                unreachable!(
+                                    "assign property in object literal is not a valid syntax"
+                                )
+                            }
+                        },
+                        _ => unreachable!(),
+                    })
+                }
             }
+
+            Expr::Array(ArrayLit { elems, .. }) => {
+                elems.into_iter().flatten().fold(to, |v, e| {
+                    self.extract_side_effects_to(v, *e.expr);
+
+                    v
+                });
+            }
+
+            Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
+            Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
+            Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
+
+            Expr::JSXMember(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXFragment(..) => to.push(Box::new(expr)),
+
+            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. }) => {
+                self.extract_side_effects_to(to, *expr)
+            }
+            Expr::OptChain(OptChainExpr { base: child, .. }) => {
+                self.extract_side_effects_to(to, child.into())
+            }
+
+            Expr::Invalid(..) => unreachable!(),
         }
-
-        Expr::Array(ArrayLit { elems, .. }) => {
-            elems.into_iter().flatten().fold(to, |v, e| {
-                extract_side_effects_to(v, e.expr);
-
-                v
-            });
-        }
-
-        Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
-        Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
-        Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
-
-        Expr::JSXMember(..)
-        | Expr::JSXNamespacedName(..)
-        | Expr::JSXEmpty(..)
-        | Expr::JSXElement(..)
-        | Expr::JSXFragment(..) => to.push(Box::new(expr)),
-
-        Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-        | Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { expr, .. }) => extract_side_effects_to(to, expr),
-        Expr::OptChain(OptChainExpr { base: child, .. }) => {
-            extract_side_effects_to(to, Box::new(child.into()))
-        }
-
-        Expr::Invalid(..) => unreachable!(),
     }
 }
 

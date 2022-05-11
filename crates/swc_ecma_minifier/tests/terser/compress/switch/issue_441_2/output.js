@@ -1,2 +1,2 @@
-foo;
+foo, bar, fall, baz;
 qux();

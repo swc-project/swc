@@ -27,7 +27,7 @@ where
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        let cost = negate_cost(expr, is_ret_val_ignored, is_ret_val_ignored);
+        let cost = negate_cost(&self.expr_ctx, expr, is_ret_val_ignored, is_ret_val_ignored);
         if cost >= 0 {
             return false;
         }

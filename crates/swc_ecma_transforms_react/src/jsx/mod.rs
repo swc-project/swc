@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
+    drop_span, member_expr, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -1038,7 +1038,7 @@ where
                     ))),
                     is_type_only: false,
                 });
-                prepend(
+                prepend_stmt(
                     &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
@@ -1114,7 +1114,7 @@ where
 
                 let value = format!("{}/{}", self.import_source, jsx_runtime);
 
-                prepend(
+                prepend_stmt(
                     &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,

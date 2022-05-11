@@ -1,1 +1,1 @@
-new Date < A || C;
+new Date < A ? B : C;

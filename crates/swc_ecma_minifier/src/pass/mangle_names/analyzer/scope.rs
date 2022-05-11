@@ -1,7 +1,7 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
-use swc_ecma_utils::Id;
+use swc_ecma_ast::Id;
 use tracing::debug;
 
 use crate::util::base54;

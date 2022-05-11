@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
-    prepend,
+    prepend_stmt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -96,13 +96,13 @@ impl VisitMut for Arrow {
                     if let Some(this_id) = this_id {
                         init_this(stmts, &this_id)
                     }
-                    prepend(stmts, stmt);
+                    prepend_stmt(stmts, stmt);
                 }
             } else {
                 let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
                 if let Some(stmt) = decl {
-                    prepend(stmts, stmt);
+                    prepend_stmt(stmts, stmt);
                 }
             }
         }
@@ -179,7 +179,7 @@ impl VisitMut for Arrow {
         let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend(stmts, ModuleItem::Stmt(stmt));
+            prepend_stmt(stmts, ModuleItem::Stmt(stmt));
         }
     }
 
@@ -191,7 +191,7 @@ impl VisitMut for Arrow {
         let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
         if let Some(stmt) = decl {
-            prepend(stmts, stmt);
+            prepend_stmt(stmts, stmt);
         }
     }
 }

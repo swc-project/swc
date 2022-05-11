@@ -37,8 +37,8 @@ impl Pure<'_> {
             _ => return,
         }
 
-        let lls = l_l.as_string();
-        let rls = r_l.as_string();
+        let lls = l_l.as_pure_string(&self.expr_ctx);
+        let rls = r_l.as_pure_string(&self.expr_ctx);
 
         if let (Known(lls), Known(rls)) = (lls, rls) {
             self.changed = true;
@@ -385,8 +385,11 @@ impl Pure<'_> {
 
                 if let Value::Known(Type::Str) = type_of_second {
                     if let Value::Known(Type::Str) = type_of_third {
-                        if let Value::Known(second_str) = left.right.as_string() {
-                            if let Value::Known(third_str) = bin.right.as_string() {
+                        if let Value::Known(second_str) = left.right.as_pure_string(&self.expr_ctx)
+                        {
+                            if let Value::Known(third_str) =
+                                bin.right.as_pure_string(&self.expr_ctx)
+                            {
                                 let new_str = format!("{}{}", second_str, third_str);
                                 let left_span = left.span;
 

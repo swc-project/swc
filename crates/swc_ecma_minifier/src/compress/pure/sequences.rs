@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, ExprFactory};
+use swc_ecma_utils::ExprFactory;
 
 use super::Pure;
 
@@ -167,7 +167,11 @@ impl Pure<'_> {
                 }) = &mut **b_callee
                 {
                     //
-                    if !b_callee_obj.is_ident_ref_to(var_name.sym.clone()) {
+                    if let Expr::Ident(b_callee_obj) = &**b_callee_obj {
+                        if b_callee_obj.to_id() != var_name.to_id() {
+                            continue;
+                        }
+                    } else {
                         continue;
                     }
 

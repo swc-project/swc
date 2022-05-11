@@ -7,9 +7,9 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, default_constructor, prepend, private_ident,
-    prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory,
-    IdentExt,
+    alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
+    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined,
+    ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -252,7 +252,7 @@ impl Fold for Decorators {
         self.is_in_strict = old_strict;
 
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut buf,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

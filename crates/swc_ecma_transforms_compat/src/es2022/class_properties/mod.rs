@@ -3,6 +3,7 @@
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::Comments,
+    errors::HANDLER,
     util::take::Take,
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -12,8 +13,8 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    is_literal, prepend, private_ident, quote_ident, replace_ident, undefined, ExprFactory,
-    ModuleItemLike, StmtLike, HANDLER,
+    is_literal, prepend_stmt, private_ident, quote_ident, replace_ident, undefined, ExprFactory,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -80,7 +81,7 @@ struct ClassExtra {
 impl ClassExtra {
     fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -93,7 +94,7 @@ impl ClassExtra {
         }
 
         if !self.lets.is_empty() {
-            prepend(
+            prepend_stmt(
                 stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

@@ -54,7 +54,6 @@ collapse_vars/issue_2187_2/input.js
 collapse_vars/issue_2203_2/input.js
 collapse_vars/issue_2203_4/input.js
 collapse_vars/issue_2250_1/input.js
-collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2298/input.js
 collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js
@@ -465,7 +464,6 @@ properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dont_mangle_computed_property_1/input.js
 properties/dont_mangle_computed_property_2/input.js
-properties/evaluate_array_length/input.js
 properties/issue_2208_1/input.js
 properties/issue_2208_3/input.js
 properties/issue_2208_4/input.js
@@ -510,7 +508,6 @@ properties/prop_side_effects_2/input.js
 properties/sub_properties/input.js
 properties/unsafe_methods_regex/input.js
 pure_funcs/arithmetic/input.js
-pure_funcs/array/input.js
 pure_funcs/babel/input.js
 pure_funcs/boolean_and/input.js
 pure_funcs/boolean_or/input.js

@@ -1,7 +1,9 @@
-use swc_common::{chain, Mark};
+use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms_base::resolver;
+use swc_ecma_utils::ExprCtx;
+use swc_ecma_visit::as_folder;
 
-use super::{super::expr_simplifier, dead_branch_remover};
+use super::super::expr_simplifier;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
@@ -14,7 +16,15 @@ macro_rules! test_stmt {
                 chain!(
                     resolver(unresolved_mark, top_level_mark, false),
                     expr_simplifier(top_level_mark, Default::default()),
-                    dead_branch_remover(top_level_mark)
+                    as_folder(super::Remover {
+                        changed: false,
+                        normal_block: Default::default(),
+                        expr_ctx: ExprCtx {
+                            unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+                            // This is hack
+                            is_unresolved_ref_safe: true,
+                        },
+                    })
                 )
             },
             $l,

@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;
@@ -78,7 +78,7 @@ impl Visit for Preserver {
                 self.preserved.insert(f.ident.to_id());
             }
             Decl::Var(v) => {
-                let ids: Vec<Id> = find_ids(&v.decls);
+                let ids: Vec<Id> = find_pat_ids(&v.decls);
                 self.preserved.extend(ids);
             }
             _ => {}

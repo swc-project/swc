@@ -7,8 +7,8 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
-    quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, prepend_stmt, private_ident, prop_name_to_expr,
+    quote_expr, quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -375,7 +375,7 @@ where
                     ..
                 })) => {
                     if let Some(use_strict) = stmts.pop() {
-                        prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
+                        prepend_stmt(&mut function.body.as_mut().unwrap().stmts, use_strict);
                     }
                     function.span = span;
                     return Expr::Fn(FnExpr {
@@ -593,7 +593,7 @@ where
                     });
                 }
                 if !vars.is_empty() {
-                    prepend(
+                    prepend_stmt(
                         &mut body,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
@@ -663,7 +663,7 @@ where
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
 
         if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
-            prepend(
+            prepend_stmt(
                 &mut stmts,
                 Lit::Str(Str {
                     span: DUMMY_SP,
@@ -734,7 +734,7 @@ where
         body.visit_mut_with(&mut folder);
 
         if let Some(mark) = folder.this_alias_mark {
-            prepend(
+            prepend_stmt(
                 &mut body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -751,7 +751,7 @@ where
         }
 
         if !vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 &mut body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -915,7 +915,7 @@ where
             m.function.visit_mut_with(&mut folder);
 
             if let Some(mark) = folder.this_alias_mark {
-                prepend(
+                prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -932,7 +932,7 @@ where
             }
 
             if !vars.is_empty() {
-                prepend(
+                prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -1072,7 +1072,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     }
     .into_stmt();
 
-    prepend(c, class_call_check)
+    prepend_stmt(c, class_call_check)
 }
 
 /// Returns true if no `super` is used before `super()` call.

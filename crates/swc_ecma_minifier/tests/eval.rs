@@ -9,7 +9,6 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
@@ -170,31 +169,33 @@ impl VisitMut for PartialInliner {
 
         if let Some(evaluator) = self.eval.as_mut() {
             if let Expr::TaggedTpl(tt) = e {
-                if tt.tag.is_ident_ref_to("css".into()) {
-                    let res = evaluator.eval_tpl(&tt.tpl);
+                if let Expr::Ident(ref tag) = &*tt.tag {
+                    if &*tag.sym == "css" {
+                        let res = evaluator.eval_tpl(&tt.tpl);
 
-                    let res = match res {
-                        Some(v) => v,
-                        None => return,
-                    };
+                        let res = match res {
+                            Some(v) => v,
+                            None => return,
+                        };
 
-                    match res {
-                        EvalResult::Lit(Lit::Str(s)) => {
-                            let el = TplElement {
-                                span: s.span,
-                                tail: true,
-                                // TODO possible bug for quotes
-                                raw: s.value.clone(),
-                                cooked: Some(s.value),
-                            };
-                            tt.tpl = Tpl {
-                                span: el.span,
-                                exprs: Default::default(),
-                                quasis: vec![el],
-                            };
-                        }
-                        _ => {
-                            unreachable!()
+                        match res {
+                            EvalResult::Lit(Lit::Str(s)) => {
+                                let el = TplElement {
+                                    span: s.span,
+                                    tail: true,
+                                    // TODO possible bug for quotes
+                                    raw: s.value.clone(),
+                                    cooked: Some(s.value),
+                                };
+                                tt.tpl = Tpl {
+                                    span: el.span,
+                                    exprs: Default::default(),
+                                    quasis: vec![el],
+                                };
+                            }
+                            _ => {
+                                unreachable!()
+                            }
                         }
                     }
                 }

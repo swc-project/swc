@@ -11,7 +11,7 @@ use swc_ecma_transforms_base::{
     helpers::{inject_helpers, HELPERS},
     hygiene::hygiene,
 };
-use swc_ecma_utils::{contains_top_level_await, find_ids, private_ident, ExprFactory};
+use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
@@ -180,7 +180,7 @@ where
                                     ))));
                                 }
                                 Decl::Var(decl) => {
-                                    let ids: Vec<Ident> = find_ids(decl);
+                                    let ids: Vec<Ident> = find_pat_ids(decl);
                                     props.extend(
                                         ids.into_iter()
                                             .map(Prop::Shorthand)
