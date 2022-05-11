@@ -270,6 +270,12 @@ impl Minifier {
                 | (Namespace::HTML, "base", "target", "_self")
                 | (Namespace::HTML, "canvas", "height", "150")
                 | (Namespace::HTML, "canvas", "width", "300")
+                | (Namespace::HTML, "col", "span", "1")
+                | (Namespace::HTML, "colgroup", "span", "1")
+                | (Namespace::HTML, "td", "colspan", "1")
+                | (Namespace::HTML, "td", "rowspan", "1")
+                | (Namespace::HTML, "th", "colspan", "1")
+                | (Namespace::HTML, "th", "rowspan", "1")
         )
     }
 
