@@ -162,7 +162,7 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
 
 static COMMA_SEPARATED_ATTRIBUTES: &[&str] = &["srcset", "sizes"];
 
-static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &["class"];
+static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &["class", "rel"];
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
