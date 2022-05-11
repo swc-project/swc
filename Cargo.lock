@@ -3165,7 +3165,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.100.2"
+version = "0.100.3"
 dependencies = [
  "bitflags",
  "lexical",
