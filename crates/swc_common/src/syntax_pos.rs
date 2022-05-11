@@ -992,6 +992,12 @@ impl BytePos {
     pub const fn is_reserved_for_comments(self) -> bool {
         self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
     }
+
+    /// Returns true if this is synthesized and has no relevant input source
+    /// code.
+    pub const fn is_dummy(self) -> bool {
+        self.0 == 0
+    }
 }
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
