@@ -20,6 +20,9 @@
 - **(es/minifier)** Preserve more `this` (#4599) ([859dc44](https://github.com/swc-project/swc/commit/859dc440b43c0dbd17ef8cee2998de3ce8c009a0))
 
 
+- **(es/utils)** Fix wrong apis (#4604) ([6a97c7b](https://github.com/swc-project/swc/commit/6a97c7bef8a1f846bfe34678fd0714b8fdcb56a5))
+
+
 - **(html/parser)** Fix bugs (#4592) ([7166dbf](https://github.com/swc-project/swc/commit/7166dbf5a626170f36e9282dfc625d1ace781511))
 
 ### Features

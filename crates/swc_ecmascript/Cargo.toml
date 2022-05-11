@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecmascript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.154.2"
+version = "0.155.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -40,11 +40,11 @@ typescript = ["typescript-parser", "swc_ecma_transforms/typescript"]
 swc_ecma_ast = {version = "0.77.2", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.106.1", path = "../swc_ecma_codegen", optional = true}
 swc_ecma_dep_graph = {version = "0.75.1", path = "../swc_ecma_dep_graph", optional = true}
-swc_ecma_minifier = {version = "0.111.7", path = "../swc_ecma_minifier", optional = true}
+swc_ecma_minifier = {version = "0.112.0", path = "../swc_ecma_minifier", optional = true}
 swc_ecma_parser = {version = "0.103.1", path = "../swc_ecma_parser", optional = true, default-features = false}
-swc_ecma_preset_env = {version = "0.126.1", path = "../swc_ecma_preset_env", optional = true}
-swc_ecma_transforms = {version = "0.151.1", path = "../swc_ecma_transforms", optional = true}
-swc_ecma_utils = {version = "0.83.2", path = "../swc_ecma_utils", optional = true}
+swc_ecma_preset_env = {version = "0.127.0", path = "../swc_ecma_preset_env", optional = true}
+swc_ecma_transforms = {version = "0.152.0", path = "../swc_ecma_transforms", optional = true}
+swc_ecma_utils = {version = "0.84.0", path = "../swc_ecma_utils", optional = true}
 swc_ecma_visit = {version = "0.63.1", path = "../swc_ecma_visit", optional = true}
 
 [dev-dependencies]
