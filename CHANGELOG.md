@@ -5,6 +5,9 @@
 
 
 
+- **(es/config)** Merge `jsc.transform` correctly (#4615) ([3b2b8c4](https://github.com/swc-project/swc/commit/3b2b8c4512709b9908a113af83f30e4fa97b9c49))
+
+
 - **(es/fixer)** Handle `new yield` (#4598) ([d611d54](https://github.com/swc-project/swc/commit/d611d543eaff2a017c9742137a4594835aeb67f4))
 
 
