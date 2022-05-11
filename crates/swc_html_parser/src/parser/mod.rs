@@ -39,14 +39,6 @@ enum AdjustAttributes {
     Svg,
 }
 
-// TODO should not be public
-#[derive(Debug, Clone)]
-pub struct TokenAndInfo {
-    pub span: Span,
-    pub acknowledged: bool,
-    pub token: Token,
-}
-
 #[derive(Debug, Clone)]
 enum InsertionMode {
     Initial,
