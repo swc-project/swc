@@ -1,6 +1,6 @@
 
   x Unexpected end of file
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png
-   : ^
+ 1 | a { prop: url(foo.png   
+   :                         ^
    `----

@@ -6,7 +6,7 @@
    `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
- 1 | .style {
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:3:3]
+ 3 |  
    : ^
    `----

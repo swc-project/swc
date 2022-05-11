@@ -6,7 +6,7 @@
    `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:13]
+ 2 |  
    : ^
    `----
