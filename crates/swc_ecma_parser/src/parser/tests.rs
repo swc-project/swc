@@ -88,7 +88,7 @@ fn issue_1813() {
 fn parse_module_export_named_span() {
     let m = module("export function foo() {}");
     if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {
-        assert_eq!(span.lo, BytePos(0));
+        assert_eq!(span.lo, BytePos(1));
     } else {
         panic!("expected ExportDecl");
     }
@@ -101,8 +101,8 @@ fn parse_module_export_default_fn_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(0));
-        assert_eq!(span.hi, BytePos(32));
+        assert_eq!(span.lo, BytePos(1));
+        assert_eq!(span.hi, BytePos(33));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -115,8 +115,8 @@ fn parse_module_export_default_async_fn_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(0));
-        assert_eq!(span.hi, BytePos(38));
+        assert_eq!(span.lo, BytePos(1));
+        assert_eq!(span.hi, BytePos(39));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -129,8 +129,8 @@ fn parse_module_export_default_class_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(0));
-        assert_eq!(span.hi, BytePos(27));
+        assert_eq!(span.lo, BytePos(1));
+        assert_eq!(span.hi, BytePos(28));
     } else {
         panic!("expected ExportDefaultDecl");
     }
