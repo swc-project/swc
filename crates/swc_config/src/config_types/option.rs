@@ -14,6 +14,10 @@ where
     pub fn into_inner(self) -> Option<T> {
         self.0
     }
+
+    pub fn as_ref(&self) -> Option<&T> {
+        self.0.as_ref()
+    }
 }
 
 impl<T> Merge for MergingOption<T>
