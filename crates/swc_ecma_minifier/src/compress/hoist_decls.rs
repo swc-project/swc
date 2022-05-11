@@ -1,6 +1,6 @@
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
+use swc_ecma_utils::{find_ids, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
