@@ -175,8 +175,8 @@ fn test262_lexer_error_0001() {
                 },
                 had_line_break: true,
                 span: Span {
-                    lo: BytePos(0),
-                    hi: BytePos(4),
+                    lo: BytePos(1),
+                    hi: BytePos(5),
                     ctxt: Default::default(),
                 }
             },
@@ -283,8 +283,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(3),
+                        lo: BytePos(2),
+                        hi: BytePos(4),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
@@ -303,8 +303,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(4),
+                        lo: BytePos(2),
+                        hi: BytePos(5),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
@@ -323,8 +323,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(3),
+                        lo: BytePos(2),
+                        hi: BytePos(4),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
