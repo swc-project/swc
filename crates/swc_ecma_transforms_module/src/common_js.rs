@@ -12,8 +12,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
-    DestructuringFinder, ExprFactory, IsDirective,
+    member_expr, private_ident, quote_ident, quote_str, var::VarCollector, DestructuringFinder,
+    ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
