@@ -1,0 +1,22 @@
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <option>
+|         "foo"
+|       <option>
+|         "bar"
+|     "
+"
+|     <select>
+|       <option>
+|         "foo"
+|       <option>
+|         "bar"
+|     "
+"
+|     <select>
+|       <option>
+|         "foo"
+|     "
+"

@@ -1,0 +1,87 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     "
+
+"
+|     <h1>
+|       "HTML Entity Example"
+|     "
+
+"
+|     <div>
+|       "®"
+|     "
+"
+|     <div>
+|       "reg"
+|     "
+
+"
+|     <div>
+|       "&#q;"
+|     "
+"
+|     <div>
+|       "&#qq;"
+|     "
+"
+|     <div>
+|       "&#qqq;"
+|     "
+
+"
+|     <div>
+|       "&#xq;"
+|     "
+"
+|     <div>
+|       "&#xqq;"
+|     "
+"
+|     <div>
+|       "&#xqqq;"
+|     "
+
+"
+|     <div>
+|       "
+    €  0x20AC  EURO SIGN (€)
+    ‚  0x201A  SINGLE LOW-9 QUOTATION MARK (‚)
+    ƒ  0x0192  LATIN SMALL LETTER F WITH HOOK (ƒ)
+    „  0x201E  DOUBLE LOW-9 QUOTATION MARK („)
+    …  0x2026  HORIZONTAL ELLIPSIS (…)
+    †  0x2020  DAGGER (†)
+    ‡  0x2021  DOUBLE DAGGER (‡)
+    ˆ  0x02C6  MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    ‰  0x2030  PER MILLE SIGN (‰)
+    Š  0x0160  LATIN CAPITAL LETTER S WITH CARON (Š)
+    ‹  0x2039  SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    Œ  0x0152  LATIN CAPITAL LIGATURE OE (Œ)
+    Ž  0x017D  LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    ‘  0x2018  LEFT SINGLE QUOTATION MARK (‘)
+    ’  0x2019  RIGHT SINGLE QUOTATION MARK (’)
+    “  0x201C  LEFT DOUBLE QUOTATION MARK (“)
+    ”  0x201D  RIGHT DOUBLE QUOTATION MARK (”)
+    •  0x2022  BULLET (•)
+    –  0x2013  EN DASH (–)
+    —  0x2014  EM DASH (—)
+    ˜  0x02DC  SMALL TILDE (˜)
+    ™  0x2122  TRADE MARK SIGN (™)
+    š  0x0161  LATIN SMALL LETTER S WITH CARON (š)
+    ›  0x203A  SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    œ  0x0153  LATIN SMALL LIGATURE OE (œ)
+    ž  0x017E  LATIN SMALL LETTER Z WITH CARON (ž)
+    Ÿ  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+"
+|     "
+
+FOOºR
+FOO䆺R
+FOOAZOO
+
+
+
+
+"
