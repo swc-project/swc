@@ -16,8 +16,10 @@ use crate::{
 
 fn sp(r: Range<usize>) -> Span {
     Span {
-        lo: BytePos(r.start as u32),
-        hi: BytePos(r.end as u32),
+        // +1 as bytepos starts at 1
+        lo: BytePos((r.start + 1) as u32),
+        // +1 as bytepos starts at 1
+        hi: BytePos((r.end + 1) as u32),
         ctxt: Default::default(),
     }
 }
