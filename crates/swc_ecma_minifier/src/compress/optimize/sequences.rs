@@ -5,8 +5,8 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, prepend_stmts, undefined, ExprExt,
-    Id, IdentUsageFinder, StmtLike, UsageFinder,
+    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
+    StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};

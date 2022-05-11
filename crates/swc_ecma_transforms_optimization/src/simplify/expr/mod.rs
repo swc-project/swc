@@ -9,9 +9,9 @@ use swc_common::{
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
-    alias_ident_for, extract_side_effects_to, ident::IdentLike, is_literal, prepend, prepend_stmt,
-    preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    alias_ident_for, is_literal, prepend_stmt, prop_name_eq, to_int32, undefined, BoolType,
+    ExprCtx, ExprExt, NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType,
+    Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
