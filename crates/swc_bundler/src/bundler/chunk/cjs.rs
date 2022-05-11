@@ -103,7 +103,7 @@ fn wrap_module(
 
         let mut from = HashMap::default();
         from.insert(("module".into(), unresolved_ctxt), local_ctxt);
-        from.insert(("export".into(), unresolved_ctxt), local_ctxt);
+        from.insert(("exports".into(), unresolved_ctxt), local_ctxt);
 
         dep.visit_mut_with(&mut Remapper { vars: from })
     }
