@@ -477,6 +477,9 @@ pub struct ExprCtx {
     /// global objects like `Object` or `Math`, and when those are not shadowed
     /// by a local declaration.
     pub unresolved_ctxt: SyntaxContext,
+
+    /// True for argument of `typeof`.
+    pub is_unresolved_ref_safe: bool,
 }
 
 /// Extension methods for [Expr].
@@ -1189,6 +1192,10 @@ pub trait ExprExt {
 
         match self.as_expr() {
             Expr::Ident(i) => {
+                if ctx.is_unresolved_ref_safe {
+                    return false;
+                }
+
                 if i.span.ctxt == ctx.unresolved_ctxt {
                     !matches!(
                         &*i.sym,
