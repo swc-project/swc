@@ -171,6 +171,8 @@ impl Pure<'_> {
                         if b_callee_obj.to_id() != var_name.to_id() {
                             continue;
                         }
+                    } else {
+                        continue;
                     }
 
                     let span = a_assign.span.with_ctxt(SyntaxContext::empty());
