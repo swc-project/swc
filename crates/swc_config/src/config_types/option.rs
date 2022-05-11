@@ -39,7 +39,7 @@ where
         match other.0 {
             Some(other) => {
                 if self.0.is_none() {
-                    *self = Default::default();
+                    self.0 = Some(Default::default());
                 }
 
                 self.0.as_mut().unwrap().merge(other);
