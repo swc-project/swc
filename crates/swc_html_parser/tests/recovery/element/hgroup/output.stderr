@@ -1,6 +1,2 @@
 
   x Unexpected token
-   ,-[$DIR/tests/recovery/element/hgroup/input.html:1:1]
- 1 | <!doctype html><p>foo<hgroup>bar<p>baz
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----

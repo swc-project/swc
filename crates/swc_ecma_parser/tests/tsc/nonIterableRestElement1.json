@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 29,
+    "start": 1,
+    "end": 30,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 11,
+        "start": 1,
+        "end": 12,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 10,
+            "start": 5,
+            "end": 11,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "c",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 8,
-              "end": 10,
+              "start": 9,
+              "end": 11,
               "ctxt": 0
             },
             "properties": []
@@ -50,43 +50,43 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 12,
-        "end": 29,
+        "start": 13,
+        "end": 30,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 12,
-          "end": 28,
+          "start": 13,
+          "end": 29,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "ArrayPattern",
           "span": {
-            "start": 12,
-            "end": 18,
+            "start": 13,
+            "end": 19,
             "ctxt": 0
           },
           "elements": [
             {
               "type": "RestElement",
               "span": {
-                "start": 16,
-                "end": 17,
+                "start": 17,
+                "end": 18,
                 "ctxt": 0
               },
               "rest": {
-                "start": 13,
-                "end": 16,
+                "start": 14,
+                "end": 17,
                 "ctxt": 0
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
-                  "start": 16,
-                  "end": 17,
+                  "start": 17,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "value": "c",
@@ -102,8 +102,8 @@
         "right": {
           "type": "ArrayExpression",
           "span": {
-            "start": 21,
-            "end": 28,
+            "start": 22,
+            "end": 29,
             "ctxt": 0
           },
           "elements": [
@@ -112,8 +112,8 @@
               "expression": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 22,
-                  "end": 24,
+                  "start": 23,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "value": "",
@@ -125,8 +125,8 @@
               "expression": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 26,
-                  "end": 27,
+                  "start": 27,
+                  "end": 28,
                   "ctxt": 0
                 },
                 "value": 0.0,

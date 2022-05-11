@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 35,
+    "start": 1,
+    "end": 36,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 35,
+        "end": 36,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 35,
+            "end": 36,
             "ctxt": 0
           },
           "tagName": "head",
@@ -32,8 +32,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 35,
+                "start": 1,
+                "end": 36,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -43,8 +43,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 10,
-                    "end": 35,
+                    "start": 11,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -54,8 +54,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 20,
-                        "end": 27,
+                        "start": 21,
+                        "end": 28,
                         "ctxt": 0
                       },
                       "tagName": "tbody",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 27,
-                        "end": 35,
+                        "start": 28,
+                        "end": 36,
                         "ctxt": 0
                       },
                       "tagName": "select",
@@ -90,7 +90,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 35,
+            "end": 36,
             "ctxt": 0
           },
           "tagName": "body",

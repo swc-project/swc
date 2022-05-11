@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 778,
+    "start": 1,
+    "end": 779,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 767,
+        "end": 768,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 167,
+            "end": 168,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 767,
+            "end": 768,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 167,
+                "start": 1,
+                "end": 168,
                 "ctxt": 0
               },
               "tagName": "popup-info",
@@ -83,8 +83,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 180,
-                "end": 182,
+                "start": 181,
+                "end": 183,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -92,8 +92,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 182,
-                "end": 213,
+                "start": 183,
+                "end": 214,
                 "ctxt": 0
               },
               "tagName": "custom-square",
@@ -130,8 +130,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 229,
-                "end": 231,
+                "start": 230,
+                "end": 232,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -139,8 +139,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 231,
-                "end": 257,
+                "start": 232,
+                "end": 258,
                 "ctxt": 0
               },
               "tagName": "app-drawer",
@@ -177,8 +177,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 270,
-                "end": 272,
+                "start": 271,
+                "end": 273,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -186,8 +186,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 272,
-                "end": 504,
+                "start": 273,
+                "end": 505,
                 "ctxt": 0
               },
               "tagName": "share-buttons",
@@ -197,8 +197,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 287,
-                    "end": 292,
+                    "start": 288,
+                    "end": 293,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -206,8 +206,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 292,
-                    "end": 343,
+                    "start": 293,
+                    "end": 344,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -230,8 +230,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 322,
-                        "end": 343,
+                        "start": 323,
+                        "end": 344,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -254,8 +254,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 336,
-                            "end": 343,
+                            "start": 337,
+                            "end": 344,
                             "ctxt": 0
                           },
                           "value": "Twitter"
@@ -269,8 +269,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 363,
-                    "end": 368,
+                    "start": 364,
+                    "end": 369,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -278,8 +278,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 368,
-                    "end": 415,
+                    "start": 369,
+                    "end": 416,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -302,8 +302,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 393,
-                        "end": 415,
+                        "start": 394,
+                        "end": 416,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -326,8 +326,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 407,
-                            "end": 415,
+                            "start": 408,
+                            "end": 416,
                             "ctxt": 0
                           },
                           "value": "Facebook"
@@ -341,8 +341,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 435,
-                    "end": 440,
+                    "start": 436,
+                    "end": 441,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -350,8 +350,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 440,
-                    "end": 483,
+                    "start": 441,
+                    "end": 484,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -374,8 +374,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 467,
-                        "end": 483,
+                        "start": 468,
+                        "end": 484,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -398,8 +398,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 481,
-                            "end": 483,
+                            "start": 482,
+                            "end": 484,
                             "ctxt": 0
                           },
                           "value": "G+"
@@ -413,8 +413,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 503,
-                    "end": 504,
+                    "start": 504,
+                    "end": 505,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -425,8 +425,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 520,
-                "end": 522,
+                "start": 521,
+                "end": 523,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -434,8 +434,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 522,
-                "end": 579,
+                "start": 523,
+                "end": 580,
                 "ctxt": 0
               },
               "tagName": "x-foo-with-markup",
@@ -445,8 +445,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 541,
-                    "end": 546,
+                    "start": 542,
+                    "end": 547,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -454,8 +454,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 546,
-                    "end": 574,
+                    "start": 547,
+                    "end": 575,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -465,8 +465,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 549,
-                        "end": 574,
+                        "start": 550,
+                        "end": 575,
                         "ctxt": 0
                       },
                       "value": "I'm an x-foo-with-markup!"
@@ -477,8 +477,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 578,
-                    "end": 579,
+                    "start": 579,
+                    "end": 580,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -489,8 +489,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 599,
-                "end": 601,
+                "start": 600,
+                "end": 602,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -498,8 +498,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 601,
-                "end": 767,
+                "start": 602,
+                "end": 768,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -522,8 +522,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 636,
-                    "end": 641,
+                    "start": 637,
+                    "end": 642,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -531,8 +531,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 641,
-                    "end": 681,
+                    "start": 642,
+                    "end": 682,
                     "ctxt": 0
                   },
                   "tagName": "style",
@@ -542,8 +542,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 648,
-                        "end": 681,
+                        "start": 649,
+                        "end": 682,
                         "ctxt": 0
                       },
                       "value": "\n        p { color: green; }\n    "
@@ -554,8 +554,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 689,
-                    "end": 694,
+                    "start": 690,
+                    "end": 695,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -563,8 +563,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 694,
-                    "end": 762,
+                    "start": 695,
+                    "end": 763,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -574,8 +574,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 697,
-                        "end": 762,
+                        "start": 698,
+                        "end": 763,
                         "ctxt": 0
                       },
                       "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
@@ -586,8 +586,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 766,
-                    "end": 767,
+                    "start": 767,
+                    "end": 768,
                     "ctxt": 0
                   },
                   "value": "\n"

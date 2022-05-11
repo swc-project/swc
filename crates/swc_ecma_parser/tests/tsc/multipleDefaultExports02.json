@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 58,
-    "end": 186,
+    "start": 59,
+    "end": 187,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 58,
-        "end": 92,
+        "start": 59,
+        "end": 93,
         "ctxt": 0
       },
       "decl": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 82,
-            "end": 85,
+            "start": 83,
+            "end": 86,
             "ctxt": 0
           },
           "value": "foo",
@@ -28,15 +28,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 73,
-          "end": 92,
+          "start": 74,
+          "end": 93,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 88,
-            "end": 92,
+            "start": 89,
+            "end": 93,
             "ctxt": 0
           },
           "stmts": []
@@ -50,8 +50,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 94,
-        "end": 128,
+        "start": 95,
+        "end": 129,
         "ctxt": 0
       },
       "decl": {
@@ -59,8 +59,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 118,
-            "end": 121,
+            "start": 119,
+            "end": 122,
             "ctxt": 0
           },
           "value": "bar",
@@ -69,15 +69,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 109,
-          "end": 128,
+          "start": 110,
+          "end": 129,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 124,
-            "end": 128,
+            "start": 125,
+            "end": 129,
             "ctxt": 0
           },
           "stmts": []
@@ -91,23 +91,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 150,
-        "end": 175,
+        "start": 151,
+        "end": 176,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 157,
-            "end": 163,
+            "start": 158,
+            "end": 164,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 157,
-              "end": 163,
+              "start": 158,
+              "end": 164,
               "ctxt": 0
             },
             "value": "Entity",
@@ -118,8 +118,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 169,
-          "end": 175,
+          "start": 170,
+          "end": 176,
           "ctxt": 0
         },
         "value": "./m1",
@@ -131,22 +131,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 177,
-        "end": 186,
+        "start": 178,
+        "end": 187,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 177,
-          "end": 185,
+          "start": 178,
+          "end": 186,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 177,
-            "end": 183,
+            "start": 178,
+            "end": 184,
             "ctxt": 0
           },
           "value": "Entity",

@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 28,
+    "start": 16,
+    "end": 29,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 15,
-        "end": 28,
+        "start": 16,
+        "end": 29,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 15,
-          "end": 27,
+          "start": 16,
+          "end": 28,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 19,
-            "end": 25,
+            "start": 20,
+            "end": 26,
             "ctxt": 0
           },
           "value": "Symbol",

@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 13,
+    "start": 1,
+    "end": 14,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 13,
+        "start": 1,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
-          "start": 0,
-          "end": 12,
+          "start": 1,
+          "end": 13,
           "ctxt": 0
         },
         "operator": "++",
@@ -25,15 +25,15 @@
         "argument": {
           "type": "NewExpression",
           "span": {
-            "start": 3,
-            "end": 12,
+            "start": 4,
+            "end": 13,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 10,
+              "start": 8,
+              "end": 11,
               "ctxt": 0
             },
             "value": "Foo",

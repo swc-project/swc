@@ -79,10 +79,6 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/table/broken-3/input.html:1:1]
- 1 | <!doctype html>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:3:1]
@@ -271,42 +267,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   
-  8 | |   <table>
-  9 | |       <table>
- 10 | |           <tr>
- 11 | |               <td>
- 12 | |                   Table
- 13 | |               </td>
- 14 | |           </tr>
- 15 | `->     </table>
-    `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   
-  8 | |   <table>
-  9 | |       <table>
- 10 | |           <tr>
- 11 | |               <td>
- 12 | |                   Table
- 13 | |               </td>
- 14 | |           </tr>
- 15 | `->     </table>
-    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/table/broken-3/input.html:10:9]

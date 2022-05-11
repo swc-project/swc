@@ -1,16 +1,16 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 30,
+    "start": 1,
+    "end": 31,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 0,
-        "end": 4,
+        "start": 1,
+        "end": 5,
         "ctxt": 0
       },
       "prelude": {
@@ -25,8 +25,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 0,
-          "end": 4,
+          "start": 1,
+          "end": 5,
           "ctxt": 0
         },
         "name": "{",
@@ -36,8 +36,8 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 6,
-        "end": 8,
+        "start": 7,
+        "end": 9,
         "ctxt": 0
       },
       "prelude": {
@@ -52,8 +52,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 6,
-          "end": 8,
+          "start": 7,
+          "end": 9,
           "ctxt": 0
         },
         "name": "{",
@@ -63,8 +63,8 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 10,
-        "end": 29,
+        "start": 11,
+        "end": 30,
         "ctxt": 0
       },
       "prelude": {
@@ -79,8 +79,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 10,
-          "end": 29,
+          "start": 11,
+          "end": 30,
           "ctxt": 0
         },
         "name": "{",
@@ -88,15 +88,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 16,
-              "end": 26,
+              "start": 17,
+              "end": 27,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 16,
-                "end": 21,
+                "start": 17,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "color",
@@ -106,8 +106,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 23,
-                  "end": 26,
+                  "start": 24,
+                  "end": 27,
                   "ctxt": 0
                 },
                 "value": "red",

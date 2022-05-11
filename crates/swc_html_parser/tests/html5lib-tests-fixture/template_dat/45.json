@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 45,
+    "start": 1,
+    "end": 46,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 30,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 7,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 29,
+            "start": 1,
+            "end": 30,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 6,
-                "end": 29,
+                "start": 7,
+                "end": 30,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
-                    "end": 20,
+                    "start": 17,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "tagName": "tr",
@@ -70,7 +70,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "tagName": "tr",
@@ -80,8 +80,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 25,
-                        "end": 29,
+                        "start": 26,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "tagName": "td",

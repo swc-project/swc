@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 86,
+    "start": 1,
+    "end": 87,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 0,
-        "end": 26,
+        "start": 1,
+        "end": 27,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 7,
-            "end": 12,
+            "start": 8,
+            "end": 13,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 12,
+              "start": 8,
+              "end": 13,
               "ctxt": 0
             },
             "value": "React",
@@ -36,8 +36,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 18,
-          "end": 25,
+          "start": 19,
+          "end": 26,
           "ctxt": 0
         },
         "value": "react",
@@ -49,8 +49,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 27,
-        "end": 86,
+        "start": 28,
+        "end": 87,
         "ctxt": 0
       },
       "kind": "const",
@@ -59,15 +59,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 33,
-            "end": 85,
+            "start": 34,
+            "end": 86,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 33,
-              "end": 37,
+              "start": 34,
+              "end": 38,
               "ctxt": 0
             },
             "value": "comp",
@@ -77,16 +77,16 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 40,
-              "end": 85,
+              "start": 41,
+              "end": 86,
               "ctxt": 0
             },
             "params": [],
             "body": {
               "type": "JSXElement",
               "span": {
-                "start": 46,
-                "end": 85,
+                "start": 47,
+                "end": 86,
                 "ctxt": 0
               },
               "opening": {
@@ -94,31 +94,31 @@
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 47,
-                    "end": 60,
+                    "start": 48,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "value": "amp-something",
                   "optional": false
                 },
                 "span": {
-                  "start": 46,
-                  "end": 85,
+                  "start": 47,
+                  "end": 86,
                   "ctxt": 0
                 },
                 "attributes": [
                   {
                     "type": "JSXAttribute",
                     "span": {
-                      "start": 61,
-                      "end": 82,
+                      "start": 62,
+                      "end": 83,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Identifier",
                       "span": {
-                        "start": 61,
-                        "end": 70,
+                        "start": 62,
+                        "end": 71,
                         "ctxt": 0
                       },
                       "value": "className",
@@ -127,8 +127,8 @@
                     "value": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 71,
-                        "end": 82,
+                        "start": 72,
+                        "end": 83,
                         "ctxt": 0
                       },
                       "value": "something",

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 51,
+    "start": 1,
+    "end": 52,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 50,
+        "start": 1,
+        "end": 51,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 2,
+          "end": 10,
           "ctxt": 0
         },
         "value": "top-left",
@@ -26,16 +26,16 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 9,
-          "end": 10,
+          "start": 10,
+          "end": 11,
           "ctxt": 0
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 9,
-              "end": 10,
+              "start": 10,
+              "end": 11,
               "ctxt": 0
             },
             "token": {
@@ -49,8 +49,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 10,
-          "end": 50,
+          "start": 11,
+          "end": 51,
           "ctxt": 0
         },
         "name": "{",
@@ -58,15 +58,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 16,
-              "end": 30,
+              "start": 17,
+              "end": 31,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 16,
-                "end": 23,
+                "start": 17,
+                "end": 24,
                 "ctxt": 0
               },
               "value": "content",
@@ -76,8 +76,8 @@
               {
                 "type": "String",
                 "span": {
-                  "start": 25,
-                  "end": 30,
+                  "start": 26,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -89,15 +89,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 36,
-              "end": 47,
+              "start": 37,
+              "end": 48,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 36,
-                "end": 41,
+                "start": 37,
+                "end": 42,
                 "ctxt": 0
               },
               "value": "color",
@@ -107,8 +107,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 43,
-                  "end": 47,
+                  "start": 44,
+                  "end": 48,
                   "ctxt": 0
                 },
                 "value": "blue",

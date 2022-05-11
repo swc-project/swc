@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 41,
+    "start": 1,
+    "end": 42,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 7,
+          "start": 7,
+          "end": 8,
           "ctxt": 0
         },
         "value": "D",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 11,
+        "start": 1,
+        "end": 12,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,8 +35,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 12,
-        "end": 41,
+        "start": 13,
+        "end": 42,
         "ctxt": 0
       },
       "kind": "var",
@@ -45,15 +45,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 16,
-            "end": 40,
+            "start": 17,
+            "end": 41,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 16,
-              "end": 17,
+              "start": 17,
+              "end": 18,
               "ctxt": 0
             },
             "value": "v",
@@ -65,16 +65,16 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 26,
-                "end": 27,
+                "start": 27,
+                "end": 28,
                 "ctxt": 0
               },
               "value": "C",
               "optional": false
             },
             "span": {
-              "start": 20,
-              "end": 40,
+              "start": 21,
+              "end": 41,
               "ctxt": 0
             },
             "decorators": [],
@@ -82,8 +82,8 @@
             "superClass": {
               "type": "Identifier",
               "span": {
-                "start": 36,
-                "end": 37,
+                "start": 37,
+                "end": 38,
                 "ctxt": 0
               },
               "value": "D",

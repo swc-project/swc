@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 51,
+    "start": 17,
+    "end": 52,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 29,
+          "start": 27,
+          "end": 30,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,30 +22,30 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 16,
-        "end": 51,
+        "start": 17,
+        "end": 52,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 32,
-          "end": 51,
+          "start": 33,
+          "end": 52,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 36,
-              "end": 41,
+              "start": 37,
+              "end": 42,
               "ctxt": 0
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
-                "start": 36,
-                "end": 41,
+                "start": 37,
+                "end": 42,
                 "ctxt": 0
               },
               "argument": null,
@@ -55,15 +55,15 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 44,
-              "end": 49,
+              "start": 45,
+              "end": 50,
               "ctxt": 0
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
-                "start": 44,
-                "end": 49,
+                "start": 45,
+                "end": 50,
                 "ctxt": 0
               },
               "argument": null,

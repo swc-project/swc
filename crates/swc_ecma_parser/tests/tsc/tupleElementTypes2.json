@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 37,
+    "start": 1,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 9,
-          "end": 10,
+          "start": 10,
+          "end": 11,
           "ctxt": 0
         },
         "value": "f",
@@ -23,24 +23,24 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 11,
-            "end": 32,
+            "start": 12,
+            "end": 33,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "ArrayPattern",
             "span": {
-              "start": 11,
-              "end": 32,
+              "start": 12,
+              "end": 33,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 12,
-                  "end": 13,
+                  "start": 13,
+                  "end": 14,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -50,8 +50,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 15,
-                  "end": 16,
+                  "start": 16,
+                  "end": 17,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -63,31 +63,31 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 17,
-                "end": 32,
+                "start": 18,
+                "end": 33,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
-                  "start": 19,
-                  "end": 32,
+                  "start": 20,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 20,
-                      "end": 26,
+                      "start": 21,
+                      "end": 27,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 20,
-                        "end": 26,
+                        "start": 21,
+                        "end": 27,
                         "ctxt": 0
                       },
                       "kind": "number"
@@ -96,16 +96,16 @@
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 28,
-                      "end": 31,
+                      "start": 29,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 28,
-                        "end": 31,
+                        "start": 29,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "kind": "any"
@@ -119,15 +119,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 0,
-        "end": 37,
+        "start": 1,
+        "end": 38,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 34,
-          "end": 37,
+          "start": 35,
+          "end": 38,
           "ctxt": 0
         },
         "stmts": []

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 46,
+    "start": 1,
+    "end": 47,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 46,
+        "start": 1,
+        "end": 47,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 2,
+          "end": 11,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 11,
-          "end": 15,
+          "start": 12,
+          "end": 16,
           "ctxt": 0
         },
         "value": "name",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 15,
-          "end": 46,
+          "start": 16,
+          "end": 47,
           "ctxt": 0
         },
         "name": "{",
@@ -45,16 +45,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 16,
-              "end": 31,
+              "start": 17,
+              "end": 32,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 16,
-                  "end": 20,
+                  "start": 17,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "value": "from",
@@ -64,8 +64,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 20,
-                "end": 31,
+                "start": 21,
+                "end": 32,
                 "ctxt": 0
               },
               "name": "{",
@@ -73,15 +73,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 21,
-                    "end": 30,
+                    "start": 22,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 21,
-                      "end": 26,
+                      "start": 22,
+                      "end": 27,
                       "ctxt": 0
                     },
                     "value": "color",
@@ -91,8 +91,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 27,
-                        "end": 30,
+                        "start": 28,
+                        "end": 31,
                         "ctxt": 0
                       },
                       "value": "red",
@@ -107,16 +107,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 31,
-              "end": 45,
+              "start": 32,
+              "end": 46,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 31,
-                  "end": 33,
+                  "start": 32,
+                  "end": 34,
                   "ctxt": 0
                 },
                 "value": "to",
@@ -126,8 +126,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 33,
-                "end": 45,
+                "start": 34,
+                "end": 46,
                 "ctxt": 0
               },
               "name": "{",
@@ -135,15 +135,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 34,
-                    "end": 44,
+                    "start": 35,
+                    "end": 45,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 34,
-                      "end": 39,
+                      "start": 35,
+                      "end": 40,
                       "ctxt": 0
                     },
                     "value": "color",
@@ -153,8 +153,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 40,
-                        "end": 44,
+                        "start": 41,
+                        "end": 45,
                         "ctxt": 0
                       },
                       "value": "blue",

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 26,
+    "start": 1,
+    "end": 27,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 25,
+        "start": 1,
+        "end": 26,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 5,
+          "start": 2,
+          "end": 6,
           "ctxt": 0
         },
         "value": "page",
@@ -27,8 +27,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 6,
-          "end": 25,
+          "start": 7,
+          "end": 26,
           "ctxt": 0
         },
         "name": "{",
@@ -36,15 +36,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 9,
-              "end": 22,
+              "start": 10,
+              "end": 23,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 9,
-                "end": 16,
+                "start": 10,
+                "end": 17,
                 "ctxt": 0
               },
               "value": "DISPLAY",
@@ -54,8 +54,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 18,
-                  "end": 22,
+                  "start": 19,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "value": "none",

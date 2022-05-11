@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 60,
-    "end": 923,
+    "start": 61,
+    "end": 924,
     "ctxt": 0
   },
   "body": [
     {
       "type": "SwitchStatement",
       "span": {
-        "start": 60,
-        "end": 104,
+        "start": 61,
+        "end": 105,
         "ctxt": 0
       },
       "discriminant": {
         "type": "StringLiteral",
         "span": {
-          "start": 68,
-          "end": 70,
+          "start": 69,
+          "end": 71,
           "ctxt": 0
         },
         "value": "",
@@ -27,15 +27,15 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 78,
-            "end": 102,
+            "start": 79,
+            "end": 103,
             "ctxt": 0
           },
           "test": {
             "type": "StringLiteral",
             "span": {
-              "start": 83,
-              "end": 86,
+              "start": 84,
+              "end": 87,
               "ctxt": 0
             },
             "value": "a",
@@ -45,8 +45,8 @@
             {
               "type": "BreakStatement",
               "span": {
-                "start": 96,
-                "end": 102,
+                "start": 97,
+                "end": 103,
                 "ctxt": 0
               },
               "label": null
@@ -58,15 +58,15 @@
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 106,
-        "end": 159,
+        "start": 107,
+        "end": 160,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 106,
-          "end": 109,
+          "start": 107,
+          "end": 110,
           "ctxt": 0
         },
         "value": "ONE",
@@ -75,15 +75,15 @@
       "body": {
         "type": "SwitchStatement",
         "span": {
-          "start": 111,
-          "end": 159,
+          "start": 112,
+          "end": 160,
           "ctxt": 0
         },
         "discriminant": {
           "type": "StringLiteral",
           "span": {
-            "start": 119,
-            "end": 121,
+            "start": 120,
+            "end": 122,
             "ctxt": 0
           },
           "value": "",
@@ -93,15 +93,15 @@
           {
             "type": "SwitchCase",
             "span": {
-              "start": 129,
-              "end": 157,
+              "start": 130,
+              "end": 158,
               "ctxt": 0
             },
             "test": {
               "type": "StringLiteral",
               "span": {
-                "start": 134,
-                "end": 137,
+                "start": 135,
+                "end": 138,
                 "ctxt": 0
               },
               "value": "a",
@@ -111,15 +111,15 @@
               {
                 "type": "BreakStatement",
                 "span": {
-                  "start": 147,
-                  "end": 157,
+                  "start": 148,
+                  "end": 158,
                   "ctxt": 0
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
-                    "start": 153,
-                    "end": 156,
+                    "start": 154,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "value": "ONE",
@@ -134,15 +134,15 @@
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 161,
-        "end": 223,
+        "start": 162,
+        "end": 224,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 161,
-          "end": 164,
+          "start": 162,
+          "end": 165,
           "ctxt": 0
         },
         "value": "TWO",
@@ -151,15 +151,15 @@
       "body": {
         "type": "LabeledStatement",
         "span": {
-          "start": 166,
-          "end": 223,
+          "start": 167,
+          "end": 224,
           "ctxt": 0
         },
         "label": {
           "type": "Identifier",
           "span": {
-            "start": 166,
-            "end": 171,
+            "start": 167,
+            "end": 172,
             "ctxt": 0
           },
           "value": "THREE",
@@ -168,15 +168,15 @@
         "body": {
           "type": "SwitchStatement",
           "span": {
-            "start": 173,
-            "end": 223,
+            "start": 174,
+            "end": 224,
             "ctxt": 0
           },
           "discriminant": {
             "type": "StringLiteral",
             "span": {
-              "start": 181,
-              "end": 183,
+              "start": 182,
+              "end": 184,
               "ctxt": 0
             },
             "value": "",
@@ -186,15 +186,15 @@
             {
               "type": "SwitchCase",
               "span": {
-                "start": 191,
-                "end": 221,
+                "start": 192,
+                "end": 222,
                 "ctxt": 0
               },
               "test": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 196,
-                  "end": 199,
+                  "start": 197,
+                  "end": 200,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -204,15 +204,15 @@
                 {
                   "type": "BreakStatement",
                   "span": {
-                    "start": 209,
-                    "end": 221,
+                    "start": 210,
+                    "end": 222,
                     "ctxt": 0
                   },
                   "label": {
                     "type": "Identifier",
                     "span": {
-                      "start": 215,
-                      "end": 220,
+                      "start": 216,
+                      "end": 221,
                       "ctxt": 0
                     },
                     "value": "THREE",
@@ -228,15 +228,15 @@
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 225,
-        "end": 356,
+        "start": 226,
+        "end": 357,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 225,
-          "end": 229,
+          "start": 226,
+          "end": 230,
           "ctxt": 0
         },
         "value": "FOUR",
@@ -245,15 +245,15 @@
       "body": {
         "type": "SwitchStatement",
         "span": {
-          "start": 231,
-          "end": 356,
+          "start": 232,
+          "end": 357,
           "ctxt": 0
         },
         "discriminant": {
           "type": "StringLiteral",
           "span": {
-            "start": 239,
-            "end": 241,
+            "start": 240,
+            "end": 242,
             "ctxt": 0
           },
           "value": "",
@@ -263,15 +263,15 @@
           {
             "type": "SwitchCase",
             "span": {
-              "start": 249,
-              "end": 354,
+              "start": 250,
+              "end": 355,
               "ctxt": 0
             },
             "test": {
               "type": "StringLiteral",
               "span": {
-                "start": 254,
-                "end": 257,
+                "start": 255,
+                "end": 258,
                 "ctxt": 0
               },
               "value": "a",
@@ -281,15 +281,15 @@
               {
                 "type": "LabeledStatement",
                 "span": {
-                  "start": 267,
-                  "end": 354,
+                  "start": 268,
+                  "end": 355,
                   "ctxt": 0
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
-                    "start": 267,
-                    "end": 271,
+                    "start": 268,
+                    "end": 272,
                     "ctxt": 0
                   },
                   "value": "FIVE",
@@ -298,15 +298,15 @@
                 "body": {
                   "type": "SwitchStatement",
                   "span": {
-                    "start": 281,
-                    "end": 354,
+                    "start": 282,
+                    "end": 355,
                     "ctxt": 0
                   },
                   "discriminant": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 289,
-                      "end": 291,
+                      "start": 290,
+                      "end": 292,
                       "ctxt": 0
                     },
                     "value": "",
@@ -316,15 +316,15 @@
                     {
                       "type": "SwitchCase",
                       "span": {
-                        "start": 307,
-                        "end": 344,
+                        "start": 308,
+                        "end": 345,
                         "ctxt": 0
                       },
                       "test": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 312,
-                          "end": 315,
+                          "start": 313,
+                          "end": 316,
                           "ctxt": 0
                         },
                         "value": "a",
@@ -334,15 +334,15 @@
                         {
                           "type": "BreakStatement",
                           "span": {
-                            "start": 333,
-                            "end": 344,
+                            "start": 334,
+                            "end": 345,
                             "ctxt": 0
                           },
                           "label": {
                             "type": "Identifier",
                             "span": {
-                              "start": 339,
-                              "end": 343,
+                              "start": 340,
+                              "end": 344,
                               "ctxt": 0
                             },
                             "value": "FOUR",
@@ -362,15 +362,15 @@
     {
       "type": "SwitchStatement",
       "span": {
-        "start": 358,
-        "end": 481,
+        "start": 359,
+        "end": 482,
         "ctxt": 0
       },
       "discriminant": {
         "type": "StringLiteral",
         "span": {
-          "start": 366,
-          "end": 368,
+          "start": 367,
+          "end": 369,
           "ctxt": 0
         },
         "value": "",
@@ -380,15 +380,15 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 376,
-            "end": 479,
+            "start": 377,
+            "end": 480,
             "ctxt": 0
           },
           "test": {
             "type": "StringLiteral",
             "span": {
-              "start": 381,
-              "end": 384,
+              "start": 382,
+              "end": 385,
               "ctxt": 0
             },
             "value": "a",
@@ -398,15 +398,15 @@
             {
               "type": "LabeledStatement",
               "span": {
-                "start": 394,
-                "end": 479,
+                "start": 395,
+                "end": 480,
                 "ctxt": 0
               },
               "label": {
                 "type": "Identifier",
                 "span": {
-                  "start": 394,
-                  "end": 397,
+                  "start": 395,
+                  "end": 398,
                   "ctxt": 0
                 },
                 "value": "SIX",
@@ -415,15 +415,15 @@
               "body": {
                 "type": "SwitchStatement",
                 "span": {
-                  "start": 407,
-                  "end": 479,
+                  "start": 408,
+                  "end": 480,
                   "ctxt": 0
                 },
                 "discriminant": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 415,
-                    "end": 417,
+                    "start": 416,
+                    "end": 418,
                     "ctxt": 0
                   },
                   "value": "",
@@ -433,15 +433,15 @@
                   {
                     "type": "SwitchCase",
                     "span": {
-                      "start": 433,
-                      "end": 469,
+                      "start": 434,
+                      "end": 470,
                       "ctxt": 0
                     },
                     "test": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 438,
-                        "end": 441,
+                        "start": 439,
+                        "end": 442,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -451,15 +451,15 @@
                       {
                         "type": "BreakStatement",
                         "span": {
-                          "start": 459,
-                          "end": 469,
+                          "start": 460,
+                          "end": 470,
                           "ctxt": 0
                         },
                         "label": {
                           "type": "Identifier",
                           "span": {
-                            "start": 465,
-                            "end": 468,
+                            "start": 466,
+                            "end": 469,
                             "ctxt": 0
                           },
                           "value": "SIX",
@@ -478,15 +478,15 @@
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 483,
-        "end": 923,
+        "start": 484,
+        "end": 924,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 483,
-          "end": 488,
+          "start": 484,
+          "end": 489,
           "ctxt": 0
         },
         "value": "SEVEN",
@@ -495,15 +495,15 @@
       "body": {
         "type": "SwitchStatement",
         "span": {
-          "start": 490,
-          "end": 923,
+          "start": 491,
+          "end": 924,
           "ctxt": 0
         },
         "discriminant": {
           "type": "StringLiteral",
           "span": {
-            "start": 498,
-            "end": 500,
+            "start": 499,
+            "end": 501,
             "ctxt": 0
           },
           "value": "",
@@ -513,15 +513,15 @@
           {
             "type": "SwitchCase",
             "span": {
-              "start": 508,
-              "end": 921,
+              "start": 509,
+              "end": 922,
               "ctxt": 0
             },
             "test": {
               "type": "StringLiteral",
               "span": {
-                "start": 513,
-                "end": 516,
+                "start": 514,
+                "end": 517,
                 "ctxt": 0
               },
               "value": "a",
@@ -531,15 +531,15 @@
               {
                 "type": "SwitchStatement",
                 "span": {
-                  "start": 526,
-                  "end": 921,
+                  "start": 527,
+                  "end": 922,
                   "ctxt": 0
                 },
                 "discriminant": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 534,
-                    "end": 536,
+                    "start": 535,
+                    "end": 537,
                     "ctxt": 0
                   },
                   "value": "",
@@ -549,15 +549,15 @@
                   {
                     "type": "SwitchCase",
                     "span": {
-                      "start": 552,
-                      "end": 911,
+                      "start": 553,
+                      "end": 912,
                       "ctxt": 0
                     },
                     "test": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 557,
-                        "end": 560,
+                        "start": 558,
+                        "end": 561,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -567,15 +567,15 @@
                       {
                         "type": "SwitchStatement",
                         "span": {
-                          "start": 578,
-                          "end": 911,
+                          "start": 579,
+                          "end": 912,
                           "ctxt": 0
                         },
                         "discriminant": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 586,
-                            "end": 588,
+                            "start": 587,
+                            "end": 589,
                             "ctxt": 0
                           },
                           "value": "",
@@ -585,15 +585,15 @@
                           {
                             "type": "SwitchCase",
                             "span": {
-                              "start": 612,
-                              "end": 893,
+                              "start": 613,
+                              "end": 894,
                               "ctxt": 0
                             },
                             "test": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 617,
-                                "end": 620,
+                                "start": 618,
+                                "end": 621,
                                 "ctxt": 0
                               },
                               "value": "a",
@@ -603,15 +603,15 @@
                               {
                                 "type": "BreakStatement",
                                 "span": {
-                                  "start": 646,
-                                  "end": 658,
+                                  "start": 647,
+                                  "end": 659,
                                   "ctxt": 0
                                 },
                                 "label": {
                                   "type": "Identifier",
                                   "span": {
-                                    "start": 652,
-                                    "end": 657,
+                                    "start": 653,
+                                    "end": 658,
                                     "ctxt": 0
                                   },
                                   "value": "SEVEN",
@@ -621,15 +621,15 @@
                               {
                                 "type": "LabeledStatement",
                                 "span": {
-                                  "start": 683,
-                                  "end": 893,
+                                  "start": 684,
+                                  "end": 894,
                                   "ctxt": 0
                                 },
                                 "label": {
                                   "type": "Identifier",
                                   "span": {
-                                    "start": 683,
-                                    "end": 688,
+                                    "start": 684,
+                                    "end": 689,
                                     "ctxt": 0
                                   },
                                   "value": "EIGHT",
@@ -638,15 +638,15 @@
                                 "body": {
                                   "type": "SwitchStatement",
                                   "span": {
-                                    "start": 714,
-                                    "end": 893,
+                                    "start": 715,
+                                    "end": 894,
                                     "ctxt": 0
                                   },
                                   "discriminant": {
                                     "type": "StringLiteral",
                                     "span": {
-                                      "start": 722,
-                                      "end": 724,
+                                      "start": 723,
+                                      "end": 725,
                                       "ctxt": 0
                                     },
                                     "value": "",
@@ -656,15 +656,15 @@
                                     {
                                       "type": "SwitchCase",
                                       "span": {
-                                        "start": 756,
-                                        "end": 867,
+                                        "start": 757,
+                                        "end": 868,
                                         "ctxt": 0
                                       },
                                       "test": {
                                         "type": "StringLiteral",
                                         "span": {
-                                          "start": 761,
-                                          "end": 764,
+                                          "start": 762,
+                                          "end": 765,
                                           "ctxt": 0
                                         },
                                         "value": "a",
@@ -674,8 +674,8 @@
                                         {
                                           "type": "VariableDeclaration",
                                           "span": {
-                                            "start": 798,
-                                            "end": 822,
+                                            "start": 799,
+                                            "end": 823,
                                             "ctxt": 0
                                           },
                                           "kind": "var",
@@ -684,15 +684,15 @@
                                             {
                                               "type": "VariableDeclarator",
                                               "span": {
-                                                "start": 802,
-                                                "end": 822,
+                                                "start": 803,
+                                                "end": 823,
                                                 "ctxt": 0
                                               },
                                               "id": {
                                                 "type": "Identifier",
                                                 "span": {
-                                                  "start": 802,
-                                                  "end": 804,
+                                                  "start": 803,
+                                                  "end": 805,
                                                   "ctxt": 0
                                                 },
                                                 "value": "fn",
@@ -705,15 +705,15 @@
                                                 "params": [],
                                                 "decorators": [],
                                                 "span": {
-                                                  "start": 807,
-                                                  "end": 822,
+                                                  "start": 808,
+                                                  "end": 823,
                                                   "ctxt": 0
                                                 },
                                                 "body": {
                                                   "type": "BlockStatement",
                                                   "span": {
-                                                    "start": 819,
-                                                    "end": 822,
+                                                    "start": 820,
+                                                    "end": 823,
                                                     "ctxt": 0
                                                   },
                                                   "stmts": []
@@ -730,15 +730,15 @@
                                         {
                                           "type": "BreakStatement",
                                           "span": {
-                                            "start": 855,
-                                            "end": 867,
+                                            "start": 856,
+                                            "end": 868,
                                             "ctxt": 0
                                           },
                                           "label": {
                                             "type": "Identifier",
                                             "span": {
-                                              "start": 861,
-                                              "end": 866,
+                                              "start": 862,
+                                              "end": 867,
                                               "ctxt": 0
                                             },
                                             "value": "EIGHT",

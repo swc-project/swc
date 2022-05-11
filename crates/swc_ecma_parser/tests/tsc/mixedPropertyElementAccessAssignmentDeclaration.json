@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 28,
-    "end": 62,
+    "start": 29,
+    "end": 63,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 28,
-        "end": 41,
+        "start": 29,
+        "end": 42,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 32,
-            "end": 40,
+            "start": 33,
+            "end": 41,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 32,
-              "end": 35,
+              "start": 33,
+              "end": 36,
               "ctxt": 0
             },
             "value": "arr",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 38,
-              "end": 40,
+              "start": 39,
+              "end": 41,
               "ctxt": 0
             },
             "elements": []
@@ -50,44 +50,44 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 42,
-        "end": 62,
+        "start": 43,
+        "end": 63,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 42,
-          "end": 61,
+          "start": 43,
+          "end": 62,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 42,
-            "end": 56,
+            "start": 43,
+            "end": 57,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 42,
-              "end": 53,
+              "start": 43,
+              "end": 54,
               "ctxt": 0
             },
             "object": {
               "type": "MemberExpression",
               "span": {
-                "start": 42,
-                "end": 48,
+                "start": 43,
+                "end": 49,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 42,
-                  "end": 45,
+                  "start": 43,
+                  "end": 46,
                   "ctxt": 0
                 },
                 "value": "arr",
@@ -96,15 +96,15 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 45,
-                  "end": 48,
+                  "start": 46,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 46,
-                    "end": 47,
+                    "start": 47,
+                    "end": 48,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -115,8 +115,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 49,
-                "end": 53,
+                "start": 50,
+                "end": 54,
                 "ctxt": 0
               },
               "value": "prop",
@@ -126,15 +126,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 53,
-              "end": 56,
+              "start": 54,
+              "end": 57,
               "ctxt": 0
             },
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 54,
-                "end": 55,
+                "start": 55,
+                "end": 56,
                 "ctxt": 0
               },
               "value": 2.0,
@@ -145,8 +145,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 59,
-            "end": 61,
+            "start": 60,
+            "end": 62,
             "ctxt": 0
           },
           "properties": []

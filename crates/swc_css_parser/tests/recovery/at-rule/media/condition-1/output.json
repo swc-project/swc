@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 62,
+    "start": 1,
+    "end": 63,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 61,
+        "start": 1,
+        "end": 62,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 6,
+          "start": 2,
+          "end": 7,
           "ctxt": 0
         },
         "value": "media",
@@ -26,16 +26,16 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 48,
-          "end": 58,
+          "start": 49,
+          "end": 59,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 48,
-              "end": 58,
+              "start": 49,
+              "end": 59,
               "ctxt": 0
             },
             "modifier": null,
@@ -44,23 +44,23 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 48,
-                "end": 58,
+                "start": 49,
+                "end": 59,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 48,
-                    "end": 58,
+                    "start": 49,
+                    "end": 59,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 49,
-                      "end": 54,
+                      "start": 50,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "value": "color",
@@ -69,8 +69,8 @@
                   "value": {
                     "type": "Number",
                     "span": {
-                      "start": 56,
-                      "end": 57,
+                      "start": 57,
+                      "end": 58,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -85,8 +85,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 59,
-          "end": 61,
+          "start": 60,
+          "end": 62,
           "ctxt": 0
         },
         "name": "{",

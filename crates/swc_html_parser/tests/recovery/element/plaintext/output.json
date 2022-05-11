@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 667,
+    "start": 1,
+    "end": 668,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 98,
+        "start": 1,
+        "end": 99,
         "ctxt": 0
       },
       "name": "html",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 99,
-        "end": 667,
+        "start": 100,
+        "end": 668,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 106,
-            "end": 221,
+            "start": 107,
+            "end": 222,
             "ctxt": 0
           },
           "tagName": "head",
@@ -43,8 +43,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 112,
-                "end": 117,
+                "start": 113,
+                "end": 118,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -52,8 +52,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 117,
-                "end": 184,
+                "start": 118,
+                "end": 185,
                 "ctxt": 0
               },
               "tagName": "meta",
@@ -90,8 +90,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 184,
-                "end": 189,
+                "start": 185,
+                "end": 190,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -99,8 +99,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 189,
-                "end": 212,
+                "start": 190,
+                "end": 213,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -110,8 +110,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 196,
-                    "end": 212,
+                    "start": 197,
+                    "end": 213,
                     "ctxt": 0
                   },
                   "value": "Тег PLAINTEXT"
@@ -122,8 +122,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 220,
-                "end": 221,
+                "start": 221,
+                "end": 222,
                 "ctxt": 0
               },
               "value": "\n"
@@ -134,8 +134,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 228,
-            "end": 229,
+            "start": 229,
+            "end": 230,
             "ctxt": 0
           },
           "value": "\n"
@@ -143,8 +143,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 229,
-            "end": 667,
+            "start": 230,
+            "end": 668,
             "ctxt": 0
           },
           "tagName": "body",
@@ -154,8 +154,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 235,
-                "end": 236,
+                "start": 236,
+                "end": 237,
                 "ctxt": 0
               },
               "value": "\n"
@@ -163,8 +163,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 236,
-                "end": 270,
+                "start": 237,
+                "end": 271,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -174,8 +174,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 239,
-                    "end": 270,
+                    "start": 240,
+                    "end": 271,
                     "ctxt": 0
                   },
                   "value": "Пример программы"
@@ -186,8 +186,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 274,
-                "end": 275,
+                "start": 275,
+                "end": 276,
                 "ctxt": 0
               },
               "value": "\n"
@@ -195,8 +195,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 275,
-                "end": 667,
+                "start": 276,
+                "end": 668,
                 "ctxt": 0
               },
               "tagName": "plaintext",
@@ -206,8 +206,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 286,
-                    "end": 667,
+                    "start": 287,
+                    "end": 668,
                     "ctxt": 0
                   },
                   "value": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
