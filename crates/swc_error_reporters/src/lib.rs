@@ -179,7 +179,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     fn source_code(&self) -> Option<&dyn SourceCode> {
         // empty file
         if let Some(span) = self.d.span.primary_span() {
-            if span.lo.is_dummy() && span.hi.is_dummy() {
+            if span.lo.is_dummy() || span.hi.is_dummy() {
                 return None;
             }
         } else {
