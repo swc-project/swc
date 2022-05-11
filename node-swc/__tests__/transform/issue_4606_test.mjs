@@ -41,7 +41,22 @@ export default function foo() {
 });
 
 it("should merge correctly", async () => {
-  const { code } = await swc.transformFile(join(__dirname, "..", 'tests', 'issue-4606', 'input.tsx'));
+  const filename = join(__dirname, "..", '..', 'tests', 'issue-4606', 'index.tsx');
+  console.log(filename);
+  const { code } = await swc.transformFile(filename, {
+    "jsc": {
+      "parser": {
+        "syntax": "typescript",
+        "tsx": true,
+        "dts": true,
+        "dynamicImport": true
+      }
+    },
+    "module": {
+      "type": "es6"
+    }
+  });
+  // It should transpile react jsx with automatic runtime
   expect(code).toMatchInlineSnapshot(`
 "import { jsx as _jsx } from \\"react/jsx-runtime\\";
 export default function foo() {
