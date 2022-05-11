@@ -39,8 +39,28 @@ fn paths_resolver(
 }
 
 #[test]
+fn jsc_paths_issue_4532() {
+    let provider = paths_resolver("paths/issue-4532/", vec![]);
+
+    run_test2(false, |cm, _| {
+        let fm = cm
+            .load_file(Path::new("paths/issue-4532/index.ts"))
+            .unwrap();
+
+        let resolved = provider
+            .resolve_import(&fm.name, "./rel.js")
+            .expect("should success");
+
+        assert_eq!(&*resolved, "./rel.js");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
 fn jsc_paths_1() {
-    let provider = paths_resolver("src", vec![("@/src/*".into(), vec!["./src".into()])]);
+    let provider = paths_resolver("paths/1/", vec![("@/src/*".into(), vec!["./src".into()])]);
 
     run_test2(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Real("src/foo".into()), "".into());
