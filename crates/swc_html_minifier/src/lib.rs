@@ -147,7 +147,6 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onsort",
 ];
 
-// TODO remove multiple whitespace from class + test for custom elements
 static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "class",
     "style",
@@ -160,6 +159,8 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "rowspan",
     "colspan",
 ];
+
+static ALLOW_TO_REPLACE_MULTIPLE_SPACES: &[&str] = &["class"];
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
@@ -292,11 +293,15 @@ impl Minifier {
     fn allow_to_trim(&self, name: &str) -> bool {
         ALLOW_TO_TRIM_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
+
+    fn allow_to_replace_multiple_spaces(&self, name: &str) -> bool {
+        ALLOW_TO_REPLACE_MULTIPLE_SPACES.contains(&name)
+    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
-        let old_current_element_namespace = self.current_element_namespace;
+        let old_current_element_namespace = self.current_element_namespace.take();
 
         self.current_element_namespace = Some(n.namespace);
 
@@ -354,7 +359,12 @@ impl VisitMut for Minifier {
             return;
         }
 
-        let mut value = &*n.value.as_ref().unwrap().clone();
+        let mut value = match &n.value {
+            Some(value) => value.to_string(),
+            _ => {
+                unreachable!();
+            }
+        };
 
         if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
             n.value = Some("".into());
@@ -363,13 +373,17 @@ impl VisitMut for Minifier {
         }
 
         if self.allow_to_trim(&n.name) {
-            value = value.trim();
+            value = value.trim().to_string();
+        }
+
+        if self.allow_to_replace_multiple_spaces(&n.name) {
+            value = value.split_whitespace().collect::<Vec<_>>().join(" ");
         }
 
         if self.is_event_handler_attribute(&n.name)
             && value.to_lowercase().starts_with("javascript:")
         {
-            value = &value[11..];
+            value = value.chars().skip(11).collect();
         }
 
         n.value = Some(value.into());
