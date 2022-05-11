@@ -983,6 +983,10 @@ impl SourceMap {
         files: &[Lrc<SourceFile>],
         pos: BytePos,
     ) -> Option<Lrc<SourceFile>> {
+        if pos.is_dummy() {
+            return None;
+        }
+
         let count = files.len();
 
         // Binary search for the source_file.
