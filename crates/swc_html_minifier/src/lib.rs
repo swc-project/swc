@@ -168,6 +168,7 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
     "aria-describedby",
     "aria-labelledby",
     "aria-owns",
+    "autocomplete",
 ];
 
 struct Minifier {
