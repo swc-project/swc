@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 27,
-    "end": 77,
+    "start": 28,
+    "end": 78,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 36,
-          "end": 41,
+          "start": 37,
+          "end": 42,
           "ctxt": 0
         },
         "value": "Test1",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 27,
-        "end": 77,
+        "start": 28,
+        "end": 78,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 44,
-          "end": 77,
+          "start": 45,
+          "end": 78,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 50,
-              "end": 75,
+              "start": 51,
+              "end": 76,
               "ctxt": 0
             },
             "kind": "let",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 54,
-                  "end": 75,
+                  "start": 55,
+                  "end": 76,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 54,
-                    "end": 55,
+                    "start": 55,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -63,15 +63,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 55,
-                      "end": 71,
+                      "start": 56,
+                      "end": 72,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsTypeQuery",
                       "span": {
-                        "start": 57,
-                        "end": 71,
+                        "start": 58,
+                        "end": 72,
                         "ctxt": 0
                       },
                       "exprName": {
@@ -79,8 +79,8 @@
                         "left": {
                           "type": "Identifier",
                           "span": {
-                            "start": 64,
-                            "end": 68,
+                            "start": 65,
+                            "end": 69,
                             "ctxt": 0
                           },
                           "value": "this",
@@ -89,8 +89,8 @@
                         "right": {
                           "type": "Identifier",
                           "span": {
-                            "start": 69,
-                            "end": 71,
+                            "start": 70,
+                            "end": 72,
                             "ctxt": 0
                           },
                           "value": "no",
@@ -104,8 +104,8 @@
                 "init": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 74,
-                    "end": 75,
+                    "start": 75,
+                    "end": 76,
                     "ctxt": 0
                   },
                   "value": 1.0,

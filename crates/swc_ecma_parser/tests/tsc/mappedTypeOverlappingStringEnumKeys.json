@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 11,
-    "end": 611,
+    "start": 12,
+    "end": 612,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
-        "start": 11,
-        "end": 71,
+        "start": 12,
+        "end": 72,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 16,
-          "end": 38,
+          "start": 17,
+          "end": 39,
           "ctxt": 0
         },
         "value": "TerrestrialAnimalTypes",
@@ -29,15 +29,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 43,
-            "end": 54,
+            "start": 44,
+            "end": 55,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 46,
+              "start": 44,
+              "end": 47,
               "ctxt": 0
             },
             "value": "CAT",
@@ -46,8 +46,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 49,
-              "end": 54,
+              "start": 50,
+              "end": 55,
               "ctxt": 0
             },
             "value": "cat",
@@ -57,15 +57,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 58,
-            "end": 69,
+            "start": 59,
+            "end": 70,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 58,
-              "end": 61,
+              "start": 59,
+              "end": 62,
               "ctxt": 0
             },
             "value": "DOG",
@@ -74,8 +74,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 64,
-              "end": 69,
+              "start": 65,
+              "end": 70,
               "ctxt": 0
             },
             "value": "dog",
@@ -87,16 +87,16 @@
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 71,
-        "end": 72,
+        "start": 72,
+        "end": 73,
         "ctxt": 0
       }
     },
     {
       "type": "TsEnumDeclaration",
       "span": {
-        "start": 74,
-        "end": 114,
+        "start": 75,
+        "end": 115,
         "ctxt": 0
       },
       "declare": false,
@@ -104,8 +104,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 79,
-          "end": 95,
+          "start": 80,
+          "end": 96,
           "ctxt": 0
         },
         "value": "AlienAnimalTypes",
@@ -115,15 +115,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 100,
-            "end": 111,
+            "start": 101,
+            "end": 112,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 100,
-              "end": 103,
+              "start": 101,
+              "end": 104,
               "ctxt": 0
             },
             "value": "CAT",
@@ -132,8 +132,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 106,
-              "end": 111,
+              "start": 107,
+              "end": 112,
               "ctxt": 0
             },
             "value": "cat",
@@ -145,24 +145,24 @@
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 114,
-        "end": 115,
+        "start": 115,
+        "end": 116,
         "ctxt": 0
       }
     },
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 117,
-        "end": 178,
+        "start": 118,
+        "end": 179,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 122,
-          "end": 133,
+          "start": 123,
+          "end": 134,
           "ctxt": 0
         },
         "value": "AnimalTypes",
@@ -172,23 +172,23 @@
       "typeAnnotation": {
         "type": "TsUnionType",
         "span": {
-          "start": 136,
-          "end": 177,
+          "start": 137,
+          "end": 178,
           "ctxt": 0
         },
         "types": [
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 136,
-              "end": 158,
+              "start": 137,
+              "end": 159,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 136,
-                "end": 158,
+                "start": 137,
+                "end": 159,
                 "ctxt": 0
               },
               "value": "TerrestrialAnimalTypes",
@@ -199,15 +199,15 @@
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 161,
-              "end": 177,
+              "start": 162,
+              "end": 178,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 161,
-                "end": 177,
+                "start": 162,
+                "end": 178,
                 "ctxt": 0
               },
               "value": "AlienAnimalTypes",
@@ -221,15 +221,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 180,
-        "end": 263,
+        "start": 181,
+        "end": 264,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 190,
-          "end": 204,
+          "start": 191,
+          "end": 205,
           "ctxt": 0
         },
         "value": "TerrestrialCat",
@@ -241,24 +241,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 205,
-          "end": 263,
+          "start": 206,
+          "end": 264,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 209,
-              "end": 242,
+              "start": 210,
+              "end": 243,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 209,
-                "end": 213,
+                "start": 210,
+                "end": 214,
                 "ctxt": 0
               },
               "value": "type",
@@ -271,15 +271,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 213,
-                "end": 241,
+                "start": 214,
+                "end": 242,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 215,
-                  "end": 241,
+                  "start": 216,
+                  "end": 242,
                   "ctxt": 0
                 },
                 "typeName": {
@@ -287,8 +287,8 @@
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 215,
-                      "end": 237,
+                      "start": 216,
+                      "end": 238,
                       "ctxt": 0
                     },
                     "value": "TerrestrialAnimalTypes",
@@ -297,8 +297,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 238,
-                      "end": 241,
+                      "start": 239,
+                      "end": 242,
                       "ctxt": 0
                     },
                     "value": "CAT",
@@ -313,16 +313,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 245,
-              "end": 261,
+              "start": 246,
+              "end": 262,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 245,
-                "end": 252,
+                "start": 246,
+                "end": 253,
                 "ctxt": 0
               },
               "value": "address",
@@ -335,15 +335,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 252,
-                "end": 260,
+                "start": 253,
+                "end": 261,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 254,
-                  "end": 260,
+                  "start": 255,
+                  "end": 261,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -357,15 +357,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 265,
-        "end": 334,
+        "start": 266,
+        "end": 335,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 275,
-          "end": 283,
+          "start": 276,
+          "end": 284,
           "ctxt": 0
         },
         "value": "AlienCat",
@@ -377,24 +377,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 284,
-          "end": 334,
+          "start": 285,
+          "end": 335,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 288,
-              "end": 314,
+              "start": 289,
+              "end": 315,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 288,
-                "end": 292,
+                "start": 289,
+                "end": 293,
                 "ctxt": 0
               },
               "value": "type",
@@ -407,15 +407,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 292,
-                "end": 314,
+                "start": 293,
+                "end": 315,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 294,
-                  "end": 314,
+                  "start": 295,
+                  "end": 315,
                   "ctxt": 0
                 },
                 "typeName": {
@@ -423,8 +423,8 @@
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 294,
-                      "end": 310,
+                      "start": 295,
+                      "end": 311,
                       "ctxt": 0
                     },
                     "value": "AlienAnimalTypes",
@@ -433,8 +433,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 311,
-                      "end": 314,
+                      "start": 312,
+                      "end": 315,
                       "ctxt": 0
                     },
                     "value": "CAT",
@@ -449,16 +449,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 317,
-              "end": 332,
+              "start": 318,
+              "end": 333,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 317,
-                "end": 323,
+                "start": 318,
+                "end": 324,
                 "ctxt": 0
               },
               "value": "planet",
@@ -471,15 +471,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 323,
-                "end": 331,
+                "start": 324,
+                "end": 332,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 325,
-                  "end": 331,
+                  "start": 326,
+                  "end": 332,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -493,16 +493,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 336,
-        "end": 374,
+        "start": 337,
+        "end": 375,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 341,
-          "end": 345,
+          "start": 342,
+          "end": 346,
           "ctxt": 0
         },
         "value": "Cats",
@@ -512,23 +512,23 @@
       "typeAnnotation": {
         "type": "TsUnionType",
         "span": {
-          "start": 348,
-          "end": 373,
+          "start": 349,
+          "end": 374,
           "ctxt": 0
         },
         "types": [
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 348,
-              "end": 362,
+              "start": 349,
+              "end": 363,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 348,
-                "end": 362,
+                "start": 349,
+                "end": 363,
                 "ctxt": 0
               },
               "value": "TerrestrialCat",
@@ -539,15 +539,15 @@
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 365,
-              "end": 373,
+              "start": 366,
+              "end": 374,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 365,
-                "end": 373,
+                "start": 366,
+                "end": 374,
                 "ctxt": 0
               },
               "value": "AlienCat",
@@ -561,16 +561,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 376,
-        "end": 445,
+        "start": 377,
+        "end": 446,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 381,
-          "end": 387,
+          "start": 382,
+          "end": 388,
           "ctxt": 0
         },
         "value": "CatMap",
@@ -580,23 +580,23 @@
       "typeAnnotation": {
         "type": "TsMappedType",
         "span": {
-          "start": 390,
-          "end": 444,
+          "start": 391,
+          "end": 445,
           "ctxt": 0
         },
         "readonly": null,
         "typeParam": {
           "type": "TsTypeParameter",
           "span": {
-            "start": 395,
-            "end": 411,
+            "start": 396,
+            "end": 412,
             "ctxt": 0
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 395,
-              "end": 396,
+              "start": 396,
+              "end": 397,
               "ctxt": 0
             },
             "value": "V",
@@ -607,15 +607,15 @@
           "constraint": {
             "type": "TsTypeReference",
             "span": {
-              "start": 400,
-              "end": 411,
+              "start": 401,
+              "end": 412,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 400,
-                "end": 411,
+                "start": 401,
+                "end": 412,
                 "ctxt": 0
               },
               "value": "AnimalTypes",
@@ -630,22 +630,22 @@
         "typeAnnotation": {
           "type": "TsArrayType",
           "span": {
-            "start": 414,
-            "end": 442,
+            "start": 415,
+            "end": 443,
             "ctxt": 0
           },
           "elemType": {
             "type": "TsTypeReference",
             "span": {
-              "start": 414,
-              "end": 440,
+              "start": 415,
+              "end": 441,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 414,
-                "end": 421,
+                "start": 415,
+                "end": 422,
                 "ctxt": 0
               },
               "value": "Extract",
@@ -654,23 +654,23 @@
             "typeParams": {
               "type": "TsTypeParameterInstantiation",
               "span": {
-                "start": 421,
-                "end": 440,
+                "start": 422,
+                "end": 441,
                 "ctxt": 0
               },
               "params": [
                 {
                   "type": "TsTypeReference",
                   "span": {
-                    "start": 422,
-                    "end": 426,
+                    "start": 423,
+                    "end": 427,
                     "ctxt": 0
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
-                      "start": 422,
-                      "end": 426,
+                      "start": 423,
+                      "end": 427,
                       "ctxt": 0
                     },
                     "value": "Cats",
@@ -681,24 +681,24 @@
                 {
                   "type": "TsTypeLiteral",
                   "span": {
-                    "start": 428,
-                    "end": 439,
+                    "start": 429,
+                    "end": 440,
                     "ctxt": 0
                   },
                   "members": [
                     {
                       "type": "TsPropertySignature",
                       "span": {
-                        "start": 430,
-                        "end": 437,
+                        "start": 431,
+                        "end": 438,
                         "ctxt": 0
                       },
                       "readonly": false,
                       "key": {
                         "type": "Identifier",
                         "span": {
-                          "start": 430,
-                          "end": 434,
+                          "start": 431,
+                          "end": 435,
                           "ctxt": 0
                         },
                         "value": "type",
@@ -711,22 +711,22 @@
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
-                          "start": 434,
-                          "end": 437,
+                          "start": 435,
+                          "end": 438,
                           "ctxt": 0
                         },
                         "typeAnnotation": {
                           "type": "TsTypeReference",
                           "span": {
-                            "start": 436,
-                            "end": 437,
+                            "start": 437,
+                            "end": 438,
                             "ctxt": 0
                           },
                           "typeName": {
                             "type": "Identifier",
                             "span": {
-                              "start": 436,
-                              "end": 437,
+                              "start": 437,
+                              "end": 438,
                               "ctxt": 0
                             },
                             "value": "V",
@@ -748,8 +748,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 447,
-        "end": 611,
+        "start": 448,
+        "end": 612,
         "ctxt": 0
       },
       "kind": "const",
@@ -758,15 +758,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 453,
-            "end": 610,
+            "start": 454,
+            "end": 611,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 453,
-              "end": 459,
+              "start": 454,
+              "end": 460,
               "ctxt": 0
             },
             "value": "catMap",
@@ -774,22 +774,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 459,
-                "end": 467,
+                "start": 460,
+                "end": 468,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 461,
-                  "end": 467,
+                  "start": 462,
+                  "end": 468,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 461,
-                    "end": 467,
+                    "start": 462,
+                    "end": 468,
                     "ctxt": 0
                   },
                   "value": "CatMap",
@@ -802,8 +802,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 470,
-              "end": 610,
+              "start": 471,
+              "end": 611,
               "ctxt": 0
             },
             "properties": [
@@ -812,8 +812,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 474,
-                    "end": 477,
+                    "start": 475,
+                    "end": 478,
                     "ctxt": 0
                   },
                   "value": "cat",
@@ -822,8 +822,8 @@
                 "value": {
                   "type": "ArrayExpression",
                   "span": {
-                    "start": 479,
-                    "end": 586,
+                    "start": 480,
+                    "end": 587,
                     "ctxt": 0
                   },
                   "elements": [
@@ -832,8 +832,8 @@
                       "expression": {
                         "type": "ObjectExpression",
                         "span": {
-                          "start": 485,
-                          "end": 534,
+                          "start": 486,
+                          "end": 535,
                           "ctxt": 0
                         },
                         "properties": [
@@ -842,8 +842,8 @@
                             "key": {
                               "type": "Identifier",
                               "span": {
-                                "start": 487,
-                                "end": 491,
+                                "start": 488,
+                                "end": 492,
                                 "ctxt": 0
                               },
                               "value": "type",
@@ -852,15 +852,15 @@
                             "value": {
                               "type": "MemberExpression",
                               "span": {
-                                "start": 493,
-                                "end": 519,
+                                "start": 494,
+                                "end": 520,
                                 "ctxt": 0
                               },
                               "object": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 493,
-                                  "end": 515,
+                                  "start": 494,
+                                  "end": 516,
                                   "ctxt": 0
                                 },
                                 "value": "TerrestrialAnimalTypes",
@@ -869,8 +869,8 @@
                               "property": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 516,
-                                  "end": 519,
+                                  "start": 517,
+                                  "end": 520,
                                   "ctxt": 0
                                 },
                                 "value": "CAT",
@@ -883,8 +883,8 @@
                             "key": {
                               "type": "Identifier",
                               "span": {
-                                "start": 521,
-                                "end": 528,
+                                "start": 522,
+                                "end": 529,
                                 "ctxt": 0
                               },
                               "value": "address",
@@ -893,8 +893,8 @@
                             "value": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 530,
-                                "end": 532,
+                                "start": 531,
+                                "end": 533,
                                 "ctxt": 0
                               },
                               "value": "",
@@ -909,8 +909,8 @@
                       "expression": {
                         "type": "ObjectExpression",
                         "span": {
-                          "start": 540,
-                          "end": 582,
+                          "start": 541,
+                          "end": 583,
                           "ctxt": 0
                         },
                         "properties": [
@@ -919,8 +919,8 @@
                             "key": {
                               "type": "Identifier",
                               "span": {
-                                "start": 542,
-                                "end": 546,
+                                "start": 543,
+                                "end": 547,
                                 "ctxt": 0
                               },
                               "value": "type",
@@ -929,15 +929,15 @@
                             "value": {
                               "type": "MemberExpression",
                               "span": {
-                                "start": 548,
-                                "end": 568,
+                                "start": 549,
+                                "end": 569,
                                 "ctxt": 0
                               },
                               "object": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 548,
-                                  "end": 564,
+                                  "start": 549,
+                                  "end": 565,
                                   "ctxt": 0
                                 },
                                 "value": "AlienAnimalTypes",
@@ -946,8 +946,8 @@
                               "property": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 565,
-                                  "end": 568,
+                                  "start": 566,
+                                  "end": 569,
                                   "ctxt": 0
                                 },
                                 "value": "CAT",
@@ -960,8 +960,8 @@
                             "key": {
                               "type": "Identifier",
                               "span": {
-                                "start": 570,
-                                "end": 576,
+                                "start": 571,
+                                "end": 577,
                                 "ctxt": 0
                               },
                               "value": "planet",
@@ -970,8 +970,8 @@
                             "value": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 578,
-                                "end": 580,
+                                "start": 579,
+                                "end": 581,
                                 "ctxt": 0
                               },
                               "value": "",
@@ -989,8 +989,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 590,
-                    "end": 593,
+                    "start": 591,
+                    "end": 594,
                     "ctxt": 0
                   },
                   "value": "dog",
@@ -999,15 +999,15 @@
                 "value": {
                   "type": "TsAsExpression",
                   "span": {
-                    "start": 595,
-                    "end": 608,
+                    "start": 596,
+                    "end": 609,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "ArrayExpression",
                     "span": {
-                      "start": 595,
-                      "end": 597,
+                      "start": 596,
+                      "end": 598,
                       "ctxt": 0
                     },
                     "elements": []
@@ -1015,15 +1015,15 @@
                   "typeAnnotation": {
                     "type": "TsArrayType",
                     "span": {
-                      "start": 601,
-                      "end": 608,
+                      "start": 602,
+                      "end": 609,
                       "ctxt": 0
                     },
                     "elemType": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 601,
-                        "end": 606,
+                        "start": 602,
+                        "end": 607,
                         "ctxt": 0
                       },
                       "kind": "never"

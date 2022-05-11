@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 47,
+    "start": 1,
+    "end": 48,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 11,
+          "start": 7,
+          "end": 12,
           "ctxt": 0
         },
         "value": "CTest",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 47,
+        "start": 1,
+        "end": 48,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 18,
-            "end": 45,
+            "start": 19,
+            "end": 46,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 18,
-              "end": 24,
+              "start": 19,
+              "end": 25,
               "ctxt": 0
             },
             "value": "myFunc",
@@ -46,24 +46,24 @@
           "value": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 27,
-              "end": 44,
+              "start": 28,
+              "end": 45,
               "ctxt": 0
             },
             "params": [],
             "body": {
               "type": "BinaryExpression",
               "span": {
-                "start": 33,
-                "end": 44,
+                "start": 34,
+                "end": 45,
                 "ctxt": 0
               },
               "operator": "in",
               "left": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 33,
-                  "end": 38,
+                  "start": 34,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "value": "key",
@@ -72,8 +72,8 @@
               "right": {
                 "type": "ObjectExpression",
                 "span": {
-                  "start": 42,
-                  "end": 44,
+                  "start": 43,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "properties": []

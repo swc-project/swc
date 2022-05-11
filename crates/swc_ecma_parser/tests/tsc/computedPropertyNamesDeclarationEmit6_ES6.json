@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 38,
-    "end": 96,
+    "start": 39,
+    "end": 97,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 38,
-        "end": 96,
+        "start": 39,
+        "end": 97,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 42,
-            "end": 96,
+            "start": 43,
+            "end": 97,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 42,
-              "end": 43,
+              "start": 43,
+              "end": 44,
               "ctxt": 0
             },
             "value": "v",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 46,
-              "end": 96,
+              "start": 47,
+              "end": 97,
               "ctxt": 0
             },
             "properties": [
@@ -47,23 +47,23 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 50,
-                    "end": 54,
+                    "start": 51,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
-                      "start": 51,
-                      "end": 53,
+                      "start": 52,
+                      "end": 54,
                       "ctxt": 0
                     },
                     "operator": "-",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 52,
-                        "end": 53,
+                        "start": 53,
+                        "end": 54,
                         "ctxt": 0
                       },
                       "value": 1.0,
@@ -74,8 +74,8 @@
                 "value": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 56,
-                    "end": 58,
+                    "start": 57,
+                    "end": 59,
                     "ctxt": 0
                   },
                   "properties": []
@@ -86,23 +86,23 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 62,
-                    "end": 66,
+                    "start": 63,
+                    "end": 67,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
-                      "start": 63,
-                      "end": 65,
+                      "start": 64,
+                      "end": 66,
                       "ctxt": 0
                     },
                     "operator": "+",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 64,
-                        "end": 65,
+                        "start": 65,
+                        "end": 66,
                         "ctxt": 0
                       },
                       "value": 1.0,
@@ -113,8 +113,8 @@
                 "value": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 68,
-                    "end": 70,
+                    "start": 69,
+                    "end": 71,
                     "ctxt": 0
                   },
                   "properties": []
@@ -125,23 +125,23 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 74,
-                    "end": 78,
+                    "start": 75,
+                    "end": 79,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
-                      "start": 75,
-                      "end": 77,
+                      "start": 76,
+                      "end": 78,
                       "ctxt": 0
                     },
                     "operator": "~",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 76,
-                        "end": 77,
+                        "start": 77,
+                        "end": 78,
                         "ctxt": 0
                       },
                       "value": 1.0,
@@ -152,8 +152,8 @@
                 "value": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 80,
-                    "end": 82,
+                    "start": 81,
+                    "end": 83,
                     "ctxt": 0
                   },
                   "properties": []
@@ -164,23 +164,23 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 86,
-                    "end": 90,
+                    "start": 87,
+                    "end": 91,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
-                      "start": 87,
-                      "end": 89,
+                      "start": 88,
+                      "end": 90,
                       "ctxt": 0
                     },
                     "operator": "!",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 88,
-                        "end": 89,
+                        "start": 89,
+                        "end": 90,
                         "ctxt": 0
                       },
                       "value": 1.0,
@@ -191,8 +191,8 @@
                 "value": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 92,
-                    "end": 94,
+                    "start": 93,
+                    "end": 95,
                     "ctxt": 0
                   },
                   "properties": []

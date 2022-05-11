@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 61,
+    "start": 1,
+    "end": 62,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 0,
-        "end": 61,
+        "start": 1,
+        "end": 62,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 9,
-            "end": 12,
+            "start": 10,
+            "end": 13,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 9,
-              "end": 12,
+              "start": 10,
+              "end": 13,
               "ctxt": 0
             },
             "value": "val",
@@ -38,8 +38,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 20,
-          "end": 30,
+          "start": 21,
+          "end": 31,
           "ctxt": 0
         },
         "value": "./foo.js",
@@ -49,8 +49,8 @@
       "asserts": {
         "type": "ObjectExpression",
         "span": {
-          "start": 38,
-          "end": 60,
+          "start": 39,
+          "end": 61,
           "ctxt": 0
         },
         "properties": [
@@ -59,8 +59,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 40,
-                "end": 44,
+                "start": 41,
+                "end": 45,
                 "ctxt": 0
               },
               "value": "type",
@@ -69,8 +69,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 46,
-                "end": 58,
+                "start": 47,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "javascript",

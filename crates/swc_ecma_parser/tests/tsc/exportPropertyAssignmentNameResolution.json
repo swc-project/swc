@@ -1,45 +1,45 @@
 {
   "type": "Script",
   "span": {
-    "start": 79,
-    "end": 115,
+    "start": 80,
+    "end": 116,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 79,
-        "end": 107,
+        "start": 80,
+        "end": 108,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 79,
-          "end": 107,
+          "start": 80,
+          "end": 108,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 79,
-            "end": 95,
+            "start": 80,
+            "end": 96,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 79,
-              "end": 93,
+              "start": 80,
+              "end": 94,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 79,
-                "end": 85,
+                "start": 80,
+                "end": 86,
                 "ctxt": 0
               },
               "value": "module",
@@ -48,8 +48,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 86,
-                "end": 93,
+                "start": 87,
+                "end": 94,
                 "ctxt": 0
               },
               "value": "exports",
@@ -59,8 +59,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 94,
-              "end": 95,
+              "start": 95,
+              "end": 96,
               "ctxt": 0
             },
             "value": "D",
@@ -71,8 +71,8 @@
           "type": "ClassExpression",
           "identifier": null,
           "span": {
-            "start": 98,
-            "end": 107,
+            "start": 99,
+            "end": 108,
             "ctxt": 0
           },
           "decorators": [],
@@ -88,22 +88,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 108,
-        "end": 115,
+        "start": 109,
+        "end": 116,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 108,
-          "end": 115,
+          "start": 109,
+          "end": 116,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 112,
-            "end": 113,
+            "start": 113,
+            "end": 114,
             "ctxt": 0
           },
           "value": "D",

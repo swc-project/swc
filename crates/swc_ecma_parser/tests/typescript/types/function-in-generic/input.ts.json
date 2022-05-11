@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 25,
+    "start": 1,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 25,
+        "start": 1,
+        "end": 26,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 24,
+            "start": 5,
+            "end": 25,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "x",
@@ -35,22 +35,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 5,
-                "end": 24,
+                "start": 6,
+                "end": 25,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 7,
-                  "end": 24,
+                  "start": 8,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 7,
-                    "end": 12,
+                    "start": 8,
+                    "end": 13,
                     "ctxt": 0
                   },
                   "value": "Array",
@@ -59,16 +59,16 @@
                 "typeParams": {
                   "type": "TsTypeParameterInstantiation",
                   "span": {
-                    "start": 12,
-                    "end": 24,
+                    "start": 13,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "params": [
                     {
                       "type": "TsFunctionType",
                       "span": {
-                        "start": 13,
-                        "end": 23,
+                        "start": 14,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "params": [],
@@ -76,15 +76,15 @@
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
-                          "start": 16,
-                          "end": 23,
+                          "start": 17,
+                          "end": 24,
                           "ctxt": 0
                         },
                         "typeAnnotation": {
                           "type": "TsKeywordType",
                           "span": {
-                            "start": 19,
-                            "end": 23,
+                            "start": 20,
+                            "end": 24,
                             "ctxt": 0
                           },
                           "kind": "void"

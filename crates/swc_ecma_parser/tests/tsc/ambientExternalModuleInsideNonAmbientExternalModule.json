@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 15,
-    "end": 44,
+    "start": 16,
+    "end": 45,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 15,
-        "end": 44,
+        "start": 16,
+        "end": 45,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 22,
-          "end": 44,
+          "start": 23,
+          "end": 45,
           "ctxt": 0
         },
         "declare": true,
@@ -25,8 +25,8 @@
         "id": {
           "type": "StringLiteral",
           "span": {
-            "start": 37,
-            "end": 40,
+            "start": 38,
+            "end": 41,
             "ctxt": 0
           },
           "value": "M",
@@ -35,8 +35,8 @@
         "body": {
           "type": "TsModuleBlock",
           "span": {
-            "start": 41,
-            "end": 44,
+            "start": 42,
+            "end": 45,
             "ctxt": 0
           },
           "body": []

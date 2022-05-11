@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 42,
+    "start": 1,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 7,
+          "start": 7,
+          "end": 8,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 42,
+        "start": 1,
+        "end": 43,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 13,
-            "end": 19,
+            "start": 14,
+            "end": 20,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 13,
-              "end": 16,
+              "start": 14,
+              "end": 17,
               "ctxt": 0
             },
             "value": "foo",
@@ -47,8 +47,8 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 13,
-              "end": 19,
+              "start": 14,
+              "end": 20,
               "ctxt": 0
             },
             "body": null,
@@ -67,15 +67,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 23,
-            "end": 40,
+            "start": 24,
+            "end": 41,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 23,
-              "end": 34,
+              "start": 24,
+              "end": 35,
               "ctxt": 0
             },
             "value": "constructor",
@@ -85,8 +85,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 37,
-              "end": 40,
+              "start": 38,
+              "end": 41,
               "ctxt": 0
             },
             "stmts": []

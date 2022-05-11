@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 61,
-    "end": 358,
+    "start": 62,
+    "end": 359,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 61,
-        "end": 85,
+        "start": 62,
+        "end": 86,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 68,
-          "end": 85,
+          "start": 69,
+          "end": 86,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 74,
-              "end": 84,
+              "start": 75,
+              "end": 85,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 74,
-                "end": 75,
+                "start": 75,
+                "end": 76,
                 "ctxt": 0
               },
               "value": "a",
@@ -44,16 +44,16 @@
             "init": {
               "type": "BinaryExpression",
               "span": {
-                "start": 78,
-                "end": 84,
+                "start": 79,
+                "end": 85,
                 "ctxt": 0
               },
               "operator": "+",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 78,
-                  "end": 79,
+                  "start": 79,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "value": 1.0,
@@ -62,8 +62,8 @@
               "right": {
                 "type": "ObjectExpression",
                 "span": {
-                  "start": 82,
-                  "end": 84,
+                  "start": 83,
+                  "end": 85,
                   "ctxt": 0
                 },
                 "properties": []
@@ -77,22 +77,22 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 219,
-        "end": 260,
+        "start": 220,
+        "end": 261,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 226,
-          "end": 260,
+          "start": 227,
+          "end": 261,
           "ctxt": 0
         },
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 236,
-            "end": 241,
+            "start": 237,
+            "end": 242,
             "ctxt": 0
           },
           "value": "Aleph",
@@ -104,24 +104,24 @@
         "body": {
           "type": "TsInterfaceBody",
           "span": {
-            "start": 242,
-            "end": 260,
+            "start": 243,
+            "end": 261,
             "ctxt": 0
           },
           "body": [
             {
               "type": "TsPropertySignature",
               "span": {
-                "start": 248,
-                "end": 258,
+                "start": 249,
+                "end": 259,
                 "ctxt": 0
               },
               "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 248,
-                  "end": 249,
+                  "start": 249,
+                  "end": 250,
                   "ctxt": 0
                 },
                 "value": "q",
@@ -134,15 +134,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 249,
-                  "end": 257,
+                  "start": 250,
+                  "end": 258,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 251,
-                    "end": 257,
+                    "start": 252,
+                    "end": 258,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -157,8 +157,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 262,
-        "end": 358,
+        "start": 263,
+        "end": 359,
         "ctxt": 0
       },
       "declaration": {
@@ -166,8 +166,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 275,
-            "end": 278,
+            "start": 276,
+            "end": 279,
             "ctxt": 0
           },
           "value": "Bet",
@@ -175,8 +175,8 @@
         },
         "declare": false,
         "span": {
-          "start": 269,
-          "end": 358,
+          "start": 270,
+          "end": 359,
           "ctxt": 0
         },
         "decorators": [],
@@ -184,15 +184,15 @@
           {
             "type": "ClassProperty",
             "span": {
-              "start": 302,
-              "end": 319,
+              "start": 303,
+              "end": 320,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 302,
-                "end": 303,
+                "start": 303,
+                "end": 304,
                 "ctxt": 0
               },
               "value": "q",
@@ -201,8 +201,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 314,
-                "end": 319,
+                "start": 315,
+                "end": 320,
                 "ctxt": 0
               },
               "value": "lol",
@@ -211,15 +211,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 303,
-                "end": 311,
+                "start": 304,
+                "end": 312,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 305,
-                  "end": 311,
+                  "start": 306,
+                  "end": 312,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -244,15 +244,15 @@
           {
             "type": "TsExpressionWithTypeArguments",
             "span": {
-              "start": 290,
-              "end": 295,
+              "start": 291,
+              "end": 296,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 290,
-                "end": 295,
+                "start": 291,
+                "end": 296,
                 "ctxt": 0
               },
               "value": "Aleph",

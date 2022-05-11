@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 38,
-    "end": 156,
+    "start": 39,
+    "end": 157,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 38,
-        "end": 67,
+        "start": 39,
+        "end": 68,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 52,
-            "end": 53,
+            "start": 53,
+            "end": 54,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 52,
-              "end": 53,
+              "start": 53,
+              "end": 54,
               "ctxt": 0
             },
             "value": "B",
@@ -38,8 +38,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 61,
-          "end": 66,
+          "start": 62,
+          "end": 67,
           "ctxt": 0
         },
         "value": "./b",
@@ -51,23 +51,23 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 68,
-        "end": 86,
+        "start": 69,
+        "end": 87,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
-          "start": 75,
-          "end": 86,
+          "start": 76,
+          "end": 87,
           "ctxt": 0
         },
         "declare": false,
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 80,
-            "end": 81,
+            "start": 81,
+            "end": 82,
             "ctxt": 0
           },
           "value": "A",
@@ -77,15 +77,15 @@
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 84,
-            "end": 85,
+            "start": 85,
+            "end": 86,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 84,
-              "end": 85,
+              "start": 85,
+              "end": 86,
               "ctxt": 0
             },
             "value": "B",
@@ -98,23 +98,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 108,
-        "end": 137,
+        "start": 109,
+        "end": 138,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 122,
-            "end": 123,
+            "start": 123,
+            "end": 124,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 122,
-              "end": 123,
+              "start": 123,
+              "end": 124,
               "ctxt": 0
             },
             "value": "A",
@@ -127,8 +127,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 131,
-          "end": 136,
+          "start": 132,
+          "end": 137,
           "ctxt": 0
         },
         "value": "./a",
@@ -140,23 +140,23 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 138,
-        "end": 156,
+        "start": 139,
+        "end": 157,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
-          "start": 145,
-          "end": 156,
+          "start": 146,
+          "end": 157,
           "ctxt": 0
         },
         "declare": false,
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 150,
-            "end": 151,
+            "start": 151,
+            "end": 152,
             "ctxt": 0
           },
           "value": "B",
@@ -166,15 +166,15 @@
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 154,
-            "end": 155,
+            "start": 155,
+            "end": 156,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 154,
-              "end": 155,
+              "start": 155,
+              "end": 156,
               "ctxt": 0
             },
             "value": "A",

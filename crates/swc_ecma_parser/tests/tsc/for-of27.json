@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 106,
+    "start": 16,
+    "end": 107,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 21,
-          "end": 35,
+          "start": 22,
+          "end": 36,
           "ctxt": 0
         },
         "value": "StringIterator",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 15,
-        "end": 67,
+        "start": 16,
+        "end": 68,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,29 +29,29 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 42,
-            "end": 65,
+            "start": 43,
+            "end": 66,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 42,
-              "end": 59,
+              "start": 43,
+              "end": 60,
               "ctxt": 0
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
-                "start": 43,
-                "end": 58,
+                "start": 44,
+                "end": 59,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 43,
-                  "end": 49,
+                  "start": 44,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -60,8 +60,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 50,
-                  "end": 58,
+                  "start": 51,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "value": "iterator",
@@ -73,15 +73,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 59,
-              "end": 64,
+              "start": 60,
+              "end": 65,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 61,
-                "end": 64,
+                "start": 62,
+                "end": 65,
                 "ctxt": 0
               },
               "kind": "any"
@@ -107,16 +107,16 @@
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 69,
-        "end": 106,
+        "start": 70,
+        "end": 107,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 74,
-          "end": 79,
+          "start": 75,
+          "end": 80,
           "ctxt": 0
         },
         "kind": "var",
@@ -125,15 +125,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 78,
-              "end": 79,
+              "start": 79,
+              "end": 80,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 78,
-                "end": 79,
+                "start": 79,
+                "end": 80,
                 "ctxt": 0
               },
               "value": "v",
@@ -148,15 +148,15 @@
       "right": {
         "type": "NewExpression",
         "span": {
-          "start": 83,
-          "end": 101,
+          "start": 84,
+          "end": 102,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 87,
-            "end": 101,
+            "start": 88,
+            "end": 102,
             "ctxt": 0
           },
           "value": "StringIterator",
@@ -168,8 +168,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 103,
-          "end": 106,
+          "start": 104,
+          "end": 107,
           "ctxt": 0
         },
         "stmts": []
