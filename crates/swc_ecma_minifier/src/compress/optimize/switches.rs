@@ -4,7 +4,7 @@ use swc_ecma_utils::{prepend, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_primitive, mode::Mode};
+use crate::{compress::util::is_primitive, mode::Mode, util::idents_used_by};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -42,18 +42,27 @@ where
         let mut var_ids = vec![];
         let mut cases = Vec::new();
         let mut exact = None;
+        let mut may_match_other_than_exact = false;
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
             if let Some(test) = case.test.as_ref() {
                 if let Some(e) = is_primitive(tail_expr(test)) {
                     if e.eq_ignore_span(tail) {
                         cases.push(case.take());
+
                         exact = Some(idx);
                         break;
                     } else {
                         var_ids.extend(case.cons.extract_var_ids())
                     }
                 } else {
+                    if !may_match_other_than_exact
+                        && !test.is_ident()
+                        && !idents_used_by(test).is_empty()
+                    {
+                        may_match_other_than_exact = true;
+                    }
+
                     cases.push(case.take())
                 }
             } else {
@@ -72,8 +81,11 @@ where
                     exact_case.cons.extend(case.cons.take())
                 }
             }
-            // remove default if there's an exact match
-            cases.retain(|case| case.test.is_some());
+
+            if !may_match_other_than_exact {
+                // remove default if there's an exact match
+                cases.retain(|case| case.test.is_some());
+            }
 
             if cases.len() == 2 {
                 let last = cases.last_mut().unwrap();

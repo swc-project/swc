@@ -454,7 +454,7 @@ fn test_optimize_switch_1() {
 
     test(
         "function f() {switch(a){case 2: case 1: default: foo();}}",
-        "function f() { foo(); }",
+        "function f() { a; foo(); }",
     );
     //test(
     //    "switch(a){case 1: default:break; case 2: foo()}",
@@ -870,7 +870,7 @@ fn test_optimize_switch_with_default_case() {
             "    bar();",
             "}",
         ),
-        "foo()",
+        "x; foo()",
     );
 
     test(

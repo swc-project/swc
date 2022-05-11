@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.180"
+version = "1.2.181"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3290,7 +3290,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.38.0"
+version = "0.38.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3334,7 +3334,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.111.4"
+version = "0.111.6"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3479,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.82.3"
+version = "0.82.5"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3580,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.121.0"
+version = "0.121.3"
 dependencies = [
  "ahash",
  "dashmap",
