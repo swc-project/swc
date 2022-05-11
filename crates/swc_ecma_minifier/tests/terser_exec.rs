@@ -34,22 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "collapse_vars/issue_1631_1/",
-        "collapse_vars/issue_1631_2/",
-        "collapse_vars/issue_1631_3/",
-        "dead_code/try_catch_finally/",
-        "drop_unused/issue_1715_1/",
-        "drop_unused/issue_1715_2/",
-        "drop_unused/issue_1715_3/",
-        "evaluate/issue_1760_1/",
-        "functions/issue_2620_4/",
-        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/",
-        "issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/",
-        "issue_1733/function_catch_catch/",
-        "issue_1750/case_1/",
-        "properties/issue_3188_3/",
-        "rename/function_catch_catch/",
-        "yield/issue_2689/",
         // We don't care about ie8
         "ie8",
         // tests with infinite loops

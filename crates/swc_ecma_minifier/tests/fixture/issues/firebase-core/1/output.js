@@ -1095,7 +1095,7 @@
                 }
                 return b;
             }, k.set = function(a, b) {
-                return V(this), this.i = null, ed(this, a = W(this, a)) && (this.h -= this.g.get(a).length), this.g.set(a, [
+                return V(this), this.i = null, a = W(this, a), ed(this, a) && (this.h -= this.g.get(a).length), this.g.set(a, [
                     b
                 ]), this.h += 1, this;
             }, k.get = function(a, b) {
@@ -1466,7 +1466,7 @@
                         if (1 == d) {
                             c = b.s ? b.s.length : 0, b = Date.now() - b.F;
                             var a8, b7, e = a.C;
-                            D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
+                            d = Sb(), D(d, new Vb(d, c, b, e)), Hc(a);
                         } else Gc(a);
                     } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a8 = a, b7 = b, !(Cc(a8.i) >= a8.i.j - (a8.m ? 1 : 0)) && (a8.m ? (a8.l = b7.D.concat(a8.l), !0) : 1 != a8.G && 2 != a8.G && !(a8.C >= (a8.Xa ? 0 : a8.Ya)) && (a8.m = K(q(a8.Ha, a8, b7), Od(a8, a8.C)), a8.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
@@ -1680,7 +1680,7 @@
                                 b = 1e3;
                             }
                             else b = 1e3;
-                            b = Pd(this, e, b), R(c = N(this.F), "RID", a), R(c, "CVER", 22), this.D && R(c, "X-HTTP-Session-Id", this.D), Kd(this, c), this.o && f && Gd(c, this.o, f), Dc(this.i, e), this.Ra && R(c, "TYPE", "init"), this.ja ? (R(c, "$req", b), R(c, "SID", "null"), e.$ = !0, ic(e, c, null)) : ic(e, c, b), this.G = 2;
+                            b = Pd(this, e, b), c = N(this.F), R(c, "RID", a), R(c, "CVER", 22), this.D && R(c, "X-HTTP-Session-Id", this.D), Kd(this, c), this.o && f && Gd(c, this.o, f), Dc(this.i, e), this.Ra && R(c, "TYPE", "init"), this.ja ? (R(c, "$req", b), R(c, "SID", "null"), e.$ = !0, ic(e, c, null)) : ic(e, c, b), this.G = 2;
                         }
                     } else 3 == this.G && (a ? Qd(this, a) : 0 == this.l.length || id(this.i) || Qd(this));
                 }

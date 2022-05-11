@@ -1336,11 +1336,13 @@
                     }
                     firstChild = wrap.firstChild;
                 }
-                return firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context)), {
+                firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context));
+                var text = view.someProp("clipboardTextSerializer", function(f) {
+                    return f(slice);
+                }) || slice.content.textBetween(0, slice.content.size, "\n\n");
+                return {
                     dom: wrap,
-                    text: view.someProp("clipboardTextSerializer", function(f) {
-                        return f(slice);
-                    }) || slice.content.textBetween(0, slice.content.size, "\n\n")
+                    text: text
                 };
             }
             function parseFromClipboard(view, text, html, plainText, $context) {
@@ -1613,10 +1615,10 @@
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
-                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length, to = desc.localPosFromDOM(mut.target, toOffset, 1);
                     return {
                         from: from,
-                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
+                        to: to
                     };
                 }
                 return "attributes" == mut.type ? {
@@ -2168,7 +2170,7 @@
                     } else mustRebuild = !0;
                 }
                 if (mustRebuild) {
-                    var built = buildTree(mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), node, 0, options);
+                    var decorations = mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
                     newLocal = built.local;
                     for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
                     for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){
@@ -2367,7 +2369,14 @@
                                     var adjust = Math.max(0, start - Math.min(endA, endB));
                                     preferredPos -= endA + adjust - start;
                                 }
-                                return endA < start && a.size < b.size ? (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0, endB = start + (endB - endA), endA = start) : endB < start && (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0, endA = start + (endA - endB), endB = start), {
+                                if (endA < start && a.size < b.size) {
+                                    var move = preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0;
+                                    start -= move, endB = start + (endB - endA), endA = start;
+                                } else if (endB < start) {
+                                    var move$1 = preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0;
+                                    start -= move$1, endA = start + (endA - endB), endB = start;
+                                }
+                                return {
                                     start: start,
                                     endA: endA,
                                     endB: endB

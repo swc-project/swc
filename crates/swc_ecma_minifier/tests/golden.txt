@@ -160,6 +160,9 @@ collapse_vars/issue_1537_destructuring_for_of/input.js
 collapse_vars/issue_1537_for_of/input.js
 collapse_vars/issue_1562/input.js
 collapse_vars/issue_1605_1/input.js
+collapse_vars/issue_1631_1/input.js
+collapse_vars/issue_1631_2/input.js
+collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_2187_1/input.js
 collapse_vars/issue_2187_3/input.js
 collapse_vars/issue_2203_1/input.js
@@ -704,6 +707,7 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
+issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js

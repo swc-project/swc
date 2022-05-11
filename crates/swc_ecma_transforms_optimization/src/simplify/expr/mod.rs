@@ -16,6 +16,8 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
+use crate::debug::debug_assert_valid;
+
 #[cfg(test)]
 mod tests;
 
@@ -104,11 +106,21 @@ impl SimplifyExpr {
                 sym: js_word!("length"),
                 ..
             }) => KnownOp::Len,
-            MemberProp::Ident(Ident { sym, .. }) => KnownOp::IndexStr(sym.clone()),
+            MemberProp::Ident(Ident { sym, .. }) => {
+                if !self.in_callee {
+                    KnownOp::IndexStr(sym.clone())
+                } else {
+                    return;
+                }
+            }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                    if value.fract() == 0.0 {
-                        KnownOp::Index(*value as _)
+                if !self.in_callee {
+                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                        if value.fract() == 0.0 {
+                            KnownOp::Index(*value as _)
+                        } else {
+                            return;
+                        }
                     } else {
                         return;
                     }
@@ -342,15 +354,22 @@ impl SimplifyExpr {
                     Known(v) => {
                         self.changed = true;
 
-                        *expr = preserve_effects(
-                            *span,
+                        let value_expr = if !v.is_nan() {
                             Expr::Lit(Lit::Num(Number {
                                 value: v,
                                 span: *span,
                                 raw: None,
-                            })),
-                            { iter::once(left.take()).chain(iter::once(right.take())) },
-                        );
+                            }))
+                        } else {
+                            Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                span.with_ctxt(self.unresolved_ctxt),
+                            ))
+                        };
+
+                        *expr = preserve_effects(*span, value_expr, {
+                            iter::once(left.take()).chain(iter::once(right.take()))
+                        });
                         return;
                     }
                     _ => {}
@@ -413,13 +432,23 @@ impl SimplifyExpr {
                                 {
                                     self.changed = true;
                                     let span = *span;
-                                    *expr = preserve_effects(
-                                        span,
+
+                                    let value_expr = if !v.is_nan() {
                                         Expr::Lit(Lit::Num(Number {
                                             value: v,
                                             span,
                                             raw: None,
-                                        })),
+                                        }))
+                                    } else {
+                                        Expr::Ident(Ident::new(
+                                            js_word!("NaN"),
+                                            span.with_ctxt(self.unresolved_ctxt),
+                                        ))
+                                    };
+
+                                    *expr = preserve_effects(
+                                        span,
+                                        value_expr,
                                         iter::once(left.take()).chain(iter::once(right.take())),
                                     );
                                 }
@@ -732,6 +761,18 @@ impl SimplifyExpr {
             op!(unary, "+") => {
                 if let Known(v) = arg.as_number() {
                     self.changed = true;
+
+                    if v.is_nan() {
+                        *expr = preserve_effects(
+                            *span,
+                            Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                span.with_ctxt(self.unresolved_ctxt),
+                            )),
+                            iter::once(arg.take()),
+                        );
+                        return;
+                    }
 
                     *expr = preserve_effects(
                         *span,
@@ -1150,14 +1191,17 @@ impl VisitMut for SimplifyExpr {
                         seq.visit_mut_with(self);
                     }
                 }
+
                 _ => {
                     e.visit_mut_with(self);
                 }
             },
         }
-        self.in_callee = old_in_callee;
 
+        self.in_callee = false;
         n.args.visit_mut_with(self);
+
+        self.in_callee = old_in_callee;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
@@ -1197,9 +1241,20 @@ impl VisitMut for SimplifyExpr {
         }
 
         match expr {
-            Expr::Unary(_) => self.fold_unary(expr),
-            Expr::Bin(_) => self.fold_bin(expr),
-            Expr::Member(_) => self.fold_member_expr(expr),
+            Expr::Unary(_) => {
+                self.fold_unary(expr);
+                debug_assert_valid(expr);
+            }
+            Expr::Bin(_) => {
+                self.fold_bin(expr);
+
+                debug_assert_valid(expr);
+            }
+            Expr::Member(_) => {
+                self.fold_member_expr(expr);
+
+                debug_assert_valid(expr);
+            }
 
             Expr::Cond(CondExpr {
                 span,
@@ -1328,7 +1383,10 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
+        let old_in_callee = self.in_callee;
+        self.in_callee = false;
         p.visit_mut_children_with(self);
+        self.in_callee = old_in_callee;
 
         if let Pat::Assign(a) = p {
             if a.right.is_undefined()
@@ -1353,7 +1411,18 @@ impl VisitMut for SimplifyExpr {
             return;
         }
 
-        e.visit_mut_children_with(self);
+        let old_in_callee = self.in_callee;
+        let len = e.exprs.len();
+        for (idx, e) in e.exprs.iter_mut().enumerate() {
+            if idx == len - 1 {
+                self.in_callee = old_in_callee;
+            } else {
+                self.in_callee = false;
+            }
+
+            e.visit_mut_with(self);
+        }
+        self.in_callee = old_in_callee;
 
         let len = e.exprs.len();
 
@@ -1418,6 +1487,8 @@ impl VisitMut for SimplifyExpr {
         s.visit_mut_children_with(self);
         self.is_arg_of_update = old_is_arg_of_update;
         self.is_modifying = old_is_modifying;
+
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
@@ -1459,6 +1530,10 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = true;
         n.visit_mut_children_with(self);
         self.is_modifying = old;
+    }
+
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
     }
 }
 

@@ -50,6 +50,7 @@ use crate::{
 
 #[macro_use]
 mod macros;
+mod alias;
 mod analyzer;
 mod compress;
 mod debug;

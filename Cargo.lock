@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.179"
+version = "1.2.181"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -951,6 +951,12 @@ dependencies = [
  "swc_macros_common",
  "syn",
 ]
+
+[[package]]
+name = "fs_extra"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2022715d62ab30faffd124d40b76f4134a550a87792276512b18d63272333394"
 
 [[package]]
 name = "futures-channel"
@@ -2873,7 +2879,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.176.0"
+version = "0.176.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3284,7 +3290,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.38.0"
+version = "0.38.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3328,7 +3334,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.111.3"
+version = "0.111.6"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3473,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.82.3"
+version = "0.82.5"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3574,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.121.0"
+version = "0.121.3"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3696,7 +3702,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.83.0"
+version = "0.83.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3723,7 +3729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.154.0"
+version = "0.154.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3915,9 +3921,10 @@ dependencies = [
 
 [[package]]
 name = "swc_node_base"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "mimalloc-rust",
+ "tikv-jemallocator",
 ]
 
 [[package]]
@@ -4207,6 +4214,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5516c27b78311c50bf42c071425c560ac799b11c30b31f87e3081965fe5e0180"
 dependencies = [
  "once_cell",
+]
+
+[[package]]
+name = "tikv-jemalloc-sys"
+version = "0.4.3+5.2.1-patched.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a1792ccb507d955b46af42c123ea8863668fae24d03721e40cad6a41773dbb49"
+dependencies = [
+ "cc",
+ "fs_extra",
+ "libc",
+]
+
+[[package]]
+name = "tikv-jemallocator"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5b7bcecfafe4998587d636f9ae9d55eb9d0499877b88757767c346875067098"
+dependencies = [
+ "libc",
+ "tikv-jemalloc-sys",
 ]
 
 [[package]]

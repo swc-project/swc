@@ -1,10 +1,8 @@
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    SyntaxContext,
-};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, Id, IsEmpty};
+use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, BindingCollector, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -14,7 +12,7 @@ use self::{
 };
 use crate::{
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by},
+    util::{can_end_conditionally, idents_used_by, IdentUsageCollector},
 };
 
 mod ctx;
@@ -117,7 +115,8 @@ pub(crate) struct VarUsageInfo {
 
     pub pure_fn: bool,
 
-    /// In `c = b`, `b` infects `c`.
+    /// `infects_to`. This should be renamed, but it will be done with another
+    /// PR. (because it's hard to review)
     infects: Vec<Id>,
 }
 
@@ -151,14 +150,47 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub vars: AHashMap<Id, VarUsageInfo>,
+    pub vars: FxHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
-    pub scopes: AHashMap<SyntaxContext, ScopeData>,
+    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 }
 
 impl ProgramData {
+    pub(crate) fn expand_infected(
+        &self,
+        ids: impl IntoIterator<Item = Id>,
+        max_num: usize,
+    ) -> Result<FxHashSet<Id>, ()> {
+        let mut result = FxHashSet::default();
+        self.expand_infected_inner(ids, max_num, &mut result)?;
+        Ok(result)
+    }
+
+    fn expand_infected_inner(
+        &self,
+        ids: impl IntoIterator<Item = Id>,
+        max_num: usize,
+        result: &mut FxHashSet<Id>,
+    ) -> Result<(), ()> {
+        for id in ids {
+            if !result.insert(id.clone()) {
+                continue;
+            }
+            if result.len() >= max_num {
+                return Err(());
+            }
+
+            if let Some(info) = self.vars.get(&id) {
+                let ids = info.infects.clone();
+                self.expand_infected_inner(ids, max_num, result)?;
+            }
+        }
+
+        Ok(())
+    }
+
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
@@ -603,16 +635,32 @@ where
         }
 
         n.visit_children_with(self);
+
+        {
+            for id in get_infects_of(&n.function) {
+                self.data
+                    .var_or_default(n.ident.to_id())
+                    .add_infects_to(id.clone());
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
-        if let Some(id) = &n.ident {
+        if let Some(n_id) = &n.ident {
             self.data
-                .var_or_default(id.to_id())
+                .var_or_default(n_id.to_id())
                 .mark_declared_as_fn_expr();
+
+            {
+                for id in get_infects_of(&n.function) {
+                    self.data
+                        .var_or_default(n_id.to_id())
+                        .add_infects_to(id.to_id());
+                }
+            }
         }
     }
 
@@ -966,15 +1014,12 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let used_idents = idents_used_by(init);
-                let excluded: AHashSet<Id> = collect_decls(init);
-
-                for id in used_idents.into_iter().filter(|id| !excluded.contains(id)) {
+                for id in get_infects_of(init) {
                     self.data
                         .var_or_default(id.clone())
-                        .add_infects(var.to_id());
+                        .add_infects_to(var.to_id());
 
-                    self.data.var_or_default(var.to_id()).add_infects(id);
+                    self.data.var_or_default(var.to_id()).add_infects_to(id);
                 }
             }
         }
@@ -1042,4 +1087,16 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
         Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Update(..) => true,
         _ => false,
     }
+}
+
+fn get_infects_of<N>(init: &N) -> impl 'static + Iterator<Item = Id>
+where
+    N: VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
+{
+    let used_idents = idents_used_by(init);
+    let excluded: AHashSet<Id> = collect_decls(init);
+
+    used_idents
+        .into_iter()
+        .filter(move |id| !excluded.contains(id))
 }

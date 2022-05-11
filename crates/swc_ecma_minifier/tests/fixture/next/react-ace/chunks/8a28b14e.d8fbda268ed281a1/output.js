@@ -48,10 +48,10 @@
                             uri: "",
                             exports: exports,
                             packaged: !0
-                        };
-                        exports = module2(function(module, callback) {
+                        }, req = function(module, callback) {
                             return _require(moduleName, module, callback);
-                        }, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
+                        };
+                        exports = module2(req, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
                     }
                     module2 = define.modules[moduleName] = exports || module2;
                 }
@@ -1679,7 +1679,6 @@
                 "ace/lib/oop",
                 "ace/lib/event_emitter", 
             ], function(require, exports, module) {
-                "no use strict";
                 var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {
                     setOptions: function(optList) {
                         Object.keys(optList).forEach(function(key) {
@@ -1760,7 +1759,6 @@
                 "ace/lib/dom",
                 "ace/lib/app_config", 
             ], function(require, exports, module3) {
-                "no use strict";
                 var lang = require("./lib/lang");
                 require("./lib/oop");
                 var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
@@ -2574,7 +2572,7 @@
                         } else this.line += this.showInvisibles ? endOfLine : bidiUtil.DOT;
                         var size, session = this.session, shift = 0;
                         this.line = this.line.replace(/\t|[\u1100-\u2029, \u202F-\uFFE6]/g, function(ch, i) {
-                            return "\t" === ch || session.isFullWidth(ch.charCodeAt(0)) ? (shift += (size = "\t" === ch ? session.getScreenTabSize(i + shift) : 2) - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
+                            return "\t" === ch || session.isFullWidth(ch.charCodeAt(0)) ? (size = "\t" === ch ? session.getScreenTabSize(i + shift) : 2, shift += size - 1, lang.stringRepeat(bidiUtil.DOT, size)) : ch;
                         }), this.isRtlDir && (this.fontMetrics.$main.textContent = this.line.charAt(this.line.length - 1) == bidiUtil.DOT ? this.line.substr(0, this.line.length - 1) : this.line, this.rtlLineOffset = this.contentWidth - this.fontMetrics.$main.getBoundingClientRect().width);
                     }, this.updateBidiMap = function() {
                         var textCharTypes = [];
@@ -5540,11 +5538,13 @@
                             column: pos.column + 1
                         }, match = chr && chr.match(/([\(\[\{])|([\)\]\}])/)), !match) return null;
                         var startRange = new Range(pos.row, pos.column - 1, pos.row, pos.column), bracketPos = match[1] ? this.$findClosingBracket(match[1], pos) : this.$findOpeningBracket(match[2], pos);
-                        return bracketPos ? [
-                            startRange,
-                            new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1)
-                        ] : [
+                        if (!bracketPos) return [
                             startRange
+                        ];
+                        var endRange = new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1);
+                        return [
+                            startRange,
+                            endRange
                         ];
                     }, this.$brackets = {
                         ")": "(",
@@ -6195,7 +6195,7 @@
                         var line, column, docRow = 0, docColumn = 0, row = 0, rowLength = 0, rowCache = this.$screenRowCache, i = this.$getRowCacheIndex(rowCache, screenRow), l = rowCache.length;
                         if (l && i >= 0) var row = rowCache[i], docRow = this.$docRowCache[i], doCache = screenRow > rowCache[l - 1];
                         else var doCache = !l;
-                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && !(row + (rowLength = this.getRowLength(docRow)) > screenRow) && !(docRow >= maxRow);)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
+                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && (rowLength = this.getRowLength(docRow), !(row + rowLength > screenRow) && !(docRow >= maxRow));)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
                         if (foldLine && foldLine.start.row <= docRow) line = this.getFoldDisplayLine(foldLine), docRow = foldLine.start.row;
                         else {
                             if (row + rowLength <= screenRow || docRow > maxRow) return {
