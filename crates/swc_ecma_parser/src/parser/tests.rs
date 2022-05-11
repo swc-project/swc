@@ -157,7 +157,7 @@ fn issue_1878() {
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
-        assert!(leading.borrow().get(&BytePos(0)).is_some());
+        assert!(leading.borrow().get(&BytePos(1)).is_some());
     }
 
     // file with shebang and comments should still work with the comments trailing
@@ -179,7 +179,7 @@ fn issue_1878() {
         let (leading, trailing) = c.take_all();
         assert!(leading.borrow().is_empty());
         assert_eq!(trailing.borrow().len(), 1);
-        assert!(trailing.borrow().get(&BytePos(10)).is_some());
+        assert!(trailing.borrow().get(&BytePos(11)).is_some());
     }
 }
 
@@ -248,8 +248,8 @@ fn issue_2264_3() {
     let (leading, trailing) = c.take_all();
     assert!(leading.borrow().is_empty());
     assert_eq!(trailing.borrow().len(), 2);
-    assert_eq!(trailing.borrow().get(&BytePos(25)).unwrap().len(), 1);
-    assert_eq!(trailing.borrow().get(&BytePos(36)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(26)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(37)).unwrap().len(), 1);
 }
 
 #[test]
@@ -274,7 +274,7 @@ fn issue_2339_1() {
 
     let (leading, trailing) = c.take_all();
     assert_eq!(leading.borrow().len(), 1);
-    assert_eq!(leading.borrow().get(&BytePos(79)).unwrap().len(), 2);
+    assert_eq!(leading.borrow().get(&BytePos(80)).unwrap().len(), 2);
     assert!(trailing.borrow().is_empty());
 }
 
