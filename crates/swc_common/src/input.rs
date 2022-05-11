@@ -295,7 +295,7 @@ mod tests {
             assert_eq!(i.cur(), Some('a'));
             i.reset_to(BytePos(1));
 
-            assert_eq!(i.cur(), Some('f'));
+            assert_eq!(i.cur(), Some('l'));
             assert_eq!(i.last_pos, BytePos(1));
             assert_eq!(i.start_pos, BytePos(1));
         });
