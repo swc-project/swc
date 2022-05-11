@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_visit"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.63.0"
+version = "0.63.1"
 
 [lib]
 bench = false
@@ -18,6 +18,6 @@ debug = []
 num-bigint = {version = "0.4", features = ["serde"]}
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = { version = "0.17.23", path = "../swc_common"}
-swc_ecma_ast = {version = "0.77.0", path = "../swc_ecma_ast"}
+swc_ecma_ast = {version = "0.77.2", path = "../swc_ecma_ast"}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.32"

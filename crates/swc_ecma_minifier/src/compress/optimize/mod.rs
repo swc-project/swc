@@ -9,8 +9,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
+    Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};

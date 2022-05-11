@@ -6,7 +6,6 @@ use swc_ecma_ast::{
     AssignExpr, AssignPat, AssignPatProp, ComputedPropName, Expr, Id, Lit, MemberExpr, MemberProp,
     Module, Script, Str, Tpl,
 };
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::TSEnumConfig;

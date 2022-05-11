@@ -9,8 +9,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, prepend, private_ident,
-    quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_arguments, contains_this_expr, find_ids, prepend, private_ident, quote_ident,
+    quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,

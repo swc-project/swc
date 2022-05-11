@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, ident::IdentLike, BindingCollector};
+use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;

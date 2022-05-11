@@ -5,7 +5,7 @@ use swc_common::{
     Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, ExprFactory, Id};
+use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory, Id};
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith};
 
 use self::{

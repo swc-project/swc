@@ -7,9 +7,7 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    ident::IdentLike, member_expr, quote_ident, quote_str, undefined, ExprFactory,
-};
+use swc_ecma_utils::{member_expr, quote_ident, quote_str, undefined, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };

@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 use rustc_hash::FxHashMap;
 use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_utils::{ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 

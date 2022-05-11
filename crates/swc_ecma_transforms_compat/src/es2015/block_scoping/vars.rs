@@ -3,7 +3,6 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
