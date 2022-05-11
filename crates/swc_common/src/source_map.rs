@@ -544,6 +544,9 @@ impl SourceMap {
         if sp.lo() > sp.hi() {
             return Err(SpanSnippetError::IllFormedSpan(sp));
         }
+        if sp.lo.is_dummy() || sp.hi.is_dummy() {
+            return Err(SpanSnippetError::DummyBytePos);
+        }
 
         let local_begin = self.lookup_byte_offset(sp.lo());
         let local_end = self.lookup_byte_offset(sp.hi());

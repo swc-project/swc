@@ -1176,6 +1176,7 @@ pub enum SpanLinesError {
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum SpanSnippetError {
+    DummyBytePos,
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
     MalformedForSourcemap(MalformedSourceMapPositions),
