@@ -41,7 +41,7 @@ export default function foo() {
 });
 
 it("should merge correctly", async () => {
-  const filename = join(__dirname, "..", '..', 'tests', 'issue-4606', 'index.tsx');
+  const filename = join(__dirname, "..", '..', 'tests', 'issue-4606', '1', 'index.tsx');
   console.log(filename);
   const { code } = await swc.transformFile(filename, {
     "jsc": {
@@ -54,6 +54,27 @@ it("should merge correctly", async () => {
     },
     "module": {
       "type": "es6"
+    }
+  });
+  // It should transpile react jsx with automatic runtime
+  expect(code).toMatchInlineSnapshot(`
+"import { jsx as _jsx } from \\"react/jsx-runtime\\";
+export default function foo() {
+    return /*#__PURE__*/ _jsx(\\"div\\", {
+        children: \\"Hello\\"
+    });
+};
+"
+`);
+});
+
+
+it("module config should merged correctly", async () => {
+  const filename = join(__dirname, "..", '..', 'tests', 'issue-4606', '2', 'index.tsx');
+  console.log(filename);
+  const { code } = await swc.transformFile(filename, {
+    "module": {
+      "type": "commonjs"
     }
   });
   // It should transpile react jsx with automatic runtime
