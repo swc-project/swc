@@ -316,8 +316,8 @@ fn illegal_language_mode_directive1() {
                 errors,
                 vec![Error::new(
                     Span {
-                        lo: BytePos(20),
-                        hi: BytePos(33),
+                        lo: BytePos(21),
+                        hi: BytePos(34),
                         ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
@@ -341,8 +341,8 @@ fn illegal_language_mode_directive2() {
                 errors,
                 vec![Error::new(
                     Span {
-                        lo: BytePos(21),
-                        hi: BytePos(34),
+                        lo: BytePos(22),
+                        hi: BytePos(35),
                         ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
