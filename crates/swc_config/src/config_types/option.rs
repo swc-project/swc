@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 use crate::merge::Merge;
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct MergingOption<T>(Option<T>)
 where
     T: Merge + Default;
