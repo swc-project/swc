@@ -26,6 +26,9 @@
 - **(css/parser)** Add a method to get error message (#4588) ([04dd3dd](https://github.com/swc-project/swc/commit/04dd3ddc5d2953ae9ba4b944853db57bf1ed217d))
 
 
+- **(es/ast)** Improve `Id` APIs (#4614) ([2c861bd](https://github.com/swc-project/swc/commit/2c861bd9e515ed0c9bfa653ed79d9e6941b05078))
+
+
 - **(es/hygiene)** Drop syntax context (#4594) ([6ac4a23](https://github.com/swc-project/swc/commit/6ac4a23aa2fdf3854f23760cec70b36249df4cdc))
 
 
