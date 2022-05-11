@@ -160,7 +160,7 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "colspan",
 ];
 
-static ALLOW_TO_REPLACE_MULTIPLE_SPACES: &[&str] = &["class"];
+static ALLOW_TO_REPLACE_MULTIPLE_SPACES: &[&str] = &["class", "srcset", "sizes"];
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
