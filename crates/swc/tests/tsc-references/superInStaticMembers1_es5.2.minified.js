@@ -6,7 +6,7 @@ export var Reflect = function() {
     swcHelpers.classCallCheck(this, Reflect);
 };
 export var Baz;
-!function(Baz) {}(Baz || (Baz = {}));
+Baz || (Baz = {});
 var _class = function() {
     "use strict";
     swcHelpers.classCallCheck(this, _class);
@@ -184,7 +184,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), Reflect = {};
+_superprop_get_w().call(_this), Reflect || (Reflect = {});
 var C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
@@ -194,7 +194,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect = {};
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect || (Reflect = {});
 var C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
@@ -204,7 +204,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), Reflect = {};
+_superprop_get_w().call(_this), Reflect || (Reflect = {});
 var C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
@@ -214,7 +214,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect = {};
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect || (Reflect = {});
 var C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
