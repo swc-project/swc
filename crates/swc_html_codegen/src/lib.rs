@@ -133,6 +133,7 @@ where
         doctype.push('>');
 
         write_raw!(self, n.span, &doctype);
+        formatting_newline!(self);
     }
 
     #[emitter]
@@ -147,6 +148,10 @@ where
         }
 
         write_raw!(self, ">");
+
+        if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+            newline!(self);
+        }
 
         let no_children = n.namespace == Namespace::HTML
             && matches!(
