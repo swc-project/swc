@@ -10,7 +10,7 @@ use swc_common::{
     FileName, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{find_pat_ids, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use EdgeDirection::Outgoing;
 
@@ -237,7 +237,7 @@ where
             for (_, stmt) in entry.iter() {
                 if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
                     if decl.span.ctxt == injected_ctxt {
-                        let ids: Vec<Id> = find_ids(decl);
+                        let ids: Vec<Id> = find_pat_ids(decl);
                         declared_ids.extend(ids);
                     }
                 }
@@ -288,7 +288,7 @@ where
                     }
 
                     ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
-                        let ids: Vec<Id> = find_ids(decl);
+                        let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
                             if *id.sym() == js_word!("default") {
@@ -320,7 +320,7 @@ where
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {
                     if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
-                        let ids: Vec<Id> = find_ids(decl);
+                        let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
                             if *id.sym() == js_word!("default") {
@@ -826,7 +826,7 @@ where
                                 i
                             }
                             Decl::Var(v) => {
-                                let ids: Vec<Ident> = find_ids(&v);
+                                let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
                                 new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
@@ -1394,7 +1394,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 },
             ) {
                 Ok(key_value_props) => {
-                    prepend(
+                    prepend_stmt(
                         &mut n.body,
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: n.span,

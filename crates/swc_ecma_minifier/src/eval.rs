@@ -2,10 +2,10 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
+use swc_ecma_utils::{undefined, ExprCtx, ExprExt};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 use crate::{
@@ -15,6 +15,8 @@ use crate::{
 };
 
 pub struct Evaluator {
+    expr_ctx: ExprCtx,
+
     module: Module,
     marks: Marks,
     data: Eval,
@@ -25,6 +27,11 @@ pub struct Evaluator {
 impl Evaluator {
     pub fn new(module: Module, marks: Marks) -> Self {
         Evaluator {
+            expr_ctx: ExprCtx {
+                unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+                is_unresolved_ref_safe: false,
+            },
+
             module,
             marks,
             data: Default::default(),
@@ -103,7 +110,9 @@ impl Evaluator {
                         obj: tag_obj,
                         prop: MemberProp::Ident(prop),
                         ..
-                    }) if tag_obj.is_ident_ref_to("String".into()) && prop.sym == *"raw" => {
+                    }) if tag_obj.is_global_ref_to(&self.expr_ctx, "String")
+                        && prop.sym == *"raw" =>
+                    {
                         return self.eval_tpl(&t.tpl);
                     }
 

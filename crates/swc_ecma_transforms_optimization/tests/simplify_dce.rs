@@ -9,7 +9,7 @@ use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    Repeat::new(dce(Default::default()))
+    Repeat::new(dce(Default::default(), Mark::new()))
 }
 
 macro_rules! to {

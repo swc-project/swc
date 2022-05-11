@@ -1,0 +1,2 @@
+class My extends Set {
+}

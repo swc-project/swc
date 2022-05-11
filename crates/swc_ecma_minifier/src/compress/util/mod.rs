@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
+use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith,
     VisitWith,
@@ -25,11 +25,21 @@ mod tests;
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-    negate_inner(e, in_bool_ctx, is_ret_val_ignored);
+pub(super) fn negate(
+    expr_ctx: &ExprCtx,
+    e: &mut Expr,
+    in_bool_ctx: bool,
+    is_ret_val_ignored: bool,
+) {
+    negate_inner(expr_ctx, e, in_bool_ctx, is_ret_val_ignored);
 }
 
-fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bool {
+fn negate_inner(
+    expr_ctx: &ExprCtx,
+    e: &mut Expr,
+    in_bool_ctx: bool,
+    is_ret_val_ignored: bool,
+) -> bool {
     let start_str = dump(&*e, false);
 
     match e {
@@ -63,11 +73,11 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             right,
             op: op @ op!("&&"),
             ..
-        }) if is_ok_to_negate_rhs(right) => {
+        }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a && b => !a || !b");
 
-            let a = negate_inner(&mut **left, in_bool_ctx, false);
-            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, &mut **left, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, &mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
             return a || b;
         }
@@ -77,11 +87,11 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             right,
             op: op @ op!("||"),
             ..
-        }) if is_ok_to_negate_rhs(right) => {
+        }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a || b => !a && !b");
 
-            let a = negate_inner(&mut **left, in_bool_ctx, false);
-            let b = negate_inner(&mut **right, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, &mut **left, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, &mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
             return a || b;
         }
@@ -91,8 +101,8 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
         {
             trace_op!("negate: cond");
 
-            let a = negate_inner(&mut **cons, in_bool_ctx, false);
-            let b = negate_inner(&mut **alt, in_bool_ctx, is_ret_val_ignored);
+            let a = negate_inner(expr_ctx, &mut **cons, in_bool_ctx, false);
+            let b = negate_inner(expr_ctx, &mut **alt, in_bool_ctx, is_ret_val_ignored);
             return a || b;
         }
 
@@ -100,7 +110,7 @@ fn negate_inner(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bo
             if let Some(last) = exprs.last_mut() {
                 trace_op!("negate: seq");
 
-                return negate_inner(&mut **last, in_bool_ctx, is_ret_val_ignored);
+                return negate_inner(expr_ctx, &mut **last, in_bool_ctx, is_ret_val_ignored);
             }
         }
 
@@ -168,7 +178,7 @@ pub(crate) fn is_ok_to_negate_for_cond(e: &Expr) -> bool {
     !matches!(e, Expr::Update(..))
 }
 
-pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
+pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
     match rhs {
         Expr::Member(..) => true,
         Expr::Bin(BinExpr {
@@ -185,13 +195,13 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
             left,
             right,
             ..
-        }) => is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right),
+        }) => is_ok_to_negate_rhs(expr_ctx, left) && is_ok_to_negate_rhs(expr_ctx, right),
 
         Expr::Bin(BinExpr { left, right, .. }) => {
-            is_ok_to_negate_rhs(left) && is_ok_to_negate_rhs(right)
+            is_ok_to_negate_rhs(expr_ctx, left) && is_ok_to_negate_rhs(expr_ctx, right)
         }
 
-        Expr::Assign(e) => is_ok_to_negate_rhs(&e.right),
+        Expr::Assign(e) => is_ok_to_negate_rhs(expr_ctx, &e.right),
 
         Expr::Unary(UnaryExpr {
             op: op!("!") | op!("delete"),
@@ -200,16 +210,18 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
         Expr::Seq(e) => {
             if let Some(last) = e.exprs.last() {
-                is_ok_to_negate_rhs(last)
+                is_ok_to_negate_rhs(expr_ctx, last)
             } else {
                 true
             }
         }
 
-        Expr::Cond(e) => is_ok_to_negate_rhs(&e.cons) && is_ok_to_negate_rhs(&e.alt),
+        Expr::Cond(e) => {
+            is_ok_to_negate_rhs(expr_ctx, &e.cons) && is_ok_to_negate_rhs(expr_ctx, &e.alt)
+        }
 
         _ => {
-            if !rhs.may_have_side_effects() {
+            if !rhs.may_have_side_effects(expr_ctx) {
                 return true;
             }
 
@@ -227,9 +239,15 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
-pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> isize {
+pub(crate) fn negate_cost(
+    expr_ctx: &ExprCtx,
+    e: &Expr,
+    in_bool_ctx: bool,
+    is_ret_val_ignored: bool,
+) -> isize {
     #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
+        expr_ctx: &ExprCtx,
         e: &Expr,
         in_bool_ctx: bool,
         bin_op: Option<BinaryOp>,
@@ -258,7 +276,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                         }) => {}
                         _ => {
                             if in_bool_ctx {
-                                let c = -cost(arg, true, None, is_ret_val_ignored);
+                                let c = -cost(expr_ctx, arg, true, None, is_ret_val_ignored);
                                 return c.min(-1);
                             }
                         }
@@ -287,19 +305,19 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     right,
                     ..
                 }) => {
-                    let l_cost = cost(left, in_bool_ctx, Some(*op), false);
+                    let l_cost = cost(expr_ctx, left, in_bool_ctx, Some(*op), false);
 
-                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(right) {
+                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(expr_ctx, right) {
                         return l_cost + 3;
                     }
-                    l_cost + cost(right, in_bool_ctx, Some(*op), is_ret_val_ignored)
+                    l_cost + cost(expr_ctx, right, in_bool_ctx, Some(*op), is_ret_val_ignored)
                 }
 
                 Expr::Cond(CondExpr { cons, alt, .. })
                     if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
                 {
-                    cost(cons, in_bool_ctx, bin_op, is_ret_val_ignored)
-                        + cost(alt, in_bool_ctx, bin_op, is_ret_val_ignored)
+                    cost(expr_ctx, cons, in_bool_ctx, bin_op, is_ret_val_ignored)
+                        + cost(expr_ctx, alt, in_bool_ctx, bin_op, is_ret_val_ignored)
                 }
 
                 Expr::Cond(..)
@@ -319,7 +337,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
 
                 Expr::Seq(e) => {
                     if let Some(last) = e.exprs.last() {
-                        return cost(last, in_bool_ctx, bin_op, is_ret_val_ignored);
+                        return cost(expr_ctx, last, in_bool_ctx, bin_op, is_ret_val_ignored);
                     }
 
                     if is_ret_val_ignored {
@@ -351,7 +369,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         cost
     }
 
-    let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
+    let cost = cost(expr_ctx, e, in_bool_ctx, None, is_ret_val_ignored);
 
     trace_op!(
         "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
@@ -364,7 +382,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     cost
 }
 
-pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
+pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     match e {
         Expr::Ident(Ident {
             sym: js_word!("undefined"),
@@ -375,14 +393,14 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
             op: UnaryOp::Void,
             arg,
             ..
-        }) if !arg.may_have_side_effects() => true,
+        }) if !arg.may_have_side_effects(expr_ctx) => true,
 
         _ => false,
     }
 }
 
-pub(crate) fn is_primitive(e: &Expr) -> Option<&Expr> {
-    if is_pure_undefined(e) {
+pub(crate) fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
+    if is_pure_undefined(expr_ctx, e) {
         Some(e)
     } else {
         match e {
@@ -416,15 +434,15 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
     }
 }
 
-pub(crate) fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e) || matches!(e, Expr::Lit(Lit::Null(..)))
+pub(crate) fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
+    is_pure_undefined(expr_ctx, e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 
 /// This method does **not** modifies `e`.
 ///
 /// This method is used to test if a whole call can be replaced, while
 /// preserving standalone constants.
-pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
+pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
     match e {
         Expr::Bin(BinExpr {
             op: op!(bin, "-"),
@@ -432,8 +450,8 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
             right,
             ..
         }) => {
-            let l = eval_as_number(left)?;
-            let r = eval_as_number(right)?;
+            let l = eval_as_number(expr_ctx, left)?;
+            let r = eval_as_number(expr_ctx, right)?;
 
             return Some(l - r);
         }
@@ -444,7 +462,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
             ..
         }) => {
             for arg in &*args {
-                if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                if arg.spread.is_some() || arg.expr.may_have_side_effects(expr_ctx) {
                     return None;
                 }
             }
@@ -458,12 +476,12 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                 match &**obj {
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
-                            let v = eval_as_number(&args.first()?.expr)?;
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.cos());
                         }
                         "sin" => {
-                            let v = eval_as_number(&args.first()?.expr)?;
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.sin());
                         }
@@ -471,7 +489,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                         "max" => {
                             let mut numbers = vec![];
                             for arg in args {
-                                let v = eval_as_number(&arg.expr)?;
+                                let v = eval_as_number(expr_ctx, &arg.expr)?;
                                 if v.is_infinite() || v.is_nan() {
                                     return None;
                                 }
@@ -489,7 +507,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                         "min" => {
                             let mut numbers = vec![];
                             for arg in args {
-                                let v = eval_as_number(&arg.expr)?;
+                                let v = eval_as_number(expr_ctx, &arg.expr)?;
                                 if v.is_infinite() || v.is_nan() {
                                     return None;
                                 }
@@ -508,8 +526,8 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
                             if args.len() != 2 {
                                 return None;
                             }
-                            let first = eval_as_number(&args[0].expr)?;
-                            let second = eval_as_number(&args[1].expr)?;
+                            let first = eval_as_number(expr_ctx, &args[0].expr)?;
+                            let second = eval_as_number(expr_ctx, &args[1].expr)?;
 
                             return Some(first.powf(second));
                         }
@@ -536,7 +554,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
         },
 
         _ => {
-            if let Value::Known(v) = e.as_number() {
+            if let Value::Known(v) = e.as_pure_number(expr_ctx) {
                 return Some(v);
             }
         }
@@ -547,9 +565,9 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
 
 pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
 where
-    N: for<'aa> VisitWith<UsageFinder<'aa>>,
+    N: for<'aa> VisitWith<IdentUsageFinder<'aa>>,
 {
-    UsageFinder::find(&Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)), node)
+    IdentUsageFinder::find(&id, node)
 }
 
 pub struct ExprReplacer<F>

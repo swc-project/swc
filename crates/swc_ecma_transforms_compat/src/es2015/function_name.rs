@@ -2,7 +2,7 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::{private_ident, UsageFinder};
+use swc_ecma_utils::{private_ident, IdentUsageFinder};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -117,7 +117,7 @@ macro_rules! impl_for {
                     };
                     // If function's body references the name of variable, we just skip the
                     // function
-                    if UsageFinder::find(&name, &*node) {
+                    if IdentUsageFinder::find(&name.to_id(), &*node) {
                         // self.name = Some(name);
                         node.ident = None;
                     } else {

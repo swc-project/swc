@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Type, Value};
+use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
 use super::Optimizer;
@@ -97,20 +97,20 @@ where
             (lt, rt) if lt != rt => {}
             (Type::Obj, Type::Obj) => {}
             (Type::Num, Type::Num) => {
-                let l = n.left.as_number().opt()?;
-                let r = n.right.as_number().opt()?;
+                let l = n.left.as_pure_number(&self.expr_ctx).opt()?;
+                let r = n.right.as_pure_number(&self.expr_ctx).opt()?;
                 report_change!("Optimizing: literal comparison => num");
                 return make_lit_bool(l == r);
             }
             (Type::Str, Type::Str) => {
-                let l = &n.left.as_string().opt()?;
-                let r = &n.right.as_string().opt()?;
+                let l = &n.left.as_pure_string(&self.expr_ctx).opt()?;
+                let r = &n.right.as_pure_string(&self.expr_ctx).opt()?;
                 report_change!("Optimizing: literal comparison => str");
                 return make_lit_bool(l == r);
             }
             (_, _) => {
-                let l = n.left.as_pure_bool().opt()?;
-                let r = n.right.as_pure_bool().opt()?;
+                let l = n.left.as_pure_bool(&self.expr_ctx).opt()?;
+                let r = n.right.as_pure_bool(&self.expr_ctx).opt()?;
                 report_change!("Optimizing: literal comparison => bool");
                 return make_lit_bool(l == r);
             }
@@ -166,7 +166,7 @@ where
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
+        negate(&self.expr_ctx, e, self.ctx.in_bool_ctx, is_ret_val_ignored)
     }
 
     /// This method does
@@ -282,7 +282,7 @@ where
 
         match bin.op {
             op!("&&") => {
-                let rb = bin.right.as_pure_bool();
+                let rb = bin.right.as_pure_bool(&self.expr_ctx);
                 let rb = match rb {
                     Value::Known(v) => v,
                     _ => return,
@@ -302,7 +302,7 @@ where
                 }
             }
             op!("||") => {
-                let rb = bin.right.as_pure_bool();
+                let rb = bin.right.as_pure_bool(&self.expr_ctx);
                 let rb = match rb {
                     Value::Known(v) => v,
                     _ => return,

@@ -10,7 +10,7 @@ use swc_common::{
     SourceMap, Spanned, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::graph::Required;
@@ -591,7 +591,7 @@ impl Visit for RequirementCalculator {
         self.in_var_decl = true;
 
         if self.in_weak {
-            let ids: Vec<Id> = find_ids(&var.name);
+            let ids: Vec<Id> = find_pat_ids(&var.name);
             self.excluded.extend(ids);
         }
 
@@ -665,7 +665,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                     Decl::Var(vars) => {
                         for var in &vars.decls {
                             //
-                            let ids: Vec<Id> = find_ids(&var.name);
+                            let ids: Vec<Id> = find_pat_ids(&var.name);
                             for id in ids {
                                 if var.init.is_none() {
                                     uninitialized_ids.insert(id.clone(), idx);

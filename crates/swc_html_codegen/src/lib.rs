@@ -18,10 +18,12 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct CodegenConfig {
     pub minify: bool,
+    pub scripting_enabled: bool,
 }
+
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where
@@ -30,6 +32,8 @@ where
     wr: W,
     config: CodegenConfig,
     ctx: Ctx,
+    // For legacy `<plaintext>`
+    is_plaintext: bool,
 }
 
 impl<W> CodeGenerator<W>
@@ -41,6 +45,7 @@ where
             wr,
             config,
             ctx: Default::default(),
+            is_plaintext: false,
         }
     }
 
@@ -92,15 +97,21 @@ where
             }
 
             doctype.push(' ');
-            doctype.push('"');
+
+            let public_id_quote = if public_id.contains('"') { '\'' } else { '"' };
+
+            doctype.push(public_id_quote);
             doctype.push_str(public_id);
-            doctype.push('"');
+            doctype.push(public_id_quote);
 
             if let Some(system_id) = &n.system_id {
                 doctype.push(' ');
-                doctype.push('"');
+
+                let system_id_quote = if system_id.contains('"') { '\'' } else { '"' };
+
+                doctype.push(system_id_quote);
                 doctype.push_str(system_id);
-                doctype.push('"');
+                doctype.push(system_id_quote);
             }
         } else if let Some(system_id) = &n.system_id {
             doctype.push(' ');
@@ -111,10 +122,12 @@ where
                 doctype.push_str("SYSTEM");
             }
 
+            let system_id_quote = if system_id.contains('"') { '\'' } else { '"' };
+
             doctype.push(' ');
-            doctype.push('"');
+            doctype.push(system_id_quote);
             doctype.push_str(system_id);
-            doctype.push('"');
+            doctype.push(system_id_quote);
         }
 
         doctype.push('>');
@@ -162,27 +175,29 @@ where
             return Ok(());
         }
 
+        self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+
         if !n.children.is_empty() {
-            let skip_escape_text = matches!(
-                &*n.tag_name,
-                "style"
-                | "script"
-                | "xmp"
-                | "iframe"
-                | "noembed"
-                | "noframes"
-                | "plaintext"
-                // TODO we need option here
-                | "noscript"
-            );
+            let skip_escape_text = match &*n.tag_name {
+                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
+                "noscript" => self.config.scripting_enabled,
+                _ if self.is_plaintext => true,
+                _ => false,
+            };
+            let need_extra_newline_in_text = matches!(&*n.tag_name, "textarea" | "pre");
 
             let ctx = Ctx {
                 skip_escape_text,
+                need_extra_newline_in_text,
                 ..self.ctx
             };
 
             self.with_ctx(ctx)
                 .emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
+
+        if self.is_plaintext {
+            return Ok(());
         }
 
         write_raw!(self, "<");
@@ -226,25 +241,29 @@ where
         if self.ctx.skip_escape_text {
             write_str!(self, n.span, &n.value);
         } else {
-            let mut text = String::new();
+            let mut data = String::new();
+
+            if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
+                data.push('\n');
+            }
 
             for c in n.value.chars() {
                 match c {
                     '&' => {
-                        text.push_str(&String::from("&amp;"));
+                        data.push_str(&String::from("&amp;"));
                     }
                     '<' => {
-                        text.push_str(&String::from("&lt;"));
+                        data.push_str(&String::from("&lt;"));
                     }
                     '>' => {
-                        text.push_str(&String::from("&gt;"));
+                        data.push_str(&String::from("&gt;"));
                     }
-                    '\u{00A0}' => text.push_str(&String::from("&nbsp;")),
-                    _ => text.push(c),
+                    '\u{00A0}' => data.push_str(&String::from("&nbsp;")),
+                    _ => data.push(c),
                 }
             }
 
-            write_str!(self, n.span, &text);
+            write_str!(self, n.span, &data);
         }
     }
 

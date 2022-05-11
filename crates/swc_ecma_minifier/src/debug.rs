@@ -181,10 +181,17 @@ impl Visit for AssertValid {
         forget(ctx);
     }
 
+    #[cfg(debug_assertions)]
     fn visit_invalid(&mut self, _: &Invalid) {
         panic!("Invalid node found");
     }
 
+    #[cfg(debug_assertions)]
+    fn visit_number(&mut self, n: &Number) {
+        assert!(!n.value.is_nan(), "NaN should be an identifier");
+    }
+
+    #[cfg(debug_assertions)]
     fn visit_setter_prop(&mut self, p: &SetterProp) {
         p.body.visit_with(self);
     }
@@ -196,12 +203,14 @@ impl Visit for AssertValid {
         forget(ctx);
     }
 
+    #[cfg(debug_assertions)]
     fn visit_tpl(&mut self, l: &Tpl) {
         l.visit_children_with(self);
 
         assert_eq!(l.exprs.len() + 1, l.quasis.len());
     }
 
+    #[cfg(debug_assertions)]
     fn visit_var_declarators(&mut self, v: &[VarDeclarator]) {
         v.visit_children_with(self);
 

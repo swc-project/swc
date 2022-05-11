@@ -1,1 +1,1 @@
-(void 0).foo;
+(void window).foo;

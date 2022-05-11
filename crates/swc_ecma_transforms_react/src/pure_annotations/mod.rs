@@ -1,7 +1,6 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{id, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -53,14 +52,14 @@ where
                                 Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
                                 None => named.local.sym.clone(),
                             };
-                            self.imports.insert(id(&named.local), (src, imported));
+                            self.imports.insert(named.local.to_id(), (src, imported));
                         }
                         ImportSpecifier::Default(default) => {
                             self.imports
-                                .insert(id(&default.local), (src, js_word!("default")));
+                                .insert(default.local.to_id(), (src, js_word!("default")));
                         }
                         ImportSpecifier::Namespace(ns) => {
-                            self.imports.insert(id(&ns.local), (src, "*".into()));
+                            self.imports.insert(ns.local.to_id(), (src, "*".into()));
                         }
                     }
                 }
@@ -79,7 +78,7 @@ where
         let is_react_call = match &call.callee {
             Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
-                    if let Some((src, specifier)) = self.imports.get(&id(ident)) {
+                    if let Some((src, specifier)) = self.imports.get(&ident.to_id()) {
                         is_pure(src, specifier)
                     } else {
                         false
@@ -87,7 +86,7 @@ where
                 }
                 Expr::Member(member) => match &*member.obj {
                     Expr::Ident(ident) => {
-                        if let Some((src, specifier)) = self.imports.get(&id(ident)) {
+                        if let Some((src, specifier)) = self.imports.get(&ident.to_id()) {
                             if &**specifier == "default" || &**specifier == "*" {
                                 match &member.prop {
                                     MemberProp::Ident(ident) => is_pure(src, &ident.sym),

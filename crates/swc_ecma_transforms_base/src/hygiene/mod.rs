@@ -1,7 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 use self::{
@@ -163,7 +162,17 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Hygiene { config }))
+    as_folder(chain!(unique_scope(), Hygiene { config }, HygieneRemover))
+}
+
+struct HygieneRemover;
+
+impl VisitMut for HygieneRemover {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.span.ctxt = Default::default();
+    }
 }
 
 #[derive(Debug, Default)]

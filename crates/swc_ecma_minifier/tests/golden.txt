@@ -167,6 +167,7 @@ collapse_vars/issue_2187_1/input.js
 collapse_vars/issue_2187_3/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
+collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2313_2/input.js
 collapse_vars/issue_2319_2/input.js
@@ -707,6 +708,7 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
+issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
@@ -976,7 +978,6 @@ parameters/arrow_functions/input.js
 parameters/arrow_return/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
-parameters/destructuring_arguments_2/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
 properties/accessor_1/input.js
@@ -990,6 +991,7 @@ properties/accessor_this/input.js
 properties/array_hole/input.js
 properties/computed_property/input.js
 properties/dot_properties_es5/input.js
+properties/evaluate_array_length/input.js
 properties/evaluate_string_length/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
@@ -1017,6 +1019,7 @@ properties/mangle_define_property_arg/input.js
 properties/mangle_private_properties/input.js
 properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
+pure_funcs/array/input.js
 pure_funcs/assign/input.js
 pure_getters/chained/input.js
 pure_getters/collapse_rhs_call/input.js

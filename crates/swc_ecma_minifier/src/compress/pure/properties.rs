@@ -144,11 +144,12 @@ impl Pure<'_> {
                 Prop::Shorthand(..) => false,
                 Prop::KeyValue(p) => {
                     p.key.is_computed()
-                        || p.value.may_have_side_effects()
+                        || p.value.may_have_side_effects(&self.expr_ctx)
                         || deeply_contains_this_expr(&p.value)
                 }
                 Prop::Assign(p) => {
-                    p.value.may_have_side_effects() || deeply_contains_this_expr(&p.value)
+                    p.value.may_have_side_effects(&self.expr_ctx)
+                        || deeply_contains_this_expr(&p.value)
                 }
                 Prop::Getter(p) => p.key.is_computed(),
                 Prop::Setter(p) => p.key.is_computed(),

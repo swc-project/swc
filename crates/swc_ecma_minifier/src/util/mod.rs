@@ -8,7 +8,7 @@ use swc_common::{
     Mark, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Fold, FoldWith, Visit, VisitWith};
 
 pub(crate) mod base54;

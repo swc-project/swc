@@ -1,2 +1,2 @@
-var E;
-!function(E) {}(E || (E = {}));
+var E, V;
+E || (E = {}), V || (V = {});

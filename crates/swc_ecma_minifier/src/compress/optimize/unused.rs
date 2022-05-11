@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, ident::IdentLike};
+use swc_ecma_utils::contains_ident_ref;
 
 use super::Optimizer;
 use crate::{
@@ -472,7 +472,7 @@ where
         }
 
         if let Decl::Class(c) = decl {
-            if class_has_side_effect(&c.class) {
+            if class_has_side_effect(&self.expr_ctx, &c.class) {
                 return;
             }
         }
@@ -754,7 +754,7 @@ where
                 return;
             }
 
-            if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+            if contains_ident_ref(&f.function.body, &f.ident.as_ref().unwrap().to_id()) {
                 return;
             }
 

@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, UsageFinder};
+use swc_ecma_utils::{find_pat_ids, ExprExt, IdentUsageFinder};
 
 use super::Optimizer;
 use crate::{
@@ -122,7 +122,7 @@ where
 
                 // No use => dropped
                 if usage.ref_count == 0 {
-                    if init.may_have_side_effects() {
+                    if init.may_have_side_effects(&self.expr_ctx) {
                         // TODO: Inline partially
                         return;
                     }
@@ -259,7 +259,7 @@ where
                                 // block_scoping pass.
                                 // If the function captures the environment, we
                                 // can't inline it.
-                                let params: Vec<Id> = find_ids(&f.function.params);
+                                let params: Vec<Id> = find_pat_ids(&f.function.params);
 
                                 if !params.is_empty() {
                                     let captured = idents_captured_by(&f.function.body);
@@ -277,7 +277,7 @@ where
                         }
                     }
 
-                    if init.may_have_side_effects() {
+                    if init.may_have_side_effects(&self.expr_ctx) {
                         return;
                     }
 
@@ -481,7 +481,7 @@ where
 
                     match &f.function.body {
                         Some(body) => {
-                            if !UsageFinder::find(&i, body)
+                            if !IdentUsageFinder::find(&i.to_id(), body)
                                 && self.is_fn_body_simple_enough_to_inline(
                                     body,
                                     f.function.params.len(),
@@ -542,7 +542,7 @@ where
                 })
             {
                 if let Decl::Class(ClassDecl { class, .. }) = decl {
-                    if class_has_side_effect(class) {
+                    if class_has_side_effect(&self.expr_ctx, class) {
                         return;
                     }
                 }

@@ -4,7 +4,7 @@ use anyhow::{bail, Error};
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_top_level_await, find_ids, private_ident, ExprFactory};
+use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 use crate::{bundler::chunk::merge::Ctx, modules::Modules, Bundler, Load, ModuleId, Resolve};
@@ -222,7 +222,7 @@ impl Fold for ExportToReturn {
                         self.export_id(ident.clone());
                     }
                     Decl::Var(decl) => {
-                        let ids: Vec<Ident> = find_ids(decl);
+                        let ids: Vec<Ident> = find_pat_ids(decl);
                         ids.into_iter().for_each(|id| self.export_id(id));
                     }
                     _ => unreachable!(),

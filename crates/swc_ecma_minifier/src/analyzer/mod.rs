@@ -1,11 +1,8 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    SyntaxContext,
-};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_ids, ident::IdentLike, BindingCollector, Id, IsEmpty};
+use swc_ecma_utils::{collect_decls, find_pat_ids, ident::IdentLike, BindingCollector, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -153,11 +150,11 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub vars: AHashMap<Id, VarUsageInfo>,
+    pub vars: FxHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
-    pub scopes: AHashMap<SyntaxContext, ScopeData>,
+    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 }
 
 impl ProgramData {
@@ -586,7 +583,7 @@ where
                 self.data.var_or_default(f.ident.to_id()).prevent_inline();
             }
             Decl::Var(v) => {
-                let ids = find_ids(v);
+                let ids = find_pat_ids(v);
 
                 for id in ids {
                     self.data.var_or_default(id).prevent_inline();

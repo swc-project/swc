@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Value::Known};
+use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
 use crate::mode::Mode;
@@ -21,7 +21,10 @@ where
             ..
         }) = e
         {
-            if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+            if args
+                .iter()
+                .any(|arg| arg.expr.may_have_side_effects(&self.expr_ctx))
+            {
                 return;
             }
 
@@ -67,7 +70,7 @@ where
             _ => {}
         }
 
-        let value = n.as_string();
+        let value = n.as_pure_string(&self.expr_ctx);
         if let Known(value) = value {
             let span = n.span();
 

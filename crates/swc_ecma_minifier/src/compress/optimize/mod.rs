@@ -9,8 +9,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
+    Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
@@ -71,6 +71,10 @@ where
 
     Optimizer {
         marks,
+        expr_ctx: ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+            is_unresolved_ref_safe: false,
+        },
         changed: false,
         options,
         prepend_stmts: Default::default(),
@@ -162,6 +166,8 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
+    in_with_stmt: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -185,6 +191,7 @@ impl Ctx {
 
 struct Optimizer<'a, M> {
     marks: Marks,
+    expr_ctx: ExprCtx,
 
     changed: bool,
     options: &'a CompressOptions,
@@ -1054,7 +1061,8 @@ where
                 if exprs.len() <= 1 {
                     return exprs.pop().map(|v| *v);
                 } else {
-                    let is_last_undefined = is_pure_undefined(exprs.last().unwrap());
+                    let is_last_undefined =
+                        is_pure_undefined(&self.expr_ctx, exprs.last().unwrap());
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
@@ -1200,8 +1208,8 @@ where
             _ => return,
         }
 
-        let lb = cond.cons.as_pure_bool();
-        let rb = cond.alt.as_pure_bool();
+        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
+        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
 
         let lb = match lb {
             Value::Known(v) => v,
@@ -1521,7 +1529,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Some(value) = &n.value {
-            if is_pure_undefined(value) {
+            if is_pure_undefined(&self.expr_ctx, value) {
                 n.value = None;
             }
         }
@@ -2420,7 +2428,7 @@ where
         debug_assert_eq!(self.prepend_stmts.len(), len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
-            if is_pure_undefined(expr) {
+            if is_pure_undefined(&self.expr_ctx, expr) {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
@@ -2441,8 +2449,9 @@ where
             }
 
             if self.options.unused {
-                let can_be_removed =
-                    !is_directive && !expr.is_ident() && !expr.may_have_side_effects();
+                let can_be_removed = !is_directive
+                    && !expr.is_ident()
+                    && !expr.may_have_side_effects(&self.expr_ctx);
 
                 if can_be_removed {
                     self.changed = true;
@@ -2676,7 +2685,7 @@ where
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
                 if let Some(e) = &var.init {
-                    if is_pure_undefined(e) {
+                    if is_pure_undefined(&self.expr_ctx, e) {
                         self.changed = true;
                         report_change!(
                             "Dropping explicit initializer which evaluates to `undefined`"
@@ -2734,7 +2743,7 @@ where
             for v in vars.iter_mut() {
                 if v.init
                     .as_deref()
-                    .map(|e| !e.is_ident() && !e.may_have_side_effects())
+                    .map(|e| !e.is_ident() && !e.may_have_side_effects(&self.expr_ctx))
                     .unwrap_or(true)
                 {
                     self.drop_unused_var_declarator(v, &mut None);
@@ -2847,13 +2856,26 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                in_with_stmt: true,
+                ..self.ctx
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
             self.compress_undefined(&mut **arg);
 
-            if !n.delegate && is_pure_undefined(arg) {
+            if !n.delegate && is_pure_undefined(&self.expr_ctx, arg) {
                 n.arg = None;
             }
         }

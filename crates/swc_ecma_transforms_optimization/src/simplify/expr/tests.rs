@@ -1,8 +1,10 @@
-use swc_common::{chain, Mark};
+use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::test_transform;
+use swc_ecma_utils::ExprCtx;
+use swc_ecma_visit::as_folder;
 
-use super::expr_simplifier;
+use super::SimplifyExpr;
 
 fn fold(src: &str, expected: &str) {
     test_transform(
@@ -13,7 +15,19 @@ fn fold(src: &str, expected: &str) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                expr_simplifier(unresolved_mark, Default::default())
+                as_folder(SimplifyExpr {
+                    expr_ctx: ExprCtx {
+                        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+                        // This is hack
+                        is_unresolved_ref_safe: true,
+                    },
+                    config: super::Config {},
+                    changed: false,
+                    vars: Default::default(),
+                    is_arg_of_update: false,
+                    is_modifying: false,
+                    in_callee: false,
+                })
             )
         },
         src,

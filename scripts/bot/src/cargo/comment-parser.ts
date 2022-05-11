@@ -53,5 +53,6 @@ export async function parsePrComments(prNumber: number): Promise<Action[]> {
                 crate: line,
                 breaking: false,
             };
-        });
+        })
+        .filter((l) => !!l);
 }

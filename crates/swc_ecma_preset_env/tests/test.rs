@@ -13,15 +13,15 @@ use pretty_assertions::assert_eq;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    chain, collections::AHashMap, comments::SingleThreadedComments, input::StringInput,
-    FromVariant, Mark,
+    chain, collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER,
+    input::StringInput, FromVariant, Mark,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
-use swc_ecma_utils::{drop_span, HANDLER};
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
 use testing::{NormalizedOutput, Tester};
 

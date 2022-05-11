@@ -137,9 +137,9 @@ where
 
             data.module.visit_mut_with(&mut ClearMark);
 
-            let mut module = data
-                .module
-                .fold_with(&mut resolver(local_mark, local_mark, false));
+            let mut module =
+                data.module
+                    .fold_with(&mut resolver(self.unresolved_mark, local_mark, false));
 
             // {
             //     let code = self

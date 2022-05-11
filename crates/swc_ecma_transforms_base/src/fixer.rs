@@ -526,6 +526,7 @@ impl VisitMut for Fixer<'_> {
         match *node.callee {
             Expr::Call(..)
             | Expr::Await(..)
+            | Expr::Yield(..)
             | Expr::Bin(..)
             | Expr::Assign(..)
             | Expr::Seq(..)

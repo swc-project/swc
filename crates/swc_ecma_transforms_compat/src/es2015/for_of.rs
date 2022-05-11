@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory,
+    alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -143,7 +143,7 @@ impl ForOf {
                         1,
                         "Variable declarator of for of loop cannot contain multiple entries"
                     );
-                    prepend(
+                    prepend_stmt(
                         &mut body.stmts,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
@@ -159,7 +159,7 @@ impl ForOf {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => prepend(
+                VarDeclOrPat::Pat(pat) => prepend_stmt(
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,

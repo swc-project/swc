@@ -2,7 +2,6 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike,
     undefined, ExprExt, Type,
     Value::{self, Known},
 };
@@ -28,7 +27,7 @@ where
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        let cost = negate_cost(expr, is_ret_val_ignored, is_ret_val_ignored);
+        let cost = negate_cost(&self.expr_ctx, expr, is_ret_val_ignored, is_ret_val_ignored);
         if cost >= 0 {
             return false;
         }

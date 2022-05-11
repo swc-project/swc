@@ -7,7 +7,6 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Module, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{

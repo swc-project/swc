@@ -1,3 +1,5 @@
+class D0 extends Base {
+}
 class D1 extends getBase() {
     constructor(){
         super("abc", "def"), this.x = "x", this.y = "y";

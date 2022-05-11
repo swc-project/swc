@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
@@ -41,7 +41,7 @@ impl Visit for NoDupeArgs {
     noop_visit_type!();
 
     fn visit_function(&mut self, f: &Function) {
-        let variables: Vec<(JsWord, Span)> = find_ids(&f.params);
+        let variables: Vec<(JsWord, Span)> = find_pat_ids(&f.params);
 
         self.check(variables);
 
@@ -49,7 +49,7 @@ impl Visit for NoDupeArgs {
     }
 
     fn visit_arrow_expr(&mut self, arrow_fn: &ArrowExpr) {
-        let variables: Vec<(JsWord, Span)> = find_ids(&arrow_fn.params);
+        let variables: Vec<(JsWord, Span)> = find_pat_ids(&arrow_fn.params);
 
         self.check(variables);
 
@@ -57,7 +57,7 @@ impl Visit for NoDupeArgs {
     }
 
     fn visit_constructor(&mut self, n: &Constructor) {
-        let variables: Vec<(JsWord, Span)> = find_ids(&n.params);
+        let variables: Vec<(JsWord, Span)> = find_pat_ids(&n.params);
 
         self.check(variables);
 

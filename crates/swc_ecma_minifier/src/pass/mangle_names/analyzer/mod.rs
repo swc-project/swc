@@ -2,7 +2,6 @@ use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::trace;
 

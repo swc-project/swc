@@ -9,9 +9,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
-use swc_ecma_utils::{
-    default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprFactory, Id,
-};
+use swc_ecma_utils::{default_constructor, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -375,7 +373,7 @@ impl VisitMut for PrivateInObject {
         ns.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 ns,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -446,7 +444,7 @@ impl VisitMut for PrivateInObject {
         s.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
-            prepend(
+            prepend_stmt(
                 s,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

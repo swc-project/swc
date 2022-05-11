@@ -3,7 +3,7 @@ use std::{fmt::Write, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::ExprExt;
 
 use super::Pure;
 use crate::compress::{
@@ -45,7 +45,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if is_pure_undefined(&call.args[0].expr) {
+            if is_pure_undefined(&self.expr_ctx, &call.args[0].expr) {
                 ",".into()
             } else {
                 match &*call.args[0].expr {
@@ -90,7 +90,7 @@ impl Pure<'_> {
             .iter()
             .filter_map(|v| v.as_ref())
             .any(|v| match &*v.expr {
-                e if is_pure_undefined(e) => false,
+                e if is_pure_undefined(&self.expr_ctx, e) => false,
                 Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                 _ => true,
             });
@@ -115,7 +115,7 @@ impl Pure<'_> {
                 .iter()
                 .filter_map(|v| v.as_ref())
                 .any(|v| match &*v.expr {
-                    e if is_pure_undefined(e) => false,
+                    e if is_pure_undefined(&self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
@@ -149,7 +149,7 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(e) => {}
+                        e if is_pure_undefined(&self.expr_ctx, e) => {}
                         Expr::Lit(Lit::Null(..)) => {}
                         _ => {
                             add(&mut res, expr);
@@ -179,7 +179,7 @@ impl Pure<'_> {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
-                    e if is_pure_undefined(e) => {}
+                    e if is_pure_undefined(&self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
@@ -207,7 +207,7 @@ impl Pure<'_> {
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         if let Some(e) = s.arg.as_deref() {
-            if is_pure_undefined(e) {
+            if is_pure_undefined(&self.expr_ctx, e) {
                 self.changed = true;
                 report_change!("Dropped `undefined` from `return undefined`");
                 s.arg.take();
@@ -481,6 +481,22 @@ impl Pure<'_> {
             }
 
             _ => {}
+        }
+
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) = e
+        {
+            if callee.is_pure_callee(&self.expr_ctx) {
+                self.changed = true;
+                report_change!("Dropping pure call as callee is pure");
+                *e = self
+                    .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
+                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
         }
 
         if self.options.unused {

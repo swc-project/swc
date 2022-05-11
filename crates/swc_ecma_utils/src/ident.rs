@@ -1,7 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::{Span, SyntaxContext};
-pub use swc_ecma_ast::Id;
-use swc_ecma_ast::{BindingIdent, Ident};
+use swc_ecma_ast::{BindingIdent, Id, Ident};
 
 pub trait IdentLike: Sized {
     fn from_ident(i: &Ident) -> Self;
@@ -74,6 +73,7 @@ impl IdentLike for Ident {
     }
 }
 
+#[deprecated = "Use i.to_id() instead"]
 #[inline(always)]
 pub fn id(i: &Ident) -> Id {
     (i.sym.clone(), i.span.ctxt())

@@ -3,7 +3,7 @@ use std::num::FpCategory;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Value::Known};
+use swc_ecma_utils::{undefined, ExprExt, Value::Known};
 
 use super::Optimizer;
 use crate::{compress::util::eval_as_number, mode::Mode, DISABLE_BUGGY_PASSES};
@@ -85,7 +85,11 @@ where
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg
+            || self.ctx.is_update_arg
+            || self.ctx.is_lhs_of_assign
+            || self.ctx.in_with_stmt
+        {
             return;
         }
 
@@ -165,7 +169,7 @@ where
         //
 
         for arg in &*args {
-            if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+            if arg.spread.is_some() || arg.expr.may_have_side_effects(&self.expr_ctx) {
                 return;
             }
         }
@@ -239,7 +243,7 @@ where
                             return;
                         }
 
-                        if let Known(char_code) = args[0].expr.as_number() {
+                        if let Known(char_code) = args[0].expr.as_pure_number(&self.expr_ctx) {
                             let v = char_code.floor() as u32;
 
                             if let Some(v) = char::from_u32(v) {
@@ -344,7 +348,7 @@ where
         }
 
         if let Expr::Call(..) = e {
-            if let Some(value) = eval_as_number(e) {
+            if let Some(value) = eval_as_number(&self.expr_ctx, e) {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
@@ -359,8 +363,8 @@ where
 
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("**"), .. }) => {
-                let l = bin.left.as_number();
-                let r = bin.right.as_number();
+                let l = bin.left.as_pure_number(&self.expr_ctx);
+                let r = bin.right.as_pure_number(&self.expr_ctx);
 
                 if let Known(l) = l {
                     if let Known(r) = r {
@@ -378,9 +382,9 @@ where
             }
 
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
-                let ln = bin.left.as_number();
+                let ln = bin.left.as_pure_number(&self.expr_ctx);
 
-                let rn = bin.right.as_number();
+                let rn = bin.right.as_pure_number(&self.expr_ctx);
                 if let (Known(ln), Known(rn)) = (ln, rn) {
                     // Prefer `0/0` over NaN.
                     if ln == 0.0 && rn == 0.0 {
@@ -466,7 +470,7 @@ where
             }
             // Remove rhs of lhs if possible.
 
-            let v = left.right.as_pure_bool();
+            let v = left.right.as_pure_bool(&self.expr_ctx);
             if let Known(v) = v {
                 // As we used as_pure_bool, we can drop it.
                 if v && e.op == op!("&&") {

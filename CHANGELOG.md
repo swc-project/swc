@@ -5,6 +5,62 @@
 
 
 
+- **(es/config)** Merge `jsc.transform` correctly (#4615) ([3b2b8c4](https://github.com/swc-project/swc/commit/3b2b8c4512709b9908a113af83f30e4fa97b9c49))
+
+
+- **(es/fixer)** Handle `new yield` (#4598) ([d611d54](https://github.com/swc-project/swc/commit/d611d543eaff2a017c9742137a4594835aeb67f4))
+
+
+- **(es/minifier)** Fix switches (#4595) ([2ab7594](https://github.com/swc-project/swc/commit/2ab7594b4abf72c6e5d6da49b2c08e9faac44ffb))
+
+
+- **(es/minifier)** Fix `with` and `NaN` (#4596) ([097ff1d](https://github.com/swc-project/swc/commit/097ff1ddc1675e1168b319da009221e345e2f4ea))
+
+
+- **(es/minifier)** Fix switch with a unknown case (#4597) ([8944a3b](https://github.com/swc-project/swc/commit/8944a3bdf54497a6ab03194b3d96ccfe902c016b))
+
+
+- **(es/minifier)** Preserve more `this` (#4599) ([859dc44](https://github.com/swc-project/swc/commit/859dc440b43c0dbd17ef8cee2998de3ce8c009a0))
+
+
+- **(es/utils)** Fix wrong apis (#4604) ([6a97c7b](https://github.com/swc-project/swc/commit/6a97c7bef8a1f846bfe34678fd0714b8fdcb56a5))
+
+
+- **(html/parser)** Fix bugs (#4592) ([7166dbf](https://github.com/swc-project/swc/commit/7166dbf5a626170f36e9282dfc625d1ace781511))
+
+### Features
+
+
+
+- **(css/parser)** Add a method to get error message (#4588) ([04dd3dd](https://github.com/swc-project/swc/commit/04dd3ddc5d2953ae9ba4b944853db57bf1ed217d))
+
+
+- **(es/ast)** Improve `Id` APIs (#4614) ([2c861bd](https://github.com/swc-project/swc/commit/2c861bd9e515ed0c9bfa653ed79d9e6941b05078))
+
+
+- **(es/hygiene)** Drop syntax context (#4594) ([6ac4a23](https://github.com/swc-project/swc/commit/6ac4a23aa2fdf3854f23760cec70b36249df4cdc))
+
+
+- **(es/lints)** Implement `prefer-const` rule without options (#4584) ([e65bf3d](https://github.com/swc-project/swc/commit/e65bf3d02559e2e2ca31a1e190244b1ee9e19843))
+
+### Refactor
+
+
+
+- **(html)** Refactor parser and codegen (#4611) ([7c6627f](https://github.com/swc-project/swc/commit/7c6627fc2106a6553ebce353d53f61917205fee2))
+
+### Testing
+
+
+
+- **(es/minifier)** Postpone tests which can be verified by execution tests (#4600) ([6918e3a](https://github.com/swc-project/swc/commit/6918e3a4fb7ad375dfaad3da6d9e21931bde987b))
+
+## [1.2.181] - 2022-05-09
+
+### Bug Fixes
+
+
+
 - **(es)** Use `unresolved_mark` (#4573) ([0868409](https://github.com/swc-project/swc/commit/086840956d696816c694fc2fd96258351aab9573))
 
 
@@ -21,6 +77,9 @@
 
 
 - **(es/minifier)** Consider more aliases in sequences pass (#4583) ([3521ce0](https://github.com/swc-project/swc/commit/3521ce09e7a2c3168f17491196f6fbc835637380))
+
+
+- **(es/minifier)** Fix handling of `NaN` (#4593) ([dd09cdf](https://github.com/swc-project/swc/commit/dd09cdf8b12d53aa6060e14857fa3efeddf41334))
 
 
 - **(es/resolver)** Fix handling of a complex try catch (#4574) ([9e79f9c](https://github.com/swc-project/swc/commit/9e79f9ced697df4aba51219ce4759238a53c11e3))
