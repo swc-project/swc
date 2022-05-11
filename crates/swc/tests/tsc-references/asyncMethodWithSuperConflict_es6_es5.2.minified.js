@@ -16,15 +16,17 @@ var A = function() {
     }
     var _proto = B.prototype;
     return _proto.simple = function() {
-        var _this = this, _this1 = this, _superprop_get = function(_prop) {
+        var _this = this, _this1 = this, _superprop_get_x = function() {
+            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", _this);
+        }, _superprop_get = function(_prop) {
             return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), _prop, _this);
         };
         return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            var _super, a, b;
+            var _super, _superIndex, a, b;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        (_super = null).call(_this1), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), a = swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", _this), b = _superprop_get("x");
+                        _super = null, _superIndex = null, _superprop_get_x().call(_this1), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x");
                     case 7:
                     case "end":
                         return _ctx.stop();
@@ -38,12 +40,12 @@ var A = function() {
             return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), _prop, _this);
         };
         return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            var _super, f, a, b, ref, ref1;
+            var _super, _superIndex, f, a, b, ref, ref1;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         var _value, _value1;
-                        (_super = null).call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
+                        _super = null, _superIndex = null, f = function() {}, _superprop_get_x().call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f, ref1 = {
                             f: f

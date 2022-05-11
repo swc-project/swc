@@ -45,7 +45,7 @@ var A = function() {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
                         var _value, _value1;
-                        (f = function() {}).call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
+                        f = function() {}, _superprop_get_x().call(_this2), _superprop_get("x").call(_this2), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value, _this, !0), _value1 = f, swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value1, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f, ref1 = {
                             f: f
