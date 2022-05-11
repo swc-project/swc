@@ -979,8 +979,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             let mut scripting_enabled = false;
 
             let mut state = Some(TestState::Data);
+            let lines = test.lines();
 
-            for line in test.lines() {
+            for line in lines {
                 match line {
                     "#data" => {
                         state = Some(TestState::Data);
@@ -1145,16 +1146,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                     actual_json.compare_to_file(&json_path).unwrap();
 
-                    // Skip scripted test, because we don't support ECMA execution
-                    if input
-                        .parent()
-                        .unwrap()
-                        .to_string_lossy()
-                        .contains("scripted")
-                    {
-                        return Ok(());
-                    }
-
                     let mut dom_buf = String::new();
 
                     document_fragment.visit_mut_with(&mut DomVisualizer {
@@ -1162,12 +1153,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                         indent: 0,
                     });
 
-                    // TODO fix me
-                    // let dir = input.parent().unwrap().to_path_buf();
-                    //
-                    // NormalizedOutput::from(dom_buf)
-                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
-                    //     .unwrap();
+                    let dir = input.parent().unwrap().to_path_buf();
+
+                    NormalizedOutput::from(dom_buf)
+                        .compare_to_file(&dir.join(file_stem + ".dom"))
+                        .unwrap();
 
                     Ok(())
                 }
@@ -1191,12 +1181,20 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                     actual_json.compare_to_file(&json_path).unwrap();
 
+                    let parent_name = input.parent().unwrap().to_string_lossy();
+
                     // Skip scripted test, because we don't support ECMA execution
-                    if input
-                        .parent()
-                        .unwrap()
-                        .to_string_lossy()
-                        .contains("scripted")
+                    // Skip `search` due https://github.com/whatwg/html/pull/7320, we should uncomment and fix logic it after it was merged
+                    if parent_name.contains("scripted") || parent_name.contains("search") {
+                        return Ok(());
+                    }
+
+                    let path = input.to_string_lossy();
+
+                    // TODO remove me when we will implement `raw` and keep original newlines in
+                    // `raw`
+                    if (path.contains("domjs-unsafe_dat") && path.contains("1.html"))
+                        || (path.contains("plain-text-unsafe_dat") && path.contains("24.html"))
                     {
                         return Ok(());
                     }
@@ -1208,12 +1206,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                         indent: 0,
                     });
 
-                    // TODO fix me
-                    // let dir = input.parent().unwrap().to_path_buf();
-                    //
-                    // NormalizedOutput::from(dom_buf)
-                    //     .compare_to_file(&dir.join(file_stem + ".dom"))
-                    //     .unwrap();
+                    let dir = input.parent().unwrap().to_path_buf();
+
+                    NormalizedOutput::from(dom_buf)
+                        .compare_to_file(&dir.join(file_stem + ".dom"))
+                        .unwrap();
 
                     Ok(())
                 }
