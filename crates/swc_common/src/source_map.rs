@@ -147,7 +147,7 @@ impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
             files: Default::default(),
-            start_pos: Default::default(),
+            start_pos: AtomicUsize::new(1),
             file_loader: Box::new(RealFileLoader),
             path_mapping,
             doctest_offset: None,
