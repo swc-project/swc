@@ -7,6 +7,12 @@
 
 - **(html/parser)** Remove unused code (#4613) ([a378e1e](https://github.com/swc-project/swc/commit/a378e1e041a60e0a80f5a2e97c534b96b49888e4))
 
+### Testing
+
+
+
+- **(es)** Add a test for merging configurations (#4617) ([53ff81c](https://github.com/swc-project/swc/commit/53ff81ccd65509dd6fff0bef5aa21003d3c81409))
+
 ## [1.2.182] - 2022-05-11
 
 ### Bug Fixes
