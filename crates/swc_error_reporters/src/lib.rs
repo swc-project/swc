@@ -182,12 +182,11 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     fn source_code(&self) -> Option<&dyn SourceCode> {
         // empty file
         if let Some(span) = self.d.span.primary_span() {
-            if span.lo == span.hi {
-                let loc = self.source_code.0.lookup_byte_offset(span.lo);
-                if loc.sf.start_pos == loc.sf.end_pos {
-                    return None;
-                }
+            if span.lo.is_dummy() || span.hi.is_dummy() {
+                return None;
             }
+        } else {
+            return None;
         }
 
         Some(&self.source_code as &dyn SourceCode)
