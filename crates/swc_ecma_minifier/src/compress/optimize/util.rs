@@ -1,7 +1,8 @@
 use std::ops::{Deref, DerefMut};
 
 use rustc_hash::FxHashMap;
-use swc_common::{Span, SyntaxContext};
+use swc_atoms::js_word;
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -177,10 +178,21 @@ impl<'a> MultiReplacer<'a> {
     }
 
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
-        if self.clone {
-            self.vars.get(i).cloned()
+        let e = if self.clone {
+            self.vars.get(i).cloned()?
         } else {
-            self.vars.remove(i)
+            self.vars.remove(i)?
+        };
+
+        match &*e {
+            Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) => Some(Box::new(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: vec![0.into(), e],
+            }))),
+            _ => Some(e),
         }
     }
 }
