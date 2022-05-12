@@ -1200,6 +1200,7 @@ pub trait ExprExt {
                     !matches!(
                         &*i.sym,
                         "Infinity"
+                            | "arguments"
                             | "NaN"
                             | "Math"
                             | "undefined"
