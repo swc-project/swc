@@ -405,10 +405,7 @@ where
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
-                self.emit_token(Token::Character {
-                    value: c,
-                    raw: Some(c.to_string().into()),
-                });
+                self.emit_character_token(c, Some(c));
             }
         }
     }
@@ -428,11 +425,8 @@ where
             String::new()
         };
 
-        match raw_c {
-            Some(raw_c) => {
-                raw.push(raw_c);
-            }
-            _ => {}
+        if let Some(raw_c) = raw_c {
+            raw.push(raw_c);
         }
 
         let mut normalized_c = c;
@@ -3529,7 +3523,6 @@ where
                     // Switch to the after DOCTYPE name state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::AfterDoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3739,7 +3732,6 @@ where
                     // Switch to the before DOCTYPE public identifier state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
@@ -4086,7 +4078,6 @@ where
                     // Switch to the between DOCTYPE public and system identifiers state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -4264,7 +4255,6 @@ where
                     // Switch to the before DOCTYPE system identifier state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
