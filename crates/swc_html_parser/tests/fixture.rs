@@ -1116,7 +1116,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = dir.join(file_stem + ".dom");
+            let dom_snapshot_path = dir.join(file_stem.clone() + ".dom");
 
             let mut dom = document.join("\n");
 
@@ -1125,7 +1125,15 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             }
 
             fs::write(dom_snapshot_path, dom)
-                .expect("Something went wrong when writingto the file");
+                .expect("Something went wrong when writing to the file");
+
+            errors.append(&mut new_errors);
+
+            let errors = errors.join("\n");
+            let errors_snapshot_path = dir.join(file_stem + ".errors");
+
+            fs::write(errors_snapshot_path, errors)
+                .expect("Something went wrong when writing to the file");
 
             counter += 1;
         }
@@ -1134,6 +1142,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
     }
 
     // TODO improve errors tests
+    // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
@@ -1149,6 +1158,15 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let config = ParserConfig { scripting_enabled };
         let mut parser = Parser::new(lexer, config);
+
+        // let errors = parser.take_errors();
+        // let errors_path = input.parent().unwrap().join(file_stem.clone() +
+        // ".errors"); let contents =
+        // fs::read_to_string(errors_path).expect("Something went wrong reading the
+        // file"); let expected_number_of_errors = contents.lines().count();
+        // let actual_number_of_errors = errors.len();
+        //
+        // assert_eq!(actual_number_of_errors, expected_number_of_errors);
 
         if file_stem.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
