@@ -1,5 +1,6 @@
 use std::path::{Path, PathBuf};
 
+use indexmap::IndexMap;
 use swc_common::FileName;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::Syntax;
@@ -54,9 +55,11 @@ fn fixture(input_dir: PathBuf) {
         &|_| {
             let paths_json_path = input_dir.join("paths.json");
             let paths_json = std::fs::read_to_string(&paths_json_path).unwrap();
-            let paths = serde_json::from_str::<Vec<(String, Vec<String>)>>(&paths_json).unwrap();
+            let paths = serde_json::from_str::<IndexMap<String, Vec<String>>>(&paths_json).unwrap();
 
-            let resolver = paths_resolver(&input_dir, paths);
+            let rules = paths.into_iter().collect();
+
+            let resolver = paths_resolver(&input_dir, rules);
 
             import_rewriter(FileName::Real(input_dir.clone()), resolver)
         },
