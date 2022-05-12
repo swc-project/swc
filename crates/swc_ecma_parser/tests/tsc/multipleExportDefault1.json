@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 88,
+    "start": 1,
+    "end": 89,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 0,
-        "end": 38,
+        "start": 1,
+        "end": 39,
         "ctxt": 0
       },
       "decl": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 24,
-            "end": 27,
+            "start": 25,
+            "end": 28,
             "ctxt": 0
           },
           "value": "Foo",
@@ -28,15 +28,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 15,
-          "end": 38,
+          "start": 16,
+          "end": 39,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 30,
-            "end": 38,
+            "start": 31,
+            "end": 39,
             "ctxt": 0
           },
           "stmts": []
@@ -50,15 +50,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 40,
-        "end": 88,
+        "start": 41,
+        "end": 89,
         "ctxt": 0
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
-          "start": 55,
-          "end": 87,
+          "start": 56,
+          "end": 88,
           "ctxt": 0
         },
         "properties": [
@@ -67,8 +67,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 61,
-                "end": 65,
+                "start": 62,
+                "end": 66,
                 "ctxt": 0
               },
               "value": "uhoh",
@@ -77,8 +77,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 67,
-                "end": 84,
+                "start": 68,
+                "end": 85,
                 "ctxt": 0
               },
               "value": "another default",

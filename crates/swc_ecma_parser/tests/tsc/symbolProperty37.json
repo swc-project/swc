@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 112,
+    "start": 16,
+    "end": 113,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 15,
-        "end": 112,
+        "start": 16,
+        "end": 113,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 25,
-          "end": 26,
+          "start": 26,
+          "end": 27,
           "ctxt": 0
         },
         "value": "I",
@@ -29,31 +29,31 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 27,
-          "end": 112,
+          "start": 28,
+          "end": 113,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 33,
-              "end": 69,
+              "start": 34,
+              "end": 70,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
-                "start": 34,
-                "end": 59,
+                "start": 35,
+                "end": 60,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 34,
-                  "end": 40,
+                  "start": 35,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -62,8 +62,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 41,
-                  "end": 59,
+                  "start": 42,
+                  "end": 60,
                   "ctxt": 0
                 },
                 "value": "isConcatSpreadable",
@@ -77,15 +77,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 60,
-                "end": 68,
+                "start": 61,
+                "end": 69,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 62,
-                  "end": 68,
+                  "start": 63,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -96,23 +96,23 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 74,
-              "end": 110,
+              "start": 75,
+              "end": 111,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
-                "start": 75,
-                "end": 100,
+                "start": 76,
+                "end": 101,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 75,
-                  "end": 81,
+                  "start": 76,
+                  "end": 82,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -121,8 +121,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 82,
-                  "end": 100,
+                  "start": 83,
+                  "end": 101,
                   "ctxt": 0
                 },
                 "value": "isConcatSpreadable",
@@ -136,15 +136,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 101,
-                "end": 109,
+                "start": 102,
+                "end": 110,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 103,
-                  "end": 109,
+                  "start": 104,
+                  "end": 110,
                   "ctxt": 0
                 },
                 "kind": "string"

@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 65,
-    "end": 131,
+    "start": 66,
+    "end": 132,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 65,
-        "end": 94,
+        "start": 66,
+        "end": 95,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 72,
-          "end": 94,
+          "start": 73,
+          "end": 95,
           "ctxt": 0
         },
         "declare": false,
@@ -25,8 +25,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 77,
-            "end": 79,
+            "start": 78,
+            "end": 80,
             "ctxt": 0
           },
           "value": "E1",
@@ -36,15 +36,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 86,
-              "end": 92,
+              "start": 87,
+              "end": 93,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 86,
-                "end": 92,
+                "start": 87,
+                "end": 93,
                 "ctxt": 0
               },
               "value": "value1",
@@ -58,15 +58,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 96,
-        "end": 131,
+        "start": 97,
+        "end": 132,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 103,
-          "end": 131,
+          "start": 104,
+          "end": 132,
           "ctxt": 0
         },
         "declare": false,
@@ -74,8 +74,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 114,
-            "end": 116,
+            "start": 115,
+            "end": 117,
             "ctxt": 0
           },
           "value": "E2",
@@ -85,15 +85,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 123,
-              "end": 129,
+              "start": 124,
+              "end": 130,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 123,
-                "end": 129,
+                "start": 124,
+                "end": 130,
                 "ctxt": 0
               },
               "value": "value1",

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 39,
+    "start": 1,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 39,
+        "start": 1,
+        "end": 40,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 24,
-            "end": 28,
+            "start": 25,
+            "end": 29,
             "ctxt": 0
           },
           "value": "test",
@@ -29,8 +29,8 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 7,
-          "end": 39,
+          "start": 8,
+          "end": 40,
           "ctxt": 0
         },
         "body": null,
@@ -40,15 +40,15 @@
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 30,
-            "end": 38,
+            "start": 31,
+            "end": 39,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 32,
-              "end": 38,
+              "start": 33,
+              "end": 39,
               "ctxt": 0
             },
             "kind": "string"

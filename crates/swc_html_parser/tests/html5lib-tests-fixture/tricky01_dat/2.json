@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 123,
+    "start": 1,
+    "end": 124,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 119,
+        "start": 1,
+        "end": 120,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 12,
+            "end": 13,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 6,
-            "end": 119,
+            "start": 7,
+            "end": 120,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 12,
-                "end": 13,
+                "start": 13,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "\n"
@@ -54,8 +54,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 13,
-                "end": 47,
+                "start": 14,
+                "end": 48,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -65,8 +65,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
-                    "end": 47,
+                    "start": 17,
+                    "end": 48,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -89,8 +89,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 31,
-                        "end": 47,
+                        "start": 32,
+                        "end": 48,
                         "ctxt": 0
                       },
                       "value": "First paragraph."
@@ -104,8 +104,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 16,
-                "end": 72,
+                "start": 17,
+                "end": 73,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -128,8 +128,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 51,
-                    "end": 52,
+                    "start": 52,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -137,8 +137,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 52,
-                    "end": 72,
+                    "start": 53,
+                    "end": 73,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -148,8 +148,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 55,
-                        "end": 72,
+                        "start": 56,
+                        "end": 73,
                         "ctxt": 0
                       },
                       "value": "Second paragraph."
@@ -163,8 +163,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 83,
-                "end": 84,
+                "start": 84,
+                "end": 85,
                 "ctxt": 0
               },
               "value": "\n"
@@ -172,8 +172,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 84,
-                "end": 87,
+                "start": 85,
+                "end": 88,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -185,8 +185,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 87,
-                "end": 119,
+                "start": 88,
+                "end": 120,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -196,8 +196,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 84,
-                    "end": 108,
+                    "start": 85,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -207,8 +207,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 90,
-                        "end": 108,
+                        "start": 91,
+                        "end": 109,
                         "ctxt": 0
                       },
                       "tagName": "i",
@@ -218,8 +218,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 93,
-                            "end": 108,
+                            "start": 94,
+                            "end": 109,
                             "ctxt": 0
                           },
                           "value": "Bold and Italic"
@@ -233,8 +233,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 90,
-                    "end": 119,
+                    "start": 91,
+                    "end": 120,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -244,8 +244,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 112,
-                        "end": 119,
+                        "start": 113,
+                        "end": 120,
                         "ctxt": 0
                       },
                       "value": " Italic"

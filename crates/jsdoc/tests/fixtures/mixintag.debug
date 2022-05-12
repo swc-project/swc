@@ -2,20 +2,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                0,
+                1,
             ),
             hi: BytePos(
-                0,
+                1,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    0,
+                    1,
                 ),
                 hi: BytePos(
-                    132,
+                    133,
                 ),
                 ctxt: #0,
             },
@@ -28,20 +28,20 @@
             TagItem {
                 span: Span {
                     lo: BytePos(
-                        0,
+                        1,
                     ),
                     hi: BytePos(
-                        5,
+                        6,
                     ),
                     ctxt: #0,
                 },
                 tag_name: Text {
                     span: Span {
                         lo: BytePos(
-                            0,
+                            1,
                         ),
                         hi: BytePos(
-                            5,
+                            6,
                         ),
                         ctxt: #0,
                     },
@@ -51,10 +51,10 @@
                     MixinTag {
                         span: Span {
                             lo: BytePos(
-                                0,
+                                1,
                             ),
                             hi: BytePos(
-                                5,
+                                6,
                             ),
                             ctxt: #0,
                         },
@@ -78,20 +78,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                172,
+                173,
             ),
             hi: BytePos(
-                172,
+                173,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    172,
+                    173,
                 ),
                 hi: BytePos(
-                    188,
+                    189,
                 ),
                 ctxt: #0,
             },
@@ -102,20 +102,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                227,
+                228,
             ),
             hi: BytePos(
-                227,
+                228,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    227,
+                    228,
                 ),
                 hi: BytePos(
-                    244,
+                    245,
                 ),
                 ctxt: #0,
             },
@@ -126,20 +126,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                279,
+                280,
             ),
             hi: BytePos(
-                279,
+                280,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    279,
+                    280,
                 ),
                 hi: BytePos(
-                    279,
+                    280,
                 ),
                 ctxt: #0,
             },
@@ -149,20 +149,20 @@
             TagItem {
                 span: Span {
                     lo: BytePos(
-                        279,
+                        280,
                     ),
                     hi: BytePos(
-                        290,
+                        291,
                     ),
                     ctxt: #0,
                 },
                 tag_name: Text {
                     span: Span {
                         lo: BytePos(
-                            279,
+                            280,
                         ),
                         hi: BytePos(
-                            290,
+                            291,
                         ),
                         ctxt: #0,
                     },
@@ -172,10 +172,10 @@
                     ClassTag {
                         span: Span {
                             lo: BytePos(
-                                279,
+                                280,
                             ),
                             hi: BytePos(
-                                290,
+                                291,
                             ),
                             ctxt: #0,
                         },
@@ -183,10 +183,10 @@
                             Text {
                                 span: Span {
                                     lo: BytePos(
-                                        279,
+                                        280,
                                     ),
                                     hi: BytePos(
-                                        296,
+                                        297,
                                     ),
                                     ctxt: #0,
                                 },

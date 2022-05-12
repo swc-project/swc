@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 70,
+    "start": 1,
+    "end": 71,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 39,
+        "start": 1,
+        "end": 40,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 7,
-          "end": 39,
+          "start": 8,
+          "end": 40,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 13,
-              "end": 38,
+              "start": 14,
+              "end": 39,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 13,
-                "end": 16,
+                "start": 14,
+                "end": 17,
                 "ctxt": 0
               },
               "value": "foo",
@@ -47,15 +47,15 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 19,
-                "end": 38,
+                "start": 20,
+                "end": 39,
                 "ctxt": 0
               },
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 35,
-                  "end": 38,
+                  "start": 36,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "stmts": []
@@ -65,23 +65,23 @@
               "typeParameters": {
                 "type": "TsTypeParameterDeclaration",
                 "span": {
-                  "start": 29,
-                  "end": 32,
+                  "start": 30,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "parameters": [
                   {
                     "type": "TsTypeParameter",
                     "span": {
-                      "start": 30,
-                      "end": 31,
+                      "start": 31,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Identifier",
                       "span": {
-                        "start": 30,
-                        "end": 31,
+                        "start": 31,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "value": "T",
@@ -104,15 +104,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 41,
-        "end": 70,
+        "start": 42,
+        "end": 71,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 48,
-          "end": 70,
+          "start": 49,
+          "end": 71,
           "ctxt": 0
         },
         "kind": "const",
@@ -121,15 +121,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 54,
-              "end": 69,
+              "start": 55,
+              "end": 70,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 54,
-                "end": 57,
+                "start": 55,
+                "end": 58,
                 "ctxt": 0
               },
               "value": "bar",
@@ -139,16 +139,16 @@
             "init": {
               "type": "ArrowFunctionExpression",
               "span": {
-                "start": 60,
-                "end": 69,
+                "start": 61,
+                "end": 70,
                 "ctxt": 0
               },
               "params": [],
               "body": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 66,
-                  "end": 69,
+                  "start": 67,
+                  "end": 70,
                   "ctxt": 0
                 },
                 "stmts": []

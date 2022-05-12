@@ -22,7 +22,7 @@ use swc_html_parser::{
 use swc_html_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::NormalizedOutput;
 
-fn test_pass(input: PathBuf, config: ParserConfig) {
+fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
@@ -62,7 +62,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
     .unwrap();
 }
 
-fn test_recovery(input: PathBuf, config: ParserConfig) {
+fn document_recovery_test(input: PathBuf, config: ParserConfig) {
     let stderr_path = input.parent().unwrap().join("output.stderr");
     let mut recovered = false;
 
@@ -120,7 +120,7 @@ fn test_recovery(input: PathBuf, config: ParserConfig) {
     stderr.compare_to_file(&stderr_path).unwrap();
 }
 
-fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
+fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
@@ -156,6 +156,49 @@ fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
     output
         .compare_to_file(&dir.join("span.rust-debug"))
         .unwrap();
+}
+
+fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    testing::run_test2(false, |cm, handler| {
+        // Type annotation
+        if false {
+            return Ok(());
+        }
+
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
+
+        let document: PResult<Document> = parser.parse_document();
+
+        match document {
+            Ok(mut document) => {
+                let mut dom_buf = String::new();
+
+                document.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join("dom.rust-debug"))
+                    .unwrap();
+
+                Ok(())
+            }
+            Err(err) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
+            }
+        }
+    })
+    .unwrap();
 }
 
 struct SpanVisualizer<'a> {
@@ -364,7 +407,7 @@ impl VisitMut for DomVisualizer<'_> {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
-    test_pass(
+    document_test(
         input,
         ParserConfig {
             ..Default::default()
@@ -374,7 +417,7 @@ fn pass(input: PathBuf) {
 
 #[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
-    test_recovery(
+    document_recovery_test(
         input,
         ParserConfig {
             ..Default::default()
@@ -385,7 +428,7 @@ fn recovery(input: PathBuf) {
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    test_span_visualizer(
+    document_span_visualizer(
         input,
         ParserConfig {
             ..Default::default()
@@ -393,7 +436,17 @@ fn span_visualizer(input: PathBuf) {
     )
 }
 
-// TODO add dom visualizer for fixtures and recovery tests
+#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
+fn dom_visualizer(input: PathBuf) {
+    document_dom_visualizer(
+        input,
+        ParserConfig {
+            ..Default::default()
+        },
+    )
+}
+
 // TODO add span visualizer for html5test_lib tests
 
 fn unescape(s: &str) -> Option<String> {

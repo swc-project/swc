@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 40,
+    "start": 16,
+    "end": 41,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 15,
-        "end": 40,
+        "start": 16,
+        "end": 41,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,30 +19,30 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 19,
-            "end": 39,
+            "start": 20,
+            "end": 40,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 19,
-              "end": 24,
+              "start": 20,
+              "end": 25,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 21,
-                  "end": 22,
+                  "start": 22,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -57,29 +57,29 @@
           "init": {
             "type": "TsTypeAssertion",
             "span": {
-              "start": 27,
-              "end": 39,
+              "start": 28,
+              "end": 40,
               "ctxt": 0
             },
             "expression": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 32,
-                "end": 39,
+                "start": 33,
+                "end": 40,
                 "ctxt": 0
               },
               "expression": {
                 "type": "CallExpression",
                 "span": {
-                  "start": 33,
-                  "end": 38,
+                  "start": 34,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 33,
-                    "end": 36,
+                    "start": 34,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "value": "foo",
@@ -92,8 +92,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 28,
-                "end": 31,
+                "start": 29,
+                "end": 32,
                 "ctxt": 0
               },
               "kind": "any"

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 46,
+    "start": 1,
+    "end": 47,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 44,
+        "start": 1,
+        "end": 45,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 5,
+          "start": 2,
+          "end": 6,
           "ctxt": 0
         },
         "value": "page",
@@ -27,8 +27,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 6,
-          "end": 44,
+          "start": 7,
+          "end": 45,
           "ctxt": 0
         },
         "name": "{",
@@ -36,15 +36,15 @@
           {
             "type": "AtRule",
             "span": {
-              "start": 9,
-              "end": 42,
+              "start": 10,
+              "end": 43,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 10,
-                "end": 20,
+                "start": 11,
+                "end": 21,
                 "ctxt": 0
               },
               "value": "top-center",
@@ -54,8 +54,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 21,
-                "end": 42,
+                "start": 22,
+                "end": 43,
                 "ctxt": 0
               },
               "name": "{",
@@ -63,15 +63,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 25,
-                    "end": 38,
+                    "start": 26,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 25,
-                      "end": 32,
+                      "start": 26,
+                      "end": 33,
                       "ctxt": 0
                     },
                     "value": "display",
@@ -81,8 +81,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 34,
-                        "end": 38,
+                        "start": 35,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "value": "none",

@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 0,
-    "end": 16,
+    "start": 1,
+    "end": 17,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 6,
+        "start": 1,
+        "end": 7,
         "ctxt": 0
       },
       "tagName": "span",

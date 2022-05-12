@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 55,
+    "start": 1,
+    "end": 56,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 27,
+        "start": 1,
+        "end": 28,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 2,
+          "end": 11,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 11,
-          "end": 14,
+          "start": 12,
+          "end": 15,
           "ctxt": 0
         },
         "value": "foo",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 15,
-          "end": 27,
+          "start": 16,
+          "end": 28,
           "ctxt": 0
         },
         "name": "{",
@@ -45,8 +45,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 16,
-              "end": 18,
+              "start": 17,
+              "end": 19,
               "ctxt": 0
             },
             "token": {
@@ -58,8 +58,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 18,
-              "end": 22,
+              "start": 19,
+              "end": 23,
               "ctxt": 0
             },
             "token": {
@@ -72,8 +72,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 22,
-              "end": 23,
+              "start": 23,
+              "end": 24,
               "ctxt": 0
             },
             "token": {
@@ -85,8 +85,8 @@
           {
             "type": "SimpleBlock",
             "span": {
-              "start": 23,
-              "end": 25,
+              "start": 24,
+              "end": 26,
               "ctxt": 0
             },
             "name": "{",
@@ -95,8 +95,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 25,
-              "end": 26,
+              "start": 26,
+              "end": 27,
               "ctxt": 0
             },
             "token": {
@@ -111,15 +111,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 29,
-        "end": 54,
+        "start": 30,
+        "end": 55,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 30,
-          "end": 39,
+          "start": 31,
+          "end": 40,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -128,8 +128,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 40,
-          "end": 43,
+          "start": 41,
+          "end": 44,
           "ctxt": 0
         },
         "value": "foo",
@@ -138,8 +138,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 44,
-          "end": 54,
+          "start": 45,
+          "end": 55,
           "ctxt": 0
         },
         "name": "{",
@@ -147,8 +147,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 45,
-              "end": 47,
+              "start": 46,
+              "end": 48,
               "ctxt": 0
             },
             "token": {
@@ -160,8 +160,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 47,
-              "end": 49,
+              "start": 48,
+              "end": 50,
               "ctxt": 0
             },
             "token": {
@@ -174,8 +174,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 49,
-              "end": 50,
+              "start": 50,
+              "end": 51,
               "ctxt": 0
             },
             "token": {
@@ -187,8 +187,8 @@
           {
             "type": "SimpleBlock",
             "span": {
-              "start": 50,
-              "end": 52,
+              "start": 51,
+              "end": 53,
               "ctxt": 0
             },
             "name": "{",
@@ -197,8 +197,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 52,
-              "end": 53,
+              "start": 53,
+              "end": 54,
               "ctxt": 0
             },
             "token": {

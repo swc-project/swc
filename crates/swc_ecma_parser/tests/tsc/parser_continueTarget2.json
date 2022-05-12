@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 43,
+    "start": 1,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 0,
-        "end": 43,
+        "start": 1,
+        "end": 44,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 0,
-          "end": 6,
+          "start": 1,
+          "end": 7,
           "ctxt": 0
         },
         "value": "target",
@@ -26,15 +26,15 @@
       "body": {
         "type": "WhileStatement",
         "span": {
-          "start": 8,
-          "end": 43,
+          "start": 9,
+          "end": 44,
           "ctxt": 0
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
-            "start": 15,
-            "end": 19,
+            "start": 16,
+            "end": 20,
             "ctxt": 0
           },
           "value": true
@@ -42,23 +42,23 @@
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 21,
-            "end": 43,
+            "start": 22,
+            "end": 44,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ContinueStatement",
               "span": {
-                "start": 25,
-                "end": 41,
+                "start": 26,
+                "end": 42,
                 "ctxt": 0
               },
               "label": {
                 "type": "Identifier",
                 "span": {
-                  "start": 34,
-                  "end": 40,
+                  "start": 35,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "value": "target",

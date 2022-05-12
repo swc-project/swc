@@ -6,28 +6,12 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/button/input.html:1:1]
- 1 | <button><p></button>x
-   : ^^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/button/input.html:1:1]
- 1 | <button><p></button>x
-   : ^^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/button/input.html:1:1]
- 1 | <button><p></button>x
-   : ^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/button/input.html:1:1]
- 1 | <button><p></button>x
-   : ^^^^^^^^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/button/input.html:1:1]

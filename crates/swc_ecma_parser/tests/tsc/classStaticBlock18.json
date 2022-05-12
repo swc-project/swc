@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 41,
-    "end": 219,
+    "start": 42,
+    "end": 220,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 50,
-          "end": 53,
+          "start": 51,
+          "end": 54,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,31 +22,31 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 41,
-        "end": 219,
+        "start": 42,
+        "end": 220,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 57,
-          "end": 219,
+          "start": 58,
+          "end": 220,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 61,
-              "end": 217,
+              "start": 62,
+              "end": 218,
               "ctxt": 0
             },
             "argument": {
               "type": "ClassExpression",
               "identifier": null,
               "span": {
-                "start": 68,
-                "end": 217,
+                "start": 69,
+                "end": 218,
                 "ctxt": 0
               },
               "decorators": [],
@@ -54,15 +54,15 @@
                 {
                   "type": "ClassProperty",
                   "span": {
-                    "start": 80,
-                    "end": 95,
+                    "start": 81,
+                    "end": 96,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 87,
-                      "end": 90,
+                      "start": 88,
+                      "end": 91,
                       "ctxt": 0
                     },
                     "value": "foo",
@@ -71,8 +71,8 @@
                   "value": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 93,
-                      "end": 94,
+                      "start": 94,
+                      "end": 95,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -92,23 +92,23 @@
                 {
                   "type": "StaticBlock",
                   "span": {
-                    "start": 100,
-                    "end": 213,
+                    "start": 101,
+                    "end": 214,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 107,
-                      "end": 213,
+                      "start": 108,
+                      "end": 214,
                       "ctxt": 0
                     },
                     "stmts": [
                       {
                         "type": "VariableDeclaration",
                         "span": {
-                          "start": 115,
-                          "end": 207,
+                          "start": 116,
+                          "end": 208,
                           "ctxt": 0
                         },
                         "kind": "const",
@@ -117,15 +117,15 @@
                           {
                             "type": "VariableDeclarator",
                             "span": {
-                              "start": 121,
-                              "end": 207,
+                              "start": 122,
+                              "end": 208,
                               "ctxt": 0
                             },
                             "id": {
                               "type": "Identifier",
                               "span": {
-                                "start": 121,
-                                "end": 122,
+                                "start": 122,
+                                "end": 123,
                                 "ctxt": 0
                               },
                               "value": "c",
@@ -136,8 +136,8 @@
                               "type": "ClassExpression",
                               "identifier": null,
                               "span": {
-                                "start": 125,
-                                "end": 207,
+                                "start": 126,
+                                "end": 208,
                                 "ctxt": 0
                               },
                               "decorators": [],
@@ -145,15 +145,15 @@
                                 {
                                   "type": "ClassProperty",
                                   "span": {
-                                    "start": 141,
-                                    "end": 156,
+                                    "start": 142,
+                                    "end": 157,
                                     "ctxt": 0
                                   },
                                   "key": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 148,
-                                      "end": 151,
+                                      "start": 149,
+                                      "end": 152,
                                       "ctxt": 0
                                     },
                                     "value": "bar",
@@ -162,8 +162,8 @@
                                   "value": {
                                     "type": "NumericLiteral",
                                     "span": {
-                                      "start": 154,
-                                      "end": 155,
+                                      "start": 155,
+                                      "end": 156,
                                       "ctxt": 0
                                     },
                                     "value": 2.0,
@@ -183,15 +183,15 @@
                                 {
                                   "type": "StaticBlock",
                                   "span": {
-                                    "start": 165,
-                                    "end": 199,
+                                    "start": 166,
+                                    "end": 200,
                                     "ctxt": 0
                                   },
                                   "body": {
                                     "type": "BlockStatement",
                                     "span": {
-                                      "start": 172,
-                                      "end": 199,
+                                      "start": 173,
+                                      "end": 200,
                                       "ctxt": 0
                                     },
                                     "stmts": []

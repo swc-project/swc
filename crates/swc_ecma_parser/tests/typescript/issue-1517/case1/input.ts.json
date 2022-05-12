@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 67,
+    "start": 1,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 0,
-        "end": 67,
+        "start": 1,
+        "end": 68,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 10,
-          "end": 11,
+          "start": 11,
+          "end": 12,
           "ctxt": 0
         },
         "value": "X",
@@ -29,24 +29,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 12,
-          "end": 67,
+          "start": 13,
+          "end": 68,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsGetterSignature",
             "span": {
-              "start": 18,
-              "end": 36,
+              "start": 19,
+              "end": 37,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 22,
-                "end": 25,
+                "start": 23,
+                "end": 26,
                 "ctxt": 0
               },
               "value": "foo",
@@ -57,15 +57,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 27,
-                "end": 35,
+                "start": 28,
+                "end": 36,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 29,
-                  "end": 35,
+                  "start": 30,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -75,16 +75,16 @@
           {
             "type": "TsSetterSignature",
             "span": {
-              "start": 37,
-              "end": 65,
+              "start": 38,
+              "end": 66,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 41,
-                "end": 44,
+                "start": 42,
+                "end": 45,
                 "ctxt": 0
               },
               "value": "foo",
@@ -95,8 +95,8 @@
             "param": {
               "type": "Identifier",
               "span": {
-                "start": 45,
-                "end": 63,
+                "start": 46,
+                "end": 64,
                 "ctxt": 0
               },
               "value": "v",
@@ -104,23 +104,23 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 46,
-                  "end": 63,
+                  "start": 47,
+                  "end": 64,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsUnionType",
                   "span": {
-                    "start": 48,
-                    "end": 63,
+                    "start": 49,
+                    "end": 64,
                     "ctxt": 0
                   },
                   "types": [
                     {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 48,
-                        "end": 54,
+                        "start": 49,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "kind": "string"
@@ -128,8 +128,8 @@
                     {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 57,
-                        "end": 63,
+                        "start": 58,
+                        "end": 64,
                         "ctxt": 0
                       },
                       "kind": "number"

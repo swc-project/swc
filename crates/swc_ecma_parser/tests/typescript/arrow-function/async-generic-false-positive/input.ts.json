@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 27,
+    "start": 1,
+    "end": 28,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 10,
+        "start": 1,
+        "end": 11,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 0,
-          "end": 9,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
         "operator": "<",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 0,
-            "end": 5,
+            "start": 1,
+            "end": 6,
             "ctxt": 0
           },
           "value": "async",
@@ -34,8 +34,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 8,
-            "end": 9,
+            "start": 9,
+            "end": 10,
             "ctxt": 0
           },
           "value": 1.0,
@@ -46,30 +46,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 11,
-        "end": 27,
+        "start": 12,
+        "end": 28,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 11,
-          "end": 26,
+          "start": 12,
+          "end": 27,
           "ctxt": 0
         },
         "operator": "==",
         "left": {
           "type": "CallExpression",
           "span": {
-            "start": 11,
-            "end": 21,
+            "start": 12,
+            "end": 22,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 11,
-              "end": 16,
+              "start": 12,
+              "end": 17,
               "ctxt": 0
             },
             "value": "async",
@@ -79,23 +79,23 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 16,
-              "end": 19,
+              "start": 17,
+              "end": 20,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 17,
-                  "end": 18,
+                  "start": 18,
+                  "end": 19,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 17,
-                    "end": 18,
+                    "start": 18,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -109,8 +109,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 25,
-            "end": 26,
+            "start": 26,
+            "end": 27,
             "ctxt": 0
           },
           "value": 0.0,

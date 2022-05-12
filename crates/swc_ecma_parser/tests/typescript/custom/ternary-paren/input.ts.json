@@ -1,37 +1,37 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 13,
+    "start": 1,
+    "end": 14,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 13,
+        "start": 1,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 0,
-          "end": 13,
+          "start": 1,
+          "end": 14,
           "ctxt": 0
         },
         "expression": {
           "type": "ConditionalExpression",
           "span": {
-            "start": 1,
-            "end": 12,
+            "start": 2,
+            "end": 13,
             "ctxt": 0
           },
           "test": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 4,
+              "start": 2,
+              "end": 5,
               "ctxt": 0
             },
             "value": "foo",
@@ -40,8 +40,8 @@
           "consequent": {
             "type": "NumericLiteral",
             "span": {
-              "start": 7,
-              "end": 8,
+              "start": 8,
+              "end": 9,
               "ctxt": 0
             },
             "value": 1.0,
@@ -50,8 +50,8 @@
           "alternate": {
             "type": "NumericLiteral",
             "span": {
-              "start": 11,
-              "end": 12,
+              "start": 12,
+              "end": 13,
               "ctxt": 0
             },
             "value": 2.0,

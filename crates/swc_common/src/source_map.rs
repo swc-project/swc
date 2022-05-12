@@ -147,7 +147,7 @@ impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
             files: Default::default(),
-            start_pos: Default::default(),
+            start_pos: AtomicUsize::new(1),
             file_loader: Box::new(RealFileLoader),
             path_mapping,
             doctest_offset: None,
@@ -543,6 +543,9 @@ impl SourceMap {
     {
         if sp.lo() > sp.hi() {
             return Err(SpanSnippetError::IllFormedSpan(sp));
+        }
+        if sp.lo.is_dummy() || sp.hi.is_dummy() {
+            return Err(SpanSnippetError::DummyBytePos);
         }
 
         let local_begin = self.lookup_byte_offset(sp.lo());
@@ -983,6 +986,10 @@ impl SourceMap {
         files: &[Lrc<SourceFile>],
         pos: BytePos,
     ) -> Option<Lrc<SourceFile>> {
+        if pos.is_dummy() {
+            return None;
+        }
+
         let count = files.len();
 
         // Binary search for the source_file.
@@ -1271,7 +1278,7 @@ impl SourceMapper for SourceMap {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct FilePathMapping {
     mapping: Vec<(PathBuf, PathBuf)>,
 }
@@ -1379,15 +1386,15 @@ mod tests {
         // Test lookup_byte_offset
         let sm = init_source_map();
 
-        let srcfbp1 = sm.lookup_byte_offset(BytePos(23));
+        let srcfbp1 = sm.lookup_byte_offset(BytePos(24));
         assert_eq!(srcfbp1.sf.name, PathBuf::from("blork.rs").into());
         assert_eq!(srcfbp1.pos, BytePos(23));
 
-        let srcfbp1 = sm.lookup_byte_offset(BytePos(24));
+        let srcfbp1 = sm.lookup_byte_offset(BytePos(25));
         assert_eq!(srcfbp1.sf.name, PathBuf::from("empty.rs").into());
         assert_eq!(srcfbp1.pos, BytePos(0));
 
-        let srcfbp2 = sm.lookup_byte_offset(BytePos(25));
+        let srcfbp2 = sm.lookup_byte_offset(BytePos(26));
         assert_eq!(srcfbp2.sf.name, PathBuf::from("blork2.rs").into());
         assert_eq!(srcfbp2.pos, BytePos(0));
     }
@@ -1397,10 +1404,10 @@ mod tests {
         // Test bytepos_to_file_charpos
         let sm = init_source_map();
 
-        let cp1 = sm.bytepos_to_file_charpos(BytePos(22));
+        let cp1 = sm.bytepos_to_file_charpos(BytePos(23));
         assert_eq!(cp1, CharPos(22));
 
-        let cp2 = sm.bytepos_to_file_charpos(BytePos(25));
+        let cp2 = sm.bytepos_to_file_charpos(BytePos(26));
         assert_eq!(cp2, CharPos(0));
     }
 
@@ -1409,12 +1416,12 @@ mod tests {
         // Test zero-length source_files.
         let sm = init_source_map();
 
-        let loc1 = sm.lookup_char_pos(BytePos(22));
+        let loc1 = sm.lookup_char_pos(BytePos(23));
         assert_eq!(loc1.file.name, PathBuf::from("blork.rs").into());
         assert_eq!(loc1.line, 2);
         assert_eq!(loc1.col, CharPos(10));
 
-        let loc2 = sm.lookup_char_pos(BytePos(25));
+        let loc2 = sm.lookup_char_pos(BytePos(26));
         assert_eq!(loc2.file.name, PathBuf::from("blork2.rs").into());
         assert_eq!(loc2.line, 1);
         assert_eq!(loc2.col, CharPos(0));
@@ -1439,16 +1446,16 @@ mod tests {
         // Test bytepos_to_file_charpos in the presence of multi-byte chars
         let sm = init_source_map_mbc();
 
-        let cp1 = sm.bytepos_to_file_charpos(BytePos(3));
+        let cp1 = sm.bytepos_to_file_charpos(BytePos(4));
         assert_eq!(cp1, CharPos(3));
 
-        let cp2 = sm.bytepos_to_file_charpos(BytePos(6));
+        let cp2 = sm.bytepos_to_file_charpos(BytePos(7));
         assert_eq!(cp2, CharPos(4));
 
-        let cp3 = sm.bytepos_to_file_charpos(BytePos(56));
+        let cp3 = sm.bytepos_to_file_charpos(BytePos(57));
         assert_eq!(cp3, CharPos(12));
 
-        let cp4 = sm.bytepos_to_file_charpos(BytePos(61));
+        let cp4 = sm.bytepos_to_file_charpos(BytePos(62));
         assert_eq!(cp4, CharPos(15));
     }
 
@@ -1456,7 +1463,7 @@ mod tests {
     fn t7() {
         // Test span_to_lines for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(12), BytePos(23), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
         let file_lines = sm.span_to_lines(span).unwrap();
 
         assert_eq!(file_lines.file.name, PathBuf::from("blork.rs").into());
@@ -1470,8 +1477,15 @@ mod tests {
     /// that this can span lines and so on.
     fn span_from_selection(input: &str, selection: &str) -> Span {
         assert_eq!(input.len(), selection.len());
-        let left_index = selection.find('~').unwrap() as u32;
-        let right_index = selection.rfind('~').map(|x| x as u32).unwrap_or(left_index);
+        // +1 as BytePos starts at 1
+        let left_index = (selection.find('~').unwrap() + 1) as u32;
+        let right_index = selection
+            .rfind('~')
+            .map(|x| {
+                // +1 as BytePos starts at 1
+                (x + 1) as u32
+            })
+            .unwrap_or(left_index);
         Span::new(BytePos(left_index), BytePos(right_index + 1), NO_EXPANSION)
     }
 
@@ -1518,7 +1532,7 @@ mod tests {
     fn t8() {
         // Test span_to_snippet for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(12), BytePos(23), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
         let snippet = sm.span_to_snippet(span);
 
         assert_eq!(snippet, Ok("second line".to_string()));
@@ -1528,7 +1542,7 @@ mod tests {
     fn t9() {
         // Test span_to_str for a span ending at the end of source_file
         let sm = init_source_map();
-        let span = Span::new(BytePos(12), BytePos(23), NO_EXPANSION);
+        let span = Span::new(BytePos(13), BytePos(24), NO_EXPANSION);
         let sstr = sm.span_to_string(span);
 
         assert_eq!(sstr, "blork.rs:2:1: 2:12");
@@ -1539,7 +1553,7 @@ mod tests {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(PathBuf::from("blork.rs").into(), "".to_string());
-        let span = Span::new(BytePos(0), BytePos(0), NO_EXPANSION);
+        let span = Span::new(BytePos(1), BytePos(1), NO_EXPANSION);
         let file_lines = sm.span_to_lines(span).unwrap();
 
         assert_eq!(file_lines.file.name, PathBuf::from("blork.rs").into());

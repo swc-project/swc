@@ -37,44 +37,12 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:1:1]
- 1 | ,-> <!-- test -->
- 2 | |   
- 3 | |   <!-- foo --><div>baz</div><!-- bar
- 4 | |   
- 5 | |   moo -->
- 6 | |   <script><!-- alert(1) --></script>
- 7 | |   <script>alert('<!--')</script>
- 8 | |   <script>alert('<!-- foo -->')</script>
- 9 | `-> <script>alert('-->')</script>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment/basic/input.html:1:1]
- 1 | ,-> <!-- test -->
- 2 | |   
- 3 | |   <!-- foo --><div>baz</div><!-- bar
- 4 | |   
- 5 | |   moo -->
- 6 | |   <script><!-- alert(1) --></script>
- 7 | |   <script>alert('<!--')</script>
- 8 | |   <script>alert('<!-- foo -->')</script>
- 9 | `-> <script>alert('-->')</script>
-   `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:1:1]
- 1 | ,-> <!-- test -->
- 2 | |   
- 3 | `-> <!-- foo --><div>baz</div><!-- bar
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment/basic/input.html:1:1]
- 1 | ,-> <!-- test -->
- 2 | |   
- 3 | `-> <!-- foo --><div>baz</div><!-- bar
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/comment/basic/input.html:3:1]

@@ -1,0 +1,199 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     "
+
+"
+|     <h1>
+|       "HTML Entity Example"
+|     "
+
+"
+|     <div>
+|       "A space character: &"
+|     "
+"
+|     <div>
+|       "A space character: &"
+|     "
+"
+|     <div>
+|       "A space character: &;"
+|     "
+
+"
+|     <div>
+|       "A space character:  "
+|     "
+"
+|     <div>
+|       "The less-than sign: <"
+|     "
+"
+|     <div>
+|       "The greater-than sign: >"
+|     "
+"
+|     <div>
+|       "The double quote sign: ""
+|     "
+"
+|     <div>
+|       "The single quote sign: '"
+|     "
+"
+|     <div>
+|       "The cent sign: ¢"
+|     "
+"
+|     <div>
+|       "The pound sign: £"
+|     "
+"
+|     <div>
+|       "The yen sign: ¥"
+|     "
+"
+|     <div>
+|       "The euro sign: €"
+|     "
+"
+|     <div>
+|       "The copyright sign: ©"
+|     "
+"
+|     <div>
+|       "The registered trade mark sign: ®"
+|     "
+
+"
+|     <div>
+|       "®"
+|     "
+"
+|     <div>
+|       "®"
+|     "
+"
+|     <div>
+|       "®;"
+|     "
+"
+|     <div>
+|       "reg"
+|     "
+
+"
+|     <div>
+|       "∳"
+|     "
+"
+|     <div>
+|       "&®"
+|     "
+
+"
+|     <div>
+|       "An a with a grave accent: à"
+|     "
+"
+|     <div>
+|       "An a with an acute accent: á"
+|     "
+"
+|     <div>
+|       "An a with a circumflex accent: â"
+|     "
+"
+|     <div>
+|       "An a with a tilde: ã"
+|     "
+"
+|     <div>
+|       "An o with a grave accent: ò"
+|     "
+"
+|     <div>
+|       "An o with an acute accent: ó"
+|     "
+"
+|     <div>
+|       "An o with a circumflex accent: ô"
+|     "
+"
+|     <div>
+|       "An o with a tilde: õ"
+|     "
+
+"
+|     <div>
+|       "A space character: &&"
+|     "
+"
+|     <div>
+|       "I'm ∉ I tell you"
+|     "
+"
+|     <div>
+|       "I'm ¬ I tell you"
+|     "
+
+"
+|     <a>
+|       href="http://lmgtfy.com/?l=1&q=rick+roll"
+|       "tired meme"
+|     "
+"
+|     <a>
+|       href="#"
+|       onclick="window.location='?l=1&q=rick+roll';return false"
+|       "
+    kablammo!
+"
+|     "
+
+"
+|     <div>
+|       "✕"
+|     "
+"
+|     <div>
+|       "✕"
+|     "
+"
+|     <div>
+|       "✕"
+|     "
+
+"
+|     <div>
+|       "$"
+|     "
+"
+|     <div>
+|       "$"
+|     "
+"
+|     <div>
+|       "$"
+|     "
+
+"
+|     <div>
+|       "$"
+|     "
+"
+|     <div>
+|       "$"
+|     "
+
+"
+|     <div>
+|       "I'm ∉ I tell you"
+|     "
+
+
+
+
+"

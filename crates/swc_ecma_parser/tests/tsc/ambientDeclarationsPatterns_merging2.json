@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 23,
-    "end": 353,
+    "start": 24,
+    "end": 354,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 23,
-        "end": 75,
+        "start": 24,
+        "end": 76,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 38,
-          "end": 45,
+          "start": 39,
+          "end": 46,
           "ctxt": 0
         },
         "value": "*.foo",
@@ -28,16 +28,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 46,
-          "end": 75,
+          "start": 47,
+          "end": 76,
           "ctxt": 0
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 50,
-              "end": 73,
+              "start": 51,
+              "end": 74,
               "ctxt": 0
             },
             "kind": "let",
@@ -46,15 +46,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 54,
-                  "end": 72,
+                  "start": 55,
+                  "end": 73,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 54,
-                    "end": 64,
+                    "start": 55,
+                    "end": 65,
                     "ctxt": 0
                   },
                   "value": "everywhere",
@@ -62,15 +62,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 64,
-                      "end": 72,
+                      "start": 65,
+                      "end": 73,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 66,
-                        "end": 72,
+                        "start": 67,
+                        "end": 73,
                         "ctxt": 0
                       },
                       "kind": "string"
@@ -88,23 +88,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 101,
-        "end": 158,
+        "start": 102,
+        "end": 159,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 110,
-            "end": 120,
+            "start": 111,
+            "end": 121,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 110,
-              "end": 120,
+              "start": 111,
+              "end": 121,
               "ctxt": 0
             },
             "value": "everywhere",
@@ -116,15 +116,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 122,
-            "end": 129,
+            "start": 123,
+            "end": 130,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 122,
-              "end": 129,
+              "start": 123,
+              "end": 130,
               "ctxt": 0
             },
             "value": "onlyInA",
@@ -136,15 +136,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 131,
-            "end": 142,
+            "start": 132,
+            "end": 143,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 131,
-              "end": 142,
+              "start": 132,
+              "end": 143,
               "ctxt": 0
             },
             "value": "alsoOnlyInA",
@@ -157,8 +157,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 150,
-          "end": 157,
+          "start": 151,
+          "end": 158,
           "ctxt": 0
         },
         "value": "a.foo",
@@ -170,8 +170,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 159,
-        "end": 208,
+        "start": 160,
+        "end": 209,
         "ctxt": 0
       },
       "declare": true,
@@ -179,8 +179,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 174,
-          "end": 181,
+          "start": 175,
+          "end": 182,
           "ctxt": 0
         },
         "value": "a.foo",
@@ -189,16 +189,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 182,
-          "end": 208,
+          "start": 183,
+          "end": 209,
           "ctxt": 0
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 186,
-              "end": 206,
+              "start": 187,
+              "end": 207,
               "ctxt": 0
             },
             "kind": "let",
@@ -207,15 +207,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 190,
-                  "end": 205,
+                  "start": 191,
+                  "end": 206,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 190,
-                    "end": 197,
+                    "start": 191,
+                    "end": 198,
                     "ctxt": 0
                   },
                   "value": "onlyInA",
@@ -223,15 +223,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 197,
-                      "end": 205,
+                      "start": 198,
+                      "end": 206,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 199,
-                        "end": 205,
+                        "start": 200,
+                        "end": 206,
                         "ctxt": 0
                       },
                       "kind": "number"
@@ -249,23 +249,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 233,
-        "end": 290,
+        "start": 234,
+        "end": 291,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 242,
-            "end": 252,
+            "start": 243,
+            "end": 253,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 242,
-              "end": 252,
+              "start": 243,
+              "end": 253,
               "ctxt": 0
             },
             "value": "everywhere",
@@ -277,15 +277,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 254,
-            "end": 261,
+            "start": 255,
+            "end": 262,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 254,
-              "end": 261,
+              "start": 255,
+              "end": 262,
               "ctxt": 0
             },
             "value": "onlyInA",
@@ -297,15 +297,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 263,
-            "end": 274,
+            "start": 264,
+            "end": 275,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 263,
-              "end": 274,
+              "start": 264,
+              "end": 275,
               "ctxt": 0
             },
             "value": "alsoOnlyInA",
@@ -318,8 +318,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 282,
-          "end": 289,
+          "start": 283,
+          "end": 290,
           "ctxt": 0
         },
         "value": "b.foo",
@@ -331,8 +331,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 300,
-        "end": 353,
+        "start": 301,
+        "end": 354,
         "ctxt": 0
       },
       "declare": true,
@@ -340,8 +340,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 315,
-          "end": 322,
+          "start": 316,
+          "end": 323,
           "ctxt": 0
         },
         "value": "a.foo",
@@ -350,16 +350,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 323,
-          "end": 353,
+          "start": 324,
+          "end": 354,
           "ctxt": 0
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 327,
-              "end": 351,
+              "start": 328,
+              "end": 352,
               "ctxt": 0
             },
             "kind": "let",
@@ -368,15 +368,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 331,
-                  "end": 350,
+                  "start": 332,
+                  "end": 351,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 331,
-                    "end": 342,
+                    "start": 332,
+                    "end": 343,
                     "ctxt": 0
                   },
                   "value": "alsoOnlyInA",
@@ -384,15 +384,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 342,
-                      "end": 350,
+                      "start": 343,
+                      "end": 351,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 344,
-                        "end": 350,
+                        "start": 345,
+                        "end": 351,
                         "ctxt": 0
                       },
                       "kind": "number"

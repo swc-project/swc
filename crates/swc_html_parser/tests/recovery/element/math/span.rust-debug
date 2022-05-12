@@ -190,10 +190,6 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/math/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/math/input.html:3:1]

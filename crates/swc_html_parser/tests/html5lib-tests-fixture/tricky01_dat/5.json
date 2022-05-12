@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 68,
+    "start": 1,
+    "end": 69,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 68,
+        "end": 69,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 68,
+            "end": 69,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 23,
+                "start": 8,
+                "end": 24,
                 "ctxt": 0
               },
               "tagName": "center",
@@ -56,8 +56,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 15,
-                    "end": 16,
+                    "start": 16,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "value": " "
@@ -65,8 +65,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
-                    "end": 23,
+                    "start": 17,
+                    "end": 24,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -76,8 +76,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 22,
-                        "end": 23,
+                        "start": 23,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "value": "a"
@@ -91,8 +91,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 16,
-                "end": 39,
+                "start": 17,
+                "end": 40,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -102,8 +102,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 33,
-                    "end": 38,
+                    "start": 34,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "tagName": "img",
@@ -115,8 +115,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 38,
-                    "end": 39,
+                    "start": 39,
+                    "end": 40,
                     "ctxt": 0
                   },
                   "value": " "
@@ -127,8 +127,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 68,
+                "start": 1,
+                "end": 69,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -138,8 +138,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 32,
-                    "end": 38,
+                    "start": 33,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "value": " "
@@ -148,7 +148,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 68,
+                    "end": 69,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -158,8 +158,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 39,
-                        "end": 59,
+                        "start": 40,
+                        "end": 60,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -169,8 +169,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 43,
-                            "end": 48,
+                            "start": 44,
+                            "end": 49,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -180,8 +180,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 47,
-                                "end": 48,
+                                "start": 48,
+                                "end": 49,
                                 "ctxt": 0
                               },
                               "value": " "
@@ -192,8 +192,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 53,
-                            "end": 59,
+                            "start": 54,
+                            "end": 60,
                             "ctxt": 0
                           },
                           "value": " "
@@ -204,8 +204,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 59,
-                        "end": 68,
+                        "start": 60,
+                        "end": 69,
                         "ctxt": 0
                       },
                       "value": " "

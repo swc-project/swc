@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 28,
+    "start": 1,
+    "end": 29,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 28,
+        "end": 29,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 19,
+            "end": 20,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 28,
+            "end": 29,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 15,
-                "end": 24,
+                "start": 16,
+                "end": 25,
                 "ctxt": 0
               },
               "tagName": "dt",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 19,
-                    "end": 24,
+                    "start": 20,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -83,8 +83,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 24,
-                "end": 28,
+                "start": 25,
+                "end": 29,
                 "ctxt": 0
               },
               "tagName": "dd",

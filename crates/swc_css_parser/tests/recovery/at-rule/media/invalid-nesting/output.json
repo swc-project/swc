@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 59,
+    "start": 1,
+    "end": 60,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 58,
+        "start": 1,
+        "end": 59,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 6,
+          "start": 2,
+          "end": 7,
           "ctxt": 0
         },
         "value": "media",
@@ -26,16 +26,16 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 7,
-          "end": 25,
+          "start": 8,
+          "end": 26,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 7,
-              "end": 25,
+              "start": 8,
+              "end": 26,
               "ctxt": 0
             },
             "modifier": null,
@@ -44,23 +44,23 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 7,
-                "end": 25,
+                "start": 8,
+                "end": 26,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 7,
-                    "end": 25,
+                    "start": 8,
+                    "end": 26,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 8,
-                      "end": 17,
+                      "start": 9,
+                      "end": 18,
                       "ctxt": 0
                     },
                     "value": "min-width",
@@ -69,15 +69,15 @@
                   "value": {
                     "type": "Length",
                     "span": {
-                      "start": 19,
-                      "end": 24,
+                      "start": 20,
+                      "end": 25,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 19,
-                        "end": 22,
+                        "start": 20,
+                        "end": 23,
                         "ctxt": 0
                       },
                       "value": 480.0,
@@ -86,8 +86,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 22,
-                        "end": 24,
+                        "start": 23,
+                        "end": 25,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -103,8 +103,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 26,
-          "end": 58,
+          "start": 27,
+          "end": 59,
           "ctxt": 0
         },
         "name": "{",
@@ -112,16 +112,16 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 32,
-              "end": 56,
+              "start": 33,
+              "end": 57,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 32,
-                  "end": 47,
+                  "start": 33,
+                  "end": 48,
                   "ctxt": 0
                 },
                 "token": {
@@ -134,8 +134,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 47,
-                  "end": 48,
+                  "start": 48,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "token": "Colon"
@@ -143,8 +143,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 48,
-                  "end": 49,
+                  "start": 49,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "token": {
@@ -156,8 +156,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 49,
-                  "end": 55,
+                  "start": 50,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "token": {
@@ -173,8 +173,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 55,
-                  "end": 56,
+                  "start": 56,
+                  "end": 57,
                   "ctxt": 0
                 },
                 "token": "Semi"

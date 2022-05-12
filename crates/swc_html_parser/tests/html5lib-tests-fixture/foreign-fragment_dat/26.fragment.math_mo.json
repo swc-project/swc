@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 0,
-    "end": 49,
+    "start": 1,
+    "end": 50,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 3,
+        "start": 1,
+        "end": 4,
         "ctxt": 0
       },
       "tagName": "b",
@@ -22,8 +22,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 7,
-        "end": 16,
+        "start": 8,
+        "end": 17,
         "ctxt": 0
       },
       "tagName": "mglyph",
@@ -35,8 +35,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 16,
-        "end": 19,
+        "start": 17,
+        "end": 20,
         "ctxt": 0
       },
       "tagName": "i",
@@ -48,8 +48,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 23,
-        "end": 36,
+        "start": 24,
+        "end": 37,
         "ctxt": 0
       },
       "tagName": "malignmark",
@@ -61,8 +61,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 36,
-        "end": 39,
+        "start": 37,
+        "end": 40,
         "ctxt": 0
       },
       "tagName": "u",
@@ -74,8 +74,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 43,
-        "end": 49,
+        "start": 44,
+        "end": 50,
         "ctxt": 0
       },
       "tagName": "mo",
@@ -85,8 +85,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 48,
-            "end": 49,
+            "start": 49,
+            "end": 50,
             "ctxt": 0
           },
           "value": "X"

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 48,
+    "start": 1,
+    "end": 49,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 0,
-        "end": 48,
+        "start": 1,
+        "end": 49,
         "ctxt": 0
       },
       "declare": false,
@@ -19,8 +19,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 12,
-          "end": 18,
+          "start": 13,
+          "end": 19,
           "ctxt": 0
         },
         "value": "MyType",
@@ -29,15 +29,15 @@
       "moduleRef": {
         "type": "TsExternalModuleReference",
         "span": {
-          "start": 21,
-          "end": 48,
+          "start": 22,
+          "end": 49,
           "ctxt": 0
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
-            "start": 29,
-            "end": 47,
+            "start": 30,
+            "end": 48,
             "ctxt": 0
           },
           "value": "commonjs-package",

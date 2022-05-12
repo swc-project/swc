@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 74,
-    "end": 186,
+    "start": 75,
+    "end": 187,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 80,
-          "end": 81,
+          "start": 81,
+          "end": 82,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 74,
-        "end": 115,
+        "start": 75,
+        "end": 116,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 84,
-            "end": 113,
+            "start": 85,
+            "end": 114,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 84,
-              "end": 95,
+              "start": 85,
+              "end": 96,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,46 +47,46 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 98,
-              "end": 113,
+              "start": 99,
+              "end": 114,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 100,
-                  "end": 111,
+                  "start": 101,
+                  "end": 112,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 100,
-                    "end": 110,
+                    "start": 101,
+                    "end": 111,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 100,
-                      "end": 106,
+                      "start": 101,
+                      "end": 107,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 100,
-                        "end": 104,
+                        "start": 101,
+                        "end": 105,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 105,
-                        "end": 106,
+                        "start": 106,
+                        "end": 107,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -96,8 +96,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 109,
-                      "end": 110,
+                      "start": 110,
+                      "end": 111,
                       "ctxt": 0
                     },
                     "value": 0.0,
@@ -122,8 +122,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 142,
-          "end": 143,
+          "start": 143,
+          "end": 144,
           "ctxt": 0
         },
         "value": "B",
@@ -131,8 +131,8 @@
       },
       "declare": false,
       "span": {
-        "start": 136,
-        "end": 186,
+        "start": 137,
+        "end": 187,
         "ctxt": 0
       },
       "decorators": [],
@@ -140,15 +140,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 150,
-            "end": 184,
+            "start": 151,
+            "end": 185,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 150,
-              "end": 151,
+              "start": 151,
+              "end": 152,
               "ctxt": 0
             },
             "value": "m",
@@ -158,45 +158,45 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 150,
-              "end": 184,
+              "start": 151,
+              "end": 185,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 154,
-                "end": 184,
+                "start": 155,
+                "end": 185,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 164,
-                    "end": 178,
+                    "start": 165,
+                    "end": 179,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 171,
-                      "end": 177,
+                      "start": 172,
+                      "end": 178,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 171,
-                        "end": 175,
+                        "start": 172,
+                        "end": 176,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 176,
-                        "end": 177,
+                        "start": 177,
+                        "end": 178,
                         "ctxt": 0
                       },
                       "value": "x",
