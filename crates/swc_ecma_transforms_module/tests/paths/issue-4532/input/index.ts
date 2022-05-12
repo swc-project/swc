@@ -1,1 +1,1 @@
-import "./rel.js";
+import "@src/rel.js";
