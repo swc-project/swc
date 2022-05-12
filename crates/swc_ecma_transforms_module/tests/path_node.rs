@@ -38,6 +38,7 @@ fn paths_resolver(
     ))
 }
 
+/// Test for relative paths
 #[test]
 fn jsc_paths_issue_4532() {
     let provider = paths_resolver("tests/paths/issue-4532/", vec![]);
@@ -49,6 +50,48 @@ fn jsc_paths_issue_4532() {
 
         let resolved = provider
             .resolve_import(&fm.name, "./rel.js")
+            .expect("should success");
+
+        assert_eq!(&*resolved, "./rel.js");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+/// Test for preserving user-specified extension
+#[test]
+fn jsc_paths_issue_4585_1() {
+    let provider = paths_resolver("tests/paths/issue-4585/1/", vec![]);
+
+    run_test2(false, |cm, _| {
+        let fm = cm
+            .load_file(Path::new("tests/paths/issue-4532/1/index.ts"))
+            .unwrap();
+
+        let resolved = provider
+            .resolve_import(&fm.name, "./rel.decorator.js")
+            .expect("should success");
+
+        assert_eq!(&*resolved, "./rel.js");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+/// Test for preserving user-specified extension
+#[test]
+fn jsc_paths_issue_4585_2() {
+    let provider = paths_resolver("tests/paths/issue-4585/2/", vec![]);
+
+    run_test2(false, |cm, _| {
+        let fm = cm
+            .load_file(Path::new("tests/paths/issue-4532/2/index.ts"))
+            .unwrap();
+
+        let resolved = provider
+            .resolve_import(&fm.name, "./rel.decorator")
             .expect("should success");
 
         assert_eq!(&*resolved, "./rel.js");
