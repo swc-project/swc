@@ -52,22 +52,30 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 17,
-                    "end": 21,
-                    "ctxt": 0
-                  },
-                  "tagName": "td",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 7,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 17,
+                      "end": 21,
+                      "ctxt": 0
+                    },
+                    "tagName": "td",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null
