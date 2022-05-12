@@ -100,15 +100,32 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: &str, is_file: Option<bool>, had_speicifer: bool) -> JsWord {
+        fn to_specifier(
+            target_path: &str,
+            is_file: Option<bool>,
+            orig_ext: Option<&str>,
+        ) -> JsWord {
             let mut p = PathBuf::from(target_path);
-            if !had_speicifer && is_file.unwrap_or_else(|| p.is_file()) {
-                if let Some(v) = p.extension() {
-                    if v == "ts" || v == "tsx" || v == "js" || v == "jsx" {
-                        p.set_extension("");
+
+            match orig_ext {
+                Some(orig_ext) => {
+                    if let Some(v) = p.extension() {
+                        if v == "ts" || v == "tsx" || v == "js" || v == "jsx" {
+                            p.set_extension(orig_ext);
+                        }
+                    }
+                }
+                _ => {
+                    if is_file.unwrap_or_else(|| p.is_file()) {
+                        if let Some(v) = p.extension() {
+                            if v == "ts" || v == "tsx" || v == "js" || v == "jsx" {
+                                p.set_extension("");
+                            }
+                        }
                     }
                 }
             }
+
             p.display().to_string().into()
         }
 
@@ -130,11 +147,10 @@ where
             debug!("invoking resolver");
         }
 
-        let had_speicifer = module_specifier
+        let orig_ext = module_specifier
             .split('/')
             .last()
-            .map(|s| s.contains('.'))
-            .unwrap_or(false);
+            .and_then(|s| s.split('.').last());
 
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
@@ -147,7 +163,7 @@ where
 
         let target = match target {
             FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(to_specifier(&s, None, had_speicifer)),
+            FileName::Custom(s) => return Ok(to_specifier(&s, None, orig_ext)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -188,7 +204,7 @@ where
                 return Ok(to_specifier(
                     &target.display().to_string(),
                     Some(is_file),
-                    had_speicifer,
+                    orig_ext,
                 ))
             }
         };
@@ -227,13 +243,9 @@ where
             Cow::Owned(format!("./{}", s))
         };
         if cfg!(target_os = "windows") {
-            Ok(to_specifier(
-                &s.replace('\\', "/"),
-                Some(is_file),
-                had_speicifer,
-            ))
+            Ok(to_specifier(&s.replace('\\', "/"), Some(is_file), orig_ext))
         } else {
-            Ok(to_specifier(&s, Some(is_file), had_speicifer))
+            Ok(to_specifier(&s, Some(is_file), orig_ext))
         }
     }
 }
