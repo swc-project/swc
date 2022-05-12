@@ -1,5 +1,5 @@
 
-  x Expected doctype
+  x Missing doctype
    ,-[$DIR/tests/recovery/element/applet/input.html:1:1]
  1 | <b><applet></b>x
    : ^^^
@@ -11,4 +11,4 @@
    :            ^^^^
    `----
 
-  x Unexpected token
+  x Unexpected end of file

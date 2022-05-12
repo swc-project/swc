@@ -1,11 +1,11 @@
 
-  x Expected doctype
+  x Missing doctype
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
    : ^^^^^^
    `----
 
-  x Misplaced doctype
+  x Unexpected token
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
    :                 ^^^^^^^^^^^^^^^

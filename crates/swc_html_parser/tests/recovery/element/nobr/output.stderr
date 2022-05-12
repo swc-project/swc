@@ -1,8 +1,8 @@
 
-  x Expected doctype
+  x Missing doctype
    ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
  1 | <nobr>X
    : ^^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected end of file

@@ -5,7 +5,7 @@
    : ^^^^^^^^^
    `----
 
-  x Expected doctype
+  x Missing doctype
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^
